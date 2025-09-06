@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import enum
-import environ
+import pynguin.environ as environ
 
 from openai import AsyncOpenAI
 from openai.types.chat.chat_completion import Choice

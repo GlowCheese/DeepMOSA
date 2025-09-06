@@ -13,7 +13,7 @@ from typing import Dict
 from types import SimpleNamespace
 from vendor.custom_logger import getLogger
 
-import environ
+import pynguin.environ as environ
 
 from pynguin.globl import Globl
 from pynguin.codamosa.outputfixers import fixup_result, rewrite_tests

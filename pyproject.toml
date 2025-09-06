@@ -27,6 +27,8 @@ dependencies = [
     "requests==2.32.3",
     "ruff==0.0.260",
     "seaborn~=0.13.2",
+    "setuptools>=80.9.0",
+    "simple-parsing~=0.1.7",
     "transformers~=4.49.0",
     "typed-ast==1.5.4",
     "typeshed-client~=2.2.0",
@@ -43,3 +45,9 @@ dev = [
     "isort~=5.12.0",
     "pytest-asyncio~=1.1.0",
 ]
+
+[project.scripts]
+pynguin = "pynguin.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["pynguin*", "vendor*", "app*"]

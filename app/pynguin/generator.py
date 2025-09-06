@@ -9,7 +9,7 @@ import threading
 import importlib
 import functools
 
-import environ
+import pynguin.environ as environ
 from pathlib import Path
 from grappa import should
 from vendor.custom_logger import getLogger
@@ -282,7 +282,9 @@ def _prepare_run_pynguin(fun):
                     languagemodel = DeepMOSALanguageModel()
                     Globl.llmseeding = DeepMOSASeeding(test_cluster, Globl.conf.deepmosa.tau)
 
-                with open(Globl.module_path, encoding="UTF-8") as module_file:
+                module_path = Globl.module_name.replace('/', '.') + '.py'
+                module_path = Path(Globl.project_path) / module_path
+                with open(module_path, encoding="UTF-8") as module_file:
                     languagemodel.test_src = module_file.read()
 
                 Globl.llmseeding.model = languagemodel

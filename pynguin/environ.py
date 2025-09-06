@@ -8,6 +8,9 @@ dotenv.load_dotenv()
 logger = getLogger(__name__)
 
 
+PYNGUIN_DANGER_AWARE = os.getenv("PYNGUIN_DANGER_AWARE")
+
+
 DEFAULT_MODEL = os.environ["DEFAULT_MODEL"]
 
 CHATGPT_BASE_URL = "https://api.openai.com/v1"

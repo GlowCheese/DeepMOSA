@@ -20,7 +20,6 @@ if TYPE_CHECKING:
         SearchAlgorithmConfiguration,
         StatisticsOutputConfiguration
     )
-    from pynguin.utils.randomness import Random
     from pynguin.runtimevar import RuntimeVariable
     from pynguin.statistics import StatisticsTracker
     from pynguin.llm.abstractllmseeding import AbstractLLMSeeding
@@ -52,7 +51,6 @@ class _Globl:
         self.seed: int
         self.report_dir: str
         self.module_name: str
-        self.module_path: str
         self.project_path: str
         self.project_name: str
         self.algorithm: Algorithm
@@ -78,7 +76,6 @@ class _Globl:
         self.seed = conf.seeding.seed
         self.algorithm = conf.algorithm
         self.module_name = conf.module_name
-        self.module_path = conf.module_path
         self.project_path = conf.project_path
         self.report_dir = conf.statistics_output.report_dir
         self.project_name = conf.statistics_output.project_name

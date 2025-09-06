@@ -8,6 +8,7 @@
 
 import dataclasses
 import enum
+from pathlib import Path
 import time
 from typing import List
 
@@ -228,8 +229,25 @@ class StatisticsOutputConfiguration:
 
     output_variables: list[RuntimeVariable] = dataclasses.field(
         default_factory=lambda: [
+            RuntimeVariable.RunId,
+            RuntimeVariable.ProjectName,
             RuntimeVariable.TargetModule,
-            RuntimeVariable.Coverage,
+            RuntimeVariable.LineNos,
+            RuntimeVariable.CodeObjects,
+            RuntimeVariable.Lines,
+            RuntimeVariable.Predicates,
+            RuntimeVariable.LineCoverage,
+            RuntimeVariable.BranchCoverage,
+            RuntimeVariable.LLMCalls,
+            RuntimeVariable.LLMQueryTime,
+            RuntimeVariable.LLMStageSavedTests,
+            RuntimeVariable.LLMInputTokens,
+            RuntimeVariable.LLMOutputTokens,
+            RuntimeVariable.ParsedStatements,
+            RuntimeVariable.ParsableStatements,
+            RuntimeVariable.FinalLength,
+            RuntimeVariable.FinalSize,
+            RuntimeVariable.CoverageTimeline,
         ]
     )
     """List of variables to output to the statistics backend."""
@@ -261,7 +279,7 @@ class StatisticsOutputConfiguration:
 class TestCaseOutputConfiguration:
     """Configuration related to test case output."""
 
-    output_path: str = ""
+    output_path: str = "generated_tests"
     """Path to an output folder for the generated test cases."""
 
     export_strategies: List[ExportStrategy] = dataclasses.field(
@@ -728,9 +746,6 @@ class Configuration:
 
     module_name: str
     """Name of the module for which the generator shall create tests."""
-
-    module_path: str
-    """Literally combination of project_path and module_name"""
 
     test_case_output: TestCaseOutputConfiguration = dataclasses.field(
         default_factory=TestCaseOutputConfiguration

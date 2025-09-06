@@ -1,8 +1,14 @@
 # pip3 install transformers
 # python3 deepseek_tokenizer.py
 
-import contextlib
 import io
+import contextlib
+
+from pathlib import Path
+
+
+chat_tokenizer_dir = (Path(__file__).parent).resolve()
+
 
 with (
     contextlib.redirect_stdout(io.StringIO()) as stdout,
@@ -12,8 +18,6 @@ with (
     from transformers import logging as transformers_logging
     transformers_logging.set_verbosity_error()
 
-
-chat_tokenizer_dir = "vendor/deepseek"
 
 tokenizer = AutoTokenizer.from_pretrained( 
     chat_tokenizer_dir, trust_remote_code=True
