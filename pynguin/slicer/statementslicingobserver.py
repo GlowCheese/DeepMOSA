@@ -11,7 +11,7 @@ import logging
 import threading
 
 from typing import TYPE_CHECKING
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 import pynguin.stmt as st
 import pynguin.execution as ex

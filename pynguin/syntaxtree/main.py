@@ -20,7 +20,7 @@ from collections import deque
 from typing import TYPE_CHECKING
 from typing import Any
 from typing import TypeAlias
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 import astroid
 

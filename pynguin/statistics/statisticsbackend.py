@@ -17,7 +17,7 @@ from typing import Generic
 from typing import TypeVar
 from abc import abstractmethod
 from dataclasses import dataclass
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from pynguin.globl import Globl
 

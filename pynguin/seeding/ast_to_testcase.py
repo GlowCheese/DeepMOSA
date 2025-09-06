@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import ast
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from typing import Any, TYPE_CHECKING
 
 from pynguin.config.main import AssertionGenerator

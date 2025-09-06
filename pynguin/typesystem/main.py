@@ -32,7 +32,7 @@ from typing import (
 from typing_inspect import is_union_type
 from networkx.drawing.nx_pydot import to_pydot
 
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from pynguin.globl.main import Globl
 import pynguin.utils.typetracing as tt
 from pynguin.config import TypeInferenceStrategy

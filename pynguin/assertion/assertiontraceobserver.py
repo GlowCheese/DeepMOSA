@@ -10,7 +10,7 @@ import ast
 import copy
 import threading
 
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from collections.abc import Sized
 from types import ModuleType
 from typing import cast

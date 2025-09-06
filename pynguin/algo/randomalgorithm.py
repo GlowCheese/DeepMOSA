@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import random
 from typing import TYPE_CHECKING
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 import pynguin.generic as gao
 from pynguin.globl import Globl

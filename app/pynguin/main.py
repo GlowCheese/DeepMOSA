@@ -6,7 +6,7 @@ from typing import List
 from pathlib import Path
 
 from app.temp import dese
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from pynguin.config.main import ExportStrategy
 from pynguin.globl import Globl

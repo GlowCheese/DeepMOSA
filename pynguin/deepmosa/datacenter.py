@@ -7,7 +7,7 @@ from openai import AsyncOpenAI
 from openai.types.chat.chat_completion import Choice
 from typing import List, Dict, Literal, Any, TYPE_CHECKING
 
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from pynguin.runtimevar import RuntimeVariable
 from pynguin.generic import GenericCallableAccessibleObject
 

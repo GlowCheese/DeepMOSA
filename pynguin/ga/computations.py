@@ -17,7 +17,7 @@ from typing import Any
 from typing import TypeVar
 from abc import abstractmethod
 from typing import TYPE_CHECKING
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 import pynguin.utils.opcodes as op
 

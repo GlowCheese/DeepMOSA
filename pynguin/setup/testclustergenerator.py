@@ -13,7 +13,7 @@ from types import (
     GenericAlias, BuiltinFunctionType,
     FunctionType, MethodDescriptorType,
 )
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from pynguin.syntaxtree import (
     get_class_node_from_ast,

@@ -22,7 +22,7 @@ from bytecode import BasicBlock
 from bytecode import Bytecode
 from bytecode import ControlFlowGraph
 from bytecode import Instr
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from pynguin.constants.main import DynamicConstantProvider
 import pynguin.utils.opcodes as op

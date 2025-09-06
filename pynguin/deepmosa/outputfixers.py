@@ -9,7 +9,7 @@ import ast
 import copy
 
 from pynguin.globl import Globl
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from typing import Any, Dict, List, Optional, Set
 
 logger = getLogger(__name__)

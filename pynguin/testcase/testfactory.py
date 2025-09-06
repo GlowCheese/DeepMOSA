@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import random
 import contextlib
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from typing import TYPE_CHECKING
 from typing import cast

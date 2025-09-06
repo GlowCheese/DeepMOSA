@@ -23,7 +23,7 @@ from inspect import isclass
 from types import CodeType
 from typing import TYPE_CHECKING
 from typing import cast
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from pynguin.globl import Globl
 from pynguin.config import CoverageMetric

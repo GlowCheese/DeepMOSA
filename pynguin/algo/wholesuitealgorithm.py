@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import cast
 from typing import TYPE_CHECKING
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from . import archive as arch
 import pynguin.ga.computations as ff

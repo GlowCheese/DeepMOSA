@@ -16,7 +16,7 @@ import time
 from pathlib import Path
 from typing import Any, TypeVar
 from typing import TYPE_CHECKING
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from pynguin.globl import Globl
 from pynguin.config import StatisticsBackend

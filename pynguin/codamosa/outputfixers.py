@@ -7,7 +7,7 @@
 
 import ast
 
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from typing import Any, Dict, List, Optional, Set
 
 from pynguin.globl import Globl

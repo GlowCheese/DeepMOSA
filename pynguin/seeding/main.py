@@ -12,7 +12,7 @@ import ast
 import os
 
 from pathlib import Path
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from typing import TYPE_CHECKING, AnyStr
 
 from pynguin.globl import Globl

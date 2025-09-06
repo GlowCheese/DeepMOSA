@@ -8,7 +8,7 @@ from typing import (
     Optional, Sequence, Set, Tuple,
     Callable, Dict, List, TYPE_CHECKING
 )
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from pynguin.globl import Globl
 from pynguin.seeding import StatementDeserializer

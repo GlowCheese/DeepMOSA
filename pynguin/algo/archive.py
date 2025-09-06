@@ -8,7 +8,7 @@
 
 from __future__ import annotations
 
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 import sys
 
 from abc import ABC

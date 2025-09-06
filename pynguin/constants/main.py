@@ -17,7 +17,7 @@ import typing
 from abc import ABC
 from pathlib import Path
 from pkgutil import iter_modules
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from setuptools import find_packages
 
 from pynguin.utils import randomness

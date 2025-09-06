@@ -2,7 +2,7 @@ import os
 
 import dotenv
 
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 dotenv.load_dotenv()
 logger = getLogger(__name__)

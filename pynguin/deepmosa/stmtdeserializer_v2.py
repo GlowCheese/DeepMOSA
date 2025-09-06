@@ -6,7 +6,7 @@ from collections.abc import Collection
 from copy import deepcopy
 from grappa import should
 from inspect import Parameter
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from typing import Dict, Union, cast, List, Tuple
 
 from pynguin import stmt

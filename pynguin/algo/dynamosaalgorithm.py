@@ -7,7 +7,7 @@
 
 from __future__ import annotations
 
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from typing import cast
 from typing import TYPE_CHECKING

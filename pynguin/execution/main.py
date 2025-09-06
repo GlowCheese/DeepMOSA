@@ -46,7 +46,7 @@ from bytecode import FreeVar
 from jellyfish import levenshtein_distance
 
 from pynguin.globl import Globl
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from pynguin.utils.exceptions import ModuleNotImportedError
 from vendor.orderedset import OrderedSet
 

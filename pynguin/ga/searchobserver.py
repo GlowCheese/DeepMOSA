@@ -13,7 +13,7 @@
 
 from __future__ import annotations
 
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from abc import ABC
 from abc import abstractmethod

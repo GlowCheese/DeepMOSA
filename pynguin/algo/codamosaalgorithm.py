@@ -8,7 +8,7 @@
 from __future__ import annotations
 
 import os
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from typing import TYPE_CHECKING, List, Set
 
 from vendor.orderedset import OrderedSet

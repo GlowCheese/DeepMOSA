@@ -19,7 +19,7 @@ from typing import Any
 from collections import defaultdict
 
 from pynguin.globl import Globl
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from vendor.orderedset import OrderedSet
 
 import pynguin.utils.typetracing as tt

@@ -15,7 +15,7 @@ from typing import Dict
 
 from grappa import should
 
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from pynguin.generic import (GenericCallableAccessibleObject,
                              GenericConstructor, GenericFunction,
                              GenericMethod)

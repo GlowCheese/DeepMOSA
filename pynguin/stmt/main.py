@@ -20,7 +20,7 @@ from typing import Generic
 from typing import TypeVar
 from typing import TYPE_CHECKING
 from typing_inspect import get_args
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from abc import ABCMeta, abstractmethod
 
 from pynguin.globl import Globl

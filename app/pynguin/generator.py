@@ -12,7 +12,7 @@ import functools
 import environ
 from pathlib import Path
 from grappa import should
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from typing import TYPE_CHECKING, Callable, cast
 
 from pynguin.config import (

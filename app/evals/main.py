@@ -54,7 +54,7 @@ from grappa import should
 from app.pynguin.main import gen_tests
 from app.qualify import qualify
 from app.qualify.qualify import QualifyStatus
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from pynguin.config import Algorithm
 from pynguin.config.main import ExportStrategy
 

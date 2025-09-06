@@ -29,7 +29,7 @@ from asciitree import BoxStyle
 from asciitree import LeftAligned
 from asciitree.drawing import BOX_LIGHT
 
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from vendor.orderedset import OrderedSet
 
 

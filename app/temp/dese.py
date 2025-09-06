@@ -11,7 +11,7 @@ import functools
 from pathlib import Path
 from grappa import should
 from typing import TYPE_CHECKING
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from pynguin.codamosa.outputfixers import rewrite_tests as rewrite_coda
 from pynguin.deepmosa.outputfixers import rewrite_tests as rewrite_deep

@@ -6,7 +6,7 @@ import networkx as nx
 from copy import copy
 from grappa import should
 from datetime import datetime
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from typing import TYPE_CHECKING, Set, List, cast
 
 import pynguin.ga.coveragegoals as bg

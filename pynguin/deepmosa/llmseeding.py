@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Dict, List, Optional, Set, Tuple
 import numpy as np
 from grappa import should
 
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 from pynguin.deepmosa import StatementDeserializerV2
 from pynguin.export.pytestexporter import PyTestExporter
 from pynguin.ga.coveragegoals import (BranchCoverageTestFitness,

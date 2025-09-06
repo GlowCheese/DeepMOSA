@@ -14,7 +14,7 @@ import threading
 import types
 
 from typing import TYPE_CHECKING
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from pynguin.globl import Globl
 import pynguin.assertion.assertion as ass

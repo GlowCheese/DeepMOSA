@@ -11,7 +11,7 @@ import time
 import requests
 from typing import Dict
 from types import SimpleNamespace
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 import environ
 

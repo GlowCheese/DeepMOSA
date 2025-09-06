@@ -9,7 +9,7 @@
 from __future__ import annotations
 
 import ast
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from typing import TYPE_CHECKING
 

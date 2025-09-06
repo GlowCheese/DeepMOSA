@@ -17,7 +17,7 @@ import operator
 from dataclasses import dataclass
 from dataclasses import field
 from typing import TYPE_CHECKING
-from custom_logger import getLogger
+from vendor.custom_logger import getLogger
 
 from pynguin.globl import Globl
 import pynguin.utils.opcodes as op
