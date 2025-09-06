@@ -1,13 +1,5 @@
 # DeepMOSA: Empowering Test Generation through LLM-Augmented Search
 
-DeepMOSA is an automated unit testing framework that integrates Large Language Model (LLM) as a search assistant to enhance test generation effectiveness. Built on top of CodaMOSA and DynaMOSA, our approach introduces several key improvements to address current limitations and further increase branch coverage:
-
-- **Asynchronous Search**: Parallelizes test exploration to accelerate coverage progress.  
-- **Context-Aware and Branch-Targeted Prompts**: Guides the LLM to generate more relevant test cases by leveraging execution context and explicit branch objectives.  
-- **Enhanced Test Case Deserialization**: Improves the robustness and accuracy of reconstructed test inputs from LLM outputs.  
-
-By combining evolutionary search with LLM-guided exploration, DeepMOSA provides a more adaptive and efficient method for automated unit test generation.
-
 
 DeepMOSA is an automated unit testing method that leverages Large Language Model (LLMs) as a search assistant to improve test generation. Built upon **CodaMOSA** and **DynaMOSA**, our approach introduces several key enhancements to address current limitations and further boost branch coverage:
 
