@@ -1,0 +1,25 @@
+[project]
+name = "deepmosa"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "colorama~=0.4.6",
+    "pytest~=9.0.2",
+    "python-dotenv~=1.2.1",
+    "ruff~=0.14.9",
+    "setuptools~=80.9.0",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit~=4.5.0",
+    "ruff>=0.14.9",
+]
+
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
