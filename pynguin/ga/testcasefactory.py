@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     import pynguin.testcase.testcase as tc
     import pynguin.testcase.testfactory as tf
     from pynguin.analyses.seeding import InitialPopulationProvider
-    from pynguin.setup import TestCluster
+    from pynguin.setup.testcluster import TestCluster
 
 
 class TestCaseFactory:

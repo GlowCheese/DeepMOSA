@@ -9,6 +9,7 @@
 import dataclasses
 import enum
 import time
+from pathlib import Path
 
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 
@@ -227,8 +228,25 @@ class StatisticsOutputConfiguration:
 
     output_variables: list[RuntimeVariable] = dataclasses.field(
         default_factory=lambda: [
+            RuntimeVariable.RunId,
+            RuntimeVariable.ProjectName,
             RuntimeVariable.TargetModule,
-            RuntimeVariable.Coverage,
+            RuntimeVariable.LineNos,
+            RuntimeVariable.CodeObjects,
+            RuntimeVariable.Lines,
+            RuntimeVariable.Predicates,
+            RuntimeVariable.LineCoverage,
+            RuntimeVariable.BranchCoverage,
+            RuntimeVariable.LLMCalls,
+            RuntimeVariable.LLMQueryTime,
+            RuntimeVariable.LLMStageSavedTests,
+            RuntimeVariable.LLMInputTokens,
+            RuntimeVariable.LLMOutputTokens,
+            RuntimeVariable.ParsedStatements,
+            RuntimeVariable.ParsableStatements,
+            RuntimeVariable.FinalLength,
+            RuntimeVariable.FinalSize,
+            RuntimeVariable.CoverageTimeline,
         ]
     )
     """List of variables to output to the statistics backend."""
@@ -306,6 +324,11 @@ class SeedingConfiguration:
     constant_seeding: bool = True
     """Should the generator use a static constant seeding technique to improve constant
     generation?"""
+
+    large_language_model_mutation: bool = False
+    """If set to True, assume we want to use an OpenAI large language
+    model to conduct mutation
+    """
 
     initial_population_seeding: bool = False
     """Should the generator use previously existing testcases to seed the initial
@@ -724,9 +747,6 @@ class Configuration:
     module_name: str
     """Name of the module for which the generator shall create tests."""
 
-    module_path: str
-    """Literally combination of project_path and module_name"""
-
     test_case_output: TestCaseOutputConfiguration
     """Configuration for how test cases should be output."""
 
@@ -779,16 +799,21 @@ class Configuration:
     ignore_methods: list[str] = dataclasses.field(default_factory=list)
     """Ignore the methods specified here from the module analysis."""
 
+    @property
+    def module_path(self) -> Path:
+        module_path = self.module_name.replace(".", "/") + ".py"
+        return Path(self.project_path) / module_path
+
 
 # Singleton instance of the configuration.
 config: Configuration
 
 
-def set_configuration(configuration: Configuration):
+def set_configuration(configuration_: Configuration):
     """Initialises the test generator with the given configuration.
 
     Args:
         configuration: The configuration to use.
     """
     global config
-    config = configuration
+    config = configuration_

@@ -31,7 +31,7 @@ if TYPE_CHECKING:
     from pynguin.ga.operators.ranking import RankingFunction
     from pynguin.ga.operators.selection import SelectionFunction
     from pynguin.ga.stoppingcondition import StoppingCondition
-    from pynguin.setup import TestCluster
+    from pynguin.setup.testcluster import TestCluster
     from pynguin.testcase.execution import AbstractTestCaseExecutor
 
 A = TypeVar("A", bound=arch.Archive)

@@ -23,8 +23,7 @@ from types import (
     WrapperDescriptorType,
 )
 
-from pynguin.analyses.typesystem import InferredSignature, Instance
-from pynguin.globl import Globl
+from pynguin.analyses.typesystem import Instance
 from pynguin.utils.orderedset import OrderedSet
 
 TypesOfCallables = (
@@ -36,7 +35,7 @@ TypesOfCallables = (
 )
 
 if typing.TYPE_CHECKING:
-    from pynguin.analyses.typesystem import ProperType, TypeInfo
+    from pynguin.analyses.typesystem import InferredSignature, ProperType, TypeInfo
 
 
 class GenericAccessibleObject(abc.ABC):
@@ -194,7 +193,7 @@ class GenericCallableAccessibleObject(GenericAccessibleObject, abc.ABC):
         owner: TypeInfo | None,
         callable_: TypesOfCallables,
         inferred_signature: InferredSignature,
-        raised_exceptions: set[str] = frozenset(),  # type: ignore[assignment]
+        raised_exceptions: set[str] = frozenset(),  # type: ignore
     ) -> None:
         """Initializes the object.
 
@@ -250,16 +249,17 @@ class GenericCallableAccessibleObject(GenericAccessibleObject, abc.ABC):
     @property
     def module_name(self):
         if self.is_constructor():
-            assert self.owner is not None
-            return self.owner.module
+            return self.owner.module  # type: ignore
         else:
             return self.callable.__module__
 
     @property
     def file_path(self):
+        from pynguin.configuration import config
+
         module_name = self.module_name
         module_name = module_name.replace(".", "/") + ".py"
-        return os.path.join(Globl.project_path, module_name)
+        return os.path.join(config.project_path, module_name)
 
 
 class GenericConstructor(GenericCallableAccessibleObject):
@@ -269,7 +269,7 @@ class GenericConstructor(GenericCallableAccessibleObject):
         self,
         owner: TypeInfo,
         inferred_signature: InferredSignature,
-        raised_exceptions: set[str] = frozenset(),  # type: ignore[assignment]
+        raised_exceptions: set[str] = frozenset(),  # type: ignore
     ) -> None:
         """Initializes a constructor-representing object.
 
@@ -318,7 +318,7 @@ class GenericMethod(GenericCallableAccessibleObject):
         owner: TypeInfo,
         method: TypesOfCallables,
         inferred_signature: InferredSignature,
-        raised_exceptions: set[str] = frozenset(),  # type: ignore[assignment]
+        raised_exceptions: set[str] = frozenset(),  # type: ignore
         method_name: str | None = None,
     ) -> None:
         """Initializes a new method-representing object.
@@ -386,7 +386,7 @@ class GenericFunction(GenericCallableAccessibleObject):
         self,
         function: FunctionType,
         inferred_signature: InferredSignature,
-        raised_exceptions: set[str] = frozenset(),  # type: ignore[assignment]
+        raised_exceptions: set[str] = frozenset(),  # type: ignore
         function_name: str | None = None,
     ) -> None:
         """Initializes the function-representing object.

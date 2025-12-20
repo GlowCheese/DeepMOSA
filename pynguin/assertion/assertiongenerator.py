@@ -19,14 +19,14 @@ import pynguin.assertion.assertion as ass
 import pynguin.assertion.assertion_trace as at
 import pynguin.ga.chromosomevisitor as cv
 import pynguin.testcase.execution as ex
+import pynguin.utils.statistics.stats as stat
 from pynguin.analyses.constants import (
     ConstantPool,
     DynamicConstantProvider,
     EmptyConstantProvider,
 )
-from pynguin.configuration import CoverageMetric
-from pynguin.globl import Globl
-from pynguin.instrumentation import build_transformer
+from pynguin.configuration import CoverageMetric, config
+from pynguin.instrumentation.machinery import build_transformer
 from pynguin.utils.custom_logger import getLogger
 from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
@@ -324,7 +324,7 @@ class MutationAnalysisAssertionGenerator(AssertionGenerator):
                     mutant_count,
                 )
                 self._mutation_executor.module_provider.add_mutated_version(
-                    module_name=Globl.module_name,
+                    module_name=config.module_name,
                     mutated_module=mutated_module,
                 )
                 for test, results in tests_and_results:
@@ -378,7 +378,6 @@ class MutationAnalysisAssertionGenerator(AssertionGenerator):
         if self._testing:
             self._testing_mutation_summary = mutation_summary
 
-        stat = Globl.statistics_tracker
         metrics = mutation_summary.get_metrics()
 
         stat.track_output_variable(

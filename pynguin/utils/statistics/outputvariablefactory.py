@@ -13,7 +13,7 @@ import typing
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar, overload
 
-from pynguin.globl import Globl
+from pynguin.configuration import config
 
 from . import statisticsbackend as sb
 
@@ -138,7 +138,7 @@ class SequenceOutputVariableFactory(ABC, Generic[T]):
     @property
     def area_under_curve(self) -> float:
         """Provides the area under the curve using trapezoid approximation."""
-        assert Globl.stopping_conf.maximum_search_time is not None
+        assert config.stopping.maximum_search_time is not None
         time_stamps_values: list[tuple[float, float]] = list(
             zip(self._time_stamps, self._values, strict=True)
         )
@@ -156,24 +156,24 @@ class SequenceOutputVariableFactory(ABC, Generic[T]):
             previous_time_stamp = time_stamp
             previous_value = value
 
-        if run_time < Globl.stopping_conf.maximum_search_time:
-            area += (Globl.stopping_conf.maximum_search_time - run_time) * self._values[-1]
+        if run_time < config.stopping.maximum_search_time:
+            area += (config.stopping.maximum_search_time - run_time) * self._values[-1]
 
         return area / 1_000_000_000
 
     @property
     def normalised_area_under_curve(self) -> float:
         """Provides the normalised area under curve using trapezoid approximation."""
-        assert Globl.stopping_conf.maximum_search_time is not None
+        assert config.stopping.maximum_search_time is not None
         run_time = self._time_stamps[-1] / 1_000_000_000
-        if run_time >= Globl.stopping_conf.maximum_search_time:
+        if run_time >= config.stopping.maximum_search_time:
             normalised_area = self.area_under_curve / run_time
         else:
             last_value = self._values[-1]
-            time_delta = Globl.stopping_conf.maximum_search_time - run_time
+            time_delta = config.stopping.maximum_search_time - run_time
             normalised_area = (
                 self.area_under_curve + last_value * time_delta
-            ) / Globl.stopping_conf.maximum_search_time
+            ) / config.stopping.maximum_search_time
 
         # max_value = max(self._values)
         # if max_value > 0: normalised_area /= max_value
@@ -197,7 +197,7 @@ class SequenceOutputVariableFactory(ABC, Generic[T]):
         if not self._time_stamps:
             # No data, if this is even possible.
             return 0  # type: ignore
-        interval = Globl.statistics_conf.timeline_interval
+        interval = config.statistics_output.timeline_interval
         preferred_time = interval * index
 
         for i in range(len(self._time_stamps)):
@@ -211,7 +211,7 @@ class SequenceOutputVariableFactory(ABC, Generic[T]):
                 # it is the first element, just use it as value
                 return self._values[i]
 
-            if not Globl.statistics_conf.timeline_interpolation:
+            if not config.statistics_output.timeline_interpolation:
                 # if we do not want to interpolate, return last observed value
                 return self._values[i - 1]
 
@@ -231,9 +231,9 @@ class SequenceOutputVariableFactory(ABC, Generic[T]):
 
     @staticmethod
     def _calculate_number_of_intervals() -> int:
-        interval = Globl.statistics_conf.timeline_interval
-        assert Globl.stopping_conf.maximum_search_time is not None
-        total_time = Globl.stopping_conf.maximum_search_time * 1_000_000_000
+        interval = config.statistics_output.timeline_interval
+        assert config.stopping.maximum_search_time is not None
+        total_time = config.stopping.maximum_search_time * 1_000_000_000
         number_of_intervals = total_time // interval
         return int(number_of_intervals)
 
@@ -301,7 +301,7 @@ class TypeEvolutionSequenceOutputVariableFactory(DirectSequenceOutputVariableFac
         if not self._time_stamps:
             # No data, if this is even possible.
             raise ValueError("Cannot get timeline if no time stamps exist.")
-        interval = Globl.statistics_conf.timeline_interval
+        interval = config.statistics_output.timeline_interval
         preferred_time = interval * index
 
         for i in range(len(self._time_stamps)):

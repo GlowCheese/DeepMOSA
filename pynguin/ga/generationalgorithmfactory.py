@@ -45,7 +45,7 @@ from pynguin.ga.stoppingcondition import (
     MaxTestExecutionsStoppingCondition,
     MinimumCoveragePlateauStoppingCondition,
 )
-from pynguin.setup import FilteredModuleTestCluster
+from pynguin.setup.testcluster import FilteredModuleTestCluster
 from pynguin.testcase.execution import AbstractTestCaseExecutor, TypeTracingTestCaseExecutor
 from pynguin.testcase.testfactory import TestFactory
 from pynguin.utils.custom_logger import getLogger

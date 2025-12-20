@@ -1,71 +1,50 @@
-#  This file is part of CodaMOSA.
-#
-#  SPDX-FileCopyrightText: Microsoft
+#  This file is part of DeepMOSA.
 #
 #  SPDX-License-Identifier: MIT
 #
+
+from __future__ import annotations
+
 import ast
 import inspect
-import json
 import os
 import random
-import time
 from collections import defaultdict
-from typing import Dict
+from typing import TYPE_CHECKING, Dict
 
-from grappa import should
-from pynguin.generic import (
+from pynguin.configuration import config
+from pynguin.llm.abstractmodel import AbstractLanguageModel
+from pynguin.utils import randomness
+from pynguin.utils.custom_logger import getLogger
+from pynguin.utils.deepseek import tokenizer
+from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
     GenericConstructor,
     GenericFunction,
     GenericMethod,
 )
-from vendor.custom_logger import getLogger
-from vendor.deepseek import tokenizer
-from vendor.orderedset import OrderedSet
+from pynguin.utils.orderedset import OrderedSet
 
-from pynguin.globl import Globl
-from pynguin.llm.abstractmodel import AbstractLanguageModel
-from pynguin.utils import randomness
-
-from ..api_errors import APIError, APIUnknownError
-from .datacenter import CONVERSATION, DevPrompt
 from .outputfixers import rewrite_tests
+
+if TYPE_CHECKING:
+    from pynguin.llm.abstractmodel import Messages
 
 logger = getLogger(__name__)
 
 
-class DeepMOSALanguageModel(AbstractLanguageModel):
+class _DeepMOSALanguageModel(AbstractLanguageModel):
     """Language model implementation used by DeepMOSA"""
 
-    async def _call_completion(self, messages: CONVERSATION) -> str:
-        """
-        Send messages to the model and return its raw response.
-
-        You need to use `json.loads` to convert it to `dict` manually.
-        """
-        query_at = time.time()
-
-        try:
-            resp = await self._datacenter.make_api_request(messages, DevPrompt.NO_CONTEXT)
-            if resp.startswith("```py"):
-                resp = resp.partition("\n")[2]
-            elif resp.startswith("```"):
-                resp = resp[3:]
-
-            self.record_llm_call(query_at=query_at)
-            return resp
-
-        except APIUnknownError as e:
-            logger.exception(e.message)
-            exit(1)  # TODO: remove this line before production!
-            return ""
-
-        except APIError as e:
-            logger.error("Failed to send message to GPT:\n%s", e.message)
-            logger.error("Content of the messages sent to GPT:\n%s", json.dumps(messages))
-            exit(17)  # TODO: remove this line before production!
-            return ""
+    def __init__(self):
+        super().__init__()
+        self._system_prompt = """
+Do NOT import pytest and unittest when writting test cases.
+A good unit test should only contains variable assignments, assertions and function/method/constructor calls (i.e. without any custom class or function definition or control structure like `if`, `for`, `while`, `match`, `with`, ... statements).
+All test cases should starts with: `def test_[test case's name]():`.
+Your response should only contain the test case itself without any additional text or information.
+"""
+        self._conversations: dict[GenericCallableAccessibleObject, Messages] = {}
 
     def _get_gao_str(self, gao: GenericCallableAccessibleObject):
         if not isinstance(gao, GenericCallableAccessibleObject):
@@ -73,7 +52,7 @@ class DeepMOSALanguageModel(AbstractLanguageModel):
         if not hasattr(gao._callable, "__code__"):
             return None
         try:
-            os.path.isfile(gao.file_path) | should.be.true
+            assert os.path.isfile(gao.file_path)
             return inspect.getsource(gao._callable)
         except (TypeError, AssertionError, OSError):
             logger.debug("Cannot get source code for %s", gao._callable)
@@ -91,18 +70,20 @@ class DeepMOSALanguageModel(AbstractLanguageModel):
 
     def _safe_parse(self, source: str):
         original_source = source
-        source = [line for line in source.splitlines() if line != "" and not line.isspace()]
+        tmp = [line for line in source.splitlines() if line != "" and not line.isspace()]
         cnt = 0
-        while source[0][cnt].isspace():
+        while tmp[0][cnt].isspace():
             cnt += 1
-        source = "\n".join(line for line in source)
+        source = "\n".join(line for line in tmp)
 
         try:
             if cnt == 0:
                 return ast.parse(source)
             else:
                 source = "if True:\n" + source
-                (result := ast.parse(source)) | should.be.a(ast.Module)
+                result = ast.parse(source)
+                assert isinstance(result, ast.Module)
+                assert isinstance(result.body[0], ast.If)
                 result.body = result.body[0].body
                 return result
         except:
@@ -133,7 +114,9 @@ class DeepMOSALanguageModel(AbstractLanguageModel):
         else:
             return "\n".join(source_list[i] for i in range(lo, hi + 1))
 
-    def _take_until_full_double_ends(self, source: str, end_1: int, end_2: int, lim: None):
+    def _take_until_full_double_ends(
+        self, source: str, end_1: int, end_2: int, lim: int | None = None
+    ):
         if lim is None:
             lim = self._max_query_len
 
@@ -198,15 +181,15 @@ class DeepMOSALanguageModel(AbstractLanguageModel):
         if lim is None:
             lim = self._max_query_len
 
-        with open(gao.file_path, "r", encoding="utf-8") as file:
-            module_tree = self._safe_parse(file.read())
+        # with open(gao.file_path, "r", encoding="utf-8") as file:
+        #     module_tree = self._safe_parse(file.read())
 
         added_gaos = OrderedSet()
-        gaos_map = defaultdict(OrderedSet)
+        gaos_map: dict[str, list[GenericCallableAccessibleObject]] = defaultdict(list)
         q = [gao]
 
         while len(q) > 0:
-            new_q = OrderedSet()
+            new_q: OrderedSet[GenericCallableAccessibleObject] = OrderedSet()
             while len(q) > 0:
                 selected_gao = q.pop(random.randrange(len(q)))
                 if selected_gao in gao_owner_str:
@@ -220,19 +203,19 @@ class DeepMOSALanguageModel(AbstractLanguageModel):
                 if lim - curr_len > 0:
                     lim -= curr_len
                     added_gaos.add(selected_gao)
-                    gaos_map[selected_gao.module_name].add(selected_gao)
+                    gaos_map[selected_gao.module_name].append(selected_gao)
                     new_q.update(dependers[selected_gao].difference(added_gaos))
 
             q = list(new_q)
 
         for mod, gao_set in gaos_map.items():
-            gaos_map[mod] = list(gao_set)[::-1]
+            gaos_map[mod] = gao_set[::-1]
 
         gao_module = gao.module_name
 
-        def make_result(module_name):
+        def make_result(module_name: str) -> str:
             return "\n\n".join(
-                gao_owner_str.get(x) or self._get_gao_str(x)
+                gao_owner_str.get(x) or self._get_gao_str(x)  # type: ignore
                 for x in gaos_map[module_name]
                 if module_name != gao_module or include_itself is True or x in gao_owner_str
             )
@@ -246,7 +229,7 @@ class DeepMOSALanguageModel(AbstractLanguageModel):
             # the length of the test object itself is too long!
             if gao.is_function():
                 if include_itself:
-                    result = self._take_until_full(self._get_gao_str(gao), lim=lim)
+                    result = self._take_until_full(self._get_gao_str(gao), lim=lim)  # type: ignore
                     result = f"```\n{result}\n```"
             elif gao in gao_owner_str:
                 result = self._take_until_full(gao_owner_str[gao], lim=lim)
@@ -277,8 +260,8 @@ class DeepMOSALanguageModel(AbstractLanguageModel):
         dependers: dict[
             GenericCallableAccessibleObject, OrderedSet[GenericCallableAccessibleObject]
         ],
-        pred_lineno: int = None,
-        pred_value: bool = None,
+        pred_lineno: int | None,
+        pred_value: bool | None,
     ) -> str:
         """Provides a test case targeted to the specified goal of the
         function/method/constructor specified in `gao`
@@ -287,24 +270,24 @@ class DeepMOSALanguageModel(AbstractLanguageModel):
             A generated test case as natural language.
         """
 
-        conversation = self._datacenter[gao]
+        messages: Messages | None = self._conversations.get(gao)
         gao_str = self._get_annotated_gao_str(gao)
 
-        if None in (conversation, gao_str, pred_lineno) or randomness.chance(
-            Globl.conf.deepmosa.reseed_probability
+        if (
+            messages is None
+            or gao_str is None
+            or pred_lineno is None
+            or randomness.chance(config.deepmosa.reseed_probability)
         ):
-            if conversation is None or randomness.chance(
-                Globl.conf.deepmosa.recreate_conversation_probability
+            if messages is None or randomness.chance(
+                config.deepmosa.recreate_conversation_probability
             ):
-                if gao.is_method():
-                    method_gao: GenericMethod = gao
+                if isinstance(gao, GenericMethod):
                     instruction = (
-                        f"Write unit test for "
-                        f"method {method_gao.method_name} "
-                        f"of class {method_gao.owner.name}"
+                        f"Write unit test for method {gao.method_name} of class {gao.owner.name}"
                     )
                     try:
-                        source_lines, start_line = inspect.getsourcelines(method_gao.owner.raw_type)
+                        source_lines, start_line = inspect.getsourcelines(gao.owner.raw_type)
                         end_line = start_line + len(source_lines) - 1
                         if (
                             sum(
@@ -315,50 +298,45 @@ class DeepMOSALanguageModel(AbstractLanguageModel):
                             )
                             > self._max_query_len
                         ):
-                            source_lines, start_line = inspect.getsourcelines(
-                                method_gao.owner.raw_type
-                            )
+                            source_lines, start_line = inspect.getsourcelines(gao.owner.raw_type)
                             end_line = start_line + len(source_lines) - 1
                     except (TypeError, OSError):
                         start_line, end_line = -1, -1
-                elif gao.is_function():
-                    fn_gao: GenericFunction = gao
-                    instruction = f"Write unit test for function {fn_gao.function_name}"
+                elif isinstance(gao, GenericFunction):
+                    instruction = f"Write unit test for function {gao.function_name}"
                     try:
-                        source_lines, start_line = inspect.getsourcelines(fn_gao.callable)
+                        source_lines, start_line = inspect.getsourcelines(gao.callable)
                         end_line = start_line + len(source_lines) - 1
                     except (TypeError, OSError):
                         start_line, end_line = -1, -1
-                elif gao.is_constructor():
-                    constructor_gao: GenericConstructor = gao  # type: ignore
-                    class_name = constructor_gao.owner.name
+                elif isinstance(gao, GenericConstructor):
+                    class_name = gao.owner.name  # type: ignore
                     instruction = f"Write unit test for the constructor of class {class_name}"
                     try:
                         source_lines, start_line = inspect.getsourcelines(
-                            constructor_gao.generated_type().type.raw_type
+                            gao.generated_type().type.raw_type
                         )
                         end_line = start_line + len(source_lines)
                     except (TypeError, OSError):
                         start_line, end_line = -1, -1
 
                 context = self._get_maximal_source_context(gao, gao_owner_str, dependers, True)
-                conversation: CONVERSATION = [
-                    {"role": "user", "content": f"{context}\n{instruction}"}
+                messages = [
+                    {"role": "system", "content": self._system_prompt},
+                    {"role": "user", "content": f"{context}\n{instruction}"},
                 ]
-                self._datacenter[gao] = conversation
+                self._conversations[gao] = messages
 
-            response = await self._call_completion(conversation)
+            response = await self.send_llm_request_async(messages, stop="\n```")
 
         else:
-            gao_str | should.not_be.none
-
             if len(tokenizer.encode(gao_str)) >= self._max_query_len:
                 context = ""
                 gao_str = self._take_until_full_double_ends(
                     gao_str,
                     0,
                     pred_lineno - 1,
-                    self._max_query_len / 3,  # is this necessary?
+                    int(self._max_query_len / 3),  # is this necessary?
                 )
             else:
                 context = self._get_maximal_source_context(
@@ -373,10 +351,18 @@ class DeepMOSALanguageModel(AbstractLanguageModel):
                 f"line {pred_lineno} evaluates to {pred_value}.\n"
                 f"```\n{gao_str}\n```"
             )
-            conversation: CONVERSATION = [{"role": "user", "content": f"{context}\n{instruction}"}]
-            response = await self._call_completion(conversation)
+            messages = [
+                {"role": "system", "content": self._system_prompt},
+                {"role": "user", "content": f"{context}\n{instruction}"},
+            ]
+            response = await self.send_llm_request_async(messages, stop="\n```")
 
         # Remove any trailing statements that don't parse
         generated_test = "\n".join(rewrite_tests(response).values())
-        self._log_prompt_used_and_response(conversation[0]["content"], response, generated_test)
+        self._log_prompt_used_and_response(messages[1]["content"], response, generated_test)
         return generated_test
+
+
+deepmosalanguagemodel = _DeepMOSALanguageModel()
+
+__all__ = ["deepmosalanguagemodel"]

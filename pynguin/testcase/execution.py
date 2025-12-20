@@ -44,9 +44,8 @@ import pynguin.utils.namingscope as ns
 import pynguin.utils.opcodes as op
 import pynguin.utils.typetracing as tt
 from pynguin.analyses.typesystem import ANY, Instance, ProperType, TupleType
-from pynguin.configuration import CoverageMetric
-from pynguin.globl import Globl
-from pynguin.instrumentation import (
+from pynguin.configuration import CoverageMetric, config
+from pynguin.instrumentation.instrumentation import (
     ArtificialInstr,
     CheckedCoverageInstrumentation,
     CodeObjectMetaData,
@@ -67,7 +66,7 @@ immutable_types = (int, float, complex, str, tuple, frozenset, bytes)
 
 if TYPE_CHECKING:
     import pynguin.testcase.testcase as tc
-    from pynguin import setup
+    from pynguin.setup.testcluster import ModuleTestCluster, TestCluster
 
 
 _LOGGER = getLogger(__name__)
@@ -413,7 +412,7 @@ class AssertionExecutionObserver(ExecutionObserver):
         for node in code_object.cfg.nodes:
             if node.is_artificial:
                 continue
-            bb_node: BasicBlock = node.basic_block  # type: ignore[assignment]
+            bb_node: BasicBlock = node.basic_block  # type: ignore
             if (
                 not isinstance(bb_node[-1], ArtificialInstr)
                 and bb_node[-1].opcode == op.POP_JUMP_IF_TRUE  # type:ignore[union-attr]
@@ -437,7 +436,7 @@ class ReturnTypeObserver(ExecutionObserver):
             self.return_type_trace: dict[int, type] = {}
             self.return_type_generic_args: dict[int, tuple[type, ...]] = {}
 
-    def __init__(self, test_cluster: setup.TestCluster):
+    def __init__(self, test_cluster: TestCluster):
         """Initializes the observer.
 
         Args:
@@ -2076,7 +2075,7 @@ class TestCaseExecutor(AbstractTestCaseExecutor):
         self._module_provider = module_provider if module_provider is not None else ModuleProvider()
         self._tracer = tracer
         self._observers: list[ExecutionObserver] = []
-        self._instrument = CoverageMetric.CHECKED in Globl.coverage_metrics
+        self._instrument = CoverageMetric.CHECKED in config.statistics_output.coverage_metrics
         checked_instrumentation = CheckedCoverageInstrumentation(self._tracer)
         self._checked_transformer = InstrumentationTransformer(
             self._tracer, [checked_instrumentation]
@@ -2325,7 +2324,7 @@ class TypeTracingTestCaseExecutor(AbstractTestCaseExecutor):
     and one time with proxies in order to refine parameter types.
     """
 
-    def __init__(self, delegate: AbstractTestCaseExecutor, cluster: setup.ModuleTestCluster):
+    def __init__(self, delegate: AbstractTestCaseExecutor, cluster: ModuleTestCluster):
         """Initializes the executor.
 
         Args:
@@ -2383,7 +2382,7 @@ class TypeTracingObserver(ExecutionObserver):
             # Active proxies per statement position and argument name.
             self.proxies: dict[tuple[int, str], tt.ObjectProxy] = {}
 
-    def __init__(self, cluster: setup.TestCluster):
+    def __init__(self, cluster: TestCluster):
         """Initializes the observer.
 
         Args:

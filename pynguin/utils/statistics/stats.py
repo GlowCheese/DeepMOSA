@@ -17,7 +17,6 @@ from typing import TYPE_CHECKING, Any, TypeVar
 
 from pynguin.configuration import StatisticsBackend, config
 from pynguin.ga.chromosome import Chromosome
-from pynguin.globl import Globl
 from pynguin.utils.custom_logger import getLogger
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 
@@ -317,7 +316,7 @@ class _SearchStatistics:
             elif variable_name in self._sequence_output_variable_factories:
                 # Time related values, which will be expanded in a list of values
                 # through time
-                assert Globl.stopping_conf.maximum_search_time >= 0, (
+                assert config.stopping.maximum_search_time >= 0, (
                     "Tracking sequential variables is only possible when using "
                     "maximum search time as a stopping condition"
                 )
@@ -378,7 +377,7 @@ class _SearchStatistics:
         output_variables_map = self._get_output_variables(individual)
         self._backend.write_data(output_variables_map)
 
-        if Globl.statistics_conf.statistics_backend == StatisticsBackend.CSV:
+        if config.statistics_output.statistics_backend == StatisticsBackend.CSV:
             report_dir = Path(config.statistics_output.report_dir).resolve()
             if "SignatureInfos" in output_variables_map:
                 obj = json.loads(output_variables_map["SignatureInfos"].value)
@@ -386,7 +385,7 @@ class _SearchStatistics:
                 with output_file.open(mode="w") as f:
                     json.dump(obj, f)
             cfg_file = report_dir / "pynguin-config.txt"
-            cfg_file.write_text(pprint.pformat(repr(Globl.conf)))
+            cfg_file.write_text(pprint.pformat(repr(config)))
         return True
 
     class _ChromosomeLengthOutputVariableFactory(ovf.ChromosomeOutputVariableFactory):

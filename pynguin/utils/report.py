@@ -24,8 +24,7 @@ from pygments.lexers.python import PythonLexer
 
 import pynguin.__version__ as ver
 import pynguin.ga.computations as ff
-from pynguin.configuration import CoverageMetric
-from pynguin.globl import Globl
+from pynguin.configuration import CoverageMetric, config
 from pynguin.utils.orderedset import OrderedSet
 
 if typing.TYPE_CHECKING:
@@ -157,7 +156,7 @@ def get_coverage_report(
         results.append(result)
     trace = ff.analyze_results(results)
     subject_properties = tracer.get_subject_properties()
-    source = inspect.getsourcelines(sys.modules[Globl.module_name])[0]
+    source = inspect.getsourcelines(sys.modules[config.module_name])[0]
     line_annotations = [
         _LineAnnotation(
             idx + 1,
@@ -221,7 +220,7 @@ def get_coverage_report(
         ]
 
     return CoverageReport(
-        module=Globl.module_name,
+        module=config.module_name,
         source=source,
         branch_coverage=branch_coverage,
         line_coverage=line_coverage,

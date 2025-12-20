@@ -8,7 +8,7 @@
 import ast
 from typing import Any, Dict, List, Optional, Set, cast
 
-from pynguin.globl import Globl
+from pynguin.configuration import config
 from pynguin.utils.custom_logger import getLogger
 
 logger = getLogger(__name__)
@@ -740,13 +740,13 @@ def fixup_imports(test_case_str: str, node: Optional[ast.Module] = None):
         for name in import_.names:
             if name.asname is None:
                 continue
-            if Globl.module_name in name.name:
+            if config.module_name in name.name:
                 quals_to_replace[name.asname + "."] = ""
             else:
                 pass
                 # quals_to_replace[name.asname + "."] = name.name + "."
     test_case_str = "\n".join(
-        [line for line in test_case_str.split("\n") if f"import {Globl.module_name}" not in line]
+        [line for line in test_case_str.split("\n") if f"import {config.module_name}" not in line]
     )
     for alias_to_replace, replace_name in quals_to_replace.items():
         test_case_str = test_case_str.replace(alias_to_replace, replace_name)

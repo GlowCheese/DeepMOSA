@@ -61,11 +61,13 @@ class DeepMOSAAlgorithm(AbstractMOSAAlgorithm):
 
         # Calculate dominance ranks and crowding distance
         fronts = self._ranking_function.compute_ranking_assignment(
-            self._population, self._goals_manager.current_goals
+            self._population,
+            self._goals_manager.current_goals,  # type: ignore
         )
         for i in range(fronts.get_number_of_sub_fronts()):
             fast_epsilon_dominance_assignment(
-                fronts.get_sub_front(i), self._goals_manager.current_goals
+                fronts.get_sub_front(i),
+                self._goals_manager.current_goals,  # type: ignore
             )
 
         self.before_first_search_iteration(self.create_test_suite(self._archive.solutions))
@@ -110,7 +112,7 @@ class DeepMOSAAlgorithm(AbstractMOSAAlgorithm):
             try:
                 coro = deepmosaseeding.target_uncovered_functions(
                     list(self._archive.solutions),
-                    list(self._goals_manager.current_goals),  # type: ignore
+                    list(self._goals_manager.current_goals),
                 )
                 if not config.deepmosa.async_enabled:
                     # wait until we receive the test cases
@@ -202,7 +204,8 @@ class DeepMOSAAlgorithm(AbstractMOSAAlgorithm):
         _logger.debug("Union Size = %d", len(union))
         # Ranking the union using the best rank algorithm
         fronts = self._ranking_function.compute_ranking_assignment(
-            union, self._goals_manager.current_goals
+            union,
+            self._goals_manager.current_goals,  # type: ignore
         )
 
         # Form the next population using “preference sorting and non-dominated
@@ -219,7 +222,7 @@ class DeepMOSAAlgorithm(AbstractMOSAAlgorithm):
 
         while remain >= len(front):
             # Assign crowding distance to individuals
-            fast_epsilon_dominance_assignment(front, self._goals_manager.current_goals)
+            fast_epsilon_dominance_assignment(front, self._goals_manager.current_goals)  # type: ignore
             # Add the individuals of this front
             self._population.extend(front)
             # Decrement remain
@@ -231,7 +234,7 @@ class DeepMOSAAlgorithm(AbstractMOSAAlgorithm):
 
         # Remain is less than len(front[index]), insert only the best one
         if 0 < remain < len(front):
-            fast_epsilon_dominance_assignment(front, self._goals_manager.current_goals)
+            fast_epsilon_dominance_assignment(front, self._goals_manager.current_goals)  # type: ignore
             front.sort(key=lambda t: t.distance, reverse=True)
             self._population.extend(front[k] for k in range(remain))
 
@@ -259,7 +262,7 @@ class _GoalsManager:
         self._archive = archive
         branch_fitness_functions: OrderedSet[bg.BranchCoverageTestFitness] = OrderedSet()
         for fit in fitness_functions:
-            # NOTE: DynaMOSA does not evaluate Line Coverage
+            # NOTE: DeepMOSA does not evaluate Line Coverage
             if isinstance(fit, bg.BranchCoverageTestFitness):
                 branch_fitness_functions.add(fit)
         self._graph = _BranchFitnessGraph(branch_fitness_functions, subject_properties)
@@ -267,13 +270,13 @@ class _GoalsManager:
         self._archive.add_goals(self._current_goals)  # type: ignore[arg-type]
 
     @property
-    def current_goals(self) -> OrderedSet[ff.FitnessFunction]:
+    def current_goals(self) -> OrderedSet[bg.BranchCoverageTestFitness]:
         """Provides the set of current goals.
 
         Returns:
             The set of current goals
         """
-        return self._current_goals  # type: ignore
+        return self._current_goals
 
     def update(self, solutions: list[tcc.TestCaseChromosome]) -> None:
         """Updates the information on the current goals from the found solutions.

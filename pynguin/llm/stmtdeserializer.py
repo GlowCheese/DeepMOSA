@@ -584,9 +584,9 @@ class StatementDeserializer:
         Returns:
             The ProperType of the collection
         """
-        if coll_raw_type == tuple:
+        if coll_raw_type is tuple:
             return TupleType(tuple(tp.type for tp in coll_elems))  # type: ignore
-        elif coll_raw_type == dict:
+        elif coll_raw_type is dict:
             keys = [e[0] for e in coll_elems]  # type: ignore
             values = [e[1] for e in coll_elems]  # type: ignore
             return Instance(

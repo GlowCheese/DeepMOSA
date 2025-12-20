@@ -333,3 +333,17 @@ class _ConstantCollector(ast.NodeVisitor):
         for doc in self._string_expressions:
             self._pool.remove_constant(doc)
         return self._pool
+
+
+# Singleton of the constant provider
+constant_provider: ConstantProvider
+
+
+def set_constant_provider(constant_provider_: ConstantProvider):
+    """Set the global used constant provider for constant seeding
+
+    Args:
+        constant_provider_: The constant provider to use
+    """
+    global constant_provider
+    constant_provider = constant_provider_

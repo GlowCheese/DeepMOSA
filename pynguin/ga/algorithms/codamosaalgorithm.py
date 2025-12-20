@@ -15,13 +15,15 @@ from typing import TYPE_CHECKING, List, Set
 import pynguin.ga.computations as ff
 import pynguin.ga.testcasechromosome as tcc
 import pynguin.testcase.testcase as tc
+import pynguin.utils.statistics.stats as stat
+from pynguin.configuration import config
 from pynguin.export.pytestexporter import PyTestExporter
 from pynguin.ga.algorithms.abstractmosaalgorithm import AbstractMOSAAlgorithm
 from pynguin.ga.operators.ranking import fast_epsilon_dominance_assignment
 from pynguin.ga.stoppingcondition import (
     MaxSearchTimeStoppingCondition,
 )
-from pynguin.globl import Globl
+from pynguin.llm.codamosa.llmseeding import codamosaseeding
 from pynguin.testcase.statement import (
     ASTAssignStatement,
     ConstructorStatement,
@@ -39,7 +41,6 @@ logger = getLogger(__name__)
 
 if TYPE_CHECKING:
     import pynguin.ga.testsuitechromosome as tsc
-    from pynguin.llm.codamosa.llmseeding import CodaMOSASeeding
 
 
 # pylint: disable=too-many-instance-attributes
@@ -56,7 +57,7 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
         self._num_added_tests_needed_uninterp = 0
         self._num_added_tests_needed_calls = 0
 
-        self._codamosa = Globl.conf.codamosa
+        self._codamosa = config.codamosa
         self._plateau_len = self._codamosa.max_plateau_len
 
     def _log_num_codamosa_tests_added(self):
@@ -80,8 +81,6 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
         Args:
             test_case: the test case to register
         """
-        stat = Globl.statistics_tracker
-
         self._num_codamosa_tests_added += 1
         if was_mutant:
             self._num_mutant_codamosa_tests_added += 1
@@ -146,9 +145,7 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
     def generate_tests(self) -> tsc.TestSuiteChromosome:
         self.before_search_start()
         self._number_of_goals = len(self._test_case_fitness_functions)
-        Globl.statistics_tracker.set_output_variable_for_runtime_variable(
-            RuntimeVariable.Goals, self._number_of_goals
-        )
+        stat.set_output_variable_for_runtime_variable(RuntimeVariable.Goals, self._number_of_goals)
 
         self._population = self._get_random_population()
         self._archive.update(self._population)
@@ -198,10 +195,9 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
         """
 
         original_population: Set[tc.TestCase] = {chrom.test_case for chrom in self._population}
-        languagemodelseeding: CodaMOSASeeding = Globl.llmseeding
 
         if self._codamosa.target_low_coverage_functions:
-            test_cases = languagemodelseeding.target_uncovered_functions(
+            test_cases = codamosaseeding.target_uncovered_functions(
                 test_suite,
                 self._codamosa.num_seeds_to_inject,
                 self.resources_left,
@@ -211,7 +207,7 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
             for _ in range(self._codamosa.num_seeds_to_inject):
                 if not self.resources_left():
                     break
-                test_cases.extend(languagemodelseeding.get_random_targeted_testcase())
+                test_cases.extend(codamosaseeding.get_random_targeted_testcase())
 
         if len(test_cases) == 0:
             logger.warning("evolve_targeted cannot generate any test!")

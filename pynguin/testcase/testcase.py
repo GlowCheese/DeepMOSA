@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     import pynguin.testcase.testcasevisitor as tcv
     import pynguin.testcase.variablereference as vr
     from pynguin.analyses.typesystem import ProperType
-    from pynguin.setup import TestCluster
+    from pynguin.setup.testcluster import TestCluster
     from pynguin.utils.orderedset import OrderedSet
 
 

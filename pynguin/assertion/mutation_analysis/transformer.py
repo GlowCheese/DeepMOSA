@@ -73,8 +73,8 @@ class ParentNodeTransformer(ast.NodeTransformer):
             if hasattr(node, "lineno"):
                 delattr(node, "lineno")
 
-        node.parent = self.parent
-        node.children = set()
+        node.parent = self.parent  # type: ignore
+        node.children = set()  # type: ignore
 
         parent_save = self.parent
         self.parent = node
@@ -89,11 +89,11 @@ class ParentNodeTransformer(ast.NodeTransformer):
         # of the parent if it exists. This is done here so that
         # the tree has been fully traversed before adding the children.
         if self.parent is not None:
-            parent_children: set[ast.AST] = self.parent.children
+            parent_children: set[ast.AST] = self.parent.children  # type: ignore
 
             parent_children.add(node)
 
-            node_children: set[ast.AST] = node.children
+            node_children: set[ast.AST] = node.children  # type: ignore
             parent_children.update(node_children)
 
         return node

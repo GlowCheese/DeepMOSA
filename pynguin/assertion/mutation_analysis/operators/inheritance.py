@@ -50,7 +50,7 @@ class AbstractOverriddenElementModification(MutationOperator):
         Returns:
             True if the method is overridden, False if it is not, None on error.
         """
-        parent: ast.AST = node.parent
+        parent: ast.AST = node.parent  # type: ignore
 
         if not isinstance(parent, ast.ClassDef) or not isinstance(
             node, ast.FunctionDef | ast.AsyncFunctionDef | ast.Assign
@@ -61,7 +61,7 @@ class AbstractOverriddenElementModification(MutationOperator):
 
         while parent is not None:
             if not isinstance(parent, ast.Module):
-                parent_names.append(parent.name)
+                parent_names.append(parent.name)  # type: ignore
             if not isinstance(parent, ast.ClassDef) and not isinstance(parent, ast.Module):
                 return None
             parent = parent.parent  # type: ignore[attr-defined,union-attr]
@@ -198,7 +198,7 @@ class AbstractSuperCallingModification(MutationOperator):
         Returns:
             True if the node should be mutated, False otherwise.
         """
-        parent = node.parent
+        parent = node.parent  # type: ignore
         return isinstance(parent, ast.ClassDef)
 
 
@@ -342,10 +342,8 @@ class SuperCallingInsert(AbstractSuperCallingModification, AbstractOverriddenEle
         ):
             super_call_value.keywords.append(ast.keyword(arg=arg.arg, value=default))
 
-        for arg, default in zip(  # type: ignore[assignment]
-            node.args.kwonlyargs, node.args.kw_defaults, strict=False
-        ):
-            super_call_value.keywords.append(ast.keyword(arg=arg.arg, value=default))
+        for arg, default in zip(node.args.kwonlyargs, node.args.kw_defaults, strict=False):
+            super_call_value.keywords.append(ast.keyword(arg=arg.arg, value=default))  # type: ignore
 
         if node.args.vararg is not None:
             self._add_vararg_to_super_call(super_call_value, node.args.vararg)

@@ -18,14 +18,14 @@ from abc import ABC, abstractmethod
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
 from itertools import starmap
-from typing import (  # type: ignore
+from typing import (
     Any,
     Final,
     ForwardRef,
     Generic,
     TypeVar,
-    _BaseGenericAlias,
-    _eval_type,
+    _BaseGenericAlias,  # type: ignore
+    _eval_type,  # type: ignore
     cast,
     get_origin,
     get_type_hints,
@@ -47,7 +47,7 @@ if typing.TYPE_CHECKING:
     from collections.abc import Callable, Sequence
     from typing import ClassVar
 
-    from pynguin.setup import TypeGuessingStats
+    from pynguin.setup.testcluster import TypeGuessingStats
 
 _LOGGER = getLogger(__name__)
 

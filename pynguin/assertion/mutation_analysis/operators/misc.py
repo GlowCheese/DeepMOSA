@@ -31,12 +31,12 @@ def is_docstring(node: ast.AST) -> bool:
     if not isinstance(node, ast.Str):
         return False
 
-    expression_node: ast.AST = node.parent
+    expression_node: ast.AST = node.parent  # type: ignore
 
     if not isinstance(expression_node, ast.Expr):
         return False
 
-    def_node: ast.AST = expression_node.parent
+    def_node: ast.AST = expression_node.parent  # type: ignore
 
     return (
         isinstance(def_node, ast.FunctionDef | ast.ClassDef | ast.Module)
@@ -49,7 +49,7 @@ class AssignmentOperatorReplacement(AbstractArithmeticOperatorReplacement):
     """A class that mutates assignment operators by replacing them."""
 
     def should_mutate(self, node: ast.AST) -> bool:
-        parent = node.parent
+        parent = node.parent  # type: ignore
         return isinstance(parent, ast.AugAssign)
 
 

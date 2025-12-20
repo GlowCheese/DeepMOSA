@@ -32,7 +32,7 @@ from pynguin.utils.type_utils import is_optional_parameter
 
 if TYPE_CHECKING:
     import pynguin.testcase.variablereference as vr
-    from pynguin.setup import TestCluster
+    from pynguin.setup.testcluster import TestCluster
     from pynguin.utils.orderedset import OrderedSet
 
     from . import testcase as tc

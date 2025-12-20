@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING, Any, Callable, Dict, Generic, TypeVar, cast
 import pynguin.assertion.assertion as ass
 import pynguin.testcase.variablereference as vr
 import pynguin.utils.generic as gao
+from pynguin.analyses.constants import constant_provider
 from pynguin.analyses.typesystem import (
     ANY,
     InferredSignature,
@@ -26,7 +27,6 @@ from pynguin.analyses.typesystem import (
     TypeInfo,
 )
 from pynguin.configuration import config
-from pynguin.globl import Globl
 from pynguin.llm.astscoping import VariableRefAST
 from pynguin.utils import randomness
 from pynguin.utils.custom_logger import getLogger
@@ -1400,7 +1400,7 @@ class PrimitiveStatement(VariableCreatingStatement, Generic[T]):
         """
         super().__init__(test_case, vr.VariableReference(test_case, variable_type))
         self._value = value
-        self._constant_provider = Globl.constant_provider
+        self._constant_provider = constant_provider
         self._seeded_reuse_probability = config.seeding.seeded_primitives_reuse_probability
         if value is None:
             self.randomize_value()

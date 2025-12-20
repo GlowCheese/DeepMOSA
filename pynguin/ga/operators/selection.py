@@ -13,6 +13,7 @@ from abc import abstractmethod
 from math import sqrt
 from typing import Generic, TypeVar
 
+from pynguin.configuration import config
 from pynguin.ga.chromosome import Chromosome
 
 T = TypeVar("T", bound=Chromosome)

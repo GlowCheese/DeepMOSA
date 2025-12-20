@@ -14,8 +14,9 @@ import random
 from pathlib import Path
 from typing import TYPE_CHECKING, AnyStr
 
+import pynguin.utils.statistics.stats as stat
+from pynguin.configuration import config
 from pynguin.ga.testcasechromosome import TestCaseChromosome
-from pynguin.globl import Globl
 from pynguin.llm.ast_to_testcase import AstToTestCaseVisitor
 from pynguin.llm.stmtdeserializer import StatementDeserializer
 from pynguin.testcase.defaulttestcase import DefaultTestCase
@@ -25,7 +26,7 @@ from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 if TYPE_CHECKING:
     import pynguin.testcase.testcase as tc
     import pynguin.testcase.testfactory as tf
-    from pynguin.setup import TestCluster
+    from pynguin.setup.testcluster import TestCluster
 
 _logger = getLogger(__name__)
 
@@ -59,9 +60,7 @@ class InitialPopulationProvider:
         Returns:
             The ast tree of the given module.
         """
-        stat = Globl.statistics_tracker
-
-        module_name = Globl.module_name.rsplit(".", maxsplit=1)[-1]
+        module_name = config.module_name.rsplit(".", maxsplit=1)[-1]
         _logger.debug("Module name: %s", module_name)
         result: list[Path] = []
         for root, _, files in os.walk(module_path):
@@ -92,8 +91,6 @@ class InitialPopulationProvider:
         Args:
             module_path: Path to the module to collect the test cases from
         """
-        stat = Globl.statistics_tracker
-
         tree = self._get_ast_tree(module_path)
         if tree is None:
             _logger.info("Provided testcases are not used.")
@@ -113,7 +110,7 @@ class InitialPopulationProvider:
 
     def _mutate_testcases_initially(self):
         """Mutates the initial population."""
-        for _ in range(Globl.conf.seeding.initial_population_mutations):
+        for _ in range(config.seeding.initial_population_mutations):
             for testcase in self._testcases:
                 testcase_wrapper = TestCaseChromosome(testcase, self._test_factory)
                 testcase_wrapper.mutate()

@@ -11,9 +11,8 @@ from __future__ import annotations
 import ast
 from typing import TYPE_CHECKING
 
-from vendor.custom_logger import getLogger
-
 from pynguin.assertion.mutation_analysis.transformer import create_module
+from pynguin.utils.custom_logger import getLogger
 
 if TYPE_CHECKING:
     import types

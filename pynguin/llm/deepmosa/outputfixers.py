@@ -9,7 +9,7 @@ import ast
 import copy
 from typing import Any, Dict, List, Optional, Set
 
-from pynguin.globl import Globl
+from pynguin.configuration import config
 from pynguin.utils.custom_logger import getLogger
 
 logger = getLogger(__name__)
@@ -151,7 +151,7 @@ class StmtRewriter(ast.NodeTransformer):
         self.constant_dict = {}
         self.used_varnames_stack: List[Set[str]] = []
         self.var_counter_stack: List[int] = []
-        self.constant_dict_stack: List[Dict[Any, ast.Name]] = []
+        self.constant_dict_stack: List[Dict[Any, str]] = []
         super().__init__()
 
     ## Helpers ##
@@ -484,6 +484,7 @@ class StmtRewriter(ast.NodeTransformer):
 
         """
         new_aug_assign = self.generic_visit(node)
+        assert isinstance(new_aug_assign, ast.AugAssign)
         rhs_binop = ast.BinOp(
             left=new_aug_assign.target, op=new_aug_assign.op, right=new_aug_assign.value
         )
@@ -523,7 +524,7 @@ class StmtRewriter(ast.NodeTransformer):
         if type(expr.value) in (ast.Await, ast.Yield, ast.YieldFrom):
             return expr
         rhs = self.visit(expr.value)
-        return ast.Assign(targets=[ast.Name(id=self.fresh_varname(), ctx=ast.Store)], value=rhs)
+        return ast.Assign(targets=[ast.Name(id=self.fresh_varname(), ctx=ast.Store())], value=rhs)
 
     def visit_Assert(self, assert_node: ast.Assert):
         """
@@ -792,13 +793,13 @@ def fixup_imports(test_case_str: str, node: Optional[ast.Module] = None):
         for name in import_.names:
             if name.asname is None:
                 continue
-            if Globl.module_name in name.name:
+            if config.module_name in name.name:
                 quals_to_replace[name.asname + "."] = ""
             else:
                 pass
                 # quals_to_replace[name.asname + "."] = name.name + "."
     test_case_str = "\n".join(
-        [line for line in test_case_str.split("\n") if f"import {Globl.module_name}" not in line]
+        [line for line in test_case_str.split("\n") if f"import {config.module_name}" not in line]
     )
     for alias_to_replace, replace_name in quals_to_replace.items():
         test_case_str = test_case_str.replace(alias_to_replace, replace_name)

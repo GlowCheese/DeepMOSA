@@ -5,7 +5,6 @@
 #  SPDX-License-Identifier: MIT
 #
 import inspect
-import time
 from typing import Dict, List, cast
 
 from pynguin.llm.abstractmodel import AbstractLanguageModel
@@ -21,7 +20,7 @@ from pynguin.utils.generic import (
 logger = getLogger(__name__)
 
 
-class CodaMOSALanguageModel(AbstractLanguageModel):
+class _CodaMOSALanguageModel(AbstractLanguageModel):
     """Original language model implementation used by CodaMOSA"""
 
     def _get_maximal_source_context(
@@ -87,7 +86,6 @@ class CodaMOSALanguageModel(AbstractLanguageModel):
         Returns:
             the result of calling the model to complete the function header.
         """
-        query_at = time.time()
         context = self._get_maximal_source_context(context_start, context_end)
 
         prompt = context + "\n" + function_header
@@ -110,37 +108,34 @@ class CodaMOSALanguageModel(AbstractLanguageModel):
             A generated test case as natural language.
 
         """
-        if gao.is_method():
-            method_gao = cast(GenericMethod, gao)
+        if isinstance(gao, GenericMethod):
             function_header = (
-                f"# Unit test for method {method_gao.method_name} of "
-                f"class {method_gao.owner.name}\n"
-                f"def test_{method_gao.owner.name}"
-                f"_{method_gao.method_name}():"
+                f"# Unit test for method {gao.method_name} of "
+                f"class {gao.owner.name}\n"
+                f"def test_{gao.owner.name}"
+                f"_{gao.method_name}():"
             )
             try:
-                source_lines, start_line = inspect.getsourcelines(method_gao.owner.raw_type)
+                source_lines, start_line = inspect.getsourcelines(gao.owner.raw_type)
                 end_line = start_line + len(source_lines) - 1
                 if (
                     sum([self._get_num_tokens_at_line(i) for i in range(start_line, end_line + 1)])
                     > self._max_query_len
                 ):
-                    source_lines, start_line = inspect.getsourcelines(method_gao.owner.raw_type)  # type: ignore
+                    source_lines, start_line = inspect.getsourcelines(gao.owner.raw_type)
                     end_line = start_line + len(source_lines) - 1
             except (TypeError, OSError):
                 start_line, end_line = -1, -1
-        elif gao.is_function():
-            fn_gao = cast(GenericFunction, gao)
+        elif isinstance(gao, GenericFunction):
             function_header = (
-                f"# Unit test for function {fn_gao.function_name}"
-                f"\ndef test_{fn_gao.function_name}():"
+                f"# Unit test for function {gao.function_name}\ndef test_{gao.function_name}():"
             )
             try:
-                source_lines, start_line = inspect.getsourcelines(fn_gao.callable)
+                source_lines, start_line = inspect.getsourcelines(gao.callable)
                 end_line = start_line + len(source_lines) - 1
             except (TypeError, OSError):
                 start_line, end_line = -1, -1
-        elif gao.is_constructor():
+        elif isinstance(gao, GenericConstructor):
             constructor_gao = cast(GenericConstructor, gao)
             class_name = constructor_gao.owner.name  # type: ignore
             function_header = (
@@ -168,3 +163,8 @@ class CodaMOSALanguageModel(AbstractLanguageModel):
             if test_name in function_header:
                 return generated_tests[test_name]
         return ""
+
+
+codamosalanguagemodel = _CodaMOSALanguageModel()
+
+__all__ = ["codamosalanguagemodel"]

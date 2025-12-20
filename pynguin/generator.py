@@ -20,11 +20,8 @@ can also be used as a library by instantiating this class directly.
 from __future__ import annotations
 
 import datetime
-import enum
-import functools
 import importlib
 import inspect
-import json
 import sys
 import threading
 from pathlib import Path
@@ -40,29 +37,31 @@ import pynguin.ga.computations as ff
 import pynguin.ga.generationalgorithmfactory as gaf
 import pynguin.ga.postprocess as pp
 import pynguin.ga.testsuitechromosome as tsc
+import pynguin.utils.statistics.stats as stat
 from pynguin.analyses.constants import (
+    ConstantProvider,
     DelegatingConstantProvider,
     DynamicConstantProvider,
     EmptyConstantProvider,
     RestrictedConstantPool,
     collect_static_constants,
+    set_constant_provider,
 )
 from pynguin.assertion.mutation_analysis.transformer import ParentNodeTransformer
-from pynguin.config import (
+from pynguin.configuration import (
     Algorithm,
     AssertionGenerator,
+    Configuration,
     CoverageMetric,
+    ExportStrategy,
     MutationStrategy,
     StatisticsBackend,
+    config,
+    set_configuration,
 )
-from pynguin.configuration import ExportStrategy
 from pynguin.ga.algorithms.generationalgorithm import GenerationAlgorithm
-from pynguin.globl import Globl
-from pynguin.instrumentation import InstrumentationFinder, install_import_hook
-from pynguin.llm.codamosa.llmseeding import CodaMOSASeeding
-from pynguin.llm.codamosa.model import CodaMOSALanguageModel
-from pynguin.llm.deepmosa import DeepMOSALanguageModel, DeepMOSASeeding
-from pynguin.setup import ModuleTestCluster
+from pynguin.instrumentation.machinery import InstrumentationFinder, install_import_hook
+from pynguin.setup.testcluster import ModuleTestCluster
 from pynguin.setup.testclustergenerator import generate_test_cluster
 from pynguin.slicer.statementslicingobserver import StatementSlicingObserver
 from pynguin.testcase import export
@@ -75,11 +74,11 @@ from pynguin.utils import randomness
 from pynguin.utils.custom_logger import getLogger
 from pynguin.utils.exceptions import ConfigurationException
 from pynguin.utils.report import (
+    get_coverage_report,
     render_coverage_report,
     render_xml_coverage_report,
 )
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
-from pynguin.utils.statistics.stats import StatisticsTracker
 
 from . import environ
 
@@ -97,214 +96,189 @@ _strategies: dict[MutationStrategy, Callable[[int], ms.HOMStrategy]] = {
 logger = getLogger(__name__)
 
 
-@enum.unique
-class ReturnCode(enum.IntEnum):
-    """Return codes for Pynguin to signal result."""
-
-    OK = 0
-    """Symbolises that the execution ended as expected."""
-
-    SETUP_FAILED = 1
-    """Symbolises that the execution failed in the setup phase."""
-
-    NO_TESTS_GENERATED = 2
-    """Symbolises that no test could be generated."""
-
-    NO_PREDICATE_FOUND = 3
-    """Symbolises that there's no predicate under test to cover."""
-
-
-def prepare_everything(fun):
+def prepare_everything(config_: Configuration):
     """Prepare everything before main function."""
 
-    @functools.wraps(fun)
-    async def f(*args, **kwargs):
-        """SETUP SEED"""
-        logger.info("Using seed %d", Globl.seed)
-        randomness.set_seed(Globl.seed)
+    """ SET CONFIGURATION """
+    set_configuration(config_)
 
-        """ SETUP PATH
-        Add project_path to sys.path, which allows
-        Python to load (import) modules in this project. """
-        logger.info("Setting up path for %s", Globl.project_path)
-        try:
-            sys.path.insert(0, Globl.project_path)
+    """ SET RANDOM SEED """
+    logger.info("Using seed %d", config.seeding.seed)
+    randomness.set_seed(config.seeding.seed)
 
-            """ SETUP CONSTANT SEEDING
-            Collect constants from SUT, if enabled. """
-            Globl.constant_provider = EmptyConstantProvider()
-            if config.seeding.constant_seeding:
-                logger.info("Collecting static constants from module under test")
-                constant_pool = collect_static_constants(Globl.project_path)
-                if len(constant_pool) == 0:
-                    logger.info("No constants found")
-                else:
-                    logger.info("Constants found: %s", len(constant_pool))
-                    # Probability of 1.0 -> if a value is requested and available -> return it.
-                    Globl.constant_provider = DelegatingConstantProvider(
-                        constant_pool, Globl.constant_provider, 1.0
-                    )
+    """ SETUP PATH
+    Add project_path to sys.path, which allows
+    Python to import modules in this project."""
 
-                if config.seeding.dynamic_constant_seeding:
-                    logger.info("Setting up runtime collection of constants")
-                    Globl.dynamic_constant_provider = DynamicConstantProvider(
-                        RestrictedConstantPool(max_size=config.seeding.max_dynamic_pool_size),
-                        Globl.constant_provider,
-                        config.seeding.seeded_dynamic_values_reuse_probability,
-                        config.seeding.max_dynamic_length,
-                    )
-                    Globl.constant_provider = Globl.dynamic_constant_provider
+    logger.info("Setting up path for %s", config.project_path)
+    sys.path.insert(0, config.project_path)
 
-            """ SETUP REPORT DIR
-            Report dir only needs to be created
-            when statistics or coverage report is enabled.
-            """
-            if (
-                Globl.statistics_conf.create_coverage_report
-                or Globl.statistics_conf.statistics_backend != StatisticsBackend.NONE
-            ):
-                report_dir = Path(config.statistics_output.report_dir).absolute()
-                try:
-                    report_dir.mkdir(parents=True, exist_ok=True)
-                except (OSError, FileNotFoundError):
-                    logger.exception(
-                        f"Cannot create report dir {config.statistics_output.report_dir}"
-                    )
-                    return ReturnCode.SETUP_FAILED
+    """ SETUP CONSTANT SEEDING
+    Collect constants from SUT, if enabled."""
 
-            """ SETUP IMPORT HOOK """
-            logger.debug("Setting up instrument for %s", Globl.module_name)
+    constant_provider = EmptyConstantProvider()
+    dynamic_constant_provider: DynamicConstantProvider | None = None
 
-            tracer = ExecutionTracer()
+    if config.seeding.constant_seeding:
+        logger.info("Collecting static constants from module under test")
+        constant_pool = collect_static_constants(config.project_path)
+        if len(constant_pool) == 0:
+            logger.info("No constants found")
+        else:
+            logger.info("Constants found: %s", len(constant_pool))
+            # Probability of 1.0 -> if a value is requested and available -> return it.
+            constant_provider = DelegatingConstantProvider(constant_pool, constant_provider, 1.0)
 
-            coverage_metrics = set(Globl.coverage_metrics)
-            install_import_hook(
-                Globl.module_name,
-                tracer,
-                coverage_metrics,
-                Globl.dynamic_constant_provider,
+        if config.seeding.dynamic_constant_seeding:
+            logger.info("Setting up runtime collection of constants")
+            dynamic_constant_provider = DynamicConstantProvider(
+                RestrictedConstantPool(max_size=config.seeding.max_dynamic_pool_size),
+                constant_provider,
+                config.seeding.seeded_dynamic_values_reuse_probability,
+                config.seeding.max_dynamic_length,
             )
+            constant_provider = dynamic_constant_provider
 
-            """ LOAD SUT
-            Use importlib.import_module to load it (for later test_cluster). """
-            try:
-                # We need to set the current thread ident so the import trace is recorded.
-                tracer.current_thread_identifier = threading.current_thread().ident
-                if Globl.module_name in sys.modules:
-                    importlib.reload(sys.modules[Globl.module_name])
-                else:
-                    importlib.import_module(Globl.module_name)
+    set_constant_provider(constant_provider)
 
-            except ImportError:
-                # A module could not be imported because some dependencies
-                # are missing or it is malformed
-                logger.exception("Failed to load SUT")
-                return ReturnCode.SETUP_FAILED
+    """ SETUP REPORT DIR
+    Report dir only needs to be created
+    when statistics or coverage report is enabled.
+    """
+    if (
+        config.statistics_output.create_coverage_report
+        or config.statistics_output.statistics_backend != StatisticsBackend.NONE
+    ):
+        report_dir = Path(config.statistics_output.report_dir).absolute()
+        report_dir.mkdir(parents=True, exist_ok=True)
 
-            """ SETUP TEST CLUSTER """
-            # Analyzing the SUT should not cause any coverage.
-            tracer.disable()
-            test_cluster = Globl.test_cluster = generate_test_cluster()
+    """ SETUP IMPORT HOOK """
+    logger.debug("Setting up instrument for %s", config.module_name)
 
-            if test_cluster.num_accessible_objects_under_test() == 0:
-                logger.error("SUT contains nothing we can test.")
-                return ReturnCode.SETUP_FAILED
+    tracer = ExecutionTracer()
 
-            tracer.enable()
+    coverage_metrics = set(config.statistics_output.coverage_metrics)
+    install_import_hook(
+        config.module_name,
+        tracer,
+        coverage_metrics,
+        dynamic_constant_provider,
+    )
 
-            """ SETUP TEST CASE EXECUTOR """
-            stop = Globl.stopping_conf
-            executor = kwargs["executor"] = TestCaseExecutor(
-                tracer,
-                maximum_test_execution_timeout=stop.maximum_test_execution_timeout,
-                test_execution_time_per_statement=stop.test_execution_time_per_statement,
-            )
+    """ LOAD SUT
+    Use importlib.import_module to load it (for later test_cluster). """
+    try:
+        # We need to set the current thread ident so the import trace is recorded.
+        tracer.current_thread_identifier = threading.current_thread().ident
+        if config.module_name in sys.modules:
+            importlib.reload(sys.modules[config.module_name])
+        else:
+            importlib.import_module(config.module_name)
 
-            """ TRACK SUT STATISTICS """
-            stat = Globl.statistics_tracker = StatisticsTracker()
-            if len(tracer.get_subject_properties().existing_code_objects) == 0:
-                return ReturnCode.NO_PREDICATE_FOUND
+    except ImportError:
+        logger.error(
+            "Failed to load SUT: A module could not be imported"
+            "because some dependencies are missing or it is malformed"
+        )
+        raise
 
-            stat.track_output_variable(
-                RuntimeVariable.CodeObjects,
-                len(tracer.get_subject_properties().existing_code_objects),
-            )
-            stat.track_output_variable(
-                RuntimeVariable.Predicates,
-                len(tracer.get_subject_properties().existing_predicates),
-            )
-            stat.track_output_variable(
-                RuntimeVariable.Lines,
-                len(tracer.get_subject_properties().existing_lines),
-            )
+    """ SETUP TEST CLUSTER """
+    # Analyzing the SUT should not cause any coverage.
+    tracer.disable()
+    test_cluster = generate_test_cluster()
 
-            cyclomatic_complexities: list[int] = [
-                code.original_cfg.cyclomatic_complexity
-                for code in tracer.get_subject_properties().existing_code_objects.values()
-            ]
-            stat.track_output_variable(
-                RuntimeVariable.McCabeCodeObject, json.dumps(cyclomatic_complexities)
-            )
+    if test_cluster.num_accessible_objects_under_test() == 0:
+        raise Exception("SUT contains nothing we can test.")
 
-            test_cluster.track_statistics_values(stat.track_output_variable)
-            if CoverageMetric.BRANCH in Globl.coverage_metrics:
-                stat.track_output_variable(
-                    RuntimeVariable.ImportBranchCoverage,
-                    ff.compute_branch_coverage(
-                        tracer.import_trace, tracer.get_subject_properties()
-                    ),
-                )
-            if CoverageMetric.LINE in Globl.coverage_metrics:
-                stat.track_output_variable(
-                    RuntimeVariable.ImportLineCoverage,
-                    ff.compute_line_coverage(tracer.import_trace, tracer.get_subject_properties()),
-                )
+    tracer.enable()
 
-            """ SETUP LANGUAGE MODEL SEEDING """
-            if Globl.algorithm in (Algorithm.CODAMOSA, Algorithm.DEEPMOSA):
-                assert environ.OPENAI_API_KEY is not None, (
-                    "Environment variable DEEPSEEK_API_KEY should be "
-                    "set in order to generate test cases using "
-                    f"{Globl.algorithm.value} strategy!"
-                )
+    """ SETUP TEST CASE EXECUTOR """
+    executor = TestCaseExecutor(
+        tracer,
+        maximum_test_execution_timeout=config.stopping.maximum_test_execution_timeout,
+        test_execution_time_per_statement=config.stopping.test_execution_time_per_statement,
+    )
 
-                if config.seeding.large_language_model_mutation:
-                    logger.error(
-                        "Mutation currently unsupported --- the OpenAI edit models throttle."
-                    )
+    """ TRACK SUT STATISTICS """
 
-                logger.info("Trying to set up the large language model.")
+    stat.track_output_variable(
+        RuntimeVariable.CodeObjects,
+        len(tracer.get_subject_properties().existing_code_objects),
+    )
+    stat.track_output_variable(
+        RuntimeVariable.Predicates,
+        len(tracer.get_subject_properties().existing_predicates),
+    )
+    stat.track_output_variable(
+        RuntimeVariable.Lines,
+        len(tracer.get_subject_properties().existing_lines),
+    )
 
-                if Globl.algorithm == Algorithm.CODAMOSA:
-                    languagemodel = CodaMOSALanguageModel()
-                    Globl.llmseeding = CodaMOSASeeding(test_cluster)
-                else:
-                    languagemodel = DeepMOSALanguageModel()
-                    Globl.llmseeding = DeepMOSASeeding(test_cluster, Globl.conf.deepmosa.tau)
+    # TODO (glowo): this doesn't work in the mean time
+    #
+    # cyclomatic_complexities: list[int] = [
+    #     code.original_cfg.cyclomatic_complexity
+    #     for code in tracer.get_subject_properties().existing_code_objects.values()
+    # ]
+    # stat.track_output_variable(
+    #     RuntimeVariable.McCabeCodeObject, json.dumps(cyclomatic_complexities)
+    # )
 
-                with open(Globl.module_path, encoding="UTF-8") as module_file:
-                    languagemodel.test_src = module_file.read()
+    test_cluster.track_statistics_values(stat.track_output_variable)
+    if CoverageMetric.BRANCH in config.statistics_output.coverage_metrics:
+        stat.track_output_variable(
+            RuntimeVariable.ImportBranchCoverage,
+            ff.compute_branch_coverage(tracer.import_trace, tracer.get_subject_properties()),
+        )
+    if CoverageMetric.LINE in config.statistics_output.coverage_metrics:
+        stat.track_output_variable(
+            RuntimeVariable.ImportLineCoverage,
+            ff.compute_line_coverage(tracer.import_trace, tracer.get_subject_properties()),
+        )
 
-                Globl.llmseeding.model = languagemodel
-                Globl.llmseeding.executor = executor
-                Globl.llmseeding.sample_with_replacement = config.seeding.sample_with_replacement
+    """ SETUP LANGUAGE MODEL SEEDING """
+    if config.algorithm in (Algorithm.CODAMOSA, Algorithm.DEEPMOSA):
+        assert environ.OPENAI_API_KEY is not None, (
+            "Environment variable DEEPSEEK_API_KEY should be "
+            "set in order to generate test cases using "
+            f"{config.algorithm.value} strategy!"
+        )
 
-            """ MAIN RUN_PYNGUIN CALL """
-            return await fun(*args, **kwargs)
-        finally:
-            sys.path.remove(Globl.project_path)
+        if config.seeding.large_language_model_mutation:
+            logger.error("Mutation currently unsupported --- the OpenAI edit models throttle.")
 
-    return f
+        logger.info("Setting up large language model.")
+
+        module_src = config.module_path.open(encoding="UTF-8").read()
+
+        if config.algorithm == Algorithm.CODAMOSA:
+            from pynguin.llm.codamosa.llmseeding import codamosaseeding
+            from pynguin.llm.codamosa.model import codamosalanguagemodel
+
+            codamosaseeding.executor = executor
+            codamosaseeding.test_cluster = test_cluster
+            codamosalanguagemodel.test_src = module_src
+
+        elif config.algorithm == Algorithm.DEEPMOSA:
+            from pynguin.llm.deepmosa.llmseeding import deepmosaseeding
+            from pynguin.llm.deepmosa.model import deepmosalanguagemodel
+
+            deepmosaseeding.executor = executor
+            deepmosaseeding.test_cluster = test_cluster
+            deepmosalanguagemodel.test_src = module_src
+
+    return test_cluster, executor, constant_provider
 
 
-@prepare_everything
-async def run_pynguin(*, executor: TestCaseExecutor = None):
-    logger.info("Start Pynguin Testing for %s...", Globl.module_name)
+async def run_pynguin(config_: Configuration):
+    logger.info("Start Pynguin Testing for %s...", config_.module_name)
 
-    if CoverageMetric.CHECKED in Globl.coverage_metrics:
+    test_cluster, executor, constant_provider = prepare_everything(config_)
+
+    if CoverageMetric.CHECKED in config.statistics_output.coverage_metrics:
         executor.add_observer(StatementSlicingObserver(executor.tracer))
 
-    algorithm: GenerationAlgorithm = _instantiate_test_generation_strategy(executor)
+    algorithm: GenerationAlgorithm = _instantiate_test_generation_strategy(executor, test_cluster)
 
     generation_result = algorithm.generate_tests()
     if inspect.isawaitable(generation_result):
@@ -322,46 +296,42 @@ async def run_pynguin(*, executor: TestCaseExecutor = None):
     # search statistics
     executor.clear_observers()
 
-    stat = Globl.statistics_tracker
     _track_search_metrics(algorithm, generation_result)
     _remove_statements_after_exceptions(generation_result)
     _generate_assertions(executor, generation_result)
-    tracked_metrics = _track_final_metrics(algorithm, executor, generation_result)
-
-    original_report, report = _get_report_for_tcc(
-        tracked_metrics,
-        algorithm,
-        executor,
-        generation_result.test_case_chromosomes,
-        generation_result,
+    tracked_metrics = _track_final_metrics(
+        algorithm, executor, generation_result, constant_provider
     )
 
-    if Globl.statistics_conf.create_coverage_report:
+    if config.statistics_output.create_coverage_report:
+        coverage_report = get_coverage_report(
+            executor.tracer,
+            generation_result,
+            tracked_metrics,
+        )
         render_coverage_report(
-            original_report,
+            coverage_report,
             Path(config.statistics_output.report_dir) / "cov_report.html",
             datetime.datetime.now(),
         )
         render_xml_coverage_report(
-            original_report,
+            coverage_report,
             Path(config.statistics_output.report_dir) / "cov_report.xml",
             datetime.datetime.now(),
         )
 
-    _collect_miscellaneous_statistics()
+    _collect_miscellaneous_statistics(test_cluster)
     try:
         assert stat.write_statistics()
         logger.info("Statistics were written successfully")
     except Exception:
         logger.exception("Failed to write statistics")
 
-    return report
-
 
 def _instantiate_test_generation_strategy(
-    executor: TestCaseExecutor,
+    executor: TestCaseExecutor, test_cluster: ModuleTestCluster
 ) -> GenerationAlgorithm:
-    factory = gaf.TestSuiteGenerationAlgorithmFactory(executor)
+    factory = gaf.TestSuiteGenerationAlgorithmFactory(executor, test_cluster)
     return factory.get_search_algorithm()
 
 
@@ -377,8 +347,6 @@ def _track_search_metrics(
         generation_result:  The resulting chromosome of the generation strategy
         coverage_metrics: The selected coverage metrics to guide the search
     """
-    stat = Globl.statistics_tracker
-
     for metric, runtime, fitness_type in [
         (
             CoverageMetric.LINE,
@@ -396,7 +364,7 @@ def _track_search_metrics(
             ff.TestSuiteStatementCheckedCoverageFunction,
         ),
     ]:
-        if metric in Globl.coverage_metrics:
+        if metric in config.statistics_output.coverage_metrics:
             coverage_function: ff.TestSuiteCoverageFunction = _get_coverage_ff_from_algorithm(
                 algorithm, cast(type[ff.TestSuiteCoverageFunction], fitness_type)
             )
@@ -429,7 +397,10 @@ def _generate_assertions(executor: TestCaseExecutor, generation_result):
 
 
 def _track_final_metrics(
-    algorithm, executor: TestCaseExecutor, generation_result: tsc.TestSuiteChromosome
+    algorithm,
+    executor: TestCaseExecutor,
+    generation_result: tsc.TestSuiteChromosome,
+    constant_provider: ConstantProvider,
 ) -> set[CoverageMetric]:
     """Track the final coverage metrics.
 
@@ -447,8 +418,7 @@ def _track_final_metrics(
         The set of tracked coverage metrics, including the ones that we optimised for.
     """
     # Alias for shorter lines
-    stat = Globl.statistics_tracker
-    cov_metrics = Globl.coverage_metrics
+    cov_metrics = config.statistics_output.coverage_metrics
     output_variables = config.statistics_output.output_variables
     metrics_for_reinstrumenation: set[CoverageMetric] = set(cov_metrics)
 
@@ -477,7 +447,12 @@ def _track_final_metrics(
         )
 
     # re-instrument the files
-    _reload_instrumentation_loader(metrics_for_reinstrumenation, executor.tracer)
+    dynamic_constant_provider = None
+    if isinstance(constant_provider, DynamicConstantProvider):
+        dynamic_constant_provider = constant_provider
+    _reload_instrumentation_loader(
+        metrics_for_reinstrumenation, executor.tracer, dynamic_constant_provider
+    )
 
     # force new execution of the test cases after new instrumentation
     _reset_cache_for_result(generation_result)
@@ -495,7 +470,7 @@ def _track_final_metrics(
         ass_gen == AssertionGenerator.CHECKED_MINIMIZING
         and RuntimeVariable.AssertionCheckedCoverage in output_variables
     ):
-        _minimize_assertions(stat, generation_result)
+        _minimize_assertions(generation_result)
 
     # Collect other final stats on result
     stat.track_output_variable(RuntimeVariable.FinalLength, generation_result.length())
@@ -540,7 +515,7 @@ def _export_chromosome(
             result = output
 
         elif export_strategy == ExportStrategy.PY_TEST:
-            module_name = Globl.module_name.replace(".", "_")
+            module_name = config.module_name.replace(".", "_")
             target_file = (
                 Path(config.test_case_output.output_path).resolve()
                 / f"test_{module_name}{file_name_suffix}.py"
@@ -586,8 +561,8 @@ def _setup_mutation_analysis_assertion_generator(
     logger.info("Setup mutation generator")
     mutant_generator = _setup_mutant_generator()
 
-    logger.info("Import module %s", Globl.module_name)
-    module = importlib.import_module(Globl.module_name)
+    logger.info("Import module %s", config.module_name)
+    module = importlib.import_module(config.module_name)
 
     logger.info("Build AST for %s", module.__name__)
     executor.tracer.current_thread_identifier = threading.current_thread().ident
@@ -672,8 +647,9 @@ def add_additional_metrics(
 def _reload_instrumentation_loader(
     coverage_metrics: set[CoverageMetric],
     tracer: ExecutionTracer,
+    dynamic_constant_provider: DynamicConstantProvider | None,
 ):
-    module = importlib.import_module(Globl.module_name)
+    module = importlib.import_module(config.module_name)
     tracer.current_thread_identifier = threading.current_thread().ident
     first_finder: InstrumentationFinder | None = None
     for finder in sys.meta_path:
@@ -684,7 +660,7 @@ def _reload_instrumentation_loader(
     first_finder.update_instrumentation_metrics(
         tracer=tracer,
         coverage_metrics=coverage_metrics,
-        dynamic_constant_provider=Globl.dynamic_constant_provider,
+        dynamic_constant_provider=dynamic_constant_provider,
     )
     importlib.reload(module)
 
@@ -696,7 +672,7 @@ def _reset_cache_for_result(generation_result):
         test_case.remove_last_execution_result()
 
 
-def _minimize_assertions(stat: StatisticsTracker, generation_result: tsc.TestSuiteChromosome):
+def _minimize_assertions(generation_result: tsc.TestSuiteChromosome):
     logger.info("Minimizing assertions based on checked coverage")
     assertion_minimizer = pp.AssertionMinimization()
     generation_result.accept(assertion_minimizer)
@@ -709,16 +685,15 @@ def _minimize_assertions(stat: StatisticsTracker, generation_result: tsc.TestSui
     )
 
 
-def _collect_miscellaneous_statistics() -> None:
-    Globl.test_cluster.log_cluster_statistics()
-    stat = Globl.statistics_tracker
-    stat.track_output_variable(RuntimeVariable.TargetModule, Globl.module_name)
-    stat.track_output_variable(RuntimeVariable.RandomSeed, Globl.seed)
+def _collect_miscellaneous_statistics(test_cluster: ModuleTestCluster) -> None:
+    test_cluster.log_cluster_statistics()
+    stat.track_output_variable(RuntimeVariable.TargetModule, config.module_name)
+    stat.track_output_variable(RuntimeVariable.RandomSeed, config.seeding.seed)
     stat.track_output_variable(
         RuntimeVariable.ConfigurationId,
-        Globl.statistics_conf.configuration_id,
+        config.statistics_output.configuration_id,
     )
-    stat.track_output_variable(RuntimeVariable.RunId, Globl.statistics_conf.run_id)
-    stat.track_output_variable(RuntimeVariable.ProjectName, Globl.project_name)
+    stat.track_output_variable(RuntimeVariable.RunId, config.statistics_output.run_id)
+    stat.track_output_variable(RuntimeVariable.ProjectName, config.statistics_output.project_name)
     for runtime_variable, value in stat.variables_generator:
         stat.set_output_variable_for_runtime_variable(runtime_variable, value)

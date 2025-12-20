@@ -22,7 +22,7 @@ from pynguin.utils.exceptions import InstructionNotFoundException
 UNSET = object()
 
 if TYPE_CHECKING:
-    from pynguin.instrumentation import CodeObjectMetaData
+    from pynguin.instrumentation.instrumentation import CodeObjectMetaData
     from pynguin.slicer.executedinstruction import ExecutedInstruction
     from pynguin.testcase.execution import ExecutionTrace
 
@@ -62,7 +62,7 @@ class UniqueInstruction(Instr):
         """
         self.file = file
         if arg is not UNSET:
-            super().__init__(name, arg, lineno=lineno)
+            super().__init__(name, arg, lineno=lineno)  # type: ignore
         else:
             super().__init__(name, lineno=lineno)
         self.code_object_id = code_object_id

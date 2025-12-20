@@ -14,6 +14,9 @@ from pynguin.llm.stmtdeserializer import StatementDeserializer
 from pynguin.utils.custom_logger import getLogger
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
+    GenericConstructor,
+    GenericFunction,
+    GenericMethod,
 )
 
 if TYPE_CHECKING:
@@ -379,7 +382,12 @@ class StatementDeserializerV2(StatementDeserializer):
             assert name not in var_refs
             assert param.default != Parameter.empty
 
-        return var_refs
+        result: dict[str, vr.VariableReference] = {}
+        for k, v in var_refs.items():
+            assert isinstance(v, vr.VariableReference)
+            result[k] = v
+
+        return result
 
     def assemble_stmt_from_gen_callable(
         self, gen_callable: GenericCallableAccessibleObject, call: ast.Call
@@ -408,7 +416,7 @@ class StatementDeserializerV2(StatementDeserializer):
                         coll = arg.value.keys
                     else:
                         coll = arg.value.elts
-                    arg.value = self.create_elements(coll)
+                    arg.value = self.create_elements(coll)  # type: ignore
 
                 elif isinstance(arg.value, ast.Name):
                     var_ref = self._ref_dict.get(arg.value.id)
@@ -420,27 +428,19 @@ class StatementDeserializerV2(StatementDeserializer):
                             var_ref.get_statement_position()
                         )
                         if isinstance(statement, stmt.DictStatement):
-                            arg.value = [e[0] for e in statement.elements]
+                            arg.value = [e[0] for e in statement.elements]  # type: ignore
                         elif isinstance(statement, stmt.NonDictCollection):
-                            arg.value = statement.elements
+                            arg.value = statement.elements  # type: ignore
                         else:
-                            if isinstance(statement, stmt.ASTAssignStatement):
-                                # TODO: think of a strategy
-                                try:
-                                    _logger.warning(
-                                        f"Starred: {ast.dump(statement._rhs._node, indent=4)}"
-                                    )
-                                except:
-                                    _logger.warning(f"Starred (w/o dump): {statement._rhs._node}")
-                            arg.value = var_ref
+                            arg.value = var_ref  # type: ignore
                     except Exception:
                         _logger.exception("Unable to assemble ast.Name")
-                        arg.value = var_ref
+                        arg.value = var_ref  # type: ignore
                 else:
-                    arg.value = self.create_elements([arg.value])
+                    arg.value = self.create_elements([arg.value])  # type: ignore
                     if arg.value is None:
                         return None
-                    arg.value = arg.value[0]
+                    arg.value = arg.value[0]  # type: ignore
 
                 if arg.value is None:
                     return None
@@ -478,36 +478,27 @@ class StatementDeserializerV2(StatementDeserializer):
                         if isinstance(statement, stmt.DictStatement):
                             keys = []
                             for e in statement.elements:
-                                tmp: stmt.StringPrimitiveStatement = e[0].test_case.get_statement(
-                                    e[0].get_statement_position()
-                                )
-                                tmp | should.be.a(stmt.StringPrimitiveStatement)
+                                tmp = e[0].test_case.get_statement(e[0].get_statement_position())
+                                assert isinstance(tmp, stmt.StringPrimitiveStatement)
                                 keys.append(tmp._value)
 
                             keyword.value = ast.Dict(
-                                keys=keys, values=[e[1] for e in statement.elements]
+                                keys=keys,
+                                values=[e[1] for e in statement.elements],  # type: ignore
                             )
-                            keyword.value.keys | should.have.length(len(keyword.value.values))
+                            assert len(keyword.value.keys) == len(keyword.value.values)
                         else:
-                            if isinstance(statement, stmt.ASTAssignStatement):
-                                # TODO: think of a strategy
-                                try:
-                                    _logger.warning(
-                                        f"Starred: {ast.dump(statement._rhs._node, indent=4)}"
-                                    )
-                                except:
-                                    _logger.warning(f"Starred (w/o dump): {statement._rhs._node}")
                             assert False
 
                     except Exception:
                         _logger.exception("Unable to assemble ast.Name")
-                        keyword.value = var_ref
+                        keyword.value = var_ref  # type: ignore
 
                 if isinstance(keyword.value, ast.Dict):
                     append_later: List[ast.keyword] = []
                     for key, value in zip(keyword.value.keys, keyword.value.values):
                         try:
-                            key | should.not_be.none
+                            assert key is not None
                             if isinstance(key, str):
                                 pass
                             elif isinstance(key, ast.Constant):
@@ -524,16 +515,6 @@ class StatementDeserializerV2(StatementDeserializer):
                                 if isinstance(statement, stmt.StringPrimitiveStatement):
                                     key = statement._value
                                 else:
-                                    if isinstance(statement, stmt.ASTAssignStatement):
-                                        # TODO: think of a strategy
-                                        try:
-                                            _logger.warning(
-                                                f"Starred: {ast.dump(statement._rhs._node, indent=4)}"
-                                            )
-                                        except:
-                                            _logger.warning(
-                                                f"Starred (w/o dump): {statement._rhs._node}"
-                                            )
                                     assert False
                             else:
                                 _logger.warning("Key is %s", key)
@@ -547,18 +528,18 @@ class StatementDeserializerV2(StatementDeserializer):
                         continue
 
                 if not isinstance(keyword.value, vr.VariableReference):
-                    keyword.value = self.create_elements([keyword.value])
+                    keyword.value = self.create_elements([keyword.value])  # type: ignore
                     if keyword.value is None:
                         return None
-                    keyword.value = keyword.value[0]
+                    keyword.value = keyword.value[0]  # type: ignore
 
             elif isinstance(keyword.value, ast.Name):
-                keyword.value = self._ref_dict.get(keyword.value.id)
+                keyword.value = self._ref_dict.get(keyword.value.id)  # type: ignore
             elif not isinstance(keyword.value, vr.VariableReference):
-                keyword.value = self.create_elements([keyword.value])
+                keyword.value = self.create_elements([keyword.value])  # type: ignore
                 if keyword.value is None:
                     return None
-                keyword.value = keyword.value[0]
+                keyword.value = keyword.value[0]  # type: ignore
 
             if keyword.value is None:
                 return None
@@ -575,13 +556,13 @@ class StatementDeserializerV2(StatementDeserializer):
             )
             return None
 
-        if gen_callable.is_function():
+        if isinstance(gen_callable, GenericFunction):
             return stmt.FunctionStatement(
                 self._testcase,
                 cast(GenericCallableAccessibleObject, gen_callable),
                 var_refs,
             )
-        if gen_callable.is_method():
+        if isinstance(gen_callable, GenericMethod):
             try:
                 self._ref_dict[call.func.value.id]  # type: ignore
             except (KeyError, AttributeError):
@@ -592,7 +573,7 @@ class StatementDeserializerV2(StatementDeserializer):
                 self._ref_dict[call.func.value.id],  # type: ignore
                 var_refs,
             )
-        if gen_callable.is_constructor():
+        if isinstance(gen_callable, GenericConstructor):
             return stmt.ConstructorStatement(
                 self._testcase,
                 cast(GenericCallableAccessibleObject, gen_callable),

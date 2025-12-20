@@ -13,8 +13,9 @@ import networkx as nx
 from networkx.drawing.nx_pydot import to_pydot
 
 import pynguin.ga.coveragegoals as bg
+import pynguin.utils.statistics.stats as stat
+from pynguin.configuration import config
 from pynguin.ga.operators.ranking import fast_epsilon_dominance_assignment
-from pynguin.globl.main import Globl
 from pynguin.utils.custom_logger import getLogger
 from pynguin.utils.generic import GenericCallableAccessibleObject
 from pynguin.utils.orderedset import OrderedSet
@@ -49,9 +50,7 @@ class DynaMOSAAlgorithm(AbstractMOSAAlgorithm):
         )
         self._number_of_goals = len(self._test_case_fitness_functions)
 
-        Globl.statistics_tracker.set_output_variable_for_runtime_variable(
-            RuntimeVariable.Goals, self._number_of_goals
-        )
+        stat.set_output_variable_for_runtime_variable(RuntimeVariable.Goals, self._number_of_goals)
 
         self._population = self._get_random_population()
         self._goals_manager.update(self._population)
@@ -71,7 +70,7 @@ class DynaMOSAAlgorithm(AbstractMOSAAlgorithm):
             self.evolve()
             if not any(
                 issubclass(type(gao), GenericCallableAccessibleObject)
-                for gao in Globl.test_cluster.accessible_objects_under_test
+                for gao in self.test_cluster.accessible_objects_under_test
             ):
                 break
             self.after_search_iteration(self.create_test_suite(self._archive.solutions))

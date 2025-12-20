@@ -124,7 +124,7 @@ class MutationOperator:
     @classmethod
     def mutate(
         cls,
-        node: T,
+        node: ast.AST,
         module: types.ModuleType,
         only_mutation: Mutation | None = None,
     ) -> Generator[tuple[Mutation, ast.AST]]:
@@ -169,7 +169,7 @@ class MutationOperator:
         self.module = module
         self.only_mutation = only_mutation
 
-    def visit(self, node: T) -> Generator[tuple[ast.AST, ast.AST, ast.AST, str]]:
+    def visit(self, node: ast.AST) -> Generator[tuple[ast.AST, ast.AST, ast.AST, str]]:
         """Visit a node.
 
         This method will temporarily modify the node provided and yield itself modified
@@ -252,7 +252,7 @@ class MutationOperator:
             for attr in dir(self)
             if method_prefix_pattern.match(attr) is not None
             and callable(visitor := getattr(self, attr))
-        ]
+        ]  # type: ignore
 
 
 class AbstractUnaryOperatorDeletion(abc.ABC, MutationOperator):

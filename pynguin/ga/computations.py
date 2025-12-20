@@ -18,7 +18,6 @@ from typing import TYPE_CHECKING, Any, TypeVar
 import pynguin.utils.opcodes as op
 from pynguin.slicer.dynamicslicer import AssertionSlicer, DynamicSlicer
 from pynguin.testcase.execution import ExecutionTrace
-from pynguin.utils.custom_logger import getLogger
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -32,8 +31,6 @@ if TYPE_CHECKING:
     from pynguin.testcase.statement import Statement
 
     from .chromosome import Chromosome
-
-_LOGGER = getLogger(__name__)
 
 
 @dataclasses.dataclass(eq=False)

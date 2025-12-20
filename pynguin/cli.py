@@ -22,7 +22,7 @@ import simple_parsing
 
 import pynguin.environ as environ
 from pynguin.__version__ import __version__
-from pynguin.configuration import Configuration, set_configuration
+from pynguin.configuration import Configuration
 from pynguin.generator import run_pynguin
 
 
@@ -135,8 +135,7 @@ async def async_main():
 
     conf.project_path = str(Path(conf.project_path).resolve(True))
 
-    set_configuration(conf)
-    return await run_pynguin()
+    return await run_pynguin(conf)
 
 
 def main():

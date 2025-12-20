@@ -11,8 +11,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pynguin.ga.computations as ff
+import pynguin.utils.statistics.stats as stat
 from pynguin.ga.operators.ranking import fast_epsilon_dominance_assignment
-from pynguin.globl import Globl
 from pynguin.utils.custom_logger import getLogger
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 
@@ -33,9 +33,7 @@ class MOSAAlgorithm(AbstractMOSAAlgorithm):
         self.before_search_start()
         self._number_of_goals = len(self._test_case_fitness_functions)
 
-        Globl.statistics_tracker.set_output_variable_for_runtime_variable(
-            RuntimeVariable.Goals, self._number_of_goals
-        )
+        stat.set_output_variable_for_runtime_variable(RuntimeVariable.Goals, self._number_of_goals)
 
         self._population = self._get_random_population()
         self._archive.update(self._population)
@@ -74,7 +72,7 @@ class MOSAAlgorithm(AbstractMOSAAlgorithm):
         union.extend(self._population)
         union.extend(offspring_population)
 
-        uncovered_goals: OrderedSet[ff.FitnessFunction] = self._archive.uncovered_goals  # type: ignore[assignment]
+        uncovered_goals: OrderedSet[ff.FitnessFunction] = self._archive.uncovered_goals  # type: ignore
 
         # Ranking the union
         self._logger.debug("Union Size = %d", len(union))

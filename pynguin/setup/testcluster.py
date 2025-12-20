@@ -18,6 +18,7 @@ import typing
 from collections import defaultdict
 from typing import Any
 
+import pynguin.utils.statistics.stats as stat
 import pynguin.utils.typetracing as tt
 from pynguin.analyses.typesystem import (
     ANY,
@@ -32,16 +33,15 @@ from pynguin.analyses.typesystem import (
     UnionType,
     Unsupported,
 )
-from pynguin.globl import Globl
-from pynguin.instrumentation import CODE_OBJECT_ID_KEY
+from pynguin.instrumentation.instrumentation import CODE_OBJECT_ID_KEY
 from pynguin.utils.custom_logger import getLogger
 from pynguin.utils.exceptions import ConstructionFailedException
 from pynguin.utils.generic import (
     GenericAccessibleObject,
     GenericCallableAccessibleObject,
     GenericConstructor,
+    GenericMethod,
 )
-from pynguin.utils.generic.genericaccessibleobject import GenericMethod
 from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 
@@ -334,14 +334,14 @@ class ModuleTestCluster(TestCluster):
                     accessible.is_constructor(), str(accessible), stats
                 )
 
-        Globl.statistics_tracker.track_output_variable(
+        stat.track_output_variable(
             RuntimeVariable.SignatureInfos,
             json.dumps(
                 stats.signature_infos,
                 default=_serialize_helper,
             ),
         )
-        Globl.statistics_tracker.track_output_variable(
+        stat.track_output_variable(
             RuntimeVariable.NumberOfConstructors,
             str(stats.number_of_constructors),
         )

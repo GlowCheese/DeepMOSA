@@ -379,7 +379,7 @@ class BranchCoverageInstrumentation(InstrumentationAdapter):
             basic_block: The basic block of the node that should be instrumented.
         """
         assert len(basic_block) > 0, "Empty basic block in CFG."
-        maybe_jump: Instr = basic_block[self._JUMP_OP_POS]  # type: ignore[assignment]
+        maybe_jump: Instr = basic_block[self._JUMP_OP_POS]  # type: ignore
         orig_instructions_positions = InstrumentationAdapter.map_instr_positions(basic_block)
         maybe_compare_idx: int | None = orig_instructions_positions.get(
             len(orig_instructions_positions) + self._COMPARE_OP_POS
@@ -1828,20 +1828,14 @@ class DynamicSeedingInstrumentation(InstrumentationAdapter):
     ) -> None:
         assert len(basic_block) > 0, "Empty basic block in CFG."
         maybe_compare: Instr | None = (
-            basic_block[self._COMPARE_OP_POS]  # type: ignore[assignment]
-            if len(basic_block) > 1
-            else None
-        )
+            basic_block[self._COMPARE_OP_POS] if len(basic_block) > 1 else None
+        )  # type: ignore
         maybe_string_func: Instr | None = (
-            basic_block[self._STRING_FUNC_POS]  # type: ignore[assignment]
-            if len(basic_block) > 2
-            else None
-        )
+            basic_block[self._STRING_FUNC_POS] if len(basic_block) > 2 else None
+        )  # type: ignore
         maybe_string_func_with_arg: Instr | None = (
-            basic_block[self._STRING_FUNC_POS_WITH_ARG]  # type: ignore[assignment]
-            if len(basic_block) > 3
-            else None
-        )
+            basic_block[self._STRING_FUNC_POS_WITH_ARG] if len(basic_block) > 3 else None
+        )  # type: ignore
         if isinstance(maybe_compare, Instr) and maybe_compare.opcode == op.COMPARE_OP:
             self._instrument_compare_op(basic_block)
         if (

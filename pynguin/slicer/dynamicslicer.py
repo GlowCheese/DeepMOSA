@@ -34,7 +34,7 @@ if TYPE_CHECKING:
         ControlDependenceGraph,
         ProgramGraphNode,
     )
-    from pynguin.instrumentation import CodeObjectMetaData
+    from pynguin.instrumentation.instrumentation import CodeObjectMetaData
     from pynguin.slicer.executedinstruction import ExecutedInstruction
     from pynguin.slicer.executionflowbuilder import LastInstrState
     from pynguin.testcase.execution import ExecutedAssertion, ExecutionTrace, SubjectProperties
@@ -221,14 +221,14 @@ class DynamicSlicer:
                     # (because IMPORT_NAME is traced afterwards).
                     slc.context.instr_in_slice.append(prev_import_back_call)  # type: ignore
                     num_import_pops = StackEffect.stack_effect(
-                        prev_import_back_call.opcode,
+                        prev_import_back_call.opcode,  # type: ignore
                         arg=None,
-                        jump=False,  # type: ignore
+                        jump=False,
                     )[0]
                     slc.trace_stack.update_pop_operations(
                         num_import_pops,
-                        prev_import_back_call,
-                        in_slice=True,  # type: ignore
+                        prev_import_back_call,  # type: ignore
+                        in_slice=True,
                     )
             # Implicit data dependency (over stack)
             if slc.stack_simulation:
@@ -813,7 +813,7 @@ class DynamicSlicer:
                 continue
             if instruction.lineno == curr_line:  # only add new lines
                 continue
-            curr_line = instruction.lineno  # type: ignore[assignment]
+            curr_line = instruction.lineno
             line_ids.add(DynamicSlicer.get_line_id_by_instruction(instruction, subject_properties))
         return line_ids
 

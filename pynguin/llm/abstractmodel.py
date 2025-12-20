@@ -59,7 +59,7 @@ class AbstractLanguageModel(ABC):
         assert response.message.content is not None
         return response.message.content
 
-    def send_llm_request(self, messages: Messages, stop: str | List[str]):
+    def send_llm_request(self, messages: Messages, *, stop: str | List[str]):
         client = OpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
         query_at = time.time()
         query = client.chat.completions.create(
@@ -72,7 +72,7 @@ class AbstractLanguageModel(ABC):
         )
         return self.__handle_llm_query(query, query_at)
 
-    async def send_llm_request_async(self, messages: Messages, stop: str | List[str]):
+    async def send_llm_request_async(self, messages: Messages, *, stop: str | List[str]):
         client = AsyncOpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
         query_at = time.time()
         _logger.info(
@@ -115,28 +115,28 @@ class AbstractLanguageModel(ABC):
 
         raise NotImplementedError()
 
-        now = datetime.now()
+        # now = datetime.now()
 
-        with open(
-            os.path.join(config.statistics_output.report_dir, "gpt_raw_generated.py"),
-            "a+",
-            encoding="UTF-8",
-        ) as log_file:
-            log_file.write(f"\n\n# ({Globl.module_name}) Generated at {now}\n")
-            log_file.write(raw_generated_test)
+        # with open(
+        #     os.path.join(config.statistics_output.report_dir, "gpt_raw_generated.py"),
+        #     "a+",
+        #     encoding="UTF-8",
+        # ) as log_file:
+        #     log_file.write(f"\n\n# ({config.module_name}) Generated at {now}\n")
+        #     log_file.write(raw_generated_test)
 
-        with open(
-            os.path.join(config.statistics_output.report_dir, "gpt_generated_after_fixup.py"),
-            "a+",
-            encoding="UTF-8",
-        ) as log_file:
-            log_file.write(f"\n\n# ({Globl.module_name}) Generated at {now}\n")
-            log_file.write(generated_test_after_fixup)
+        # with open(
+        #     os.path.join(config.statistics_output.report_dir, "gpt_generated_after_fixup.py"),
+        #     "a+",
+        #     encoding="UTF-8",
+        # ) as log_file:
+        #     log_file.write(f"\n\n# ({config.module_name}) Generated at {now}\n")
+        #     log_file.write(generated_test_after_fixup)
 
-        with open(
-            os.path.join(config.statistics_output.report_dir, "gpt_prompts.py"),
-            "a+",
-            encoding="UTF-8",
-        ) as log_file:
-            log_file.write(f"\n\n# ({Globl.module_name}) prompt sent at {now}\n")
-            log_file.write(prompt)
+        # with open(
+        #     os.path.join(config.statistics_output.report_dir, "gpt_prompts.py"),
+        #     "a+",
+        #     encoding="UTF-8",
+        # ) as log_file:
+        #     log_file.write(f"\n\n# ({config.module_name}) prompt sent at {now}\n")
+        #     log_file.write(prompt)
