@@ -15,7 +15,7 @@ import pynguin.ga.testcasechromosome as tcc
 import pynguin.ga.testsuitechromosome as tsc
 import pynguin.testcase.defaulttestcase as dtc
 import pynguin.utils.generic as gao
-from pynguin.configuration import RandomConfiguration
+from pynguin.configuration import config
 from pynguin.utils.custom_logger import getLogger
 from pynguin.utils.exceptions import ConstructionFailedException, GenerationException
 
@@ -145,18 +145,18 @@ class RandomAlgorithm(GenerationAlgorithm):
         )
 
     def _random_test_cases(self, test_cases: list[tc.TestCase]) -> list[tc.TestCase]:
-        if RandomConfiguration.max_sequence_length == 0:
+        if config.random.max_sequence_length == 0:
             selectables = test_cases
         else:
             selectables = [
                 test_case
                 for test_case in test_cases
-                if len(test_case.statements) < RandomConfiguration.max_sequence_length
+                if len(test_case.statements) < config.random.max_sequence_length
             ]
-        if RandomConfiguration.max_sequences_combined == 0:
+        if config.random.max_sequences_combined == 0:
             upper_bound = len(selectables)
         else:
-            upper_bound = min(len(selectables), RandomConfiguration.max_sequences_combined)
+            upper_bound = min(len(selectables), config.random.max_sequences_combined)
         new_test_cases = random.sample(selectables, random.randrange(upper_bound))
         self._logger.debug(
             "Selected %d new test cases from %d available ones",

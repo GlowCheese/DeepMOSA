@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from math import ceil
 from typing import TYPE_CHECKING
 
-from pynguin.configuration import MIOConfiguration
+from pynguin.configuration import config
 from pynguin.utils import randomness
 from pynguin.utils.custom_logger import getLogger
 
@@ -29,13 +29,13 @@ class Parameters:
     """Represents the parameters that are adjusted while running the algorithm."""
 
     # Probability for choosing creating a new test case or sampling an existing one.
-    Pr: float = MIOConfiguration.initial_config.random_test_or_from_archive_probability
+    Pr: float = config.mio.initial_config.random_test_or_from_archive_probability
 
     # The maximum size of the population kept in the archive per target
-    n: int = MIOConfiguration.initial_config.number_of_tests_per_target
+    n: int = config.mio.initial_config.number_of_tests_per_target
 
     # The number of mutations performed on a test case before sampling again.
-    m: int = MIOConfiguration.initial_config.number_of_mutations
+    m: int = config.mio.initial_config.number_of_mutations
 
     def is_valid(self):
         """Check if the parameters are valid."""
@@ -70,7 +70,7 @@ class MIOAlgorithm(GenerationAlgorithm[arch.MIOArchive]):
 
     def _update_parameters(self):
         progress = self.progress()
-        progress_until_focused = progress / MIOConfiguration.exploitation_starts_at_percent
+        progress_until_focused = progress / config.mio.exploitation_starts_at_percent
 
         if self._focused:
             # Already in focused phase.
@@ -78,31 +78,29 @@ class MIOAlgorithm(GenerationAlgorithm[arch.MIOArchive]):
             return
 
         n_before = self._parameters.n
-        if progress > MIOConfiguration.exploitation_starts_at_percent:
+        if progress > config.mio.exploitation_starts_at_percent:
             self._logger.debug("Entering focused phase.")
             self._focused = True
-            self._parameters.Pr = (
-                MIOConfiguration.focused_config.random_test_or_from_archive_probability
-            )
-            self._parameters.n = MIOConfiguration.focused_config.number_of_tests_per_target
-            self._parameters.m = MIOConfiguration.focused_config.number_of_mutations
+            self._parameters.Pr = config.mio.focused_config.random_test_or_from_archive_probability
+            self._parameters.n = config.mio.focused_config.number_of_tests_per_target
+            self._parameters.m = config.mio.focused_config.number_of_mutations
         else:
             self._parameters.Pr = MIOAlgorithm._scale(
-                MIOConfiguration.initial_config.random_test_or_from_archive_probability,
-                MIOConfiguration.focused_config.random_test_or_from_archive_probability,
+                config.mio.initial_config.random_test_or_from_archive_probability,
+                config.mio.focused_config.random_test_or_from_archive_probability,
                 progress_until_focused,
             )
             self._parameters.n = ceil(
                 MIOAlgorithm._scale(
-                    MIOConfiguration.initial_config.number_of_tests_per_target,
-                    MIOConfiguration.focused_config.number_of_tests_per_target,
+                    config.mio.initial_config.number_of_tests_per_target,
+                    config.mio.focused_config.number_of_tests_per_target,
                     progress_until_focused,
                 )
             )
             self._parameters.m = ceil(
                 MIOAlgorithm._scale(
-                    MIOConfiguration.initial_config.number_of_mutations,
-                    MIOConfiguration.focused_config.number_of_mutations,
+                    config.mio.initial_config.number_of_mutations,
+                    config.mio.focused_config.number_of_mutations,
                     progress_until_focused,
                 )
             )

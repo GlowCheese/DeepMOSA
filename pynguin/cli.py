@@ -22,8 +22,7 @@ import simple_parsing
 
 import pynguin.environ as environ
 from pynguin.__version__ import __version__
-from pynguin.configuration import Configuration
-from pynguin.generator import run_pynguin
+from pynguin.configuration import Configuration, set_configuration
 
 
 def create_argument_parser() -> argparse.ArgumentParser:
@@ -126,17 +125,27 @@ async def async_main():
     argument_parser = create_argument_parser()
     parsed = argument_parser.parse_args(get_sys_argv())
 
-    conf = cast(Configuration, parsed.config)
+    config = cast(Configuration, parsed.config)
 
-    _setup_output_path(conf.test_case_output.output_path)
+    _setup_output_path(config.test_case_output.output_path)
 
-    if conf.statistics_output.project_name == "":
-        conf.statistics_output.project_name = conf.project_path.split("/")[-1]
+    if config.statistics_output.project_name == "":
+        config.statistics_output.project_name = config.project_path.split("/")[-1]
 
-    conf.project_path = str(Path(conf.project_path).resolve(True))
+    config.project_path = str(Path(config.project_path).resolve(True))
 
-    return await run_pynguin(conf)
+    set_configuration(config)
+    print(list(sys.modules.keys()))
+    exit(0)
+
+    from pynguin.generator import run_pynguin
+
+    return await run_pynguin()
 
 
 def main():
     asyncio.run(async_main())
+
+
+if __name__ == "__main__":
+    main()

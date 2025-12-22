@@ -336,7 +336,7 @@ class _ConstantCollector(ast.NodeVisitor):
 
 
 # Singleton of the constant provider
-constant_provider: ConstantProvider
+constant_provider: ConstantProvider = EmptyConstantProvider()
 
 
 def set_constant_provider(constant_provider_: ConstantProvider):

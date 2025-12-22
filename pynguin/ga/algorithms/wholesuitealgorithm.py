@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING, cast
 
 import pynguin.ga.computations as ff
 import pynguin.ga.coveragegoals as bg
-from pynguin.configuration import SearchAlgorithmConfiguration
+from pynguin.configuration import config
 from pynguin.utils import randomness
 from pynguin.utils.custom_logger import getLogger
 from pynguin.utils.exceptions import ConstructionFailedException
@@ -65,7 +65,7 @@ class WholeSuiteAlgorithm(GenerationAlgorithm[arch.CoverageArchive]):
             offspring2 = parent2.clone()
 
             try:
-                if randomness.chance(SearchAlgorithmConfiguration.crossover_rate):
+                if randomness.chance(config.search_algorithm.crossover_rate):
                     self._crossover_function.cross_over(offspring1, offspring2)
 
                 offspring1.mutate()
@@ -97,14 +97,14 @@ class WholeSuiteAlgorithm(GenerationAlgorithm[arch.CoverageArchive]):
 
     def _get_random_population(self) -> list[tsc.TestSuiteChromosome]:
         population = []
-        for _ in range(SearchAlgorithmConfiguration.population):
+        for _ in range(config.search_algorithm.population):
             chromosome = self._chromosome_factory.get_chromosome()
             population.append(chromosome)
         return population
 
     def _update_archive(self) -> None:
         """Store covering test cases in archive."""
-        if not SearchAlgorithmConfiguration.use_archive:
+        if not config.search_algorithm.use_archive:
             return
 
         before = len(self._archive.uncovered_goals)
@@ -153,7 +153,7 @@ class WholeSuiteAlgorithm(GenerationAlgorithm[arch.CoverageArchive]):
 
     def _get_solution(self) -> tsc.TestSuiteChromosome:
         """Get the solution."""
-        if SearchAlgorithmConfiguration.use_archive:
+        if config.search_algorithm.use_archive:
             # If we use an archive, use the best found solutions.
             return self.create_test_suite(self._archive.solutions)
         # If we don't use an archive, use the current best individual.
@@ -169,7 +169,7 @@ class WholeSuiteAlgorithm(GenerationAlgorithm[arch.CoverageArchive]):
         Returns:
             Whether or not the population is already full
         """
-        return len(population) >= SearchAlgorithmConfiguration.population
+        return len(population) >= config.search_algorithm.population
 
     def elitism(self) -> list[tsc.TestSuiteChromosome]:
         """Copy best individuals.
@@ -177,4 +177,4 @@ class WholeSuiteAlgorithm(GenerationAlgorithm[arch.CoverageArchive]):
         Returns:
             A list of the best chromosomes
         """
-        return [self._population[idx].clone() for idx in range(SearchAlgorithmConfiguration.elite)]
+        return [self._population[idx].clone() for idx in range(config.search_algorithm.elite)]

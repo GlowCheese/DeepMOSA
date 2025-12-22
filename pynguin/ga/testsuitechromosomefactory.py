@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING
 
 import pynguin.ga.chromosomefactory as cf
 import pynguin.ga.testsuitechromosome as tsc
-from pynguin.configuration import SearchAlgorithmConfiguration
+from pynguin.configuration import config
 
 if TYPE_CHECKING:
     import pynguin.ga.computations as ff
@@ -48,8 +48,8 @@ class TestSuiteChromosomeFactory(cf.ChromosomeFactory[tsc.TestSuiteChromosome]):
     def get_chromosome(self) -> tsc.TestSuiteChromosome:
         chromosome = tsc.TestSuiteChromosome(self._test_case_chromosome_factory)
         num_tests = random.randint(
-            SearchAlgorithmConfiguration.min_initial_tests,
-            SearchAlgorithmConfiguration.max_initial_tests,
+            config.search_algorithm.min_initial_tests,
+            config.search_algorithm.max_initial_tests,
         )
 
         for _ in range(num_tests):

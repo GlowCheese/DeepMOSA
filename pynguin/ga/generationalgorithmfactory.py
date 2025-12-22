@@ -18,7 +18,6 @@ from pynguin.analyses.seeding import InitialPopulationProvider
 from pynguin.configuration import (
     Algorithm,
     CoverageMetric,
-    SearchAlgorithmConfiguration,
     Selection,
     config,
 )
@@ -58,6 +57,7 @@ from . import testcasechromosomefactory as tccf
 from . import testcasefactory as tcf
 from .chromosome import Chromosome
 from .searchobserver import LogSearchObserver
+from .testsuitechromosome import TestSuiteChromosome
 from .testsuitechromosomefactory import TestSuiteChromosomeFactory
 
 if TYPE_CHECKING:
@@ -69,7 +69,6 @@ if TYPE_CHECKING:
     from pynguin.ga.stoppingcondition import StoppingCondition
     from pynguin.setup.testcluster import ModuleTestCluster
 
-    from .testsuitechromosome import TestSuiteChromosome
 
 C = TypeVar("C", bound=Chromosome)
 
@@ -281,12 +280,12 @@ class TestSuiteGenerationAlgorithmFactory(GenerationAlgorithmFactory[TestSuiteCh
         Raises:
             ConfigurationException: if an unknown function was requested
         """
-        if SearchAlgorithmConfiguration.selection in cls._selections:
-            strategy = cls._selections.get(SearchAlgorithmConfiguration.selection)
+        if config.search_algorithm.selection in cls._selections:
+            strategy = cls._selections.get(config.search_algorithm.selection)
             assert strategy, "Selection function cannot be defined as None"
             cls._logger.info(
                 "Using selection function: %s",
-                SearchAlgorithmConfiguration.selection,
+                config.search_algorithm.selection,
             )
             return strategy()
         raise ConfigurationException("No suitable selection function found.")

@@ -51,13 +51,11 @@ from pynguin.assertion.mutation_analysis.transformer import ParentNodeTransforme
 from pynguin.configuration import (
     Algorithm,
     AssertionGenerator,
-    Configuration,
     CoverageMetric,
     ExportStrategy,
     MutationStrategy,
     StatisticsBackend,
     config,
-    set_configuration,
 )
 from pynguin.ga.algorithms.generationalgorithm import GenerationAlgorithm
 from pynguin.instrumentation.machinery import InstrumentationFinder, install_import_hook
@@ -96,11 +94,8 @@ _strategies: dict[MutationStrategy, Callable[[int], ms.HOMStrategy]] = {
 logger = getLogger(__name__)
 
 
-def prepare_everything(config_: Configuration):
+def prepare_everything():
     """Prepare everything before main function."""
-
-    """ SET CONFIGURATION """
-    set_configuration(config_)
 
     """ SET RANDOM SEED """
     logger.info("Using seed %d", config.seeding.seed)
@@ -270,10 +265,10 @@ def prepare_everything(config_: Configuration):
     return test_cluster, executor, constant_provider
 
 
-async def run_pynguin(config_: Configuration):
-    logger.info("Start Pynguin Testing for %s...", config_.module_name)
+async def run_pynguin():
+    logger.info("Start Pynguin Testing for %s...", config.module_name)
 
-    test_cluster, executor, constant_provider = prepare_everything(config_)
+    test_cluster, executor, constant_provider = prepare_everything()
 
     if CoverageMetric.CHECKED in config.statistics_output.coverage_metrics:
         executor.add_observer(StatementSlicingObserver(executor.tracer))

@@ -346,7 +346,8 @@ def __resolve_dependencies(
 
         def should_analyse_module(module: ModuleType):
             return (
-                module.__file__ is not None
+                hasattr(module, "__file__")
+                and module.__file__ is not None
                 and module.__file__.startswith(config.project_path)
                 and module not in seen_modules
             )

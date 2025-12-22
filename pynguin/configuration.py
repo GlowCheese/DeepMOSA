@@ -247,6 +247,7 @@ class StatisticsOutputConfiguration:
             RuntimeVariable.FinalLength,
             RuntimeVariable.FinalSize,
             RuntimeVariable.CoverageTimeline,
+            RuntimeVariable.ConfigurationId,
         ]
     )
     """List of variables to output to the statistics backend."""
@@ -412,7 +413,7 @@ class LLMConfiguration:
     temperature: float = 0.8
     """The temperature of the model"""
 
-    base_url: str = "https://api.openai.com/v1"
+    base_url: str = "https://api.deepseek.com"
     """Base URL to query the model"""
 
     max_tokens: int = 1024
@@ -806,7 +807,11 @@ class Configuration:
 
 
 # Singleton instance of the configuration.
-config: Configuration
+config: Configuration = Configuration(
+    project_path="",
+    module_name="",
+    test_case_output=TestCaseOutputConfiguration(output_path=""),
+)
 
 
 def set_configuration(configuration_: Configuration):

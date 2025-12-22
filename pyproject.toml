@@ -7,7 +7,7 @@ requires-python = ">=3.10"
 dependencies = [
     "asciitree~=0.3.3",
     "astroid~=3.3.8",
-    "black>=25.12.0",
+    "black~=25.12.0",
     "bytecode~=0.16.1",
     "colorama~=0.4.6",
     "jellyfish~=1.1.3",
@@ -18,7 +18,7 @@ dependencies = [
     "python-dotenv~=1.2.1",
     "ruff~=0.14.9",
     "setuptools~=80.9.0",
-    "simple-parsing>=0.1.7",
+    "simple-parsing~=0.1.7",
     "transformers~=4.57.3",
     "typing-inspect~=0.9.0",
 ]
@@ -28,18 +28,23 @@ dev = [
     "pre-commit~=4.5.0",
     "ruff>=0.14.9",
 ]
+minbpe = [
+    "regex>=2025.11.3",
+    "tiktoken>=0.12.0",
+]
 
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+extend-exclude = ["experiments/projects"]
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F", "I"]
 
 [tool.pyright]
 typeCheckingMode = "basic"
-include = ["pynguin", "tests"]
-exclude = ["**/__pycache__"]
+include = ["pynguin", "tests", "experiments"]
+exclude = ["**/__pycache__", "experiments/projects"]
 pythonVersion = "3.10"
 venvPath = "."
 venv = ".venv"

@@ -29,6 +29,7 @@ from types import BuiltinFunctionType, BuiltinMethodType, ModuleType
 from typing import TYPE_CHECKING, Any, Iterator, TypeVar, cast
 
 # Needs to be loaded, i.e., in sys.modules for the execution of assertions to work.
+import pytest  # noqa: F401
 from bytecode.cfg import BasicBlock
 from bytecode.instr import CellVar, FreeVar
 from jellyfish import levenshtein_distance
