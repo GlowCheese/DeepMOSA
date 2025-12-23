@@ -48,3 +48,9 @@ exclude = ["**/__pycache__", "experiments/projects"]
 pythonVersion = "3.10"
 venvPath = "."
 venv = ".venv"
+
+# [project.scripts]
+# pynguin = "pynguin.cli:main"
+
+# [tool.setuptools.packages.find]
+# include = ["pynguin*"]

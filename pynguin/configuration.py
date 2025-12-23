@@ -342,7 +342,7 @@ class SeedingConfiguration:
     sample_with_replacement: bool = True
     """Should we allow sampling with replacement from previously existing testcases?"""
 
-    allow_expandable_cluster: bool = False
+    allow_expandable_cluster: bool = True
     """Should we create an 'expandable' test cluster, which we can query for new
     functions at seeding/test time?"""
 

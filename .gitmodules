@@ -1,9 +1,9 @@
-[submodule "experiments/projects/dill"]
-	path = experiments/projects/dill
-	url = https://github.com/uqfoundation/dill.git
 [submodule "experiments/projects/minbpe"]
 	path = experiments/projects/minbpe
 	url = https://github.com/karpathy/minbpe
+[submodule "experiments/projects/dill"]
+	path = experiments/projects/dill
+	url = https://github.com/uqfoundation/dill
 [submodule "experiments/projects/pyrsistent"]
 	path = experiments/projects/pyrsistent
 	url = https://github.com/tobgu/pyrsistent

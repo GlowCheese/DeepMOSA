@@ -135,8 +135,6 @@ async def async_main():
     config.project_path = str(Path(config.project_path).resolve(True))
 
     set_configuration(config)
-    print(list(sys.modules.keys()))
-    exit(0)
 
     from pynguin.generator import run_pynguin
 

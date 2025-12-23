@@ -325,7 +325,7 @@ class _SearchStatistics:
                 ].get_output_variables():
                     output_variables_map[var.name] = var
 
-                # HACK: disable area under curve
+                # TODO (glowo): enable area under curve
                 # # For every time-series variable, we compute the area under curve, too
                 # auc_variable = self._sequence_output_variable_factories[
                 #     variable_name
