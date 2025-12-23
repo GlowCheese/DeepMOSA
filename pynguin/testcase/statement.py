@@ -29,7 +29,7 @@ from pynguin.analyses.typesystem import (
 from pynguin.configuration import config
 from pynguin.llm.astscoping import VariableRefAST
 from pynguin.utils import randomness
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.mutation_utils import alpha_exponent_insertion
 from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.type_utils import is_optional_parameter

@@ -22,7 +22,7 @@ from bytecode.instr import UNSET
 import pynguin.utils.opcodes as op
 from pynguin.analyses.constants import DynamicConstantProvider
 from pynguin.analyses.controlflow import CFG, ControlDependenceGraph
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 
 if TYPE_CHECKING:
     from pynguin.analyses.controlflow import ProgramGraphNode

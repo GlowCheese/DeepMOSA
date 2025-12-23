@@ -26,7 +26,7 @@ from pynguin.analyses.typesystem import (
 )
 from pynguin.configuration import config
 from pynguin.utils import randomness
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConstructionFailedException
 from pynguin.utils.type_utils import is_optional_parameter
 

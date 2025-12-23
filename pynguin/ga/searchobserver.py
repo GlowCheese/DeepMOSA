@@ -11,7 +11,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 
 if TYPE_CHECKING:
     from . import testsuitechromosome as tsc

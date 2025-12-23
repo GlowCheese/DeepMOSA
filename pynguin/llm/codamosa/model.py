@@ -9,7 +9,7 @@ from typing import Dict, List, cast
 
 from pynguin.llm.abstractmodel import AbstractLanguageModel
 from pynguin.llm.codamosa.outputfixers import fixup_result, rewrite_tests
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
     GenericConstructor,
@@ -153,10 +153,11 @@ class _CodaMOSALanguageModel(AbstractLanguageModel):
         response = self._call_completion(instruction, start_line, end_line)
         response = function_header + response  # type: ignore
 
+        self._log_query_data("user_prompts.txt", instruction, "Prompt used")
+        self._log_query_data("llm_raw_generated.py", response, "LLM-generated content")
+
         # Remove any trailing statements that don't parse
         generated_test = fixup_result(response)
-
-        self._log_prompt_used_and_response(instruction, response, generated_test)
 
         generated_tests: Dict[str, str] = rewrite_tests(generated_test)
         for test_name in generated_tests:

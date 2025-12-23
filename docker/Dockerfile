@@ -10,6 +10,7 @@ RUN pip install --no-cache-dir uv
 WORKDIR /workspace
 
 # copy source
+COPY libs ./libs
 COPY pynguin ./pynguin
 COPY uv.lock pyproject.toml .python-version .
 

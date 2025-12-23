@@ -20,7 +20,7 @@ from pynguin.ga.testcasechromosome import TestCaseChromosome
 from pynguin.llm.ast_to_testcase import AstToTestCaseVisitor
 from pynguin.llm.stmtdeserializer import StatementDeserializer
 from pynguin.testcase.defaulttestcase import DefaultTestCase
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 
 if TYPE_CHECKING:

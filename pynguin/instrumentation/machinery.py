@@ -25,7 +25,7 @@ from pynguin.analyses.constants import (
     EmptyConstantProvider,
 )
 from pynguin.configuration import CoverageMetric
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 
 from .instrumentation import (
     BranchCoverageInstrumentation,

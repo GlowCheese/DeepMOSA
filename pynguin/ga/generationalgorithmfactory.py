@@ -47,7 +47,7 @@ from pynguin.ga.stoppingcondition import (
 from pynguin.setup.testcluster import FilteredModuleTestCluster
 from pynguin.testcase.execution import AbstractTestCaseExecutor, TypeTracingTestCaseExecutor
 from pynguin.testcase.testfactory import TestFactory
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConfigurationException
 from pynguin.utils.orderedset import OrderedSet
 

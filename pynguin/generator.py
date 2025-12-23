@@ -22,6 +22,7 @@ from __future__ import annotations
 import datetime
 import importlib
 import inspect
+import json
 import sys
 import threading
 from pathlib import Path
@@ -69,7 +70,7 @@ from pynguin.testcase.execution import (
     TestCaseExecutor,
 )
 from pynguin.utils import randomness
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConfigurationException
 from pynguin.utils.report import (
     get_coverage_report,
@@ -209,15 +210,13 @@ def prepare_everything():
         len(tracer.get_subject_properties().existing_lines),
     )
 
-    # TODO (glowo): this doesn't work in the mean time
-    #
-    # cyclomatic_complexities: list[int] = [
-    #     code.original_cfg.cyclomatic_complexity
-    #     for code in tracer.get_subject_properties().existing_code_objects.values()
-    # ]
-    # stat.track_output_variable(
-    #     RuntimeVariable.McCabeCodeObject, json.dumps(cyclomatic_complexities)
-    # )
+    cyclomatic_complexities: list[int] = [
+        code.original_cfg.cyclomatic_complexity
+        for code in tracer.get_subject_properties().existing_code_objects.values()
+    ]
+    stat.track_output_variable(
+        RuntimeVariable.McCabeCodeObject, json.dumps(cyclomatic_complexities)
+    )
 
     test_cluster.track_statistics_values(stat.track_output_variable)
     if CoverageMetric.BRANCH in config.statistics_output.coverage_metrics:

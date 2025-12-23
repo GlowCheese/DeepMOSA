@@ -35,7 +35,7 @@ from pynguin.analyses.typesystem import (
     Unsupported,
 )
 from pynguin.instrumentation.instrumentation import CODE_OBJECT_ID_KEY
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConstructionFailedException
 from pynguin.utils.generic import (
     GenericAccessibleObject,

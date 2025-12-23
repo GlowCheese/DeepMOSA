@@ -12,7 +12,7 @@ import ast
 from typing import TYPE_CHECKING
 
 from pynguin.assertion.mutation_analysis.transformer import create_module
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 
 if TYPE_CHECKING:
     import types

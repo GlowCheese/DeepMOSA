@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 
 import pynguin.ga.computations as ff
 import pynguin.ga.testcasechromosome as tcc
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.orderedset import OrderedSet
 
 if TYPE_CHECKING:

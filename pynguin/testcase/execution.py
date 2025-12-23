@@ -56,7 +56,7 @@ from pynguin.instrumentation.instrumentation import (
     PynguinCompare,
 )
 from pynguin.testcase.statement_to_ast import StatementToAstVisitor
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ModuleNotImportedError
 from pynguin.utils.mirror import Mirror
 from pynguin.utils.orderedset import OrderedSet

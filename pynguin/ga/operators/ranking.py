@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING, Generic, TypeVar
 import pynguin.ga.chromosome as chrom
 from pynguin.configuration import config
 from pynguin.utils import randomness
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.orderedset import OrderedSet
 
 from .comparator import DominanceComparator, PreferenceSortingComparator

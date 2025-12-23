@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING
 
 import pynguin.utils.opcodes as op
 from pynguin.configuration import config
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import InstructionNotFoundException, SlicingTimeoutException
 
 from .executedinstruction import ExecutedAttributeInstruction, ExecutedMemoryInstruction

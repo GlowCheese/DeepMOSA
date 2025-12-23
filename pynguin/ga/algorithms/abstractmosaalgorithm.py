@@ -17,7 +17,7 @@ from pynguin.configuration import config
 from pynguin.ga.algorithms.generationalgorithm import GenerationAlgorithm
 from pynguin.ga.operators.comparator import DominanceComparator
 from pynguin.utils import randomness
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConstructionFailedException
 
 from .archive import CoverageArchive

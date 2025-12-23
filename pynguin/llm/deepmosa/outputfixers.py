@@ -10,7 +10,7 @@ import copy
 from typing import Any, Dict, List, Optional, Set
 
 from pynguin.configuration import config
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 
 logger = getLogger(__name__)
 

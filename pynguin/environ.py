@@ -2,7 +2,7 @@ import os
 
 import dotenv
 
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 
 dotenv.load_dotenv()
 logger = getLogger(__name__)

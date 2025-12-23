@@ -203,7 +203,7 @@ class TestCaseContext(str, enum.Enum):
 class StatisticsOutputConfiguration:
     """Configuration related to output."""
 
-    report_dir: str = "pynguin-report"
+    report_dir: str = "pynguin_report"
     """Directory in which to put HTML and CSV reports"""
 
     statistics_backend: StatisticsBackend = StatisticsBackend.CSV
@@ -220,7 +220,7 @@ class StatisticsOutputConfiguration:
 
     coverage_metrics: list[CoverageMetric] = dataclasses.field(
         default_factory=lambda: [
-            CoverageMetric.LINE,
+            # CoverageMetric.LINE,
             CoverageMetric.BRANCH,
         ]
     )
@@ -229,16 +229,17 @@ class StatisticsOutputConfiguration:
     output_variables: list[RuntimeVariable] = dataclasses.field(
         default_factory=lambda: [
             # Basic information of module under test
-            RuntimeVariable.RunId,
             RuntimeVariable.ProjectName,
             RuntimeVariable.TargetModule,
-            RuntimeVariable.LineNos,
             RuntimeVariable.ConfigurationId,
+            RuntimeVariable.LineNos,
+            RuntimeVariable.RandomSeed,
             # Statistics under static analysis
             RuntimeVariable.Lines,
+            RuntimeVariable.Predicates,
             RuntimeVariable.Goals,
             RuntimeVariable.McCabeAST,
-            RuntimeVariable.Predicates,
+            RuntimeVariable.McCabeCodeObject,
             RuntimeVariable.CodeObjects,
             RuntimeVariable.AccessibleObjectsUnderTest,
             # Statistics about LLM usage
@@ -414,16 +415,16 @@ class SeedingConfiguration:
 class LLMConfiguration:
     """Configuration for used large language model"""
 
-    model: str = "deepseek-chat"
+    model: str = ""
     """ID of the model used to generate the response"""
 
     temperature: float = 0.8
     """The temperature of the model"""
 
-    base_url: str = "https://api.deepseek.com"
+    base_url: str = ""
     """Base URL to query the model"""
 
-    max_tokens: int = 1024
+    max_tokens: int = 2048
     """Max number of tokens for the completion response."""
 
 
@@ -454,9 +455,6 @@ class DeepMosaConfiguration:
 
     max_plateau_len: int = 25
     """The number of iterations to let go on before trying to do LLM Seeding"""
-
-    temperature: float = 0.8
-    """The temperature to use when querying the model"""
 
     num_seeds_to_inject: int = 5
     """Number of seeds to query the OpenAI model for"""

@@ -7,9 +7,7 @@
 from __future__ import annotations
 
 import ast
-import datetime
 import inspect
-import os
 import random
 from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Sequence, Set, Tuple
 
@@ -21,7 +19,7 @@ from pynguin.llm.codamosa.model import codamosalanguagemodel
 from pynguin.llm.codamosa.outputfixers import fixup_imports
 from pynguin.llm.stmtdeserializer import StatementDeserializer
 from pynguin.testcase.statement import ASTAssignStatement
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.generic import GenericCallableAccessibleObject
 from pynguin.utils.report import get_coverage_report
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
@@ -132,16 +130,19 @@ class _CodaMOSASeeding:
         Returns:
             A sequence of generated test cases
         """
-        str_test_case = codamosalanguagemodel.target_test_case(prompt_gao, context=context)
+        llm_response = codamosalanguagemodel.target_test_case(prompt_gao, context=context)
         use_uninterp_tuple = config.seeding.uninterpreted_statements.value
         ret_testcases: Set[tc.TestCase] = set()
+
+        testcases_union_str = ""
+
         for use_uninterp in use_uninterp_tuple:
-            logger.debug("Codex-generated testcase:\n%s", str_test_case)
+            logger.debug("Codex-generated testcase:\n%s", llm_response)
             (
                 testcases,
                 parsed_statements,
                 parsable_statements,
-            ) = deserialize_code_to_testcases(str_test_case, self.test_cluster, use_uninterp)
+            ) = deserialize_code_to_testcases(llm_response, self.test_cluster, use_uninterp)
             for testcase in testcases:
                 exporter = PyTestExporter(wrap_code=False)
                 testcase_str = exporter.export_sequences_to_str([testcase])
@@ -152,15 +153,7 @@ class _CodaMOSASeeding:
                     testcase_str,
                 )
 
-                with open(
-                    os.path.join(config.statistics_output.report_dir, "gen_after_parse.py"),
-                    "a+",
-                    encoding="UTF-8",
-                ) as log_file:
-                    log_file.write(
-                        f"\n\n# ({config.module_name}) Generated at {datetime.datetime.now()}\n"
-                    )
-                    log_file.write(testcase_str)
+                testcases_union_str += f"\n{testcase_str}\n"
 
                 self._parsable_statements += parsable_statements
                 self._parsed_statements += parsed_statements
@@ -178,6 +171,10 @@ class _CodaMOSASeeding:
                     RuntimeVariable.UninterpStatements, self._uninterp_statements
                 )
             ret_testcases.update(testcases)
+
+        codamosalanguagemodel._log_query_data(
+            "parsed_testcases.py", testcases_union_str, "Parsed testcases"
+        )
         return list(ret_testcases)
 
     @property

@@ -1,3 +1,4 @@
+from pathlib import Path
 import time
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Literal
@@ -8,9 +9,10 @@ from openai.types.chat import ChatCompletion
 import pynguin.utils.statistics.stats as stat
 from pynguin import environ
 from pynguin.configuration import config
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.deepseek import tokenizer
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
+from pynguin.utils.deepseek import tokenizer
 
 from .api_errors import APIContentFilterError, APILengthError, APIRefusalError
 
@@ -34,22 +36,32 @@ class AbstractLanguageModel(ABC):
         self._input_tokens_cnt = 0
         self._output_tokens_cnt = 0
 
+    def __log_messages_stats(self, messages: Messages):
+        _logger.info("Sending query to model: %s", config.llm.model)
+        num_chars = sum(len(m["content"]) for m in messages)
+        num_tokens = sum(len(tokenizer.encode(m["content"])) for m in messages)
+        _logger.info("Query size: %s characters (~%s tokens)", num_chars, num_tokens)
+
     def __handle_llm_query(self, query: ChatCompletion, query_at: float):
         response = query.choices[0]
-        if response.finish_reason == "length":
-            raise APILengthError()
-        if response.message.refusal is not None:
-            raise APIRefusalError(response.message.refusal)
         if response.finish_reason == "content_filter":
             raise APIContentFilterError()
+        if response.message.refusal is not None:
+            raise APIRefusalError(response.message.refusal)
 
-        assert response.finish_reason == "stop"
+        if response.finish_reason == "length":
+            _logger.warning("LLM output truncated due to token limit")
+        else:
+            assert response.finish_reason == "stop"
+
         assert query.usage is not None
 
         self._num_llm_calls += 1
         self._time_calling_llm += time.time() - query_at
-        self._input_tokens_cnt += int(query.usage.prompt_tokens)
-        self._output_tokens_cnt += int(query.usage.completion_tokens)
+        self._input_tokens_cnt += query.usage.prompt_tokens
+        self._output_tokens_cnt += query.usage.completion_tokens
+
+        _logger.info("Output size: %s tokens", query.usage.completion_tokens)
 
         stat.track_output_variable(RuntimeVariable.LLMCalls, self._num_llm_calls)
         stat.track_output_variable(RuntimeVariable.LLMQueryTime, self._time_calling_llm)
@@ -62,6 +74,7 @@ class AbstractLanguageModel(ABC):
     def send_llm_request(self, messages: Messages, *, stop: str | List[str]):
         client = OpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
         query_at = time.time()
+        self.__log_messages_stats(messages)
         query = client.chat.completions.create(
             messages=messages,  # type: ignore
             model=config.llm.model,
@@ -75,9 +88,7 @@ class AbstractLanguageModel(ABC):
     async def send_llm_request_async(self, messages: Messages, *, stop: str | List[str]):
         client = AsyncOpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
         query_at = time.time()
-        _logger.info(
-            "Sending query to model: %s (temp %s)", config.llm.model, config.llm.temperature
-        )
+        self.__log_messages_stats(messages)
         query = await client.chat.completions.create(
             messages=messages,  # type: ignore
             model=config.llm.model,
@@ -108,35 +119,21 @@ class AbstractLanguageModel(ABC):
             }
         return self._token_len_cache[line_num]
 
-    def _log_prompt_used_and_response(
-        self, prompt: str, raw_generated_test: str, generated_test_after_fixup: str
-    ):
-        """Log conversation and generated unit test for debugging purpose."""
+    def _log_query_data(self, file_name: str, data: str, header: str):
+        report_dir = config.statistics_output.report_dir
+        file_path = Path(report_dir) / "llm" / file_name
+        file_path.parent.mkdir(parents=True, exist_ok=True)
 
-        raise NotImplementedError()
+        with open(file_path, "a+", encoding="UTF-8") as file:
+            if self._num_llm_calls == 1:
+                file.write(
+                    "####################################################################\n"
+                    f"# {f'TEST GENERATION BEGINS ({config.algorithm.name} + {config.llm.model} t={config.llm.temperature})':^64} #\n"
+                    "####################################################################\n\n\n"
+                )
 
-        # now = datetime.now()
-
-        # with open(
-        #     os.path.join(config.statistics_output.report_dir, "gpt_raw_generated.py"),
-        #     "a+",
-        #     encoding="UTF-8",
-        # ) as log_file:
-        #     log_file.write(f"\n\n# ({config.module_name}) Generated at {now}\n")
-        #     log_file.write(raw_generated_test)
-
-        # with open(
-        #     os.path.join(config.statistics_output.report_dir, "gpt_generated_after_fixup.py"),
-        #     "a+",
-        #     encoding="UTF-8",
-        # ) as log_file:
-        #     log_file.write(f"\n\n# ({config.module_name}) Generated at {now}\n")
-        #     log_file.write(generated_test_after_fixup)
-
-        # with open(
-        #     os.path.join(config.statistics_output.report_dir, "gpt_prompts.py"),
-        #     "a+",
-        #     encoding="UTF-8",
-        # ) as log_file:
-        #     log_file.write(f"\n\n# ({config.module_name}) prompt sent at {now}\n")
-        #     log_file.write(prompt)
+            file.write(
+                f"# {header} at query #{self._num_llm_calls}\n"
+                "#--------------------------\n\n"
+                f"{data}\n\n\n"
+            )

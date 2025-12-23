@@ -14,7 +14,7 @@ from pynguin.configuration import config
 from pynguin.ga.operators.ranking import fast_epsilon_dominance_assignment
 from pynguin.llm.deepmosa.llmseeding import EarlyStopTargetting, deepmosaseeding
 from pynguin.utils import randomness
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConstructionFailedException
 from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable

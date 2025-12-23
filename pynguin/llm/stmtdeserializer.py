@@ -18,7 +18,7 @@ import pynguin.testcase.statement as stmt
 from pynguin.analyses.typesystem import ANY, Instance, ProperType, TupleType
 from pynguin.configuration import config
 from pynguin.setup.testcluster import TestCluster
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
     GenericConstructor,

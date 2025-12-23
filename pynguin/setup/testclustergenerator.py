@@ -36,7 +36,7 @@ from pynguin.analyses.syntaxtree import (
 from pynguin.analyses.typesystem import TypeInfo
 from pynguin.configuration import TypeInferenceStrategy, config
 from pynguin.setup.testcluster import ExpandableTestCluster, ModuleTestCluster
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.generic import (
     GenericAccessibleObject,
     GenericConstructor,

@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING
 import pynguin.ga.computations as ff
 import pynguin.utils.statistics.stats as stat
 from pynguin.ga.operators.ranking import fast_epsilon_dominance_assignment
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 
 from .abstractmosaalgorithm import AbstractMOSAAlgorithm

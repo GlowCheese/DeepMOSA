@@ -14,6 +14,10 @@ import pynguin.ga.chromosomevisitor as cv
 import pynguin.testcase.testcase_to_ast as tc_to_ast
 import pynguin.utils.namingscope as ns
 
+from libs.custom_logger import getLogger
+
+_logger = getLogger(__name__)
+
 
 @dataclasses.dataclass
 class _AstConversionResult:
@@ -185,13 +189,20 @@ def module_to_output_str(module: ast.Module, *, format_with_black: bool):
         format_with_black: ast.unparse is not PEP-8 compliant, so we apply black
             on the result.
     """
-    output = ast.unparse(ast.fix_missing_locations(module))
+    try:
+        output = ast.unparse(ast.fix_missing_locations(module))
+    except TypeError as e:
+        return f"Could not parse module: {e}"
+
     if format_with_black:
         # Import of black might cause problems if it is a SUT dependency,
         # so we only import it if we need it.
         import black
 
-        output = black.format_str(output, mode=black.FileMode())
+        try:
+            output = black.format_str(output, mode=black.FileMode())
+        except Exception:
+            _logger.warning("Could not format output with black")
     return output
 
 

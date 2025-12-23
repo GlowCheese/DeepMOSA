@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 
 from .generationalgorithm import GenerationAlgorithm
 

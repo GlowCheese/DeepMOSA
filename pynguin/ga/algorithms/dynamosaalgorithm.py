@@ -16,7 +16,7 @@ import pynguin.ga.coveragegoals as bg
 import pynguin.utils.statistics.stats as stat
 from pynguin.configuration import config
 from pynguin.ga.operators.ranking import fast_epsilon_dominance_assignment
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.generic import GenericCallableAccessibleObject
 from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable

@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING, Dict
 from pynguin.configuration import config
 from pynguin.llm.abstractmodel import AbstractLanguageModel
 from pynguin.utils import randomness
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.deepseek import tokenizer
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
@@ -45,6 +45,7 @@ All test cases should starts with: `def test_[test case's name]():`.
 Your response should only contain the test case itself without any additional text or information.
 """
         self._conversations: dict[GenericCallableAccessibleObject, Messages] = {}
+        self._max_query_len = self._max_query_len - len(tokenizer.encode(self._system_prompt))
 
     def _get_gao_str(self, gao: GenericCallableAccessibleObject):
         if not isinstance(gao, GenericCallableAccessibleObject):
@@ -357,9 +358,11 @@ Your response should only contain the test case itself without any additional te
             ]
             response = await self.send_llm_request_async(messages, stop="\n```")
 
+        self._log_query_data("user_prompts.txt", messages[1]["content"], "Prompt used")
+        self._log_query_data("llm_raw_generated.py", response, "LLM-generated content")
+
         # Remove any trailing statements that don't parse
         generated_test = "\n".join(rewrite_tests(response).values())
-        self._log_prompt_used_and_response(messages[1]["content"], response, generated_test)
         return generated_test
 
 

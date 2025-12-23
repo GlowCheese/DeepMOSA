@@ -15,7 +15,7 @@ import pynguin.ga.chromosomevisitor as cv
 import pynguin.testcase.testcasevisitor as tcv
 from pynguin.assertion.assertion import Assertion, ExceptionAssertion
 from pynguin.testcase.statement import StatementVisitor
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.orderedset import OrderedSet
 
 if TYPE_CHECKING:

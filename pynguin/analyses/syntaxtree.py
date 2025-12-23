@@ -21,7 +21,7 @@ from typing import TYPE_CHECKING, Any, TypeAlias
 import astroid
 from astroid.nodes.as_string import to_code
 
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 
 if TYPE_CHECKING:
     from collections.abc import Iterable

@@ -38,7 +38,7 @@ from typing_inspect import is_union_type
 import pynguin.utils.typetracing as tt
 from pynguin.configuration import TypeInferenceStrategy, config
 from pynguin.utils import randomness
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConfigurationException
 from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.type_utils import COLLECTIONS, PRIMITIVES

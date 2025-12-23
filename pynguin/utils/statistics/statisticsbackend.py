@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Generic, TypeVar
 
 from pynguin.configuration import config
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 
 T = TypeVar("T")
 

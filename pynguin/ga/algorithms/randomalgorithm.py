@@ -16,7 +16,7 @@ import pynguin.ga.testsuitechromosome as tsc
 import pynguin.testcase.defaulttestcase as dtc
 import pynguin.utils.generic as gao
 from pynguin.configuration import config
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConstructionFailedException, GenerationException
 
 from .generationalgorithm import GenerationAlgorithm

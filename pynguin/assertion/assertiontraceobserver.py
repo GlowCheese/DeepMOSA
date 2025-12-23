@@ -23,7 +23,7 @@ import pynguin.testcase.variablereference as vr
 import pynguin.utils.generic as gao
 from pynguin.analyses.typesystem import ANY, TypeInfo
 from pynguin.testcase.testcase import TestCase
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.type_utils import (
     is_assertable,
     is_collection_type,

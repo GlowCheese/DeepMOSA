@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING, Dict, List, Tuple, Union, cast
 import pynguin.testcase.statement as stmt
 import pynguin.testcase.variablereference as vr
 from pynguin.llm.stmtdeserializer import StatementDeserializer
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
     GenericConstructor,

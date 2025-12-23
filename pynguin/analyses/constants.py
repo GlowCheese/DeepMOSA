@@ -21,7 +21,7 @@ from pkgutil import iter_modules
 from setuptools import find_packages
 
 from pynguin.utils import randomness
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.orderedset import OrderedSet
 
 # Used for type hinting and for restricting stored types

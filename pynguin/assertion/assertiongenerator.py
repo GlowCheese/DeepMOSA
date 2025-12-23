@@ -27,7 +27,7 @@ from pynguin.analyses.constants import (
 )
 from pynguin.configuration import CoverageMetric, config
 from pynguin.instrumentation.machinery import build_transformer
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 

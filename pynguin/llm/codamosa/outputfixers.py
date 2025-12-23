@@ -9,7 +9,7 @@ import ast
 from typing import Any, Dict, List, Optional, Set, cast
 
 from pynguin.configuration import config
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 
 logger = getLogger(__name__)
 

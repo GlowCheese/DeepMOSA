@@ -25,6 +25,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pandas~=2.3.3",
+    "pipdeptree>=2.30.0",
     "pre-commit~=4.5.0",
     "ruff>=0.14.9",
 ]
@@ -43,8 +45,8 @@ select = ["E4", "E7", "E9", "F", "I"]
 
 [tool.pyright]
 typeCheckingMode = "basic"
-include = ["pynguin", "tests", "experiments"]
-exclude = ["**/__pycache__", "experiments/projects"]
+include = ["pynguin", "libs", "tests", "experiments"]
+exclude = ["**/__pycache__", "experiments/projects", "generated_tests", "pynguin_report/**/**/llm"]
 pythonVersion = "3.10"
 venvPath = "."
 venv = ".venv"
@@ -52,8 +54,5 @@ venv = ".venv"
 [project.scripts]
 pynguin = "pynguin.cli:main"
 
-[tool.uv]
-package = true
-
 [tool.setuptools.packages.find]
-include = ["pynguin*"]
+include = ["pynguin*", "libs*"]

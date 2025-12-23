@@ -12,7 +12,7 @@ from itertools import islice
 from typing import TYPE_CHECKING
 
 import pynguin.testcase.testcase as tc
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.orderedset import OrderedSet
 
 if TYPE_CHECKING:

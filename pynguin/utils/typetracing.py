@@ -26,7 +26,7 @@ from collections import defaultdict
 from asciitree import BoxStyle, LeftAligned
 from asciitree.drawing import BOX_LIGHT
 
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.orderedset import OrderedSet
 
 LOGGER = getLogger(__name__)

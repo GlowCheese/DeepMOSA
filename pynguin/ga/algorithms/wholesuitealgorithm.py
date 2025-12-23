@@ -15,7 +15,7 @@ import pynguin.ga.computations as ff
 import pynguin.ga.coveragegoals as bg
 from pynguin.configuration import config
 from pynguin.utils import randomness
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConstructionFailedException
 
 from . import archive as arch

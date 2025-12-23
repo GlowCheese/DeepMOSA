@@ -6,7 +6,7 @@ import ast
 from typing import TYPE_CHECKING, Any
 
 from pynguin.configuration import AssertionGenerator, config
-from pynguin.utils.custom_logger import getLogger
+from libs.custom_logger import getLogger
 
 from .stmtdeserializer import StatementDeserializer
 
