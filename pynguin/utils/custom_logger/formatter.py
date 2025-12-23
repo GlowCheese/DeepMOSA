@@ -17,7 +17,7 @@ class CustomFormatter(logging.Formatter):
         log_format = (
             f"{_lvlname[record.levelname]}  "
             f"{Fore.CYAN}"
-            f"{record.name:<15} \033[1;37m| "
+            f"{record.name:<12} \033[1;37m| "
             f"{Style.RESET_ALL}"
             "%(message)s"
         )

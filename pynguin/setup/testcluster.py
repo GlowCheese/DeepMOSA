@@ -16,6 +16,7 @@ import json
 import random
 import typing
 from collections import defaultdict
+from collections.abc import Callable
 from typing import Any
 
 import pynguin.utils.statistics.stats as stat
@@ -46,11 +47,11 @@ from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 
 if typing.TYPE_CHECKING:
-    from collections.abc import Callable
-
     import pynguin.ga.algorithms.archive as arch
     import pynguin.ga.computations as ff
     from pynguin.testcase.execution import SubjectProperties
+
+    from .testclustergenerator import CallableData
 
 
 LOGGER = getLogger(__name__)
@@ -82,7 +83,9 @@ class TestCluster(abc.ABC):
         """
 
     @abc.abstractmethod
-    def add_accessible_object_under_test(self, objc: GenericAccessibleObject) -> None:
+    def add_accessible_object_under_test(
+        self, objc: GenericAccessibleObject, data: CallableData
+    ) -> None:
         """Add accessible object to the objects under test.
 
         Args:
@@ -115,6 +118,13 @@ class TestCluster(abc.ABC):
         Returns:
             The set of all accessible objects
         """
+
+    @property
+    @abc.abstractmethod
+    def function_data_for_accessibles(
+        self,
+    ) -> dict[GenericAccessibleObject, CallableData]:
+        """Provides all function data for all accessibles."""
 
     @abc.abstractmethod
     def num_accessible_objects_under_test(self) -> int:
@@ -325,6 +335,7 @@ class ModuleTestCluster(TestCluster):
             OrderedSet
         )
         self.__accessible_objects_under_test: OrderedSet[GenericAccessibleObject] = OrderedSet()
+        self.__function_data_for_accessibles: dict[GenericAccessibleObject, CallableData] = {}
 
     def log_cluster_statistics(self) -> None:
         stats = TypeGuessingStats()
@@ -416,8 +427,11 @@ class ModuleTestCluster(TestCluster):
         #     return
         self.__generators[generated_type].add(generator)
 
-    def add_accessible_object_under_test(self, objc: GenericAccessibleObject) -> None:
+    def add_accessible_object_under_test(
+        self, objc: GenericAccessibleObject, data: CallableData
+    ) -> None:
         self.__accessible_objects_under_test.add(objc)
+        self.__function_data_for_accessibles[objc] = data
 
     def add_modifier(self, typ: TypeInfo, obj: GenericAccessibleObject) -> None:
         self.__modifiers[typ].add(obj)
@@ -437,6 +451,10 @@ class ModuleTestCluster(TestCluster):
         for vals in self.__generators.values():
             ret_set = ret_set.union(vals)
         return ret_set
+
+    @property
+    def function_data_for_accessibles(self):
+        return self.__function_data_for_accessibles
 
     def num_accessible_objects_under_test(self) -> int:
         return len(self.__accessible_objects_under_test)
@@ -534,16 +552,36 @@ class ModuleTestCluster(TestCluster):
             typ = self.select_concrete_type(random.choice(typ.items))
         return typ
 
+    def promote_object(self, func: GenericCallableAccessibleObject):
+        pass
+
     def track_statistics_values(self, tracking_fun: Callable[[RuntimeVariable, Any], None]) -> None:
         tracking_fun(
             RuntimeVariable.AccessibleObjectsUnderTest,
             self.num_accessible_objects_under_test(),
         )
-        tracking_fun(RuntimeVariable.LineNos, self.__linenos)
         tracking_fun(RuntimeVariable.GeneratableTypes, len(self.get_all_generatable_types()))
 
-    def promote_object(self, func: GenericCallableAccessibleObject):
-        pass
+        cyclomatic_complexities = self.__compute_cyclomatic_complexities(
+            self.function_data_for_accessibles.values()
+        )
+        if cyclomatic_complexities is not None:
+            tracking_fun(RuntimeVariable.McCabeAST, json.dumps(cyclomatic_complexities))
+            tracking_fun(RuntimeVariable.LineNos, self.__linenos)
+
+    @staticmethod
+    def __compute_cyclomatic_complexities(
+        callable_data: typing.Iterable[CallableData],
+    ) -> list[int]:
+        # Collect complexities only for callables that had an AST.  Their minimal
+        # complexity is 1, the value None symbolises a callable that had no AST present,
+        # either because there is none or because it is an implicitly added function,
+        # such as a default constructor or the constructor of a base class.
+        return [
+            item.cyclomatic_complexity
+            for item in callable_data
+            if item.cyclomatic_complexity is not None
+        ]
 
 
 class ExpandableTestCluster(ModuleTestCluster):
@@ -649,14 +687,16 @@ class ExpandableTestCluster(ModuleTestCluster):
             self._backup_accessible_objects.add(generator)
             self._all_backups.add(generator)
 
-    def add_accessible_object_under_test(self, obj: GenericAccessibleObject) -> None:
+    def add_accessible_object_under_test(
+        self, obj: GenericAccessibleObject, data: CallableData
+    ) -> None:
         """Add accessible object to the objects under test.
 
         Args:
             obj: The accessible object
         """
         if not self._backup_mode:
-            super().add_accessible_object_under_test(obj)
+            super().add_accessible_object_under_test(obj, data)
         else:
             self._backup_accessible_objects.add(obj)
             self._all_backups.add(obj)
@@ -725,11 +765,17 @@ class FilteredModuleTestCluster(TestCluster):
     def add_generator(self, generator: GenericAccessibleObject) -> None:
         self.__delegate.add_generator(generator)
 
-    def add_accessible_object_under_test(self, objc: GenericAccessibleObject) -> None:
-        self.__delegate.add_accessible_object_under_test(objc)
+    def add_accessible_object_under_test(
+        self, objc: GenericAccessibleObject, data: CallableData
+    ) -> None:
+        self.__delegate.add_accessible_object_under_test(objc, data)
 
     def add_modifier(self, typ: TypeInfo, obj: GenericAccessibleObject) -> None:
         self.__delegate.add_modifier(typ, obj)
+
+    @property
+    def function_data_for_accessibles(self):
+        return self.__delegate.function_data_for_accessibles
 
     def track_statistics_values(self, tracking_fun: Callable[[RuntimeVariable, Any], None]) -> None:
         self.__delegate.track_statistics_values(tracking_fun)

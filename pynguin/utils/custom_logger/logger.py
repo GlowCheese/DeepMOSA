@@ -22,11 +22,10 @@ _stream_handler = logging.StreamHandler()
 _stream_handler.setFormatter(CustomFormatter())
 
 logging.setLoggerClass(CustomLogger)
-logging.basicConfig(level=logging.ERROR)
+logging.basicConfig(level=logging.ERROR, handlers=[_stream_handler])
 
 
 def getLogger(name: str, level: int = logging.INFO):
     logger = logging.getLogger(name)
     logger.setLevel(level)
-    logger.addHandler(_stream_handler)
     return cast(CustomLogger, logger)

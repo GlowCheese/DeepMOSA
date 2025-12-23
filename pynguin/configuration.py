@@ -228,15 +228,20 @@ class StatisticsOutputConfiguration:
 
     output_variables: list[RuntimeVariable] = dataclasses.field(
         default_factory=lambda: [
+            # Basic information of module under test
             RuntimeVariable.RunId,
             RuntimeVariable.ProjectName,
             RuntimeVariable.TargetModule,
             RuntimeVariable.LineNos,
-            RuntimeVariable.CodeObjects,
+            RuntimeVariable.ConfigurationId,
+            # Statistics under static analysis
             RuntimeVariable.Lines,
+            RuntimeVariable.Goals,
+            RuntimeVariable.McCabeAST,
             RuntimeVariable.Predicates,
-            RuntimeVariable.LineCoverage,
-            RuntimeVariable.BranchCoverage,
+            RuntimeVariable.CodeObjects,
+            RuntimeVariable.AccessibleObjectsUnderTest,
+            # Statistics about LLM usage
             RuntimeVariable.LLMCalls,
             RuntimeVariable.LLMQueryTime,
             RuntimeVariable.LLMStageSavedTests,
@@ -244,10 +249,12 @@ class StatisticsOutputConfiguration:
             RuntimeVariable.LLMOutputTokens,
             RuntimeVariable.ParsedStatements,
             RuntimeVariable.ParsableStatements,
-            RuntimeVariable.FinalLength,
+            # Test generation results
             RuntimeVariable.FinalSize,
+            RuntimeVariable.FinalLength,
+            RuntimeVariable.LineCoverage,
+            RuntimeVariable.BranchCoverage,
             RuntimeVariable.CoverageTimeline,
-            RuntimeVariable.ConfigurationId,
         ]
     )
     """List of variables to output to the statistics backend."""

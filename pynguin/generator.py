@@ -298,6 +298,10 @@ async def run_pynguin():
         algorithm, executor, generation_result, constant_provider
     )
 
+    # Export the generated test suites
+    if config.test_case_output.export_strategy == ExportStrategy.PY_TEST:
+        _export_chromosome(generation_result)
+
     if config.statistics_output.create_coverage_report:
         coverage_report = get_coverage_report(
             executor.tracer,
@@ -477,55 +481,27 @@ def _track_final_metrics(
     return metrics_for_reinstrumenation
 
 
-def _export_chromosome(
-    chromosome: chrom.Chromosome,
-    test_cluster: ModuleTestCluster,
-    export_strategies: list[ExportStrategy] = [],
-    file_name_suffix: str = "",
-):
+def _export_chromosome(chromosome: chrom.Chromosome):
     """Export the given chromosome.
 
     Args:
         chromosome: the chromosome to export.
-        coverage_report: use to export testcase-level coverage report in
-            arguexporter.
-        file_name_suffix: Suffix that can be added to the file name to distinguish
-            between different results e.g., failing and succeeding test cases.
 
     Returns:
-        the generated test cases in string.
+        The string representation of generated test cases.
     """
     export_visitor = export.PyTestChromosomeToAstVisitor()
     chromosome.accept(export_visitor)
-    module = export_visitor.to_module()
 
-    result = None
+    module_name = config.module_name.replace(".", "_")
+    target_file = Path(config.test_case_output.output_path).resolve() / f"test_{module_name}.py"
 
-    for export_strategy in export_strategies:
-        if export_strategy == ExportStrategy.NONE:
-            output = export.module_to_output_str(
-                module, format_with_black=config.test_case_output.format_with_black
-            )
-            logger.info("Generated testcases module has been converted to `str`")
-            result = output
-
-        elif export_strategy == ExportStrategy.PY_TEST:
-            module_name = config.module_name.replace(".", "_")
-            target_file = (
-                Path(config.test_case_output.output_path).resolve()
-                / f"test_{module_name}{file_name_suffix}.py"
-            )
-            output = export.save_module_to_file(
-                export_visitor.to_module(),
-                target_file,
-                format_with_black=config.test_case_output.format_with_black,
-            )
-            logger.info("Written %i test cases to %s", chromosome.size(), target_file)
-            result = output
-
-        else:
-            logger.error("Error: unexpected export_strategy: %s", export_strategy)
-            raise Exception
+    result = export.save_module_to_file(
+        export_visitor.to_module(),
+        target_file,
+        format_with_black=config.test_case_output.format_with_black,
+    )
+    logger.info("Written %i test cases to %s", chromosome.size(), target_file)
 
     return result
 

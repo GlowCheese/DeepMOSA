@@ -25,7 +25,10 @@ from typing import Any
 
 import astroid
 
+from pynguin.analyses.modulecomplexity import mccabe_complexity
 from pynguin.analyses.syntaxtree import (
+    FunctionDescription,
+    astroid_to_ast,
     get_class_node_from_ast,
     get_function_description,
     get_function_node_from_ast,
@@ -35,6 +38,7 @@ from pynguin.configuration import TypeInferenceStrategy, config
 from pynguin.setup.testcluster import ExpandableTestCluster, ModuleTestCluster
 from pynguin.utils.custom_logger import getLogger
 from pynguin.utils.generic import (
+    GenericAccessibleObject,
     GenericConstructor,
     GenericEnum,
     GenericFunction,
@@ -43,6 +47,9 @@ from pynguin.utils.generic import (
 from pynguin.utils.type_utils import COLLECTIONS, PRIMITIVES, get_class_that_defined_method
 
 LOGGER = getLogger(__name__)
+
+
+AstroidFunctionDef = astroid.AsyncFunctionDef | astroid.FunctionDef
 
 
 # A set of modules that shall be blacklisted from analysis (keep them sorted to ease
@@ -400,6 +407,15 @@ def __resolve_dependencies(
     test_cluster.type_system.push_attributes_down()
 
 
+def __get_mccabe_complexity(tree: AstroidFunctionDef | None) -> int | None:
+    if tree is None:
+        return None
+    try:
+        return mccabe_complexity(astroid_to_ast(tree))
+    except SyntaxError:
+        return None
+
+
 def __is_constructor(method_name: str) -> bool:
     return method_name == "__init__"
 
@@ -414,6 +430,14 @@ def __is_private(method_name: str) -> bool:
 
 def __is_method_defined_in_class(class_: type, method: object) -> bool:
     return class_ == get_class_that_defined_method(method)
+
+
+@dataclasses.dataclass
+class CallableData:
+    accessible: GenericAccessibleObject
+    tree: AstroidFunctionDef | None
+    description: FunctionDescription | None
+    cyclomatic_complexity: int | None
 
 
 def __analyse_function(
@@ -443,10 +467,17 @@ def __analyse_function(
     func_ast = get_function_node_from_ast(module_tree, func_name)
     description = get_function_description(func_ast)
     raised_exceptions = description.raises if description is not None else set()
+    cyclomatic_complexity = __get_mccabe_complexity(func_ast)
     generic_function = GenericFunction(func, inferred_signature, raised_exceptions, func_name)
+    function_data = CallableData(
+        accessible=generic_function,
+        tree=func_ast,
+        description=description,
+        cyclomatic_complexity=cyclomatic_complexity,
+    )
     test_cluster.add_generator(generic_function)
     if add_to_test:
-        test_cluster.add_accessible_object_under_test(generic_function)
+        test_cluster.add_accessible_object_under_test(generic_function, function_data)
 
 
 def __analyse_class(
@@ -467,6 +498,7 @@ def __analyse_class(
     constructor_ast = get_function_node_from_ast(class_ast, "__init__")
     description = get_function_description(constructor_ast)
     raised_exceptions = description.raises if description is not None else set()
+    cyclomatic_complexity = __get_mccabe_complexity(constructor_ast)
 
     if issubclass(type_info.raw_type, enum.Enum):
         generic: GenericEnum | GenericConstructor = GenericEnum(type_info)
@@ -489,6 +521,12 @@ def __analyse_class(
             type_info.raw_type
         )
 
+    method_data = CallableData(
+        accessible=generic,
+        tree=constructor_ast,
+        description=description,
+        cyclomatic_complexity=cyclomatic_complexity,
+    )
     if not (
         type_info.is_abstract
         or type_info.raw_type in COLLECTIONS
@@ -498,7 +536,7 @@ def __analyse_class(
         # the latter ourselves.
         test_cluster.add_generator(generic)
         if add_to_test:
-            test_cluster.add_accessible_object_under_test(generic)
+            test_cluster.add_accessible_object_under_test(generic, method_data)
 
     for method_name, method in inspect.getmembers(type_info.raw_type, inspect.isfunction):
         __analyse_method(
@@ -573,13 +611,20 @@ def __analyse_method(
     method_ast = get_function_node_from_ast(class_tree, method_name)
     description = get_function_description(method_ast)
     raised_exceptions = description.raises if description is not None else set()
+    cyclomatic_complexity = __get_mccabe_complexity(method_ast)
     generic_method = GenericMethod(
         type_info, method, inferred_signature, raised_exceptions, method_name
+    )
+    method_data = CallableData(
+        accessible=generic_method,
+        tree=method_ast,
+        description=description,
+        cyclomatic_complexity=cyclomatic_complexity,
     )
     test_cluster.add_generator(generic_method)
     test_cluster.add_modifier(type_info, generic_method)
     if add_to_test:
-        test_cluster.add_accessible_object_under_test(generic_method)
+        test_cluster.add_accessible_object_under_test(generic_method, method_data)
 
 
 def __analyse_included_classes_and_functions(
