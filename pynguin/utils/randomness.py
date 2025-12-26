@@ -10,21 +10,10 @@ from __future__ import annotations
 
 import random
 import string
-import time
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     pass
-
-
-def set_seed(seed: int | None = None):
-    """Set the seed for the random number generator.
-    If no seed is given, the current time in nanoseconds is used.
-
-    Args:
-        seed: The seed to use for the random number generator
-    """
-    random.seed(seed or time.time_ns())
 
 
 def next_char() -> str:

@@ -8,12 +8,12 @@
 
 import ast
 import dataclasses
+import traceback
 from pathlib import Path
 
 import pynguin.ga.chromosomevisitor as cv
 import pynguin.testcase.testcase_to_ast as tc_to_ast
 import pynguin.utils.namingscope as ns
-
 from libs.custom_logger import getLogger
 
 _logger = getLogger(__name__)
@@ -189,10 +189,7 @@ def module_to_output_str(module: ast.Module, *, format_with_black: bool):
         format_with_black: ast.unparse is not PEP-8 compliant, so we apply black
             on the result.
     """
-    try:
-        output = ast.unparse(ast.fix_missing_locations(module))
-    except TypeError as e:
-        return f"Could not parse module: {e}"
+    output = ast.unparse(ast.fix_missing_locations(module))
 
     if format_with_black:
         # Import of black might cause problems if it is a SUT dependency,
@@ -218,6 +215,14 @@ def save_module_to_file(module: ast.Module, target: Path, *, format_with_black: 
     target.parent.mkdir(parents=True, exist_ok=True)
     with target.open(mode="w", encoding="UTF-8") as file:
         file.write(_PYNGUIN_FILE_HEADER)
-        output = module_to_output_str(module, format_with_black=format_with_black)
+        try:
+            output = module_to_output_str(module, format_with_black=format_with_black)
+        except Exception as e:
+            # Write an error debug log for debugging
+            output = (
+                "Error while converting AST module to output string: "
+                f"{type(e).__name__}: {e}\n {traceback.format_exc()}\n\n"
+                f"Formatted AST dump of the module:\n{ast.dump(module, indent=2)}"
+            )
         file.write(output)
     return output

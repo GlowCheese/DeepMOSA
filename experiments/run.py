@@ -1,12 +1,14 @@
 import os
-import dotenv
+import subprocess
+import sys
 from pathlib import Path
 
-import sys
-import subprocess
+import dotenv
 
 from libs.custom_logger import getLogger
+
 from . import utils
+
 # import RunEntry, RunConfig, find_all_modules, LanguageModel, read_module_statistics
 
 
@@ -15,34 +17,34 @@ dotenv.load_dotenv()
 _logger = getLogger("experiments")
 
 
-NUM_RUNS_PER_MODULE = 3
+NUM_RUNS_PER_MODULE = 2
 RANDOM_SEEDS = [42, 1302, 1337, 2004, 2412]
 
 # fmt: off
 RUN_CONFIGS = [
     utils.RunConfig(
-        config_id="dynamosa-30s", argv=[
-            "--configuration-id", "dynamosa-30s",
+        config_id="dynamosa-10m", argv=[
+            "--configuration-id", "dynamosa-10m",
             "--algorithm", "DYNAMOSA",
-            "--maximum-search-time", "30",
+            "--maximum-search-time", "600",
         ]
     ),
     utils.RunConfig(
-        config_id="codamosa-30s-deepseek",
+        config_id="codamosa-10m-deepseek",
         argv=[
-            "--configuration-id", "codamosa-30s-deepseek",
+            "--configuration-id", "codamosa-10m-deepseek",
             "--algorithm", "CODAMOSA",
-            "--maximum-search-time", "30",
+            "--maximum-search-time", "600",
             "--model", "deepseek-chat",
             "--base-url", "https://api.deepseek.com/beta",
         ],
     ),
     utils.RunConfig(
-        config_id="deepmosa-30s-deepseek",
+        config_id="deepmosa-10m-deepseek",
         argv=[
-            "--configuration-id", "deepmosa-30s-deepseek",
+            "--configuration-id", "deepmosa-10m-deepseek",
             "--algorithm", "DEEPMOSA",
-            "--maximum-search-time", "30",
+            "--maximum-search-time", "600",
             "--model", "deepseek-chat",
             "--base-url", "https://api.deepseek.com",
         ],
@@ -86,29 +88,43 @@ _logger.info("Using project path: %s", project_path)
 #
 
 all_modules = utils.find_all_modules(project_path)
+if len(sys.argv) >= 3:
+    all_modules = [m for m in all_modules if m in sys.argv[2]]
+
+fixed_algorithm = None
+if len(sys.argv) >= 4:
+    fixed_algorithm = sys.argv[3]
+    _logger.info("Using fixed algorithm: %s", fixed_algorithm)
+
 _logger.info("Found %d modules", len(all_modules))
 
 queue: list[utils.RunEntry] = []
 
 for module_name in all_modules:
-    rows = utils.read_module_statistics("minbpe", module_name) or []
-
     for config in RUN_CONFIGS:
-        num_runs = NUM_RUNS_PER_MODULE - sum(
-            [1 for r in rows if r.configuration_id == config.config_id]
-        )
-        for _, random_seed in zip(range(num_runs), RANDOM_SEEDS):
-            config_copy = config.model_copy()
+        report_dir = Path("pynguin_report") / project_name / module_name / config.config_id
+        rows = utils.read_module_statistics(report_dir) or []
+        for run_id in range(len(rows), NUM_RUNS_PER_MODULE):
+            if fixed_algorithm is not None:
+                if fixed_algorithm.lower() not in config.config_id.lower():
+                    continue
+            config_copy = utils.RunConfig(
+                config_id=config.config_id,
+                argv=config.argv.copy(),
+            )
+            # fmt: off
             config_copy.argv.extend(
                 [
-                    "--module-name",
-                    module_name,
-                    "--seed",
-                    str(random_seed),
+                    "--run-id", str(run_id),
+                    "--module-name", module_name,
+                    "--seed", str(RANDOM_SEEDS[run_id]),
                     "--report-dir",
-                    f"/workspace/pynguin_report/{project_name}/{module_name}",
+                    f"/workspace/{report_dir}",
+                    "--output-path",
+                    f"/workspace/generated_tests/{project_name}/{config.config_id}",
                 ]
             )
+            # fmt: on
             queue.append(utils.RunEntry(module_name=module_name, run_config=config_copy))
 
 _logger.info("Number of run entries in queue: %d", len(queue))
@@ -131,8 +147,9 @@ subprocess.run(
 )
 
 # Create output dir
-(Path("generated_tests") / project_name).mkdir(parents=True, exist_ok=True)
+(Path(".cache") / "project-deps").mkdir(parents=True, exist_ok=True)
 (Path("pynguin_report") / project_name).mkdir(parents=True, exist_ok=True)
+(Path("generated_tests") / project_name).mkdir(parents=True, exist_ok=True)
 
 for run_entry in queue:
     _logger.info("Running test generation for %s", run_entry.module_name)

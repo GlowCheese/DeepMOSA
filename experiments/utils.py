@@ -1,11 +1,12 @@
-from pathlib import Path
+import ast
 import os
 import pkgutil
 import subprocess
+from pathlib import Path
 from typing import Any
-import setuptools
+
 import pandas as pd
-import ast
+import setuptools
 from pydantic import BaseModel, Field, field_validator
 
 from libs.custom_logger import getLogger
@@ -40,6 +41,7 @@ class RunEntry(BaseModel):
 
 
 class StatisticsRow(BaseModel):
+    run_id: int = Field(alias="RunId")
     project_name: str = Field(alias="ProjectName")
     target_module: str = Field(alias="TargetModule")
     configuration_id: str = Field(alias="ConfigurationId")
@@ -86,15 +88,14 @@ class StatisticsRow(BaseModel):
         return v
 
 
-def read_module_statistics(project_name: str, module_name: str):
-    path = Path("pynguin_report")
-    path = path / project_name / module_name / "statistics.csv"
+def read_module_statistics(report_dir: Path):
+    report_path = report_dir / "statistics.csv"
 
-    if not path.exists():
-        _logger.warning("statistics path '%s' does not exist!", path)
+    if not report_path.exists():
+        _logger.warning("statistics path '%s' does not exist!", report_path)
         return None
 
-    df = pd.read_csv(path, keep_default_na=False)
+    df = pd.read_csv(report_path, keep_default_na=False)
 
     result: list[StatisticsRow] = []
 
@@ -132,7 +133,6 @@ def run_deepmosa_runner(project_name: str, *argv: str):
         "deepmosa-runner",
         "--project-path", "/workspace/project",
         "--project-name", project_name,
-        "--output-path", f"/workspace/generated_tests/{project_name}",
         *argv,
     ]
     # fmt: on

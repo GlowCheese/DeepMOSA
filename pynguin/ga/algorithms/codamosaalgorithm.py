@@ -8,7 +8,6 @@
 
 from __future__ import annotations
 
-import os
 import random
 from typing import TYPE_CHECKING, List, Set
 
@@ -16,13 +15,11 @@ import pynguin.ga.computations as ff
 import pynguin.ga.testcasechromosome as tcc
 import pynguin.testcase.testcase as tc
 import pynguin.utils.statistics.stats as stat
+from libs.custom_logger import getLogger
 from pynguin.configuration import config
 from pynguin.export.pytestexporter import PyTestExporter
 from pynguin.ga.algorithms.abstractmosaalgorithm import AbstractMOSAAlgorithm
 from pynguin.ga.operators.ranking import fast_epsilon_dominance_assignment
-from pynguin.ga.stoppingcondition import (
-    MaxSearchTimeStoppingCondition,
-)
 from pynguin.llm.codamosa.llmseeding import codamosaseeding
 from pynguin.testcase.statement import (
     ASTAssignStatement,
@@ -31,7 +28,6 @@ from pynguin.testcase.statement import (
     MethodStatement,
 )
 from pynguin.utils import randomness
-from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConstructionFailedException
 from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
@@ -59,20 +55,6 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
 
         self._codamosa = config.codamosa
         self._plateau_len = self._codamosa.max_plateau_len
-
-    def _log_num_codamosa_tests_added(self):
-        scs = [
-            sc for sc in self.stopping_conditions if isinstance(sc, MaxSearchTimeStoppingCondition)
-        ]
-        if len(scs) == 0:
-            return
-        search_time: MaxSearchTimeStoppingCondition = scs[0]
-        with open(
-            os.path.join(config.statistics_output.report_dir, "codamosa_timeline.csv"),
-            "a+",
-            encoding="UTF-8",
-        ) as log_file:
-            log_file.write(f"{search_time.current_value()},{self._num_codamosa_tests_added}\n")
 
     def _register_added_testcase(self, test_case: tc.TestCase, was_mutant: bool) -> None:
         """Register that test_case was a test case generated during the targeted
@@ -251,7 +233,6 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
                 # test_cases is the original generated test cases
                 mutated = test_case not in test_cases
                 self._register_added_testcase(test_case, mutated)
-        self._log_num_codamosa_tests_added()
         if not added_tests:
             # If we were unsuccessful in adding tests, double the plateau
             # length so we don't waste too much time querying codex.

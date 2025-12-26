@@ -5,8 +5,8 @@ from __future__ import annotations
 import ast
 from typing import TYPE_CHECKING, Any
 
-from pynguin.configuration import AssertionGenerator, config
 from libs.custom_logger import getLogger
+from pynguin.configuration import AssertionGenerator, config
 
 from .stmtdeserializer import StatementDeserializer
 
@@ -57,6 +57,7 @@ class AstToTestCaseVisitor(ast.NodeVisitor):
         self._include_nontest_functions = include_nontest_functions
 
         # Used for statistics only
+        self.debug_messages: list[str] = []
         self.total_statements = 0
         self.total_parsed_statements = 0
         self._current_parsed_statements = 0
@@ -88,15 +89,17 @@ class AstToTestCaseVisitor(ast.NodeVisitor):
             _logger.info("Successfully imported %s.", node.name)
         else:
             if self._current_parsed_statements > 0 and config.seeding.include_partially_parsable:
-                _logger.info(
-                    "Partially parsed %s. Retrieved %s/%s statements.",
-                    node.name,
-                    self._current_parsed_statements,
-                    self._current_max_num_statements,
+                msg = (
+                    f"Partially parsed {node.name}. "
+                    f"Retrieved {self._current_parsed_statements}"
+                    f"/{self._current_max_num_statements} statements."
                 )
                 self._testcases.append(current_testcase)
             else:
-                _logger.info("Failed to parse %s.", node.name)
+                msg = f"Failed to parse {node.name}."
+
+            _logger.info(msg)
+            self.debug_messages.append(msg)
 
     def visit_Assign(self, node: ast.Assign) -> Any:
         if self._current_parsable or config.seeding.include_partially_parsable:

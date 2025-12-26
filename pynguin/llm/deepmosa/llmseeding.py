@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import ast
-import datetime
 import inspect
 import os
 import random
@@ -12,13 +11,13 @@ from typing import TYPE_CHECKING, Dict, List, Set, Tuple
 import numpy as np
 
 import pynguin.utils.statistics.stats as stat
+from libs.custom_logger import getLogger
 from pynguin.configuration import config
 from pynguin.export.pytestexporter import PyTestExporter
 from pynguin.ga.coveragegoals import BranchGoal
 from pynguin.llm.ast_to_testcase import AstToTestCaseVisitor
 from pynguin.llm.deepmosa.stmtdeserializer_v2 import StatementDeserializerV2
 from pynguin.testcase.statement import ASTAssignStatement
-from libs.custom_logger import getLogger
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
     GenericConstructor,
@@ -51,7 +50,7 @@ def deserialize_code_to_testcases(
     test_file_contents: str,
     test_cluster: TestCluster,
     use_uninterpreted_statements: bool = False,
-) -> Tuple[List[dtc.DefaultTestCase], int, int]:
+) -> Tuple[list[str], List[dtc.DefaultTestCase], int, int]:
     """Extracts as many TestCase objects as possible from the given code.
 
     Args:
@@ -70,6 +69,7 @@ def deserialize_code_to_testcases(
     )
     visitor.visit(ast.parse(test_file_contents))
     return (
+        visitor.debug_messages,
         visitor.testcases,
         visitor.total_parsed_statements,
         visitor.total_statements,
@@ -210,14 +210,19 @@ class _DeepMOSASeeding:
         ret_testcases: Set[tc.TestCase] = set()
         use_uninterp_tuple = config.seeding.uninterpreted_statements.value
 
+        debug_messages = ""
         testcases_union_str = ""
 
         for use_uninterp in use_uninterp_tuple:
             (
+                debug_messages_,
                 testcases,
                 parsed_statements,
                 parsable_statements,
             ) = deserialize_code_to_testcases(llm_response, self.test_cluster, use_uninterp)
+
+            debug_messages += "\n".join(debug_messages_) + "\n"
+
             for testcase in testcases:
                 exporter = PyTestExporter(wrap_code=False)
                 testcase_str = exporter.export_sequences_to_str([testcase])
@@ -248,7 +253,7 @@ class _DeepMOSASeeding:
             ret_testcases.update(testcases)
 
         deepmosalanguagemodel._log_query_data(
-            "parsed_testcases.py", testcases_union_str, "Parsed testcases"
+            "parsed_testcases.py", f"{debug_messages}\n{testcases_union_str}", "Parsed testcases"
         )
         return list(ret_testcases)
 
@@ -454,6 +459,7 @@ class _DeepMOSASeeding:
         id_trace = [id]
         _subject_properties = self.executor.tracer.get_subject_properties()
         code_object = _subject_properties.existing_code_objects[id]
+        original_code_object = code_object.code_object
         code = code_object.code_object
 
         while code.co_name != "<module>":
@@ -475,7 +481,11 @@ class _DeepMOSASeeding:
             code_object = parent_code_object
 
         if res is None:
-            logger.warning("GenericAccessibleObject for code object id %s not found", id_trace[0])
+            logger.warning(
+                "GenericAccessibleObject for code object id %s (%s) not found",
+                id_trace[0],
+                original_code_object,
+            )
         elif deepmosalanguagemodel._get_gao_str(res) is None:
             logger.warning("Not targetting %s as we can't find its source code", repr(res))
 

@@ -15,10 +15,10 @@ from typing import TYPE_CHECKING, Any, List, Tuple, cast
 import pynguin.assertion.assertion as ass
 import pynguin.testcase.defaulttestcase as dtc
 import pynguin.testcase.statement as stmt
+from libs.custom_logger import getLogger
 from pynguin.analyses.typesystem import ANY, Instance, ProperType, TupleType
 from pynguin.configuration import config
 from pynguin.setup.testcluster import TestCluster
-from libs.custom_logger import getLogger
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
     GenericConstructor,
@@ -659,6 +659,8 @@ class StatementDeserializer:
             builtins_dict = (
                 __builtins__ if isinstance(__builtins__, dict) else __builtins__.__dict__
             )
+            # print(builtins_dict)
+            # exit(0)
             if func_id in builtins_dict or (self._experimental_flag and func_id in self._ref_dict):
                 return self.create_ast_assign_stmt(call)
 

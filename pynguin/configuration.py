@@ -229,6 +229,7 @@ class StatisticsOutputConfiguration:
     output_variables: list[RuntimeVariable] = dataclasses.field(
         default_factory=lambda: [
             # Basic information of module under test
+            RuntimeVariable.RunId,
             RuntimeVariable.ProjectName,
             RuntimeVariable.TargetModule,
             RuntimeVariable.ConfigurationId,

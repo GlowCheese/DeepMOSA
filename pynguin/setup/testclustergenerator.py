@@ -25,6 +25,7 @@ from typing import Any
 
 import astroid
 
+from libs.custom_logger import getLogger
 from pynguin.analyses.modulecomplexity import mccabe_complexity
 from pynguin.analyses.syntaxtree import (
     FunctionDescription,
@@ -36,7 +37,6 @@ from pynguin.analyses.syntaxtree import (
 from pynguin.analyses.typesystem import TypeInfo
 from pynguin.configuration import TypeInferenceStrategy, config
 from pynguin.setup.testcluster import ExpandableTestCluster, ModuleTestCluster
-from libs.custom_logger import getLogger
 from pynguin.utils.generic import (
     GenericAccessibleObject,
     GenericConstructor,
@@ -449,9 +449,6 @@ def __analyse_function(
     test_cluster: ModuleTestCluster,
     add_to_test: bool,
 ) -> None:
-    if __is_private(func_name) or __is_protected(func_name):
-        LOGGER.debug("Skipping function %s from analysis", func_name)
-        return
     if inspect.iscoroutinefunction(func) or inspect.isasyncgenfunction(func):
         if add_to_test:
             raise ValueError("Pynguin cannot handle Coroutine in SUT. Stopping.")
@@ -587,10 +584,10 @@ def __analyse_method(
     class_tree: astroid.ClassDef | None,
     test_cluster: ModuleTestCluster,
     add_to_test: bool,
+    bypass_blacklist: bool = False,
 ) -> None:
     if (
-        __is_private(method_name)
-        or __is_protected(method_name)
+        (not bypass_blacklist and (__is_private(method_name) or __is_protected(method_name)))
         or __is_constructor(method_name)
         or not __is_method_defined_in_class(type_info.raw_type, method)
     ):
@@ -750,7 +747,14 @@ def __analyse_included_functions(
     for current in filter(
         lambda x: inspect.isfunction(x)
         and x.__name__ != "<lambda>"
-        and (bypass_blacklist or not _is_blacklisted(x)),
+        and (
+            bypass_blacklist
+            or (
+                not _is_blacklisted(x)
+                and not __is_private(x.__qualname__)
+                and not __is_protected(x.__qualname__)
+            )
+        ),
         vars(module).values(),
     ):
         if current in seen_functions:

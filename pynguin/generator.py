@@ -23,6 +23,7 @@ import datetime
 import importlib
 import inspect
 import json
+import random
 import sys
 import threading
 from pathlib import Path
@@ -39,6 +40,7 @@ import pynguin.ga.generationalgorithmfactory as gaf
 import pynguin.ga.postprocess as pp
 import pynguin.ga.testsuitechromosome as tsc
 import pynguin.utils.statistics.stats as stat
+from libs.custom_logger import getLogger
 from pynguin.analyses.constants import (
     ConstantProvider,
     DelegatingConstantProvider,
@@ -69,8 +71,6 @@ from pynguin.testcase.execution import (
     ExecutionTracer,
     TestCaseExecutor,
 )
-from pynguin.utils import randomness
-from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConfigurationException
 from pynguin.utils.report import (
     get_coverage_report,
@@ -100,7 +100,7 @@ def prepare_everything():
 
     """ SET RANDOM SEED """
     logger.info("Using seed %d", config.seeding.seed)
-    randomness.set_seed(config.seeding.seed)
+    random.seed(config.seeding.seed)
 
     """ SETUP PATH
     Add project_path to sys.path, which allows
@@ -299,7 +299,8 @@ async def run_pynguin():
 
     # Export the generated test suites
     if config.test_case_output.export_strategy == ExportStrategy.PY_TEST:
-        _export_chromosome(generation_result)
+        # _export_chromosome(generation_result)
+        _export_chromosome(generation_result, f"_{config.statistics_output.run_id}")
 
     if config.statistics_output.create_coverage_report:
         coverage_report = get_coverage_report(
@@ -480,12 +481,13 @@ def _track_final_metrics(
     return metrics_for_reinstrumenation
 
 
-def _export_chromosome(chromosome: chrom.Chromosome):
+def _export_chromosome(chromosome: chrom.Chromosome, file_name_suffix: str = ""):
     """Export the given chromosome.
 
     Args:
         chromosome: the chromosome to export.
-
+        file_name_suffix: Suffix that can be added to the file name to distinguish
+            between different results e.g., failing and succeeding test cases.
     Returns:
         The string representation of generated test cases.
     """
@@ -493,7 +495,9 @@ def _export_chromosome(chromosome: chrom.Chromosome):
     chromosome.accept(export_visitor)
 
     module_name = config.module_name.replace(".", "_")
-    target_file = Path(config.test_case_output.output_path).resolve() / f"test_{module_name}.py"
+    target_file = (
+        Path(config.test_case_output.output_path) / f"test_{module_name}{file_name_suffix}.py"
+    )
 
     result = export.save_module_to_file(
         export_visitor.to_module(),

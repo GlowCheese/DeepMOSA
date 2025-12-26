@@ -82,12 +82,6 @@ def _parse_comma_separated_option(arguments: list[str], option: str) -> list[str
     return arguments[: index + 1] + variables + arguments[index + 2 :]
 
 
-def _setup_output_path(output_path: str) -> None:
-    path = Path(output_path).resolve()
-    if not path.exists():
-        path.mkdir(parents=True, exist_ok=True)
-
-
 def get_sys_argv():
     argv = sys.argv
     if len(argv) <= 1:
@@ -126,8 +120,6 @@ async def async_main():
     parsed = argument_parser.parse_args(get_sys_argv())
 
     config = cast(Configuration, parsed.config)
-
-    _setup_output_path(config.test_case_output.output_path)
 
     if config.statistics_output.project_name == "":
         config.statistics_output.project_name = config.project_path.split("/")[-1]

@@ -10,8 +10,8 @@ from typing import TYPE_CHECKING, Dict, List, Tuple, Union, cast
 
 import pynguin.testcase.statement as stmt
 import pynguin.testcase.variablereference as vr
-from pynguin.llm.stmtdeserializer import StatementDeserializer
 from libs.custom_logger import getLogger
+from pynguin.llm.stmtdeserializer import StatementDeserializer
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
     GenericConstructor,
@@ -340,7 +340,7 @@ class StatementDeserializerV2(StatementDeserializer):
                     kwargs_name = name
                     var_refs[name] = {}
                 flag = False
-            assert param.kind == Parameter.POSITIONAL_ONLY
+            assert param.kind != Parameter.POSITIONAL_ONLY
             if param.kind == Parameter.VAR_POSITIONAL:
                 args_name = name
 
