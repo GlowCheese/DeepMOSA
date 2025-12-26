@@ -138,12 +138,12 @@ def test_case_0():
 # Parsed testcases at query #1
 #--------------------------
 
-Partially parsed test__do_to_path_with_empty_path_and_callable_command. Retrieved 5/7 statements.
-Partially parsed test__do_to_path_with_single_key_path_and_discard_command. Retrieved 6/8 statements.
-Partially parsed test__do_to_path_with_callable_key_spec_and_discard_command. Retrieved 9/11 statements.
-Partially parsed test__do_to_path_with_callable_key_spec_two_args_and_discard_command. Retrieved 9/11 statements.
-Partially parsed test__do_to_path_with_non_existent_key_and_discard_command. Retrieved 5/7 statements.
-Partially parsed test__do_to_path_with_callable_key_spec_on_list_and_discard_command. Retrieved 7/9 statements.
+# Partially parsed test__do_to_path_with_empty_path_and_callable_command. Retrieved 5/7 statements.
+# Partially parsed test__do_to_path_with_single_key_path_and_discard_command. Retrieved 6/8 statements.
+# Partially parsed test__do_to_path_with_callable_key_spec_and_discard_command. Retrieved 9/11 statements.
+# Partially parsed test__do_to_path_with_callable_key_spec_two_args_and_discard_command. Retrieved 9/11 statements.
+# Partially parsed test__do_to_path_with_non_existent_key_and_discard_command. Retrieved 5/7 statements.
+# Partially parsed test__do_to_path_with_callable_key_spec_on_list_and_discard_command. Retrieved 7/9 statements.
 
 
 def test_case_0():

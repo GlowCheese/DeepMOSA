@@ -194,20 +194,17 @@ class StatementDeserializerV2(StatementDeserializer):
         Returns:
             The statements or None if no statement type matches.
         """
-        new_stmt: stmt.Statement | None
+        print(ast.unparse(assign))
         assert len(assign.targets) == 1
 
         target = assign.targets[0]
         value = assign.value
+        new_stmt: stmt.Statement | None = None
         var_ref: vr.VariableReference | None = None
 
-        if isinstance(value, ast.Name):
-            var_ref = self._ref_dict.get(value.id)
-            new_stmt = (
-                var_ref.test_case.get_statement(var_ref.get_statement_position())
-                if var_ref is not None
-                else None
-            )
+        if isinstance(value, ast.Name) and value.id in self._ref_dict:
+            var_ref = self._ref_dict[value.id]
+            new_stmt = var_ref.test_case.get_statement(var_ref.get_statement_position())
         elif isinstance(value, ast.Constant):
             new_stmt = self.create_stmt_from_constant(value)
         elif isinstance(value, ast.UnaryOp):
@@ -219,7 +216,7 @@ class StatementDeserializerV2(StatementDeserializer):
         elif self._use_uninterpreted_statements:
             new_stmt = self.create_ast_assign_stmt(value)
         else:
-            _logger.debug(f"Assign statement could not be parsed: {ast.unparse(assign)}")
+            _logger.info(f"Assign statement could not be parsed: {ast.unparse(assign)}")
             new_stmt = None
         if new_stmt is None:
             return None

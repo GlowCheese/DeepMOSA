@@ -11,8 +11,8 @@ from pynguin.configuration import (
 )
 
 config = Configuration(
-    project_path="experiments/projects/minbpe",
-    module_name="minbpe.regex",
+    project_path="experiments/projects/pyrsistent",
+    module_name="pyrsistent._transformations",
     algorithm=Algorithm.DEEPMOSA,
     test_case_output=TestCaseOutputConfiguration(
         output_path="tests_temp",
@@ -44,11 +44,12 @@ visitor = AstToTestCaseVisitor(
 )
 
 raw_test_str = """
-def test_encode_without_special_tokens():
-    a = "hello"
-    b = "world"
-    c = a + b
-    assert a + b == c
+def test__do_to_path_with_empty_path_and_callable_command():
+    structure = [1, 2, 3]
+    path = []
+    command = len(structure)
+    # result = _do_to_path(structure, path, command)
+    # assert result == 3
 """
 
 visitor.visit(ast.parse(raw_test_str))

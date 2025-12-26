@@ -221,7 +221,7 @@ class _DeepMOSASeeding:
                 parsable_statements,
             ) = deserialize_code_to_testcases(llm_response, self.test_cluster, use_uninterp)
 
-            debug_messages += "\n".join(debug_messages_) + "\n"
+            debug_messages += "\n".join(f"# {m}" for m in debug_messages_) + "\n"
 
             for testcase in testcases:
                 exporter = PyTestExporter(wrap_code=False)

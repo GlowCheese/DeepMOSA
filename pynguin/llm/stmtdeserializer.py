@@ -150,7 +150,7 @@ class StatementDeserializer:
             return assign_stmt
         except ValueError as e:
             exc_info = (type(e), e, e.__traceback__)
-            _logger.debug("Error while trying to create ASTAssignStatement", exc_info=exc_info)
+            _logger.info("Error while trying to create ASTAssignStatement", exc_info=exc_info)
             return None
 
     def create_assert_stmt(
@@ -659,8 +659,6 @@ class StatementDeserializer:
             builtins_dict = (
                 __builtins__ if isinstance(__builtins__, dict) else __builtins__.__dict__
             )
-            # print(builtins_dict)
-            # exit(0)
             if func_id in builtins_dict or (self._experimental_flag and func_id in self._ref_dict):
                 return self.create_ast_assign_stmt(call)
 
