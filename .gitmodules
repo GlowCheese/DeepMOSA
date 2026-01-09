@@ -4,3 +4,15 @@
 [submodule "experiments/projects/pyrsistent"]
 	path = experiments/projects/pyrsistent
 	url = https://github.com/tobgu/pyrsistent
+[submodule "experiments/projects/isort"]
+	path = experiments/projects/isort
+	url = https://github.com/PyCQA/isort.git
+[submodule "experiments/projects/typesystem"]
+	path = experiments/projects/typesystem
+	url = https://github.com/encode/typesystem.git
+[submodule "experiments/projects/mimesis"]
+	path = experiments/projects/mimesis
+	url = https://github.com/lk-geimfari/mimesis.git
+[submodule "experiments/projects/flutes"]
+	path = experiments/projects/flutes
+	url = https://github.com/huzecong/flutes.git

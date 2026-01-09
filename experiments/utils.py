@@ -1,7 +1,11 @@
 import ast
+import logging
 import os
 import pkgutil
+import re
 import subprocess
+import sys
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -11,7 +15,7 @@ from pydantic import BaseModel, Field, field_validator
 
 from libs.custom_logger import getLogger
 
-_logger = getLogger(__name__)
+_logger = getLogger(__name__, logging.ERROR)
 
 
 class LanguageModel(BaseModel):
@@ -19,14 +23,18 @@ class LanguageModel(BaseModel):
     base_url: str
 
 
-def find_all_modules(project_path: str | Path):
+def find_all_modules(project_name: str, project_path: str | Path):
     "Find all modules in a project using `setuptools.find_packages`."
     packages = setuptools.find_packages(project_path)
-    all_modules: list[str] = []
+    all_modules: set[str] = set()
     for package in packages:
         package_path = os.path.join(project_path, package.replace(".", "/"))
         modules = [module for module in pkgutil.iter_modules([package_path])]
-        all_modules.extend([f"{package}.{module.name}" for module in modules if (not module.ispkg)])
+        all_modules.update([f"{package}.{module.name}" for module in modules if not module.ispkg])
+    ignore_path = Path("pynguin_report") / project_name / "ignore.list"
+    if ignore_path.exists() and ignore_path.is_file():
+        ignore_list = ignore_path.read_text().split()
+        all_modules.difference_update(ignore_list)
     return all_modules
 
 
@@ -88,6 +96,7 @@ class StatisticsRow(BaseModel):
         return v
 
 
+@lru_cache(maxsize=None)
 def read_module_statistics(report_dir: Path):
     report_path = report_dir / "statistics.csv"
 
@@ -122,6 +131,7 @@ def run_deepmosa_runner(project_name: str, *argv: str):
     # fmt: off
     cmd = [
         "docker", "run", "--rm",
+        "-t",
         "--user", f"{os.getuid()}:{os.getgid()}",
         "--env-file", str(pwd / ".env"),
         "-e", f"PROJECT_NAME={project_name}",
@@ -137,9 +147,70 @@ def run_deepmosa_runner(project_name: str, *argv: str):
     ]
     # fmt: on
 
+    proc = subprocess.Popen(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        bufsize=1,  # line-buffered
+    )
+
+    stderr_lines = []
+
     try:
-        subprocess.run(cmd, check=True)
+        # stream stdout
+        if proc.stdout:
+            for line in proc.stdout:
+                print(line, end="")
+
+        # stream + collect stderr
+        if proc.stderr:
+            for line in proc.stderr:
+                print(line, end="", file=sys.stderr)
+                stderr_lines.append(line)
+
+        ret = proc.wait()
+        if ret != 0:
+            stderr = "".join(stderr_lines)
+            m = re.search(r"Exception:\s*(.*)", stderr)
+            if m:
+                raise RuntimeError(m.group(1))
+            else:
+                raise subprocess.CalledProcessError(ret, cmd, stderr=stderr)
 
     except KeyboardInterrupt:
-        _logger.warning("\nInterrupted by user.")
-        exit(1)
+        proc.kill()
+        raise
+
+
+# fmt: off
+RUN_CONFIGS = [
+    RunConfig(
+        config_id="dynamosa-10m", argv=[
+            "--configuration-id", "dynamosa-10m",
+            "--algorithm", "DYNAMOSA",
+            "--maximum-search-time", "600",
+        ]
+    ),
+    RunConfig(
+        config_id="codamosa-10m-deepseek",
+        argv=[
+            "--configuration-id", "codamosa-10m-deepseek",
+            "--algorithm", "CODAMOSA",
+            "--maximum-search-time", "600",
+            "--model", "deepseek-chat",
+            "--base-url", "https://api.deepseek.com/beta",
+        ],
+    ),
+    RunConfig(
+        config_id="deepmosa-10m-deepseek",
+        argv=[
+            "--configuration-id", "deepmosa-10m-deepseek",
+            "--algorithm", "DEEPMOSA",
+            "--maximum-search-time", "600",
+            "--model", "deepseek-chat",
+            "--base-url", "https://api.deepseek.com",
+        ],
+    ),
+]
+# fmt: on

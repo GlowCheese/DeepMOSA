@@ -173,7 +173,7 @@ def prepare_everything():
 
     except ImportError:
         logger.error(
-            "Failed to load SUT: A module could not be imported"
+            "Failed to load SUT: A module could not be imported "
             "because some dependencies are missing or it is malformed"
         )
         raise

@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'pyrsistent._checked_types'</h1>
+<p>Achieved 66.51% branch coverage:
+54/56 branchless code objects covered.
+91/162 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="fullyCovered" title="1/1 branchless code objects covered">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="notRelevant">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">32</span>
+                  <span class="notRelevant">33</span>
+                  <span class="notRelevant">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="notRelevant">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="notRelevant">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">46</span>
+                  <span class="fullyCovered" title="4/4 branches covered">47</span>
+                  <span class="notRelevant">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notRelevant">50</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="fullyCovered" title="2/2 branches covered">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notRelevant">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="notRelevant">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="notRelevant">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="notRelevant">66</span>
+                  <span class="notRelevant">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="notRelevant">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="notRelevant">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="fullyCovered" title="2/2 branches covered">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="notRelevant">82</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="fullyCovered" title="2/2 branches covered">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">87</span>
+                  <span class="notRelevant">88</span>
+                  <span class="fullyCovered" title="2/2 branches covered">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notRelevant">91</span>
+                  <span class="fullyCovered" title="4/4 branches covered">92</span>
+                  <span class="notRelevant">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">106</span>
+                  <span class="fullyCovered" title="2/2 branches covered">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="fullyCovered" title="4/4 branches covered">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="notCovered" title="0/2 branches covered">118</span>
+                  <span class="notCovered" title="0/2 branches covered">119</span>
+                  <span class="notRelevant">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notRelevant">122</span>
+                  <span class="notRelevant">123</span>
+                  <span class="notRelevant">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="notRelevant">129</span>
+                  <span class="notRelevant">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="notCovered" title="0/2 branches covered">132</span>
+                  <span class="notRelevant">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="notRelevant">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="notRelevant">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notRelevant">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="notRelevant">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="notRelevant">143</span>
+                  <span class="fullyCovered" title="2/2 branches covered">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="fullyCovered" title="2/2 branches covered">146</span>
+                  <span class="fullyCovered" title="2/2 branches covered">147</span>
+                  <span class="notRelevant">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="fullyCovered" title="2/2 branches covered">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="fullyCovered" title="2/2 branches covered">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  <span class="fullyCovered" title="2/2 branches covered">161</span>
+                  <span class="notRelevant">162</span>
+                  <span class="notRelevant">163</span>
+                  <span class="notRelevant">164</span>
+                  <span class="fullyCovered" title="4/4 branches covered">165</span>
+                  <span class="notRelevant">166</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">167</span>
+                  <span class="notRelevant">168</span>
+                  <span class="notRelevant">169</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">170</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">171</span>
+                  <span class="notRelevant">172</span>
+                  <span class="notRelevant">173</span>
+                  <span class="notRelevant">174</span>
+                  <span class="notRelevant">175</span>
+                  <span class="fullyCovered" title="2/2 branches covered">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notRelevant">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="notRelevant">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notRelevant">182</span>
+                  <span class="notRelevant">183</span>
+                  <span class="notRelevant">184</span>
+                  <span class="notRelevant">185</span>
+                  <span class="notRelevant">186</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">187</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">188</span>
+                  <span class="notRelevant">189</span>
+                  <span class="notRelevant">190</span>
+                  <span class="notRelevant">191</span>
+                  <span class="notRelevant">192</span>
+                  <span class="notRelevant">193</span>
+                  <span class="notRelevant">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">196</span>
+                  <span class="notRelevant">197</span>
+                  <span class="notRelevant">198</span>
+                  <span class="notRelevant">199</span>
+                  <span class="notRelevant">200</span>
+                  <span class="notRelevant">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notRelevant">206</span>
+                  <span class="notRelevant">207</span>
+                  <span class="notRelevant">208</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">209</span>
+                  <span class="notRelevant">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="notRelevant">213</span>
+                  <span class="notRelevant">214</span>
+                  <span class="notRelevant">215</span>
+                  <span class="notRelevant">216</span>
+                  <span class="notRelevant">217</span>
+                  <span class="notRelevant">218</span>
+                  <span class="notRelevant">219</span>
+                  <span class="notRelevant">220</span>
+                  <span class="notRelevant">221</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">222</span>
+                  <span class="notRelevant">223</span>
+                  <span class="notRelevant">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="notRelevant">226</span>
+                  <span class="notRelevant">227</span>
+                  <span class="notRelevant">228</span>
+                  <span class="fullyCovered" title="2/2 branches covered">229</span>
+                  <span class="notRelevant">230</span>
+                  <span class="notRelevant">231</span>
+                  <span class="notRelevant">232</span>
+                  <span class="notRelevant">233</span>
+                  <span class="notRelevant">234</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">235</span>
+                  <span class="fullyCovered" title="2/2 branches covered">236</span>
+                  <span class="notRelevant">237</span>
+                  <span class="notRelevant">238</span>
+                  <span class="notRelevant">239</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">240</span>
+                  <span class="notCovered" title="0/2 branches covered">241</span>
+                  <span class="notCovered" title="0/4 branches covered">242</span>
+                  <span class="notRelevant">243</span>
+                  <span class="notRelevant">244</span>
+                  <span class="notRelevant">245</span>
+                  <span class="notCovered" title="0/2 branches covered">246</span>
+                  <span class="notRelevant">247</span>
+                  <span class="notRelevant">248</span>
+                  <span class="notRelevant">249</span>
+                  <span class="notRelevant">250</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">251</span>
+                  <span class="partiallyCovered" title="3/6 branches covered">252</span>
+                  <span class="notRelevant">253</span>
+                  <span class="notRelevant">254</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">255</span>
+                  <span class="fullyCovered" title="2/2 branches covered">256</span>
+                  <span class="notRelevant">257</span>
+                  <span class="notRelevant">258</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">259</span>
+                  <span class="notRelevant">260</span>
+                  <span class="notRelevant">261</span>
+                  <span class="notRelevant">262</span>
+                  <span class="notRelevant">263</span>
+                  <span class="notRelevant">264</span>
+                  <span class="notCovered" title="0/2 branches covered">265</span>
+                  <span class="notRelevant">266</span>
+                  <span class="notRelevant">267</span>
+                  <span class="notRelevant">268</span>
+                  <span class="notRelevant">269</span>
+                  <span class="notRelevant">270</span>
+                  <span class="notCovered" title="0/4 branches covered">271</span>
+                  <span class="notCovered" title="0/2 branches covered">272</span>
+                  <span class="notCovered" title="0/4 branches covered">273</span>
+                  <span class="notCovered" title="0/2 branches covered">274</span>
+                  <span class="notRelevant">275</span>
+                  <span class="notRelevant">276</span>
+                  <span class="notRelevant">277</span>
+                  <span class="notRelevant">278</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">279</span>
+                  <span class="notRelevant">280</span>
+                  <span class="notRelevant">281</span>
+                  <span class="notRelevant">282</span>
+                  <span class="notRelevant">283</span>
+                  <span class="notRelevant">284</span>
+                  <span class="notRelevant">285</span>
+                  <span class="notRelevant">286</span>
+                  <span class="notRelevant">287</span>
+                  <span class="notRelevant">288</span>
+                  <span class="notRelevant">289</span>
+                  <span class="notRelevant">290</span>
+                  <span class="notRelevant">291</span>
+                  <span class="notRelevant">292</span>
+                  <span class="notRelevant">293</span>
+                  <span class="fullyCovered" title="2/2 branches covered">294</span>
+                  <span class="notRelevant">295</span>
+                  <span class="notRelevant">296</span>
+                  <span class="notRelevant">297</span>
+                  <span class="notRelevant">298</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">299</span>
+                  <span class="notRelevant">300</span>
+                  <span class="notRelevant">301</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">302</span>
+                  <span class="notRelevant">303</span>
+                  <span class="notRelevant">304</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">305</span>
+                  <span class="notRelevant">306</span>
+                  <span class="notRelevant">307</span>
+                  <span class="notRelevant">308</span>
+                  <span class="notRelevant">309</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">310</span>
+                  <span class="notRelevant">311</span>
+                  <span class="fullyCovered" title="2/2 branches covered">312</span>
+                  <span class="notRelevant">313</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">314</span>
+                  <span class="notRelevant">315</span>
+                  <span class="notRelevant">316</span>
+                  <span class="notRelevant">317</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">318</span>
+                  <span class="notRelevant">319</span>
+                  <span class="notRelevant">320</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">321</span>
+                  <span class="notRelevant">322</span>
+                  <span class="notRelevant">323</span>
+                  <span class="notRelevant">324</span>
+                  <span class="notRelevant">325</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">326</span>
+                  <span class="notRelevant">327</span>
+                  <span class="notRelevant">328</span>
+                  <span class="notRelevant">329</span>
+                  <span class="notRelevant">330</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">331</span>
+                  <span class="notRelevant">332</span>
+                  <span class="notRelevant">333</span>
+                  <span class="notRelevant">334</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">335</span>
+                  <span class="notRelevant">336</span>
+                  <span class="notRelevant">337</span>
+                  <span class="notRelevant">338</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">339</span>
+                  <span class="notRelevant">340</span>
+                  <span class="notRelevant">341</span>
+                  <span class="notRelevant">342</span>
+                  <span class="notRelevant">343</span>
+                  <span class="notRelevant">344</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">345</span>
+                  <span class="notRelevant">346</span>
+                  <span class="notRelevant">347</span>
+                  <span class="notRelevant">348</span>
+                  <span class="fullyCovered" title="4/4 branches covered">349</span>
+                  <span class="notRelevant">350</span>
+                  <span class="notRelevant">351</span>
+                  <span class="notRelevant">352</span>
+                  <span class="notRelevant">353</span>
+                  <span class="notRelevant">354</span>
+                  <span class="notRelevant">355</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">356</span>
+                  <span class="notRelevant">357</span>
+                  <span class="notRelevant">358</span>
+                  <span class="notRelevant">359</span>
+                  <span class="notRelevant">360</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">361</span>
+                  <span class="notRelevant">362</span>
+                  <span class="notRelevant">363</span>
+                  <span class="notRelevant">364</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">365</span>
+                  <span class="notRelevant">366</span>
+                  <span class="notRelevant">367</span>
+                  <span class="notRelevant">368</span>
+                  <span class="notRelevant">369</span>
+                  <span class="notRelevant">370</span>
+                  <span class="notRelevant">371</span>
+                  <span class="notRelevant">372</span>
+                  <span class="notRelevant">373</span>
+                  <span class="notRelevant">374</span>
+                  <span class="notRelevant">375</span>
+                  <span class="notRelevant">376</span>
+                  <span class="notRelevant">377</span>
+                  <span class="notRelevant">378</span>
+                  <span class="notRelevant">379</span>
+                  <span class="fullyCovered" title="2/2 branches covered">380</span>
+                  <span class="notRelevant">381</span>
+                  <span class="notRelevant">382</span>
+                  <span class="notRelevant">383</span>
+                  <span class="fullyCovered" title="2/2 branches covered">384</span>
+                  <span class="notRelevant">385</span>
+                  <span class="notRelevant">386</span>
+                  <span class="notRelevant">387</span>
+                  <span class="notRelevant">388</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">389</span>
+                  <span class="notRelevant">390</span>
+                  <span class="notRelevant">391</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">392</span>
+                  <span class="notRelevant">393</span>
+                  <span class="notRelevant">394</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">395</span>
+                  <span class="notRelevant">396</span>
+                  <span class="fullyCovered" title="2/2 branches covered">397</span>
+                  <span class="notRelevant">398</span>
+                  <span class="notRelevant">399</span>
+                  <span class="notRelevant">400</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">401</span>
+                  <span class="notRelevant">402</span>
+                  <span class="notRelevant">403</span>
+                  <span class="notRelevant">404</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">405</span>
+                  <span class="notRelevant">406</span>
+                  <span class="notRelevant">407</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">408</span>
+                  <span class="notRelevant">409</span>
+                  <span class="notRelevant">410</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">411</span>
+                  <span class="notRelevant">412</span>
+                  <span class="notRelevant">413</span>
+                  <span class="notRelevant">414</span>
+                  <span class="notRelevant">415</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">416</span>
+                  <span class="notRelevant">417</span>
+                  <span class="notRelevant">418</span>
+                  <span class="notRelevant">419</span>
+                  <span class="notRelevant">420</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">421</span>
+                  <span class="notRelevant">422</span>
+                  <span class="notRelevant">423</span>
+                  <span class="notRelevant">424</span>
+                  <span class="notRelevant">425</span>
+                  <span class="notRelevant">426</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">427</span>
+                  <span class="notRelevant">428</span>
+                  <span class="notRelevant">429</span>
+                  <span class="fullyCovered" title="4/4 branches covered">430</span>
+                  <span class="notRelevant">431</span>
+                  <span class="notRelevant">432</span>
+                  <span class="notRelevant">433</span>
+                  <span class="notRelevant">434</span>
+                  <span class="notRelevant">435</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">436</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">437</span>
+                  <span class="notRelevant">438</span>
+                  <span class="notRelevant">439</span>
+                  <span class="notRelevant">440</span>
+                  <span class="notRelevant">441</span>
+                  <span class="notRelevant">442</span>
+                  <span class="notRelevant">443</span>
+                  <span class="fullyCovered" title="2/2 branches covered">444</span>
+                  <span class="notRelevant">445</span>
+                  <span class="notRelevant">446</span>
+                  <span class="notRelevant">447</span>
+                  <span class="fullyCovered" title="2/2 branches covered">448</span>
+                  <span class="notRelevant">449</span>
+                  <span class="notRelevant">450</span>
+                  <span class="notRelevant">451</span>
+                  <span class="notRelevant">452</span>
+                  <span class="notRelevant">453</span>
+                  <span class="notRelevant">454</span>
+                  <span class="notRelevant">455</span>
+                  <span class="notRelevant">456</span>
+                  <span class="notRelevant">457</span>
+                  <span class="notRelevant">458</span>
+                  <span class="notRelevant">459</span>
+                  <span class="notRelevant">460</span>
+                  <span class="notRelevant">461</span>
+                  <span class="notRelevant">462</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">463</span>
+                  <span class="notRelevant">464</span>
+                  <span class="notRelevant">465</span>
+                  <span class="notRelevant">466</span>
+                  <span class="notRelevant">467</span>
+                  <span class="notRelevant">468</span>
+                  <span class="notRelevant">469</span>
+                  <span class="notRelevant">470</span>
+                  <span class="notRelevant">471</span>
+                  <span class="notRelevant">472</span>
+                  <span class="notRelevant">473</span>
+                  <span class="notRelevant">474</span>
+                  <span class="notRelevant">475</span>
+                  <span class="notRelevant">476</span>
+                  <span class="notRelevant">477</span>
+                  <span class="notRelevant">478</span>
+                  <span class="fullyCovered" title="2/2 branches covered">479</span>
+                  <span class="notRelevant">480</span>
+                  <span class="notRelevant">481</span>
+                  <span class="notRelevant">482</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">483</span>
+                  <span class="notRelevant">484</span>
+                  <span class="notRelevant">485</span>
+                  <span class="notRelevant">486</span>
+                  <span class="notRelevant">487</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">488</span>
+                  <span class="notRelevant">489</span>
+                  <span class="notRelevant">490</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">491</span>
+                  <span class="notRelevant">492</span>
+                  <span class="notRelevant">493</span>
+                  <span class="notRelevant">494</span>
+                  <span class="notRelevant">495</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">496</span>
+                  <span class="notRelevant">497</span>
+                  <span class="fullyCovered" title="2/2 branches covered">498</span>
+                  <span class="notRelevant">499</span>
+                  <span class="notRelevant">500</span>
+                  <span class="notRelevant">501</span>
+                  <span class="notCovered" title="0/2 branches covered">502</span>
+                  <span class="notRelevant">503</span>
+                  <span class="notRelevant">504</span>
+                  <span class="notRelevant">505</span>
+                  <span class="notRelevant">506</span>
+                  <span class="notRelevant">507</span>
+                  <span class="notCovered" title="0/4 branches covered">508</span>
+                  <span class="notRelevant">509</span>
+                  <span class="notCovered" title="0/4 branches covered">510</span>
+                  <span class="notRelevant">511</span>
+                  <span class="notCovered" title="0/4 branches covered">512</span>
+                  <span class="notCovered" title="0/8 branches covered">513</span>
+                  <span class="notCovered" title="0/6 branches covered">514</span>
+                  <span class="notRelevant">515</span>
+                  <span class="notRelevant">516</span>
+                  <span class="notRelevant">517</span>
+                  <span class="notRelevant">518</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">519</span>
+                  <span class="notRelevant">520</span>
+                  <span class="notRelevant">521</span>
+                  <span class="notRelevant">522</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">523</span>
+                  <span class="notRelevant">524</span>
+                  <span class="notRelevant">525</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">526</span>
+                  <span class="notRelevant">527</span>
+                  <span class="notRelevant">528</span>
+                  <span class="notRelevant">529</span>
+                  <span class="notRelevant">530</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">531</span>
+                  <span class="notRelevant">532</span>
+                  <span class="notRelevant">533</span>
+                  <span class="partiallyCovered" title="2/6 branches covered">534</span>
+                  <span class="notRelevant">535</span>
+                  <span class="notRelevant">536</span>
+                  <span class="notRelevant">537</span>
+                  <span class="notRelevant">538</span>
+                  <span class="notRelevant">539</span>
+                  <span class="notRelevant">540</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">541</span>
+                  <span class="notRelevant">542</span>
+                  <span class="notRelevant">543</span>
+                  <span class="fullyCovered" title="4/4 branches covered">544</span>
+                  <span class="notRelevant">545</span>
+                  <span class="notRelevant">546</span>
+                  <span class="notRelevant">547</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">abstractmethod</span><span class="p">,</span> <span class="n">ABCMeta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Generic</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyrsistent._pmap</span><span class="w"> </span><span class="kn">import</span> <span class="n">PMap</span><span class="p">,</span> <span class="n">pmap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyrsistent._pset</span><span class="w"> </span><span class="kn">import</span> <span class="n">PSet</span><span class="p">,</span> <span class="n">pset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyrsistent._pvector</span><span class="w"> </span><span class="kn">import</span> <span class="n">PythonPVector</span><span class="p">,</span> <span class="n">python_pvector</span>
+
+<span class="n">T_co</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T_co&#39;</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">KT</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;KT&#39;</span><span class="p">)</span>
+<span class="n">VT_co</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;VT_co&#39;</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CheckedType</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Marker class to enable creation and serialization of checked object graphs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">source_data</span><span class="p">,</span> <span class="n">_factory_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_restore_pickle</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">_factory_fields</span><span class="o">=</span><span class="nb">set</span><span class="p">())</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">InvariantException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised from a :py:class:`CheckedType` when invariant tests fail or when a mandatory</span>
+<span class="sd">    field is missing.</span>
+
+<span class="sd">    Contains two fields of interest:</span>
+<span class="sd">    invariant_errors, a tuple of error data for the failing invariants</span>
+<span class="sd">    missing_fields, a tuple of strings specifying the missing names</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error_codes</span><span class="o">=</span><span class="p">(),</span> <span class="n">missing_fields</span><span class="o">=</span><span class="p">(),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">invariant_errors</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">e</span><span class="p">()</span> <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">error_codes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">missing_fields</span> <span class="o">=</span> <span class="n">missing_fields</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">InvariantException</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">InvariantException</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span> <span class="o">+</span> \
+            <span class="s2">&quot;, invariant_errors=[</span><span class="si">{invariant_errors}</span><span class="s2">], missing_fields=[</span><span class="si">{missing_fields}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">invariant_errors</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">invariant_errors</span><span class="p">),</span>
+            <span class="n">missing_fields</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">missing_fields</span><span class="p">))</span>
+
+
+<span class="n">_preserved_iterable_types</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Enum</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="sd">&quot;&quot;&quot;Some types are themselves iterable, but we want to use the type itself and</span>
+<span class="sd">not its members for the type specification. This defines a set of such types</span>
+<span class="sd">that we explicitly preserve.</span>
+
+<span class="sd">Note that strings are not such types because the string inputs we pass in are</span>
+<span class="sd">values, not types.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">maybe_parse_user_type</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Try to coerce a user-supplied type directive into a list of types.</span>
+
+<span class="sd">    This function should be used in all places where a user specifies a type,</span>
+<span class="sd">    for consistency.</span>
+
+<span class="sd">    The policy for what defines valid user input should be clear from the implementation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_type</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+    <span class="n">is_preserved</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">_preserved_iterable_types</span><span class="p">)</span>
+    <span class="n">is_string</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="n">is_iterable</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">is_preserved</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">is_string</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">is_type</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_iterable</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">is_iterable</span><span class="p">:</span>
+        <span class="c1"># Recur to validate contained types as well.</span>
+        <span class="n">ts</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">e</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ts</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">maybe_parse_user_type</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># If this raises because `t` cannot be formatted, so be it.</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s1">&#39;Type specifications must be types or strings. Input: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">maybe_parse_many_user_types</span><span class="p">(</span><span class="n">ts</span><span class="p">):</span>
+    <span class="c1"># Just a different name to communicate that you&#39;re parsing multiple user</span>
+    <span class="c1"># inputs. `maybe_parse_user_type` handles the iterable case anyway.</span>
+    <span class="k">return</span> <span class="n">maybe_parse_user_type</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_store_types</span><span class="p">(</span><span class="n">dct</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">destination_name</span><span class="p">,</span> <span class="n">source_name</span><span class="p">):</span>
+    <span class="n">maybe_types</span> <span class="o">=</span> <span class="n">maybe_parse_many_user_types</span><span class="p">([</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">source_name</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">([</span><span class="n">dct</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">b</span><span class="o">.</span><span class="vm">__dict__</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">])</span> <span class="k">if</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="n">d</span>
+    <span class="p">])</span>
+
+    <span class="n">dct</span><span class="p">[</span><span class="n">destination_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">maybe_types</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_merge_invariant_results</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+    <span class="n">verdict</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">verd</span><span class="p">,</span> <span class="n">dat</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">verd</span><span class="p">:</span>
+            <span class="n">verdict</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">verdict</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">wrap_invariant</span><span class="p">(</span><span class="n">invariant</span><span class="p">):</span>
+    <span class="c1"># Invariant functions may return the outcome of several tests</span>
+    <span class="c1"># In those cases the results have to be merged before being passed</span>
+    <span class="c1"># back to the client.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">invariant</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">return</span> <span class="n">_merge_invariant_results</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_all_dicts</span><span class="p">(</span><span class="n">bases</span><span class="p">,</span> <span class="n">seen</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Yield each class in ``bases`` and each of their base classes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">seen</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span>
+        <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">_all_dicts</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">,</span> <span class="n">seen</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">b</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">store_invariants</span><span class="p">(</span><span class="n">dct</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">destination_name</span><span class="p">,</span> <span class="n">source_name</span><span class="p">):</span>
+    <span class="c1"># Invariants are inherited</span>
+    <span class="n">invariants</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ns</span> <span class="ow">in</span> <span class="p">[</span><span class="n">dct</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">_all_dicts</span><span class="p">(</span><span class="n">bases</span><span class="p">)):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">invariant</span> <span class="o">=</span> <span class="n">ns</span><span class="p">[</span><span class="n">source_name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">invariants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">invariant</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">callable</span><span class="p">(</span><span class="n">invariant</span><span class="p">)</span> <span class="k">for</span> <span class="n">invariant</span> <span class="ow">in</span> <span class="n">invariants</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Invariants must be callable&#39;</span><span class="p">)</span>
+    <span class="n">dct</span><span class="p">[</span><span class="n">destination_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">wrap_invariant</span><span class="p">(</span><span class="n">inv</span><span class="p">)</span> <span class="k">for</span> <span class="n">inv</span> <span class="ow">in</span> <span class="n">invariants</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_CheckedTypeMeta</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
+        <span class="n">_store_types</span><span class="p">(</span><span class="n">dct</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="s1">&#39;_checked_types&#39;</span><span class="p">,</span> <span class="s1">&#39;__type__&#39;</span><span class="p">)</span>
+        <span class="n">store_invariants</span><span class="p">(</span><span class="n">dct</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="s1">&#39;_checked_invariants&#39;</span><span class="p">,</span> <span class="s1">&#39;__invariant__&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">default_serializer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">CheckedType</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">value</span>
+
+        <span class="n">dct</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;__serializer__&#39;</span><span class="p">,</span> <span class="n">default_serializer</span><span class="p">)</span>
+
+        <span class="n">dct</span><span class="p">[</span><span class="s1">&#39;__slots__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">_CheckedTypeMeta</span><span class="p">,</span> <span class="n">mcs</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CheckedTypeError</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_class</span><span class="p">,</span> <span class="n">expected_types</span><span class="p">,</span> <span class="n">actual_type</span><span class="p">,</span> <span class="n">actual_value</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CheckedTypeError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_class</span> <span class="o">=</span> <span class="n">source_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expected_types</span> <span class="o">=</span> <span class="n">expected_types</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actual_type</span> <span class="o">=</span> <span class="n">actual_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actual_value</span> <span class="o">=</span> <span class="n">actual_value</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CheckedKeyTypeError</span><span class="p">(</span><span class="n">CheckedTypeError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when trying to set a value using a key with a type that doesn&#39;t match the declared type.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    source_class -- The class of the collection</span>
+<span class="sd">    expected_types  -- Allowed types</span>
+<span class="sd">    actual_type -- The non matching type</span>
+<span class="sd">    actual_value -- Value of the variable with the non matching type</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CheckedValueTypeError</span><span class="p">(</span><span class="n">CheckedTypeError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when trying to set a value using a key with a type that doesn&#39;t match the declared type.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    source_class -- The class of the collection</span>
+<span class="sd">    expected_types  -- Allowed types</span>
+<span class="sd">    actual_type -- The non matching type</span>
+<span class="sd">    actual_value -- Value of the variable with the non matching type</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_class</span><span class="p">(</span><span class="n">type_name</span><span class="p">):</span>
+    <span class="n">module_name</span><span class="p">,</span> <span class="n">class_name</span> <span class="o">=</span> <span class="n">type_name</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">fromlist</span><span class="o">=</span><span class="p">[</span><span class="n">class_name</span><span class="p">])</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_type</span><span class="p">(</span><span class="n">typ</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">typ</span>
+
+    <span class="k">return</span> <span class="n">_get_class</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_types</span><span class="p">(</span><span class="n">typs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">get_type</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span> <span class="k">for</span> <span class="n">typ</span> <span class="ow">in</span> <span class="n">typs</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_types</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">expected_types</span><span class="p">,</span> <span class="n">source_class</span><span class="p">,</span> <span class="n">exception_type</span><span class="o">=</span><span class="n">CheckedValueTypeError</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">expected_types</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">it</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">get_type</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">expected_types</span><span class="p">):</span>
+                <span class="n">actual_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Type </span><span class="si">{source_class}</span><span class="s2"> can only be used with </span><span class="si">{expected_types}</span><span class="s2">, not </span><span class="si">{actual_type}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">source_class</span><span class="o">=</span><span class="n">source_class</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                    <span class="n">expected_types</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">get_type</span><span class="p">(</span><span class="n">et</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">et</span> <span class="ow">in</span> <span class="n">expected_types</span><span class="p">),</span>
+                    <span class="n">actual_type</span><span class="o">=</span><span class="n">actual_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">exception_type</span><span class="p">(</span><span class="n">source_class</span><span class="p">,</span> <span class="n">expected_types</span><span class="p">,</span> <span class="n">actual_type</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_invariant_errors</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">invariants</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">data</span> <span class="k">for</span> <span class="n">valid</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="p">(</span><span class="n">invariant</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="k">for</span> <span class="n">invariant</span> <span class="ow">in</span> <span class="n">invariants</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_invariant_errors_iterable</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">invariants</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">_invariant_errors</span><span class="p">(</span><span class="n">elem</span><span class="p">,</span> <span class="n">invariants</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">it</span><span class="p">],</span> <span class="p">[])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">optional</span><span class="p">(</span><span class="o">*</span><span class="n">typs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Convenience function to specify that a value may be of any of the types in type &#39;typs&#39; or None &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">typs</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">),)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_checked_type_create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">source_data</span><span class="p">,</span> <span class="n">_factory_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source_data</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">source_data</span>
+
+    <span class="c1"># Recursively apply create methods of checked types if the types of the supplied data</span>
+    <span class="c1"># does not match any of the valid types.</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="n">get_types</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_checked_types</span><span class="p">)</span>
+    <span class="n">checked_type</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">types</span> <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">CheckedType</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">checked_type</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">([</span><span class="n">checked_type</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="o">=</span><span class="n">ignore_extra</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">types</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span>
+                    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">source_data</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">source_data</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CheckedPVector</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T_co</span><span class="p">],</span> <span class="n">PythonPVector</span><span class="p">,</span> <span class="n">CheckedType</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">_CheckedTypeMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A CheckedPVector is a PVector which allows specifying type and invariant checks.</span>
+
+<span class="sd">    &gt;&gt;&gt; class Positives(CheckedPVector):</span>
+<span class="sd">    ...     __type__ = (int, float)</span>
+<span class="sd">    ...     __invariant__ = lambda n: (n &gt;= 0, &#39;Negative&#39;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; Positives([1, 2, 3])</span>
+<span class="sd">    Positives([1, 2, 3])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">initial</span><span class="p">)</span> <span class="o">==</span> <span class="n">PythonPVector</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPVector</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">initial</span><span class="o">.</span><span class="n">_count</span><span class="p">,</span> <span class="n">initial</span><span class="o">.</span><span class="n">_shift</span><span class="p">,</span> <span class="n">initial</span><span class="o">.</span><span class="n">_root</span><span class="p">,</span> <span class="n">initial</span><span class="o">.</span><span class="n">_tail</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">CheckedPVector</span><span class="o">.</span><span class="n">Evolver</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">python_pvector</span><span class="p">())</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">initial</span><span class="p">)</span><span class="o">.</span><span class="n">persistent</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">persistent</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">persistent</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">it</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">it</span><span class="p">)</span><span class="o">.</span><span class="n">persistent</span><span class="p">()</span>
+
+    <span class="n">create</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">_checked_type_create</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__serializer__</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">serializer</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Pickling support</span>
+        <span class="k">return</span> <span class="n">_restore_pickle</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">),)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Evolver</span><span class="p">(</span><span class="n">PythonPVector</span><span class="o">.</span><span class="n">Evolver</span><span class="p">):</span>
+        <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_destination_class&#39;</span><span class="p">,</span> <span class="s1">&#39;_invariant_errors&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destination_class</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPVector</span><span class="o">.</span><span class="n">Evolver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span> <span class="o">=</span> <span class="n">destination_class</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">it</span><span class="p">):</span>
+            <span class="n">_check_types</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="o">.</span><span class="n">_checked_types</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="p">)</span>
+            <span class="n">error_data</span> <span class="o">=</span> <span class="n">_invariant_errors_iterable</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="o">.</span><span class="n">_checked_invariants</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">error_data</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">([</span><span class="n">value</span><span class="p">])</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPVector</span><span class="o">.</span><span class="n">Evolver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elem</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">([</span><span class="n">elem</span><span class="p">])</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPVector</span><span class="o">.</span><span class="n">Evolver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">it</span><span class="p">):</span>
+            <span class="n">it</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPVector</span><span class="o">.</span><span class="n">Evolver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">persistent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvariantException</span><span class="p">(</span><span class="n">error_codes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span><span class="p">)</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orig_pvector</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_dirty</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_orig_pvector</span><span class="p">)):</span>
+                <span class="n">pv</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPVector</span><span class="o">.</span><span class="n">Evolver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">persistent</span><span class="p">()</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_extra_tail</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="p">(</span><span class="n">pv</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_reset</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;(</span><span class="si">{0}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+    <span class="fm">__str__</span> <span class="o">=</span> <span class="fm">__repr__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">evolver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">CheckedPVector</span><span class="o">.</span><span class="n">Evolver</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CheckedPSet</span><span class="p">(</span><span class="n">PSet</span><span class="p">[</span><span class="n">T_co</span><span class="p">],</span> <span class="n">CheckedType</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">_CheckedTypeMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A CheckedPSet is a PSet which allows specifying type and invariant checks.</span>
+
+<span class="sd">    &gt;&gt;&gt; class Positives(CheckedPSet):</span>
+<span class="sd">    ...     __type__ = (int, float)</span>
+<span class="sd">    ...     __invariant__ = lambda n: (n &gt;= 0, &#39;Negative&#39;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; Positives([1, 2, 3])</span>
+<span class="sd">    Positives([1, 2, 3])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">initial</span><span class="p">)</span> <span class="ow">is</span> <span class="n">PMap</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPSet</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">initial</span><span class="p">)</span>
+
+        <span class="n">evolver</span> <span class="o">=</span> <span class="n">CheckedPSet</span><span class="o">.</span><span class="n">Evolver</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">pset</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">initial</span><span class="p">:</span>
+            <span class="n">evolver</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">evolver</span><span class="o">.</span><span class="n">persistent</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPSet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()[</span><span class="mi">4</span><span class="p">:]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__serializer__</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">serializer</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="n">create</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">_checked_type_create</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Pickling support</span>
+        <span class="k">return</span> <span class="n">_restore_pickle</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">),)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">evolver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">CheckedPSet</span><span class="o">.</span><span class="n">Evolver</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Evolver</span><span class="p">(</span><span class="n">PSet</span><span class="o">.</span><span class="n">_Evolver</span><span class="p">):</span>
+        <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_destination_class&#39;</span><span class="p">,</span> <span class="s1">&#39;_invariant_errors&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destination_class</span><span class="p">,</span> <span class="n">original_set</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPSet</span><span class="o">.</span><span class="n">Evolver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">original_set</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span> <span class="o">=</span> <span class="n">destination_class</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">it</span><span class="p">):</span>
+            <span class="n">_check_types</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="o">.</span><span class="n">_checked_types</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="p">)</span>
+            <span class="n">error_data</span> <span class="o">=</span> <span class="n">_invariant_errors_iterable</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="o">.</span><span class="n">_checked_invariants</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">error_data</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check</span><span class="p">([</span><span class="n">element</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pmap_evolver</span><span class="p">[</span><span class="n">element</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">persistent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvariantException</span><span class="p">(</span><span class="n">error_codes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_dirty</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span> <span class="o">!=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_original_pset</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pmap_evolver</span><span class="o">.</span><span class="n">persistent</span><span class="p">())</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_pset</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_CheckedMapTypeMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">):</span>
+        <span class="n">_store_types</span><span class="p">(</span><span class="n">dct</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="s1">&#39;_checked_key_types&#39;</span><span class="p">,</span> <span class="s1">&#39;__key_type__&#39;</span><span class="p">)</span>
+        <span class="n">_store_types</span><span class="p">(</span><span class="n">dct</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="s1">&#39;_checked_value_types&#39;</span><span class="p">,</span> <span class="s1">&#39;__value_type__&#39;</span><span class="p">)</span>
+        <span class="n">store_invariants</span><span class="p">(</span><span class="n">dct</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="s1">&#39;_checked_invariants&#39;</span><span class="p">,</span> <span class="s1">&#39;__invariant__&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">default_serializer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="n">sk</span> <span class="o">=</span> <span class="n">key</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">CheckedType</span><span class="p">):</span>
+                <span class="n">sk</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span>
+
+            <span class="n">sv</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">CheckedType</span><span class="p">):</span>
+                <span class="n">sv</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">serialize</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="n">sk</span><span class="p">,</span> <span class="n">sv</span>
+
+        <span class="n">dct</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;__serializer__&#39;</span><span class="p">,</span> <span class="n">default_serializer</span><span class="p">)</span>
+
+        <span class="n">dct</span><span class="p">[</span><span class="s1">&#39;__slots__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">_CheckedMapTypeMeta</span><span class="p">,</span> <span class="n">mcs</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dct</span><span class="p">)</span>
+
+<span class="c1"># Marker object</span>
+<span class="n">_UNDEFINED_CHECKED_PMAP_SIZE</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CheckedPMap</span><span class="p">(</span><span class="n">PMap</span><span class="p">[</span><span class="n">KT</span><span class="p">,</span> <span class="n">VT_co</span><span class="p">],</span> <span class="n">CheckedType</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">_CheckedMapTypeMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A CheckedPMap is a PMap which allows specifying type and invariant checks.</span>
+
+<span class="sd">    &gt;&gt;&gt; class IntToFloatMap(CheckedPMap):</span>
+<span class="sd">    ...     __key_type__ = int</span>
+<span class="sd">    ...     __value_type__ = float</span>
+<span class="sd">    ...     __invariant__ = lambda k, v: (int(v) == k, &#39;Invalid mapping&#39;)</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; IntToFloatMap({1: 1.5, 2: 2.25})</span>
+<span class="sd">    IntToFloatMap({1: 1.5, 2: 2.25})</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="p">{},</span> <span class="n">size</span><span class="o">=</span><span class="n">_UNDEFINED_CHECKED_PMAP_SIZE</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">_UNDEFINED_CHECKED_PMAP_SIZE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPMap</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">initial</span><span class="p">)</span>
+
+        <span class="n">evolver</span> <span class="o">=</span> <span class="n">CheckedPMap</span><span class="o">.</span><span class="n">Evolver</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">pmap</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">initial</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">evolver</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">evolver</span><span class="o">.</span><span class="n">persistent</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">evolver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">CheckedPMap</span><span class="o">.</span><span class="n">Evolver</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;(</span><span class="si">{0}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+
+    <span class="fm">__str__</span> <span class="o">=</span> <span class="fm">__repr__</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">serializer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__serializer__</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">serializer</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">source_data</span><span class="p">,</span> <span class="n">_factory_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source_data</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">source_data</span>
+
+        <span class="c1"># Recursively apply create methods of checked types if the types of the supplied data</span>
+        <span class="c1"># does not match any of the valid types.</span>
+        <span class="n">key_types</span> <span class="o">=</span> <span class="n">get_types</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_checked_key_types</span><span class="p">)</span>
+        <span class="n">checked_key_type</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">key_types</span> <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">CheckedType</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">value_types</span> <span class="o">=</span> <span class="n">get_types</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_checked_value_types</span><span class="p">)</span>
+        <span class="n">checked_value_type</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">value_types</span> <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">CheckedType</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">checked_key_type</span> <span class="ow">or</span> <span class="n">checked_value_type</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="nb">dict</span><span class="p">((</span><span class="n">checked_key_type</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="k">if</span> <span class="n">checked_key_type</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">key_types</span><span class="p">)</span> <span class="k">else</span> <span class="n">key</span><span class="p">,</span>
+                             <span class="n">checked_value_type</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">if</span> <span class="n">checked_value_type</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">value_types</span><span class="p">)</span> <span class="k">else</span> <span class="n">value</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">source_data</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">source_data</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Pickling support</span>
+        <span class="k">return</span> <span class="n">_restore_pickle</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">),)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Evolver</span><span class="p">(</span><span class="n">PMap</span><span class="o">.</span><span class="n">_Evolver</span><span class="p">):</span>
+        <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_destination_class&#39;</span><span class="p">,</span> <span class="s1">&#39;_invariant_errors&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">destination_class</span><span class="p">,</span> <span class="n">original_map</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPMap</span><span class="o">.</span><span class="n">Evolver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">original_map</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span> <span class="o">=</span> <span class="n">destination_class</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="n">_check_types</span><span class="p">([</span><span class="n">key</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="o">.</span><span class="n">_checked_key_types</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="p">,</span> <span class="n">CheckedKeyTypeError</span><span class="p">)</span>
+            <span class="n">_check_types</span><span class="p">([</span><span class="n">value</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="o">.</span><span class="n">_checked_value_types</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">data</span> <span class="k">for</span> <span class="n">valid</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="p">(</span><span class="n">invariant</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                                                                   <span class="k">for</span> <span class="n">invariant</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="o">.</span><span class="n">_checked_invariants</span><span class="p">)</span>
+                                          <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CheckedPMap</span><span class="o">.</span><span class="n">Evolver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">persistent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">InvariantException</span><span class="p">(</span><span class="n">error_codes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_invariant_errors</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_dirty</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_original_pmap</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_destination_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buckets_evolver</span><span class="o">.</span><span class="n">persistent</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_original_pmap</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2025-12-27 02:29:43.362590</p>
+</footer>
+</body>
+</html>

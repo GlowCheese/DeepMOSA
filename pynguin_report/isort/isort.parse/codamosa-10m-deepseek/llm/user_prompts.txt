@@ -1,0 +1,80 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function import_type
+def test_import_type():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function skip_line
+def test_skip_line():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function file_contents
+def test_file_contents():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function import_type
+def test_import_type():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function strip_syntax
+def test_strip_syntax():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function file_contents
+def test_file_contents():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function file_contents
+def test_file_contents():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function skip_line
+def test_skip_line():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function file_contents
+def test_file_contents():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function strip_syntax
+def test_strip_syntax():
+
+

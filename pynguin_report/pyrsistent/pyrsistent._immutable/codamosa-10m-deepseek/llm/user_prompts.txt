@@ -1,0 +1,80 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function immutable
+def test_immutable():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function immutable
+def test_immutable():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function immutable
+def test_immutable():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function immutable
+def test_immutable():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function immutable
+def test_immutable():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function immutable
+def test_immutable():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function immutable
+def test_immutable():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function immutable
+def test_immutable():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function immutable
+def test_immutable():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function immutable
+def test_immutable():
+
+

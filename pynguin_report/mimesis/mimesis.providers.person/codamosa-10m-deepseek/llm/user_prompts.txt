@@ -1,0 +1,321 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method surname of class Person
+def test_Person_surname():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method email of class Person
+def test_Person_email():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method patronymic of class Person
+def test_Person_patronymic():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method patronymic of class Person
+def test_Person_patronymic():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method patronymic of class Person
+def test_Person_patronymic():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method surname of class Person
+def test_Person_surname():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method email of class Person
+def test_Person_email():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method email of class Person
+def test_Person_email():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method patronymic of class Person
+def test_Person_patronymic():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for method surname of class Person
+def test_Person_surname():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method patronymic of class Person
+def test_Person_patronymic():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for method surname of class Person
+def test_Person_surname():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for method patronymic of class Person
+def test_Person_patronymic():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for method patronymic of class Person
+def test_Person_patronymic():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for method surname of class Person
+def test_Person_surname():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for method patronymic of class Person
+def test_Person_patronymic():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for method surname of class Person
+def test_Person_surname():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method surname of class Person
+def test_Person_surname():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method surname of class Person
+def test_Person_surname():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method password of class Person
+def test_Person_password():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method password of class Person
+def test_Person_password():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method password of class Person
+def test_Person_password():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for method password of class Person
+def test_Person_password():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method surname of class Person
+def test_Person_surname():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for method patronymic of class Person
+def test_Person_patronymic():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for method patronymic of class Person
+def test_Person_patronymic():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for method surname of class Person
+def test_Person_surname():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for method patronymic of class Person
+def test_Person_patronymic():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for method email of class Person
+def test_Person_email():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #21
+#--------------------------
+
+# Unit test for method nationality of class Person
+def test_Person_nationality():
+
+
+# Prompt used at query #22
+#--------------------------
+
+# Unit test for method surname of class Person
+def test_Person_surname():
+
+

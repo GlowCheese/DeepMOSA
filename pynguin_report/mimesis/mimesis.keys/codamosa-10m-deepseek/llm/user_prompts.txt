@@ -1,0 +1,360 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function suffix
+def test_suffix():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function maybe
+def test_maybe():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function romanize
+def test_romanize():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function apply_if
+def test_apply_if():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function prefix
+def test_prefix():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for function truncate
+def test_truncate():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for function prefix
+def test_prefix():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for function prefix
+def test_prefix():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for function redact
+def test_redact():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for function prefix
+def test_prefix():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for function pipe
+def test_pipe():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for function redact
+def test_redact():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for function maybe
+def test_maybe():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for function prefix
+def test_prefix():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for function wrap
+def test_wrap():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for function maybe
+def test_maybe():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for function join
+def test_join():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for function truncate
+def test_truncate():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for function maybe
+def test_maybe():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for function join
+def test_join():
+
+
+# Prompt used at query #21
+#--------------------------
+
+# Unit test for function prefix
+def test_prefix():
+
+
+# Prompt used at query #22
+#--------------------------
+
+# Unit test for function pipe
+def test_pipe():
+
+
+# Prompt used at query #23
+#--------------------------
+
+# Unit test for function pipe
+def test_pipe():
+
+
+# Prompt used at query #24
+#--------------------------
+
+# Unit test for function wrap
+def test_wrap():
+
+
+# Prompt used at query #25
+#--------------------------
+
+# Unit test for function hash_with
+def test_hash_with():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function suffix
+def test_suffix():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function romanize
+def test_romanize():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function truncate
+def test_truncate():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function join
+def test_join():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function join
+def test_join():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for function join
+def test_join():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for function apply_if
+def test_apply_if():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for function suffix
+def test_suffix():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for function romanize
+def test_romanize():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for function join
+def test_join():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for function prefix
+def test_prefix():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for function prefix
+def test_prefix():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for function maybe
+def test_maybe():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for function hash_with
+def test_hash_with():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for function romanize
+def test_romanize():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for function maybe
+def test_maybe():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for function maybe
+def test_maybe():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for function wrap
+def test_wrap():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for function wrap
+def test_wrap():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for function prefix
+def test_prefix():
+
+
+# Prompt used at query #21
+#--------------------------
+
+# Unit test for function join
+def test_join():
+
+
+# Prompt used at query #22
+#--------------------------
+
+# Unit test for function join
+def test_join():
+
+
+# Prompt used at query #23
+#--------------------------
+
+# Unit test for function join
+def test_join():
+
+
+# Prompt used at query #24
+#--------------------------
+
+# Unit test for function pipe
+def test_pipe():
+
+
+# Prompt used at query #25
+#--------------------------
+
+# Unit test for function join
+def test_join():
+
+

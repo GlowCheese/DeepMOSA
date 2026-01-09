@@ -1,0 +1,220 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for constructor of class FileSkipped
+def test_FileSkipped():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for constructor of class LiteralParsingFailure
+def test_LiteralParsingFailure():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for constructor of class InvalidSettingsPath
+def test_InvalidSettingsPath():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for constructor of class InvalidSettingsPath
+def test_InvalidSettingsPath():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for constructor of class SortingFunctionDoesNotExist
+def test_SortingFunctionDoesNotExist():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for constructor of class UnsupportedSettings
+def test_UnsupportedSettings():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for constructor of class AssignmentsFormatMismatch
+def test_AssignmentsFormatMismatch():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method __reduce__ of class ISortError
+def test_ISortError___reduce__():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for constructor of class ProfileDoesNotExist
+def test_ProfileDoesNotExist():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for constructor of class SortingFunctionDoesNotExist
+def test_SortingFunctionDoesNotExist():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for constructor of class LiteralSortTypeMismatch
+def test_LiteralSortTypeMismatch():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for constructor of class LiteralParsingFailure
+def test_LiteralParsingFailure():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for constructor of class FormattingPluginDoesNotExist
+def test_FormattingPluginDoesNotExist():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for constructor of class LiteralParsingFailure
+def test_LiteralParsingFailure():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method __reduce__ of class ISortError
+def test_ISortError___reduce__():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for constructor of class AssignmentsFormatMismatch
+def test_AssignmentsFormatMismatch():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for constructor of class ISortError
+def test_ISortError():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for constructor of class ProfileDoesNotExist
+def test_ProfileDoesNotExist():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for constructor of class ExistingSyntaxErrors
+def test_ExistingSyntaxErrors():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for constructor of class UnsupportedEncoding
+def test_UnsupportedEncoding():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for constructor of class ISortError
+def test_ISortError():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for constructor of class IntroducedSyntaxErrors
+def test_IntroducedSyntaxErrors():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for constructor of class SortingFunctionDoesNotExist
+def test_SortingFunctionDoesNotExist():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for constructor of class ISortError
+def test_ISortError():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for constructor of class ProfileDoesNotExist
+def test_ProfileDoesNotExist():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for constructor of class ISortError
+def test_ISortError():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for constructor of class FileSkipSetting
+def test_FileSkipSetting():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for constructor of class FileSkipComment
+def test_FileSkipComment():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for constructor of class LiteralParsingFailure
+def test_LiteralParsingFailure():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for constructor of class UnsupportedSettings
+def test_UnsupportedSettings():
+
+

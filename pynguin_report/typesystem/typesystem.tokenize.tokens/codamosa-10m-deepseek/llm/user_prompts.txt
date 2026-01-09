@@ -1,0 +1,192 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method __eq__ of class Token
+def test_Token___eq__():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method __eq__ of class Token
+def test_Token___eq__():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method __eq__ of class Token
+def test_Token___eq__():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method __eq__ of class Token
+def test_Token___eq__():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method __eq__ of class Token
+def test_Token___eq__():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method __eq__ of class Token
+def test_Token___eq__():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for constructor of class DictToken
+def test_DictToken():
+
+

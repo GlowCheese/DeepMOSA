@@ -14,9 +14,9 @@ from networkx.drawing.nx_pydot import to_pydot
 
 import pynguin.ga.coveragegoals as bg
 import pynguin.utils.statistics.stats as stat
+from libs.custom_logger import getLogger
 from pynguin.configuration import config
 from pynguin.ga.operators.ranking import fast_epsilon_dominance_assignment
-from libs.custom_logger import getLogger
 from pynguin.utils.generic import GenericCallableAccessibleObject
 from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
@@ -69,7 +69,7 @@ class DynaMOSAAlgorithm(AbstractMOSAAlgorithm):
         while self.resources_left() and len(self._archive.uncovered_goals) > 0:
             self.evolve()
             if not any(
-                issubclass(type(gao), GenericCallableAccessibleObject)
+                isinstance(gao, GenericCallableAccessibleObject)
                 for gao in self.test_cluster.accessible_objects_under_test
             ):
                 break

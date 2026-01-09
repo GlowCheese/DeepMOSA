@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'pyrsistent._pdeque'</h1>
+<p>Achieved 70.21% branch coverage:
+14/16 branchless code objects covered.
+52/78 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="fullyCovered" title="1/1 branchless code objects covered">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="notRelevant">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="notRelevant">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="notRelevant">33</span>
+                  <span class="notRelevant">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="notRelevant">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="notRelevant">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="notRelevant">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notRelevant">50</span>
+                  <span class="notRelevant">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notRelevant">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="fullyCovered" title="2/2 branches covered">59</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="fullyCovered" title="2/2 branches covered">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="notRelevant">66</span>
+                  <span class="notRelevant">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="notRelevant">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="notRelevant">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="fullyCovered" title="2/2 branches covered">88</span>
+                  <span class="notRelevant">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notRelevant">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="fullyCovered" title="2/2 branches covered">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="notRelevant">100</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="notRelevant">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="notRelevant">118</span>
+                  <span class="notRelevant">119</span>
+                  <span class="notRelevant">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">122</span>
+                  <span class="notRelevant">123</span>
+                  <span class="notRelevant">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="notRelevant">129</span>
+                  <span class="notRelevant">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="notRelevant">132</span>
+                  <span class="notRelevant">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="notRelevant">135</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">136</span>
+                  <span class="notRelevant">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notRelevant">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="notRelevant">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="notRelevant">143</span>
+                  <span class="notRelevant">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="partiallyCovered" title="11/12 branches covered">147</span>
+                  <span class="notRelevant">148</span>
+                  <span class="fullyCovered" title="2/2 branches covered">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="fullyCovered" title="2/2 branches covered">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  <span class="notCovered" title="0/2 branches covered">161</span>
+                  <span class="notRelevant">162</span>
+                  <span class="notRelevant">163</span>
+                  <span class="fullyCovered" title="2/2 branches covered">164</span>
+                  <span class="notRelevant">165</span>
+                  <span class="notRelevant">166</span>
+                  <span class="notRelevant">167</span>
+                  <span class="notRelevant">168</span>
+                  <span class="notRelevant">169</span>
+                  <span class="fullyCovered" title="2/2 branches covered">170</span>
+                  <span class="notRelevant">171</span>
+                  <span class="notRelevant">172</span>
+                  <span class="fullyCovered" title="2/2 branches covered">173</span>
+                  <span class="notRelevant">174</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">175</span>
+                  <span class="notRelevant">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notRelevant">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notRelevant">182</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">183</span>
+                  <span class="notRelevant">184</span>
+                  <span class="notRelevant">185</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">186</span>
+                  <span class="notRelevant">187</span>
+                  <span class="notRelevant">188</span>
+                  <span class="notRelevant">189</span>
+                  <span class="notRelevant">190</span>
+                  <span class="notRelevant">191</span>
+                  <span class="notRelevant">192</span>
+                  <span class="notRelevant">193</span>
+                  <span class="notRelevant">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">196</span>
+                  <span class="notRelevant">197</span>
+                  <span class="notRelevant">198</span>
+                  <span class="notRelevant">199</span>
+                  <span class="notRelevant">200</span>
+                  <span class="notRelevant">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notRelevant">206</span>
+                  <span class="partiallyCovered" title="1/4 branches covered">207</span>
+                  <span class="notCovered" title="0/2 branches covered">208</span>
+                  <span class="notRelevant">209</span>
+                  <span class="notRelevant">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="notRelevant">213</span>
+                  <span class="notRelevant">214</span>
+                  <span class="notRelevant">215</span>
+                  <span class="notRelevant">216</span>
+                  <span class="notRelevant">217</span>
+                  <span class="fullyCovered" title="2/2 branches covered">218</span>
+                  <span class="notRelevant">219</span>
+                  <span class="notRelevant">220</span>
+                  <span class="notRelevant">221</span>
+                  <span class="notRelevant">222</span>
+                  <span class="notRelevant">223</span>
+                  <span class="notRelevant">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="notRelevant">226</span>
+                  <span class="notRelevant">227</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">228</span>
+                  <span class="notRelevant">229</span>
+                  <span class="notRelevant">230</span>
+                  <span class="notRelevant">231</span>
+                  <span class="notRelevant">232</span>
+                  <span class="notRelevant">233</span>
+                  <span class="notRelevant">234</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">235</span>
+                  <span class="notRelevant">236</span>
+                  <span class="notRelevant">237</span>
+                  <span class="notRelevant">238</span>
+                  <span class="notRelevant">239</span>
+                  <span class="notRelevant">240</span>
+                  <span class="notRelevant">241</span>
+                  <span class="notRelevant">242</span>
+                  <span class="notRelevant">243</span>
+                  <span class="notRelevant">244</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">245</span>
+                  <span class="notRelevant">246</span>
+                  <span class="notRelevant">247</span>
+                  <span class="notRelevant">248</span>
+                  <span class="notRelevant">249</span>
+                  <span class="notRelevant">250</span>
+                  <span class="notRelevant">251</span>
+                  <span class="notRelevant">252</span>
+                  <span class="notRelevant">253</span>
+                  <span class="notRelevant">254</span>
+                  <span class="notRelevant">255</span>
+                  <span class="notRelevant">256</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">257</span>
+                  <span class="notRelevant">258</span>
+                  <span class="notRelevant">259</span>
+                  <span class="notRelevant">260</span>
+                  <span class="notRelevant">261</span>
+                  <span class="notRelevant">262</span>
+                  <span class="notRelevant">263</span>
+                  <span class="notRelevant">264</span>
+                  <span class="notRelevant">265</span>
+                  <span class="notRelevant">266</span>
+                  <span class="notRelevant">267</span>
+                  <span class="notRelevant">268</span>
+                  <span class="notRelevant">269</span>
+                  <span class="notRelevant">270</span>
+                  <span class="notRelevant">271</span>
+                  <span class="notRelevant">272</span>
+                  <span class="notRelevant">273</span>
+                  <span class="notRelevant">274</span>
+                  <span class="notRelevant">275</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">276</span>
+                  <span class="notRelevant">277</span>
+                  <span class="notRelevant">278</span>
+                  <span class="notRelevant">279</span>
+                  <span class="notRelevant">280</span>
+                  <span class="notRelevant">281</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">282</span>
+                  <span class="notRelevant">283</span>
+                  <span class="notRelevant">284</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">285</span>
+                  <span class="notRelevant">286</span>
+                  <span class="notRelevant">287</span>
+                  <span class="notRelevant">288</span>
+                  <span class="notRelevant">289</span>
+                  <span class="notRelevant">290</span>
+                  <span class="notRelevant">291</span>
+                  <span class="notRelevant">292</span>
+                  <span class="notRelevant">293</span>
+                  <span class="notRelevant">294</span>
+                  <span class="notRelevant">295</span>
+                  <span class="notRelevant">296</span>
+                  <span class="notRelevant">297</span>
+                  <span class="notRelevant">298</span>
+                  <span class="notRelevant">299</span>
+                  <span class="notRelevant">300</span>
+                  <span class="notRelevant">301</span>
+                  <span class="notRelevant">302</span>
+                  <span class="notRelevant">303</span>
+                  <span class="notRelevant">304</span>
+                  <span class="notRelevant">305</span>
+                  <span class="notRelevant">306</span>
+                  <span class="notRelevant">307</span>
+                  <span class="notRelevant">308</span>
+                  <span class="notRelevant">309</span>
+                  <span class="notRelevant">310</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">311</span>
+                  <span class="notRelevant">312</span>
+                  <span class="notRelevant">313</span>
+                  <span class="notRelevant">314</span>
+                  <span class="notRelevant">315</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">316</span>
+                  <span class="notRelevant">317</span>
+                  <span class="notRelevant">318</span>
+                  <span class="notRelevant">319</span>
+                  <span class="notRelevant">320</span>
+                  <span class="fullyCovered" title="2/2 branches covered">321</span>
+                  <span class="partiallyCovered" title="2/4 branches covered">322</span>
+                  <span class="notRelevant">323</span>
+                  <span class="notRelevant">324</span>
+                  <span class="notRelevant">325</span>
+                  <span class="notRelevant">326</span>
+                  <span class="notCovered" title="0/2 branches covered">327</span>
+                  <span class="notRelevant">328</span>
+                  <span class="notCovered" title="0/2 branches covered">329</span>
+                  <span class="notRelevant">330</span>
+                  <span class="notRelevant">331</span>
+                  <span class="notRelevant">332</span>
+                  <span class="notRelevant">333</span>
+                  <span class="fullyCovered" title="2/2 branches covered">334</span>
+                  <span class="notRelevant">335</span>
+                  <span class="notRelevant">336</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">337</span>
+                  <span class="notRelevant">338</span>
+                  <span class="notRelevant">339</span>
+                  <span class="notRelevant">340</span>
+                  <span class="notCovered" title="0/2 branches covered">341</span>
+                  <span class="notRelevant">342</span>
+                  <span class="notRelevant">343</span>
+                  <span class="notRelevant">344</span>
+                  <span class="notRelevant">345</span>
+                  <span class="notRelevant">346</span>
+                  <span class="notRelevant">347</span>
+                  <span class="notRelevant">348</span>
+                  <span class="notRelevant">349</span>
+                  <span class="notRelevant">350</span>
+                  <span class="notRelevant">351</span>
+                  <span class="notRelevant">352</span>
+                  <span class="notRelevant">353</span>
+                  <span class="notRelevant">354</span>
+                  <span class="notRelevant">355</span>
+                  <span class="notRelevant">356</span>
+                  <span class="notRelevant">357</span>
+                  <span class="notRelevant">358</span>
+                  <span class="notRelevant">359</span>
+                  <span class="notRelevant">360</span>
+                  <span class="notRelevant">361</span>
+                  <span class="notRelevant">362</span>
+                  <span class="notRelevant">363</span>
+                  <span class="fullyCovered" title="2/2 branches covered">364</span>
+                  <span class="notRelevant">365</span>
+                  <span class="notRelevant">366</span>
+                  <span class="notRelevant">367</span>
+                  <span class="notRelevant">368</span>
+                  <span class="notRelevant">369</span>
+                  <span class="notRelevant">370</span>
+                  <span class="notRelevant">371</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">372</span>
+                  <span class="notRelevant">373</span>
+                  <span class="notRelevant">374</span>
+                  <span class="notRelevant">375</span>
+                  <span class="notRelevant">376</span>
+                  <span class="notRelevant">377</span>
+                  <span class="notRelevant">378</span>
+                  <span class="notRelevant">379</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Hashable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">islice</span><span class="p">,</span> <span class="n">chain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Integral</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Generic</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyrsistent._plist</span><span class="w"> </span><span class="kn">import</span> <span class="n">plist</span>
+
+<span class="n">T_co</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T_co&#39;</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PDeque</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T_co</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Persistent double ended queue (deque). Allows quick appends and pops in both ends. Implemented</span>
+<span class="sd">    using two persistent lists.</span>
+
+<span class="sd">    A maximum length can be specified to create a bounded queue.</span>
+
+<span class="sd">    Fully supports the Sequence and Hashable protocols including indexing and slicing but</span>
+<span class="sd">    if you need fast random access go for the PVector instead.</span>
+
+<span class="sd">    Do not instantiate directly, instead use the factory functions :py:func:`dq` or :py:func:`pdeque` to</span>
+<span class="sd">    create an instance.</span>
+
+<span class="sd">    Some examples:</span>
+
+<span class="sd">    &gt;&gt;&gt; x = pdeque([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; x.left</span>
+<span class="sd">    1</span>
+<span class="sd">    &gt;&gt;&gt; x.right</span>
+<span class="sd">    3</span>
+<span class="sd">    &gt;&gt;&gt; x[0] == x.left</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; x[-1] == x.right</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; x.pop()</span>
+<span class="sd">    pdeque([1, 2])</span>
+<span class="sd">    &gt;&gt;&gt; x.pop() == x[:-1]</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; x.popleft()</span>
+<span class="sd">    pdeque([2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; x.append(4)</span>
+<span class="sd">    pdeque([1, 2, 3, 4])</span>
+<span class="sd">    &gt;&gt;&gt; x.appendleft(4)</span>
+<span class="sd">    pdeque([4, 1, 2, 3])</span>
+
+<span class="sd">    &gt;&gt;&gt; y = pdeque([1, 2, 3], maxlen=3)</span>
+<span class="sd">    &gt;&gt;&gt; y.append(4)</span>
+<span class="sd">    pdeque([2, 3, 4], maxlen=3)</span>
+<span class="sd">    &gt;&gt;&gt; y.appendleft(4)</span>
+<span class="sd">    pdeque([4, 1, 2], maxlen=3)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_left_list&#39;</span><span class="p">,</span> <span class="s1">&#39;_right_list&#39;</span><span class="p">,</span> <span class="s1">&#39;_length&#39;</span><span class="p">,</span> <span class="s1">&#39;_maxlen&#39;</span><span class="p">,</span> <span class="s1">&#39;__weakref__&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">left_list</span><span class="p">,</span> <span class="n">right_list</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">PDeque</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">_left_list</span> <span class="o">=</span> <span class="n">left_list</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">_right_list</span> <span class="o">=</span> <span class="n">right_list</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">_length</span> <span class="o">=</span> <span class="n">length</span>
+
+        <span class="k">if</span> <span class="n">maxlen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">maxlen</span><span class="p">,</span> <span class="n">Integral</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;An integer is required as maxlen&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">maxlen</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;maxlen must be non-negative&quot;</span><span class="p">)</span>
+
+        <span class="n">instance</span><span class="o">.</span><span class="n">_maxlen</span> <span class="o">=</span> <span class="n">maxlen</span>
+        <span class="k">return</span> <span class="n">instance</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">right</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rightmost element in dqueue.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">PDeque</span><span class="o">.</span><span class="n">_tip_from_lists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">left</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Leftmost element in dqueue.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">PDeque</span><span class="o">.</span><span class="n">_tip_from_lists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tip_from_lists</span><span class="p">(</span><span class="n">primary_list</span><span class="p">,</span> <span class="n">secondary_list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">primary_list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">primary_list</span><span class="o">.</span><span class="n">first</span>
+
+        <span class="k">if</span> <span class="n">secondary_list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">secondary_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;No elements in empty deque&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="o">.</span><span class="n">reverse</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;pdeque(</span><span class="si">{0}{1}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span>
+                                       <span class="s1">&#39;, maxlen=</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="fm">__str__</span> <span class="o">=</span> <span class="fm">__repr__</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">maxlen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Maximum length of the queue.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return new deque with rightmost element removed. Popping the empty queue</span>
+<span class="sd">        will return the empty queue. A optional count can be given to indicate the</span>
+<span class="sd">        number of elements to pop. Popping with a negative index is the same as</span>
+<span class="sd">        popleft. Executes in amortized O(k) where k is the number of elements to pop.</span>
+
+<span class="sd">        &gt;&gt;&gt; pdeque([1, 2]).pop()</span>
+<span class="sd">        pdeque([1])</span>
+<span class="sd">        &gt;&gt;&gt; pdeque([1, 2]).pop(2)</span>
+<span class="sd">        pdeque([])</span>
+<span class="sd">        &gt;&gt;&gt; pdeque([1, 2]).pop(-1)</span>
+<span class="sd">        pdeque([2])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">popleft</span><span class="p">(</span><span class="o">-</span><span class="n">count</span><span class="p">)</span>
+
+        <span class="n">new_right_list</span><span class="p">,</span> <span class="n">new_left_list</span> <span class="o">=</span> <span class="n">PDeque</span><span class="o">.</span><span class="n">_pop_lists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PDeque</span><span class="p">(</span><span class="n">new_left_list</span><span class="p">,</span> <span class="n">new_right_list</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">-</span> <span class="n">count</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">popleft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return new deque with leftmost element removed. Otherwise functionally</span>
+<span class="sd">        equivalent to pop().</span>
+
+<span class="sd">        &gt;&gt;&gt; pdeque([1, 2]).popleft()</span>
+<span class="sd">        pdeque([2])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="n">count</span><span class="p">)</span>
+
+        <span class="n">new_left_list</span><span class="p">,</span> <span class="n">new_right_list</span> <span class="o">=</span> <span class="n">PDeque</span><span class="o">.</span><span class="n">_pop_lists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PDeque</span><span class="p">(</span><span class="n">new_left_list</span><span class="p">,</span> <span class="n">new_right_list</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">-</span> <span class="n">count</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_pop_lists</span><span class="p">(</span><span class="n">primary_list</span><span class="p">,</span> <span class="n">secondary_list</span><span class="p">,</span> <span class="n">count</span><span class="p">):</span>
+        <span class="n">new_primary_list</span> <span class="o">=</span> <span class="n">primary_list</span>
+        <span class="n">new_secondary_list</span> <span class="o">=</span> <span class="n">secondary_list</span>
+
+        <span class="k">while</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="p">(</span><span class="n">new_primary_list</span> <span class="ow">or</span> <span class="n">new_secondary_list</span><span class="p">):</span>
+            <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">new_primary_list</span><span class="o">.</span><span class="n">rest</span><span class="p">:</span>
+                <span class="n">new_primary_list</span> <span class="o">=</span> <span class="n">new_primary_list</span><span class="o">.</span><span class="n">rest</span>
+            <span class="k">elif</span> <span class="n">new_primary_list</span><span class="p">:</span>
+                <span class="n">new_primary_list</span> <span class="o">=</span> <span class="n">new_secondary_list</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+                <span class="n">new_secondary_list</span> <span class="o">=</span> <span class="n">plist</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_primary_list</span> <span class="o">=</span> <span class="n">new_secondary_list</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span><span class="o">.</span><span class="n">rest</span>
+                <span class="n">new_secondary_list</span> <span class="o">=</span> <span class="n">plist</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">new_primary_list</span><span class="p">,</span> <span class="n">new_secondary_list</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PDeque</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PDeque</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+
+        <span class="k">if</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+            <span class="c1"># Sanity check of the length value since it is redundant (there for performance)</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elem</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return new deque with elem as the rightmost element.</span>
+
+<span class="sd">        &gt;&gt;&gt; pdeque([1, 2]).append(3)</span>
+<span class="sd">        pdeque([1, 2, 3])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_left_list</span><span class="p">,</span> <span class="n">new_right_list</span><span class="p">,</span> <span class="n">new_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PDeque</span><span class="p">(</span><span class="n">new_left_list</span><span class="p">,</span> <span class="n">new_right_list</span><span class="p">,</span> <span class="n">new_length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">appendleft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elem</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return new deque with elem as the leftmost element.</span>
+
+<span class="sd">        &gt;&gt;&gt; pdeque([1, 2]).appendleft(3)</span>
+<span class="sd">        pdeque([3, 1, 2])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_right_list</span><span class="p">,</span> <span class="n">new_left_list</span><span class="p">,</span> <span class="n">new_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="p">,</span> <span class="n">elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PDeque</span><span class="p">(</span><span class="n">new_left_list</span><span class="p">,</span> <span class="n">new_right_list</span><span class="p">,</span> <span class="n">new_length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primary_list</span><span class="p">,</span> <span class="n">secondary_list</span><span class="p">,</span> <span class="n">elem</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">primary_list</span><span class="p">,</span> <span class="n">secondary_list</span><span class="p">,</span> <span class="mi">0</span>
+            <span class="n">new_primary_list</span><span class="p">,</span> <span class="n">new_secondary_list</span> <span class="o">=</span> <span class="n">PDeque</span><span class="o">.</span><span class="n">_pop_lists</span><span class="p">(</span><span class="n">primary_list</span><span class="p">,</span> <span class="n">secondary_list</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">new_primary_list</span><span class="p">,</span> <span class="n">new_secondary_list</span><span class="o">.</span><span class="n">cons</span><span class="p">(</span><span class="n">elem</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span>
+
+        <span class="k">return</span> <span class="n">primary_list</span><span class="p">,</span> <span class="n">secondary_list</span><span class="o">.</span><span class="n">cons</span><span class="p">(</span><span class="n">elem</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extend_list</span><span class="p">(</span><span class="n">the_list</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+            <span class="n">the_list</span> <span class="o">=</span> <span class="n">the_list</span><span class="o">.</span><span class="n">cons</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">the_list</span><span class="p">,</span> <span class="n">count</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primary_list</span><span class="p">,</span> <span class="n">secondary_list</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+        <span class="n">new_primary_list</span><span class="p">,</span> <span class="n">extend_count</span> <span class="o">=</span> <span class="n">PDeque</span><span class="o">.</span><span class="n">_extend_list</span><span class="p">(</span><span class="n">primary_list</span><span class="p">,</span> <span class="n">iterable</span><span class="p">)</span>
+        <span class="n">new_secondary_list</span> <span class="o">=</span> <span class="n">secondary_list</span>
+        <span class="n">current_len</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">+</span> <span class="n">extend_count</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">current_len</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span><span class="p">:</span>
+            <span class="n">pop_len</span> <span class="o">=</span> <span class="n">current_len</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span>
+            <span class="n">new_secondary_list</span><span class="p">,</span> <span class="n">new_primary_list</span> <span class="o">=</span> <span class="n">PDeque</span><span class="o">.</span><span class="n">_pop_lists</span><span class="p">(</span><span class="n">new_secondary_list</span><span class="p">,</span> <span class="n">new_primary_list</span><span class="p">,</span> <span class="n">pop_len</span><span class="p">)</span>
+            <span class="n">extend_count</span> <span class="o">-=</span> <span class="n">pop_len</span>
+
+        <span class="k">return</span> <span class="n">new_primary_list</span><span class="p">,</span> <span class="n">new_secondary_list</span><span class="p">,</span> <span class="n">extend_count</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return new deque with all elements of iterable appended to the right.</span>
+
+<span class="sd">        &gt;&gt;&gt; pdeque([1, 2]).extend([3, 4])</span>
+<span class="sd">        pdeque([1, 2, 3, 4])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_right_list</span><span class="p">,</span> <span class="n">new_left_list</span><span class="p">,</span> <span class="n">extend_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="p">,</span> <span class="n">iterable</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PDeque</span><span class="p">(</span><span class="n">new_left_list</span><span class="p">,</span> <span class="n">new_right_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">+</span> <span class="n">extend_count</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">extendleft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return new deque with all elements of iterable appended to the left.</span>
+
+<span class="sd">        NB! The elements will be inserted in reverse order compared to the order in the iterable.</span>
+
+<span class="sd">        &gt;&gt;&gt; pdeque([1, 2]).extendleft([3, 4])</span>
+<span class="sd">        pdeque([4, 3, 1, 2])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_left_list</span><span class="p">,</span> <span class="n">new_right_list</span><span class="p">,</span> <span class="n">extend_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="p">,</span> <span class="n">iterable</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PDeque</span><span class="p">(</span><span class="n">new_left_list</span><span class="p">,</span> <span class="n">new_right_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">+</span> <span class="n">extend_count</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elem</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the number of elements equal to elem present in the queue</span>
+
+<span class="sd">        &gt;&gt;&gt; pdeque([1, 2, 1]).count(1)</span>
+<span class="sd">        2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elem</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return new deque with first element from left equal to elem removed. If no such element is found</span>
+<span class="sd">        a ValueError is raised.</span>
+
+<span class="sd">        &gt;&gt;&gt; pdeque([2, 1, 2]).remove(2)</span>
+<span class="sd">        pdeque([1, 2])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">PDeque</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">elem</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="c1"># Value not found in left list, try the right list</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># This is severely inefficient with a double reverse, should perhaps implement a remove_last()?</span>
+                <span class="k">return</span> <span class="n">PDeque</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="p">,</span>
+                              <span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span><span class="o">.</span><span class="n">reverse</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> not found in PDeque&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return reversed deque.</span>
+
+<span class="sd">        &gt;&gt;&gt; pdeque([1, 2, 3]).reverse()</span>
+<span class="sd">        pdeque([3, 2, 1])</span>
+
+<span class="sd">        Also supports the standard python reverse function.</span>
+
+<span class="sd">        &gt;&gt;&gt; reversed(pdeque([1, 2, 3]))</span>
+<span class="sd">        pdeque([3, 2, 1])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">PDeque</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_right_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_left_list</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span><span class="p">)</span>
+    <span class="fm">__reversed__</span> <span class="o">=</span> <span class="n">reverse</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return deque with elements rotated steps steps.</span>
+
+<span class="sd">        &gt;&gt;&gt; x = pdeque([1, 2, 3])</span>
+<span class="sd">        &gt;&gt;&gt; x.rotate(1)</span>
+<span class="sd">        pdeque([3, 1, 2])</span>
+<span class="sd">        &gt;&gt;&gt; x.rotate(-2)</span>
+<span class="sd">        pdeque([3, 1, 2])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">popped_deque</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">steps</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">popped_deque</span><span class="o">.</span><span class="n">extendleft</span><span class="p">(</span><span class="n">islice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reverse</span><span class="p">(),</span> <span class="n">steps</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">popped_deque</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">islice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">-</span><span class="n">steps</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Pickling support</span>
+        <span class="k">return</span> <span class="n">pdeque</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">index</span><span class="o">.</span><span class="n">step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">index</span><span class="o">.</span><span class="n">step</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Too difficult, no structural sharing possible</span>
+                <span class="k">return</span> <span class="n">pdeque</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">)[</span><span class="n">index</span><span class="p">],</span> <span class="n">maxlen</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_maxlen</span><span class="p">)</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span>
+            <span class="k">if</span> <span class="n">index</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">popleft</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">start</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">index</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_length</span> <span class="o">-</span> <span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">stop</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_length</span><span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">Integral</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; object cannot be interpreted as an index&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">popleft</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">left</span>
+
+        <span class="n">shifted</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="n">index</span>
+        <span class="k">if</span> <span class="n">shifted</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                <span class="s2">&quot;pdeque index </span><span class="si">{0}</span><span class="s2"> out of range </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)),</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">popleft</span><span class="p">(</span><span class="n">shifted</span><span class="p">)</span><span class="o">.</span><span class="n">left</span>
+
+    <span class="n">index</span> <span class="o">=</span> <span class="n">Sequence</span><span class="o">.</span><span class="n">index</span>
+
+<span class="n">Sequence</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">PDeque</span><span class="p">)</span>
+<span class="n">Hashable</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">PDeque</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pdeque</span><span class="p">(</span><span class="n">iterable</span><span class="o">=</span><span class="p">(),</span> <span class="n">maxlen</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return deque containing the elements of iterable. If maxlen is specified then</span>
+<span class="sd">    len(iterable) - maxlen elements are discarded from the left to if len(iterable) &gt; maxlen.</span>
+
+<span class="sd">    &gt;&gt;&gt; pdeque([1, 2, 3])</span>
+<span class="sd">    pdeque([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; pdeque([1, 2, 3, 4], maxlen=2)</span>
+<span class="sd">    pdeque([3, 4], maxlen=2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">maxlen</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="n">maxlen</span><span class="p">:]</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">pivot</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="n">plist</span><span class="p">(</span><span class="n">t</span><span class="p">[:</span><span class="n">pivot</span><span class="p">])</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="n">plist</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">pivot</span><span class="p">:],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">PDeque</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">maxlen</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">dq</span><span class="p">(</span><span class="o">*</span><span class="n">elements</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return deque containing all arguments.</span>
+
+<span class="sd">    &gt;&gt;&gt; dq(1, 2, 3)</span>
+<span class="sd">    pdeque([1, 2, 3])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pdeque</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2025-12-27 09:29:39.739807</p>
+</footer>
+</body>
+</html>

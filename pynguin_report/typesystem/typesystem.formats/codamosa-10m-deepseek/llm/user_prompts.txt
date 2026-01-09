@@ -1,0 +1,262 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method serialize of class DateFormat
+def test_DateFormat_serialize():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method validate of class IPAddressFormat
+def test_IPAddressFormat_validate():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method validate of class DateTimeFormat
+def test_DateTimeFormat_validate():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method validate of class TimeFormat
+def test_TimeFormat_validate():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method validate of class URLFormat
+def test_URLFormat_validate():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method validate of class EmailFormat
+def test_EmailFormat_validate():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method validate of class TimeFormat
+def test_TimeFormat_validate():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method validate of class TimeFormat
+def test_TimeFormat_validate():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method serialize of class UUIDFormat
+def test_UUIDFormat_serialize():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for method validate of class UUIDFormat
+def test_UUIDFormat_validate():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method validate of class TimeFormat
+def test_TimeFormat_validate():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for method validate of class IPAddressFormat
+def test_IPAddressFormat_validate():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for method validate of class IPAddressFormat
+def test_IPAddressFormat_validate():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for method serialize of class TimeFormat
+def test_TimeFormat_serialize():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for method validate of class TimeFormat
+def test_TimeFormat_validate():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for method serialize of class DateTimeFormat
+def test_DateTimeFormat_serialize():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for method validate of class DateFormat
+def test_DateFormat_validate():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for method validate of class IPAddressFormat
+def test_IPAddressFormat_validate():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for method serialize of class DateFormat
+def test_DateFormat_serialize():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for method validate of class IPAddressFormat
+def test_IPAddressFormat_validate():
+
+
+# Prompt used at query #21
+#--------------------------
+
+# Unit test for method serialize of class TimeFormat
+def test_TimeFormat_serialize():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method validate of class IPAddressFormat
+def test_IPAddressFormat_validate():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method validate of class EmailFormat
+def test_EmailFormat_validate():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method validate of class EmailFormat
+def test_EmailFormat_validate():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method validate of class IPAddressFormat
+def test_IPAddressFormat_validate():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method validate of class DateFormat
+def test_DateFormat_validate():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method validate of class DateTimeFormat
+def test_DateTimeFormat_validate():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method validate of class IPAddressFormat
+def test_IPAddressFormat_validate():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method validate of class DateTimeFormat
+def test_DateTimeFormat_validate():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method serialize of class DateTimeFormat
+def test_DateTimeFormat_serialize():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for method validate of class TimeFormat
+def test_TimeFormat_validate():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method validate of class TimeFormat
+def test_TimeFormat_validate():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for method serialize of class TimeFormat
+def test_TimeFormat_serialize():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for method validate of class TimeFormat
+def test_TimeFormat_validate():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for method validate of class DateTimeFormat
+def test_DateTimeFormat_validate():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for method serialize of class DateFormat
+def test_DateFormat_serialize():
+
+

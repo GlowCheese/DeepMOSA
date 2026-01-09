@@ -1,0 +1,570 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function pmap_field
+def test_pmap_field():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function pmap_field
+def test_pmap_field():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for function pmap_field
+def test_pmap_field():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for function is_field_ignore_extra_complaint
+def test_is_field_ignore_extra_complaint():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for function pmap_field
+def test_pmap_field():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for function pmap_field
+def test_pmap_field():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #21
+#--------------------------
+
+# Unit test for function is_field_ignore_extra_complaint
+def test_is_field_ignore_extra_complaint():
+
+
+# Prompt used at query #22
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #23
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #24
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #25
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #26
+#--------------------------
+
+# Unit test for function pmap_field
+def test_pmap_field():
+
+
+# Prompt used at query #27
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #28
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #29
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #30
+#--------------------------
+
+# Unit test for function check_type
+def test_check_type():
+
+
+# Prompt used at query #31
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #32
+#--------------------------
+
+# Unit test for function is_field_ignore_extra_complaint
+def test_is_field_ignore_extra_complaint():
+
+
+# Prompt used at query #33
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #34
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #35
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for function is_type_cls
+def test_is_type_cls():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for function check_type
+def test_check_type():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for function field
+def test_field():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for function pmap_field
+def test_pmap_field():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for function pmap_field
+def test_pmap_field():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for function check_type
+def test_check_type():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #21
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #22
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #23
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #24
+#--------------------------
+
+# Unit test for function pmap_field
+def test_pmap_field():
+
+
+# Prompt used at query #25
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #26
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #27
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #28
+#--------------------------
+
+# Unit test for function is_field_ignore_extra_complaint
+def test_is_field_ignore_extra_complaint():
+
+
+# Prompt used at query #29
+#--------------------------
+
+# Unit test for function is_field_ignore_extra_complaint
+def test_is_field_ignore_extra_complaint():
+
+
+# Prompt used at query #30
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #31
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #32
+#--------------------------
+
+# Unit test for function is_field_ignore_extra_complaint
+def test_is_field_ignore_extra_complaint():
+
+
+# Prompt used at query #33
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #34
+#--------------------------
+
+# Unit test for function is_field_ignore_extra_complaint
+def test_is_field_ignore_extra_complaint():
+
+
+# Prompt used at query #35
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #36
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #37
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #38
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #39
+#--------------------------
+
+# Unit test for function field
+def test_field():
+
+
+# Prompt used at query #40
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #41
+#--------------------------
+
+# Unit test for function set_fields
+def test_set_fields():
+
+
+# Prompt used at query #42
+#--------------------------
+
+# Unit test for function pmap_field
+def test_pmap_field():
+
+
+# Prompt used at query #43
+#--------------------------
+
+# Unit test for function serialize
+def test_serialize():
+
+
+# Prompt used at query #44
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+
+# Prompt used at query #45
+#--------------------------
+
+# Unit test for function check_global_invariants
+def test_check_global_invariants():
+
+

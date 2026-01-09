@@ -1,0 +1,38 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function process
+def test_process():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function process
+def test_process():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function process
+def test_process():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function process
+def test_process():
+
+

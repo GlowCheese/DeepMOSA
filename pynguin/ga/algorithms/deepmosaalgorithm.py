@@ -10,12 +10,13 @@ from networkx.drawing.nx_pydot import to_pydot
 import pynguin.ga.coveragegoals as bg
 import pynguin.ga.testcasechromosome as tcc
 import pynguin.utils.statistics.stats as stat
+from libs.custom_logger import getLogger
 from pynguin.configuration import config
 from pynguin.ga.operators.ranking import fast_epsilon_dominance_assignment
 from pynguin.llm.deepmosa.llmseeding import EarlyStopTargetting, deepmosaseeding
 from pynguin.utils import randomness
-from libs.custom_logger import getLogger
 from pynguin.utils.exceptions import ConstructionFailedException
+from pynguin.utils.generic import GenericCallableAccessibleObject
 from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 
@@ -87,6 +88,12 @@ class DeepMOSAAlgorithm(AbstractMOSAAlgorithm):
                 await self.evolve_targeted()
             else:
                 self.evolve()
+
+            if not any(
+                isinstance(gao, GenericCallableAccessibleObject)
+                for gao in self.test_cluster.accessible_objects_under_test
+            ):
+                break
 
         self.after_search_finish()
         return self.create_test_suite(

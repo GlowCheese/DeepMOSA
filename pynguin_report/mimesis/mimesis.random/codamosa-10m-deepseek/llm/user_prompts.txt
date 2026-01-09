@@ -1,0 +1,395 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for constructor of class Random
+def test_Random():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for constructor of class Random
+def test_Random():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for method uniform of class Random
+def test_Random_uniform():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method randints of class Random
+def test_Random_randints():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for method weighted_choice of class Random
+def test_Random_weighted_choice():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for method randbytes of class Random
+def test_Random_randbytes():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for method randbytes of class Random
+def test_Random_randbytes():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for method choice_enum_item of class Random
+def test_Random_choice_enum_item():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for method uniform of class Random
+def test_Random_uniform():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for constructor of class Random
+def test_Random():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for method uniform of class Random
+def test_Random_uniform():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for method choice_enum_item of class Random
+def test_Random_choice_enum_item():
+
+
+# Prompt used at query #21
+#--------------------------
+
+# Unit test for method weighted_choice of class Random
+def test_Random_weighted_choice():
+
+
+# Prompt used at query #22
+#--------------------------
+
+# Unit test for method randints of class Random
+def test_Random_randints():
+
+
+# Prompt used at query #23
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #24
+#--------------------------
+
+# Unit test for method randints of class Random
+def test_Random_randints():
+
+
+# Prompt used at query #25
+#--------------------------
+
+# Unit test for method uniform of class Random
+def test_Random_uniform():
+
+
+# Prompt used at query #26
+#--------------------------
+
+# Unit test for method randbytes of class Random
+def test_Random_randbytes():
+
+
+# Prompt used at query #27
+#--------------------------
+
+# Unit test for method randbytes of class Random
+def test_Random_randbytes():
+
+
+# Prompt used at query #28
+#--------------------------
+
+# Unit test for constructor of class Random
+def test_Random():
+
+
+# Prompt used at query #29
+#--------------------------
+
+# Unit test for method weighted_choice of class Random
+def test_Random_weighted_choice():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method uniform of class Random
+def test_Random_uniform():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method uniform of class Random
+def test_Random_uniform():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method weighted_choice of class Random
+def test_Random_weighted_choice():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method weighted_choice of class Random
+def test_Random_weighted_choice():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for constructor of class Random
+def test_Random():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for constructor of class Random
+def test_Random():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for method uniform of class Random
+def test_Random_uniform():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for constructor of class Random
+def test_Random():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for method randints of class Random
+def test_Random_randints():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for method weighted_choice of class Random
+def test_Random_weighted_choice():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for constructor of class Random
+def test_Random():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for method randbytes of class Random
+def test_Random_randbytes():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for method uniform of class Random
+def test_Random_uniform():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for method randbytes of class Random
+def test_Random_randbytes():
+
+
+# Prompt used at query #21
+#--------------------------
+
+# Unit test for method generate_string_by_mask of class Random
+def test_Random_generate_string_by_mask():
+
+
+# Prompt used at query #22
+#--------------------------
+
+# Unit test for method weighted_choice of class Random
+def test_Random_weighted_choice():
+
+
+# Prompt used at query #23
+#--------------------------
+
+# Unit test for method randbytes of class Random
+def test_Random_randbytes():
+
+
+# Prompt used at query #24
+#--------------------------
+
+# Unit test for constructor of class Random
+def test_Random():
+
+
+# Prompt used at query #25
+#--------------------------
+
+# Unit test for method randbytes of class Random
+def test_Random_randbytes():
+
+
+# Prompt used at query #26
+#--------------------------
+
+# Unit test for method uniform of class Random
+def test_Random_uniform():
+
+

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.7021276595744681" lines-covered="0" lines-valid="0" branches-covered="66" branches-valid="94" complexity="0.0" version="pynguin-0.40.0" timestamp="1766827779">
+  <sources>
+    <source>pyrsistent._pdeque</source>
+  </sources>
+  <packages>
+    <package name="" line-rate="None" branch-rate="0.7021276595744681" complexity="0.0">
+      <classes>
+        <class name="" filename="pyrsistent._pdeque" line-rate="None" branch-rate="0.7021276595744681" complexity="0.0">
+          <methods />
+          <lines>
+            <line number="1" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="10" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="59" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="60" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="63" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="69" hits="0" branch="true" condition-coverage="0% (0/1)" />
+            <line number="76" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="85" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="88" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="93" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="98" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="101" hits="0" branch="true" condition-coverage="0% (0/1)" />
+            <line number="122" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="136" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="147" hits="1" branch="true" condition-coverage="92% (11/12)" />
+            <line number="149" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="151" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="161" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="164" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="170" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="173" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="175" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="180" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="183" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="186" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="196" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="207" hits="1" branch="true" condition-coverage="25% (1/4)" />
+            <line number="208" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="218" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="228" hits="1" branch="true" condition-coverage="75% (3/4)" />
+            <line number="235" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="245" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="257" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="276" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="282" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="285" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="311" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="316" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="321" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="322" hits="1" branch="true" condition-coverage="50% (2/4)" />
+            <line number="327" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="329" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="334" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="337" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="341" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="364" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="372" hits="1" branch="true" condition-coverage="100% (1/1)" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

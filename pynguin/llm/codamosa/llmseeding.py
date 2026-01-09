@@ -12,6 +12,7 @@ import random
 from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Sequence, Set, Tuple
 
 import pynguin.utils.statistics.stats as stat
+from libs.custom_logger import getLogger
 from pynguin.configuration import TestCaseContext, config
 from pynguin.export.pytestexporter import PyTestExporter
 from pynguin.llm.ast_to_testcase import AstToTestCaseVisitor
@@ -19,7 +20,6 @@ from pynguin.llm.codamosa.model import codamosalanguagemodel
 from pynguin.llm.codamosa.outputfixers import fixup_imports
 from pynguin.llm.stmtdeserializer import StatementDeserializer
 from pynguin.testcase.statement import ASTAssignStatement
-from libs.custom_logger import getLogger
 from pynguin.utils.generic import GenericCallableAccessibleObject
 from pynguin.utils.report import get_coverage_report
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 logger = getLogger(__name__)
 
 
-class NoCallableAccessibleObject(Exception):
+class EarlyStopTargetting(Exception):
     pass
 
 
@@ -220,6 +220,9 @@ class _CodaMOSASeeding:
             self._setup_gaos()
             assert self._prompt_gaos is not None
 
+        if not self._prompt_gaos:
+            raise EarlyStopTargetting()
+
         line_annotations = get_coverage_report(
             self.executor.tracer, test_suite, config.statistics_output.coverage_metrics
         ).line_annotations
@@ -247,19 +250,16 @@ class _CodaMOSASeeding:
         ordered_selection_probabilities: List[float] = []
 
         for gao in self._prompt_gaos.keys():
-            if isinstance(gao, GenericCallableAccessibleObject):
-                ordered_gaos.append(gao)
-                try:
-                    source_lines, start_line = inspect.getsourcelines(gao.callable)
-                    covered, total = coverage_in_range(
-                        start_line, start_line + len(source_lines) - 1
-                    )
-                    if total > 0:
-                        ordered_selection_probabilities.append(1 - (covered / total))
-                    else:
-                        ordered_selection_probabilities.append(0)
-                except (TypeError, OSError):
+            ordered_gaos.append(gao)
+            try:
+                source_lines, start_line = inspect.getsourcelines(gao.callable)
+                covered, total = coverage_in_range(start_line, start_line + len(source_lines) - 1)
+                if total > 0:
+                    ordered_selection_probabilities.append(1 - (covered / total))
+                else:
                     ordered_selection_probabilities.append(0)
+            except (TypeError, OSError):
+                ordered_selection_probabilities.append(0)
 
         denominator = sum(ordered_selection_probabilities)
         if denominator == 0:

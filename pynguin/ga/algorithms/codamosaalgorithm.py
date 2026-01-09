@@ -20,7 +20,7 @@ from pynguin.configuration import config
 from pynguin.export.pytestexporter import PyTestExporter
 from pynguin.ga.algorithms.abstractmosaalgorithm import AbstractMOSAAlgorithm
 from pynguin.ga.operators.ranking import fast_epsilon_dominance_assignment
-from pynguin.llm.codamosa.llmseeding import codamosaseeding
+from pynguin.llm.codamosa.llmseeding import EarlyStopTargetting, codamosaseeding
 from pynguin.testcase.statement import (
     ASTAssignStatement,
     ConstructorStatement,
@@ -29,6 +29,7 @@ from pynguin.testcase.statement import (
 )
 from pynguin.utils import randomness
 from pynguin.utils.exceptions import ConstructionFailedException
+from pynguin.utils.generic import GenericCallableAccessibleObject
 from pynguin.utils.orderedset import OrderedSet
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 
@@ -160,6 +161,12 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
                 self.evolve_targeted(self.create_test_suite(self._archive.solutions))
             else:
                 self.evolve()
+
+            if not any(
+                isinstance(gao, GenericCallableAccessibleObject)
+                for gao in self.test_cluster.accessible_objects_under_test
+            ):
+                break
             self.after_search_iteration(self.create_test_suite(self._archive.solutions))
 
         self.after_search_finish()
@@ -178,18 +185,21 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
 
         original_population: Set[tc.TestCase] = {chrom.test_case for chrom in self._population}
 
-        if self._codamosa.target_low_coverage_functions:
-            test_cases = codamosaseeding.target_uncovered_functions(
-                test_suite,
-                self._codamosa.num_seeds_to_inject,
-                self.resources_left,
-            )
-        else:
+        try:
+            if self._codamosa.target_low_coverage_functions:
+                test_cases = codamosaseeding.target_uncovered_functions(
+                    test_suite,
+                    self._codamosa.num_seeds_to_inject,
+                    self.resources_left,
+                )
+            else:
+                test_cases = []
+                for _ in range(self._codamosa.num_seeds_to_inject):
+                    if not self.resources_left():
+                        break
+                    test_cases.extend(codamosaseeding.get_random_targeted_testcase())
+        except EarlyStopTargetting:
             test_cases = []
-            for _ in range(self._codamosa.num_seeds_to_inject):
-                if not self.resources_left():
-                    break
-                test_cases.extend(codamosaseeding.get_random_targeted_testcase())
 
         if len(test_cases) == 0:
             logger.warning("evolve_targeted cannot generate any test!")

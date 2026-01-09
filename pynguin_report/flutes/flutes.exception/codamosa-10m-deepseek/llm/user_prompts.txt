@@ -1,0 +1,570 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #21
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #22
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #23
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #24
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #25
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #26
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #27
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #28
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #29
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #30
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #31
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #32
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #33
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #34
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #35
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #36
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #37
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #38
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #21
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #22
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #23
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #24
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #25
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #26
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #27
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #28
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #29
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #30
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #31
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #32
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #33
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #34
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #35
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #36
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #37
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #38
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+
+
+# Prompt used at query #39
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #40
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+
+# Prompt used at query #41
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+
+
+# Prompt used at query #42
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+
+

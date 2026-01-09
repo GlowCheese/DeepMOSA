@@ -15,12 +15,16 @@ _lvlname = {
 class CustomFormatter(logging.Formatter):
     def format(self, record):
         log_format = (
-            f"{_lvlname[record.levelname]}  "
-            f"{Fore.CYAN}"
+            f"{_lvlname[record.levelname]}"
+            f"  {Fore.GREEN}%(asctime)s{Fore.RESET}"
+            f"  {Fore.CYAN}"
             "%(name)s \033[1;37m| "
             f"{Style.RESET_ALL}"
             "%(message)s"
         )
 
-        formatter = logging.Formatter(log_format, style="%")
+        formatter = logging.Formatter(
+            log_format,
+            datefmt="%H:%M:%S",
+        )
         return formatter.format(record)

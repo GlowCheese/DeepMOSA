@@ -1,0 +1,297 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function any_of_from_json_schema
+def test_any_of_from_json_schema():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function any_of_from_json_schema
+def test_any_of_from_json_schema():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function one_of_from_json_schema
+def test_one_of_from_json_schema():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for function one_of_from_json_schema
+def test_one_of_from_json_schema():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for function one_of_from_json_schema
+def test_one_of_from_json_schema():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for function all_of_from_json_schema
+def test_all_of_from_json_schema():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for function one_of_from_json_schema
+def test_one_of_from_json_schema():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for function one_of_from_json_schema
+def test_one_of_from_json_schema():
+
+
+# Prompt used at query #21
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #22
+#--------------------------
+
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+
+
+# Prompt used at query #23
+#--------------------------
+
+# Unit test for function one_of_from_json_schema
+def test_one_of_from_json_schema():
+
+
+# Prompt used at query #24
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #25
+#--------------------------
+
+# Unit test for function enum_from_json_schema
+def test_enum_from_json_schema():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for function one_of_from_json_schema
+def test_one_of_from_json_schema():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+
+

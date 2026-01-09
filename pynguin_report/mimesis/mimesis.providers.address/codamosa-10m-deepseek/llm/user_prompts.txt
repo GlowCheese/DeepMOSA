@@ -1,0 +1,269 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method address of class Address
+def test_Address_address():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method address of class Address
+def test_Address_address():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method address of class Address
+def test_Address_address():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method address of class Address
+def test_Address_address():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method address of class Address
+def test_Address_address():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method coordinates of class Address
+def test_Address_coordinates():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method city of class Address
+def test_Address_city():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method longitude of class Address
+def test_Address_longitude():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method postal_code of class Address
+def test_Address_postal_code():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for method coordinates of class Address
+def test_Address_coordinates():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method country_code of class Address
+def test_Address_country_code():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for method isd_code of class Address
+def test_Address_isd_code():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for method state of class Address
+def test_Address_state():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for method calling_code of class Address
+def test_Address_calling_code():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for method country_code of class Address
+def test_Address_country_code():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for method region of class Address
+def test_Address_region():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for method calling_code of class Address
+def test_Address_calling_code():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method address of class Address
+def test_Address_address():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method address of class Address
+def test_Address_address():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method address of class Address
+def test_Address_address():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method address of class Address
+def test_Address_address():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method address of class Address
+def test_Address_address():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method country of class Address
+def test_Address_country():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method prefecture of class Address
+def test_Address_prefecture():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method region of class Address
+def test_Address_region():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method zip_code of class Address
+def test_Address_zip_code():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for method calling_code of class Address
+def test_Address_calling_code():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method country of class Address
+def test_Address_country():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for constructor of class Address
+def test_Address():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for method calling_code of class Address
+def test_Address_calling_code():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for method country_emoji_flag of class Address
+def test_Address_country_emoji_flag():
+
+
+# Prompt used at query #15
+#--------------------------
+
+# Unit test for method region of class Address
+def test_Address_region():
+
+
+# Prompt used at query #16
+#--------------------------
+
+# Unit test for method country_emoji_flag of class Address
+def test_Address_country_emoji_flag():
+
+
+# Prompt used at query #17
+#--------------------------
+
+# Unit test for method city of class Address
+def test_Address_city():
+
+
+# Prompt used at query #18
+#--------------------------
+
+# Unit test for method coordinates of class Address
+def test_Address_coordinates():
+
+
+# Prompt used at query #19
+#--------------------------
+
+# Unit test for method zip_code of class Address
+def test_Address_zip_code():
+
+
+# Prompt used at query #20
+#--------------------------
+
+# Unit test for method country of class Address
+def test_Address_country():
+
+

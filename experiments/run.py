@@ -20,38 +20,6 @@ _logger = getLogger("experiments")
 NUM_RUNS_PER_MODULE = 2
 RANDOM_SEEDS = [42, 1302, 1337, 2004, 2412]
 
-# fmt: off
-RUN_CONFIGS = [
-    utils.RunConfig(
-        config_id="dynamosa-10m", argv=[
-            "--configuration-id", "dynamosa-10m",
-            "--algorithm", "DYNAMOSA",
-            "--maximum-search-time", "600",
-        ]
-    ),
-    utils.RunConfig(
-        config_id="codamosa-10m-deepseek",
-        argv=[
-            "--configuration-id", "codamosa-10m-deepseek",
-            "--algorithm", "CODAMOSA",
-            "--maximum-search-time", "600",
-            "--model", "deepseek-chat",
-            "--base-url", "https://api.deepseek.com/beta",
-        ],
-    ),
-    utils.RunConfig(
-        config_id="deepmosa-10m-deepseek",
-        argv=[
-            "--configuration-id", "deepmosa-10m-deepseek",
-            "--algorithm", "DEEPMOSA",
-            "--maximum-search-time", "600",
-            "--model", "deepseek-chat",
-            "--base-url", "https://api.deepseek.com",
-        ],
-    ),
-]
-# fmt: on
-
 
 ### Recognize project
 # -------------------
@@ -60,6 +28,7 @@ RUN_CONFIGS = [
 #
 
 BASE_PROJECT_PATH = Path("experiments/projects").resolve(True)
+
 
 try:
     project_name = sys.argv[1]
@@ -79,7 +48,7 @@ if not project_path.is_dir():
     exit(1)
 
 _logger.info("Using project path: %s", project_path)
-
+PROJECT_REPORT_PATH = Path("pynguin_report") / project_name
 
 ### Analyzing project
 # -------------------
@@ -87,7 +56,7 @@ _logger.info("Using project path: %s", project_path)
 # which and how many times they should be run on.
 #
 
-all_modules = utils.find_all_modules(project_path)
+all_modules = utils.find_all_modules(project_name, project_path)
 if len(sys.argv) >= 3:
     all_modules = [m for m in all_modules if m in sys.argv[2]]
 
@@ -101,8 +70,8 @@ _logger.info("Found %d modules", len(all_modules))
 queue: list[utils.RunEntry] = []
 
 for module_name in all_modules:
-    for config in RUN_CONFIGS:
-        report_dir = Path("pynguin_report") / project_name / module_name / config.config_id
+    for config in utils.RUN_CONFIGS:
+        report_dir = PROJECT_REPORT_PATH / module_name / config.config_id
         rows = utils.read_module_statistics(report_dir) or []
         for run_id in range(len(rows), NUM_RUNS_PER_MODULE):
             if fixed_algorithm is not None:
@@ -147,11 +116,25 @@ subprocess.run(
 )
 
 # Create output dir
+PROJECT_REPORT_PATH.mkdir(parents=True, exist_ok=True)
 (Path(".cache") / "project-deps").mkdir(parents=True, exist_ok=True)
-(Path("pynguin_report") / project_name).mkdir(parents=True, exist_ok=True)
 (Path("generated_tests") / project_name).mkdir(parents=True, exist_ok=True)
 
+skipped_list = set()
+
 for run_entry in queue:
+    if run_entry.module_name in skipped_list:
+        continue
+
     _logger.info("Running test generation for %s", run_entry.module_name)
     _logger.info("Configuration used: %s", run_entry.run_config.config_id)
-    utils.run_deepmosa_runner(project_name, *run_entry.run_config.argv)
+    try:
+        utils.run_deepmosa_runner(project_name, *run_entry.run_config.argv)
+    except Exception:
+        # except RuntimeError as e:
+        #     if str(e) != "SUT contains nothing we can test.":
+        #         raise
+        with open(PROJECT_REPORT_PATH / "ignore.list", "a+", encoding="UTF-8") as file:
+            file.write(run_entry.module_name + "\n")
+        skipped_list.add(run_entry.module_name)
+        _logger.info("Added %s to skipped list.", run_entry.module_name)

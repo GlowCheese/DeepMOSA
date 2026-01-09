@@ -1,0 +1,178 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for constructor of class PMapItems
+def test_PMapItems():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method __contains__ of class PMapItems
+def test_PMapItems___contains__():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for constructor of class PMapValues
+def test_PMapValues():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method __contains__ of class PMapItems
+def test_PMapItems___contains__():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method __getattr__ of class PMap
+def test_PMap___getattr__():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method update of class PMap
+def test_PMap_update():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method __contains__ of class PMapItems
+def test_PMapItems___contains__():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method __eq__ of class PMap
+def test_PMap___eq__():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method __getattr__ of class PMap
+def test_PMap___getattr__():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for method __eq__ of class PMap
+def test_PMap___eq__():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method __eq__ of class PMap
+def test_PMap___eq__():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for method __contains__ of class PMapItems
+def test_PMapItems___contains__():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method update_with of class PMap
+def test_PMap_update_with():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method __contains__ of class PMapItems
+def test_PMapItems___contains__():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method __contains__ of class PMapItems
+def test_PMapItems___contains__():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method __eq__ of class PMapItems
+def test_PMapItems___eq__():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method __repr__ of class PMapValues
+def test_PMapValues___repr__():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method __contains__ of class PMapItems
+def test_PMapItems___contains__():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method __eq__ of class PMapValues
+def test_PMapValues___eq__():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method __eq__ of class PMapItems
+def test_PMapItems___eq__():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method __eq__ of class PMapItems
+def test_PMapItems___eq__():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for method __contains__ of class PMapItems
+def test_PMapItems___contains__():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method __eq__ of class PMap
+def test_PMap___eq__():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for method __eq__ of class PMapItems
+def test_PMapItems___eq__():
+
+

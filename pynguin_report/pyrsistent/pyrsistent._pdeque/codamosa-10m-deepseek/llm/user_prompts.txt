@@ -1,0 +1,246 @@
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method __new__ of class PDeque
+def test_PDeque___new__():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method __repr__ of class PDeque
+def test_PDeque___repr__():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method remove of class PDeque
+def test_PDeque_remove():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method remove of class PDeque
+def test_PDeque_remove():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for method remove of class PDeque
+def test_PDeque_remove():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method remove of class PDeque
+def test_PDeque_remove():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for method __eq__ of class PDeque
+def test_PDeque___eq__():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method rotate of class PDeque
+def test_PDeque_rotate():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method remove of class PDeque
+def test_PDeque_remove():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method pop of class PDeque
+def test_PDeque_pop():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method popleft of class PDeque
+def test_PDeque_popleft():
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+# Unit test for method rotate of class PDeque
+def test_PDeque_rotate():
+
+
+# Prompt used at query #2
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
+# Prompt used at query #3
+#--------------------------
+
+# Unit test for method remove of class PDeque
+def test_PDeque_remove():
+
+
+# Prompt used at query #4
+#--------------------------
+
+# Unit test for method pop of class PDeque
+def test_PDeque_pop():
+
+
+# Prompt used at query #5
+#--------------------------
+
+# Unit test for method popleft of class PDeque
+def test_PDeque_popleft():
+
+
+# Prompt used at query #6
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
+# Prompt used at query #7
+#--------------------------
+
+# Unit test for method popleft of class PDeque
+def test_PDeque_popleft():
+
+
+# Prompt used at query #8
+#--------------------------
+
+# Unit test for method remove of class PDeque
+def test_PDeque_remove():
+
+
+# Prompt used at query #9
+#--------------------------
+
+# Unit test for method __eq__ of class PDeque
+def test_PDeque___eq__():
+
+
+# Prompt used at query #10
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
+# Prompt used at query #11
+#--------------------------
+
+# Unit test for method remove of class PDeque
+def test_PDeque_remove():
+
+
+# Prompt used at query #12
+#--------------------------
+
+# Unit test for method rotate of class PDeque
+def test_PDeque_rotate():
+
+
+# Prompt used at query #13
+#--------------------------
+
+# Unit test for method __new__ of class PDeque
+def test_PDeque___new__():
+
+
+# Prompt used at query #14
+#--------------------------
+
+# Unit test for method __getitem__ of class PDeque
+def test_PDeque___getitem__():
+
+
