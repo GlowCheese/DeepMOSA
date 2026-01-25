@@ -1783,3 +1783,508 @@ def test_case_0():
 
 
 
+# Parsed testcases at query #33
+#--------------------------
+
+# Partially parsed test_generic_constructor_default_locale_and_seed. Retrieved 2/4 statements.
+# Failed to parse test_generic_constructor_custom_locale.
+# Partially parsed test_generic_constructor_data_providers_lazy_loaded. Retrieved 9/10 statements.
+# Partially parsed test_generic_constructor_base_providers_instantiated. Retrieved 4/5 statements.
+
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = var_0.locale
+    var_2 = var_0.seed
+    var_3 = var_0.random
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = 12345
+    var_1 = module_0.Generic(seed=var_0)
+    var_2 = var_1.seed
+    assert var_2 == 12345
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = dir(var_0)
+    var_2 = 'address'
+    var_3 = bool('address' in var_1)
+    assert var_3 is True
+    var_4 = dir(var_0)
+    var_5 = 'person'
+    var_6 = bool('person' in var_4)
+    assert var_6 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = '_address'
+    var_2 = hasattr(var_0, var_1)
+    var_3 = bool(var_2)
+    assert var_3 is True
+    var_4 = var_0._address
+    var_5 = callable(var_4)
+    var_6 = bool(var_5)
+    assert var_6 is True
+    var_7 = 'address'
+    var_8 = hasattr(var_0, var_7)
+    var_9 = bool(not var_8)
+    assert var_9 is True
+    var_10 = var_0.address
+    var_11 = hasattr(var_0, var_7)
+    var_12 = bool(var_11)
+    assert var_12 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = 'cryptographic'
+    var_2 = hasattr(var_0, var_1)
+    var_3 = bool(var_2)
+    assert var_3 is True
+    var_4 = var_0.cryptographic
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = dir(var_0)
+    var_2 = 'generic'
+    var_3 = bool('generic' not in var_1)
+    assert var_3 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = 999
+    var_1 = module_0.Generic(seed=var_0)
+    var_2 = var_1.cryptographic.seed
+    assert var_2 == 999
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = dir(var_0)
+    var_2 = 'locale'
+    var_3 = bool('locale' not in var_1)
+    assert var_3 is True
+    var_4 = 'seed'
+    var_5 = bool('seed' not in var_1)
+    assert var_5 is True
+    var_6 = 'random'
+    var_7 = bool('random' not in var_1)
+    assert var_7 is True
+    var_8 = 'reseed'
+    var_9 = bool('reseed' not in var_1)
+    assert var_9 is True
+    var_10 = 'validate_enum'
+    var_11 = bool('validate_enum' not in var_1)
+    assert var_11 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = dir(var_0)
+    var_2 = 'address'
+    var_3 = bool('address' in var_1)
+    assert var_3 is True
+    var_4 = 'person'
+    var_5 = bool('person' in var_1)
+    assert var_5 is True
+    var_6 = 'cryptographic'
+    var_7 = bool('cryptographic' in var_1)
+    assert var_7 is True
+
+
+
+# Parsed testcases at query #34
+#--------------------------
+
+# Partially parsed test_add_provider_with_meta_name_attribute. Retrieved 5/13 statements.
+
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = 'custom'
+    var_1 = module_0.Generic()
+    var_2 = 'custom'
+    var_3 = hasattr(var_1, var_2)
+    var_4 = bool(var_3)
+    assert var_4 is True
+    var_5 = var_1.custom
+
+
+
+# Parsed testcases at query #35
+#--------------------------
+
+# Partially parsed test_generic_constructor_default_locale_and_seed. Retrieved 2/4 statements.
+# Failed to parse test_generic_constructor_custom_locale.
+# Partially parsed test_generic_constructor_lazy_initialization. Retrieved 2/3 statements.
+
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = var_0.locale
+    var_2 = var_0.seed
+    var_3 = var_0.random
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = 12345
+    var_1 = module_0.Generic(seed=var_0)
+    var_2 = var_1.seed
+    var_3 = bool(var_1.seed == var_0)
+    assert var_3 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = 'person'
+    var_2 = hasattr(var_0, var_1)
+    var_3 = bool(var_2)
+    assert var_3 is True
+    var_4 = 'address'
+    var_5 = hasattr(var_0, var_4)
+    var_6 = bool(var_5)
+    assert var_6 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = 'generic'
+    var_2 = hasattr(var_0, var_1)
+    var_3 = bool(not var_2)
+    assert var_3 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = '_person'
+    var_2 = bool('_person' in var_0.__dict__)
+    assert var_2 is True
+    var_3 = 'person'
+    var_4 = bool('person' not in var_0.__dict__)
+    assert var_4 is True
+    var_5 = var_0.person
+    var_6 = 'person'
+    var_7 = bool('person' in var_0.__dict__)
+    assert var_7 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = 999
+    var_1 = module_0.Generic(seed=var_0)
+    var_2 = var_1.person
+    var_3 = var_2.seed
+    var_4 = bool(var_2.seed == var_0)
+    assert var_4 is True
+
+
+
+# Parsed testcases at query #36
+#--------------------------
+
+# Partially parsed test___getattr___returns_callable_attribute. Retrieved 5/11 statements.
+# Partially parsed test___getattr___caches_attribute_after_first_access. Retrieved 7/14 statements.
+# Partially parsed test___getattr___handles_attribute_without_leading_underscore. Retrieved 3/4 statements.
+# Partially parsed test___getattr___returns_none_for_non_callable_attribute. Retrieved 3/4 statements.
+
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = 'non_existent'
+    var_2 = var_0.__getattr__(var_1)
+    assert var_2 is None
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = 'mock'
+    var_1 = module_0.Generic()
+    var_2 = var_1.__getattr__(var_0)
+    var_3 = callable(var_2)
+    var_4 = bool(var_3)
+    assert var_4 is True
+    var_5 = var_2()
+    assert var_5 == 'mocked'
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = 0
+    var_1 = 'mock'
+    var_2 = module_0.Generic()
+    var_3 = var_2.__getattr__(var_1)
+    var_4 = var_2.__getattr__(var_1)
+    var_5 = bool(var_3 is var_4)
+    assert var_5 is True
+    var_6 = var_3()
+    assert var_6 == 1
+    var_7 = var_4()
+    assert var_7 == 1
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = 'test_attr'
+    var_2 = var_0.__getattr__(var_1)
+    assert var_2 == 'value'
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = 'non_callable'
+    var_2 = var_0.__getattr__(var_1)
+    assert var_2 is None
+
+
+
+# Parsed testcases at query #37
+#--------------------------
+
+# Partially parsed test_issubclass_of_baseprovider_but_not_basedataprovider. Retrieved 2/16 statements.
+
+
+def test_case_0():
+    var_0 = 'custom'
+    var_1 = 'custom'
+
+
+
+# Parsed testcases at query #38
+#--------------------------
+
+
+
+
+
+
+# Parsed testcases at query #39
+#--------------------------
+
+# Failed to parse test_provider_registry_does_not_contain_generic.
+
+
+
+
+# Parsed testcases at query #40
+#--------------------------
+
+# Failed to parse test_generic_constructor_custom_locale.
+# Partially parsed test_generic_constructor_locale_and_seed. Retrieved 1/3 statements.
+
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = var_0.locale
+    var_2 = var_0.seed
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = 12345
+    var_1 = module_0.Generic(seed=var_0)
+    var_2 = var_1.seed
+    assert var_2 == 12345
+
+def test_case_0():
+    var_0 = 98765
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = 'person'
+    var_2 = hasattr(var_0, var_1)
+    var_3 = bool(var_2)
+    assert var_3 is True
+    var_4 = 'address'
+    var_5 = hasattr(var_0, var_4)
+    var_6 = bool(var_5)
+    assert var_6 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = 'random'
+    var_2 = hasattr(var_0, var_1)
+    var_3 = bool(var_2)
+    assert var_3 is True
+    var_4 = 'seed'
+    var_5 = hasattr(var_0, var_4)
+    var_6 = bool(var_5)
+    assert var_6 is True
+
+def test_case_0():
+    pass
+
+
+
+# Parsed testcases at query #41
+#--------------------------
+
+
+
+
+
+
+# Parsed testcases at query #42
+#--------------------------
+
+# Partially parsed test___getattr__predicate_false. Retrieved 3/4 statements.
+
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = 'test_provider'
+    var_2 = var_0.__getattr__(var_1)
+    assert var_2 is None
+
+
+
+# Parsed testcases at query #43
+#--------------------------
+
+# Partially parsed test_generic_constructor_default_locale_and_seed. Retrieved 2/4 statements.
+# Failed to parse test_generic_constructor_custom_locale.
+# Partially parsed test_generic_constructor_custom_locale_and_seed. Retrieved 1/3 statements.
+# Partially parsed test_generic_constructor_base_providers_instantiated. Retrieved 3/5 statements.
+# Partially parsed test_generic_constructor_base_provider_attributes_excluded. Retrieved 4/8 statements.
+
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = var_0.locale
+    var_2 = var_0.seed
+    var_3 = var_0.random
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = 12345
+    var_1 = module_0.Generic(seed=var_0)
+    var_2 = var_1.locale
+    var_3 = var_1.seed
+    assert var_3 == 12345
+
+def test_case_0():
+    var_0 = 98765
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = 'person'
+    var_2 = hasattr(var_0, var_1)
+    var_3 = bool(var_2)
+    assert var_3 is True
+    var_4 = 'address'
+    var_5 = hasattr(var_0, var_4)
+    var_6 = bool(var_5)
+    assert var_6 is True
+    var_7 = 'datetime'
+    var_8 = hasattr(var_0, var_7)
+    var_9 = bool(var_8)
+    assert var_9 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = 'generic'
+    var_2 = hasattr(var_0, var_1)
+    var_3 = bool(not var_2)
+    assert var_3 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = '_person'
+    var_2 = None
+    var_3 = getattr(var_0, var_1, var_2)
+    var_4 = callable(var_3)
+    var_5 = bool(var_4)
+    assert var_5 is True
+    var_6 = '_address'
+    var_7 = getattr(var_0, var_6, var_2)
+    var_8 = callable(var_7)
+    var_9 = bool(var_8)
+    assert var_9 is True
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = var_0.cryptographic
+    var_2 = var_0.development
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = 42
+    var_1 = module_0.Generic(seed=var_0)
+    var_2 = var_1.cryptographic.seed
+    assert var_2 == 42
+    var_3 = var_1.development.seed
+    assert var_3 == 42
+
+import mimesis.providers.generic as module_0
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = var_0.__dir__()
+    var_2 = 'person'
+    var_3 = bool('person' in var_1)
+    assert var_3 is True
+    var_4 = 'address'
+    var_5 = bool('address' in var_1)
+    assert var_5 is True
+    var_6 = 'cryptographic'
+    var_7 = bool('cryptographic' in var_1)
+    assert var_7 is True
+    var_8 = 'locale'
+    var_9 = bool('locale' not in var_1)
+    assert var_9 is True
+
+import mimesis.providers.generic as module_0
+import mimesis.providers.base as module_1
+
+def test_case_0():
+    var_0 = module_0.Generic()
+    var_1 = module_1.BaseProvider()
+    var_2 = 'locale'
+    var_3 = var_0.__dir__()
+
+
+

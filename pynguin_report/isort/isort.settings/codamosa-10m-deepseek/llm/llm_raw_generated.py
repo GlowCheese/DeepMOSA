@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,250 +7,229 @@
 #--------------------------
 
 # Unit test for method is_supported_filetype of class Config
-def test_Config_is_supported_filetype():  # noqa: N802
-    # Test case 1: file with extension in supported_extensions
+def test_Config_is_supported_filetype():
     config = Config()
-    config.supported_extensions = {"py", "txt"}
-    assert config.is_supported_filetype("test.py") is True
-    assert config.is_supported_filetype("test.txt") is True
-
-    # Test case 2: file with extension in blocked_extensions
-    config.blocked_extensions = {"log", "tmp"}
-    assert config.is_supported_filetype("test.log") is False
-    assert config.is_supported_filetype("test.tmp") is False
-
-    # Test case 3: file with extension not in supported_extensions or blocked_extensions
-    # but with a shebang line
-    # Mock open to return a shebang line
-    import builtins
-    original_open = builtins.open
-    builtins.open = lambda path, mode: type('MockFile', (), {'readline': lambda self, size: b'#!/usr/bin/env python\n'})()
-    assert config.is_supported_filetype("test.sh") is True
-    builtins.open = original_open
-
-    # Test case 4: file with extension not in supported_extensions or blocked_extensions
-    # and without a shebang line
-    builtins.open = lambda path, mode: type('MockFile', (), {'readline': lambda self, size: b'no shebang\n'})()
-    assert config.is_supported_filetype("test.sh") is False
-    builtins.open = original_open
-
-    # Test case 5: file ending with '~' (editor backup file)
-    assert config.is_supported_filetype("test.py~") is False
-
-    # Test case 6: file that is a FIFO
-    import stat
-    original_stat = os.stat
-    os.stat = lambda path: type('MockStat', (), {'st_mode': stat.S_IFIFO})()
-    assert config.is_supported_filetype("test.fifo") is False
-    os.stat = original_stat
-
-    # Test case 7: file that raises OSError on stat
-    os.stat = lambda path: (_ for _ in ()).throw(OSError)
-    assert config.is_supported_filetype("test.error") is False
-    os.stat = original_stat
-
-    # Test case 8: file that raises OSError on open
-    builtins.open = lambda path, mode: (_ for _ in ()).throw(OSError)
-    assert config.is_supported_filetype("test.error") is False
-    builtins.open = original_open
-
-    print("All tests passed!")
-
-test_Config_is_supported_filetype()
+    assert config.is_supported_filetype("test.py") == True
+    assert config.is_supported_filetype("test.txt") == False
+    assert config.is_supported_filetype("test.py~") == False
+    assert config.is_supported_filetype("test.pyo") == False
+    assert config.is_supported_filetype("test.pyc") == False
+    assert config.is_supported_filetype("test.pyd") == False
+    assert config.is_supported_filetype("test.pxe") == False
+    assert config.is_supported_filetype("test.pxi") == False
+    assert config.is_supported_filetype("test.pyi") == False
+    assert config.is_supported_filetype("test.pyw") == False
+    assert config.is_supported_filetype("test.pyx") == False
+    assert config.is_supported_filetype("test.pyz") == False
+    assert config.is_supported_filetype("test.pywz") == False
+    assert config.is_supported_filetype("test.py3") == False
+    assert config.is_supported_filetype("test.py2") == False
+    assert config.is_supported_filetype("test.py1") == False
+    assert config.is_supported_filetype("test.py0") == False
+    assert config.is_supported_filetype("test.pyx~") == False
+    assert config.is_supported_filetype("test.pyc~") == False
+    assert config.is_supported_filetype("test.pyo~") == False
+    assert config.is_supported_filetype("test.pyd~") == False
+    assert config.is_supported_filetype("test.pxe~") == False
+    assert config.is_supported_filetype("test.pxi~") == False
+    assert config.is_supported_filetype("test.pyi~") == False
+    assert config.is_supported_filetype("test.pyw~") == False
+    assert config.is_supported_filetype("test.pyx~") == False
+    assert config.is_supported_filetype("test.pyz~") == False
+    assert config.is_supported_filetype("test.pywz~") == False
+    assert config.is_supported_filetype("test.py3~") == False
+    assert config.is_supported_filetype("test.py2~") == False
+    assert config.is_supported_filetype("test.py1~") == False
+    assert config.is_supported_filetype("test.py0~") == False
+    assert config.is_supported_filetype("test.py~") == False
+    assert config.is_supported_filetype("test.pyc~") == False
+    assert config.is_supported_filetype("test.pyo~") == False
+    assert config.is_supported_filetype("test.pyd~") == False
+    assert config.is_supported_filetype("test.pxe~") == False
+    assert config.is_supported_filetype("test.pxi~") == False
+    assert config.is_supported_filetype("test.pyi~") == False
+    assert config.is_supported_filetype("test.pyw~") == False
+    assert config.is_supported_filetype("test.pyx~") == False
+    assert config.is_supported_filetype("test.pyz~") == False
+    assert config.is_supported_filetype("test.pywz~") == False
+    assert config.is_supported_filetype("test.py3~") == False
+    assert config.is_supported_filetype("test.py2~") == False
+    assert config.is_supported_filetype("test.py1~") == False
+    assert config.is_supported_filetype("test.py0~") == False
+    assert config.is_supported_filetype("test.py~") == False
+    assert config.is_supported_filetype("test.pyc~") == False
+    assert config.is_supported_filetype("test.pyo~") == False
+    assert config.is_supported_filetype("test.pyd~") == False
+    assert config.is_supported_filetype("test.pxe~") == False
+    assert config.is_supported_filetype("test.pxi~") == False
+    assert config.is_supported_filetype("test.pyi~") == False
+    assert config.is_supported_filetype("test.pyw~") == False
+    assert config.is_supported_filetype("test.pyx~") == False
+    assert config.is_supported_filetype("test.pyz~") == False
+    assert config.is_supported_filetype("test.pywz~") == False
+    assert config.is_supported_filetype("test.py3~") == False
+    assert config.is_supported_filetype("test.py2~") == False
+    assert config.is_supported_filetype("test.py1~") == False
+    assert config.is_supported_filetype("test.py0~") == False
+    assert config.is_supported_filetype("test.py~") == False
+    assert config.is_supported_filetype("test.pyc~") == False
+    assert config.is_supported_filetype("test.pyo~") == False
+    assert config.is_supported_filetype("test.pyd~") == False
+    assert config.is_supported_filetype("test.pxe~") == False
+    assert config.is_supported_filetype("test.pxi~") == False
+    assert config.is_supported_filetype("test.pyi~") == False
+    assert config.is_supported_filetype("test.pyw~") == False
+    assert config.is_supported_filetype("test.pyx~") == False
+    assert config.is_supported_filetype("test.pyz~") == False
+    assert config.is_supported_filetype("test.pywz~") == False
+    assert config.is_supported_filetype("test.py3~") == False
+    assert config.is_supported_filetype("test.py2~") == False
+    assert config.is_supported_filetype("test.py1~") == False
+    assert config.is_supported_filetype("test.py0~") == False
+    assert config.is_supported_filetype("test.py~") == False
+    assert config.is_supported_filetype("test.pyc~") == False
+    assert config.is_supported_filetype("test.pyo~") == False
+    assert config.is_supported_filetype("test.pyd~") == False
+    assert config.is_supported_filetype("test.pxe~") == False
+    assert config.is_supported_filetype("test.pxi~") == False
+    assert config.is_supported_filetype("test.pyi~") == False
+    assert config.is_supported_filetype("test.pyw~") == False
+    assert config.is_supported_filetype("test.pyx~") == False
+    assert config.is_supported_filetype("test.pyz~") == False
+    assert config.is_supported_filetype("test.pywz~") == False
+    assert config.is_supported_filetype("test.py3~") == False
+    assert config.is_supported_filetype("test.py2~") == False
+    assert config.is_supported_filetype("test.py1~") == False
+    assert config.is_supported_filetype("test.py0~") == False
+    assert config.is_supported_filetype("test.py~") == False
+    assert config.is_supported_filetype("test.pyc~") == False
+    assert config.is_supported_filetype("test.pyo~") == False
+    assert config.is_supported_filetype("test.pyd~") == False
+    assert config.is_supported_filetype("test.pxe~") == False
+    assert config.is_supported_filetype("test.pxi~") == False
+    assert config.is_supported_filetype("test.pyi~") == False
+    assert config.is_supported_filetype("test.pyw~") == False
+    assert config.is_supported_filetype("test.pyx~") == False
+    assert config.is_supported_filetype("test.pyz~") == False
+    assert config.is_supported_filetype("test.pywz~") == False
+    assert config.is_supported_filetype("test.py3~") == False
+    assert config.is_supported_filetype("test.py2~") == False
+    assert config.is_supported_filetype("test.py1~") == False
+    assert config.is_supported_filetype("test.py0~") == False
+    assert config.is_supported_filetype("test.py~") == False
+    assert config.is_supported_filetype("test.pyc~") == False
+    assert config.is_supported_filetype("test.pyo~") == False
+    assert config.is_supported_filetype("test.pyd~") == False
+    assert config.is_supported_filetype("test.pxe~") == False
+    assert config.is_supported_filetype("test.pxi~") == False
+    assert config.is_supported_filetype("test.pyi~") == False
+    assert config.is_supported_filetype("test.pyw~") == False
+    assert config.is_supported_filetype("test.pyx~") == False
+    assert config.is_supported_filetype("test.pyz~") == False
+    assert config.is_supported_filetype("test.pywz~") == False
+    assert config.is_supported_filetype("test.py3~") == False
+    assert config.is_supported_filetype("test.py2~") == False
+    assert config.is_supported_filetype("test.py1~") == False
+    assert
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for constructor of class Config
-def test_Config():  # pragma: no cover
+def test_Config():
+    """Test the constructor of the Config class."""
     # Test with default settings
     config = Config()
-    assert config.line_length == 79
-    assert config.multi_line_output == WrapModes.GRID
-    assert config.indent == "    "
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.multi_line_output == WrapModes.GRID
-    assert config.line_length == 79
-    assert config.indent == "    "
-    assert config.comment_prefix == "  #"
-    assert config.length_sort is False
-    assert config.length_sort_straight is False
-    assert config.length_sort_sections == []
-    assert config.add_imports == []
-    assert config.remove_imports == []
-    assert config.append_only is False
-    assert config.reverse_relative is False
-    assert config.force_single_line is False
-    assert config.single_line_exclusions == ()
-    assert config.default_section == "FIRSTPARTY"
-    assert config.import_headings == {}
-    assert config.import_footers == {}
-    assert config.balanced_wrapping is False
-    assert config.use_parentheses is False
-    assert config.order_by_type is True
-    assert config.classification == []
-    assert config.atomic is False
-    assert config.files_with_code == []
-    assert config.overwrite_in_place is False
-    assert config.reverse_sort is False
-    assert config.format_error is None
-    assert config.format_success is None
-    assert config.sort_order == "native"
-    assert config.forced_separate == []
-    assert config.only_modified is False
-    assert config.only_sections == []
-    assert config.combine_as_imports is False
-    assert config.keep_direct_and_as_imports is True
-    assert config.include_trailing_comma is False
-    assert config.from_first is False
-    assert config.verbose is False
-    assert config.quiet is False
-    assert config.force_adds is False
-    assert config.diff is False
-    assert config.check is False
-    assert config.wd is None
-    assert config.show_logo is True
-    assert config.color_output is True
-    assert config.treat_all_comments_as_code is False
-    assert config.treat_comments_as_code == []
-    assert config.formatter == ""
-    assert config.old_finders is False
-    assert config.remove_redundant_aliases is False
-    assert config.import_dependencies == {}
-    assert config.import_relationships == {}
-    assert config.honor_case_in_force_sorted_sections is False
-    assert config.only_warn_about_skip_files is False
-    assert config.force_wrap_aliases is False
-    assert config.split_on_trailing_comma is False
-    assert config.lines_after_imports == -1
-    assert config.lines_before_imports == -1
-    assert config.lines_between_sections == 1
-    assert config.lines_between_types == 0
-    assert config.output_mode == OutputMode.CONSOLE
-    assert config.sources == (_DEFAULT_SETTINGS,)
-    assert config.directory == os.getcwd()
-    assert config.profile == ""
-    assert config.filter_files is False
-    assert config.python_version == "3"
-    assert config.known_standard_library == frozenset()
-    assert config.known_future_library == frozenset()
-    assert config.known_third_party == frozenset()
-    assert config.known_first_party == frozenset()
-    assert config.known_local_folder == frozenset()
-    assert config.known_other == {}
-    assert config.extra_standard_library == frozenset()
-    assert config.extra_future_library == frozenset()
-    assert config.extra_third_party == frozenset()
-    assert config.extra_first_party == frozenset()
-    assert config.extra_local_folder == frozenset()
-    assert config.sections == SECTION_DEFAULTS
-    assert config.no_lines_before == frozenset()
-    assert config.force_to_top == frozenset()
-    assert config.skip == frozenset()
-    assert config.extend_skip == frozenset()
-    assert config.skip_glob == frozenset()
-    assert config.extend_skip_glob == frozenset()
-    assert config.skip_gitignore is False
-    assert config.line_ending == ""
-    assert config.multi_line_output == WrapModes.GRID
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.no_inline_sort is False
-    assert config.ignore_whitespace is False
-    assert config.no_sections is False
-    assert config.force_single_line_imports is False
-    assert config.single_line_exclusions == ()
-    assert config.default_section == "FIRSTPARTY"
-    assert config.import_headings == {}
-    assert config.import_footers == {}
-    assert config.balanced_wrapping is False
-    assert config.use_parentheses is False
-    assert config.order_by_type is True
-    assert config.classification == []
-    assert config.atomic is False
-    assert config.files_with_code == []
-    assert config.overwrite_in_place is False
-    assert config.reverse_sort is False
-    assert config.format_error is None
-    assert config.format_success is None
-    assert config.sort_order == "native"
-    assert config.forced_separate == []
-    assert config.only_modified is False
-    assert config.only_sections == []
-    assert config.combine_as_imports is False
-    assert config.keep_direct_and_as_imports is True
-    assert config.include_trailing_comma is False
-    assert config.from_first is False
-    assert config.verbose is False
-    assert config.quiet is False
-    assert config.force_adds is False
-    assert config.diff is False
-    assert config.check is False
-    assert config.wd is None
-    assert config.show_logo is True
-    assert config.color_output is True
-    assert config.treat_all_comments_as_code is False
-    assert config.treat_comments_as_code == []
-    assert config.formatter == ""
-    assert config.old_finders is False
-    assert config.remove_redundant_aliases is False
-    assert config.import_dependencies == {}
-    assert config.import_relationships == {}
-    assert config.honor_case_in_force_sorted_sections is False
-    assert config.only_warn_about_skip_files is False
-    assert config.force_wrap_aliases is False
-    assert config.split_on_trailing_comma is False
-    assert config.lines_after_imports == -1
-    assert config.lines_before_imports == -1
-    assert config.lines_between_sections == 1
-    assert config.lines_between_types == 0
-    assert config.output_mode == OutputMode.CONSOLE
-    assert config.sources == (_DEFAULT_SETTINGS,)
-    assert config.directory == os.getcwd()
-    assert config.profile == ""
-    assert config.filter_files is False
-    assert config.python_version == "3"
-    assert config.known_standard_library == frozenset()
-    assert config.known_future_library == frozenset()
-    assert config.known_third_party == frozenset()
-    assert config.known_first_party == frozenset()
-    assert config.known_local_folder == frozenset()
-    assert config.known_other == {}
-    assert config.extra_standard_library == frozenset()
-    assert config.extra_future_library == frozenset()
-    assert config.extra_third_party == frozenset()
-    assert config.extra_first_party == frozenset()
-    assert config.extra_local_folder == frozenset()
-    assert config.sections == SECTION_DEFAULTS
-    assert config.no_lines_before == frozenset()
-    assert config.force_to_top == frozenset()
-    assert config.skip == frozenset()
-    assert config.extend_skip == frozenset()
-    assert config.skip_glob == frozenset()
-    assert config.extend_skip_glob == frozenset()
-    assert config.skip_gitignore is False
-    assert config.line_ending == ""
-    assert config.multi_line_output == WrapModes.GRID
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.no_inline_sort is False
-    assert config.ignore_whitespace is False
-    assert config.no_sections is False
-    assert config.force_single_line_imports is False
-    assert config.single_line_exclusions == ()
-    assert config.default_section == "FIRSTPARTY"
-    assert config.import_headings == {}
-    assert config.import_footers == {}
-    assert config.balanced_wrapping is False
-    assert config.use_parentheses is False
-    assert config.order_by_type is True
-    assert config
+    assert config.source == "defaults"
+
+    # Test with custom settings file
+    settings_file = "tests/example_settings_file.cfg"
+    config = Config(settings_file=settings_file)
+    assert config.source == "defaults"
+
+    # Test with custom settings path
+    settings_path = "tests/example_settings_file.cfg"
+    config = Config(settings_path=settings_path)
+    assert config.source == "defaults"
+
+    # Test with config overrides
+    config = Config(line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file
+    config = Config(settings_file=settings_file, line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings path
+    config = Config(settings_path=settings_path, line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path
+    config = Config(settings_file=settings_file, settings_path=settings_path, line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile
+    config = Config(settings_file=settings_file, settings_path=settings_path, profile="black", line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile and config
+    config = Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile and config and skips
+    config = Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile and config and skips and skip_globs
+    config = Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], skip_glob=["*.py"], line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile and config and skips and skip_globs and sorting_function
+    config = Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], skip_glob=["*.py"], sorting_function=sorted, line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile and config and skips and skip_globs and sorting_function and known_patterns
+    config = Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], skip_glob=["*.py"], sorting_function=sorted, known_patterns=[("^test$", "test")], line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile and config and skips and skip_globs and sorting_function and known_patterns and section_comments
+    config = Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], skip_glob=["*.py"], sorting_function=sorted, known_patterns=[("^test$", "test")], section_comments=("# test",), line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile and config and skips and skip_globs and sorting_function and known_patterns and section_comments and section_comments_end
+    config = Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], skip_glob=["*.py"], sorting_function=sorted, known_patterns=[("^test$", "test")], section_comments=("# test",), section_comments_end=("# test",), line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile and config and skips and skip_globs and sorting_function and known_patterns and section_comments and section_comments_end and known_other
+    config = Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], skip_glob=["*.py"], sorting_function=sorted, known_patterns=[("^test$", "test")], section_comments=("# test",), section_comments_end=("# test",), known_other={"test": frozenset(["test"])}, line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile and config and skips and skip_globs and sorting_function and known_patterns and section_comments and section_comments_end and known_other and import_headings
+    config = Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], skip_glob=["*.py"], sorting_function=sorted, known_patterns=[("^test$", "test")], section_comments=("# test",), section_comments_end=("# test",), known_other={"test": frozenset(["test"])}, import_headings={"test": "# test"}, line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile and config and skips and skip_globs and sorting_function and known_patterns and section_comments and section_comments_end and known_other and import_headings and import_footers
+    config = Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], skip_glob=["*.py"], sorting_function=sorted, known_patterns=[("^test$", "test")], section_comments=("# test",), section_comments_end=("# test",), known_other={"test": frozenset(["test"])}, import_headings={"test": "# test"}, import_footers={"test": "# test"}, line_length=100)
+    assert config.line_length == 100
+
+    # Test with config overrides and custom settings file and path and profile and config and skips and skip_globs and sorting_function and known_patterns and section_comments and section_comments_end and known_other and import_headings and import_footers and unsupported_settings
+    try:
+        Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], skip_glob=["*.py"], sorting_function=sorted, known_patterns=[("^test$", "test")], section_comments=("# test",), section_comments_end=("# test",), known_other={"test": frozenset(["test"])}, import_headings={"test": "# test"}, import_footers={"test": "# test"}, unsupported_settings={"test": {"value": "test", "source": "test"}}, line_length=100)
+        assert False
+    except UnsupportedSettings:
+        assert True
+
+    # Test with config overrides and custom settings file and path and profile and config and skips and skip_globs and sorting_function and known_patterns and section_comments and section_comments_end and known_other and import_headings and import_footers and unsupported_settings and deprecated_settings
+    try:
+        Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], skip_glob=["*.py"], sorting_function=sorted, known_patterns=[("^test$", "test")], section_comments=("# test",), section_comments_end=("# test",), known_other={"test": frozenset(["test"])}, import_headings={"test": "# test"}, import_footers={"test": "# test"}, unsupported_settings={"test": {"value": "test", "source": "test"}}, deprecated_settings={"test": {"value": "test", "source": "test"}}, line_length=100)
+        assert False
+    except UnsupportedSettings:
+        assert True
+
+    # Test with config overrides and custom settings file and path and profile and config and skips and skip_globs and sorting_function and known_patterns and section_comments and section_comments_end and known_other and import_headings and import_footers and unsupported_settings and deprecated_settings and deprecated_options_used
+    try:
+        Config(settings_file=settings_file, settings_path=settings_path, profile="black", config=Config(), skip=["tests"], skip_glob=["*.py"], sorting_function=sorted, known_patterns=[("^test$", "test")], section_comments=("# test",), section_comments_end=("# test",), known_other={"test": frozenset(["test"])}, import_headings={"test": "# test"}, import_footers={"test": "# test"}, unsupported_settings={"test": {"value": "test", "source": "test"}}, deprecated_settings={"test": {"value": "test", "source": "test"}}, deprecated_options_used=["test"], line_length=100)
 
 
 # LLM-generated content at query #3
@@ -258,6 +237,36 @@ def test_Config():  # pragma: no cover
 
 # Unit test for function find_all_configs
 def test_find_all_configs():
+    # Create a temporary directory structure for testing
+    import tempfile
+    import shutil
+
+    temp_dir = tempfile.mkdtemp()
+
+    # Create a nested directory structure
+    os.makedirs(os.path.join(temp_dir, 'dir1'))
+    os.makedirs(os.path.join(temp_dir, 'dir2', 'subdir'))
+    
+    # Create config files in different directories
+    with open(os.path.join(temp_dir, '.isort.cfg'), 'w') as f:
+        f.write('[settings]\nline_length=80\n')
+    
+    with open(os.path.join(temp_dir, 'dir1', '.isort.cfg'), 'w') as f:
+        f.write('[settings]\nline_length=100\n')
+    
+    with open(os.path.join(temp_dir, 'dir2', 'subdir', '.isort.cfg'), 'w') as f:
+        f.write('[settings]\nline_length=120\n')
+
+    # Run the function
+    trie = find_all_configs(temp_dir)
+
+    # Assert the results
+    assert trie.lookup(os.path.join(temp_dir, '.isort.cfg')) == {'line_length': 80}
+    assert trie.lookup(os.path.join(temp_dir, 'dir1', '.isort.cfg')) == {'line_length': 100}
+    assert trie.lookup(os.path.join(temp_dir, 'dir2', 'subdir', '.isort.cfg')) == {'line_length': 120}
+
+    # Clean up
+    shutil.rmtree(temp_dir)
 
 
 # LLM-generated content at query #4
@@ -265,997 +274,435 @@ def test_find_all_configs():
 
 # Unit test for function find_all_configs
 def test_find_all_configs():
+    # Create a temporary directory with nested config files
+    with TemporaryDirectory() as temp_dir:
+        # Create a nested directory structure
+        nested_dir = os.path.join(temp_dir, "nested")
+        os.makedirs(nested_dir)
+
+        # Create config files in the root and nested directories
+        root_config_path = os.path.join(temp_dir, ".isort.cfg")
+        nested_config_path = os.path.join(nested_dir, ".isort.cfg")
+
+        with open(root_config_path, "w") as root_config_file:
+            root_config_file.write("[settings]\nline_length=100\nprofile=black\n")
+
+        with open(nested_config_path, "w") as nested_config_file:
+            nested_config_file.write("[settings]\nline_length=80\nprofile=black\n")
+
+        # Call the function to find all configs
+        trie_root = find_all_configs(temp_dir)
+
+        # Assert that the trie_root contains the correct config data
+        assert trie_root.get(root_config_path) == {"line_length": 100, "profile": "black"}
+        assert trie_root.get(nested_config_path) == {"line_length": 80, "profile": "black"}
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for constructor of class Config
-def test_Config():  
-    # Test with default settings
+def test_Config():
     config = Config()
-    assert config.line_length == 79
-    assert config.multi_line_output == WrapModes.GRID
-    assert config.indent == "    "
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line_imports is True
-    assert config.known_third_party == frozenset()
-    assert config.known_first_party == frozenset()
-    assert config.known_local_folder == frozenset()
-    assert config.known_future_library == frozenset()
-    assert config.sections == SECTION_DEFAULTS
-    assert config.no_sections is False
-    assert config.import_headings == {}
-    assert config.import_footers == {}
-    assert config.known_other == {}
-    assert config.lines_after_imports == -1
-    assert config.lines_between_sections == 1
-    assert config.lines_between_types == 0
-    assert config.relative_imports_order == "closest-to-furthest"
-    assert config.reverse_relative is False
-    assert config.order_by_type is True
-    assert config.sort_order == "native"
-    assert config.sort_relative_in_force_sorted_sections is False
-    assert config.sort_plain is False
-    assert config.sort_typing_first is False
-    assert config.sort_naturally is False
-    assert config.sort_under_configuration is False
-    assert config.sort_under_by_module is False
-    assert config.sort_under_by_internals is False
-    assert config.sort_under_by_type is False
-    assert config.sort_under_by_internals_type is False
-    assert config.sort_under_by_internals_module is False
-    assert config.sort_under_by_internals_type_module is False
-    assert config.sort_under_by_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals is False
-    assert config.sort_under_by_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module_type_internals_module is False
-    assert config.sort_under_by_internals_module_type_intern
+    assert isinstance(config, Config)
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for constructor of class Config
-def test_Config():  
-    # Test with default settings
-    config = Config()
-    assert config.line_length == 79
-    assert config.multi_line_output == WrapModes.GRID
-    assert config.force_sort_within_sections is False
-    assert config.lexicographical is False
-    assert config.reverse_relative is False
-    assert config.force_single_line is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_alphabetical_sort is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config.force_wrap_imports is False
-    assert config
+# Unit test for function find_all_configs
+def test_find_all_configs():
+    import tempfile
+    import shutil
+
+    # Create a temporary directory
+    temp_dir = tempfile.mkdtemp()
+    try:
+        # Create a subdirectory
+        sub_dir = os.path.join(temp_dir, "subdir")
+        os.makedirs(sub_dir)
+
+        # Create config files in root and subdirectory
+        root_config = os.path.join(temp_dir, ".isort.cfg")
+        sub_config = os.path.join(sub_dir, ".isort.cfg")
+
+        with open(root_config, "w") as f:
+            f.write("[settings]\nline_length=80\n")
+
+        with open(sub_config, "w") as f:
+            f.write("[settings]\nline_length=100\n")
+
+        # Test the function
+        trie = find_all_configs(temp_dir)
+
+        # Verify root config
+        assert trie.get_node(root_config).data == {"line_length": 80}
+        
+        # Verify subdirectory config
+        assert trie.get_node(sub_config).data == {"line_length": 100}
+
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
 
 
 # LLM-generated content at query #7
 #--------------------------
 
 # Unit test for function find_all_configs
-def test_find_all_configs():  
-    # Test case 1: No config files found  
-    with tempfile.TemporaryDirectory() as tmpdir:  
-        result = find_all_configs(tmpdir)  
-        assert result.data == {}  
-        assert result.children == {}  
+def test_find_all_configs():
+    # Setup
+    test_dir = "test_dir"
+    os.makedirs(test_dir, exist_ok=True)
+    config_file = os.path.join(test_dir, ".isort.cfg")
+    with open(config_file, "w") as f:
+        f.write("[isort]\nline_length=80\n")
 
-    # Test case 2: Single config file at root  
-    with tempfile.TemporaryDirectory() as tmpdir:  
-        config_file = os.path.join(tmpdir, '.isort.cfg')  
-        with open(config_file, 'w') as f:  
-            f.write('[settings]\nline_length = 100')  
-        result = find_all_configs(tmpdir)  
-        assert result.data == {}  
-        assert len(result.children) == 1  
-        child = result.children[tmpdir]  
-        assert child.data == {config_file: {'line_length': 100}}  
+    # Test
+    trie = find_all_configs(test_dir)
+    assert trie.search(config_file) == {"line_length": 80}
 
-    # Test case 3: Multiple config files in subdirectories  
-    with tempfile.TemporaryDirectory() as tmpdir:  
-        subdir1 = os.path.join(tmpdir, 'subdir1')  
-        subdir2 = os.path.join(tmpdir, 'subdir2')  
-        os.makedirs(subdir1)  
-        os.makedirs(subdir2)  
-        config1 = os.path.join(subdir1, '.isort.cfg')  
-        config2 = os.path.join(subdir2, 'pyproject.toml')  
-        with open(config1, 'w') as f:  
-            f.write('[settings]\nline_length = 80')  
-        with open(config2, 'w') as f:  
-            f.write('[tool.isort]\nline_length = 120')  
-        result = find_all_configs(tmpdir)  
-        assert result.data == {}  
-        assert len(result.children) == 1  
-        root_child = result.children[tmpdir]  
-        assert root_child.data == {}  
-        assert len(root_child.children) == 2  
-        assert root_child.children[subdir1].data == {config1: {'line_length': 80}}  
-        assert root_child.children[subdir2].data == {config2: {'line_length': 120}}  
-
-    # Test case 4: Invalid config file (should be ignored)  
-    with tempfile.TemporaryDirectory() as tmpdir:  
-        config_file = os.path.join(tmpdir, '.isort.cfg')  
-        with open(config_file, 'w') as f:  
-            f.write('invalid content')  
-        result = find_all_configs(tmpdir)  
-        assert result.data == {}  
-        assert result.children == {}  
-
-    # Test case 5: Mixed valid and invalid config files  
-    with tempfile.TemporaryDirectory() as tmpdir:  
-        valid_config = os.path.join(tmpdir, '.isort.cfg')  
-        invalid_config = os.path.join(tmpdir, 'pyproject.toml')  
-        with open(valid_config, 'w') as f:  
-            f.write('[settings]\nline_length = 90')  
-        with open(invalid_config, 'w') as f:  
-            f.write('invalid toml')  
-        result = find_all_configs(tmpdir)  
-        assert result.data == {}  
-        assert len(result.children) == 1  
-        child = result.children[tmpdir]  
-        assert child.data == {valid_config: {'line_length': 90}}  
-
-    print("All tests passed!")  
-
-if __name__ == "__main__":  
-    test_find_all_configs()
+    # Cleanup
+    os.remove(config_file)
+    os.rmdir(test_dir)
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for function find_all_configs
-def test_find_all_configs():
+# Unit test for method is_supported_filetype of class Config
+def test_Config_is_supported_filetype():
+    config = Config()
+    # Test with supported extension
+    assert config.is_supported_filetype("test.py") is True
+    # Test with blocked extension
+    config.blocked_extensions = frozenset(["py"])
+    assert config.is_supported_filetype("test.py") is False
+    # Test with unsupported extension
+    assert config.is_supported_filetype("test.txt") is False
+    # Test with editor backup file
+    assert config.is_supported_filetype("test.py~") is False
+    # Test with FIFO file
+    # Note: This test might require mocking os.stat
+    # Test with shebang file
+    # Note: This test might require mocking open and readline
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for function find_all_configs
-def test_find_all_configs():
+# Unit test for method is_supported_filetype of class Config
+def test_Config_is_supported_filetype():
+    config = Config()
+    # Test with supported extension
+    assert config.is_supported_filetype("test.py") is True
+    # Test with blocked extension
+    config.blocked_extensions = {"py"}
+    assert config.is_supported_filetype("test.py") is False
+    # Test with unsupported extension
+    assert config.is_supported_filetype("test.txt") is False
+    # Test with editor backup file
+    assert config.is_supported_filetype("test.py~") is False
+    # Test with FIFO file
+    assert config.is_supported_filetype("test.fifo") is False
+    # Test with shebang file
+    assert config.is_supported_filetype("test.sh") is True
 
 
 # LLM-generated content at query #10
 #--------------------------
 
-# Unit test for method __post_init__ of class _Config
-def test__Config___post_init__(): 
-    # Test case 1: py_version is "auto"
-    config = _Config(py_version="auto")
-    assert config.py_version == f"py{sys.version_info.major}{sys.version_info.minor}"
+# Unit test for method is_skipped of class Config
+def test_Config_is_skipped():
+    # Create a Config object with some skips and skip_globs
+    config = Config(skips={'tests', 'temp'}, skip_globs={'*.log', '*.tmp'})
     
-    # Test case 2: py_version is not in VALID_PY_TARGETS
-    with pytest.raises(ValueError):
-        _Config(py_version="invalid_version")
+    # Test skipping a file path that is in skips
+    assert config.is_skipped(Path('tests/test_file.py')) == True
     
-    # Test case 3: py_version is "all"
-    config = _Config(py_version="all")
-    assert config.py_version == "all"
+    # Test skipping a file path that matches skip_globs
+    assert config.is_skipped(Path('temp/temp_file.log')) == True
     
-    # Test case 4: known_standard_library is empty
-    config = _Config(py_version="3", known_standard_library=frozenset())
-    assert config.known_standard_library == frozenset(getattr(stdlibs, "py3").stdlib)
+    # Test skipping a file path that is not in skips or skip_globs
+    assert config.is_skipped(Path('src/main.py')) == False
     
-    # Test case 5: multi_line_output is VERTICAL_GRID_GROUPED_NO_COMMA
-    config = _Config(multi_line_output=WrapModes.VERTICAL_GRID_GROUPED_NO_COMMA)
-    assert config.multi_line_output == WrapModes.VERTICAL_GRID_GROUPED
+    # Test skipping a folder path that is in skips
+    assert config.is_skipped(Path('tests')) == True
     
-    # Test case 6: force_alphabetical_sort is True
-    config = _Config(force_alphabetical_sort=True)
-    assert config.force_alphabetical_sort_within_sections == True
-    assert config.no_sections == True
-    assert config.lines_between_types == 1
-    assert config.from_first == True
-    
-    # Test case 7: wrap_length > line_length
-    with pytest.raises(ValueError):
-        _Config(wrap_length=100, line_length=80)
-    
-    # Test case 8: wrap_length <= line_length
-    config = _Config(wrap_length=80, line_length=100)
-    assert config.wrap_length == 80
-    assert config.line_length == 100
-
-# Run the unit tests
-test__Config___post_init__()
+    # Test skipping a folder path that is not in skips or skip_globs
+    assert config.is_skipped(Path('src')) == False
 
 
 # LLM-generated content at query #11
 #--------------------------
 
-# Unit test for method is_supported_filetype of class Config
-def test_Config_is_supported_filetype(): 
+# Unit test for constructor of class Config
+def test_Config():
     config = Config()
-    # Test with a file name that has a supported extension
-    assert config.is_supported_filetype('test.py') == True
-    # Test with a file name that has a blocked extension
-    config.blocked_extensions = ('txt',)
-    assert config.is_supported_filetype('test.txt') == False
-    # Test with a file name that has an extension not in supported or blocked
-    assert config.is_supported_filetype('test.unknown') == False
-    # Test with a file name that ends with '~' (editor backup file)
-    assert config.is_supported_filetype('test.py~') == False
-    # Test with a FIFO file
-    import tempfile
-    import stat
-    with tempfile.NamedTemporaryFile() as tmp:
-        os.mkfifo(tmp.name)
-        assert config.is_supported_filetype(tmp.name) == False
-    # Test with a file that cannot be opened
-    assert config.is_supported_filetype('/nonexistent/file.py') == False
-    # Test with a file that has a shebang
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as tmp:
-        tmp.write('#!/usr/bin/env python\n')
-        tmp_name = tmp.name
-    try:
-        assert config.is_supported_filetype(tmp_name) == True
-    finally:
-        os.unlink(tmp_name)
+    assert config.line_length == 79
+    assert config.multi_line_output == WrapModes.NOQA
+    assert config.force_single_line is False
+    assert config.use_parentheses is False
+    assert config.ensure_newline_before_comments is False
+    assert config.include_trailing_comma is False
+    assert config.combine_as_imports is False
+    assert config.force_sort_within_sections is False
+    assert config.order_by_type is True
+    assert config.force_grid_wrap == 0
+    assert config.force_alphabetical_sort_within_sections is False
+    assert config.force_alphabetical_sort is False
+    assert config.lines_after_imports == -1
+    assert config.lines_between_sections == 1
+    assert config.lines_between_types == 0
+    assert config.from_first is False
+    assert config.atomic is False
+    assert config.force_to_top is False
+    assert config.reverse_relative is False
+    assert config.reverse_order is False
+    assert config.single_line_exclusions == frozenset()
+    assert config.skip == frozenset()
+    assert config.skip_glob == frozenset()
+    assert config.extend_skip == frozenset()
+    assert config.extend_skip_glob == frozenset()
+    assert config.known_standard_library == frozenset()
+    assert config.known_future_library == frozenset()
+    assert config.known_third_party == frozenset()
+    assert config.known_first_party == frozenset()
+    assert config.known_local_folder == frozenset()
+    assert config.known_other == {}
+    assert config.extra_standard_library == frozenset()
+    assert config.extra_future_library == frozenset()
+    assert config.extra_third_party == frozenset()
+    assert config.extra_first_party == frozenset()
+    assert config.extra_local_folder == frozenset()
+    assert config.default_section == "THIRDPARTY"
+    assert config.import_headings == {}
+    assert config.import_footers == {}
+    assert config.sections == SECTION_DEFAULTS
+    assert config.no_sections is False
+    assert config.supported_extensions == frozenset({"py"})
+    assert config.blocked_extensions == frozenset()
+    assert config.sort_order == "native"
+    assert config.sources == (_DEFAULT_SETTINGS,)
+    assert config.directory == os.getcwd()
+    assert config.src_paths == (Path(os.getcwd()) / "src", Path(os.getcwd()))
+    assert config.python_version == "3"
+    assert config.indent == "    "
+    assert config.wrap_length == 0
+    assert config.wrap_mode == WrapModes.NOQA
+    assert config.formatter == ""
+    assert config.formatting_function == None
+    assert config._known_patterns is None
+    assert config._section_comments is None
+    assert config._section_comments_end is None
+    assert config._skips is None
+    assert config._skip_globs is None
+    assert config._sorting_function is None
+    assert config.skip_gitignore is False
+    assert config.git_ls_files == {}
+    assert config.quiet is False
+    assert config.runtime_src_paths == (Path(os.getcwd()) / "src", Path(os.getcwd())) ```
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for method is_skipped of class Config
-def test_Config_is_skipped():  # noqa: N802
-    # Test case 1: File path is in skips
+# Unit test for method is_supported_filetype of class Config
+def test_Config_is_supported_filetype():
     config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('/path/to/skip')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 2: File path is not in skips
-    config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('/path/to/not_skip')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 3: File path matches skip glob
-    config = Config()
-    config.skip_globs = frozenset(['*.txt'])
-    file_path = Path('/path/to/file.txt')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 4: File path does not match skip glob
-    config = Config()
-    config.skip_globs = frozenset(['*.txt'])
-    file_path = Path('/path/to/file.py')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 5: File path is in gitignore
-    config = Config()
-    config.skip_gitignore = True
-    file_path = Path('/path/to/.git')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 6: File path is not in gitignore
-    config = Config()
-    config.skip_gitignore = True
-    file_path = Path('/path/to/file.py')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 7: File path is a directory
-    config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('/path/to/skip')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 8: File path is a symlink
-    config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('/path/to/skip')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 9: File path is not a file, directory, or symlink
-    config = Config()
-    file_path = Path('/path/to/nonexistent')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 10: File path is in skips with relative path
-    config = Config()
-    config.skips = frozenset(['skip'])
-    file_path = Path('skip')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 11: File path is not in skips with relative path
-    config = Config()
-    config.skips = frozenset(['skip'])
-    file_path = Path('not_skip')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 12: File path matches skip glob with relative path
-    config = Config()
-    config.skip_globs = frozenset(['*.txt'])
-    file_path = Path('file.txt')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 13: File path does not match skip glob with relative path
-    config = Config()
-    config.skip_globs = frozenset(['*.txt'])
-    file_path = Path('file.py')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 14: File path is in gitignore with relative path
-    config = Config()
-    config.skip_gitignore = True
-    file_path = Path('.git')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 15: File path is not in gitignore with relative path
-    config = Config()
-    config.skip_gitignore = True
-    file_path = Path('file.py')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 16: File path is a directory with relative path
-    config = Config()
-    config.skips = frozenset(['skip'])
-    file_path = Path('skip')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 17: File path is a symlink with relative path
-    config = Config()
-    config.skips = frozenset(['skip'])
-    file_path = Path('skip')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 18: File path is not a file, directory, or symlink with relative path
-    config = Config()
-    file_path = Path('nonexistent')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 19: File path is in skips with absolute path
-    config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('/path/to/skip')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 20: File path is not in skips with absolute path
-    config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('/path/to/not_skip')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 21: File path matches skip glob with absolute path
-    config = Config()
-    config.skip_globs = frozenset(['*.txt'])
-    file_path = Path('/path/to/file.txt')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 22: File path does not match skip glob with absolute path
-    config = Config()
-    config.skip_globs = frozenset(['*.txt'])
-    file_path = Path('/path/to/file.py')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 23: File path is in gitignore with absolute path
-    config = Config()
-    config.skip_gitignore = True
-    file_path = Path('/path/to/.git')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 24: File path is not in gitignore with absolute path
-    config = Config()
-    config.skip_gitignore = True
-    file_path = Path('/path/to/file.py')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 25: File path is a directory with absolute path
-    config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('/path/to/skip')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 26: File path is a symlink with absolute path
-    config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('/path/to/skip')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 27: File path is not a file, directory, or symlink with absolute path
-    config = Config()
-    file_path = Path('/path/to/nonexistent')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 28: File path is in skips with mixed path separators
-    config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('\\path\\to\\skip')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 29: File path is not in skips with mixed path separators
-    config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('\\path\\to\\not_skip')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 30: File path matches skip glob with mixed path separators
-    config = Config()
-    config.skip_globs = frozenset(['*.txt'])
-    file_path = Path('\\path\\to\\file.txt')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 31: File path does not match skip glob with mixed path separators
-    config = Config()
-    config.skip_globs = frozenset(['*.txt'])
-    file_path = Path('\\path\\to\\file.py')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 32: File path is in gitignore with mixed path separators
-    config = Config()
-    config.skip_gitignore = True
-    file_path = Path('\\path\\to\\.git')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 33: File path is not in gitignore with mixed path separators
-    config = Config()
-    config.skip_gitignore = True
-    file_path = Path('\\path\\to\\file.py')
-    assert config.is_skipped(file_path) == False
-
-    # Test case 34: File path is a directory with mixed path separators
-    config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('\\path\\to\\skip')
-    assert config.is_skipped(file_path) == True
-
-    # Test case 35: File path is a symlink with mixed path separators
-    config = Config()
-    config.skips = frozenset(['/path/to/skip'])
-    file_path = Path('\\path\\to\\
+    assert config.is_supported_filetype("test.py") == True
+    assert config.is_supported_filetype("test.txt") == False
+    assert config.is_supported_filetype("test~") == False
+    assert config.is_supported_filetype("test.ipynb") == True
+    assert config.is_supported_filetype("test") == False
+    assert config.is_supported_filetype("test.PY") == True
+    assert config.is_supported_filetype("test.TXT") == False
+    assert config.is_supported_filetype("test.IPYNB") == True
+    assert config.is_supported_filetype("test.~") == False
 
 
 # LLM-generated content at query #13
 #--------------------------
 
 # Unit test for method is_skipped of class Config
-def test_Config_is_skipped():  
-    # Test case 1: file_path is a directory
-    config = Config()
-    file_path = Path("/path/to/directory")
-    assert config.is_skipped(file_path) == False
+def test_Config_is_skipped():
+    import tempfile
+    import os
+    import pathlib
 
-    # Test case 2: file_path is a file
-    config = Config()
-    file_path = Path("/path/to/file.txt")
-    assert config.is_skipped(file_path) == False
+    # Create a temporary directory
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        # Create a temporary file
+        tmpfile = pathlib.Path(tmpdirname) / "test_file.py"
+        tmpfile.touch()
 
-    # Test case 3: file_path is a symlink
-    config = Config()
-    file_path = Path("/path/to/symlink")
-    assert config.is_skipped(file_path) == False
+        # Initialize Config
+        config = Config()
 
-    # Test case 4: file_path is not a file, directory, or symlink
-    config = Config()
-    file_path = Path("/path/to/nonexistent")
-    assert config.is_skipped(file_path) == True
+        # Test case 1: File not skipped
+        assert config.is_skipped(tmpfile) == False
 
-    # Test case 5: file_path is in skips
-    config = Config(skips=["/path/to/file.txt"])
-    file_path = Path("/path/to/file.txt")
-    assert config.is_skipped(file_path) == True
+        # Test case 2: File skipped
+        config.skip_glob = {"*.py"}
+        assert config.is_skipped(tmpfile) == True
 
-    # Test case 6: file_path is in skip_globs
-    config = Config(skip_globs=["*.txt"])
-    file_path = Path("/path/to/file.txt")
-    assert config.is_skipped(file_path) == True
+        # Test case 3: Directory not skipped
+        tmpdir = pathlib.Path(tmpdirname)
+        assert config.is_skipped(tmpdir) == False
 
-    # Test case 7: file_path is in skip_gitignore
-    config = Config(skip_gitignore=True)
-    file_path = Path("/path/to/file.txt")
-    assert config.is_skipped(file_path) == False
+        # Test case 4: Directory skipped
+        config.skip = {tmpdirname}
+        assert config.is_skipped(tmpdir) == True
 
-    # Test case 8: file_path is not in skip_gitignore
-    config = Config(skip_gitignore=False)
-    file_path = Path("/path/to/file.txt")
-    assert config.is_skipped(file_path) == False
+        # Test case 5: File not skipped due to gitignore
+        config.skip_gitignore = True
+        # Mock git ls-files to include the file
+        config.git_ls_files[tmpdir] = {str(tmpfile)}
+        assert config.is_skipped(tmpfile) == False
 
-    # Test case 9: file_path is in git_ls_files
-    config = Config()
-    config.git_ls_files = {Path("/path/to"): {"/path/to/file.txt"}}
-    file_path = Path("/path/to/file.txt")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 10: file_path is not in git_ls_files
-    config = Config()
-    config.git_ls_files = {Path("/path/to"): {"/path/to/other.txt"}}
-    file_path = Path("/path/to/file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 11: file_path is a directory and in skips
-    config = Config(skips=["/path/to/directory"])
-    file_path = Path("/path/to/directory")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 12: file_path is a directory and in skip_globs
-    config = Config(skip_globs=["*/directory"])
-    file_path = Path("/path/to/directory")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 13: file_path is a directory and in skip_gitignore
-    config = Config(skip_gitignore=True)
-    file_path = Path("/path/to/directory")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 14: file_path is a directory and not in skip_gitignore
-    config = Config(skip_gitignore=False)
-    file_path = Path("/path/to/directory")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 15: file_path is a directory and in git_ls_files
-    config = Config()
-    config.git_ls_files = {Path("/path/to"): {"/path/to/directory"}}
-    file_path = Path("/path/to/directory")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 16: file_path is a directory and not in git_ls_files
-    config = Config()
-    config.git_ls_files = {Path("/path/to"): {"/path/to/other"}}
-    file_path = Path("/path/to/directory")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 17: file_path is a symlink and in skips
-    config = Config(skips=["/path/to/symlink"])
-    file_path = Path("/path/to/symlink")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 18: file_path is a symlink and in skip_globs
-    config = Config(skip_globs=["*/symlink"])
-    file_path = Path("/path/to/symlink")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 19: file_path is a symlink and in skip_gitignore
-    config = Config(skip_gitignore=True)
-    file_path = Path("/path/to/symlink")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 20: file_path is a symlink and not in skip_gitignore
-    config = Config(skip_gitignore=False)
-    file_path = Path("/path/to/symlink")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 21: file_path is a symlink and in git_ls_files
-    config = Config()
-    config.git_ls_files = {Path("/path/to"): {"/path/to/symlink"}}
-    file_path = Path("/path/to/symlink")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 22: file_path is a symlink and not in git_ls_files
-    config = Config()
-    config.git_ls_files = {Path("/path/to"): {"/path/to/other"}}
-    file_path = Path("/path/to/symlink")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 23: file_path is not a file, directory, or symlink and in skips
-    config = Config(skips=["/path/to/nonexistent"])
-    file_path = Path("/path/to/nonexistent")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 24: file_path is not a file, directory, or symlink and in skip_globs
-    config = Config(skip_globs=["*/nonexistent"])
-    file_path = Path("/path/to/nonexistent")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 25: file_path is not a file, directory, or symlink and in skip_gitignore
-    config = Config(skip_gitignore=True)
-    file_path = Path("/path/to/nonexistent")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 26: file_path is not a file, directory, or symlink and not in skip_gitignore
-    config = Config(skip_gitignore=False)
-    file_path = Path("/path/to/nonexistent")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 27: file_path is not a file, directory, or symlink and in git_ls_files
-    config = Config()
-    config.git_ls_files = {Path("/path/to"): {"/path/to/nonexistent"}}
-    file_path = Path("/path/to/nonexistent")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 28: file_path is not a file, directory, or symlink and not in git_ls_files
-    config = Config()
-    config.git_ls_files = {Path("/path/to"): {"/path/to/other"}}
-    file_path = Path("/path/to/nonexistent")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 29: file_path is a file and in skips and skip_globs
-    config = Config(skips=["/path/to/file.txt"], skip_globs=["*.txt"])
-    file_path = Path("/path/to/file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 30: file_path is a file and in skips but not in skip_globs
-    config = Config(skips=["/path/to/file.txt"], skip_globs=["*.py"])
-    file_path = Path("/path/to/file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 31: file_path is a file and not in skips but in skip_globs
-    config = Config(skips=["/path/to/other.txt"], skip_globs=["*.txt"])
-    file_path = Path("/path/to/file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 32: file_path is a file and not in skips and not in skip_globs
-    config = Config(skips=["/path/to/other.txt"], skip_globs=["*.py"])
-    file_path = Path("/path/to/file.txt")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 33: file_path is a directory and in skips and skip_globs
-    config = Config(skips=["/path/to/directory"], skip_globs=["*/directory"])
-    file_path = Path("/path/to/directory")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 34: file_path is a directory and in skips but
+        # Test case 6: File skipped due to gitignore
+        config.git_ls_files[tmpdir] = {}
+        assert config.is_skipped(tmpfile) == True
 
 
 # LLM-generated content at query #14
 #--------------------------
 
-# Unit test for method is_skipped of class Config
-def test_Config_is_skipped():  # noqa: N802
-    # Create a Config instance with default settings
-    config = Config()
-    
-    # Test with a file that should not be skipped
-    file_path = Path("test_file.py")
-    assert config.is_skipped(file_path) == False
-    
-    # Test with a file that should be skipped due to skip list
-    config = Config(skip={"test_file.py"})
-    assert config.is_skipped(file_path) == True
-    
-    # Test with a file that should be skipped due to skip_glob
-    config = Config(skip_glob={"*.py"})
-    assert config.is_skipped(file_path) == True
-    
-    # Test with a file that should be skipped due to skip_gitignore
-    # This test requires a git repository and a .gitignore file
-    # We'll skip this test for now as it's environment dependent
-    # config = Config(skip_gitignore=True)
-    # assert config.is_skipped(file_path) == True or False depending on gitignore
-    
-    # Test with a directory that should be skipped
-    dir_path = Path("test_dir")
-    config = Config(skip={"test_dir"})
-    assert config.is_skipped(dir_path) == True
-    
-    # Test with a file that should be skipped due to extend_skip
-    config = Config(extend_skip={"test_file.py"})
-    assert config.is_skipped(file_path) == True
-    
-    # Test with a file that should be skipped due to extend_skip_glob
-    config = Config(extend_skip_glob={"*.py"})
-    assert config.is_skipped(file_path) == True
-    
-    # Test with a file that should not be skipped even with other skips
-    config = Config(skip={"other_file.py"}, skip_glob={"*.txt"})
-    assert config.is_skipped(file_path) == False
-    
-    # Test with a file that should be skipped due to being a symlink
-    # This test requires creating a symlink, which may not be possible on all systems
-    # We'll skip this test for now
-    # symlink_path = Path("test_symlink.py")
-    # symlink_path.symlink_to("test_file.py")
-    # config = Config()
-    # assert config.is_skipped(symlink_path) == False  # Should not skip symlinks by default
-    
-    # Test with a file that should be skipped due to being a pipe
-    # This test requires creating a named pipe, which may not be possible on all systems
-    # We'll skip this test for now
-    # pipe_path = Path("test_pipe")
-    # os.mkfifo(pipe_path)
-    # config = Config()
-    # assert config.is_skipped(pipe_path) == True  # Should skip pipes
-    
-    # Test with a file that should be skipped due to being a backup file
-    backup_path = Path("test_file.py~")
-    config = Config()
-    assert config.is_skipped(backup_path) == True
-    
-    # Test with a file that should be skipped due to being in a skipped directory
-    nested_file_path = Path("skipped_dir/test_file.py")
-    config = Config(skip={"skipped_dir"})
-    assert config.is_skipped(nested_file_path) == True
-    
-    # Test with a file that should be skipped due to glob pattern matching directory
-    config = Config(skip_glob={"skipped_dir/*"})
-    assert config.is_skipped(nested_file_path) == True
-    
-    # Test with a file that should be skipped due to glob pattern with wildcard
-    config = Config(skip_glob={"*skipped*"})
-    assert config.is_skipped(nested_file_path) == True
-    
-    # Test with a file that should not be skipped even with similar glob pattern
-    config = Config(skip_glob={"*other*"})
-    assert config.is_skipped(nested_file_path) == False
-    
-    # Test with a file that should be skipped due to multiple skip conditions
-    config = Config(skip={"test_file.py"}, skip_glob={"*.py"})
-    assert config.is_skipped(file_path) == True
-    
-    # Test with a file that should be skipped due to extend_skip and extend_skip_glob
-    config = Config(extend_skip={"test_file.py"}, extend_skip_glob={"*.py"})
-    assert config.is_skipped(file_path) == True
-    
-    # Test with a file that should be skipped due to combination of skip and extend_skip
-    config = Config(skip={"other_file.py"}, extend_skip={"test_file.py"})
-    assert config.is_skipped(file_path) == True
-    
-    # Test with a file that should be skipped due to being a git ignored file
-    # This test requires a git repository and specific gitignore setup
-    # We'll skip this test for now as it's environment dependent
-    # git_ignored_path = Path("ignored_file.py")
-    # config = Config(skip_gitignore=True)
-    # assert config.is_skipped(git_ignored_path) == True
-    
-    # Test with a file that should not be skipped even with skip_gitignore if it's tracked
-    # This test requires a git repository
-    # We'll skip this test for now as it's environment dependent
-    # tracked_path = Path("tracked_file.py")
-    # config = Config(skip_gitignore=True)
-    # assert config.is_skipped(tracked_path) == False
-    
-    # Test with a .git directory (should always be skipped when skip_gitignore is True)
-    git_dir_path = Path(".git")
-    config = Config(skip_gitignore=True)
-    assert config.is_skipped(git_dir_path) == True
-    
-    # Test with a directory that doesn't exist
-    non_existent_path = Path("non_existent_file.py")
-    config = Config()
-    assert config.is_skipped(non_existent_path) == True
-    
-    # Test with a file that has special characters in name
-    special_path = Path("test-file[1].py")
-    config = Config()
-    assert config.is_skipped(special_path) == False
-    
-    # Test with a file that matches multiple glob patterns
-    config = Config(skip_glob={"test*", "*.py", "*file*"})
-    assert config.is_skipped(file_path) == True
-    
-    # Test with a file in a subdirectory that matches skip pattern
-    deep_path = Path("a/b/c/test_file.py")
-    config = Config(skip={"a/b/c"})
-    assert config.is_skipped(deep_path) == True
-    
-    # Test with a file that matches skip pattern but not the full path
-    config = Config(skip={"b/c"})
-    assert config.is_skipped(deep_path) == False  # Should not skip because pattern doesn't match from root
-    
-    # Test with a file that should be skipped due to absolute path in skips
-    abs_path = Path("/absolute/path/test_file.py")
-    config = Config(skip={"/absolute/path/test_file.py"})
-    assert config.is_skipped(abs_path) == True
-    
-    # Test with a file that should be skipped due to relative path in skips
-    rel_path = Path("relative/test_file.py")
-    config = Config(skip={"relative/test_file.py"})
-    assert config.is_skipped(rel_path) == True
-    
-    # Test with a file that should be skipped due to parent directory in skips
-    config = Config(skip={"relative"})
-    assert config.is_skipped(rel_path) == True
-    
-    # Test with a file that should not be skipped when only sibling directory is in skips
-    config = Config(skip={"sibling"})
-    assert config.is_skipped(rel_path) == False
-    
-    # Test with a file that should be skipped due to glob pattern with directory wildcard
-    config = Config(skip_glob={"**/test_*.py"})
-    assert config.is_skipped(rel_path) == True
-    
-    # Test with a file that should be skipped due to glob pattern with specific directory
-    config = Config(skip_glob={"relative/*.py"})
-    assert config.is_skipped(rel_path) == True
-    
-    # Test with a file that should not be skipped when glob pattern doesn't match
-    config = Config(skip_glob={"other/*.py"})
-    assert config.is_skipped(rel_path) == False
-    
-    # Test with a file that should be skipped due to multiple skip conditions with different patterns
-    config = Config(skip={"specific_file.py"}, skip_glob={"*.pyc"})
-    assert config.is_skipped(file_path) == False  # Should not skip because patterns don't match
-    
-    # Test with a file that should be skipped due to extend_skip_glob with wildcard
-    config = Config(extend_skip_glob={"test_*"})
-    assert config.is_skipped(file_path) == True
-    
-    # Test with a file that should be skipped due to both skip and skip_glob
-    config = Config(skip={"test_file"}, skip_glob={"*.py"})
-    assert config.is_skipped(file_path) == True  # Matches skip_glob
-    
-    # Test with a directory that should be skipped even when checking a file inside it
-    dir_path = Path("skipped_dir")
-    file_in_dir = dir_path / "nested_file.py"
-   
+# Unit test for function find_all_configs
+def test_find_all_configs():
+    # Test case 1: Empty directory
+    with tempfile.TemporaryDirectory() as temp_dir:
+        trie = find_all_configs(temp_dir)
+        assert trie.children == {}
+
+    # Test case 2: Directory with config files
+    with tempfile.TemporaryDirectory() as temp_dir:
+        # Create a config file in the root directory
+        config_file_path = os.path.join(temp_dir, ".isort.cfg")
+        with open(config_file_path, "w") as f:
+            f.write("[settings]\nline_length=88\n")
+
+        # Create a subdirectory with a config file
+        subdir = os.path.join(temp_dir, "subdir")
+        os.mkdir(subdir)
+        subdir_config_file_path = os.path.join(subdir, ".isort.cfg")
+        with open(subdir_config_file_path, "w") as f:
+            f.write("[settings]\nline_length=100\n")
+
+        trie = find_all_configs(temp_dir)
+        assert trie.children != {}
+        assert trie.children[temp_dir].value == {"line_length": 88}
+        assert trie.children[temp_dir].children["subdir"].value == {"line_length": 100}
+
+    # Test case 3: Directory with non-config files
+    with tempfile.TemporaryDirectory() as temp_dir:
+        # Create a non-config file in the root directory
+        non_config_file_path = os.path.join(temp_dir, "file.txt")
+        with open(non_config_file_path, "w") as f:
+            f.write("This is a test file.")
+
+        trie = find_all_configs(temp_dir)
+        assert trie.children == {}
+
+    # Test case 4: Directory with invalid config files
+    with tempfile.TemporaryDirectory() as temp_dir:
+        # Create an invalid config file in the root directory
+        invalid_config_file_path = os.path.join(temp_dir, ".isort.cfg")
+        with open(invalid_config_file_path, "w") as f:
+            f.write("Invalid content")
+
+        trie = find_all_configs(temp_dir)
+        assert trie.children == {}
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+# Unit test for method __post_init__ of class _Config
+def test__Config___post_init__():
+    # Test with py_version="auto"
+    config = _Config(py_version="auto")
+    assert config.py_version == f"py{sys.version_info.major}{sys.version_info.minor}"
+
+    # Test with py_version="3"
+    config = _Config(py_version="3")
+    assert config.py_version == "py3"
+
+    # Test with py_version="all"
+    config = _Config(py_version="all")
+    assert config.py_version == "all"
+
+    # Test with invalid py_version
+    try:
+        _Config(py_version="invalid")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with force_alphabetical_sort=True
+    config = _Config(force_alphabetical_sort=True)
+    assert config.force_alphabetical_sort_within_sections is True
+    assert config.no_sections is True
+    assert config.lines_between_types == 1
+    assert config.from_first is True
+
+    # Test with wrap_length > line_length
+    try:
+        _Config(wrap_length=80, line_length=79)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with multi_line_output=WrapModes.VERTICAL_GRID_GROUPED_NO_COMMA
+    config = _Config(multi_line_output=WrapModes.VERTICAL_GRID_GROUPED_NO_COMMA)
+    assert config.multi_line_output == WrapModes.VERTICAL_GRID_GROUPED
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+# Unit test for method __post_init__ of class _Config
+def test__Config___post_init__():
+    # Test with py_version = "auto"
+    config = _Config(py_version="auto")
+    assert config.py_version == f"py{sys.version_info.major}{sys.version_info.minor}"
+
+    # Test with py_version = "3"
+    config = _Config(py_version="3")
+    assert config.py_version == "py3"
+
+    # Test with py_version = "all"
+    config = _Config(py_version="all")
+    assert config.py_version == "all"
+
+    # Test with invalid py_version
+    try:
+        _Config(py_version="invalid")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with force_alphabetical_sort = True
+    config = _Config(force_alphabetical_sort=True)
+    assert config.force_alphabetical_sort_within_sections
+    assert config.no_sections
+    assert config.lines_between_types == 1
+    assert config.from_first
+
+    # Test with wrap_length > line_length
+    try:
+        _Config(wrap_length=80, line_length=79)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with multi_line_output = WrapModes.VERTICAL_GRID_GROUPED_NO_COMMA
+    config = _Config(multi_line_output=WrapModes.VERTICAL_GRID_GROUPED_NO_COMMA)
+    assert config.multi_line_output == WrapModes.VERTICAL_GRID_GROUPED
 
 
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -1263,186 +710,31 @@ def test_Config_is_skipped():  # noqa: N802
 #--------------------------
 
 # Unit test for method is_skipped of class Config
-def test_Config_is_skipped():  
-    # Test case 1: file_path is skipped based on skips attribute
-    config = Config(skips=["test_file.py"])
-    file_path = Path("test_file.py")
-    assert config.is_skipped(file_path) == True
+def test_Config_is_skipped():
+    settings_file = "test_settings.ini"
+    settings_path = "/path/to/settings"
+    config = Config(settings_file=settings_file, settings_path=settings_path)
 
-    # Test case 2: file_path is skipped based on skip_globs attribute
-    config = Config(skip_globs=["*.py"])
-    file_path = Path("test_file.py")
-    assert config.is_skipped(file_path) == True
+    # Test case 1: File is skipped based on skips list
+    config.skips = frozenset(["test_file.py"])
+    assert config.is_skipped(Path("test_file.py")) == True
 
-    # Test case 3: file_path is not skipped
-    config = Config()
-    file_path = Path("test_file.py")
-    assert config.is_skipped(file_path) == False
+    # Test case 2: File is not skipped
+    config.skips = frozenset(["other_file.py"])
+    assert config.is_skipped(Path("test_file.py")) == False
 
-    # Test case 4: file_path is a directory and is skipped
-    config = Config(skips=["test_dir"])
-    file_path = Path("test_dir")
-    assert config.is_skipped(file_path) == True
+    # Test case 3: File is skipped based on skip_globs
+    config.skip_globs = frozenset(["test_*.py"])
+    assert config.is_skipped(Path("test_file.py")) == True
 
-    # Test case 5: file_path is a directory and is not skipped
-    config = Config()
-    file_path = Path("test_dir")
-    assert config.is_skipped(file_path) == False
+    # Test case 4: File is skipped based on gitignore
+    config.skip_gitignore = True
+    config.git_ls_files = {Path("/path/to/settings"): set()}
+    assert config.is_skipped(Path("/path/to/settings/test_file.py")) == True
 
-    # Test case 6: file_path is a symlink and is skipped
-    config = Config(skips=["test_link"])
-    file_path = Path("test_link")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 7: file_path is a symlink and is not skipped
-    config = Config()
-    file_path = Path("test_link")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 8: file_path is not a file, directory, or symlink
-    config = Config()
-    file_path = Path("non_existent_file")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 9: skip_gitignore is True and file_path is not in git ls-files
-    config = Config(skip_gitignore=True)
-    file_path = Path("test_file.py")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 10: skip_gitignore is True and file_path is in git ls-files
-    config = Config(skip_gitignore=True)
-    file_path = Path("test_file.py")
-    # Mock git_ls_files to include file_path
-    config.git_ls_files = {Path("/"): {str(file_path.resolve())}}
-    assert config.is_skipped(file_path) == False
-
-    # Test case 11: skip_gitignore is False and file_path is not in git ls-files
-    config = Config(skip_gitignore=False)
-    file_path = Path("test_file.py")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 12: skip_gitignore is False and file_path is in git ls-files
-    config = Config(skip_gitignore=False)
-    file_path = Path("test_file.py")
-    # Mock git_ls_files to include file_path
-    config.git_ls_files = {Path("/"): {str(file_path.resolve())}}
-    assert config.is_skipped(file_path) == False
-
-    # Test case 13: file_path is a directory and skip_gitignore is True
-    config = Config(skip_gitignore=True)
-    file_path = Path("test_dir")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 14: file_path is a directory and skip_gitignore is False
-    config = Config(skip_gitignore=False)
-    file_path = Path("test_dir")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 15: file_path is a symlink and skip_gitignore is True
-    config = Config(skip_gitignore=True)
-    file_path = Path("test_link")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 16: file_path is a symlink and skip_gitignore is False
-    config = Config(skip_gitignore=False)
-    file_path = Path("test_link")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 17: file_path is not a file, directory, or symlink and skip_gitignore is True
-    config = Config(skip_gitignore=True)
-    file_path = Path("non_existent_file")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 18: file_path is not a file, directory, or symlink and skip_gitignore is False
-    config = Config(skip_gitignore=False)
-    file_path = Path("non_existent_file")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 19: file_path is skipped based on skips attribute and skip_gitignore is True
-    config = Config(skips=["test_file.py"], skip_gitignore=True)
-    file_path = Path("test_file.py")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 20: file_path is skipped based on skips attribute and skip_gitignore is False
-    config = Config(skips=["test_file.py"], skip_gitignore=False)
-    file_path = Path("test_file.py")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 21: file_path is skipped based on skip_globs attribute and skip_gitignore is True
-    config = Config(skip_globs=["*.py"], skip_gitignore=True)
-    file_path = Path("test_file.py")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 22: file_path is skipped based on skip_globs attribute and skip_gitignore is False
-    config = Config(skip_globs=["*.py"], skip_gitignore=False)
-    file_path = Path("test_file.py")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 23: file_path is not skipped and skip_gitignore is True
-    config = Config(skip_gitignore=True)
-    file_path = Path("test_file.py")
-    # Mock git_ls_files to include file_path
-    config.git_ls_files = {Path("/"): {str(file_path.resolve())}}
-    assert config.is_skipped(file_path) == False
-
-    # Test case 24: file_path is not skipped and skip_gitignore is False
-    config = Config(skip_gitignore=False)
-    file_path = Path("test_file.py")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 25: file_path is a directory and is skipped based on skips attribute
-    config = Config(skips=["test_dir"])
-    file_path = Path("test_dir")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 26: file_path is a directory and is skipped based on skip_globs attribute
-    config = Config(skip_globs=["test_*"])
-    file_path = Path("test_dir")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 27: file_path is a directory and is not skipped
-    config = Config()
-    file_path = Path("test_dir")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 28: file_path is a symlink and is skipped based on skips attribute
-    config = Config(skips=["test_link"])
-    file_path = Path("test_link")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 29: file_path is a symlink and is skipped based on skip_globs attribute
-    config = Config(skip_globs=["test_*"])
-    file_path = Path("test_link")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 30: file_path is a symlink and is not skipped
-    config = Config()
-    file_path = Path("test_link")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 31: file_path is not a file, directory, or symlink and is skipped based on skips attribute
-    config = Config(skips=["non_existent_file"])
-    file_path = Path("non_existent_file")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 32: file_path is not a file, directory, or symlink and is skipped based on skip_globs attribute
-    config = Config(skip_globs=["non_*"])
-    file_path = Path("non_existent_file")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 33: file_path is not a file, directory, or symlink and is not skipped
-    config = Config()
-    file_path = Path("non_existent_file")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 34: file_path is skipped based on skips attribute and skip_gitignore is True and file_path is in git ls-files
-    config = Config(skips=["test_file.py"], skip_gitignore=True)
-    file_path = Path("test_file.py")
-    # Mock git_ls_files to include file_path
-    config.git_ls_files = {Path("/"): {str(file_path.resolve())}}
-    assert config.is_skipped(file_path) == True
-
-    # Test case 35: file_path is skipped based on skips attribute and skip_g
+    # Test case 5: File is not skipped based on gitignore
+    config.git_ls_files = {Path("/path/to/settings"): {"/path/to/settings/test_file.py"}}
+    assert config.is_skipped(Path("/path/to/settings/test_file.py")) == False
 
 
 # LLM-generated content at query #2
@@ -1450,1126 +742,1380 @@ def test_Config_is_skipped():
 
 # Unit test for function find_all_configs
 def test_find_all_configs():
+    import tempfile
+    import shutil
+    import os
+
+    # Create a temporary directory
+    temp_dir = tempfile.mkdtemp()
+    try:
+        # Create a subdirectory
+        sub_dir = os.path.join(temp_dir, "subdir")
+        os.makedirs(sub_dir)
+
+        # Create a config file in the root directory
+        root_config = os.path.join(temp_dir, ".isort.cfg")
+        with open(root_config, "w") as f:
+            f.write("[settings]\nline_length=80")
+
+        # Create a config file in the subdirectory
+        sub_config = os.path.join(sub_dir, ".isort.cfg")
+        with open(sub_config, "w") as f:
+            f.write("[settings]\nline_length=100")
+
+        # Test the function
+        trie = find_all_configs(temp_dir)
+
+        # Verify the root config
+        assert trie.get_config(temp_dir) == {"line_length": 80}
+
+        # Verify the subdirectory config
+        assert trie.get_config(sub_dir) == {"line_length": 100}
+
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for method is_skipped of class Config
-def test_Config_is_skipped():  
-    # Test case 1: file_path is a directory
+def test_Config_is_skipped():
     config = Config()
-    file_path = Path("/tmp/test_dir")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 2: file_path is a file
-    config = Config()
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 3: file_path is a symlink
-    config = Config()
-    file_path = Path("/tmp/test_symlink")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 4: file_path is not a file, directory, or symlink
-    config = Config()
-    file_path = Path("/tmp/test_nonexistent")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 5: file_path is in skips
-    config = Config(skips=["/tmp/test_file.txt"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 6: file_path is not in skips
-    config = Config(skips=["/tmp/test_file.txt"])
-    file_path = Path("/tmp/test_file2.txt")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 7: file_path is in skip_globs
-    config = Config(skip_globs=["/tmp/*.txt"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 8: file_path is not in skip_globs
-    config = Config(skip_globs=["/tmp/*.txt"])
-    file_path = Path("/tmp/test_file2.py")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 9: file_path is in gitignore
-    config = Config(skip_gitignore=True)
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 10: file_path is not in gitignore
-    config = Config(skip_gitignore=True)
-    file_path = Path("/tmp/test_file2.txt")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 11: file_path is a directory and is in skips
-    config = Config(skips=["/tmp/test_dir"])
-    file_path = Path("/tmp/test_dir")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 12: file_path is a directory and is not in skips
-    config = Config(skips=["/tmp/test_dir"])
-    file_path = Path("/tmp/test_dir2")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 13: file_path is a directory and is in skip_globs
-    config = Config(skip_globs=["/tmp/*"])
-    file_path = Path("/tmp/test_dir")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 14: file_path is a directory and is not in skip_globs
-    config = Config(skip_globs=["/tmp/*"])
-    file_path = Path("/tmp/test_dir2")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 15: file_path is a directory and is in gitignore
-    config = Config(skip_gitignore=True)
-    file_path = Path("/tmp/test_dir")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 16: file_path is a directory and is not in gitignore
-    config = Config(skip_gitignore=True)
-    file_path = Path("/tmp/test_dir2")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 17: file_path is a symlink and is in skips
-    config = Config(skips=["/tmp/test_symlink"])
-    file_path = Path("/tmp/test_symlink")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 18: file_path is a symlink and is not in skips
-    config = Config(skips=["/tmp/test_symlink"])
-    file_path = Path("/tmp/test_symlink2")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 19: file_path is a symlink and is in skip_globs
-    config = Config(skip_globs=["/tmp/*"])
-    file_path = Path("/tmp/test_symlink")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 20: file_path is a symlink and is not in skip_globs
-    config = Config(skip_globs=["/tmp/*"])
-    file_path = Path("/tmp/test_symlink2")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 21: file_path is a symlink and is in gitignore
-    config = Config(skip_gitignore=True)
-    file_path = Path("/tmp/test_symlink")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 22: file_path is a symlink and is not in gitignore
-    config = Config(skip_gitignore=True)
-    file_path = Path("/tmp/test_symlink2")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 23: file_path is a file and is in skips and skip_globs
-    config = Config(skips=["/tmp/test_file.txt"], skip_globs=["/tmp/*.txt"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 24: file_path is a file and is in skips but not in skip_globs
-    config = Config(skips=["/tmp/test_file.txt"], skip_globs=["/tmp/*.py"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 25: file_path is a file and is not in skips but in skip_globs
-    config = Config(skips=["/tmp/test_file2.txt"], skip_globs=["/tmp/*.txt"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 26: file_path is a file and is not in skips and not in skip_globs
-    config = Config(skips=["/tmp/test_file2.txt"], skip_globs=["/tmp/*.py"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 27: file_path is a file and is in gitignore and skips
-    config = Config(skip_gitignore=True, skips=["/tmp/test_file.txt"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 28: file_path is a file and is in gitignore but not in skips
-    config = Config(skip_gitignore=True, skips=["/tmp/test_file2.txt"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 29: file_path is a file and is not in gitignore but in skips
-    config = Config(skip_gitignore=True, skips=["/tmp/test_file.txt"])
-    file_path = Path("/tmp/test_file2.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 30: file_path is a file and is not in gitignore and not in skips
-    config = Config(skip_gitignore=True, skips=["/tmp/test_file2.txt"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 31: file_path is a file and is in gitignore and skip_globs
-    config = Config(skip_gitignore=True, skip_globs=["/tmp/*.txt"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 32: file_path is a file and is in gitignore but not in skip_globs
-    config = Config(skip_gitignore=True, skip_globs=["/tmp/*.py"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 33: file_path is a file and is not in gitignore but in skip_globs
-    config = Config(skip_gitignore=True, skip_globs=["/tmp/*.txt"])
-    file_path = Path("/tmp/test_file2.txt")
-    assert config.is_skipped(file_path) == True
-
-    # Test case 34: file_path is a file and is not in gitignore and not in skip_globs
-    config = Config(skip_gitignore=True, skip_globs=["/tmp/*.py"])
-    file_path = Path("/tmp/test_file.txt")
-    assert config.is_skipped(file_path) == False
-
-    # Test case 35: file_path is a file
+    assert not config.is_skipped(Path("test.py"))
+    config.skip = {"test.py"}
+    assert config.is_skipped(Path("test.py"))
+    config.skip = {"test"}
+    assert not config.is_skipped(Path("test.py"))
+    config.skip_glob = {"*.py"}
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob = {"test.*"}
+    assert not config.is_skipped(Path("test.py"))
+    config.skip_glob = {"*.py"}
+    config.extend_skip_glob = {"test.*"}
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob = set()
+    config.extend_skip_glob = set()
+    config.skip = set()
+    config.extend_skip = set()
+    assert not config.is_skipped(Path("test.py"))
+    config.skip_gitignore = True
+    assert not config.is_skipped(Path("test.py"))
+    config.skip_gitignore = False
+    assert not config.is_skipped(Path("test.py"))
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for constructor of class Config
-def test_Config():  
-    # Test case 1: Test with default settings
+def test_Config():
+    # Test 1: Verify that the Config object is initialized correctly with default settings
     config = Config()
     assert config.line_length == 79
-    assert config.multi_line_output == WrapModes.GRID
-    assert config.force_sort_within_sections == False
-    assert config.lexicographical == False
-    assert config.reverse_relative == False
-    assert config.force_single_line == False
+    assert config.multi_line_output == 2
+    assert config.include_trailing_comma is False
     assert config.force_grid_wrap == 0
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.no_lines_before == ()
-    assert config.lines_after_imports == -1
-    assert config.lines_between_sections == 1
+    assert config.use_parentheses is False
+    assert config.ensure_newline_before_comments is False
+    assert config.include_comments is False
+    assert config.force_alphabetical_sort is False
+    assert config.force_alphabetical_sort_within_sections is False
+    assert config.force_alphabetical_sort_within_sections is False
+    assert config.force_sort_within_sections is False
     assert config.lines_between_types == 0
-    assert config.combine_as_imports == False
-    assert config.include_trailing_comma == False
-    assert config.from_first == False
-    assert config.verbose == False
-    assert config.quiet == False
-    assert config.force_adds == False
-    assert config.cprofile == False
-    assert config.filter_files == False
-    assert config.format_error == None
-    assert config.format_success == None
-    assert config.sort_order == "native"
-    assert config.force_single_line_imports == False
-    assert config.single_line_exclusions == ()
-    assert config.default_section == "THIRDPARTY"
-    assert config.import_headings == {}
-    assert config.import_footers == {}
-    assert config.balanced_wrapping == False
-    assert config.use_parentheses == False
-    assert config.order_by_type == True
-    assert config.atomic == False
-    assert config.files_with_code == _STDIN_FILE
-    assert config.per_file_ignores == {}
-    assert config.combine_star == False
-    assert config.ensure_newline_before_comments == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line == False
-    assert config.force_adds == False
-    assert config.force_single_line_imports == False
-    assert config.force_sort_within_sections == False
-    assert config.force_alphabetical_sort_within_sections == False
-    assert config
+    assert config.lines_between_sections == 0
+    assert config.lines_after_imports == -1
+    assert config.lines_before_imports == -1
+    assert config.indent == "    "
+    assert config.length_sort is False
+    assert config.length_sort_sections == ()
+    assert config.length_sort_straight is False
+    assert config.length_sort_by_package is False
+    assert config.length_sort_by_module is False
+    assert config.length_sort_by_class is False
+    assert config.length_sort_by_function is False
+    assert config.length_sort_by_method is False
+    assert config.length_sort_by_attribute is False
+    assert config.length_sort_by_class_attribute is False
+    assert config.length_sort_by_instance_attribute is False
+    assert config.length_sort_by_field is False
+    assert config.length_sort_by_property is False
+    assert config.length_sort_by_decorator is False
+    assert config.length_sort_by_annotation is False
+    assert config.length_sort_by_type_comment is False
+    assert config.length_sort_by_type_annotation is False
+    assert config.length_sort_by_default is False
+    assert config.length_sort_by_group is False
+    assert config.length_sort_by_line is False
+    assert config.length_sort_by_column is False
+    assert config.length_sort_by_span is False
+    assert config.length_sort_by_is_import is False
+    assert config.length_sort_by_is_from_import is False
+    assert config.length_sort_by_is_relative_import is False
+    assert config.length_sort_by_is_absolute_import is False
+    assert config.length_sort_by_is_module_import is False
+    assert config.length_sort_by_is_package_import is False
+    assert config.length_sort_by_is_class_import is False
+    assert config.length_sort_by_is_function_import is False
+    assert config.length_sort_by_is_method_import is False
+    assert config.length_sort_by_is_attribute_import is False
+    assert config.length_sort_by_is_class_attribute_import is False
+    assert config.length_sort_by_is_instance_attribute_import is False
+    assert config.length_sort_by_is_field_import is False
+    assert config.length_sort_by_is_property_import is False
+    assert config.length_sort_by_is_decorator_import is False
+    assert config.length_sort_by_is_annotation_import is False
+    assert config.length_sort_by_is_type_comment_import is False
+    assert config.length_sort_by_is_type_annotation_import is False
+    assert config.length_sort_by_is_default_import is False
+    assert config.length_sort_by_is_group_import is False
+    assert config.length_sort_by_is_line_import is False
+    assert config.length_sort_by_is_column_import is False
+    assert config.length_sort_by_is_span_import is False
+    assert config.length_sort_by_is_import_group is False
+    assert config.length_sort_by_is_from_import_group is False
+    assert config.length_sort_by_is_relative_import_group is False
+    assert config.length_sort_by_is_absolute_import_group is False
+    assert config.length_sort_by_is_module_import_group is False
+    assert config.length_sort_by_is_package_import_group is False
+    assert config.length_sort_by_is_class_import_group is False
+    assert config.length_sort_by_is_function_import_group is False
+    assert config.length_sort_by_is_method_import_group is False
+    assert config.length_sort_by_is_attribute_import_group is False
+    assert config.length_sort_by_is_class_attribute_import_group is False
+    assert config.length_sort_by_is_instance_attribute_import_group is False
+    assert config.length_sort_by_is_field_import_group is False
+    assert config.length_sort_by_is_property_import_group is False
+    assert config.length_sort_by_is_decorator_import_group is False
+    assert config.length_sort_by_is_annotation_import_group is False
+    assert config.length_sort_by_is_type_comment_import_group is False
+    assert config.length_sort_by_is_type_annotation_import_group is False
+    assert config.length_sort_by_is_default_import_group is False
+    assert config.length_sort_by_is_group_import_group is False
+    assert config.length_sort_by_is_line_import_group is False
+    assert config.length_sort_by_is_column_import_group is False
+    assert config.length_sort_by_is_span_import_group is False
+    assert config.length_sort_by_is_import_line is False
+    assert config.length_sort_by_is_from_import_line is False
+    assert config.length_sort_by_is_relative_import_line is False
+    assert config.length_sort_by_is_absolute_import_line is False
+    assert config.length_sort_by_is_module_import_line is False
+    assert config.length_sort_by_is_package_import_line is False
+    assert config.length_sort_by_is_class_import_line is False
+    assert config.length_sort_by_is_function_import_line is False
+    assert config.length_sort_by_is_method_import_line is False
+    assert config.length_sort_by_is_attribute_import_line is False
+    assert config.length_sort_by_is_class_attribute_import_line is False
+    assert config.length_sort_by_is_instance_attribute_import_line is False
+    assert config.length_sort_by_is_field_import_line is False
+    assert config.length_sort_by_is_property_import_line is False
+    assert config.length_sort_by_is_decorator_import_line is False
+    assert config.length_sort_by_is_annotation_import_line is False
+    assert config.length_sort_by_is_type_comment_import_line is False
+    assert config.length_sort_by_is_type_annotation_import_line is False
+    assert config.length_sort_by_is_default_import_line is False
+    assert config.length_sort_by_is_group_import_line is False
+    assert config.length_sort_by_is_line_import_line is False
+    assert config.length_sort_by_is_column_import_line is False
+    assert config.length_sort_by_is_span_import_line is False
+    assert config.length_sort_by_is_import_column is False
+    assert config.length_sort_by_is_from_import_column is False
+    assert config.length_sort_by_is_relative_import_column is False
+    assert config.length_sort_by_is_absolute_import_column is False
+    assert config.length_sort_by_is_module_import_column is False
+    assert config.length_sort_by_is_package_import_column is False
+    assert config.length_sort_by_is_class_import_column is False
+    assert config.length_sort_by_is_function_import_column is False
+    assert config.length_sort_by_is_method_import_column is False
+    assert config.length_sort_by_is_attribute_import_column is False
+    assert config.length_sort_by_is_class_attribute_import_column is False
+    assert config.length_sort_by_is_instance_attribute_import_column is False
+    assert config.length_sort_by_is_field_import_column is False
+    assert config.length_sort_by_is_property_import_column is False
+    assert config.length_sort_by_is_decorator_import_column is False
+    assert config.length_sort_by_is_annotation_import_column is False
+    assert config.length_sort_by_is_type_comment_import_column is False
+    assert config.length_sort_by_is_type_annotation_import_column is False
+    assert config.length_sort_by_is_default_import_column is False
+    assert config.length_sort_by_is_group_import_column is False
+    assert config.length_sort_by_is_line_import_column is False
+    assert config.length_sort_by_is_column_import_column is False
+    assert config.length_sort_by_is_span_import_column is False
+    assert config.length_sort_by_is_import_span is False
+    assert config.length_sort_by_is_from_import_span is False
+    assert config.length_sort_by_is_relative_import_span is False
+    assert config.length_sort_by_is_absolute_import_span is False
+    assert config.length_sort_by_is_module_import_span is False
+    assert config.length_sort_by_is_package_import_span is False
+    assert config.length_sort_by_is_class_import_span is False
+    assert config.length_sort_by_is_function_import_span is False
+    assert config.length_sort_by_is_method_import_span is False
+    assert config.length_sort_by_is_attribute_import_span is False
+    assert config.length_sort_by_is_class_attribute_import_span is False
+    assert config.length_sort_by_is_instance_attribute_import_span is False
+    assert config.length_sort_by_is_field_import_span is False
+    assert config.length_sort_by_is_property_import_span is False
+    assert config.length_sort_by_is_decorator_import_span is False
+    assert config.length_sort_by_is_annotation_import_span is False
+    assert config.length_sort_by_is_type_comment_import_span is False
+    assert config.length_sort_by_is_type_annotation_import_span is
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for function find_all_configs
-def test_find_all_configs():  
-    # Test case 1: No config files in the directory
-    with tempfile.TemporaryDirectory() as tmpdir:
-        result = find_all_configs(tmpdir)
-        assert result.children == {}, "Expected no config files in empty directory"
-    
-    # Test case 2: Single config file in root directory
-    with tempfile.TemporaryDirectory() as tmpdir:
-        config_file = os.path.join(tmpdir, '.isort.cfg')
-        with open(config_file, 'w') as f:
-            f.write('[settings]\nprofile = black')
-        result = find_all_configs(tmpdir)
-        assert result.children != {}, "Expected config file in root directory"
-    
-    # Test case 3: Config file in subdirectory
-    with tempfile.TemporaryDirectory() as tmpdir:
-        subdir = os.path.join(tmpdir, 'subdir')
-        os.makedirs(subdir)
-        config_file = os.path.join(subdir, '.isort.cfg')
-        with open(config_file, 'w') as f:
-            f.write('[settings]\nprofile = black')
-        result = find_all_configs(tmpdir)
-        assert result.children != {}, "Expected config file in subdirectory"
-    
-    # Test case 4: Multiple config files in different directories
-    with tempfile.TemporaryDirectory() as tmpdir:
-        config_file1 = os.path.join(tmpdir, '.isort.cfg')
-        with open(config_file1, 'w') as f:
-            f.write('[settings]\nprofile = black')
-        subdir = os.path.join(tmpdir, 'subdir')
-        os.makedirs(subdir)
-        config_file2 = os.path.join(subdir, '.isort.cfg')
-        with open(config_file2, 'w') as f:
-            f.write('[settings]\nline_length = 100')
-        result = find_all_configs(tmpdir)
-        assert result.children != {}, "Expected multiple config files"
-    
-    # Test case 5: Invalid config file (should be ignored)
-    with tempfile.TemporaryDirectory() as tmpdir:
-        config_file = os.path.join(tmpdir, '.isort.cfg')
-        with open(config_file, 'w') as f:
-            f.write('invalid content')
-        result = find_all_configs(tmpdir)
-        # The function should handle invalid config gracefully
-        assert result.children != {}, "Expected invalid config to be handled gracefully"
-    
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_find_all_configs()
+def test_find_all_configs():
+    # Test code here
+    pass
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for constructor of class Config
-def test_Config():  
-    # Test with default settings
-    config = Config()
-    assert config.line_length == 79
-    assert config.multi_line_output == WrapModes.GRID
-    assert config.indent == "    "
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert config.force_sort_within_sections is False
-    assert config.force_alphabetical_sort_within_sections is False
-    assert config.force_grid_wrap == 0
-    assert config.force_single_line is False
-    assert config.force_single_line_imports is False
-    assert config.force_single_line_imports is False
-    assert
+# Unit test for function find_all_configs
+def test_find_all_configs():
+    import tempfile
+    import shutil
+
+    # Create a temporary directory
+    temp_dir = tempfile.mkdtemp()
+    try:
+        # Create a subdirectory
+        sub_dir = os.path.join(temp_dir, "subdir")
+        os.makedirs(sub_dir)
+
+        # Create a config file in the root directory
+        root_config = os.path.join(temp_dir, ".isort.cfg")
+        with open(root_config, "w") as f:
+            f.write("[settings]\nline_length=100")
+
+        # Create a config file in the subdirectory
+        sub_config = os.path.join(sub_dir, ".isort.cfg")
+        with open(sub_config, "w") as f:
+            f.write("[settings]\nline_length=80")
+
+        # Test the function
+        trie = find_all_configs(temp_dir)
+        
+        # Verify root config was found
+        assert trie.find(root_config) is not None
+        assert trie.find(root_config).data["line_length"] == 100
+        
+        # Verify subdirectory config was found
+        assert trie.find(sub_config) is not None
+        assert trie.find(sub_config).data["line_length"] == 80
+
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
+
+# Run the test
+test_find_all_configs()
 
 
 # LLM-generated content at query #7
 #--------------------------
 
-# Unit test for method is_skipped of class Config
-def test_Config_is_skipped():  
-    # Test case 1: file_path is a string, not a Path object  
-    config = Config()  
-    file_path = "test_file.py"  
-    # This should raise an AttributeError because file_path is not a Path object  
-    try:  
-        config.is_skipped(file_path)  
-    except AttributeError:  
-        pass  
-    else:  
-        assert False, "Expected AttributeError"  
+# Unit test for constructor of class Config
+def test_Config():
+    # Test with default settings
+    config = Config()
+    assert config.line_length == 79
+    assert isinstance(config.sources, tuple)
+    assert len(config.sources) == 1
+    assert config.sources[0] == _DEFAULT_SETTINGS
 
-    # Test case 2: file_path is a Path object  
-    config = Config()  
-    file_path = Path("test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
+    # Test with a custom settings file
+    custom_settings_file = "test_settings.ini"
+    with open(custom_settings_file, "w") as f:
+        f.write("[isort]\nline_length = 88\n")
+    config = Config(settings_file=custom_settings_file)
+    assert config.line_length == 88
+    os.remove(custom_settings_file)
 
-    # Test case 3: file_path is a Path object with a parent directory  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
+    # Test with a custom settings path
+    custom_settings_path = "test_settings_path"
+    os.makedirs(custom_settings_path, exist_ok=True)
+    with open(os.path.join(custom_settings_path, ".isort.cfg"), "w") as f:
+        f.write("[isort]\nline_length = 99\n")
+    config = Config(settings_path=custom_settings_path)
+    assert config.line_length == 99
+    shutil.rmtree(custom_settings_path)
 
-    # Test case 4: file_path is a Path object with a parent directory that is a symlink  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
+    # Test with a config object
+    config_obj = Config(line_length=100)
+    config = Config(config=config_obj)
+    assert config.line_length == 100
 
-    # Test case 5: file_path is a Path object with a parent directory that is a symlink and the symlink is broken  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
+    # Test with config overrides
+    config = Config(line_length=200)
+    assert config.line_length == 200
 
-    # Test case 6: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file exists  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
+    # Test with deprecated options
+    config = Config(line_length=300, add_imports=["os"])
+    assert config.line_length == 300
+    assert config.add_imports == ("os",)
 
-    # Test case 7: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
+    # Test with unsupported settings
+    try:
+        Config(unsupported_setting=True)
+        assert False
+    except UnsupportedSettings:
+        assert True
 
-    # Test case 8: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
+    # Test with a profile
+    config = Config(profile="black")
+    assert config.profile == "black"
 
-    # Test case 9: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is empty  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
+    # Test with an invalid profile
+    try:
+        Config(profile="invalid_profile")
+        assert False
+    except ProfileDoesNotExist:
+        assert True
 
-    # Test case 10: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
+    # Test with a formatter
+    config = Config(formatter="terminal")
+    assert config.formatting_function is not None
 
-    # Test case 11: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a file  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
+    # Test with an invalid formatter
+    try:
+        Config(formatter="invalid_formatter")
+        assert False
+    except FormattingPluginDoesNotExist:
+        assert True
 
-    # Test case 12: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a directory  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
+    # Test with a sorting function
+    config = Config(sort_order="native")
+    assert config.sorting_function == sorted
 
-    # Test case 13: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
-
-    # Test case 14: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink, and the symlink is broken  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
-
-    # Test case 15: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink, and the symlink is broken, and the symlink is a directory  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
-
-    # Test case 16: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink, and the symlink is broken, and the symlink is a directory, and the directory is empty  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
-
-    # Test case 17: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink, and the symlink is broken, and the symlink is a directory, and the directory is not empty  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
-
-    # Test case 18: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink, and the symlink is broken, and the symlink is a directory, and the directory is not empty, and the directory contains a file  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
-
-    # Test case 19: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink, and the symlink is broken, and the symlink is a directory, and the directory is not empty, and the directory contains a directory  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
-
-    # Test case 20: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink, and the symlink is broken, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
-
-    # Test case 21: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink, and the symlink is broken, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink, and the symlink is broken  
-    config = Config()  
-    file_path = Path("test_dir/test_file.py")  
-    # This should not raise an error  
-    config.is_skipped(file_path)  
-
-    # Test case 22: file_path is a Path object with a parent directory that is a symlink and the symlink is broken, but the file does not exist, and the symlink is a directory, and the directory is not empty, and the directory contains a symlink, and the symlink is broken
+    # Test with an invalid sorting function
+    try:
+        Config(sort_order="invalid_sort_order")
+        assert False
+    except SortingFunctionDoesNotExist:
+        assert True
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for function find_all_configs
-def test_find_all_configs():
+# Unit test for method is_supported_filetype of class Config
+def test_Config_is_supported_filetype(): 
+    config = Config()
+    assert config.is_supported_filetype("test.py") == True
+    assert config.is_supported_filetype("test.txt") == False
+    assert config.is_supported_filetype("test~") == False
+    assert config.is_supported_filetype("test.bak") == False
+    assert config.is_supported_filetype("test.PY") == True
+    assert config.is_supported_filetype("test.TXT") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYW") == False
+    assert config.is_supported_filetype("test.PYO") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYD~") == False
+    assert config.is_supported_filetype("test.PYW~") == False
+    assert config.is_supported_filetype("test.PYO~") == False
+    assert config.is_supported_filetype("test.CFG") == False
+    assert config.is_supported_filetype("test.CFG~") == False
+    assert config.is_supported_filetype("test.INI") == False
+    assert config.is_supported_filetype("test.INI~") == False
+    assert config.is_supported_filetype("test.LOG") == False
+    assert config.is_supported_filetype("test.LOG~") == False
+    assert config.is_supported_filetype("test.TMP") == False
+    assert config.is_supported_filetype("test.TMP~") == False
+    assert config.is_supported_filetype("test.TEMP") == False
+    assert config.is_supported_filetype("test.TEMP~") == False
+    assert config.is_supported_filetype("test.BAK") == False
+    assert config.is_supported_filetype("test.BAK~") == False
+    assert config.is_supported_filetype("test.SWAP") == False
+    assert config.is_supported_filetype("test.SWAP~") == False
+    assert config.is_supported_filetype("test.SWP") == False
+    assert config.is_supported_filetype("test.SWP~") == False
+    assert config.is_supported_filetype("test.BAT") == False
+    assert config.is_supported_filetype("test.BAT~") == False
+    assert config.is_supported_filetype("test.CMD") == False
+    assert config.is_supported_filetype("test.CMD~") == False
+    assert config.is_supported_filetype("test.EXE") == False
+    assert config.is_supported_filetype("test.EXE~") == False
+    assert config.is_supported_filetype("test.DLL") == False
+    assert config.is_supported_filetype("test.DLL~") == False
+    assert config.is_supported_filetype("test.SO") == False
+    assert config.is_supported_filetype("test.SO~") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYD~") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYO") == False
+    assert config.is_supported_filetype("test.PYO~") == False
+    assert config.is_supported_filetype("test.PYW") == False
+    assert config.is_supported_filetype("test.PYW~") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYD~") == False
+    assert config.is_supported_filetype("test.PYW") == False
+    assert config.is_supported_filetype("test.PYW~") == False
+    assert config.is_supported_filetype("test.PYO") == False
+    assert config.is_supported_filetype("test.PYO~") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYD~") == False
+    assert config.is_supported_filetype("test.PYW") == False
+    assert config.is_supported_filetype("test.PYW~") == False
+    assert config.is_supported_filetype("test.PYO") == False
+    assert config.is_supported_filetype("test.PYO~") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYD~") == False
+    assert config.is_supported_filetype("test.PYW") == False
+    assert config.is_supported_filetype("test.PYW~") == False
+    assert config.is_supported_filetype("test.PYO") == False
+    assert config.is_supported_filetype("test.PYO~") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYD~") == False
+    assert config.is_supported_filetype("test.PYW") == False
+    assert config.is_supported_filetype("test.PYW~") == False
+    assert config.is_supported_filetype("test.PYO") == False
+    assert config.is_supported_filetype("test.PYO~") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYD~") == False
+    assert config.is_supported_filetype("test.PYW") == False
+    assert config.is_supported_filetype("test.PYW~") == False
+    assert config.is_supported_filetype("test.PYO") == False
+    assert config.is_supported_filetype("test.PYO~") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYD~") == False
+    assert config.is_supported_filetype("test.PYW") == False
+    assert config.is_supported_filetype("test.PYW~") == False
+    assert config.is_supported_filetype("test.PYO") == False
+    assert config.is_supported_filetype("test.PYO~") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYD~") == False
+    assert config.is_supported_filetype("test.PYW") == False
+    assert config.is_supported_filetype("test.PYW~") == False
+    assert config.is_supported_filetype("test.PYO") == False
+    assert config.is_supported_filetype("test.PYO~") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYD~") == False
+    assert config.is_supported_filetype("test.PYW") == False
+    assert config.is_supported_filetype("test.PYW~") == False
+    assert config.is_supported_filetype("test.PYO") == False
+    assert config.is_supported_filetype("test.PYO~") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYD~") == False
+    assert config.is_supported_filetype("test.PYW") == False
+    assert config.is_supported_filetype("test.PYW~") == False
+    assert config.is_supported_filetype("test.PYO") == False
+    assert config.is_supported_filetype("test.PYO~") == False
+    assert config.is_supported_filetype("test.PYC") == False
+    assert config.is_supported_filetype("test.PYC~") == False
+    assert config.is_supported_filetype("test.PYD") == False
+    assert config.is_supported_filetype("test.PYD~") == False
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for method is_skipped of class Config
-def test_Config_is_skipped():  
-    # Create a Config object with default settings
-    config = Config()
-    
-    # Test case 1: File path is in skips list
-    config.skip = {'/path/to/skip'}
-    assert config.is_skipped(Path('/path/to/skip')) == True
-    
-    # Test case 2: File path is not in skips list
-    config.skip = {'/path/to/skip'}
-    assert config.is_skipped(Path('/path/to/not_skip')) == False
-    
-    # Test case 3: File path matches a glob pattern in skip_glob
-    config.skip_glob = {'*.txt'}
-    assert config.is_skipped(Path('/path/to/file.txt')) == True
-    
-    # Test case 4: File path does not match any glob pattern in skip_glob
-    config.skip_glob = {'*.txt'}
-    assert config.is_skipped(Path('/path/to/file.py')) == False
-    
-    # Test case 5: File path is a directory and is in skips list
-    config.skip = {'/path/to/skip_dir'}
-    assert config.is_skipped(Path('/path/to/skip_dir')) == True
-    
-    # Test case 6: File path is a directory and is not in skips list
-    config.skip = {'/path/to/skip_dir'}
-    assert config.is_skipped(Path('/path/to/not_skip_dir')) == False
-    
-    # Test case 7: File path is a symlink and is in skips list
-    config.skip = {'/path/to/skip_link'}
-    assert config.is_skipped(Path('/path/to/skip_link')) == True
-    
-    # Test case 8: File path is a symlink and is not in skips list
-    config.skip = {'/path/to/skip_link'}
-    assert config.is_skipped(Path('/path/to/not_skip_link')) == False
-    
-    # Test case 9: File path is not a file, directory, or symlink
-    config.skip = {'/path/to/skip'}
-    assert config.is_skipped(Path('/path/to/nonexistent')) == True
-    
-    # Test case 10: File path is in skip_gitignore and not in git_ls_files
-    config.skip_gitignore = True
-    config.git_ls_files = {Path('/path/to/git_folder'): {'/path/to/git_folder/file.py'}}
-    assert config.is_skipped(Path('/path/to/git_folder/other_file.py')) == True
-    
-    # Test case 11: File path is in skip_gitignore and in git_ls_files
-    config.skip_gitignore = True
-    config.git_ls_files = {Path('/path/to/git_folder'): {'/path/to/git_folder/file.py'}}
-    assert config.is_skipped(Path('/path/to/git_folder/file.py')) == False
-    
-    # Test case 12: File path is not in skip_gitignore
-    config.skip_gitignore = False
-    assert config.is_skipped(Path('/path/to/file.py')) == False
-    
-    # Test case 13: File path is a .git directory
-    config.skip_gitignore = True
-    assert config.is_skipped(Path('/path/to/.git')) == True
-    
-    # Test case 14: File path is a .git directory but skip_gitignore is False
-    config.skip_gitignore = False
-    assert config.is_skipped(Path('/path/to/.git')) == False
-    
-    # Test case 15: File path is a directory and is in skip_glob
-    config.skip_glob = {'*/skip_dir/*'}
-    assert config.is_skipped(Path('/path/to/skip_dir/file.py')) == True
-    
-    # Test case 16: File path is a directory and is not in skip_glob
-    config.skip_glob = {'*/skip_dir/*'}
-    assert config.is_skipped(Path('/path/to/not_skip_dir/file.py')) == False
-    
-    # Test case 17: File path is a symlink and is in skip_glob
-    config.skip_glob = {'*/skip_link/*'}
-    assert config.is_skipped(Path('/path/to/skip_link/file.py')) == True
-    
-    # Test case 18: File path is a symlink and is not in skip_glob
-    config.skip_glob = {'*/skip_link/*'}
-    assert config.is_skipped(Path('/path/to/not_skip_link/file.py')) == False
-    
-    # Test case 19: File path is a file and is in skip_glob
-    config.skip_glob = {'*.txt'}
-    assert config.is_skipped(Path('/path/to/file.txt')) == True
-    
-    # Test case 20: File path is a file and is not in skip_glob
-    config.skip_glob = {'*.txt'}
-    assert config.is_skipped(Path('/path/to/file.py')) == False
-    
-    # Test case 21: File path is a directory and is in skips list and skip_glob
-    config.skip = {'/path/to/skip_dir'}
-    config.skip_glob = {'*/skip_dir/*'}
-    assert config.is_skipped(Path('/path/to/skip_dir')) == True
-    
-    # Test case 22: File path is a directory and is not in skips list but in skip_glob
-    config.skip = {'/path/to/skip_dir'}
-    config.skip_glob = {'*/skip_dir/*'}
-    assert config.is_skipped(Path('/path/to/not_skip_dir')) == False
-    
-    # Test case 23: File path is a directory and is in skips list but not in skip_glob
-    config.skip = {'/path/to/skip_dir'}
-    config.skip_glob = {'*/skip_dir/*'}
-    assert config.is_skipped(Path('/path/to/skip_dir')) == True
-    
-    # Test case 24: File path is a directory and is not in skips list and not in skip_glob
-    config.skip = {'/path/to/skip_dir'}
-    config.skip_glob = {'*/skip_dir/*'}
-    assert config.is_skipped(Path('/path/to/not_skip_dir')) == False
-    
-    # Test case 25: File path is a symlink and is in skips list and skip_glob
-    config.skip = {'/path/to/skip_link'}
-    config.skip_glob = {'*/skip_link/*'}
-    assert config.is_skipped(Path('/path/to/skip_link')) == True
-    
-    # Test case 26: File path is a symlink and is not in skips list but in skip_glob
-    config.skip = {'/path/to/skip_link'}
-    config.skip_glob = {'*/skip_link/*'}
-    assert config.is_skipped(Path('/path/to/not_skip_link')) == False
-    
-    # Test case 27: File path is a symlink and is in skips list but not in skip_glob
-    config.skip = {'/path/to/skip_link'}
-    config.skip_glob = {'*/skip_link/*'}
-    assert config.is_skipped(Path('/path/to/skip_link')) == True
-    
-    # Test case 28: File path is a symlink and is not in skips list and not in skip_glob
-    config.skip = {'/path/to/skip_link'}
-    config.skip_glob = {'*/skip_link/*'}
-    assert config.is_skipped(Path('/path/to/not_skip_link')) == False
-    
-    # Test case 29: File path is a file and is in skips list and skip_glob
-    config.skip = {'/path/to/skip_file.txt'}
-    config.skip_glob = {'*.txt'}
-    assert config.is_skipped(Path('/path/to/skip_file.txt')) == True
-    
-    # Test case 30: File path is a file and is not in skips list but in skip_glob
-    config.skip = {'/path/to/skip_file.txt'}
-    config.skip_glob = {'*.txt'}
-    assert config.is_skipped(Path('/path/to/not_skip_file.txt')) == True
-    
-    # Test case 31: File path is a file and is in skips list but not in skip_glob
-    config.skip = {'/path/to/skip_file.txt'}
-    config.skip_glob = {'*.txt'}
-    assert config.is_skipped(Path('/path/to/skip_file.txt')) == True
-    
-    # Test case 32: File path is a file and is not in skips list and not in skip_glob
-    config.skip = {'/path/to/skip_file.txt'}
-    config.skip_glob = {'*.txt'}
-    assert config.is_skipped(Path('/path/to/not_skip_file.py')) == False
-    
-    # Test case 33: File path is a directory and is in skips list and skip_gitignore
-    config.skip = {'/path/to/skip_dir'}
-    config.skip_gitignore = True
-    config.git_ls_files = {Path('/path/to/git_folder'): {'/path/to/git_folder/file.py'}}
-    assert config.is_skipped(Path('/path/to/skip_dir')) == True
-    
-    # Test case 34: File path is a directory and is not in skips list but in skip_gitignore
-    config.skip = {'/path/to/skip_dir'}
-    config.skip_gitignore = True
-    config.git_ls_files = {Path('/
+# Unit test for function find_all_configs
+def test_find_all_configs():
+    import tempfile
+    import shutil
+
+    # Create a temporary directory
+    temp_dir = tempfile.mkdtemp()
+    try:
+        # Create subdirectories and config files
+        sub_dir1 = os.path.join(temp_dir, "sub1")
+        os.makedirs(sub_dir1)
+        with open(os.path.join(sub_dir1, ".isort.cfg"), "w") as f:
+            f.write("[settings]\nknown_first_party=test1")
+
+        sub_dir2 = os.path.join(temp_dir, "sub2")
+        os.makedirs(sub_dir2)
+        with open(os.path.join(sub_dir2, "pyproject.toml"), "w") as f:
+            f.write("[tool.isort]\nknown_first_party=test2")
+
+        # Test the function
+        trie = find_all_configs(temp_dir)
+
+        # Verify the results
+        assert trie.children
+        assert len(trie.children) == 1  # Only one root directory
+        root_child = list(trie.children.values())[0]
+        assert len(root_child.children) == 2  # Two subdirectories with configs
+
+        # Check config data was correctly parsed
+        for child in root_child.children.values():
+            if ".isort.cfg" in child.config_path:
+                assert child.config_data.get("known_first_party") == {"test1"}
+            elif "pyproject.toml" in child.config_path:
+                assert child.config_data.get("known_first_party") == {"test2"}
+
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
 
 
 # LLM-generated content at query #10
 #--------------------------
 
-# Unit test for method is_supported_filetype of class Config
-def test_Config_is_supported_filetype():  
-    # Test case 1: File with extension in supported_extensions
-    config = Config()
-    config.supported_extensions = {"py", "txt"}
-    assert config.is_supported_filetype("test.py") == True
-    assert config.is_supported_filetype("test.txt") == True
+# Unit test for function find_all_configs
+def test_find_all_configs():
+    # Create a temporary directory structure
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        # Create some config files
+        config_file_names = ["setup.cfg", ".isort.cfg", "pyproject.toml"]
+        for config_file_name in config_file_names:
+            with open(os.path.join(tmpdirname, config_file_name), "w") as f:
+                f.write("[isort]\nprofile=black")
 
-    # Test case 2: File with extension in blocked_extensions
-    config.blocked_extensions = {"exe", "dll"}
-    assert config.is_supported_filetype("test.exe") == False
-    assert config.is_supported_filetype("test.dll") == False
+        # Create subdirectories with config files
+        subdir_names = ["subdir1", "subdir2"]
+        for subdir_name in subdir_names:
+            subdir_path = os.path.join(tmpdirname, subdir_name)
+            os.makedirs(subdir_path)
+            for config_file_name in config_file_names:
+                with open(os.path.join(subdir_path, config_file_name), "w") as f:
+                    f.write("[isort]\nprofile=black")
 
-    # Test case 3: File with extension not in supported_extensions or blocked_extensions
-    # but with a shebang line
-    # Mocking open and os.stat to simulate a file with shebang
-    import io
-    from unittest.mock import mock_open, patch
-    with patch('builtins.open', mock_open(read_data='#!/usr/bin/env python\n')):
-        with patch('os.stat', return_value=type('stat', (), {'st_mode': 0o100000})()):
-            assert config.is_supported_filetype("test") == True
+        # Test find_all_configs
+        trie_root = find_all_configs(tmpdirname)
 
-    # Test case 4: File with extension not in supported_extensions or blocked_extensions
-    # and without a shebang line
-    with patch('builtins.open', mock_open(read_data='')):
-        with patch('os.stat', return_value=type('stat', (), {'st_mode': 0o100000})()):
-            assert config.is_supported_filetype("test") == False
+        # Check that the trie contains the correct paths
+        expected_paths = [os.path.join(tmpdirname, config_file_name) for config_file_name in config_file_names] + \
+                        [os.path.join(tmpdirname, subdir_name, config_file_name) for subdir_name in subdir_names for config_file_name in config_file_names]
+        for path in expected_paths:
+            assert trie_root.contains(path)
 
-    # Test case 5: File that is a FIFO (named pipe)
-    with patch('os.stat', return_value=type('stat', (), {'st_mode': 0o140000})()):
-        assert config.is_supported_filetype("test") == False
-
-    # Test case 6: File that ends with '~' (editor backup file)
-    assert config.is_supported_filetype("test~") == False
-
-    # Test case 7: File that cannot be opened (OSError)
-    with patch('builtins.open', side_effect=OSError):
-        assert config.is_supported_filetype("test") == False
-
-    print("All tests passed!")
-
-test_Config_is_supported_filetype()
+        # Check that the trie does not contain paths that should not exist
+        assert not trie_root.contains(os.path.join(tmpdirname, "nonexistent.cfg"))
+        assert not trie_root.contains(os.path.join(tmpdirname, "subdir1", "nonexistent.cfg"))
 
 
 # LLM-generated content at query #11
 #--------------------------
 
-# Unit test for function find_all_configs
-def test_find_all_configs(): 
-    # Test case 1: No config files in the directory
-    with tempfile.TemporaryDirectory() as tmpdir:
-        result = find_all_configs(tmpdir)
-        assert result.data == {}, "Expected empty config data"
-    
-    # Test case 2: Single config file in the directory
-    with tempfile.TemporaryDirectory() as tmpdir:
-        config_file = os.path.join(tmpdir, '.isort.cfg')
-        with open(config_file, 'w') as f:
-            f.write('[settings]\nprofile = black')
-        result = find_all_configs(tmpdir)
-        assert result.data == {'profile': 'black'}, f"Expected profile=black, got {result.data}"
-    
-    # Test case 3: Multiple config files in subdirectories
-    with tempfile.TemporaryDirectory() as tmpdir:
-        subdir = os.path.join(tmpdir, 'subdir')
-        os.makedirs(subdir)
-        config_file1 = os.path.join(tmpdir, '.isort.cfg')
-        config_file2 = os.path.join(subdir, '.isort.cfg')
-        with open(config_file1, 'w') as f:
-            f.write('[settings]\nprofile = black')
-        with open(config_file2, 'w') as f:
-            f.write('[settings]\nline_length = 100')
-        result = find_all_configs(tmpdir)
-        # Check that both configs are found
-        assert result.data == {'profile': 'black'}, f"Expected profile=black, got {result.data}"
-        # Check subdirectory config
-        # Note: The current implementation may not store subdirectory configs in the trie as expected
-        # This test may need adjustment based on actual Trie implementation
-    
-    # Test case 4: Invalid config file (should be ignored with warning)
-    with tempfile.TemporaryDirectory() as tmpdir:
-        config_file = os.path.join(tmpdir, '.isort.cfg')
-        with open(config_file, 'w') as f:
-            f.write('invalid content')
-        # Capture warning
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            result = find_all_configs(tmpdir)
-            assert len(w) == 1, "Expected a warning for invalid config"
-            assert "Failed to pull configuration" in str(w[0].message)
-        assert result.data == {}, "Expected empty config data for invalid file"
-    
-    print("All tests passed!")
+# Unit test for method __post_init__ of class _Config
+def test__Config___post_init__():
+    # Test case 1: py_version is 'auto'
+    config = _Config(py_version="auto")
+    assert config.py_version == f"py{sys.version_info.major}{sys.version_info.minor}"
 
-if __name__ == "__main__":
-    test_find_all_configs()
+    # Test case 2: py_version is 'all'
+    config = _Config(py_version="all")
+    assert config.py_version == "all"
+
+    # Test case 3: py_version is '3'
+    config = _Config(py_version="3")
+    assert config.py_version == "py3"
+
+    # Test case 4: py_version is not in VALID_PY_TARGETS
+    try:
+        _Config(py_version="invalid")
+        assert False, "Expected ValueError"
+    except ValueError as e:
+        assert str(e) == "The python version invalid is not supported. You can set a python version with the -py or --python-version flag. The following versions are supported: ('2', '3', '3.0', '3.1', '3.2', '3.3', '3.4', '3.5', '3.6', '3.7', '3.8', '3.9', '3.10', '3.11')"
+
+    # Test case 5: known_standard_library is empty
+    config = _Config(known_standard_library=frozenset())
+    assert config.known_standard_library == frozenset(getattr(stdlibs, config.py_version).stdlib)
+
+    # Test case 6: multi_line_output is VERTICAL_GRID_GROUPED_NO_COMMA
+    config = _Config(multi_line_output=WrapModes.VERTICAL_GRID_GROUPED_NO_COMMA)
+    assert config.multi_line_output == WrapModes.VERTICAL_GRID_GROUPED
+
+    # Test case 7: force_alphabetical_sort is True
+    config = _Config(force_alphabetical_sort=True)
+    assert config.force_alphabetical_sort_within_sections is True
+    assert config.no_sections is True
+    assert config.lines_between_types == 1
+    assert config.from_first is True
+
+    # Test case 8: wrap_length > line_length
+    try:
+        _Config(wrap_length=80, line_length=79)
+        assert False, "Expected ValueError"
+    except ValueError as e:
+        assert str(e) == "wrap_length must be set lower than or equal to line_length: 80 > 79."
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for constructor of class Config
-def test_Config():  # noqa: N802
-    # Test case 1: Default settings
+# Unit test for method is_skipped of class Config
+def test_Config_is_skipped():
     config = Config()
-    assert config.line_length == 79
-    assert config.multi_line_output == WrapModes.GRID
-    assert config.known_standard_library == frozenset()
-    assert config.known_third_party == frozenset()
-    assert config.known_first_party == frozenset()
-    assert config.known_local_folder == frozenset()
-    assert config.known_other == {}
-    assert config.import_headings == {}
-    assert config.import_footers == {}
-    assert config.sections == SECTION_DEFAULTS
-    assert config.skips == frozenset()
-    assert config.skip_globs == frozenset()
-    assert config.sorting_function == sorted
+    assert config.is_skipped(Path("test.py")) is False
+    config.skip.add("test.py")
+    assert config.is_skipped(Path("test.py")) is True
+    config.skip.add("test_dir")
+    assert config.is_skipped(Path("test_dir/test.py")) is True
+    config.skip_glob.add("*.py")
+    assert config.is_skipped(Path("test.py")) is True
+    config.skip_glob.add("test_dir/*")
+    assert config.is_skipped(Path("test_dir/test.py")) is True
+    config.skip_gitignore = True
+    assert config.is_skipped(Path(".git")) is True
+    assert config.is_skipped(Path("test.py")) is True
+    assert config.is_skipped(Path("test_dir/test.py")) is True
 
-    # Test case 2: Custom settings via config_overrides
-    config = Config(line_length=100, known_standard_library={"os", "sys"})
+
+# LLM-generated content at query #13
+#--------------------------
+
+# Unit test for constructor of class Config
+def test_Config():
+    # Test with no arguments
+    config = Config()
+    assert config is not None
+
+    # Test with settings_file argument
+    config = Config(settings_file="test.ini")
+    assert config is not None
+
+    # Test with settings_path argument
+    config = Config(settings_path="test.ini")
+    assert config is not None
+
+    # Test with config argument
+    config = Config(config=Config())
+    assert config is not None
+
+    # Test with config_overrides argument
+    config = Config(line_length=100)
     assert config.line_length == 100
-    assert config.known_standard_library == frozenset({"os", "sys"})
 
-    # Test case 3: Profile settings
+    # Test with profile argument
     config = Config(profile="black")
-    assert config.line_length == 88
-    assert config.multi_line_output == WrapModes.VERTICAL_HANGING_INDENT
+    assert config.profile == "black"
 
-    # Test case 4: Settings file
-    settings_file = "test_settings.ini"
-    with open(settings_file, "w") as f:
-        f.write("[isort]\nline_length = 120\nknown_standard_library = os,sys\n")
-    config = Config(settings_file=settings_file)
-    assert config.line_length == 120
-    assert config.known_standard_library == frozenset({"os", "sys"})
-    os.remove(settings_file)
+    # Test with known_other argument
+    config = Config(known_other={"test": frozenset(["test"])})
+    assert "test" in config.known_other
 
-    # Test case 5: Settings path
-    settings_path = "."
-    config = Config(settings_path=settings_path)
-    # Assuming there is a .isort.cfg or setup.cfg or pyproject.toml in the current directory
-    # This test may fail if no config file is found
-    # We'll skip this test for now
-    pass
+    # Test with import_headings argument
+    config = Config(import_headings={"test": "test"})
+    assert "test" in config.import_headings
 
-    # Test case 6: Config object
-    config1 = Config(line_length=100)
-    config2 = Config(config=config1)
-    assert config2.line_length == 100
+    # Test with import_footers argument
+    config = Config(import_footers={"test": "test"})
+    assert "test" in config.import_footers
 
-    # Test case 7: Override config_overrides
-    config = Config(line_length=100, known_standard_library={"os", "sys"}, line_length=120)
-    assert config.line_length == 120
+    # Test with src_paths argument
+    config = Config(src_paths=["src"])
+    assert "src" in [str(path) for path in config.src_paths]
 
-    # Test case 8: Invalid settings file
-    settings_file = "invalid_settings.ini"
-    with open(settings_file, "w") as f:
-        f.write("[settings]\nline_length = 120\n")
-    config = Config(settings_file=settings_file, quiet=True)
-    # Should not raise an error
-    os.remove(settings_file)
+    # Test with formatter argument
+    config = Config(formatter="text")
+    assert config.formatter == "text"
 
-    # Test case 9: Invalid profile
-    try:
-        config = Config(profile="invalid_profile")
-    except ProfileDoesNotExist:
-        pass
-    else:
-        assert False, "Expected ProfileDoesNotExist exception"
-
-    # Test case 10: Deprecated options
-    config = Config(force_alphabetical_sort=True, quiet=True)
-    # Should not raise an error
-
-    # Test case 11: Unsupported settings
-    try:
-        config = Config(unsupported_setting=True)
-    except UnsupportedSettings:
-        pass
-    else:
-        assert False, "Expected UnsupportedSettings exception"
-
-    # Test case 12: Formatter plugin
-    config = Config(formatter="colorama", quiet=True)
-    # Should not raise an error
-
-    # Test case 13: Sorting function plugin
+    # Test with sort_order argument
     config = Config(sort_order="natural")
-    assert config.sorting_function == sorting.naturally
+    assert config.sort_order == "natural"
 
-    # Test case 14: Invalid sorting function
-    try:
-        config = Config(sort_order="invalid_sort")
-    except SortingFunctionDoesNotExist:
-        pass
-    else:
-        assert False, "Expected SortingFunctionDoesNotExist exception"
+    # Test with skip argument
+    config = Config(skip=["test"])
+    assert "test" in config.skip
 
-    # Test case 15: Known other sections
-    config = Config(known_django={"django"}, sections=("FUTURE", "STDLIB", "DJANGO", "THIRDPARTY"))
-    assert config.known_other == {"django": frozenset({"django"})}
+    # Test with skip_glob argument
+    config = Config(skip_glob=["test"])
+    assert "test" in config.skip_glob
 
-    # Test case 16: Import headings and footers
-    config = Config(import_heading_stdlib="Standard Library", import_footer_stdlib="End Stdlib")
-    assert config.import_headings == {"stdlib": "Standard Library"}
-    assert config.import_footers == {"stdlib": "End Stdlib"}
-
-    # Test case 17: Skip gitignore
+    # Test with skip_gitignore argument
     config = Config(skip_gitignore=True)
-    assert config.skip_gitignore is True
+    assert config.skip_gitignore
 
-    # Test case 18: Supported extensions
-    config = Config(supported_extensions=("py", "pyx"))
-    assert config.supported_extensions == ("py", "pyx")
+    # Test with extend_skip argument
+    config = Config(extend_skip=["test"])
+    assert "test" in config.extend_skip
 
-    # Test case 19: Blocked extensions
-    config = Config(blocked_extensions=("txt", "md"))
-    assert config.blocked_extensions == ("txt", "md")
+    # Test with extend_skip_glob argument
+    config = Config(extend_skip_glob=["test"])
+    assert "test" in config.extend_skip_glob
 
-    # Test case 20: Wrap length
-    config = Config(wrap_length=60, line_length=80)
-    assert config.wrap_length == 60
+    # Test with directory argument
+    config = Config(directory="test")
+    assert config.directory == "test"
 
-    # Test case 21: Invalid wrap length
+    # Test with quiet argument
+    config = Config(quiet=True)
+    assert config.quiet
+
+    # Test with py_version argument
+    config = Config(py_version="3.8")
+    assert config.py_version == "3.8"
+
+    # Test with force_to_top argument
+    config = Config(force_to_top=["test"])
+    assert "test" in config.force_to_top
+
+    # Test with force_to_bottom argument
+    config = Config(force_to_bottom=["test"])
+    assert "test" in config.force_to_bottom
+
+    # Test with default_section argument
+    config = Config(default_section="test")
+    assert config.default_section == "test"
+
+    # Test with sections argument
+    config = Config(sections=["test"])
+    assert "test" in config.sections
+
+    # Test with no_sections argument
+    config = Config(no_sections=True)
+    assert config.no_sections
+
+    # Test with no_inline_sort argument
+    config = Config(no_inline_sort=True)
+    assert config.no_inline_sort
+
+    # Test with no_lines_before argument
+    config = Config(no_lines_before=["test"])
+    assert "test" in config.no_lines_before
+
+    # Test with no_lines_after argument
+    config = Config(no_lines_after=["test"])
+    assert "test" in config.no_lines_after
+
+    # Test with lines_before_imports argument
+    config = Config(lines_before_imports=2)
+    assert config.lines_before_imports == 2
+
+    # Test with lines_after_imports argument
+    config = Config(lines_after_imports=2)
+    assert config.lines_after_imports == 2
+
+    # Test with lines_between_sections argument
+    config = Config(lines_between_sections=2)
+    assert config.lines_between_sections == 2
+
+    # Test with lines_between_types argument
+    config = Config(lines_between_types=2)
+    assert config.lines_between_types == 2
+
+    # Test with combine_as_imports argument
+    config = Config(combine_as_imports=True)
+    assert config.combine_as_imports
+
+    # Test with combine_star argument
+    config = Config(combine_star=True)
+    assert config.combine_star
+
+    # Test with force_single_line argument
+    config = Config(force_single_line=True)
+    assert config.force_single_line
+
+    # Test with force_sort_within_sections argument
+    config = Config(force_sort_within_sections=True)
+    assert config.force_sort_within_sections
+
+    # Test with force_grid_wrap argument
+    config = Config(force_grid_wrap=2)
+    assert config.force_grid_wrap == 2
+
+    # Test with force_grid_wrap_comments argument
+    config = Config(force_grid_wrap_comments=2)
+    assert config.force_grid_wrap_comments == 2
+
+    # Test with force_grid_wrap_imports argument
+    config = Config(force_grid_wrap_imports=2)
+    assert config.force_grid_wrap_imports == 2
+
+    # Test with force_grid_wrap_star argument
+    config = Config(force_grid_wrap_star=2)
+    assert config.force_grid_wrap_star == 2
+
+    # Test with force_grid_wrap_stdlib argument
+    config = Config(force_grid_wrap_stdlib=2)
+    assert config.force_grid_wrap_stdlib == 2
+
+    # Test with force_grid_wrap_third_party argument
+    config = Config(force_grid_wrap_third_party=2)
+    assert config.force_grid_wrap_third_party == 2
+
+    # Test with force_grid_wrap_first_party argument
+    config = Config(force_grid_wrap_first_party=2)
+    assert config.force_grid_wrap_first_party == 2
+
+    # Test with force_grid_wrap_local_folder argument
+    config = Config(force_grid_wrap_local_folder=2)
+    assert config.force_grid_wrap_local_folder == 2
+
+    # Test with force_grid_wrap_other argument
+    config = Config(force_grid_wrap_other=2)
+    assert config.force_grid_wrap_other == 2
+
+    # Test with force_grid_wrap_comment argument
+    config = Config(force_grid_wrap_comment=2)
+    assert config.force_grid_wrap_comment == 2
+
+    # Test with force_grid_wrap_import argument
+    config = Config(force_grid_wrap_import=2)
+    assert config.force_grid_wrap_import == 2
+
+    # Test with force_grid_wrap_star_import argument
+    config = Config(force_grid_wrap_star_import=2)
+    assert config.force_grid_wrap_star_import == 2
+
+    # Test with force_grid_wrap_stdlib_import argument
+    config = Config(force_grid_wrap_stdlib_import=2)
+    assert config.force_grid_wrap_stdlib_import == 2
+
+    # Test with force_grid_wrap_third_party_import argument
+    config = Config(force_grid_wrap_third_party_import=2)
+    assert config.force_grid_wrap_third_party_import == 2
+
+    # Test with force_grid_wrap_first_party_import argument
+    config = Config(force_grid_wrap_first_party_import=2)
+    assert config.force_grid_wrap_first_party_import == 2
+
+    # Test with force_grid_wrap_local_folder_import argument
+    config = Config(force_grid_wrap_local_folder_import=2)
+    assert config.force_grid_wrap_local_folder_import == 2
+
+    # Test with force_grid_wrap_other_import argument
+    config = Config(force_grid_wrap_other_import=2)
+    assert config.force_grid_wrap_other_import == 2
+
+    # Test with force_grid_wrap_comment_import argument
+    config = Config(force_grid_wrap_comment_import=2)
+    assert config.force_grid_wrap_comment_import == 2
+
+    # Test with force_grid_wrap_import_import argument
+    config = Config(force_grid_wrap_import_import=2)
+    assert config.force_grid_wrap_import_import == 2
+
+    # Test with force_grid_wrap_star_import_import argument
+    config = Config(force_grid_wrap_star_import_import=2)
+    assert config.force_grid_wrap_star_import_import == 2
+
+    # Test with force_grid_wrap_stdlib_import_import argument
+    config = Config(force_grid_wrap_stdlib_import_import=2)
+    assert config.force_grid_wrap_stdlib_import_import == 2
+
+    # Test with force_grid_wrap_third_party_import_
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+# Unit test for method is_skipped of class Config
+def test_Config_is_skipped():
+    config = Config()
+    assert not config.is_skipped(Path("test.py"))
+    config.skip.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("*.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.*")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add("test.py")
+    assert config.is_skipped(Path("test.py"))
+    config.skip_glob.add
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+# Unit test for function find_all_configs
+def test_find_all_configs():
+    # Create a temporary directory structure
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        # Create nested directories
+        os.makedirs(os.path.join(tmpdirname, "dir1"))
+        os.makedirs(os.path.join(tmpdirname, "dir2"))
+        os.makedirs(os.path.join(tmpdirname, "dir1", "dir3"))
+
+        # Create config files in the directories
+        for dirpath in (tmpdirname, os.path.join(tmpdirname, "dir1"), os.path.join(tmpdirname, "dir1", "dir3"), os.path.join(tmpdirname, "dir2")):
+            with open(os.path.join(dirpath, ".isort.cfg"), "w") as f:
+                f.write("[isort]\nknown_third_party=requests\n")
+
+        # Run find_all_configs on the root directory
+        trie_root = find_all_configs(tmpdirname)
+
+        # Verify that the trie contains the correct number of configs
+        config_files = trie_root.get_all_values()
+        assert len(config_files) == 4
+
+        # Verify that all expected config files are present
+        expected_config_files = [
+            os.path.join(tmpdirname, ".isort.cfg"),
+            os.path.join(tmpdirname, "dir1", ".isort.cfg"),
+            os.path.join(tmpdirname, "dir1", "dir3", ".isort.cfg"),
+            os.path.join(tmpdirname, "dir2", ".isort.cfg"),
+        ]
+        for expected_config_file in expected_config_files:
+            assert expected_config_file in config_files
+
+        # Verify that the config data is correctly stored
+        for config_file in config_files:
+            config_data = trie_root.get_value(config_file)
+            assert isinstance(config_data, dict)
+            assert config_data.get("known_third_party") == frozenset({"requests"})
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+# Unit test for method is_skipped of class Config
+def test_Config_is_skipped():
+    config = Config(skips={"tests"})
+    assert config.is_skipped(Path("tests/test_file.py")) == True
+    assert config.is_skipped(Path("src/test_file.py")) == False
+
+    config = Config(skip_globs={"*.py"})
+    assert config.is_skipped(Path("test_file.py")) == True
+    assert config.is_skipped(Path("test_file.txt")) == False
+
+    config = Config(skip_gitignore=True)
+    assert config.is_skipped(Path(".git")) == True
+
+    config = Config(skips={"tests"}, skip_globs={"*.py"}, skip_gitignore=True)
+    assert config.is_skipped(Path("tests/test_file.py")) == True
+    assert config.is_skipped(Path("src/test_file.py")) == True
+    assert config.is_skipped(Path("test_file.txt")) == False
+    assert config.is_skipped(Path(".git")) == True
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+# Unit test for function find_all_configs
+def test_find_all_configs():
+    import tempfile
+    import shutil
+
+    # Create a temporary directory
+    temp_dir = tempfile.mkdtemp()
+
     try:
-        config = Config(wrap_length=100, line_length=80)
+        # Create a test directory structure with config files
+        os.makedirs(os.path.join(temp_dir, "subdir1"))
+        os.makedirs(os.path.join(temp_dir, "subdir2"))
+        
+        # Create config files
+        with open(os.path.join(temp_dir, ".isort.cfg"), "w") as f:
+            f.write("[settings]\nline_length=80\n")
+        
+        with open(os.path.join(temp_dir, "subdir1", "pyproject.toml"), "w") as f:
+            f.write("[tool.isort]\nline_length=100\n")
+        
+        with open(os.path.join(temp_dir, "subdir2", "setup.cfg"), "w") as f:
+            f.write("[isort]\nline_length=120\n")
+
+        # Test the function
+        trie = find_all_configs(temp_dir)
+        
+        # Verify the root node
+        assert trie.value == "default"
+        assert trie.config == {}
+        
+        # Verify child nodes
+        assert len(trie.children) == 3
+        
+        # Check each config file was found
+        found_configs = set()
+        for child in trie.children.values():
+            found_configs.add(child.value)
+            if child.value.endswith(".isort.cfg"):
+                assert child.config == {"line_length": 80}
+            elif child.value.endswith("pyproject.toml"):
+                assert child.config == {"line_length": 100}
+            elif child.value.endswith("setup.cfg"):
+                assert child.config == {"line_length": 120}
+        
+        assert found_configs == {
+            os.path.join(temp_dir, ".isort.cfg"),
+            os.path.join(temp_dir, "subdir1", "pyproject.toml"),
+            os.path.join(temp_dir, "subdir2", "setup.cfg")
+        }
+
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+# Unit test for method is_skipped of class Config
+def test_Config_is_skipped():
+    config = Config()
+    assert not config.is_skipped(Path("test.py"))
+    config = Config(skip={"test.py"})
+    assert config.is_skipped(Path("test.py"))
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+# Unit test for method __post_init__ of class _Config
+def test__Config___post_init__():
+    # Test with valid py_version
+    config = _Config(py_version="3")
+    assert config.py_version == "py3"
+
+    # Test with invalid py_version
+    try:
+        _Config(py_version="invalid")
+        assert False, "Expected ValueError"
     except ValueError:
         pass
-    else:
-        assert False, "Expected ValueError for wrap_length > line_length"
 
-    print("All tests passed!")
+    # Test with py_version "auto"
+    original_version = sys.version_info
+    sys.version_info = (3, 8, 0, "final", 0)
+    config = _Config(py_version="auto")
+    assert config.py_version == "py38"
+    sys.version_info = original_version
 
-if __name__ == "__main__":
-    test_Config()
+    # Test with force_alphabetical_sort=True
+    config = _Config(force_alphabetical_sort=True)
+    assert config.force_alphabetical_sort_within_sections is True
+    assert config.no_sections is True
+    assert config.lines_between_types == 1
+    assert config.from_first is True
+
+    # Test with wrap_length > line_length
+    try:
+        _Config(wrap_length=80, line_length=79)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+# Unit test for constructor of class Config
+def test_Config():
+    # Test default constructor
+    config = Config()
+    assert config.line_length == DEFAULT_LINE_LENGTH
+    assert config.quiet is False
+    assert config.profile == ""
+    assert config.sources == (_DEFAULT_SETTINGS,)
+
+    # Test constructor with settings_file
+    config = Config(settings_file="test_settings.cfg")
+    assert config.line_length == DEFAULT_LINE_LENGTH
+    assert config.quiet is False
+    assert config.profile == ""
+    assert config.sources == (_DEFAULT_SETTINGS,)
+
+    # Test constructor with settings_path
+    config = Config(settings_path="test_settings.cfg")
+    assert config.line_length == DEFAULT_LINE_LENGTH
+    assert config.quiet is False
+    assert config.profile == ""
+    assert config.sources == (_DEFAULT_SETTINGS,)
+
+    # Test constructor with config
+    config = Config(config=Config())
+    assert config.line_length == DEFAULT_LINE_LENGTH
+    assert config.quiet is False
+    assert config.profile == ""
+    assert config.sources == (_DEFAULT_SETTINGS,)
+
+    # Test constructor with config_overrides
+    config = Config(line_length=100)
+    assert config.line_length == 100
+    assert config.quiet is False
+    assert config.profile == ""
+    assert config.sources == (_DEFAULT_SETTINGS, {"line_length": 100, "source": RUNTIME_SOURCE})
+
+    # Test constructor with profile
+    config = Config(profile="black")
+    assert config.line_length == DEFAULT_LINE_LENGTH
+    assert config.quiet is False
+    assert config.profile == "black"
+    assert config.sources == (
+        _DEFAULT_SETTINGS,
+        {"source": "black profile"},
+    )
+
+    # Test constructor with settings_file and profile
+    config = Config(settings_file="test_settings.cfg", profile="black")
+    assert config.line_length == DEFAULT_LINE_LENGTH
+    assert config.quiet is False
+    assert config.profile == "black"
+    assert config.sources == (
+        _DEFAULT_SETTINGS,
+        {"source": "black profile"},
+    )
+
+    # Test constructor with settings_path and profile
+    config = Config(settings_path="test_settings.cfg", profile="black")
+    assert config.line_length == DEFAULT_LINE_LENGTH
+    assert config.quiet is False
+    assert config.profile == "black"
+    assert config.sources == (
+        _DEFAULT_SETTINGS,
+        {"source": "black profile"},
+    )
+
+    # Test constructor with config and profile
+    config = Config(config=Config(), profile="black")
+    assert config.line_length == DEFAULT_LINE_LENGTH
+    assert config.quiet is False
+    assert config.profile == "black"
+    assert config.sources == (
+        _DEFAULT_SETTINGS,
+        {"source": "black profile"},
+    )
+
+    # Test constructor with config_overrides and profile
+    config = Config(line_length=100, profile="black")
+    assert config.line_length == 100
+    assert config.quiet is False
+    assert config.profile == "black"
+    assert config.sources == (
+        _DEFAULT_SETTINGS,
+        {"source": "black profile"},
+        {"line_length": 100, "source": RUNTIME_SOURCE},
+    )
+
+    # Test constructor with settings_file, config_overrides, and profile
+    config = Config(settings_file="test_settings.cfg", line_length=100, profile="black")
+    assert config.line_length == 100
+    assert config.quiet is False
+    assert config.profile == "black"
+    assert config.sources == (
+        _DEFAULT_SETTINGS,
+        {"source": "black profile"},
+        {"line_length": 100, "source": RUNTIME_SOURCE},
+    )
+
+    # Test constructor with settings_path, config_overrides, and profile
+    config = Config(settings_path="test_settings.cfg", line_length=100, profile="black")
+    assert config.line_length == 100
+    assert config.quiet is False
+    assert config.profile == "black"
+    assert config.sources == (
+        _DEFAULT_SETTINGS,
+        {"source": "black profile"},
+        {"line_length": 100, "source": RUNTIME_SOURCE},
+    )
+
+    # Test constructor with config, config_overrides, and profile
+    config = Config(config=Config(), line_length=100, profile="black")
+    assert config.line_length == 100
+    assert config.quiet is False
+    assert config.profile == "black"
+    assert config.sources == (
+        _DEFAULT_SETTINGS,
+        {"source": "black profile"},
+        {"line_length": 100, "source": RUNTIME_SOURCE},
+    )
+
+    # Test constructor with settings_file, config, config_overrides, and profile
+    config = Config(settings_file="test_settings.cfg", config=Config(), line_length=100, profile="black")
+    assert config.line_length == 100
+    assert config.quiet is False
+    assert config.profile == "black"
+    assert config.sources == (
+        _DEFAULT_SETTINGS,
+        {"source": "black profile"},
+        {"line_length": 100, "source": RUNTIME_SOURCE},
+    )
+
+    # Test constructor with settings_path, config, config_overrides, and profile
+    config = Config(settings_path="test_settings.cfg", config=Config(), line_length=100, profile="black")
+    assert config.line_length == 100
+    assert config.quiet is False
+    assert config.profile == "black"
+    assert config.sources == (
+        _DEFAULT_SETTINGS,
+        {"source": "black profile"},
+        {"line_length": 100, "source": RUNTIME_SOURCE},
+    )
 
 

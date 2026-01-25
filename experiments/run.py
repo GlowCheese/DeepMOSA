@@ -1,140 +1,159 @@
+import argparse
 import os
 import subprocess
-import sys
 from pathlib import Path
 
 import dotenv
 
+import experiments.models
 from libs.custom_logger import getLogger
 
 from . import utils
-
-# import RunEntry, RunConfig, find_all_modules, LanguageModel, read_module_statistics
-
 
 dotenv.load_dotenv()
 
 _logger = getLogger("experiments")
 
 
-NUM_RUNS_PER_MODULE = 2
-RANDOM_SEEDS = [42, 1302, 1337, 2004, 2412]
-
-
-### Recognize project
-# -------------------
-# Find the project path from experiments/projects
-# corresponds to the provided project name.
+### Parsing experiment argument
+# -----------------------------
+# Collect experiment project or run config id
+# Leave None will run all projects using each config
 #
 
-BASE_PROJECT_PATH = Path("experiments/projects").resolve(True)
+parser = argparse.ArgumentParser()
+
+parser.add_argument("--project", type=str, default=None)
+parser.add_argument("--config-id", type=str, default=None)
+parser.add_argument("--env-file", type=str, required=True)
+parser.add_argument("--build-image", action="store_true")
+
+args = parser.parse_args()
+all_projects = utils.find_all_projects() if args.project is None else [args.project]
+all_configs = (
+    utils.RUN_CONFIGS
+    if args.config_id is None
+    else [c for c in utils.RUN_CONFIGS if c.config_id == args.config_id]
+)
+assert all_configs, f"Run config {args.config_id} does not exist!"
+assert all_projects, f"Experiment project {args.project} does not exist!"
+
+if args.build_image:
+    subprocess.run(
+        ["docker", "build", "-t", "deepmosa-runner", "-f", "docker/Dockerfile", "."],
+        cwd=Path.cwd(),
+        env={**os.environ, "DOCKER_BUILDKIT": "1"},
+        check=True,
+    )
+
+
+num_completed_runs = 0
+skipped_modules: list[str] = []
+
+
+def run_experiment_on_project(
+    project_name: str, config: experiments.models.RunConfig, env_file: str
+):
+    ### Recognize project
+    # -------------------
+    # Find the project path from BASE_PROJECT_PATH
+    # corresponds to the provided project name.
+    #
+
+    project_path = utils.BASE_PROJECT_PATH / project_name
+
+    if not project_path.exists():
+        _logger.error("No project named '%s' can be found", project_name)
+        exit(1)
+
+    if not project_path.is_dir():
+        _logger.error("Path '' is not a directory!", project_path)
+        exit(1)
+
+    _logger.info("Using project path: %s", project_path)
+
+    project_report_path = utils.BASE_REPORT_PATH / project_name
+    project_ignores_path = project_report_path / "ignore.list"
+
+    ### Analyzing project
+    # -------------------
+    # Find the test report for each module to determine
+    # which and how many times they should be run on.
+    #
+
+    all_modules = utils.find_all_modules(project_name)
+    _logger.info("Found %d modules", len(all_modules))
+
+    queue: list[experiments.models.RunEntry] = []
+
+    for module_name in all_modules:
+        report_dir = project_report_path / module_name / config.config_id
+        rows = utils.read_module_statistics(project_name, module_name, config.config_id) or []
+        for run_id in range(len(rows), utils.NUM_RUNS_PER_MODULE):
+            # fmt: off
+            docker_report_dir = Path("/workspace", *report_dir.parts[-4:])
+            docker_output_path = Path("/workspace", "generated_tests", project_name, config.config_id)
+            config_copy = experiments.models.RunConfig(
+                config_id=config.config_id,
+                argv=[
+                    *config.argv,
+                    "--run-id",         str(run_id),
+                    "--module-name",    module_name,
+                    "--seed",           str(utils.RANDOM_SEEDS[run_id]),
+                    "--report-dir",     str(docker_report_dir),
+                    "--output-path",    str(docker_output_path),
+                ],
+            )
+            # fmt: on
+            queue.append(
+                experiments.models.RunEntry(module_name=module_name, run_config=config_copy)
+            )
+
+    _logger.info("Number of run entries in queue: %d", len(queue))
+
+    ### Test generation
+    # -----------------
+    # Run the test generation for each queue entry
+    # with the prebuilt docker image
+    #
+
+    # Create output dir
+    project_report_path.mkdir(parents=True, exist_ok=True)
+    (Path(".cache") / "project-deps").mkdir(parents=True, exist_ok=True)
+    (Path("generated_tests") / project_name).mkdir(parents=True, exist_ok=True)
+
+    global num_completed_runs
+
+    for run_entry in queue:
+        if run_entry.module_name in skipped_modules:
+            continue
+
+        _logger.info("Running test generation for %s", run_entry.module_name)
+        _logger.info("Configuration used: %s", run_entry.run_config.config_id)
+
+        try:
+            utils.run_deepmosa_runner(project_name, env_file, *run_entry.run_config.argv)
+            num_completed_runs += 1
+
+        except Exception as e:
+            if str(e) == "SUT contains nothing we can test.":
+                with project_ignores_path.open("a+", encoding="UTF-8") as file:
+                    file.write(run_entry.module_name + "\n")
+                _logger.info(
+                    "Added %s to %s", run_entry.module_name, Path(*project_ignores_path.parts[-3:])
+                )
+            skipped_modules.append(run_entry.module_name)
+            _logger.exception("Added %s to skipped list.", run_entry.module_name)
 
 
 try:
-    project_name = sys.argv[1]
-except IndexError:
-    _logger.error("Please provide a project name when running experiments!")
-    _logger.error("Example:\tpython -m experiments.run minbpe")
-    exit(1)
-
-project_path = BASE_PROJECT_PATH / project_name
-
-if not project_path.exists():
-    _logger.error("No project named '%s' can be found", project_name)
-    exit(1)
-
-if not project_path.is_dir():
-    _logger.error("Path '' is not a directory!", project_path)
-    exit(1)
-
-_logger.info("Using project path: %s", project_path)
-PROJECT_REPORT_PATH = Path("pynguin_report") / project_name
-
-### Analyzing project
-# -------------------
-# Find the test report for each module to determine
-# which and how many times they should be run on.
-#
-
-all_modules = utils.find_all_modules(project_name, project_path)
-if len(sys.argv) >= 3:
-    all_modules = [m for m in all_modules if m in sys.argv[2]]
-
-fixed_algorithm = None
-if len(sys.argv) >= 4:
-    fixed_algorithm = sys.argv[3]
-    _logger.info("Using fixed algorithm: %s", fixed_algorithm)
-
-_logger.info("Found %d modules", len(all_modules))
-
-queue: list[utils.RunEntry] = []
-
-for module_name in all_modules:
-    for config in utils.RUN_CONFIGS:
-        report_dir = PROJECT_REPORT_PATH / module_name / config.config_id
-        rows = utils.read_module_statistics(report_dir) or []
-        for run_id in range(len(rows), NUM_RUNS_PER_MODULE):
-            if fixed_algorithm is not None:
-                if fixed_algorithm.lower() not in config.config_id.lower():
-                    continue
-            config_copy = utils.RunConfig(
-                config_id=config.config_id,
-                argv=config.argv.copy(),
-            )
-            # fmt: off
-            config_copy.argv.extend(
-                [
-                    "--run-id", str(run_id),
-                    "--module-name", module_name,
-                    "--seed", str(RANDOM_SEEDS[run_id]),
-                    "--report-dir",
-                    f"/workspace/{report_dir}",
-                    "--output-path",
-                    f"/workspace/generated_tests/{project_name}/{config.config_id}",
-                ]
-            )
-            # fmt: on
-            queue.append(utils.RunEntry(module_name=module_name, run_config=config_copy))
-
-_logger.info("Number of run entries in queue: %d", len(queue))
-
-
-### Test generation
-# -----------------
-# Build docker image and run the
-# test generation for each queue entry.
-#
-
-_logger.info("Building docker image...")
-__env = os.environ.copy()
-__env["DOCKER_BUILDKIT"] = "1"
-subprocess.run(
-    ["docker", "build", "-t", "deepmosa-runner", "-f", "docker/Dockerfile", "."],
-    cwd=Path.cwd(),
-    env=__env,
-    check=True,
-)
-
-# Create output dir
-PROJECT_REPORT_PATH.mkdir(parents=True, exist_ok=True)
-(Path(".cache") / "project-deps").mkdir(parents=True, exist_ok=True)
-(Path("generated_tests") / project_name).mkdir(parents=True, exist_ok=True)
-
-skipped_list = set()
-
-for run_entry in queue:
-    if run_entry.module_name in skipped_list:
-        continue
-
-    _logger.info("Running test generation for %s", run_entry.module_name)
-    _logger.info("Configuration used: %s", run_entry.run_config.config_id)
-    try:
-        utils.run_deepmosa_runner(project_name, *run_entry.run_config.argv)
-    except Exception:
-        # except RuntimeError as e:
-        #     if str(e) != "SUT contains nothing we can test.":
-        #         raise
-        with open(PROJECT_REPORT_PATH / "ignore.list", "a+", encoding="UTF-8") as file:
-            file.write(run_entry.module_name + "\n")
-        skipped_list.add(run_entry.module_name)
-        _logger.info("Added %s to skipped list.", run_entry.module_name)
+    for project_name in all_projects:
+        for config in all_configs:
+            run_experiment_on_project(project_name, config, args.env_file)
+except KeyboardInterrupt:
+    print()
+finally:
+    _logger.info("======================================")
+    _logger.info("%s runs have been completed.", num_completed_runs)
+    if skipped_modules:
+        _logger.info("Skipped modules: %s", ", ".join(skipped_modules))

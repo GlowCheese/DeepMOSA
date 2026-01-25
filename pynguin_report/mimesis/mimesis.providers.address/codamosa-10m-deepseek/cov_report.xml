@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.9545454545454546" lines-covered="0" lines-valid="0" branches-covered="42" branches-valid="44" complexity="0.0" version="pynguin-0.40.0" timestamp="1767821011">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.9545454545454546" lines-covered="0" lines-valid="0" branches-covered="42" branches-valid="44" complexity="0.0" version="pynguin-0.40.0" timestamp="1768510025">
   <sources>
     <source>mimesis.providers.address</source>
   </sources>
@@ -12,13 +12,13 @@
             <line number="23" hits="1" branch="true" condition-coverage="100% (1/1)" />
             <line number="30" hits="1" branch="true" condition-coverage="100% (1/1)" />
             <line number="43" hits="1" branch="true" condition-coverage="100% (2/2)" />
-            <line number="44" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="44" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="45" hits="1" branch="true" condition-coverage="50% (1/2)" />
             <line number="46" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="57" hits="1" branch="true" condition-coverage="100% (1/1)" />
             <line number="65" hits="1" branch="true" condition-coverage="100% (1/1)" />
             <line number="73" hits="1" branch="true" condition-coverage="100% (1/1)" />
-            <line number="91" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="91" hits="1" branch="true" condition-coverage="50% (1/2)" />
             <line number="97" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="117" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="121" hits="1" branch="true" condition-coverage="100% (1/1)" />

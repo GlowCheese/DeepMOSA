@@ -1,0 +1,39 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + anthropic/claude-haiku-4.5 t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def error_wrapper(err: ExcType) -> ExcType:
+    r"""Wrap exceptions raised in :py:mod:`subprocess` to output captured output by default.
+    """
+    if not isinstance(err, (subprocess.CalledProcessError, subprocess.TimeoutExpired)):
+        return err
+
+    def __str__(self):
+        string = super(self.__class__, self).__str__()
+        if self.output:
+            try:
+                output = self.output.decode('utf-8')
+            except UnicodeEncodeError:  # ignore output
+                string += "\nFailed to parse output."
+            else:
+                string += "\nCaptured output:\n" + '\n'.join([f'    {line}' for line in output.split('\n')])
+        else:
+            string += "\nNo output was generated."
+        return string
+
+    # Dynamically create a new type that overrides __str__, because replacing __str__ on instances don't work.
+    err_type = type(err)
+    new_type = type(err_type.__name__, (err_type,), {"__str__": __str__})
+
+    err.__class__ = new_type
+    return err  # type: ignore[return-value]
+
+```
+Write unit test for function error_wrapper
+
+

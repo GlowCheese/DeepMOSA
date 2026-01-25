@@ -1,12 +1,11 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import isort.place as module_0
-import isort.settings as module_2
-import isort.wrap_modes as module_1
 import pytest
-
+import isort.place as module_0
+import isort.wrap_modes as module_1
+import isort.settings as module_2
 
 def test_case_0():
-    var_0 = 'Et."r*DM1K-'
+    var_0 = '>7kCykA[e#/sREbD '
     var_1 = module_0.module(var_0)
     assert var_1 == 'THIRDPARTY'
     assert f'{type(module_0.DEFAULT_CONFIG).__module__}.{type(module_0.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
@@ -280,7 +279,7 @@ def test_case_2():
     module_0.module(var_0)
 
 def test_case_3():
-    var_0 = 'O-K|kkJR%#G'
+    var_0 = 'F.\t/sD\x0bnu'
     var_1 = module_0.module(var_0)
     assert var_1 == 'THIRDPARTY'
     assert f'{type(module_0.DEFAULT_CONFIG).__module__}.{type(module_0.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
@@ -412,7 +411,7 @@ def test_case_3():
     assert module_0.LOCAL == 'LOCALFOLDER'
 
 def test_case_4():
-    var_0 = '/.#Ht]\x0b_X\tb'
+    var_0 = '/.EE\x0b]\x0b_\\g['
     var_1 = module_0.module(var_0)
     assert var_1 == 'THIRDPARTY'
     assert f'{type(module_0.DEFAULT_CONFIG).__module__}.{type(module_0.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
@@ -544,298 +543,9 @@ def test_case_4():
     assert module_0.LOCAL == 'LOCALFOLDER'
 
 def test_case_5():
-    var_0 = '.2bc'
-    var_1 = 'b~ddELChM\x0c\nh'
-    var_2 = module_2.Config()
-    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'isort.settings.Config'
-    assert var_2.py_version == 'py3'
-    assert f'{type(var_2.force_to_top).__module__}.{type(var_2.force_to_top).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.force_to_top) == 0
-    assert f'{type(var_2.skip).__module__}.{type(var_2.skip).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.skip) == 19
-    assert f'{type(var_2.extend_skip).__module__}.{type(var_2.extend_skip).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.extend_skip) == 0
-    assert f'{type(var_2.skip_glob).__module__}.{type(var_2.skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.skip_glob) == 0
-    assert f'{type(var_2.extend_skip_glob).__module__}.{type(var_2.extend_skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.extend_skip_glob) == 0
-    assert var_2.skip_gitignore is False
-    assert var_2.line_length == 79
-    assert var_2.wrap_length == 0
-    assert var_2.line_ending == ''
-    assert var_2.sections == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
-    assert var_2.no_sections is False
-    assert f'{type(var_2.known_future_library).__module__}.{type(var_2.known_future_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.known_future_library) == 1
-    assert f'{type(var_2.known_third_party).__module__}.{type(var_2.known_third_party).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.known_third_party) == 0
-    assert f'{type(var_2.known_first_party).__module__}.{type(var_2.known_first_party).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.known_first_party) == 0
-    assert f'{type(var_2.known_local_folder).__module__}.{type(var_2.known_local_folder).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.known_local_folder) == 0
-    assert f'{type(var_2.known_standard_library).__module__}.{type(var_2.known_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.known_standard_library) == 234
-    assert f'{type(var_2.extra_standard_library).__module__}.{type(var_2.extra_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.extra_standard_library) == 0
-    assert var_2.known_other == {}
-    assert var_2.multi_line_output == module_1.WrapModes.GRID
-    assert var_2.forced_separate == ()
-    assert var_2.indent == '    '
-    assert var_2.comment_prefix == '  #'
-    assert var_2.length_sort is False
-    assert var_2.length_sort_straight is False
-    assert f'{type(var_2.length_sort_sections).__module__}.{type(var_2.length_sort_sections).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.length_sort_sections) == 0
-    assert f'{type(var_2.add_imports).__module__}.{type(var_2.add_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.add_imports) == 0
-    assert f'{type(var_2.remove_imports).__module__}.{type(var_2.remove_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.remove_imports) == 0
-    assert var_2.append_only is False
-    assert var_2.reverse_relative is False
-    assert var_2.force_single_line is False
-    assert var_2.single_line_exclusions == ()
-    assert var_2.default_section == 'THIRDPARTY'
-    assert var_2.import_headings == {}
-    assert var_2.import_footers == {}
-    assert var_2.balanced_wrapping is False
-    assert var_2.use_parentheses is False
-    assert var_2.order_by_type is True
-    assert var_2.atomic is False
-    assert var_2.lines_before_imports == -1
-    assert var_2.lines_after_imports == -1
-    assert var_2.lines_between_sections == 1
-    assert var_2.lines_between_types == 0
-    assert var_2.combine_as_imports is False
-    assert var_2.combine_star is False
-    assert var_2.include_trailing_comma is False
-    assert var_2.from_first is False
-    assert var_2.verbose is False
-    assert var_2.quiet is False
-    assert var_2.force_adds is False
-    assert var_2.force_alphabetical_sort_within_sections is False
-    assert var_2.force_alphabetical_sort is False
-    assert var_2.force_grid_wrap == 0
-    assert var_2.force_sort_within_sections is False
-    assert var_2.lexicographical is False
-    assert var_2.group_by_package is False
-    assert var_2.ignore_whitespace is False
-    assert f'{type(var_2.no_lines_before).__module__}.{type(var_2.no_lines_before).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.no_lines_before) == 0
-    assert var_2.no_inline_sort is False
-    assert var_2.ignore_comments is False
-    assert var_2.case_sensitive is False
-    assert f'{type(var_2.sources).__module__}.{type(var_2.sources).__qualname__}' == 'builtins.tuple'
-    assert len(var_2.sources) == 1
-    assert var_2.virtual_env == ''
-    assert var_2.conda_env == ''
-    assert var_2.ensure_newline_before_comments is False
-    assert var_2.directory == '/workspace'
-    assert var_2.profile == ''
-    assert var_2.honor_noqa is False
-    assert f'{type(var_2.src_paths).__module__}.{type(var_2.src_paths).__qualname__}' == 'builtins.tuple'
-    assert len(var_2.src_paths) == 2
-    assert var_2.remove_redundant_aliases is False
-    assert var_2.float_to_top is False
-    assert var_2.filter_files is False
-    assert var_2.formatter == ''
-    assert var_2.formatting_function is None
-    assert var_2.color_output is False
-    assert f'{type(var_2.treat_comments_as_code).__module__}.{type(var_2.treat_comments_as_code).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.treat_comments_as_code) == 0
-    assert var_2.treat_all_comments_as_code is False
-    assert f'{type(var_2.supported_extensions).__module__}.{type(var_2.supported_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.supported_extensions) == 4
-    assert f'{type(var_2.blocked_extensions).__module__}.{type(var_2.blocked_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.blocked_extensions) == 1
-    assert f'{type(var_2.constants).__module__}.{type(var_2.constants).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.constants) == 0
-    assert f'{type(var_2.classes).__module__}.{type(var_2.classes).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.classes) == 0
-    assert f'{type(var_2.variables).__module__}.{type(var_2.variables).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.variables) == 0
-    assert var_2.dedup_headings is False
-    assert var_2.only_sections is False
-    assert var_2.only_modified is False
-    assert var_2.combine_straight_imports is False
-    assert var_2.auto_identify_namespace_packages is True
-    assert f'{type(var_2.namespace_packages).__module__}.{type(var_2.namespace_packages).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.namespace_packages) == 0
-    assert var_2.follow_links is True
-    assert var_2.indented_import_headings is True
-    assert var_2.honor_case_in_force_sorted_sections is False
-    assert var_2.sort_relative_in_force_sorted_sections is False
-    assert var_2.overwrite_in_place is False
-    assert var_2.reverse_sort is False
-    assert var_2.star_first is False
-    assert var_2.git_ls_files == {}
-    assert var_2.format_error == '{error}: {message}'
-    assert var_2.format_success == '{success}: {message}'
-    assert var_2.sort_order == 'natural'
-    assert var_2.sort_reexports is False
-    assert var_2.split_on_trailing_comma is False
-    assert module_2.TYPE_CHECKING is False
-    assert module_2.profiles == {'black': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88}, 'django': {'combine_as_imports': True, 'include_trailing_comma': True, 'multi_line_output': 5, 'line_length': 79}, 'pycharm': {'multi_line_output': 3, 'force_grid_wrap': 2, 'lines_after_imports': 2}, 'google': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True, 'line_length': 1000, 'single_line_exclusions': ('collections.abc', 'six.moves', 'typing', 'typing_extensions'), 'order_by_type': False, 'group_by_package': True}, 'open_stack': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True}, 'plone': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_alphabetical_sort': True, 'force_single_line': True, 'lines_after_imports': 2}, 'attrs': {'atomic': True, 'force_grid_wrap': 0, 'include_trailing_comma': True, 'lines_after_imports': 2, 'lines_between_types': 1, 'multi_line_output': 3, 'use_parentheses': True}, 'hug': {'multi_line_output': 3, 'include_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'line_length': 100}, 'wemake': {'multi_line_output': 3, 'include_trailing_comma': True, 'use_parentheses': True, 'line_length': 80}, 'appnexus': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_sort_within_sections': True, 'order_by_type': False, 'case_sensitive': False, 'reverse_relative': True, 'sort_relative_in_force_sorted_sections': True, 'sections': ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'APPLICATION', 'LOCALFOLDER'], 'no_lines_before': 'LOCALFOLDER'}}
-    assert module_2.SECTION_DEFAULTS == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
-    assert module_2.FIRSTPARTY == 'FIRSTPARTY'
-    assert module_2.FUTURE == 'FUTURE'
-    assert module_2.LOCALFOLDER == 'LOCALFOLDER'
-    assert module_2.STDLIB == 'STDLIB'
-    assert module_2.THIRDPARTY == 'THIRDPARTY'
-    assert f'{type(module_2.CYTHON_EXTENSIONS).__module__}.{type(module_2.CYTHON_EXTENSIONS).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.CYTHON_EXTENSIONS) == 2
-    assert f'{type(module_2.SUPPORTED_EXTENSIONS).__module__}.{type(module_2.SUPPORTED_EXTENSIONS).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.SUPPORTED_EXTENSIONS) == 4
-    assert f'{type(module_2.BLOCKED_EXTENSIONS).__module__}.{type(module_2.BLOCKED_EXTENSIONS).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.BLOCKED_EXTENSIONS) == 1
-    assert module_2.FILE_SKIP_COMMENTS == ('isort:skip_file', 'isort: skip_file')
-    assert module_2.MAX_CONFIG_SEARCH_DEPTH == 25
-    assert module_2.STOP_CONFIG_SEARCH_ON_DIRS == ('.git', '.hg')
-    assert module_2.VALID_PY_TARGETS == ('all', '2', '27', '3', '310', '311', '312', '313', '314', '36', '37', '38', '39')
-    assert module_2.CONFIG_SOURCES == ('.isort.cfg', 'pyproject.toml', 'setup.cfg', 'tox.ini', '.editorconfig')
-    assert f'{type(module_2.DEFAULT_SKIP).__module__}.{type(module_2.DEFAULT_SKIP).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_SKIP) == 19
-    assert module_2.CONFIG_SECTIONS == {'.isort.cfg': ('settings', 'isort'), 'pyproject.toml': ('tool.isort',), 'setup.cfg': ('isort', 'tool:isort'), 'tox.ini': ('isort', 'tool:isort'), '.editorconfig': ('*', '*.py', '**.py', '*.{py}')}
-    assert module_2.FALLBACK_CONFIG_SECTIONS == ('isort', 'tool:isort', 'tool.isort')
-    assert module_2.IMPORT_HEADING_PREFIX == 'import_heading_'
-    assert module_2.IMPORT_FOOTER_PREFIX == 'import_footer_'
-    assert module_2.KNOWN_PREFIX == 'known_'
-    assert module_2.KNOWN_SECTION_MAPPING == {'STDLIB': 'STANDARD_LIBRARY', 'FUTURE': 'FUTURE_LIBRARY', 'FIRSTPARTY': 'FIRST_PARTY', 'THIRDPARTY': 'THIRD_PARTY', 'LOCALFOLDER': 'LOCAL_FOLDER'}
-    assert module_2.RUNTIME_SOURCE == 'runtime'
-    assert module_2.DEPRECATED_SETTINGS == ('not_skip', 'keep_direct_and_as_imports')
-    assert f'{type(module_2.DEFAULT_CONFIG).__module__}.{type(module_2.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
-    assert module_2.DEFAULT_CONFIG.py_version == 'py3'
-    assert f'{type(module_2.DEFAULT_CONFIG.force_to_top).__module__}.{type(module_2.DEFAULT_CONFIG.force_to_top).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.force_to_top) == 0
-    assert f'{type(module_2.DEFAULT_CONFIG.skip).__module__}.{type(module_2.DEFAULT_CONFIG.skip).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.skip) == 19
-    assert f'{type(module_2.DEFAULT_CONFIG.extend_skip).__module__}.{type(module_2.DEFAULT_CONFIG.extend_skip).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.extend_skip) == 0
-    assert f'{type(module_2.DEFAULT_CONFIG.skip_glob).__module__}.{type(module_2.DEFAULT_CONFIG.skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.skip_glob) == 0
-    assert f'{type(module_2.DEFAULT_CONFIG.extend_skip_glob).__module__}.{type(module_2.DEFAULT_CONFIG.extend_skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.extend_skip_glob) == 0
-    assert module_2.DEFAULT_CONFIG.skip_gitignore is False
-    assert module_2.DEFAULT_CONFIG.line_length == 79
-    assert module_2.DEFAULT_CONFIG.wrap_length == 0
-    assert module_2.DEFAULT_CONFIG.line_ending == ''
-    assert module_2.DEFAULT_CONFIG.sections == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
-    assert module_2.DEFAULT_CONFIG.no_sections is False
-    assert f'{type(module_2.DEFAULT_CONFIG.known_future_library).__module__}.{type(module_2.DEFAULT_CONFIG.known_future_library).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.known_future_library) == 1
-    assert f'{type(module_2.DEFAULT_CONFIG.known_third_party).__module__}.{type(module_2.DEFAULT_CONFIG.known_third_party).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.known_third_party) == 0
-    assert f'{type(module_2.DEFAULT_CONFIG.known_first_party).__module__}.{type(module_2.DEFAULT_CONFIG.known_first_party).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.known_first_party) == 0
-    assert f'{type(module_2.DEFAULT_CONFIG.known_local_folder).__module__}.{type(module_2.DEFAULT_CONFIG.known_local_folder).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.known_local_folder) == 0
-    assert f'{type(module_2.DEFAULT_CONFIG.known_standard_library).__module__}.{type(module_2.DEFAULT_CONFIG.known_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.known_standard_library) == 234
-    assert f'{type(module_2.DEFAULT_CONFIG.extra_standard_library).__module__}.{type(module_2.DEFAULT_CONFIG.extra_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.extra_standard_library) == 0
-    assert module_2.DEFAULT_CONFIG.known_other == {}
-    assert module_2.DEFAULT_CONFIG.multi_line_output == module_1.WrapModes.GRID
-    assert module_2.DEFAULT_CONFIG.forced_separate == ()
-    assert module_2.DEFAULT_CONFIG.indent == '    '
-    assert module_2.DEFAULT_CONFIG.comment_prefix == '  #'
-    assert module_2.DEFAULT_CONFIG.length_sort is False
-    assert module_2.DEFAULT_CONFIG.length_sort_straight is False
-    assert f'{type(module_2.DEFAULT_CONFIG.length_sort_sections).__module__}.{type(module_2.DEFAULT_CONFIG.length_sort_sections).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.length_sort_sections) == 0
-    assert f'{type(module_2.DEFAULT_CONFIG.add_imports).__module__}.{type(module_2.DEFAULT_CONFIG.add_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.add_imports) == 0
-    assert f'{type(module_2.DEFAULT_CONFIG.remove_imports).__module__}.{type(module_2.DEFAULT_CONFIG.remove_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.remove_imports) == 0
-    assert module_2.DEFAULT_CONFIG.append_only is False
-    assert module_2.DEFAULT_CONFIG.reverse_relative is False
-    assert module_2.DEFAULT_CONFIG.force_single_line is False
-    assert module_2.DEFAULT_CONFIG.single_line_exclusions == ()
-    assert module_2.DEFAULT_CONFIG.default_section == 'THIRDPARTY'
-    assert module_2.DEFAULT_CONFIG.import_headings == {}
-    assert module_2.DEFAULT_CONFIG.import_footers == {}
-    assert module_2.DEFAULT_CONFIG.balanced_wrapping is False
-    assert module_2.DEFAULT_CONFIG.use_parentheses is False
-    assert module_2.DEFAULT_CONFIG.order_by_type is True
-    assert module_2.DEFAULT_CONFIG.atomic is False
-    assert module_2.DEFAULT_CONFIG.lines_before_imports == -1
-    assert module_2.DEFAULT_CONFIG.lines_after_imports == -1
-    assert module_2.DEFAULT_CONFIG.lines_between_sections == 1
-    assert module_2.DEFAULT_CONFIG.lines_between_types == 0
-    assert module_2.DEFAULT_CONFIG.combine_as_imports is False
-    assert module_2.DEFAULT_CONFIG.combine_star is False
-    assert module_2.DEFAULT_CONFIG.include_trailing_comma is False
-    assert module_2.DEFAULT_CONFIG.from_first is False
-    assert module_2.DEFAULT_CONFIG.verbose is False
-    assert module_2.DEFAULT_CONFIG.quiet is False
-    assert module_2.DEFAULT_CONFIG.force_adds is False
-    assert module_2.DEFAULT_CONFIG.force_alphabetical_sort_within_sections is False
-    assert module_2.DEFAULT_CONFIG.force_alphabetical_sort is False
-    assert module_2.DEFAULT_CONFIG.force_grid_wrap == 0
-    assert module_2.DEFAULT_CONFIG.force_sort_within_sections is False
-    assert module_2.DEFAULT_CONFIG.lexicographical is False
-    assert module_2.DEFAULT_CONFIG.group_by_package is False
-    assert module_2.DEFAULT_CONFIG.ignore_whitespace is False
-    assert f'{type(module_2.DEFAULT_CONFIG.no_lines_before).__module__}.{type(module_2.DEFAULT_CONFIG.no_lines_before).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.no_lines_before) == 0
-    assert module_2.DEFAULT_CONFIG.no_inline_sort is False
-    assert module_2.DEFAULT_CONFIG.ignore_comments is False
-    assert module_2.DEFAULT_CONFIG.case_sensitive is False
-    assert f'{type(module_2.DEFAULT_CONFIG.sources).__module__}.{type(module_2.DEFAULT_CONFIG.sources).__qualname__}' == 'builtins.tuple'
-    assert len(module_2.DEFAULT_CONFIG.sources) == 1
-    assert module_2.DEFAULT_CONFIG.virtual_env == ''
-    assert module_2.DEFAULT_CONFIG.conda_env == ''
-    assert module_2.DEFAULT_CONFIG.ensure_newline_before_comments is False
-    assert module_2.DEFAULT_CONFIG.directory == '/workspace'
-    assert module_2.DEFAULT_CONFIG.profile == ''
-    assert module_2.DEFAULT_CONFIG.honor_noqa is False
-    assert f'{type(module_2.DEFAULT_CONFIG.src_paths).__module__}.{type(module_2.DEFAULT_CONFIG.src_paths).__qualname__}' == 'builtins.tuple'
-    assert len(module_2.DEFAULT_CONFIG.src_paths) == 2
-    assert module_2.DEFAULT_CONFIG.remove_redundant_aliases is False
-    assert module_2.DEFAULT_CONFIG.float_to_top is False
-    assert module_2.DEFAULT_CONFIG.filter_files is False
-    assert module_2.DEFAULT_CONFIG.formatter == ''
-    assert module_2.DEFAULT_CONFIG.formatting_function is None
-    assert module_2.DEFAULT_CONFIG.color_output is False
-    assert f'{type(module_2.DEFAULT_CONFIG.treat_comments_as_code).__module__}.{type(module_2.DEFAULT_CONFIG.treat_comments_as_code).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.treat_comments_as_code) == 0
-    assert module_2.DEFAULT_CONFIG.treat_all_comments_as_code is False
-    assert f'{type(module_2.DEFAULT_CONFIG.supported_extensions).__module__}.{type(module_2.DEFAULT_CONFIG.supported_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.supported_extensions) == 4
-    assert f'{type(module_2.DEFAULT_CONFIG.blocked_extensions).__module__}.{type(module_2.DEFAULT_CONFIG.blocked_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.blocked_extensions) == 1
-    assert f'{type(module_2.DEFAULT_CONFIG.constants).__module__}.{type(module_2.DEFAULT_CONFIG.constants).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.constants) == 0
-    assert f'{type(module_2.DEFAULT_CONFIG.classes).__module__}.{type(module_2.DEFAULT_CONFIG.classes).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.classes) == 0
-    assert f'{type(module_2.DEFAULT_CONFIG.variables).__module__}.{type(module_2.DEFAULT_CONFIG.variables).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.variables) == 0
-    assert module_2.DEFAULT_CONFIG.dedup_headings is False
-    assert module_2.DEFAULT_CONFIG.only_sections is False
-    assert module_2.DEFAULT_CONFIG.only_modified is False
-    assert module_2.DEFAULT_CONFIG.combine_straight_imports is False
-    assert module_2.DEFAULT_CONFIG.auto_identify_namespace_packages is True
-    assert f'{type(module_2.DEFAULT_CONFIG.namespace_packages).__module__}.{type(module_2.DEFAULT_CONFIG.namespace_packages).__qualname__}' == 'builtins.frozenset'
-    assert len(module_2.DEFAULT_CONFIG.namespace_packages) == 0
-    assert module_2.DEFAULT_CONFIG.follow_links is True
-    assert module_2.DEFAULT_CONFIG.indented_import_headings is True
-    assert module_2.DEFAULT_CONFIG.honor_case_in_force_sorted_sections is False
-    assert module_2.DEFAULT_CONFIG.sort_relative_in_force_sorted_sections is False
-    assert module_2.DEFAULT_CONFIG.overwrite_in_place is False
-    assert module_2.DEFAULT_CONFIG.reverse_sort is False
-    assert module_2.DEFAULT_CONFIG.star_first is False
-    assert module_2.DEFAULT_CONFIG.git_ls_files == {}
-    assert module_2.DEFAULT_CONFIG.format_error == '{error}: {message}'
-    assert module_2.DEFAULT_CONFIG.format_success == '{success}: {message}'
-    assert module_2.DEFAULT_CONFIG.sort_order == 'natural'
-    assert module_2.DEFAULT_CONFIG.sort_reexports is False
-    assert module_2.DEFAULT_CONFIG.split_on_trailing_comma is False
-    assert f'{type(module_2.Config.known_patterns).__module__}.{type(module_2.Config.known_patterns).__qualname__}' == 'builtins.property'
-    assert f'{type(module_2.Config.section_comments).__module__}.{type(module_2.Config.section_comments).__qualname__}' == 'builtins.property'
-    assert f'{type(module_2.Config.section_comments_end).__module__}.{type(module_2.Config.section_comments_end).__qualname__}' == 'builtins.property'
-    assert f'{type(module_2.Config.skips).__module__}.{type(module_2.Config.skips).__qualname__}' == 'builtins.property'
-    assert f'{type(module_2.Config.skip_globs).__module__}.{type(module_2.Config.skip_globs).__qualname__}' == 'builtins.property'
-    assert f'{type(module_2.Config.sorting_function).__module__}.{type(module_2.Config.sorting_function).__qualname__}' == 'builtins.property'
-    var_3 = module_0.module(var_0, var_2)
-    assert var_3 == 'LOCALFOLDER'
+    var_0 = '.\t/sD\x0bnu'
+    var_1 = module_0.module(var_0)
+    assert var_1 == 'LOCALFOLDER'
     assert f'{type(module_0.DEFAULT_CONFIG).__module__}.{type(module_0.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
     assert module_0.DEFAULT_CONFIG.py_version == 'py3'
     assert f'{type(module_0.DEFAULT_CONFIG.force_to_top).__module__}.{type(module_0.DEFAULT_CONFIG.force_to_top).__qualname__}' == 'builtins.frozenset'
@@ -963,148 +673,135 @@ def test_case_5():
     assert module_0.DEFAULT_CONFIG.sort_reexports is False
     assert module_0.DEFAULT_CONFIG.split_on_trailing_comma is False
     assert module_0.LOCAL == 'LOCALFOLDER'
-    var_4 = var_2.__repr__()
-    assert var_4 == "Config(py_version='py3', force_to_top=frozenset(), skip=frozenset({'__pypackages__', '.hg', 'dist', '.bzr', '.venv', '_build', '.pants.d', '.pytype', '.svn', 'venv', '.eggs', '.nox', '.mypy_cache', 'build', '.direnv', 'node_modules', 'buck-out', '.tox', '.git'}), extend_skip=frozenset(), skip_glob=frozenset(), extend_skip_glob=frozenset(), skip_gitignore=False, line_length=79, wrap_length=0, line_ending='', sections=('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER'), no_sections=False, known_future_library=frozenset({'__future__'}), known_third_party=frozenset(), known_first_party=frozenset(), known_local_folder=frozenset(), known_standard_library=frozenset({'fnmatch', 'pathlib', 'test', 'xml', 'importlib', 'getpass', 'msilib', 'cmath', 'select', 'crypt', 'zipapp', 'pyclbr', 'lib2to3', 'timeit', 'argparse', 'sunau', 'calendar', 'fileinput', 'fcntl', 'encodings', 'collections', 'dbm', 'sndhdr', 'quopri', 'pickletools', 'aifc', 'atexit', 'hmac', 'sys', 'unicodedata', 'ast', 'annotationlib', 'keyword', 'nis', 'sre_constants', 'optparse', 'mailcap', 'xxsubtype', 'netrc', 'statistics', 'gc', 'antigravity', 'winsound', 'genericpath', 'pdb', 'sre', 'smtpd', 'textwrap', 'string', 'subprocess', 'site', 'tomllib', 'copy', 'getopt', '_thread', 'binhex', 'bz2', 'shlex', 'termios', 'linecache', 'webbrowser', 'colorsys', 'imp', 'sre_parse', 'ntpath', 'cmd', 'gzip', 'locale', 'stat', 'code', 'uu', 'pkgutil', 'random', 'pwd', 'zlib', 'dummy_threading', 'gettext', 'heapq', 'trace', 'concurrent', 'poplib', 'reprlib', 'profile', 'macpath', 'xmlrpc', 'logging', 'venv', 'socketserver', 'datetime', 'sched', 'pstats', 'nturl2path', 'warnings', 'contextvars', 'tarfile', 'fractions', 'graphlib', 'xdrlib', 'time', 'xxlimited_35', 'pty', 'pprint', 'tkinter', 'rlcompleter', 'abc', 'audioop', 'types', 'imghdr', 'chunk', 're', 'compileall', 'bdb', 'platform', 'tokenize', 'sysconfig', 'formatter', 'email', 'this', 'selectors', 'builtins', 'decimal', 'doctest', 'filecmp', 'io', 'curses', 'uuid', 'lzma', 'os', 'shelve', 'array', 'xxlimited', 'tempfile', 'ssl', 'tracemalloc', 'stringprep', 'fpectl', 'zoneinfo', 'copyreg', 'resource', 'configparser', 'ossaudiodev', 'tabnanny', 'typing', 'ctypes', 'marshal', 'posix', 'errno', 'winreg', 'math', 'http', 'msvcrt', 'shutil', 'html', 'difflib', 'pyexpat', 'bisect', 'urllib', 'syslog', 'wave', 'json', 'ftplib', 'inspect', 'zipfile', 'wsgiref', 'binascii', 'threading', 'pydoc_data', 'queue', 'asyncore', 'faulthandler', 'contextlib', 'runpy', 'distutils', 'token', 'sre_compile', 'posixpath', 'weakref', 'parser', 'codecs', 'dataclasses', 'opcode', 'hashlib', 'numbers', 'functools', 'asyncio', 'mimetypes', 'dis', 'turtledemo', 'turtle', 'mailbox', 'asynchat', 'telnetlib', 'cgitb', 'py_compile', 'pydoc', 'signal', '_ast', 'ipaddress', 'readline', 'tty', 'cgi', 'enum', 'imaplib', 'unittest', 'xx', 'smtplib', 'symbol', 'itertools', 'socket', 'sqlite3', 'nntplib', 'grp', 'modulefinder', 'secrets', '_dummy_thread', 'spwd', 'operator', 'glob', 'multiprocessing', 'ensurepip', 'idlelib', 'codeop', 'traceback', 'base64', 'mmap', 'struct', 'zipimport', 'nt', 'cProfile', 'pipes', 'csv', 'plistlib', 'symtable', 'pickle'}), extra_standard_library=frozenset(), known_other={}, multi_line_output=<WrapModes.GRID: 0>, forced_separate=(), indent='    ', comment_prefix='  #', length_sort=False, length_sort_straight=False, length_sort_sections=frozenset(), add_imports=frozenset(), remove_imports=frozenset(), append_only=False, reverse_relative=False, force_single_line=False, single_line_exclusions=(), default_section='THIRDPARTY', import_headings={}, import_footers={}, balanced_wrapping=False, use_parentheses=False, order_by_type=True, atomic=False, lines_before_imports=-1, lines_after_imports=-1, lines_between_sections=1, lines_between_types=0, combine_as_imports=False, combine_star=False, include_trailing_comma=False, from_first=False, verbose=False, quiet=False, force_adds=False, force_alphabetical_sort_within_sections=False, force_alphabetical_sort=False, force_grid_wrap=0, force_sort_within_sections=False, lexicographical=False, group_by_package=False, ignore_whitespace=False, no_lines_before=frozenset(), no_inline_sort=False, ignore_comments=False, case_sensitive=False, sources=({'py_version': 'py3', 'force_to_top': frozenset(), 'skip': frozenset({'__pypackages__', '.hg', 'dist', '.bzr', '.venv', '_build', '.pants.d', '.pytype', '.svn', 'venv', '.eggs', '.nox', '.mypy_cache', 'build', '.direnv', 'node_modules', 'buck-out', '.tox', '.git'}), 'extend_skip': frozenset(), 'skip_glob': frozenset(), 'extend_skip_glob': frozenset(), 'skip_gitignore': False, 'line_length': 79, 'wrap_length': 0, 'line_ending': '', 'sections': ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER'), 'no_sections': False, 'known_future_library': frozenset({'__future__'}), 'known_third_party': frozenset(), 'known_first_party': frozenset(), 'known_local_folder': frozenset(), 'known_standard_library': frozenset({'fnmatch', 'pathlib', 'test', 'xml', 'importlib', 'getpass', 'msilib', 'cmath', 'select', 'crypt', 'zipapp', 'pyclbr', 'lib2to3', 'timeit', 'argparse', 'sunau', 'calendar', 'fileinput', 'fcntl', 'encodings', 'collections', 'dbm', 'sndhdr', 'quopri', 'pickletools', 'aifc', 'atexit', 'hmac', 'sys', 'unicodedata', 'ast', 'annotationlib', 'keyword', 'nis', 'sre_constants', 'optparse', 'mailcap', 'xxsubtype', 'netrc', 'statistics', 'gc', 'antigravity', 'winsound', 'genericpath', 'pdb', 'sre', 'smtpd', 'textwrap', 'string', 'subprocess', 'site', 'tomllib', 'copy', 'getopt', '_thread', 'binhex', 'bz2', 'shlex', 'termios', 'linecache', 'webbrowser', 'colorsys', 'imp', 'sre_parse', 'ntpath', 'cmd', 'gzip', 'locale', 'stat', 'code', 'uu', 'pkgutil', 'random', 'pwd', 'zlib', 'dummy_threading', 'gettext', 'heapq', 'trace', 'concurrent', 'poplib', 'reprlib', 'profile', 'macpath', 'xmlrpc', 'logging', 'venv', 'socketserver', 'datetime', 'sched', 'pstats', 'nturl2path', 'warnings', 'contextvars', 'tarfile', 'fractions', 'graphlib', 'xdrlib', 'time', 'xxlimited_35', 'pty', 'pprint', 'tkinter', 'rlcompleter', 'abc', 'audioop', 'types', 'imghdr', 'chunk', 're', 'compileall', 'bdb', 'platform', 'tokenize', 'sysconfig', 'formatter', 'email', 'this', 'selectors', 'builtins', 'decimal', 'doctest', 'filecmp', 'io', 'curses', 'uuid', 'lzma', 'os', 'shelve', 'array', 'xxlimited', 'tempfile', 'ssl', 'tracemalloc', 'stringprep', 'fpectl', 'zoneinfo', 'copyreg', 'resource', 'configparser', 'ossaudiodev', 'tabnanny', 'typing', 'ctypes', 'marshal', 'posix', 'errno', 'winreg', 'math', 'http', 'msvcrt', 'shutil', 'html', 'difflib', 'pyexpat', 'bisect', 'urllib', 'syslog', 'wave', 'json', 'ftplib', 'inspect', 'zipfile', 'wsgiref', 'binascii', 'threading', 'pydoc_data', 'queue', 'asyncore', 'faulthandler', 'contextlib', 'runpy', 'distutils', 'token', 'sre_compile', 'posixpath', 'weakref', 'parser', 'codecs', 'dataclasses', 'opcode', 'hashlib', 'numbers', 'functools', 'asyncio', 'mimetypes', 'dis', 'turtledemo', 'turtle', 'mailbox', 'asynchat', 'telnetlib', 'cgitb', 'py_compile', 'pydoc', 'signal', '_ast', 'ipaddress', 'readline', 'tty', 'cgi', 'enum', 'imaplib', 'unittest', 'xx', 'smtplib', 'symbol', 'itertools', 'socket', 'sqlite3', 'nntplib', 'grp', 'modulefinder', 'secrets', '_dummy_thread', 'spwd', 'operator', 'glob', 'multiprocessing', 'ensurepip', 'idlelib', 'codeop', 'traceback', 'base64', 'mmap', 'struct', 'zipimport', 'nt', 'cProfile', 'pipes', 'csv', 'plistlib', 'symtable', 'pickle'}), 'extra_standard_library': frozenset(), 'known_other': {}, 'multi_line_output': <WrapModes.GRID: 0>, 'forced_separate': (), 'indent': '    ', 'comment_prefix': '  #', 'length_sort': False, 'length_sort_straight': False, 'length_sort_sections': frozenset(), 'add_imports': frozenset(), 'remove_imports': frozenset(), 'append_only': False, 'reverse_relative': False, 'force_single_line': False, 'single_line_exclusions': (), 'default_section': 'THIRDPARTY', 'import_headings': {}, 'import_footers': {}, 'balanced_wrapping': False, 'use_parentheses': False, 'order_by_type': True, 'atomic': False, 'lines_before_imports': -1, 'lines_after_imports': -1, 'lines_between_sections': 1, 'lines_between_types': 0, 'combine_as_imports': False, 'combine_star': False, 'include_trailing_comma': False, 'from_first': False, 'verbose': False, 'quiet': False, 'force_adds': False, 'force_alphabetical_sort_within_sections': False, 'force_alphabetical_sort': False, 'force_grid_wrap': 0, 'force_sort_within_sections': False, 'lexicographical': False, 'group_by_package': False, 'ignore_whitespace': False, 'no_lines_before': frozenset(), 'no_inline_sort': False, 'ignore_comments': False, 'case_sensitive': False, 'sources': (), 'virtual_env': '', 'conda_env': '', 'ensure_newline_before_comments': False, 'directory': '', 'profile': '', 'honor_noqa': False, 'src_paths': (), 'remove_redundant_aliases': False, 'float_to_top': False, 'filter_files': False, 'formatter': '', 'formatting_function': None, 'color_output': False, 'treat_comments_as_code': frozenset(), 'treat_all_comments_as_code': False, 'supported_extensions': frozenset({'py', 'pyi', 'pyx', 'pxd'}), 'blocked_extensions': frozenset({'pex'}), 'constants': frozenset(), 'classes': frozenset(), 'variables': frozenset(), 'dedup_headings': False, 'only_sections': False, 'only_modified': False, 'combine_straight_imports': False, 'auto_identify_namespace_packages': True, 'namespace_packages': frozenset(), 'follow_links': True, 'indented_import_headings': True, 'honor_case_in_force_sorted_sections': False, 'sort_relative_in_force_sorted_sections': False, 'overwrite_in_place': False, 'reverse_sort': False, 'star_first': False, 'git_ls_files': {}, 'format_error': '{error}: {message}', 'format_success': '{success}: {message}', 'sort_order': 'natural', 'sort_reexports': False, 'split_on_trailing_comma': False, 'source': 'defaults'},), virtual_env='', conda_env='', ensure_newline_before_comments=False, directory='/workspace', profile='', honor_noqa=False, src_paths=(PosixPath('/workspace/src'), PosixPath('/workspace')), remove_redundant_aliases=False, float_to_top=False, filter_files=False, formatter='', formatting_function=None, color_output=False, treat_comments_as_code=frozenset(), treat_all_comments_as_code=False, supported_extensions=frozenset({'py', 'pyi', 'pyx', 'pxd'}), blocked_extensions=frozenset({'pex'}), constants=frozenset(), classes=frozenset(), variables=frozenset(), dedup_headings=False, only_sections=False, only_modified=False, combine_straight_imports=False, auto_identify_namespace_packages=True, namespace_packages=frozenset(), follow_links=True, indented_import_headings=True, honor_case_in_force_sorted_sections=False, sort_relative_in_force_sorted_sections=False, overwrite_in_place=False, reverse_sort=False, star_first=False, git_ls_files={}, format_error='{error}: {message}', format_success='{success}: {message}', sort_order='natural', sort_reexports=False, split_on_trailing_comma=False)"
-    var_5 = module_0.module(var_1)
-    assert var_5 == 'THIRDPARTY'
-    var_6 = '/.#Ht]\x0b_Xgb'
-    var_7 = module_0.module(var_6, var_2)
-    assert var_7 == 'THIRDPARTY'
-    var_8 = module_0.module(var_4)
-    assert var_8 == 'THIRDPARTY'
-    var_9 = module_0.module(var_4)
-    assert var_9 == 'THIRDPARTY'
 
 def test_case_6():
-    var_0 = 'test_module'
-    var_1 = [var_0]
-    var_2 = module_2.Config()
-    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'isort.settings.Config'
-    assert var_2.py_version == 'py3'
-    assert f'{type(var_2.force_to_top).__module__}.{type(var_2.force_to_top).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.force_to_top) == 0
-    assert f'{type(var_2.skip).__module__}.{type(var_2.skip).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.skip) == 19
-    assert f'{type(var_2.extend_skip).__module__}.{type(var_2.extend_skip).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.extend_skip) == 0
-    assert f'{type(var_2.skip_glob).__module__}.{type(var_2.skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.skip_glob) == 0
-    assert f'{type(var_2.extend_skip_glob).__module__}.{type(var_2.extend_skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.extend_skip_glob) == 0
-    assert var_2.skip_gitignore is False
-    assert var_2.line_length == 79
-    assert var_2.wrap_length == 0
-    assert var_2.line_ending == ''
-    assert var_2.sections == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
-    assert var_2.no_sections is False
-    assert f'{type(var_2.known_future_library).__module__}.{type(var_2.known_future_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.known_future_library) == 1
-    assert f'{type(var_2.known_third_party).__module__}.{type(var_2.known_third_party).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.known_third_party) == 0
-    assert f'{type(var_2.known_first_party).__module__}.{type(var_2.known_first_party).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.known_first_party) == 0
-    assert f'{type(var_2.known_local_folder).__module__}.{type(var_2.known_local_folder).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.known_local_folder) == 0
-    assert f'{type(var_2.known_standard_library).__module__}.{type(var_2.known_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.known_standard_library) == 234
-    assert f'{type(var_2.extra_standard_library).__module__}.{type(var_2.extra_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.extra_standard_library) == 0
-    assert var_2.known_other == {}
-    assert var_2.multi_line_output == module_1.WrapModes.GRID
-    assert var_2.forced_separate == ()
-    assert var_2.indent == '    '
-    assert var_2.comment_prefix == '  #'
-    assert var_2.length_sort is False
-    assert var_2.length_sort_straight is False
-    assert f'{type(var_2.length_sort_sections).__module__}.{type(var_2.length_sort_sections).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.length_sort_sections) == 0
-    assert f'{type(var_2.add_imports).__module__}.{type(var_2.add_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.add_imports) == 0
-    assert f'{type(var_2.remove_imports).__module__}.{type(var_2.remove_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.remove_imports) == 0
-    assert var_2.append_only is False
-    assert var_2.reverse_relative is False
-    assert var_2.force_single_line is False
-    assert var_2.single_line_exclusions == ()
-    assert var_2.default_section == 'THIRDPARTY'
-    assert var_2.import_headings == {}
-    assert var_2.import_footers == {}
-    assert var_2.balanced_wrapping is False
-    assert var_2.use_parentheses is False
-    assert var_2.order_by_type is True
-    assert var_2.atomic is False
-    assert var_2.lines_before_imports == -1
-    assert var_2.lines_after_imports == -1
-    assert var_2.lines_between_sections == 1
-    assert var_2.lines_between_types == 0
-    assert var_2.combine_as_imports is False
-    assert var_2.combine_star is False
-    assert var_2.include_trailing_comma is False
-    assert var_2.from_first is False
-    assert var_2.verbose is False
-    assert var_2.quiet is False
-    assert var_2.force_adds is False
-    assert var_2.force_alphabetical_sort_within_sections is False
-    assert var_2.force_alphabetical_sort is False
-    assert var_2.force_grid_wrap == 0
-    assert var_2.force_sort_within_sections is False
-    assert var_2.lexicographical is False
-    assert var_2.group_by_package is False
-    assert var_2.ignore_whitespace is False
-    assert f'{type(var_2.no_lines_before).__module__}.{type(var_2.no_lines_before).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.no_lines_before) == 0
-    assert var_2.no_inline_sort is False
-    assert var_2.ignore_comments is False
-    assert var_2.case_sensitive is False
-    assert f'{type(var_2.sources).__module__}.{type(var_2.sources).__qualname__}' == 'builtins.tuple'
-    assert len(var_2.sources) == 1
-    assert var_2.virtual_env == ''
-    assert var_2.conda_env == ''
-    assert var_2.ensure_newline_before_comments is False
-    assert var_2.directory == '/workspace'
-    assert var_2.profile == ''
-    assert var_2.honor_noqa is False
-    assert f'{type(var_2.src_paths).__module__}.{type(var_2.src_paths).__qualname__}' == 'builtins.tuple'
-    assert len(var_2.src_paths) == 2
-    assert var_2.remove_redundant_aliases is False
-    assert var_2.float_to_top is False
-    assert var_2.filter_files is False
-    assert var_2.formatter == ''
-    assert var_2.formatting_function is None
-    assert var_2.color_output is False
-    assert f'{type(var_2.treat_comments_as_code).__module__}.{type(var_2.treat_comments_as_code).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.treat_comments_as_code) == 0
-    assert var_2.treat_all_comments_as_code is False
-    assert f'{type(var_2.supported_extensions).__module__}.{type(var_2.supported_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.supported_extensions) == 4
-    assert f'{type(var_2.blocked_extensions).__module__}.{type(var_2.blocked_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.blocked_extensions) == 1
-    assert f'{type(var_2.constants).__module__}.{type(var_2.constants).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.constants) == 0
-    assert f'{type(var_2.classes).__module__}.{type(var_2.classes).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.classes) == 0
-    assert f'{type(var_2.variables).__module__}.{type(var_2.variables).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.variables) == 0
-    assert var_2.dedup_headings is False
-    assert var_2.only_sections is False
-    assert var_2.only_modified is False
-    assert var_2.combine_straight_imports is False
-    assert var_2.auto_identify_namespace_packages is True
-    assert f'{type(var_2.namespace_packages).__module__}.{type(var_2.namespace_packages).__qualname__}' == 'builtins.frozenset'
-    assert len(var_2.namespace_packages) == 0
-    assert var_2.follow_links is True
-    assert var_2.indented_import_headings is True
-    assert var_2.honor_case_in_force_sorted_sections is False
-    assert var_2.sort_relative_in_force_sorted_sections is False
-    assert var_2.overwrite_in_place is False
-    assert var_2.reverse_sort is False
-    assert var_2.star_first is False
-    assert var_2.git_ls_files == {}
-    assert var_2.format_error == '{error}: {message}'
-    assert var_2.format_success == '{success}: {message}'
-    assert var_2.sort_order == 'natural'
-    assert var_2.sort_reexports is False
-    assert var_2.split_on_trailing_comma is False
+    var_0 = module_2.Config()
+    assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'isort.settings.Config'
+    assert var_0.py_version == 'py3'
+    assert f'{type(var_0.force_to_top).__module__}.{type(var_0.force_to_top).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.force_to_top) == 0
+    assert f'{type(var_0.skip).__module__}.{type(var_0.skip).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.skip) == 19
+    assert f'{type(var_0.extend_skip).__module__}.{type(var_0.extend_skip).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.extend_skip) == 0
+    assert f'{type(var_0.skip_glob).__module__}.{type(var_0.skip_glob).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.skip_glob) == 0
+    assert f'{type(var_0.extend_skip_glob).__module__}.{type(var_0.extend_skip_glob).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.extend_skip_glob) == 0
+    assert var_0.skip_gitignore is False
+    assert var_0.line_length == 79
+    assert var_0.wrap_length == 0
+    assert var_0.line_ending == ''
+    assert var_0.sections == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
+    assert var_0.no_sections is False
+    assert f'{type(var_0.known_future_library).__module__}.{type(var_0.known_future_library).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.known_future_library) == 1
+    assert f'{type(var_0.known_third_party).__module__}.{type(var_0.known_third_party).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.known_third_party) == 0
+    assert f'{type(var_0.known_first_party).__module__}.{type(var_0.known_first_party).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.known_first_party) == 0
+    assert f'{type(var_0.known_local_folder).__module__}.{type(var_0.known_local_folder).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.known_local_folder) == 0
+    assert f'{type(var_0.known_standard_library).__module__}.{type(var_0.known_standard_library).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.known_standard_library) == 234
+    assert f'{type(var_0.extra_standard_library).__module__}.{type(var_0.extra_standard_library).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.extra_standard_library) == 0
+    assert var_0.known_other == {}
+    assert var_0.multi_line_output == module_1.WrapModes.GRID
+    assert var_0.forced_separate == ()
+    assert var_0.indent == '    '
+    assert var_0.comment_prefix == '  #'
+    assert var_0.length_sort is False
+    assert var_0.length_sort_straight is False
+    assert f'{type(var_0.length_sort_sections).__module__}.{type(var_0.length_sort_sections).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.length_sort_sections) == 0
+    assert f'{type(var_0.add_imports).__module__}.{type(var_0.add_imports).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.add_imports) == 0
+    assert f'{type(var_0.remove_imports).__module__}.{type(var_0.remove_imports).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.remove_imports) == 0
+    assert var_0.append_only is False
+    assert var_0.reverse_relative is False
+    assert var_0.force_single_line is False
+    assert var_0.single_line_exclusions == ()
+    assert var_0.default_section == 'THIRDPARTY'
+    assert var_0.import_headings == {}
+    assert var_0.import_footers == {}
+    assert var_0.balanced_wrapping is False
+    assert var_0.use_parentheses is False
+    assert var_0.order_by_type is True
+    assert var_0.atomic is False
+    assert var_0.lines_before_imports == -1
+    assert var_0.lines_after_imports == -1
+    assert var_0.lines_between_sections == 1
+    assert var_0.lines_between_types == 0
+    assert var_0.combine_as_imports is False
+    assert var_0.combine_star is False
+    assert var_0.include_trailing_comma is False
+    assert var_0.from_first is False
+    assert var_0.verbose is False
+    assert var_0.quiet is False
+    assert var_0.force_adds is False
+    assert var_0.force_alphabetical_sort_within_sections is False
+    assert var_0.force_alphabetical_sort is False
+    assert var_0.force_grid_wrap == 0
+    assert var_0.force_sort_within_sections is False
+    assert var_0.lexicographical is False
+    assert var_0.group_by_package is False
+    assert var_0.ignore_whitespace is False
+    assert f'{type(var_0.no_lines_before).__module__}.{type(var_0.no_lines_before).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.no_lines_before) == 0
+    assert var_0.no_inline_sort is False
+    assert var_0.ignore_comments is False
+    assert var_0.case_sensitive is False
+    assert f'{type(var_0.sources).__module__}.{type(var_0.sources).__qualname__}' == 'builtins.tuple'
+    assert len(var_0.sources) == 1
+    assert var_0.virtual_env == ''
+    assert var_0.conda_env == ''
+    assert var_0.ensure_newline_before_comments is False
+    assert var_0.directory == '/workspace'
+    assert var_0.profile == ''
+    assert var_0.honor_noqa is False
+    assert f'{type(var_0.src_paths).__module__}.{type(var_0.src_paths).__qualname__}' == 'builtins.tuple'
+    assert len(var_0.src_paths) == 2
+    assert var_0.remove_redundant_aliases is False
+    assert var_0.float_to_top is False
+    assert var_0.filter_files is False
+    assert var_0.formatter == ''
+    assert var_0.formatting_function is None
+    assert var_0.color_output is False
+    assert f'{type(var_0.treat_comments_as_code).__module__}.{type(var_0.treat_comments_as_code).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.treat_comments_as_code) == 0
+    assert var_0.treat_all_comments_as_code is False
+    assert f'{type(var_0.supported_extensions).__module__}.{type(var_0.supported_extensions).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.supported_extensions) == 4
+    assert f'{type(var_0.blocked_extensions).__module__}.{type(var_0.blocked_extensions).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.blocked_extensions) == 1
+    assert f'{type(var_0.constants).__module__}.{type(var_0.constants).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.constants) == 0
+    assert f'{type(var_0.classes).__module__}.{type(var_0.classes).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.classes) == 0
+    assert f'{type(var_0.variables).__module__}.{type(var_0.variables).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.variables) == 0
+    assert var_0.dedup_headings is False
+    assert var_0.only_sections is False
+    assert var_0.only_modified is False
+    assert var_0.combine_straight_imports is False
+    assert var_0.auto_identify_namespace_packages is True
+    assert f'{type(var_0.namespace_packages).__module__}.{type(var_0.namespace_packages).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.namespace_packages) == 0
+    assert var_0.follow_links is True
+    assert var_0.indented_import_headings is True
+    assert var_0.honor_case_in_force_sorted_sections is False
+    assert var_0.sort_relative_in_force_sorted_sections is False
+    assert var_0.overwrite_in_place is False
+    assert var_0.reverse_sort is False
+    assert var_0.star_first is False
+    assert var_0.git_ls_files == {}
+    assert var_0.format_error == '{error}: {message}'
+    assert var_0.format_success == '{success}: {message}'
+    assert var_0.sort_order == 'natural'
+    assert var_0.sort_reexports is False
+    assert var_0.split_on_trailing_comma is False
     assert module_2.TYPE_CHECKING is False
     assert module_2.profiles == {'black': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88}, 'django': {'combine_as_imports': True, 'include_trailing_comma': True, 'multi_line_output': 5, 'line_length': 79}, 'pycharm': {'multi_line_output': 3, 'force_grid_wrap': 2, 'lines_after_imports': 2}, 'google': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True, 'line_length': 1000, 'single_line_exclusions': ('collections.abc', 'six.moves', 'typing', 'typing_extensions'), 'order_by_type': False, 'group_by_package': True}, 'open_stack': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True}, 'plone': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_alphabetical_sort': True, 'force_single_line': True, 'lines_after_imports': 2}, 'attrs': {'atomic': True, 'force_grid_wrap': 0, 'include_trailing_comma': True, 'lines_after_imports': 2, 'lines_between_types': 1, 'multi_line_output': 3, 'use_parentheses': True}, 'hug': {'multi_line_output': 3, 'include_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'line_length': 100}, 'wemake': {'multi_line_output': 3, 'include_trailing_comma': True, 'use_parentheses': True, 'line_length': 80}, 'appnexus': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_sort_within_sections': True, 'order_by_type': False, 'case_sensitive': False, 'reverse_relative': True, 'sort_relative_in_force_sorted_sections': True, 'sections': ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'APPLICATION', 'LOCALFOLDER'], 'no_lines_before': 'LOCALFOLDER'}}
     assert module_2.SECTION_DEFAULTS == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
@@ -1266,8 +963,9 @@ def test_case_6():
     assert f'{type(module_2.Config.skips).__module__}.{type(module_2.Config.skips).__qualname__}' == 'builtins.property'
     assert f'{type(module_2.Config.skip_globs).__module__}.{type(module_2.Config.skip_globs).__qualname__}' == 'builtins.property'
     assert f'{type(module_2.Config.sorting_function).__module__}.{type(module_2.Config.sorting_function).__qualname__}' == 'builtins.property'
-    var_3 = module_0.module(var_0, var_2)
-    assert var_3 == 'THIRDPARTY'
+    var_1 = 'os'
+    var_2 = module_0.module(var_1, var_0)
+    assert var_2 == 'STDLIB'
     assert f'{type(module_0.DEFAULT_CONFIG).__module__}.{type(module_0.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
     assert module_0.DEFAULT_CONFIG.py_version == 'py3'
     assert f'{type(module_0.DEFAULT_CONFIG.force_to_top).__module__}.{type(module_0.DEFAULT_CONFIG.force_to_top).__qualname__}' == 'builtins.frozenset'
@@ -1395,398 +1093,427 @@ def test_case_6():
     assert module_0.DEFAULT_CONFIG.sort_reexports is False
     assert module_0.DEFAULT_CONFIG.split_on_trailing_comma is False
     assert module_0.LOCAL == 'LOCALFOLDER'
-    var_4 = module_2.Config()
-    assert f'{type(var_4).__module__}.{type(var_4).__qualname__}' == 'isort.settings.Config'
-    assert var_4.py_version == 'py3'
-    assert f'{type(var_4.force_to_top).__module__}.{type(var_4.force_to_top).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.force_to_top) == 0
-    assert f'{type(var_4.skip).__module__}.{type(var_4.skip).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.skip) == 19
-    assert f'{type(var_4.extend_skip).__module__}.{type(var_4.extend_skip).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.extend_skip) == 0
-    assert f'{type(var_4.skip_glob).__module__}.{type(var_4.skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.skip_glob) == 0
-    assert f'{type(var_4.extend_skip_glob).__module__}.{type(var_4.extend_skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.extend_skip_glob) == 0
-    assert var_4.skip_gitignore is False
-    assert var_4.line_length == 79
-    assert var_4.wrap_length == 0
-    assert var_4.line_ending == ''
-    assert var_4.sections == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
-    assert var_4.no_sections is False
-    assert f'{type(var_4.known_future_library).__module__}.{type(var_4.known_future_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.known_future_library) == 1
-    assert f'{type(var_4.known_third_party).__module__}.{type(var_4.known_third_party).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.known_third_party) == 0
-    assert f'{type(var_4.known_first_party).__module__}.{type(var_4.known_first_party).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.known_first_party) == 0
-    assert f'{type(var_4.known_local_folder).__module__}.{type(var_4.known_local_folder).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.known_local_folder) == 0
-    assert f'{type(var_4.known_standard_library).__module__}.{type(var_4.known_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.known_standard_library) == 234
-    assert f'{type(var_4.extra_standard_library).__module__}.{type(var_4.extra_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.extra_standard_library) == 0
-    assert var_4.known_other == {}
-    assert var_4.multi_line_output == module_1.WrapModes.GRID
-    assert var_4.forced_separate == ()
-    assert var_4.indent == '    '
-    assert var_4.comment_prefix == '  #'
-    assert var_4.length_sort is False
-    assert var_4.length_sort_straight is False
-    assert f'{type(var_4.length_sort_sections).__module__}.{type(var_4.length_sort_sections).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.length_sort_sections) == 0
-    assert f'{type(var_4.add_imports).__module__}.{type(var_4.add_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.add_imports) == 0
-    assert f'{type(var_4.remove_imports).__module__}.{type(var_4.remove_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.remove_imports) == 0
-    assert var_4.append_only is False
-    assert var_4.reverse_relative is False
-    assert var_4.force_single_line is False
-    assert var_4.single_line_exclusions == ()
-    assert var_4.default_section == 'THIRDPARTY'
-    assert var_4.import_headings == {}
-    assert var_4.import_footers == {}
-    assert var_4.balanced_wrapping is False
-    assert var_4.use_parentheses is False
-    assert var_4.order_by_type is True
-    assert var_4.atomic is False
-    assert var_4.lines_before_imports == -1
-    assert var_4.lines_after_imports == -1
-    assert var_4.lines_between_sections == 1
-    assert var_4.lines_between_types == 0
-    assert var_4.combine_as_imports is False
-    assert var_4.combine_star is False
-    assert var_4.include_trailing_comma is False
-    assert var_4.from_first is False
-    assert var_4.verbose is False
-    assert var_4.quiet is False
-    assert var_4.force_adds is False
-    assert var_4.force_alphabetical_sort_within_sections is False
-    assert var_4.force_alphabetical_sort is False
-    assert var_4.force_grid_wrap == 0
-    assert var_4.force_sort_within_sections is False
-    assert var_4.lexicographical is False
-    assert var_4.group_by_package is False
-    assert var_4.ignore_whitespace is False
-    assert f'{type(var_4.no_lines_before).__module__}.{type(var_4.no_lines_before).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.no_lines_before) == 0
-    assert var_4.no_inline_sort is False
-    assert var_4.ignore_comments is False
-    assert var_4.case_sensitive is False
-    assert f'{type(var_4.sources).__module__}.{type(var_4.sources).__qualname__}' == 'builtins.tuple'
-    assert len(var_4.sources) == 1
-    assert var_4.virtual_env == ''
-    assert var_4.conda_env == ''
-    assert var_4.ensure_newline_before_comments is False
-    assert var_4.directory == '/workspace'
-    assert var_4.profile == ''
-    assert var_4.honor_noqa is False
-    assert f'{type(var_4.src_paths).__module__}.{type(var_4.src_paths).__qualname__}' == 'builtins.tuple'
-    assert len(var_4.src_paths) == 2
-    assert var_4.remove_redundant_aliases is False
-    assert var_4.float_to_top is False
-    assert var_4.filter_files is False
-    assert var_4.formatter == ''
-    assert var_4.formatting_function is None
-    assert var_4.color_output is False
-    assert f'{type(var_4.treat_comments_as_code).__module__}.{type(var_4.treat_comments_as_code).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.treat_comments_as_code) == 0
-    assert var_4.treat_all_comments_as_code is False
-    assert f'{type(var_4.supported_extensions).__module__}.{type(var_4.supported_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.supported_extensions) == 4
-    assert f'{type(var_4.blocked_extensions).__module__}.{type(var_4.blocked_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.blocked_extensions) == 1
-    assert f'{type(var_4.constants).__module__}.{type(var_4.constants).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.constants) == 0
-    assert f'{type(var_4.classes).__module__}.{type(var_4.classes).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.classes) == 0
-    assert f'{type(var_4.variables).__module__}.{type(var_4.variables).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.variables) == 0
-    assert var_4.dedup_headings is False
-    assert var_4.only_sections is False
-    assert var_4.only_modified is False
-    assert var_4.combine_straight_imports is False
-    assert var_4.auto_identify_namespace_packages is True
-    assert f'{type(var_4.namespace_packages).__module__}.{type(var_4.namespace_packages).__qualname__}' == 'builtins.frozenset'
-    assert len(var_4.namespace_packages) == 0
-    assert var_4.follow_links is True
-    assert var_4.indented_import_headings is True
-    assert var_4.honor_case_in_force_sorted_sections is False
-    assert var_4.sort_relative_in_force_sorted_sections is False
-    assert var_4.overwrite_in_place is False
-    assert var_4.reverse_sort is False
-    assert var_4.star_first is False
-    assert var_4.git_ls_files == {}
-    assert var_4.format_error == '{error}: {message}'
-    assert var_4.format_success == '{success}: {message}'
-    assert var_4.sort_order == 'natural'
-    assert var_4.sort_reexports is False
-    assert var_4.split_on_trailing_comma is False
-    var_5 = module_0.module(var_3, var_4)
-    assert var_5 == 'THIRDPARTY'
-    var_6 = 'test.*'
-    var_7 = 'test_section'
-    var_8 = (var_6, var_7)
-    var_9 = [var_8]
-    var_10 = module_2.Config()
-    assert f'{type(var_10).__module__}.{type(var_10).__qualname__}' == 'isort.settings.Config'
-    assert var_10.py_version == 'py3'
-    assert f'{type(var_10.force_to_top).__module__}.{type(var_10.force_to_top).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.force_to_top) == 0
-    assert f'{type(var_10.skip).__module__}.{type(var_10.skip).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.skip) == 19
-    assert f'{type(var_10.extend_skip).__module__}.{type(var_10.extend_skip).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.extend_skip) == 0
-    assert f'{type(var_10.skip_glob).__module__}.{type(var_10.skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.skip_glob) == 0
-    assert f'{type(var_10.extend_skip_glob).__module__}.{type(var_10.extend_skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.extend_skip_glob) == 0
-    assert var_10.skip_gitignore is False
-    assert var_10.line_length == 79
-    assert var_10.wrap_length == 0
-    assert var_10.line_ending == ''
-    assert var_10.sections == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
-    assert var_10.no_sections is False
-    assert f'{type(var_10.known_future_library).__module__}.{type(var_10.known_future_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.known_future_library) == 1
-    assert f'{type(var_10.known_third_party).__module__}.{type(var_10.known_third_party).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.known_third_party) == 0
-    assert f'{type(var_10.known_first_party).__module__}.{type(var_10.known_first_party).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.known_first_party) == 0
-    assert f'{type(var_10.known_local_folder).__module__}.{type(var_10.known_local_folder).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.known_local_folder) == 0
-    assert f'{type(var_10.known_standard_library).__module__}.{type(var_10.known_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.known_standard_library) == 234
-    assert f'{type(var_10.extra_standard_library).__module__}.{type(var_10.extra_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.extra_standard_library) == 0
-    assert var_10.known_other == {}
-    assert var_10.multi_line_output == module_1.WrapModes.GRID
-    assert var_10.forced_separate == ()
-    assert var_10.indent == '    '
-    assert var_10.comment_prefix == '  #'
-    assert var_10.length_sort is False
-    assert var_10.length_sort_straight is False
-    assert f'{type(var_10.length_sort_sections).__module__}.{type(var_10.length_sort_sections).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.length_sort_sections) == 0
-    assert f'{type(var_10.add_imports).__module__}.{type(var_10.add_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.add_imports) == 0
-    assert f'{type(var_10.remove_imports).__module__}.{type(var_10.remove_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.remove_imports) == 0
-    assert var_10.append_only is False
-    assert var_10.reverse_relative is False
-    assert var_10.force_single_line is False
-    assert var_10.single_line_exclusions == ()
-    assert var_10.default_section == 'THIRDPARTY'
-    assert var_10.import_headings == {}
-    assert var_10.import_footers == {}
-    assert var_10.balanced_wrapping is False
-    assert var_10.use_parentheses is False
-    assert var_10.order_by_type is True
-    assert var_10.atomic is False
-    assert var_10.lines_before_imports == -1
-    assert var_10.lines_after_imports == -1
-    assert var_10.lines_between_sections == 1
-    assert var_10.lines_between_types == 0
-    assert var_10.combine_as_imports is False
-    assert var_10.combine_star is False
-    assert var_10.include_trailing_comma is False
-    assert var_10.from_first is False
-    assert var_10.verbose is False
-    assert var_10.quiet is False
-    assert var_10.force_adds is False
-    assert var_10.force_alphabetical_sort_within_sections is False
-    assert var_10.force_alphabetical_sort is False
-    assert var_10.force_grid_wrap == 0
-    assert var_10.force_sort_within_sections is False
-    assert var_10.lexicographical is False
-    assert var_10.group_by_package is False
-    assert var_10.ignore_whitespace is False
-    assert f'{type(var_10.no_lines_before).__module__}.{type(var_10.no_lines_before).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.no_lines_before) == 0
-    assert var_10.no_inline_sort is False
-    assert var_10.ignore_comments is False
-    assert var_10.case_sensitive is False
-    assert f'{type(var_10.sources).__module__}.{type(var_10.sources).__qualname__}' == 'builtins.tuple'
-    assert len(var_10.sources) == 1
-    assert var_10.virtual_env == ''
-    assert var_10.conda_env == ''
-    assert var_10.ensure_newline_before_comments is False
-    assert var_10.directory == '/workspace'
-    assert var_10.profile == ''
-    assert var_10.honor_noqa is False
-    assert f'{type(var_10.src_paths).__module__}.{type(var_10.src_paths).__qualname__}' == 'builtins.tuple'
-    assert len(var_10.src_paths) == 2
-    assert var_10.remove_redundant_aliases is False
-    assert var_10.float_to_top is False
-    assert var_10.filter_files is False
-    assert var_10.formatter == ''
-    assert var_10.formatting_function is None
-    assert var_10.color_output is False
-    assert f'{type(var_10.treat_comments_as_code).__module__}.{type(var_10.treat_comments_as_code).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.treat_comments_as_code) == 0
-    assert var_10.treat_all_comments_as_code is False
-    assert f'{type(var_10.supported_extensions).__module__}.{type(var_10.supported_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.supported_extensions) == 4
-    assert f'{type(var_10.blocked_extensions).__module__}.{type(var_10.blocked_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.blocked_extensions) == 1
-    assert f'{type(var_10.constants).__module__}.{type(var_10.constants).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.constants) == 0
-    assert f'{type(var_10.classes).__module__}.{type(var_10.classes).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.classes) == 0
-    assert f'{type(var_10.variables).__module__}.{type(var_10.variables).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.variables) == 0
-    assert var_10.dedup_headings is False
-    assert var_10.only_sections is False
-    assert var_10.only_modified is False
-    assert var_10.combine_straight_imports is False
-    assert var_10.auto_identify_namespace_packages is True
-    assert f'{type(var_10.namespace_packages).__module__}.{type(var_10.namespace_packages).__qualname__}' == 'builtins.frozenset'
-    assert len(var_10.namespace_packages) == 0
-    assert var_10.follow_links is True
-    assert var_10.indented_import_headings is True
-    assert var_10.honor_case_in_force_sorted_sections is False
-    assert var_10.sort_relative_in_force_sorted_sections is False
-    assert var_10.overwrite_in_place is False
-    assert var_10.reverse_sort is False
-    assert var_10.star_first is False
-    assert var_10.git_ls_files == {}
-    assert var_10.format_error == '{error}: {message}'
-    assert var_10.format_success == '{success}: {message}'
-    assert var_10.sort_order == 'natural'
-    assert var_10.sort_reexports is False
-    assert var_10.split_on_trailing_comma is False
-    var_11 = 'test.module'
-    var_12 = module_0.module(var_11, var_10)
-    assert var_12 == 'STDLIB'
-    var_13 = module_2.Config()
-    assert f'{type(var_13).__module__}.{type(var_13).__qualname__}' == 'isort.settings.Config'
-    assert var_13.py_version == 'py3'
-    assert f'{type(var_13.force_to_top).__module__}.{type(var_13.force_to_top).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.force_to_top) == 0
-    assert f'{type(var_13.skip).__module__}.{type(var_13.skip).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.skip) == 19
-    assert f'{type(var_13.extend_skip).__module__}.{type(var_13.extend_skip).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.extend_skip) == 0
-    assert f'{type(var_13.skip_glob).__module__}.{type(var_13.skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.skip_glob) == 0
-    assert f'{type(var_13.extend_skip_glob).__module__}.{type(var_13.extend_skip_glob).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.extend_skip_glob) == 0
-    assert var_13.skip_gitignore is False
-    assert var_13.line_length == 79
-    assert var_13.wrap_length == 0
-    assert var_13.line_ending == ''
-    assert var_13.sections == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
-    assert var_13.no_sections is False
-    assert f'{type(var_13.known_future_library).__module__}.{type(var_13.known_future_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.known_future_library) == 1
-    assert f'{type(var_13.known_third_party).__module__}.{type(var_13.known_third_party).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.known_third_party) == 0
-    assert f'{type(var_13.known_first_party).__module__}.{type(var_13.known_first_party).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.known_first_party) == 0
-    assert f'{type(var_13.known_local_folder).__module__}.{type(var_13.known_local_folder).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.known_local_folder) == 0
-    assert f'{type(var_13.known_standard_library).__module__}.{type(var_13.known_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.known_standard_library) == 234
-    assert f'{type(var_13.extra_standard_library).__module__}.{type(var_13.extra_standard_library).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.extra_standard_library) == 0
-    assert var_13.known_other == {}
-    assert var_13.multi_line_output == module_1.WrapModes.GRID
-    assert var_13.forced_separate == ()
-    assert var_13.indent == '    '
-    assert var_13.comment_prefix == '  #'
-    assert var_13.length_sort is False
-    assert var_13.length_sort_straight is False
-    assert f'{type(var_13.length_sort_sections).__module__}.{type(var_13.length_sort_sections).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.length_sort_sections) == 0
-    assert f'{type(var_13.add_imports).__module__}.{type(var_13.add_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.add_imports) == 0
-    assert f'{type(var_13.remove_imports).__module__}.{type(var_13.remove_imports).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.remove_imports) == 0
-    assert var_13.append_only is False
-    assert var_13.reverse_relative is False
-    assert var_13.force_single_line is False
-    assert var_13.single_line_exclusions == ()
-    assert var_13.default_section == 'THIRDPARTY'
-    assert var_13.import_headings == {}
-    assert var_13.import_footers == {}
-    assert var_13.balanced_wrapping is False
-    assert var_13.use_parentheses is False
-    assert var_13.order_by_type is True
-    assert var_13.atomic is False
-    assert var_13.lines_before_imports == -1
-    assert var_13.lines_after_imports == -1
-    assert var_13.lines_between_sections == 1
-    assert var_13.lines_between_types == 0
-    assert var_13.combine_as_imports is False
-    assert var_13.combine_star is False
-    assert var_13.include_trailing_comma is False
-    assert var_13.from_first is False
-    assert var_13.verbose is False
-    assert var_13.quiet is False
-    assert var_13.force_adds is False
-    assert var_13.force_alphabetical_sort_within_sections is False
-    assert var_13.force_alphabetical_sort is False
-    assert var_13.force_grid_wrap == 0
-    assert var_13.force_sort_within_sections is False
-    assert var_13.lexicographical is False
-    assert var_13.group_by_package is False
-    assert var_13.ignore_whitespace is False
-    assert f'{type(var_13.no_lines_before).__module__}.{type(var_13.no_lines_before).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.no_lines_before) == 0
-    assert var_13.no_inline_sort is False
-    assert var_13.ignore_comments is False
-    assert var_13.case_sensitive is False
-    assert f'{type(var_13.sources).__module__}.{type(var_13.sources).__qualname__}' == 'builtins.tuple'
-    assert len(var_13.sources) == 1
-    assert var_13.virtual_env == ''
-    assert var_13.conda_env == ''
-    assert var_13.ensure_newline_before_comments is False
-    assert var_13.directory == '/workspace'
-    assert var_13.profile == ''
-    assert var_13.honor_noqa is False
-    assert f'{type(var_13.src_paths).__module__}.{type(var_13.src_paths).__qualname__}' == 'builtins.tuple'
-    assert len(var_13.src_paths) == 2
-    assert var_13.remove_redundant_aliases is False
-    assert var_13.float_to_top is False
-    assert var_13.filter_files is False
-    assert var_13.formatter == ''
-    assert var_13.formatting_function is None
-    assert var_13.color_output is False
-    assert f'{type(var_13.treat_comments_as_code).__module__}.{type(var_13.treat_comments_as_code).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.treat_comments_as_code) == 0
-    assert var_13.treat_all_comments_as_code is False
-    assert f'{type(var_13.supported_extensions).__module__}.{type(var_13.supported_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.supported_extensions) == 4
-    assert f'{type(var_13.blocked_extensions).__module__}.{type(var_13.blocked_extensions).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.blocked_extensions) == 1
-    assert f'{type(var_13.constants).__module__}.{type(var_13.constants).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.constants) == 0
-    assert f'{type(var_13.classes).__module__}.{type(var_13.classes).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.classes) == 0
-    assert f'{type(var_13.variables).__module__}.{type(var_13.variables).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.variables) == 0
-    assert var_13.dedup_headings is False
-    assert var_13.only_sections is False
-    assert var_13.only_modified is False
-    assert var_13.combine_straight_imports is False
-    assert var_13.auto_identify_namespace_packages is True
-    assert f'{type(var_13.namespace_packages).__module__}.{type(var_13.namespace_packages).__qualname__}' == 'builtins.frozenset'
-    assert len(var_13.namespace_packages) == 0
-    assert var_13.follow_links is True
-    assert var_13.indented_import_headings is True
-    assert var_13.honor_case_in_force_sorted_sections is False
-    assert var_13.sort_relative_in_force_sorted_sections is False
-    assert var_13.overwrite_in_place is False
-    assert var_13.reverse_sort is False
-    assert var_13.star_first is False
-    assert var_13.git_ls_files == {}
-    assert var_13.format_error == '{error}: {message}'
-    assert var_13.format_success == '{success}: {message}'
-    assert var_13.sort_order == 'natural'
-    assert var_13.sort_reexports is False
-    assert var_13.split_on_trailing_comma is False
-    var_14 = 'unknown_module'
-    var_15 = module_0.module(var_14, var_13)
-    assert var_15 == 'THIRDPARTY'
-    var_16 = 'All tests passed!'
-    var_17 = print(var_16)
+    var_3 = var_0.__repr__()
+    assert var_3 == "Config(py_version='py3', force_to_top=frozenset(), skip=frozenset({'.venv', '.direnv', 'build', '_build', 'buck-out', '.nox', '__pypackages__', '.git', '.pytype', 'venv', '.hg', '.bzr', '.svn', '.pants.d', 'dist', '.mypy_cache', 'node_modules', '.tox', '.eggs'}), extend_skip=frozenset(), skip_glob=frozenset(), extend_skip_glob=frozenset(), skip_gitignore=False, line_length=79, wrap_length=0, line_ending='', sections=('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER'), no_sections=False, known_future_library=frozenset({'__future__'}), known_third_party=frozenset(), known_first_party=frozenset(), known_local_folder=frozenset(), known_standard_library=frozenset({'nt', 'pstats', 'secrets', 'statistics', 'msilib', 'profile', 'asyncio', 'cmd', 'zipfile', 'signal', 'pyexpat', 'imp', 'runpy', 'locale', 'mimetypes', 'stringprep', 'itertools', 'fileinput', 'bdb', 'socket', 'poplib', 'cProfile', 'pdb', 'binhex', 'unicodedata', 'ast', 'reprlib', 'token', 'dataclasses', 'string', 'antigravity', 'codeop', 'readline', 'telnetlib', '_thread', 'tkinter', 'nturl2path', 'webbrowser', 'codecs', 'pydoc', 'zoneinfo', 'contextlib', 'imaplib', 'tomllib', 'pty', 'tarfile', 'xmlrpc', '_dummy_thread', 'wsgiref', 're', 'netrc', 'sysconfig', 'cgitb', 'doctest', 'queue', 'xxlimited_35', 'graphlib', 'fnmatch', 'asyncore', 'parser', 'xdrlib', 'ctypes', 'contextvars', 'colorsys', 'logging', 'plistlib', 'chunk', 'sunau', 'sre_compile', 'xxsubtype', 'venv', 'modulefinder', 'syslog', 'tracemalloc', 'threading', 'fractions', 'fpectl', 'annotationlib', 'pyclbr', 'aifc', 'bz2', 'sndhdr', 'http', 'asynchat', 'cgi', 'test', 'zlib', 'tempfile', 'enum', 'curses', 'random', 'collections', 'mailcap', 'tty', 'nis', 'shlex', 'types', 'gettext', 'atexit', 'posixpath', 'json', 'multiprocessing', 'calendar', 'optparse', 'spwd', 'site', 'getopt', 'sre_constants', 'io', 'termios', 'smtplib', 'ossaudiodev', 'base64', 'bisect', 'urllib', 'heapq', 'resource', 'concurrent', 'smtpd', 'quopri', 'copyreg', 'pprint', 'mailbox', 'html', 'marshal', 'datetime', 'sre', 'winreg', 'keyword', 'inspect', 'argparse', 'pickletools', 'genericpath', 'rlcompleter', 'filecmp', 'zipapp', 'dis', 'trace', '_ast', 'cmath', 'symtable', 'warnings', 'glob', 'posix', 'socketserver', 'pickle', 'binascii', 'subprocess', 'numbers', 'wave', 'typing', 'hmac', 'turtle', 'selectors', 'tokenize', 'encodings', 'ssl', 'uu', 'turtledemo', 'linecache', 'gc', 'copy', 'array', 'errno', 'msvcrt', 'nntplib', 'this', 'ipaddress', 'dummy_threading', 'symbol', 'timeit', 'getpass', 'shutil', 'audioop', 'struct', 'pkgutil', 'pwd', 'lib2to3', 'unittest', 'idlelib', 'ensurepip', 'email', 'imghdr', 'stat', 'select', 'grp', 'sys', 'fcntl', 'lzma', 'importlib', 'xml', 'weakref', 'py_compile', 'ftplib', 'os', 'operator', 'sched', 'compileall', 'csv', 'decimal', 'tabnanny', 'pathlib', 'math', 'platform', 'xxlimited', 'zipimport', 'configparser', 'time', 'xx', 'builtins', 'pydoc_data', 'hashlib', 'mmap', 'shelve', 'code', 'traceback', 'sqlite3', 'winsound', 'uuid', 'difflib', 'distutils', 'opcode', 'faulthandler', 'abc', 'gzip', 'macpath', 'functools', 'dbm', 'ntpath', 'formatter', 'pipes', 'textwrap', 'crypt', 'sre_parse'}), extra_standard_library=frozenset(), known_other={}, multi_line_output=<WrapModes.GRID: 0>, forced_separate=(), indent='    ', comment_prefix='  #', length_sort=False, length_sort_straight=False, length_sort_sections=frozenset(), add_imports=frozenset(), remove_imports=frozenset(), append_only=False, reverse_relative=False, force_single_line=False, single_line_exclusions=(), default_section='THIRDPARTY', import_headings={}, import_footers={}, balanced_wrapping=False, use_parentheses=False, order_by_type=True, atomic=False, lines_before_imports=-1, lines_after_imports=-1, lines_between_sections=1, lines_between_types=0, combine_as_imports=False, combine_star=False, include_trailing_comma=False, from_first=False, verbose=False, quiet=False, force_adds=False, force_alphabetical_sort_within_sections=False, force_alphabetical_sort=False, force_grid_wrap=0, force_sort_within_sections=False, lexicographical=False, group_by_package=False, ignore_whitespace=False, no_lines_before=frozenset(), no_inline_sort=False, ignore_comments=False, case_sensitive=False, sources=({'py_version': 'py3', 'force_to_top': frozenset(), 'skip': frozenset({'.venv', '.direnv', 'build', '_build', 'buck-out', '.nox', '__pypackages__', '.git', '.pytype', 'venv', '.hg', '.bzr', '.svn', '.pants.d', 'dist', '.mypy_cache', 'node_modules', '.tox', '.eggs'}), 'extend_skip': frozenset(), 'skip_glob': frozenset(), 'extend_skip_glob': frozenset(), 'skip_gitignore': False, 'line_length': 79, 'wrap_length': 0, 'line_ending': '', 'sections': ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER'), 'no_sections': False, 'known_future_library': frozenset({'__future__'}), 'known_third_party': frozenset(), 'known_first_party': frozenset(), 'known_local_folder': frozenset(), 'known_standard_library': frozenset({'nt', 'pstats', 'secrets', 'statistics', 'msilib', 'profile', 'asyncio', 'cmd', 'zipfile', 'signal', 'pyexpat', 'imp', 'runpy', 'locale', 'mimetypes', 'stringprep', 'itertools', 'fileinput', 'bdb', 'socket', 'poplib', 'cProfile', 'pdb', 'binhex', 'unicodedata', 'ast', 'reprlib', 'token', 'dataclasses', 'string', 'antigravity', 'codeop', 'readline', 'telnetlib', '_thread', 'tkinter', 'nturl2path', 'webbrowser', 'codecs', 'pydoc', 'zoneinfo', 'contextlib', 'imaplib', 'tomllib', 'pty', 'tarfile', 'xmlrpc', '_dummy_thread', 'wsgiref', 're', 'netrc', 'sysconfig', 'cgitb', 'doctest', 'queue', 'xxlimited_35', 'graphlib', 'fnmatch', 'asyncore', 'parser', 'xdrlib', 'ctypes', 'contextvars', 'colorsys', 'logging', 'plistlib', 'chunk', 'sunau', 'sre_compile', 'xxsubtype', 'venv', 'modulefinder', 'syslog', 'tracemalloc', 'threading', 'fractions', 'fpectl', 'annotationlib', 'pyclbr', 'aifc', 'bz2', 'sndhdr', 'http', 'asynchat', 'cgi', 'test', 'zlib', 'tempfile', 'enum', 'curses', 'random', 'collections', 'mailcap', 'tty', 'nis', 'shlex', 'types', 'gettext', 'atexit', 'posixpath', 'json', 'multiprocessing', 'calendar', 'optparse', 'spwd', 'site', 'getopt', 'sre_constants', 'io', 'termios', 'smtplib', 'ossaudiodev', 'base64', 'bisect', 'urllib', 'heapq', 'resource', 'concurrent', 'smtpd', 'quopri', 'copyreg', 'pprint', 'mailbox', 'html', 'marshal', 'datetime', 'sre', 'winreg', 'keyword', 'inspect', 'argparse', 'pickletools', 'genericpath', 'rlcompleter', 'filecmp', 'zipapp', 'dis', 'trace', '_ast', 'cmath', 'symtable', 'warnings', 'glob', 'posix', 'socketserver', 'pickle', 'binascii', 'subprocess', 'numbers', 'wave', 'typing', 'hmac', 'turtle', 'selectors', 'tokenize', 'encodings', 'ssl', 'uu', 'turtledemo', 'linecache', 'gc', 'copy', 'array', 'errno', 'msvcrt', 'nntplib', 'this', 'ipaddress', 'dummy_threading', 'symbol', 'timeit', 'getpass', 'shutil', 'audioop', 'struct', 'pkgutil', 'pwd', 'lib2to3', 'unittest', 'idlelib', 'ensurepip', 'email', 'imghdr', 'stat', 'select', 'grp', 'sys', 'fcntl', 'lzma', 'importlib', 'xml', 'weakref', 'py_compile', 'ftplib', 'os', 'operator', 'sched', 'compileall', 'csv', 'decimal', 'tabnanny', 'pathlib', 'math', 'platform', 'xxlimited', 'zipimport', 'configparser', 'time', 'xx', 'builtins', 'pydoc_data', 'hashlib', 'mmap', 'shelve', 'code', 'traceback', 'sqlite3', 'winsound', 'uuid', 'difflib', 'distutils', 'opcode', 'faulthandler', 'abc', 'gzip', 'macpath', 'functools', 'dbm', 'ntpath', 'formatter', 'pipes', 'textwrap', 'crypt', 'sre_parse'}), 'extra_standard_library': frozenset(), 'known_other': {}, 'multi_line_output': <WrapModes.GRID: 0>, 'forced_separate': (), 'indent': '    ', 'comment_prefix': '  #', 'length_sort': False, 'length_sort_straight': False, 'length_sort_sections': frozenset(), 'add_imports': frozenset(), 'remove_imports': frozenset(), 'append_only': False, 'reverse_relative': False, 'force_single_line': False, 'single_line_exclusions': (), 'default_section': 'THIRDPARTY', 'import_headings': {}, 'import_footers': {}, 'balanced_wrapping': False, 'use_parentheses': False, 'order_by_type': True, 'atomic': False, 'lines_before_imports': -1, 'lines_after_imports': -1, 'lines_between_sections': 1, 'lines_between_types': 0, 'combine_as_imports': False, 'combine_star': False, 'include_trailing_comma': False, 'from_first': False, 'verbose': False, 'quiet': False, 'force_adds': False, 'force_alphabetical_sort_within_sections': False, 'force_alphabetical_sort': False, 'force_grid_wrap': 0, 'force_sort_within_sections': False, 'lexicographical': False, 'group_by_package': False, 'ignore_whitespace': False, 'no_lines_before': frozenset(), 'no_inline_sort': False, 'ignore_comments': False, 'case_sensitive': False, 'sources': (), 'virtual_env': '', 'conda_env': '', 'ensure_newline_before_comments': False, 'directory': '', 'profile': '', 'honor_noqa': False, 'src_paths': (), 'remove_redundant_aliases': False, 'float_to_top': False, 'filter_files': False, 'formatter': '', 'formatting_function': None, 'color_output': False, 'treat_comments_as_code': frozenset(), 'treat_all_comments_as_code': False, 'supported_extensions': frozenset({'pxd', 'py', 'pyi', 'pyx'}), 'blocked_extensions': frozenset({'pex'}), 'constants': frozenset(), 'classes': frozenset(), 'variables': frozenset(), 'dedup_headings': False, 'only_sections': False, 'only_modified': False, 'combine_straight_imports': False, 'auto_identify_namespace_packages': True, 'namespace_packages': frozenset(), 'follow_links': True, 'indented_import_headings': True, 'honor_case_in_force_sorted_sections': False, 'sort_relative_in_force_sorted_sections': False, 'overwrite_in_place': False, 'reverse_sort': False, 'star_first': False, 'git_ls_files': {}, 'format_error': '{error}: {message}', 'format_success': '{success}: {message}', 'sort_order': 'natural', 'sort_reexports': False, 'split_on_trailing_comma': False, 'source': 'defaults'},), virtual_env='', conda_env='', ensure_newline_before_comments=False, directory='/workspace', profile='', honor_noqa=False, src_paths=(PosixPath('/workspace/src'), PosixPath('/workspace')), remove_redundant_aliases=False, float_to_top=False, filter_files=False, formatter='', formatting_function=None, color_output=False, treat_comments_as_code=frozenset(), treat_all_comments_as_code=False, supported_extensions=frozenset({'pxd', 'py', 'pyi', 'pyx'}), blocked_extensions=frozenset({'pex'}), constants=frozenset(), classes=frozenset(), variables=frozenset(), dedup_headings=False, only_sections=False, only_modified=False, combine_straight_imports=False, auto_identify_namespace_packages=True, namespace_packages=frozenset(), follow_links=True, indented_import_headings=True, honor_case_in_force_sorted_sections=False, sort_relative_in_force_sorted_sections=False, overwrite_in_place=False, reverse_sort=False, star_first=False, git_ls_files={}, format_error='{error}: {message}', format_success='{success}: {message}', sort_order='natural', sort_reexports=False, split_on_trailing_comma=False)"
+    var_4 = var_0.__repr__()
+    assert var_4 == "Config(py_version='py3', force_to_top=frozenset(), skip=frozenset({'.venv', '.direnv', 'build', '_build', 'buck-out', '.nox', '__pypackages__', '.git', '.pytype', 'venv', '.hg', '.bzr', '.svn', '.pants.d', 'dist', '.mypy_cache', 'node_modules', '.tox', '.eggs'}), extend_skip=frozenset(), skip_glob=frozenset(), extend_skip_glob=frozenset(), skip_gitignore=False, line_length=79, wrap_length=0, line_ending='', sections=('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER'), no_sections=False, known_future_library=frozenset({'__future__'}), known_third_party=frozenset(), known_first_party=frozenset(), known_local_folder=frozenset(), known_standard_library=frozenset({'nt', 'pstats', 'secrets', 'statistics', 'msilib', 'profile', 'asyncio', 'cmd', 'zipfile', 'signal', 'pyexpat', 'imp', 'runpy', 'locale', 'mimetypes', 'stringprep', 'itertools', 'fileinput', 'bdb', 'socket', 'poplib', 'cProfile', 'pdb', 'binhex', 'unicodedata', 'ast', 'reprlib', 'token', 'dataclasses', 'string', 'antigravity', 'codeop', 'readline', 'telnetlib', '_thread', 'tkinter', 'nturl2path', 'webbrowser', 'codecs', 'pydoc', 'zoneinfo', 'contextlib', 'imaplib', 'tomllib', 'pty', 'tarfile', 'xmlrpc', '_dummy_thread', 'wsgiref', 're', 'netrc', 'sysconfig', 'cgitb', 'doctest', 'queue', 'xxlimited_35', 'graphlib', 'fnmatch', 'asyncore', 'parser', 'xdrlib', 'ctypes', 'contextvars', 'colorsys', 'logging', 'plistlib', 'chunk', 'sunau', 'sre_compile', 'xxsubtype', 'venv', 'modulefinder', 'syslog', 'tracemalloc', 'threading', 'fractions', 'fpectl', 'annotationlib', 'pyclbr', 'aifc', 'bz2', 'sndhdr', 'http', 'asynchat', 'cgi', 'test', 'zlib', 'tempfile', 'enum', 'curses', 'random', 'collections', 'mailcap', 'tty', 'nis', 'shlex', 'types', 'gettext', 'atexit', 'posixpath', 'json', 'multiprocessing', 'calendar', 'optparse', 'spwd', 'site', 'getopt', 'sre_constants', 'io', 'termios', 'smtplib', 'ossaudiodev', 'base64', 'bisect', 'urllib', 'heapq', 'resource', 'concurrent', 'smtpd', 'quopri', 'copyreg', 'pprint', 'mailbox', 'html', 'marshal', 'datetime', 'sre', 'winreg', 'keyword', 'inspect', 'argparse', 'pickletools', 'genericpath', 'rlcompleter', 'filecmp', 'zipapp', 'dis', 'trace', '_ast', 'cmath', 'symtable', 'warnings', 'glob', 'posix', 'socketserver', 'pickle', 'binascii', 'subprocess', 'numbers', 'wave', 'typing', 'hmac', 'turtle', 'selectors', 'tokenize', 'encodings', 'ssl', 'uu', 'turtledemo', 'linecache', 'gc', 'copy', 'array', 'errno', 'msvcrt', 'nntplib', 'this', 'ipaddress', 'dummy_threading', 'symbol', 'timeit', 'getpass', 'shutil', 'audioop', 'struct', 'pkgutil', 'pwd', 'lib2to3', 'unittest', 'idlelib', 'ensurepip', 'email', 'imghdr', 'stat', 'select', 'grp', 'sys', 'fcntl', 'lzma', 'importlib', 'xml', 'weakref', 'py_compile', 'ftplib', 'os', 'operator', 'sched', 'compileall', 'csv', 'decimal', 'tabnanny', 'pathlib', 'math', 'platform', 'xxlimited', 'zipimport', 'configparser', 'time', 'xx', 'builtins', 'pydoc_data', 'hashlib', 'mmap', 'shelve', 'code', 'traceback', 'sqlite3', 'winsound', 'uuid', 'difflib', 'distutils', 'opcode', 'faulthandler', 'abc', 'gzip', 'macpath', 'functools', 'dbm', 'ntpath', 'formatter', 'pipes', 'textwrap', 'crypt', 'sre_parse'}), extra_standard_library=frozenset(), known_other={}, multi_line_output=<WrapModes.GRID: 0>, forced_separate=(), indent='    ', comment_prefix='  #', length_sort=False, length_sort_straight=False, length_sort_sections=frozenset(), add_imports=frozenset(), remove_imports=frozenset(), append_only=False, reverse_relative=False, force_single_line=False, single_line_exclusions=(), default_section='THIRDPARTY', import_headings={}, import_footers={}, balanced_wrapping=False, use_parentheses=False, order_by_type=True, atomic=False, lines_before_imports=-1, lines_after_imports=-1, lines_between_sections=1, lines_between_types=0, combine_as_imports=False, combine_star=False, include_trailing_comma=False, from_first=False, verbose=False, quiet=False, force_adds=False, force_alphabetical_sort_within_sections=False, force_alphabetical_sort=False, force_grid_wrap=0, force_sort_within_sections=False, lexicographical=False, group_by_package=False, ignore_whitespace=False, no_lines_before=frozenset(), no_inline_sort=False, ignore_comments=False, case_sensitive=False, sources=({'py_version': 'py3', 'force_to_top': frozenset(), 'skip': frozenset({'.venv', '.direnv', 'build', '_build', 'buck-out', '.nox', '__pypackages__', '.git', '.pytype', 'venv', '.hg', '.bzr', '.svn', '.pants.d', 'dist', '.mypy_cache', 'node_modules', '.tox', '.eggs'}), 'extend_skip': frozenset(), 'skip_glob': frozenset(), 'extend_skip_glob': frozenset(), 'skip_gitignore': False, 'line_length': 79, 'wrap_length': 0, 'line_ending': '', 'sections': ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER'), 'no_sections': False, 'known_future_library': frozenset({'__future__'}), 'known_third_party': frozenset(), 'known_first_party': frozenset(), 'known_local_folder': frozenset(), 'known_standard_library': frozenset({'nt', 'pstats', 'secrets', 'statistics', 'msilib', 'profile', 'asyncio', 'cmd', 'zipfile', 'signal', 'pyexpat', 'imp', 'runpy', 'locale', 'mimetypes', 'stringprep', 'itertools', 'fileinput', 'bdb', 'socket', 'poplib', 'cProfile', 'pdb', 'binhex', 'unicodedata', 'ast', 'reprlib', 'token', 'dataclasses', 'string', 'antigravity', 'codeop', 'readline', 'telnetlib', '_thread', 'tkinter', 'nturl2path', 'webbrowser', 'codecs', 'pydoc', 'zoneinfo', 'contextlib', 'imaplib', 'tomllib', 'pty', 'tarfile', 'xmlrpc', '_dummy_thread', 'wsgiref', 're', 'netrc', 'sysconfig', 'cgitb', 'doctest', 'queue', 'xxlimited_35', 'graphlib', 'fnmatch', 'asyncore', 'parser', 'xdrlib', 'ctypes', 'contextvars', 'colorsys', 'logging', 'plistlib', 'chunk', 'sunau', 'sre_compile', 'xxsubtype', 'venv', 'modulefinder', 'syslog', 'tracemalloc', 'threading', 'fractions', 'fpectl', 'annotationlib', 'pyclbr', 'aifc', 'bz2', 'sndhdr', 'http', 'asynchat', 'cgi', 'test', 'zlib', 'tempfile', 'enum', 'curses', 'random', 'collections', 'mailcap', 'tty', 'nis', 'shlex', 'types', 'gettext', 'atexit', 'posixpath', 'json', 'multiprocessing', 'calendar', 'optparse', 'spwd', 'site', 'getopt', 'sre_constants', 'io', 'termios', 'smtplib', 'ossaudiodev', 'base64', 'bisect', 'urllib', 'heapq', 'resource', 'concurrent', 'smtpd', 'quopri', 'copyreg', 'pprint', 'mailbox', 'html', 'marshal', 'datetime', 'sre', 'winreg', 'keyword', 'inspect', 'argparse', 'pickletools', 'genericpath', 'rlcompleter', 'filecmp', 'zipapp', 'dis', 'trace', '_ast', 'cmath', 'symtable', 'warnings', 'glob', 'posix', 'socketserver', 'pickle', 'binascii', 'subprocess', 'numbers', 'wave', 'typing', 'hmac', 'turtle', 'selectors', 'tokenize', 'encodings', 'ssl', 'uu', 'turtledemo', 'linecache', 'gc', 'copy', 'array', 'errno', 'msvcrt', 'nntplib', 'this', 'ipaddress', 'dummy_threading', 'symbol', 'timeit', 'getpass', 'shutil', 'audioop', 'struct', 'pkgutil', 'pwd', 'lib2to3', 'unittest', 'idlelib', 'ensurepip', 'email', 'imghdr', 'stat', 'select', 'grp', 'sys', 'fcntl', 'lzma', 'importlib', 'xml', 'weakref', 'py_compile', 'ftplib', 'os', 'operator', 'sched', 'compileall', 'csv', 'decimal', 'tabnanny', 'pathlib', 'math', 'platform', 'xxlimited', 'zipimport', 'configparser', 'time', 'xx', 'builtins', 'pydoc_data', 'hashlib', 'mmap', 'shelve', 'code', 'traceback', 'sqlite3', 'winsound', 'uuid', 'difflib', 'distutils', 'opcode', 'faulthandler', 'abc', 'gzip', 'macpath', 'functools', 'dbm', 'ntpath', 'formatter', 'pipes', 'textwrap', 'crypt', 'sre_parse'}), 'extra_standard_library': frozenset(), 'known_other': {}, 'multi_line_output': <WrapModes.GRID: 0>, 'forced_separate': (), 'indent': '    ', 'comment_prefix': '  #', 'length_sort': False, 'length_sort_straight': False, 'length_sort_sections': frozenset(), 'add_imports': frozenset(), 'remove_imports': frozenset(), 'append_only': False, 'reverse_relative': False, 'force_single_line': False, 'single_line_exclusions': (), 'default_section': 'THIRDPARTY', 'import_headings': {}, 'import_footers': {}, 'balanced_wrapping': False, 'use_parentheses': False, 'order_by_type': True, 'atomic': False, 'lines_before_imports': -1, 'lines_after_imports': -1, 'lines_between_sections': 1, 'lines_between_types': 0, 'combine_as_imports': False, 'combine_star': False, 'include_trailing_comma': False, 'from_first': False, 'verbose': False, 'quiet': False, 'force_adds': False, 'force_alphabetical_sort_within_sections': False, 'force_alphabetical_sort': False, 'force_grid_wrap': 0, 'force_sort_within_sections': False, 'lexicographical': False, 'group_by_package': False, 'ignore_whitespace': False, 'no_lines_before': frozenset(), 'no_inline_sort': False, 'ignore_comments': False, 'case_sensitive': False, 'sources': (), 'virtual_env': '', 'conda_env': '', 'ensure_newline_before_comments': False, 'directory': '', 'profile': '', 'honor_noqa': False, 'src_paths': (), 'remove_redundant_aliases': False, 'float_to_top': False, 'filter_files': False, 'formatter': '', 'formatting_function': None, 'color_output': False, 'treat_comments_as_code': frozenset(), 'treat_all_comments_as_code': False, 'supported_extensions': frozenset({'pxd', 'py', 'pyi', 'pyx'}), 'blocked_extensions': frozenset({'pex'}), 'constants': frozenset(), 'classes': frozenset(), 'variables': frozenset(), 'dedup_headings': False, 'only_sections': False, 'only_modified': False, 'combine_straight_imports': False, 'auto_identify_namespace_packages': True, 'namespace_packages': frozenset(), 'follow_links': True, 'indented_import_headings': True, 'honor_case_in_force_sorted_sections': False, 'sort_relative_in_force_sorted_sections': False, 'overwrite_in_place': False, 'reverse_sort': False, 'star_first': False, 'git_ls_files': {}, 'format_error': '{error}: {message}', 'format_success': '{success}: {message}', 'sort_order': 'natural', 'sort_reexports': False, 'split_on_trailing_comma': False, 'source': 'defaults'},), virtual_env='', conda_env='', ensure_newline_before_comments=False, directory='/workspace', profile='', honor_noqa=False, src_paths=(PosixPath('/workspace/src'), PosixPath('/workspace')), remove_redundant_aliases=False, float_to_top=False, filter_files=False, formatter='', formatting_function=None, color_output=False, treat_comments_as_code=frozenset(), treat_all_comments_as_code=False, supported_extensions=frozenset({'pxd', 'py', 'pyi', 'pyx'}), blocked_extensions=frozenset({'pex'}), constants=frozenset(), classes=frozenset(), variables=frozenset(), dedup_headings=False, only_sections=False, only_modified=False, combine_straight_imports=False, auto_identify_namespace_packages=True, namespace_packages=frozenset(), follow_links=True, indented_import_headings=True, honor_case_in_force_sorted_sections=False, sort_relative_in_force_sorted_sections=False, overwrite_in_place=False, reverse_sort=False, star_first=False, git_ls_files={}, format_error='{error}: {message}', format_success='{success}: {message}', sort_order='natural', sort_reexports=False, split_on_trailing_comma=False)"
+
+def test_case_7():
+    var_0 = module_2.Config()
+    assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'isort.settings.Config'
+    assert var_0.py_version == 'py3'
+    assert f'{type(var_0.force_to_top).__module__}.{type(var_0.force_to_top).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.force_to_top) == 0
+    assert f'{type(var_0.skip).__module__}.{type(var_0.skip).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.skip) == 19
+    assert f'{type(var_0.extend_skip).__module__}.{type(var_0.extend_skip).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.extend_skip) == 0
+    assert f'{type(var_0.skip_glob).__module__}.{type(var_0.skip_glob).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.skip_glob) == 0
+    assert f'{type(var_0.extend_skip_glob).__module__}.{type(var_0.extend_skip_glob).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.extend_skip_glob) == 0
+    assert var_0.skip_gitignore is False
+    assert var_0.line_length == 79
+    assert var_0.wrap_length == 0
+    assert var_0.line_ending == ''
+    assert var_0.sections == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
+    assert var_0.no_sections is False
+    assert f'{type(var_0.known_future_library).__module__}.{type(var_0.known_future_library).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.known_future_library) == 1
+    assert f'{type(var_0.known_third_party).__module__}.{type(var_0.known_third_party).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.known_third_party) == 0
+    assert f'{type(var_0.known_first_party).__module__}.{type(var_0.known_first_party).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.known_first_party) == 0
+    assert f'{type(var_0.known_local_folder).__module__}.{type(var_0.known_local_folder).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.known_local_folder) == 0
+    assert f'{type(var_0.known_standard_library).__module__}.{type(var_0.known_standard_library).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.known_standard_library) == 234
+    assert f'{type(var_0.extra_standard_library).__module__}.{type(var_0.extra_standard_library).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.extra_standard_library) == 0
+    assert var_0.known_other == {}
+    assert var_0.multi_line_output == module_1.WrapModes.GRID
+    assert var_0.forced_separate == ()
+    assert var_0.indent == '    '
+    assert var_0.comment_prefix == '  #'
+    assert var_0.length_sort is False
+    assert var_0.length_sort_straight is False
+    assert f'{type(var_0.length_sort_sections).__module__}.{type(var_0.length_sort_sections).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.length_sort_sections) == 0
+    assert f'{type(var_0.add_imports).__module__}.{type(var_0.add_imports).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.add_imports) == 0
+    assert f'{type(var_0.remove_imports).__module__}.{type(var_0.remove_imports).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.remove_imports) == 0
+    assert var_0.append_only is False
+    assert var_0.reverse_relative is False
+    assert var_0.force_single_line is False
+    assert var_0.single_line_exclusions == ()
+    assert var_0.default_section == 'THIRDPARTY'
+    assert var_0.import_headings == {}
+    assert var_0.import_footers == {}
+    assert var_0.balanced_wrapping is False
+    assert var_0.use_parentheses is False
+    assert var_0.order_by_type is True
+    assert var_0.atomic is False
+    assert var_0.lines_before_imports == -1
+    assert var_0.lines_after_imports == -1
+    assert var_0.lines_between_sections == 1
+    assert var_0.lines_between_types == 0
+    assert var_0.combine_as_imports is False
+    assert var_0.combine_star is False
+    assert var_0.include_trailing_comma is False
+    assert var_0.from_first is False
+    assert var_0.verbose is False
+    assert var_0.quiet is False
+    assert var_0.force_adds is False
+    assert var_0.force_alphabetical_sort_within_sections is False
+    assert var_0.force_alphabetical_sort is False
+    assert var_0.force_grid_wrap == 0
+    assert var_0.force_sort_within_sections is False
+    assert var_0.lexicographical is False
+    assert var_0.group_by_package is False
+    assert var_0.ignore_whitespace is False
+    assert f'{type(var_0.no_lines_before).__module__}.{type(var_0.no_lines_before).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.no_lines_before) == 0
+    assert var_0.no_inline_sort is False
+    assert var_0.ignore_comments is False
+    assert var_0.case_sensitive is False
+    assert f'{type(var_0.sources).__module__}.{type(var_0.sources).__qualname__}' == 'builtins.tuple'
+    assert len(var_0.sources) == 1
+    assert var_0.virtual_env == ''
+    assert var_0.conda_env == ''
+    assert var_0.ensure_newline_before_comments is False
+    assert var_0.directory == '/workspace'
+    assert var_0.profile == ''
+    assert var_0.honor_noqa is False
+    assert f'{type(var_0.src_paths).__module__}.{type(var_0.src_paths).__qualname__}' == 'builtins.tuple'
+    assert len(var_0.src_paths) == 2
+    assert var_0.remove_redundant_aliases is False
+    assert var_0.float_to_top is False
+    assert var_0.filter_files is False
+    assert var_0.formatter == ''
+    assert var_0.formatting_function is None
+    assert var_0.color_output is False
+    assert f'{type(var_0.treat_comments_as_code).__module__}.{type(var_0.treat_comments_as_code).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.treat_comments_as_code) == 0
+    assert var_0.treat_all_comments_as_code is False
+    assert f'{type(var_0.supported_extensions).__module__}.{type(var_0.supported_extensions).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.supported_extensions) == 4
+    assert f'{type(var_0.blocked_extensions).__module__}.{type(var_0.blocked_extensions).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.blocked_extensions) == 1
+    assert f'{type(var_0.constants).__module__}.{type(var_0.constants).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.constants) == 0
+    assert f'{type(var_0.classes).__module__}.{type(var_0.classes).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.classes) == 0
+    assert f'{type(var_0.variables).__module__}.{type(var_0.variables).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.variables) == 0
+    assert var_0.dedup_headings is False
+    assert var_0.only_sections is False
+    assert var_0.only_modified is False
+    assert var_0.combine_straight_imports is False
+    assert var_0.auto_identify_namespace_packages is True
+    assert f'{type(var_0.namespace_packages).__module__}.{type(var_0.namespace_packages).__qualname__}' == 'builtins.frozenset'
+    assert len(var_0.namespace_packages) == 0
+    assert var_0.follow_links is True
+    assert var_0.indented_import_headings is True
+    assert var_0.honor_case_in_force_sorted_sections is False
+    assert var_0.sort_relative_in_force_sorted_sections is False
+    assert var_0.overwrite_in_place is False
+    assert var_0.reverse_sort is False
+    assert var_0.star_first is False
+    assert var_0.git_ls_files == {}
+    assert var_0.format_error == '{error}: {message}'
+    assert var_0.format_success == '{success}: {message}'
+    assert var_0.sort_order == 'natural'
+    assert var_0.sort_reexports is False
+    assert var_0.split_on_trailing_comma is False
+    assert module_2.TYPE_CHECKING is False
+    assert module_2.profiles == {'black': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88}, 'django': {'combine_as_imports': True, 'include_trailing_comma': True, 'multi_line_output': 5, 'line_length': 79}, 'pycharm': {'multi_line_output': 3, 'force_grid_wrap': 2, 'lines_after_imports': 2}, 'google': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True, 'line_length': 1000, 'single_line_exclusions': ('collections.abc', 'six.moves', 'typing', 'typing_extensions'), 'order_by_type': False, 'group_by_package': True}, 'open_stack': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True}, 'plone': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_alphabetical_sort': True, 'force_single_line': True, 'lines_after_imports': 2}, 'attrs': {'atomic': True, 'force_grid_wrap': 0, 'include_trailing_comma': True, 'lines_after_imports': 2, 'lines_between_types': 1, 'multi_line_output': 3, 'use_parentheses': True}, 'hug': {'multi_line_output': 3, 'include_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'line_length': 100}, 'wemake': {'multi_line_output': 3, 'include_trailing_comma': True, 'use_parentheses': True, 'line_length': 80}, 'appnexus': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_sort_within_sections': True, 'order_by_type': False, 'case_sensitive': False, 'reverse_relative': True, 'sort_relative_in_force_sorted_sections': True, 'sections': ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'APPLICATION', 'LOCALFOLDER'], 'no_lines_before': 'LOCALFOLDER'}}
+    assert module_2.SECTION_DEFAULTS == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
+    assert module_2.FIRSTPARTY == 'FIRSTPARTY'
+    assert module_2.FUTURE == 'FUTURE'
+    assert module_2.LOCALFOLDER == 'LOCALFOLDER'
+    assert module_2.STDLIB == 'STDLIB'
+    assert module_2.THIRDPARTY == 'THIRDPARTY'
+    assert f'{type(module_2.CYTHON_EXTENSIONS).__module__}.{type(module_2.CYTHON_EXTENSIONS).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.CYTHON_EXTENSIONS) == 2
+    assert f'{type(module_2.SUPPORTED_EXTENSIONS).__module__}.{type(module_2.SUPPORTED_EXTENSIONS).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.SUPPORTED_EXTENSIONS) == 4
+    assert f'{type(module_2.BLOCKED_EXTENSIONS).__module__}.{type(module_2.BLOCKED_EXTENSIONS).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.BLOCKED_EXTENSIONS) == 1
+    assert module_2.FILE_SKIP_COMMENTS == ('isort:skip_file', 'isort: skip_file')
+    assert module_2.MAX_CONFIG_SEARCH_DEPTH == 25
+    assert module_2.STOP_CONFIG_SEARCH_ON_DIRS == ('.git', '.hg')
+    assert module_2.VALID_PY_TARGETS == ('all', '2', '27', '3', '310', '311', '312', '313', '314', '36', '37', '38', '39')
+    assert module_2.CONFIG_SOURCES == ('.isort.cfg', 'pyproject.toml', 'setup.cfg', 'tox.ini', '.editorconfig')
+    assert f'{type(module_2.DEFAULT_SKIP).__module__}.{type(module_2.DEFAULT_SKIP).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_SKIP) == 19
+    assert module_2.CONFIG_SECTIONS == {'.isort.cfg': ('settings', 'isort'), 'pyproject.toml': ('tool.isort',), 'setup.cfg': ('isort', 'tool:isort'), 'tox.ini': ('isort', 'tool:isort'), '.editorconfig': ('*', '*.py', '**.py', '*.{py}')}
+    assert module_2.FALLBACK_CONFIG_SECTIONS == ('isort', 'tool:isort', 'tool.isort')
+    assert module_2.IMPORT_HEADING_PREFIX == 'import_heading_'
+    assert module_2.IMPORT_FOOTER_PREFIX == 'import_footer_'
+    assert module_2.KNOWN_PREFIX == 'known_'
+    assert module_2.KNOWN_SECTION_MAPPING == {'STDLIB': 'STANDARD_LIBRARY', 'FUTURE': 'FUTURE_LIBRARY', 'FIRSTPARTY': 'FIRST_PARTY', 'THIRDPARTY': 'THIRD_PARTY', 'LOCALFOLDER': 'LOCAL_FOLDER'}
+    assert module_2.RUNTIME_SOURCE == 'runtime'
+    assert module_2.DEPRECATED_SETTINGS == ('not_skip', 'keep_direct_and_as_imports')
+    assert f'{type(module_2.DEFAULT_CONFIG).__module__}.{type(module_2.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
+    assert module_2.DEFAULT_CONFIG.py_version == 'py3'
+    assert f'{type(module_2.DEFAULT_CONFIG.force_to_top).__module__}.{type(module_2.DEFAULT_CONFIG.force_to_top).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.force_to_top) == 0
+    assert f'{type(module_2.DEFAULT_CONFIG.skip).__module__}.{type(module_2.DEFAULT_CONFIG.skip).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.skip) == 19
+    assert f'{type(module_2.DEFAULT_CONFIG.extend_skip).__module__}.{type(module_2.DEFAULT_CONFIG.extend_skip).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.extend_skip) == 0
+    assert f'{type(module_2.DEFAULT_CONFIG.skip_glob).__module__}.{type(module_2.DEFAULT_CONFIG.skip_glob).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.skip_glob) == 0
+    assert f'{type(module_2.DEFAULT_CONFIG.extend_skip_glob).__module__}.{type(module_2.DEFAULT_CONFIG.extend_skip_glob).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.extend_skip_glob) == 0
+    assert module_2.DEFAULT_CONFIG.skip_gitignore is False
+    assert module_2.DEFAULT_CONFIG.line_length == 79
+    assert module_2.DEFAULT_CONFIG.wrap_length == 0
+    assert module_2.DEFAULT_CONFIG.line_ending == ''
+    assert module_2.DEFAULT_CONFIG.sections == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
+    assert module_2.DEFAULT_CONFIG.no_sections is False
+    assert f'{type(module_2.DEFAULT_CONFIG.known_future_library).__module__}.{type(module_2.DEFAULT_CONFIG.known_future_library).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.known_future_library) == 1
+    assert f'{type(module_2.DEFAULT_CONFIG.known_third_party).__module__}.{type(module_2.DEFAULT_CONFIG.known_third_party).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.known_third_party) == 0
+    assert f'{type(module_2.DEFAULT_CONFIG.known_first_party).__module__}.{type(module_2.DEFAULT_CONFIG.known_first_party).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.known_first_party) == 0
+    assert f'{type(module_2.DEFAULT_CONFIG.known_local_folder).__module__}.{type(module_2.DEFAULT_CONFIG.known_local_folder).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.known_local_folder) == 0
+    assert f'{type(module_2.DEFAULT_CONFIG.known_standard_library).__module__}.{type(module_2.DEFAULT_CONFIG.known_standard_library).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.known_standard_library) == 234
+    assert f'{type(module_2.DEFAULT_CONFIG.extra_standard_library).__module__}.{type(module_2.DEFAULT_CONFIG.extra_standard_library).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.extra_standard_library) == 0
+    assert module_2.DEFAULT_CONFIG.known_other == {}
+    assert module_2.DEFAULT_CONFIG.multi_line_output == module_1.WrapModes.GRID
+    assert module_2.DEFAULT_CONFIG.forced_separate == ()
+    assert module_2.DEFAULT_CONFIG.indent == '    '
+    assert module_2.DEFAULT_CONFIG.comment_prefix == '  #'
+    assert module_2.DEFAULT_CONFIG.length_sort is False
+    assert module_2.DEFAULT_CONFIG.length_sort_straight is False
+    assert f'{type(module_2.DEFAULT_CONFIG.length_sort_sections).__module__}.{type(module_2.DEFAULT_CONFIG.length_sort_sections).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.length_sort_sections) == 0
+    assert f'{type(module_2.DEFAULT_CONFIG.add_imports).__module__}.{type(module_2.DEFAULT_CONFIG.add_imports).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.add_imports) == 0
+    assert f'{type(module_2.DEFAULT_CONFIG.remove_imports).__module__}.{type(module_2.DEFAULT_CONFIG.remove_imports).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.remove_imports) == 0
+    assert module_2.DEFAULT_CONFIG.append_only is False
+    assert module_2.DEFAULT_CONFIG.reverse_relative is False
+    assert module_2.DEFAULT_CONFIG.force_single_line is False
+    assert module_2.DEFAULT_CONFIG.single_line_exclusions == ()
+    assert module_2.DEFAULT_CONFIG.default_section == 'THIRDPARTY'
+    assert module_2.DEFAULT_CONFIG.import_headings == {}
+    assert module_2.DEFAULT_CONFIG.import_footers == {}
+    assert module_2.DEFAULT_CONFIG.balanced_wrapping is False
+    assert module_2.DEFAULT_CONFIG.use_parentheses is False
+    assert module_2.DEFAULT_CONFIG.order_by_type is True
+    assert module_2.DEFAULT_CONFIG.atomic is False
+    assert module_2.DEFAULT_CONFIG.lines_before_imports == -1
+    assert module_2.DEFAULT_CONFIG.lines_after_imports == -1
+    assert module_2.DEFAULT_CONFIG.lines_between_sections == 1
+    assert module_2.DEFAULT_CONFIG.lines_between_types == 0
+    assert module_2.DEFAULT_CONFIG.combine_as_imports is False
+    assert module_2.DEFAULT_CONFIG.combine_star is False
+    assert module_2.DEFAULT_CONFIG.include_trailing_comma is False
+    assert module_2.DEFAULT_CONFIG.from_first is False
+    assert module_2.DEFAULT_CONFIG.verbose is False
+    assert module_2.DEFAULT_CONFIG.quiet is False
+    assert module_2.DEFAULT_CONFIG.force_adds is False
+    assert module_2.DEFAULT_CONFIG.force_alphabetical_sort_within_sections is False
+    assert module_2.DEFAULT_CONFIG.force_alphabetical_sort is False
+    assert module_2.DEFAULT_CONFIG.force_grid_wrap == 0
+    assert module_2.DEFAULT_CONFIG.force_sort_within_sections is False
+    assert module_2.DEFAULT_CONFIG.lexicographical is False
+    assert module_2.DEFAULT_CONFIG.group_by_package is False
+    assert module_2.DEFAULT_CONFIG.ignore_whitespace is False
+    assert f'{type(module_2.DEFAULT_CONFIG.no_lines_before).__module__}.{type(module_2.DEFAULT_CONFIG.no_lines_before).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.no_lines_before) == 0
+    assert module_2.DEFAULT_CONFIG.no_inline_sort is False
+    assert module_2.DEFAULT_CONFIG.ignore_comments is False
+    assert module_2.DEFAULT_CONFIG.case_sensitive is False
+    assert f'{type(module_2.DEFAULT_CONFIG.sources).__module__}.{type(module_2.DEFAULT_CONFIG.sources).__qualname__}' == 'builtins.tuple'
+    assert len(module_2.DEFAULT_CONFIG.sources) == 1
+    assert module_2.DEFAULT_CONFIG.virtual_env == ''
+    assert module_2.DEFAULT_CONFIG.conda_env == ''
+    assert module_2.DEFAULT_CONFIG.ensure_newline_before_comments is False
+    assert module_2.DEFAULT_CONFIG.directory == '/workspace'
+    assert module_2.DEFAULT_CONFIG.profile == ''
+    assert module_2.DEFAULT_CONFIG.honor_noqa is False
+    assert f'{type(module_2.DEFAULT_CONFIG.src_paths).__module__}.{type(module_2.DEFAULT_CONFIG.src_paths).__qualname__}' == 'builtins.tuple'
+    assert len(module_2.DEFAULT_CONFIG.src_paths) == 2
+    assert module_2.DEFAULT_CONFIG.remove_redundant_aliases is False
+    assert module_2.DEFAULT_CONFIG.float_to_top is False
+    assert module_2.DEFAULT_CONFIG.filter_files is False
+    assert module_2.DEFAULT_CONFIG.formatter == ''
+    assert module_2.DEFAULT_CONFIG.formatting_function is None
+    assert module_2.DEFAULT_CONFIG.color_output is False
+    assert f'{type(module_2.DEFAULT_CONFIG.treat_comments_as_code).__module__}.{type(module_2.DEFAULT_CONFIG.treat_comments_as_code).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.treat_comments_as_code) == 0
+    assert module_2.DEFAULT_CONFIG.treat_all_comments_as_code is False
+    assert f'{type(module_2.DEFAULT_CONFIG.supported_extensions).__module__}.{type(module_2.DEFAULT_CONFIG.supported_extensions).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.supported_extensions) == 4
+    assert f'{type(module_2.DEFAULT_CONFIG.blocked_extensions).__module__}.{type(module_2.DEFAULT_CONFIG.blocked_extensions).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.blocked_extensions) == 1
+    assert f'{type(module_2.DEFAULT_CONFIG.constants).__module__}.{type(module_2.DEFAULT_CONFIG.constants).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.constants) == 0
+    assert f'{type(module_2.DEFAULT_CONFIG.classes).__module__}.{type(module_2.DEFAULT_CONFIG.classes).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.classes) == 0
+    assert f'{type(module_2.DEFAULT_CONFIG.variables).__module__}.{type(module_2.DEFAULT_CONFIG.variables).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.variables) == 0
+    assert module_2.DEFAULT_CONFIG.dedup_headings is False
+    assert module_2.DEFAULT_CONFIG.only_sections is False
+    assert module_2.DEFAULT_CONFIG.only_modified is False
+    assert module_2.DEFAULT_CONFIG.combine_straight_imports is False
+    assert module_2.DEFAULT_CONFIG.auto_identify_namespace_packages is True
+    assert f'{type(module_2.DEFAULT_CONFIG.namespace_packages).__module__}.{type(module_2.DEFAULT_CONFIG.namespace_packages).__qualname__}' == 'builtins.frozenset'
+    assert len(module_2.DEFAULT_CONFIG.namespace_packages) == 0
+    assert module_2.DEFAULT_CONFIG.follow_links is True
+    assert module_2.DEFAULT_CONFIG.indented_import_headings is True
+    assert module_2.DEFAULT_CONFIG.honor_case_in_force_sorted_sections is False
+    assert module_2.DEFAULT_CONFIG.sort_relative_in_force_sorted_sections is False
+    assert module_2.DEFAULT_CONFIG.overwrite_in_place is False
+    assert module_2.DEFAULT_CONFIG.reverse_sort is False
+    assert module_2.DEFAULT_CONFIG.star_first is False
+    assert module_2.DEFAULT_CONFIG.git_ls_files == {}
+    assert module_2.DEFAULT_CONFIG.format_error == '{error}: {message}'
+    assert module_2.DEFAULT_CONFIG.format_success == '{success}: {message}'
+    assert module_2.DEFAULT_CONFIG.sort_order == 'natural'
+    assert module_2.DEFAULT_CONFIG.sort_reexports is False
+    assert module_2.DEFAULT_CONFIG.split_on_trailing_comma is False
+    assert f'{type(module_2.Config.known_patterns).__module__}.{type(module_2.Config.known_patterns).__qualname__}' == 'builtins.property'
+    assert f'{type(module_2.Config.section_comments).__module__}.{type(module_2.Config.section_comments).__qualname__}' == 'builtins.property'
+    assert f'{type(module_2.Config.section_comments_end).__module__}.{type(module_2.Config.section_comments_end).__qualname__}' == 'builtins.property'
+    assert f'{type(module_2.Config.skips).__module__}.{type(module_2.Config.skips).__qualname__}' == 'builtins.property'
+    assert f'{type(module_2.Config.skip_globs).__module__}.{type(module_2.Config.skip_globs).__qualname__}' == 'builtins.property'
+    assert f'{type(module_2.Config.sorting_function).__module__}.{type(module_2.Config.sorting_function).__qualname__}' == 'builtins.property'
+    var_1 = 'src.local_module'
+    var_2 = module_0.module(var_1, var_0)
+    assert var_2 == 'THIRDPARTY'
+    assert f'{type(module_0.DEFAULT_CONFIG).__module__}.{type(module_0.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
+    assert module_0.DEFAULT_CONFIG.py_version == 'py3'
+    assert f'{type(module_0.DEFAULT_CONFIG.force_to_top).__module__}.{type(module_0.DEFAULT_CONFIG.force_to_top).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.force_to_top) == 0
+    assert f'{type(module_0.DEFAULT_CONFIG.skip).__module__}.{type(module_0.DEFAULT_CONFIG.skip).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.skip) == 19
+    assert f'{type(module_0.DEFAULT_CONFIG.extend_skip).__module__}.{type(module_0.DEFAULT_CONFIG.extend_skip).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.extend_skip) == 0
+    assert f'{type(module_0.DEFAULT_CONFIG.skip_glob).__module__}.{type(module_0.DEFAULT_CONFIG.skip_glob).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.skip_glob) == 0
+    assert f'{type(module_0.DEFAULT_CONFIG.extend_skip_glob).__module__}.{type(module_0.DEFAULT_CONFIG.extend_skip_glob).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.extend_skip_glob) == 0
+    assert module_0.DEFAULT_CONFIG.skip_gitignore is False
+    assert module_0.DEFAULT_CONFIG.line_length == 79
+    assert module_0.DEFAULT_CONFIG.wrap_length == 0
+    assert module_0.DEFAULT_CONFIG.line_ending == ''
+    assert module_0.DEFAULT_CONFIG.sections == ('FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER')
+    assert module_0.DEFAULT_CONFIG.no_sections is False
+    assert f'{type(module_0.DEFAULT_CONFIG.known_future_library).__module__}.{type(module_0.DEFAULT_CONFIG.known_future_library).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.known_future_library) == 1
+    assert f'{type(module_0.DEFAULT_CONFIG.known_third_party).__module__}.{type(module_0.DEFAULT_CONFIG.known_third_party).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.known_third_party) == 0
+    assert f'{type(module_0.DEFAULT_CONFIG.known_first_party).__module__}.{type(module_0.DEFAULT_CONFIG.known_first_party).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.known_first_party) == 0
+    assert f'{type(module_0.DEFAULT_CONFIG.known_local_folder).__module__}.{type(module_0.DEFAULT_CONFIG.known_local_folder).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.known_local_folder) == 0
+    assert f'{type(module_0.DEFAULT_CONFIG.known_standard_library).__module__}.{type(module_0.DEFAULT_CONFIG.known_standard_library).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.known_standard_library) == 234
+    assert f'{type(module_0.DEFAULT_CONFIG.extra_standard_library).__module__}.{type(module_0.DEFAULT_CONFIG.extra_standard_library).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.extra_standard_library) == 0
+    assert module_0.DEFAULT_CONFIG.known_other == {}
+    assert module_0.DEFAULT_CONFIG.multi_line_output == module_1.WrapModes.GRID
+    assert module_0.DEFAULT_CONFIG.forced_separate == ()
+    assert module_0.DEFAULT_CONFIG.indent == '    '
+    assert module_0.DEFAULT_CONFIG.comment_prefix == '  #'
+    assert module_0.DEFAULT_CONFIG.length_sort is False
+    assert module_0.DEFAULT_CONFIG.length_sort_straight is False
+    assert f'{type(module_0.DEFAULT_CONFIG.length_sort_sections).__module__}.{type(module_0.DEFAULT_CONFIG.length_sort_sections).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.length_sort_sections) == 0
+    assert f'{type(module_0.DEFAULT_CONFIG.add_imports).__module__}.{type(module_0.DEFAULT_CONFIG.add_imports).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.add_imports) == 0
+    assert f'{type(module_0.DEFAULT_CONFIG.remove_imports).__module__}.{type(module_0.DEFAULT_CONFIG.remove_imports).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.remove_imports) == 0
+    assert module_0.DEFAULT_CONFIG.append_only is False
+    assert module_0.DEFAULT_CONFIG.reverse_relative is False
+    assert module_0.DEFAULT_CONFIG.force_single_line is False
+    assert module_0.DEFAULT_CONFIG.single_line_exclusions == ()
+    assert module_0.DEFAULT_CONFIG.default_section == 'THIRDPARTY'
+    assert module_0.DEFAULT_CONFIG.import_headings == {}
+    assert module_0.DEFAULT_CONFIG.import_footers == {}
+    assert module_0.DEFAULT_CONFIG.balanced_wrapping is False
+    assert module_0.DEFAULT_CONFIG.use_parentheses is False
+    assert module_0.DEFAULT_CONFIG.order_by_type is True
+    assert module_0.DEFAULT_CONFIG.atomic is False
+    assert module_0.DEFAULT_CONFIG.lines_before_imports == -1
+    assert module_0.DEFAULT_CONFIG.lines_after_imports == -1
+    assert module_0.DEFAULT_CONFIG.lines_between_sections == 1
+    assert module_0.DEFAULT_CONFIG.lines_between_types == 0
+    assert module_0.DEFAULT_CONFIG.combine_as_imports is False
+    assert module_0.DEFAULT_CONFIG.combine_star is False
+    assert module_0.DEFAULT_CONFIG.include_trailing_comma is False
+    assert module_0.DEFAULT_CONFIG.from_first is False
+    assert module_0.DEFAULT_CONFIG.verbose is False
+    assert module_0.DEFAULT_CONFIG.quiet is False
+    assert module_0.DEFAULT_CONFIG.force_adds is False
+    assert module_0.DEFAULT_CONFIG.force_alphabetical_sort_within_sections is False
+    assert module_0.DEFAULT_CONFIG.force_alphabetical_sort is False
+    assert module_0.DEFAULT_CONFIG.force_grid_wrap == 0
+    assert module_0.DEFAULT_CONFIG.force_sort_within_sections is False
+    assert module_0.DEFAULT_CONFIG.lexicographical is False
+    assert module_0.DEFAULT_CONFIG.group_by_package is False
+    assert module_0.DEFAULT_CONFIG.ignore_whitespace is False
+    assert f'{type(module_0.DEFAULT_CONFIG.no_lines_before).__module__}.{type(module_0.DEFAULT_CONFIG.no_lines_before).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.no_lines_before) == 0
+    assert module_0.DEFAULT_CONFIG.no_inline_sort is False
+    assert module_0.DEFAULT_CONFIG.ignore_comments is False
+    assert module_0.DEFAULT_CONFIG.case_sensitive is False
+    assert f'{type(module_0.DEFAULT_CONFIG.sources).__module__}.{type(module_0.DEFAULT_CONFIG.sources).__qualname__}' == 'builtins.tuple'
+    assert len(module_0.DEFAULT_CONFIG.sources) == 1
+    assert module_0.DEFAULT_CONFIG.virtual_env == ''
+    assert module_0.DEFAULT_CONFIG.conda_env == ''
+    assert module_0.DEFAULT_CONFIG.ensure_newline_before_comments is False
+    assert module_0.DEFAULT_CONFIG.directory == '/workspace'
+    assert module_0.DEFAULT_CONFIG.profile == ''
+    assert module_0.DEFAULT_CONFIG.honor_noqa is False
+    assert f'{type(module_0.DEFAULT_CONFIG.src_paths).__module__}.{type(module_0.DEFAULT_CONFIG.src_paths).__qualname__}' == 'builtins.tuple'
+    assert len(module_0.DEFAULT_CONFIG.src_paths) == 2
+    assert module_0.DEFAULT_CONFIG.remove_redundant_aliases is False
+    assert module_0.DEFAULT_CONFIG.float_to_top is False
+    assert module_0.DEFAULT_CONFIG.filter_files is False
+    assert module_0.DEFAULT_CONFIG.formatter == ''
+    assert module_0.DEFAULT_CONFIG.formatting_function is None
+    assert module_0.DEFAULT_CONFIG.color_output is False
+    assert f'{type(module_0.DEFAULT_CONFIG.treat_comments_as_code).__module__}.{type(module_0.DEFAULT_CONFIG.treat_comments_as_code).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.treat_comments_as_code) == 0
+    assert module_0.DEFAULT_CONFIG.treat_all_comments_as_code is False
+    assert f'{type(module_0.DEFAULT_CONFIG.supported_extensions).__module__}.{type(module_0.DEFAULT_CONFIG.supported_extensions).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.supported_extensions) == 4
+    assert f'{type(module_0.DEFAULT_CONFIG.blocked_extensions).__module__}.{type(module_0.DEFAULT_CONFIG.blocked_extensions).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.blocked_extensions) == 1
+    assert f'{type(module_0.DEFAULT_CONFIG.constants).__module__}.{type(module_0.DEFAULT_CONFIG.constants).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.constants) == 0
+    assert f'{type(module_0.DEFAULT_CONFIG.classes).__module__}.{type(module_0.DEFAULT_CONFIG.classes).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.classes) == 0
+    assert f'{type(module_0.DEFAULT_CONFIG.variables).__module__}.{type(module_0.DEFAULT_CONFIG.variables).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.variables) == 0
+    assert module_0.DEFAULT_CONFIG.dedup_headings is False
+    assert module_0.DEFAULT_CONFIG.only_sections is False
+    assert module_0.DEFAULT_CONFIG.only_modified is False
+    assert module_0.DEFAULT_CONFIG.combine_straight_imports is False
+    assert module_0.DEFAULT_CONFIG.auto_identify_namespace_packages is True
+    assert f'{type(module_0.DEFAULT_CONFIG.namespace_packages).__module__}.{type(module_0.DEFAULT_CONFIG.namespace_packages).__qualname__}' == 'builtins.frozenset'
+    assert len(module_0.DEFAULT_CONFIG.namespace_packages) == 0
+    assert module_0.DEFAULT_CONFIG.follow_links is True
+    assert module_0.DEFAULT_CONFIG.indented_import_headings is True
+    assert module_0.DEFAULT_CONFIG.honor_case_in_force_sorted_sections is False
+    assert module_0.DEFAULT_CONFIG.sort_relative_in_force_sorted_sections is False
+    assert module_0.DEFAULT_CONFIG.overwrite_in_place is False
+    assert module_0.DEFAULT_CONFIG.reverse_sort is False
+    assert module_0.DEFAULT_CONFIG.star_first is False
+    assert module_0.DEFAULT_CONFIG.git_ls_files == {}
+    assert module_0.DEFAULT_CONFIG.format_error == '{error}: {message}'
+    assert module_0.DEFAULT_CONFIG.format_success == '{success}: {message}'
+    assert module_0.DEFAULT_CONFIG.sort_order == 'natural'
+    assert module_0.DEFAULT_CONFIG.sort_reexports is False
+    assert module_0.DEFAULT_CONFIG.split_on_trailing_comma is False
+    assert module_0.LOCAL == 'LOCALFOLDER'

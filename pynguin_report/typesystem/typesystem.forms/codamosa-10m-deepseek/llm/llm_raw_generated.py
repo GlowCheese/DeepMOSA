@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,2320 +7,361 @@
 #--------------------------
 
 # Unit test for method input_type_for_field of class Form
-def test_Form_input_type_for_field(): 
-    # Test with field having no format attribute
-    field = Field()
+def test_Form_input_type_for_field():
     form = Form(env=None, schema=None)
+    field = Field()
     assert form.input_type_for_field(field) == "text"
-    
-    # Test with field having format attribute but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="unknown")
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE
-    field = Field(format="email")
+    field = String(format="email")
     assert form.input_type_for_field(field) == "email"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="color")
-    assert form.input_type_for_field(field) == "color"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="datetime")
+    field = String(format="datetime")
     assert form.input_type_for_field(field) == "datetime-local"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="date")
+    field = String(format="date")
     assert form.input_type_for_field(field) == "date"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="month")
-    assert form.input_type_for_field(field) == "month"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="number")
-    assert form.input_type_for_field(field) == "number"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="password")
-    assert form.input_type_for_field(field) == "password"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="range")
-    assert form.input_type_for_field(field) == "range"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="search")
-    assert form.input_type_for_field(field) == "search"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="tel")
-    assert form.input_type_for_field(field) == "tel"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="time")
-    assert form.input_type_for_field(field) == "time"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="url")
-    assert form.input_type_for_field(field) == "url"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="week")
-    assert form.input_type_for_field(field) == "week"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="hidden")
-    assert form.input_type_for_field(field) == "hidden"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="text")
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="color")
+    field = String(format="color")
     assert form.input_type_for_field(field) == "color"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="datetime")
-    assert form.input_type_for_field(field) == "datetime-local"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="date")
-    assert form.input_type_for_field(field) == "date"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="month")
-    assert form.input_type_for_field(field) == "month"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="number")
-    assert form.input_type_for_field(field) == "number"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="password")
-    assert form.input_type_for_field(field) == "password"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="range")
-    assert form.input_type_for_field(field) == "range"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="search")
-    assert form.input_type_for_field(field) == "search"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="tel")
-    assert form.input_type_for_field(field) == "tel"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="time")
-    assert form.input_type_for_field(field) == "time"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="url")
-    assert form.input_type_for_field(field) == "url"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="week")
-    assert form.input_type_for_field(field) == "week"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="hidden")
+    field = String(format="hidden")
     assert form.input_type_for_field(field) == "hidden"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="text")
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="color")
-    assert form.input_type_for_field(field) == "color"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="datetime")
-    assert form.input_type_for_field(field) == "datetime-local"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="date")
-    assert form.input_type_for_field(field) == "date"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="month")
+    field = String(format="month")
     assert form.input_type_for_field(field) == "month"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="number")
+    field = String(format="number")
     assert form.input_type_for_field(field) == "number"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="password")
+    field = String(format="password")
     assert form.input_type_for_field(field) == "password"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="range")
+    field = String(format="range")
     assert form.input_type_for_field(field) == "range"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="search")
+    field = String(format="search")
     assert form.input_type_for_field(field) == "search"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="tel")
+    field = String(format="tel")
     assert form.input_type_for_field(field) == "tel"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="time")
-    assert form.input_type_for_field(field) == "time"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="url")
-    assert form.input_type_for_field(field) == "url"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="week")
-    assert form.input_type_for_field(field) == "week"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="hidden")
-    assert form.input_type_for_field(field) == "hidden"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="text")
+    field = String(format="text")
     assert form.input_type_for_field(field) == "text"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="color")
-    assert form.input_type_for_field(field) == "color"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field = Field(format="datetime")
-    assert
+    field = String(format="time")
+    assert form.input_type_for_field(field) == "time"
+    field = String(format="url")
+    assert form.input_type_for_field(field) == "url"
+    field = String(format="week")
+    assert form.input_type_for_field(field) == "week"
+    field = String(format="unknown")
+    assert form.input_type_for_field(field) == "text"
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for method validate of class Form
-def test_Form_validate():  # pragma: no cover
-    # Test case 1: Valid data
-    schema = Schema(fields={"name": String(max_length=10)})
-    form = Form(env=None, schema=schema)
-    form.validate({"name": "John"})
-    assert form.is_valid == True
-    assert form.validated_data == {"name": "John"}
+def test_Form_validate():
+    class TestSchema(Schema):
+        name = String(title="Name", max_length=100)
+        age = String(title="Age", max_length=3)
 
-    # Test case 2: Invalid data
-    schema = Schema(fields={"name": String(max_length=10)})
-    form = Form(env=None, schema=schema)
-    form.validate({"name": "John Doe"})
-    assert form.is_valid == False
-    assert form.errors == {"name": "Must have no more than 10 characters."}
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        "forms/input.html": """
+        <input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" />
+        """
+    }))
+    form = Form(env=env, schema=TestSchema)
+    form.validate({"name": "John", "age": "30"})
+    assert form.is_valid
+    assert form.validated_data == {"name": "John", "age": "30"}
 
-    # Test case 3: Empty data
-    schema = Schema(fields={"name": String(max_length=10)})
-    form = Form(env=None, schema=schema)
-    form.validate({})
-    assert form.is_valid == False
-    assert form.errors == {"name": "This field is required."}
-
-    # Test case 4: Data with extra fields
-    schema = Schema(fields={"name": String(max_length=10)})
-    form = Form(env=None, schema=schema)
-    form.validate({"name": "John", "age": 25})
-    assert form.is_valid == True
-    assert form.validated_data == {"name": "John"}
-
-    # Test case 5: Data with nested fields
-    schema = Schema(fields={"person": Object(fields={"name": String(max_length=10)})})
-    form = Form(env=None, schema=schema)
-    form.validate({"person": {"name": "John"}})
-    assert form.is_valid == True
-    assert form.validated_data == {"person": {"name": "John"}}
-
-    # Test case 6: Data with nested fields and errors
-    schema = Schema(fields={"person": Object(fields={"name": String(max_length=10)})})
-    form = Form(env=None, schema=schema)
-    form.validate({"person": {"name": "John Doe"}})
-    assert form.is_valid == False
-    assert form.errors == {"person": {"name": "Must have no more than 10 characters."}}
-
-    # Test case 7: Data with read-only field
-    schema = Schema(fields={"name": String(max_length=10, read_only=True)})
-    form = Form(env=None, schema=schema)
-    form.validate({"name": "John"})
-    assert form.is_valid == True
-    assert form.validated_data == {}
-
-    # Test case 8: Data with default value
-    schema = Schema(fields={"name": String(max_length=10, default="John")})
-    form = Form(env=None, schema=schema)
-    form.validate({})
-    assert form.is_valid == True
-    assert form.validated_data == {"name": "John"}
-
-    # Test case 9: Data with allow_null field
-    schema = Schema(fields={"name": String(max_length=10, allow_null=True)})
-    form = Form(env=None, schema=schema)
-    form.validate({"name": None})
-    assert form.is_valid == True
-    assert form.validated_data == {"name": None}
-
-    # Test case 10: Data with allow_blank field
-    schema = Schema(fields={"name": String(max_length=10, allow_blank=True)})
-    form = Form(env=None, schema=schema)
-    form.validate({"name": ""})
-    assert form.is_valid == True
-    assert form.validated_data == {"name": ""}
-
-    # Test case 11: Data with choice field
-    schema = Schema(fields={"color": Choice(choices=["red", "green", "blue"])})
-    form = Form(env=None, schema=schema)
-    form.validate({"color": "red"})
-    assert form.is_valid == True
-    assert form.validated_data == {"color": "red"}
-
-    # Test case 12: Data with invalid choice
-    schema = Schema(fields={"color": Choice(choices=["red", "green", "blue"])})
-    form = Form(env=None, schema=schema)
-    form.validate({"color": "yellow"})
-    assert form.is_valid == False
-    assert form.errors == {"color": "Must be one of: red, green, blue."}
-
-    # Test case 13: Data with boolean field
-    schema = Schema(fields={"active": Boolean()})
-    form = Form(env=None, schema=schema)
-    form.validate({"active": True})
-    assert form.is_valid == True
-    assert form.validated_data == {"active": True}
-
-    # Test case 14: Data with invalid boolean
-    schema = Schema(fields={"active": Boolean()})
-    form = Form(env=None, schema=schema)
-    form.validate({"active": "yes"})
-    assert form.is_valid == False
-    assert form.errors == {"active": "Must be a boolean."}
-
-    # Test case 15: Data with multiple fields and errors
-    schema = Schema(fields={"name": String(max_length=10), "age": String(max_length=2)})
-    form = Form(env=None, schema=schema)
-    form.validate({"name": "John Doe", "age": "25"})
-    assert form.is_valid == False
-    assert form.errors == {"name": "Must have no more than 10 characters."}
-
-    # Test case 16: Data with multiple fields and no errors
-    schema = Schema(fields={"name": String(max_length=10), "age": String(max_length=2)})
-    form = Form(env=None, schema=schema)
-    form.validate({"name": "John", "age": "25"})
-    assert form.is_valid == True
-    assert form.validated_data == {"name": "John", "age": "25"}
-
-    # Test case 17: Data with nested fields and multiple errors
-    schema = Schema(fields={"person": Object(fields={"name": String(max_length=10), "age": String(max_length=2)})})
-    form = Form(env=None, schema=schema)
-    form.validate({"person": {"name": "John Doe", "age": "25"}})
-    assert form.is_valid == False
-    assert form.errors == {"person": {"name": "Must have no more than 10 characters."}}
-
-    # Test case 18: Data with nested fields and no errors
-    schema = Schema(fields={"person": Object(fields={"name": String(max_length=10), "age": String(max_length=2)})})
-    form = Form(env=None, schema=schema)
-    form.validate({"person": {"name": "John", "age": "25"}})
-    assert form.is_valid == True
-    assert form.validated_data == {"person": {"name": "John", "age": "25"}}
-
-    # Test case 19: Data with nested fields and partial errors
-    schema = Schema(fields={"person": Object(fields={"name": String(max_length=10), "age": String(max_length=2)})})
-    form = Form(env=None, schema=schema)
-    form.validate({"person": {"name": "John", "age": "250"}})
-    assert form.is_valid == False
-    assert form.errors == {"person": {"age": "Must have no more than 2 characters."}}
-
-    # Test case 20: Data with nested fields and missing required field
-    schema = Schema(fields={"person": Object(fields={"name": String(max_length=10), "age": String(max_length=2)})})
-    form = Form(env=None, schema=schema)
-    form.validate({"person": {"name": "John"}})
-    assert form.is_valid == False
-    assert form.errors == {"person": {"age": "This field is required."}}
-
-    # Test case 21: Data with nested fields and extra field
-    schema = Schema(fields={"person": Object(fields={"name": String(max_length=10), "age": String(max_length=2)})})
-    form = Form(env=None, schema=schema)
-    form.validate({"person": {"name": "John", "age": "25", "city": "New York"}})
-    assert form.is_valid == True
-    assert form.validated_data == {"person": {"name": "John", "age": "25"}}
-
-    # Test case 22: Data with nested fields and null value
-    schema = Schema(fields={"person": Object(fields={"name": String(max_length=10, allow_null=True), "age": String(max_length=2)})})
-    form = Form(env=None, schema=schema)
-    form.validate({"person": {"name": None, "age": "25"}})
-    assert form.is_valid == True
-    assert form.validated_data == {"person": {"name": None, "age": "25"}}
-
-    # Test case 23: Data with nested fields and blank value
-    schema = Schema(fields={"person": Object(fields={"name": String(max_length=10, allow_blank=True), "age": String(max_length=2)})})
-    form = Form(env=None, schema=schema)
-    form.validate({"person": {"name": "", "age": "25"}})
-    assert form.is_valid == True
-    assert form.validated_data == {"person": {"name": "", "age": "25"}}
-
-    # Test case 24: Data with nested fields
+    form.validate({"name": "John", "age": "300"})
+    assert not form.is_valid
+    assert form.errors == {"age": "Must be at most 3 characters long."}
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for method template_for_field of class Form
-def test_Form_template_for_field(): 
-    env = jinja2.Environment()
-    schema = Schema()
-    form = Form(env=env, schema=schema)
-    field = Field()
-    assert form.template_for_field(field) == "forms/input.html"
-    field = Choice()
-    assert form.template_for_field(field) == "forms/select.html"
-    field = Boolean()
-    assert form.template_for_field(field) == "forms/checkbox.html"
-    field = String(format="text")
-    assert form.template_for_field(field) == "forms/textarea.html"
-    field = String(format="email")
-    assert form.template_for_field(field) == "forms/input.html"
-    field = Object()
-    try:
-        form.template_for_field(field)
-    except AssertionError:
-        pass
-    else:
-        assert False, "Should have raised AssertionError"
+def test_Form_template_for_field():
+    form = Form(env=None, schema=None)
+    
+    # Test for Choice field
+    assert form.template_for_field(Choice()) == "forms/select.html"
+    
+    # Test for Boolean field
+    assert form.template_for_field(Boolean()) == "forms/checkbox.html"
+    
+    # Test for String field with format 'text'
+    string_field = String(format="text")
+    assert form.template_for_field(string_field) == "forms/textarea.html"
+    
+    # Test for default case
+    assert form.template_for_field(String()) == "forms/input.html"
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for method validate of class Form
-def test_Form_validate():  
-    # Create a mock schema with a single field
-    class MockSchema(Schema):
-        name = String(max_length=10)
-    
-    # Create a mock Jinja2 environment
-    mock_env = jinja2.Environment()
-    
-    # Create a Form instance
-    form = Form(env=mock_env, schema=MockSchema())
-    
-    # Test with valid data
-    valid_data = {"name": "John"}
-    form.validate(valid_data)
-    assert form.is_valid == True
-    assert form.validated_data == {"name": "John"}
-    
-    # Test with invalid data
-    invalid_data = {"name": "John Doe John Doe"}
-    form.validate(invalid_data)
-    assert form.is_valid == False
-    assert form.errors == {"name": "Must have no more than 10 characters."}
-    
-    # Test with no data
-    form.validate()
-    assert form.is_valid == False
+def test_Form_validate():
+    # Define a simple schema for testing
+    class TestSchema(Schema):
+        name = String(title="Name", max_length=100)
+        age = String(title="Age", pattern="^[0-9]+$")
+
+    # Create a Form instance with the test schema
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
+    form = Form(env=env, schema=TestSchema())
+
+    # Test validation with valid data
+    form.validate({"name": "John Doe", "age": "30"})
+    assert form.is_valid
+    assert form.validated_data == {"name": "John Doe", "age": "30"}
+
+    # Test validation with invalid data
+    form.validate({"name": "John Doe", "age": "thirty"})
+    assert not form.is_valid
+    assert form.errors == {"age": 'Must match the pattern "^[0-9]+$".'}
+
+    # Test validation with missing required field
+    form.validate({"age": "30"})
+    assert not form.is_valid
     assert form.errors == {"name": "This field is required."}
-    
-    # Test that validate can only be called once
-    try:
-        form.validate(valid_data)
-        assert False, "validate() should raise an error if called twice"
-    except AssertionError as e:
-        assert str(e) == "validate() has already been called."
+
+    # Test validation with additional fields (should be ignored)
+    form.validate({"name": "John Doe", "age": "30", "extra": "data"})
+    assert form.is_valid
+    assert form.validated_data == {"name": "John Doe", "age": "30"}
+
+    # Test validation with empty values
+    form.validate({})
+    assert not form.is_valid
+    assert form.errors == {"name": "This field is required.", "age": "This field is required."}
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for method render_fields of class Form
-def test_Form_render_fields(): 
-    # Create a mock jinja2 environment
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    # Create a mock schema with fields
-    class MockSchema(Schema):
-        field1 = String(title="Field 1")
-        field2 = Boolean(title="Field 2")
-        field3 = Choice(choices=[("option1", "Option 1"), ("option2", "Option 2")])
-        field4 = String(format="text")
-        field5 = String(format="email")
-        field6 = String(format="password")
-        field7 = String(format="date")
-        field8 = String(format="datetime")
-        field9 = String(format="time")
-        field10 = String(format="url")
-        field11 = String(format="number")
-        field12 = String(format="range")
-        field13 = String(format="color")
-        field14 = String(format="tel")
-        field15 = String(format="search")
-        field16 = String(format="month")
-        field17 = String(format="week")
-        field18 = String(format="hidden")
-        field19 = String(format="text", read_only=True)
-        field20 = String(format="text", allow_null=True)
-        field21 = String(format="text", allow_blank=True)
-        field22 = String(format="text", default="default value")
-        field23 = String(format="text", required=False)
-        field24 = String(format="text", required=True)
-        field25 = String(format="text", required=True, allow_null=True)
-        field26 = String(format="text", required=True, allow_blank=True)
-        field27 = String(format="text", required=True, default="default value")
-        field28 = String(format="text", required=True, default="default value", allow_null=True)
-        field29 = String(format="text", required=True, default="default value", allow_blank=True)
-        field30 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True)
-        field31 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True)
-        field32 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 32")
-        field33 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 33", description="Description 33")
-        field34 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 34", description="Description 34", max_length=10)
-        field35 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 35", description="Description 35", max_length=10, min_length=5)
-        field36 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 36", description="Description 36", max_length=10, min_length=5, pattern="^[a-zA-Z]+$")
-        field37 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 37", description="Description 37", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email")
-        field38 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 38", description="Description 38", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value")
-        field39 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 39", description="Description 39", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value", enum=["value1", "value2"])
-        field40 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 40", description="Description 40", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value", enum=["value1", "value2"], examples=["example1", "example2"])
-        field41 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 41", description="Description 41", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value", enum=["value1", "value2"], examples=["example1", "example2"], multiple_of=2)
-        field42 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 42", description="Description 42", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value", enum=["value1", "value2"], examples=["example1", "example2"], multiple_of=2, maximum=100)
-        field43 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 43", description="Description 43", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value", enum=["value1", "value2"], examples=["example1", "example2"], multiple_of=2, maximum=100, minimum=0)
-        field44 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 44", description="Description 44", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value", enum=["value1", "value2"], examples=["example1", "example2"], multiple_of=2, maximum=100, minimum=0, exclusive_maximum=True)
-        field45 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 45", description="Description 45", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value", enum=["value1", "value2"], examples=["example1", "example2"], multiple_of=2, maximum=100, minimum=0, exclusive_maximum=True, exclusive_minimum=True)
-        field46 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 46", description="Description 46", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value", enum=["value1", "value2"], examples=["example1", "example2"], multiple_of=2, maximum=100, minimum=0, exclusive_maximum=True, exclusive_minimum=True, unique_items=True)
-        field47 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 47", description="Description 47", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value", enum=["value1", "value2"], examples=["example1", "example2"], multiple_of=2, maximum=100, minimum=0, exclusive_maximum=True, exclusive_minimum=True, unique_items=True, max_items=10)
-        field48 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 48", description="Description 48", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value", enum=["value1", "value2"], examples=["example1", "example2"], multiple_of=2, maximum=100, minimum=0, exclusive_maximum=True, exclusive_minimum=True, unique_items=True, max_items=10, min_items=1)
-        field49 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 49", description="Description 49", max_length=10, min_length=5, pattern="^[a-zA-Z]+$", format="email", const="const value", enum=["value1", "value2"], examples=["example1", "example2"], multiple_of=2, maximum=100, minimum=0, exclusive_maximum=True, exclusive_minimum=True, unique_items=True, max_items=10, min_items=1, additional_items=True)
-        field50 = String(format="text", required=True, default="default value", allow_null=True, allow_blank=True, read_only=True, title="Field 50", description="Description
+def test_Form_render_fields():
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': '<input id="{{ field_id }}" name="{{ field_name }}" type="{{ input_type }}" value="{{ value }}" />',
+        'forms/textarea.html': '<textarea id="{{ field_id }}" name="{{ field_name }}">{{ value }}</textarea>',
+        'forms/select.html': '<select id="{{ field_id }}" name="{{ field_name }}">{{ value }}</select>',
+        'forms/checkbox.html': '<input id="{{ field_id }}" name="{{ field_name }}" type="checkbox" {% if value %}checked{% endif %} />',
+    }))
+
+    class TestSchema(Schema):
+        name = String(title="Name")
+        description = String(title="Description", format="text")
+        active = Boolean(title="Active")
+        category = Choice(choices=[("1", "Category 1"), ("2", "Category 2")])
+
+    schema = TestSchema()
+    form = Form(env=env, schema=schema, values={"name": "Test", "description": "Test description", "active": True, "category": "1"})
+
+    expected_output = (
+        '<input id="name" name="name" type="text" value="Test" />'
+        '<textarea id="description" name="description">Test description</textarea>'
+        '<input id="active" name="active" type="checkbox" checked />'
+        '<select id="category" name="category">1</select>'
+    )
+    assert form.render_fields() == expected_output
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for method __str__ of class Form
-def test_Form___str__(): 
-    # Test case 1: Test with a simple schema
-    class SimpleSchema(Schema):
-        name = String()
-        age = Integer()
+# Unit test for method input_type_for_field of class Form
+def test_Form_input_type_for_field():
+    # Test with default format
+    field = Field()
+    form = Form(env=None, schema=None)
+    assert form.input_type_for_field(field) == "text"
 
-    form = Form(env=jinja2.Environment(), schema=SimpleSchema())
-    assert str(form) == form.render_fields()
+    # Test with known format
+    field = String(format="email")
+    assert form.input_type_for_field(field) == "email"
 
-    # Test case 2: Test with a schema with read_only field
-    class SchemaWithReadOnly(Schema):
-        name = String()
-        age = Integer(read_only=True)
+    # Test with unknown format
+    field = String(format="unknown")
+    assert form.input_type_for_field(field) == "text"
 
-    form = Form(env=jinja2.Environment(), schema=SchemaWithReadOnly())
-    assert str(form) == form.render_fields()
+    # Test with format not in FORMAT_TO_INPUTTYPE
+    field = String(format="datetime")
+    assert form.input_type_for_field(field) == "datetime-local"
 
-    # Test case 3: Test with a schema with default value
-    class SchemaWithDefault(Schema):
-        name = String(default='John')
-        age = Integer()
-
-    form = Form(env=jinja2.Environment(), schema=SchemaWithDefault())
-    assert str(form) == form.render_fields()
-
-    # Test case 4: Test with a schema with allow_null field
-    class SchemaWithAllowNull(Schema):
-        name = String(allow_null=True)
-        age = Integer()
-
-    form = Form(env=jinja2.Environment(), schema=SchemaWithAllowNull())
-    assert str(form) == form.render_fields()
-
-    # Test case 5: Test with a schema with allow_blank field
-    class SchemaWithAllowBlank(Schema):
-        name = String(allow_blank=True)
-        age = Integer()
-
-    form = Form(env=jinja2.Environment(), schema=SchemaWithAllowBlank())
-    assert str(form) == form.render_fields()
-
-    # Test case 6: Test with a schema with title
-    class SchemaWithTitle(Schema):
-        name = String(title='Full Name')
-        age = Integer()
-
-    form = Form(env=jinja2.Environment(), schema=SchemaWithTitle())
-    assert str(form) == form.render_fields()
-
-    # Test case 7: Test with a schema with format
-    class SchemaWithFormat(Schema):
-        email = String(format='email')
-        age = Integer()
-
-    form = Form(env=jinja2.Environment(), schema=SchemaWithFormat())
-    assert str(form) == form.render_fields()
-
-    # Test case 8: Test with a schema with Choice field
-    class SchemaWithChoice(Schema):
-        gender = Choice(choices=[('M', 'Male'), ('F', 'Female')])
-        age = Integer()
-
-    form = Form(env=jinja2.Environment(), schema=SchemaWithChoice())
-    assert str(form) == form.render_fields()
-
-    # Test case 9: Test with a schema with Boolean field
-    class SchemaWithBoolean(Schema):
-        active = Boolean()
-        age = Integer()
-
-    form = Form(env=jinja2.Environment(), schema=SchemaWithBoolean())
-    assert str(form) == form.render_fields()
-
-    # Test case 10: Test with a schema with text format
-    class SchemaWithTextFormat(Schema):
-        description = String(format='text')
-        age = Integer()
-
-    form = Form(env=jinja2.Environment(), schema=SchemaWithTextFormat())
-    assert str(form) == form.render_fields()
 
 
 # LLM-generated content at query #7
 #--------------------------
 
-# Unit test for method render_fields of class Form
-def test_Form_render_fields():  # pragma: no cover
-    # Test case 1: No errors, no values
-    schema = Schema(fields={"name": String()})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "name" in html
-    assert "value" not in html
-
-    # Test case 2: Errors, no values
-    schema = Schema(fields={"name": String()})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate({"name": ""})
-    html = form.render_fields()
-    assert "name" in html
-    assert "value" not in html
-    assert "error" in html
-
-    # Test case 3: No errors, values
-    schema = Schema(fields={"name": String()})
-    form = Form(env=None, schema=schema, values={"name": "John"})
-    form.validate()
-    html = form.render_fields()
-    assert "name" in html
-    assert "value" in html
-    assert "John" in html
-
-    # Test case 4: Errors, values
-    schema = Schema(fields={"name": String()})
-    form = Form(env=None, schema=schema, values={"name": "John"})
-    form.validate({"name": ""})
-    html = form.render_fields()
-    assert "name" in html
-    assert "value" not in html
-    assert "error" in html
-
-    # Test case 5: Read-only field
-    schema = Schema(fields={"name": String(read_only=True)})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "name" not in html
-
-    # Test case 6: Field with default value
-    schema = Schema(fields={"name": String(default="John")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "name" in html
-    assert "value" in html
-    assert "John" in html
-
-    # Test case 7: Field with allow_null=True
-    schema = Schema(fields={"name": String(allow_null=True)})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "name" in html
-    assert "value" not in html
-
-    # Test case 8: Field with allow_blank=True
-    schema = Schema(fields={"name": String(allow_blank=True)})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "name" in html
-    assert "value" not in html
-
-    # Test case 9: Field with required=True
-    schema = Schema(fields={"name": String()})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "name" in html
-    assert "required" in html
-
-    # Test case 10: Field with required=False
-    schema = Schema(fields={"name": String(allow_null=True)})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "name" in html
-    assert "required" not in html
-
-    # Test case 11: Field with title
-    schema = Schema(fields={"name": String(title="Full Name")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "Full Name" in html
-
-    # Test case 12: Field without title
-    schema = Schema(fields={"name": String()})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "name" in html
-
-    # Test case 13: Field with format
-    schema = Schema(fields={"email": String(format="email")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "email" in html
-    assert "type" in html
-    assert "email" in html
-
-    # Test case 14: Field without format
-    schema = Schema(fields={"name": String()})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "name" in html
-    assert "type" in html
-    assert "text" in html
-
-    # Test case 15: Field with format not in FORMAT_TO_INPUTTYPE
-    schema = Schema(fields={"name": String(format="unknown")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "name" in html
-    assert "type" in html
-    assert "text" in html
-
-    # Test case 16: Field with format "color"
-    schema = Schema(fields={"color": String(format="color")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "color" in html
-    assert "type" in html
-    assert "color" in html
-
-    # Test case 17: Field with format "datetime"
-    schema = Schema(fields={"datetime": String(format="datetime")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "datetime" in html
-    assert "type" in html
-    assert "datetime-local" in html
-
-    # Test case 18: Field with format "date"
-    schema = Schema(fields={"date": String(format="date")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "date" in html
-    assert "type" in html
-    assert "date" in html
-
-    # Test case 19: Field with format "email"
-    schema = Schema(fields={"email": String(format="email")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "email" in html
-    assert "type" in html
-    assert "email" in html
-
-    # Test case 20: Field with format "hidden"
-    schema = Schema(fields={"hidden": String(format="hidden")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "hidden" in html
-    assert "type" in html
-    assert "hidden" in html
-
-    # Test case 21: Field with format "month"
-    schema = Schema(fields={"month": String(format="month")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "month" in html
-    assert "type" in html
-    assert "month" in html
-
-    # Test case 22: Field with format "number"
-    schema = Schema(fields={"number": String(format="number")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "number" in html
-    assert "type" in html
-    assert "number" in html
-
-    # Test case 23: Field with format "password"
-    schema = Schema(fields={"password": String(format="password")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "password" in html
-    assert "type" in html
-    assert "password" in html
-
-    # Test case 24: Field with format "range"
-    schema = Schema(fields={"range": String(format="range")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "range" in html
-    assert "type" in html
-    assert "range" in html
-
-    # Test case 25: Field with format "search"
-    schema = Schema(fields={"search": String(format="search")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "search" in html
-    assert "type" in html
-    assert "search" in html
-
-    # Test case 26: Field with format "tel"
-    schema = Schema(fields={"tel": String(format="tel")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "tel" in html
-    assert "type" in html
-    assert "tel" in html
-
-    # Test case 27: Field with format "text"
-    schema = Schema(fields={"text": String(format="text")})
-    form = Form(env=None, schema=schema, values=None)
-    form.validate()
-    html = form.render_fields()
-    assert "text" in html
-    assert "type" in html
-    assert "text" in html
-
-    # Test case 28: Field with format "time"
-    schema = Schema(fields={"time
+# Unit test for method input_type_for_field of class Form
+def test_Form_input_type_for_field():
+    form = Form(env=None, schema=None)  # type: ignore
+    field = String(format="email")
+    assert form.input_type_for_field(field) == "email"
+    field = String(format="unknown")
+    assert form.input_type_for_field(field) == "text"
+    field = String()
+    assert form.input_type_for_field(field) == "text"
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for method render_fields of class Form
-def test_Form_render_fields(): 
-    # Create a mock environment
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    # Create a mock schema
-    class MockSchema(Schema):
-        fields = {
-            'name': String(title='Name'),
-            'email': String(title='Email', format='email'),
-            'age': String(title='Age', format='number'),
-            'password': String(title='Password', format='password'),
-            'bio': String(title='Bio', format='text'),
-            'agree': Boolean(title='Agree to terms'),
-            'color': Choice(title='Color', choices=[('red', 'Red'), ('blue', 'Blue')]),
-        }
-    schema = MockSchema()
-    # Create a form instance
-    form = Form(env=env, schema=schema)
-    # Call render_fields
-    result = form.render_fields()
-    # Assert that the result is a string
-    assert isinstance(result, str)
-    # Assert that the result contains the expected HTML elements
-    assert '<input type="text"' in result
-    assert '<input type="email"' in result
-    assert '<input type="number"' in result
-    assert '<input type="password"' in result
-    assert '<textarea' in result
-    assert '<input type="checkbox"' in result
-    assert '<select' in result
-    # Assert that the result contains the expected field labels
-    assert 'Name' in result
-    assert 'Email' in result
-    assert 'Age' in result
-    assert 'Password' in result
-    assert 'Bio' in result
-    assert 'Agree to terms' in result
-    assert 'Color' in result
-    # Assert that the result contains the expected field IDs
-    assert 'id="name"' in result
-    assert 'id="email"' in result
-    assert 'id="age"' in result
-    assert 'id="password"' in result
-    assert 'id="bio"' in result
-    assert 'id="agree"' in result
-    assert 'id="color"' in result
-    # Assert that the result contains the expected field names
-    assert 'name="name"' in result
-    assert 'name="email"' in result
-    assert 'name="age"' in result
-    assert 'name="password"' in result
-    assert 'name="bio"' in result
-    assert 'name="agree"' in result
-    assert 'name="color"' in result
-    # Assert that the result does not contain any error messages
-    assert 'error' not in result
-    # Assert that the result does not contain any required attributes
-    assert 'required' not in result
-    # Assert that the result does not contain any values
-    assert 'value=""' in result
-    # Assert that the result does not contain any checked attributes
-    assert 'checked' not in result
-    # Assert that the result does not contain any selected attributes
-    assert 'selected' not in result
-    # Assert that the result does not contain any disabled attributes
-    assert 'disabled' not in result
-    # Assert that the result does not contain any readonly attributes
-    assert 'readonly' not in result
-    # Assert that the result does not contain any placeholder attributes
-    assert 'placeholder' not in result
-    # Assert that the result does not contain any autofocus attributes
-    assert 'autofocus' not in result
-    # Assert that the result does not contain any autocomplete attributes
-    assert 'autocomplete' not in result
-    # Assert that the result does not contain any pattern attributes
-    assert 'pattern' not in result
-    # Assert that the result does not contain any min attributes
-    assert 'min' not in result
-    # Assert that the result does not contain any max attributes
-    assert 'max' not in result
-    # Assert that the result does not contain any step attributes
-    assert 'step' not in result
-    # Assert that the result does not contain any multiple attributes
-    assert 'multiple' not in result
-    # Assert that the result does not contain any size attributes
-    assert 'size' not in result
-    # Assert that the result does not contain any maxlength attributes
-    assert 'maxlength' not in result
-    # Assert that the result does not contain any minlength attributes
-    assert 'minlength' not in result
-    # Assert that the result does not contain any spellcheck attributes
-    assert 'spellcheck' not in result
-    # Assert that the result does not contain any wrap attributes
-    assert 'wrap' not in result
-    # Assert that the result does not contain any rows attributes
-    assert 'rows' not in result
-    # Assert that the result does not contain any cols attributes
-    assert 'cols' not in result
-    # Assert that the result does not contain any list attributes
-    assert 'list' not in result
-    # Assert that the result does not contain any datalist attributes
-    assert 'datalist' not in result
-    # Assert that the result does not contain any form attributes
-    assert 'form' not in result
-    # Assert that the result does not contain any formaction attributes
-    assert 'formaction' not in result
-    # Assert that the result does not contain any formenctype attributes
-    assert 'formenctype' not in result
-    # Assert that the result does not contain any formmethod attributes
-    assert 'formmethod' not in result
-    # Assert that the result does not contain any formnovalidate attributes
-    assert 'formnovalidate' not in result
-    # Assert that the result does not contain any formtarget attributes
-    assert 'formtarget' not in result
-    # Assert that the result does not contain any height attributes
-    assert 'height' not in result
-    # Assert that the result does not contain any width attributes
-    assert 'width' not in result
-    # Assert that the result does not contain any src attributes
-    assert 'src' not in result
-    # Assert that the result does not contain any alt attributes
-    assert 'alt' not in result
-    # Assert that the result does not contain any accept attributes
-    assert 'accept' not in result
-    # Assert that the result does not contain any capture attributes
-    assert 'capture' not in result
-    # Assert that the result does not contain any checked attributes
-    assert 'checked' not in result
-    # Assert that the result does not contain any disabled attributes
-    assert 'disabled' not in result
-    # Assert that the result does not contain any max attributes
-    assert 'max' not in result
-    # Assert that the result does not contain any min attributes
-    assert 'min' not in result
-    # Assert that the result does not contain any pattern attributes
-    assert 'pattern' not in result
-    # Assert that the result does not contain any readonly attributes
-    assert 'readonly' not in result
-    # Assert that the result does not contain any required attributes
-    assert 'required' not in result
-    # Assert that the result does not contain any size attributes
-    assert 'size' not in result
-    # Assert that the result does not contain any step attributes
-    assert 'step' not in result
-    # Assert that the result does not contain any value attributes
-    assert 'value=""' in result
-    # Assert that the result does not contain any multiple attributes
-    assert 'multiple' not in result
-    # Assert that the result does not contain any selected attributes
-    assert 'selected' not in result
-    # Assert that the result does not contain any autofocus attributes
-    assert 'autofocus' not in result
-    # Assert that the result does not contain any autocomplete attributes
-    assert 'autocomplete' not in result
-    # Assert that the result does not contain any list attributes
-    assert 'list' not in result
-    # Assert that the result does not contain any placeholder attributes
-    assert 'placeholder' not in result
-    # Assert that the result does not contain any readonly attributes
-    assert 'readonly' not in result
-    # Assert that the result does not contain any required attributes
-    assert 'required' not in result
-    # Assert that the result does not contain any spellcheck attributes
-    assert 'spellcheck' not in result
-    # Assert that the result does not contain any wrap attributes
-    assert 'wrap' not in result
-    # Assert that the result does not contain any rows attributes
-    assert 'rows' not in result
-    # Assert that the result does not contain any cols attributes
-    assert 'cols' not in result
-    # Assert that the result does not contain any maxlength attributes
-    assert 'maxlength' not in result
-    # Assert that the result does not contain any minlength attributes
-    assert 'minlength' not in result
-    # Assert that the result does not contain any pattern attributes
-    assert 'pattern' not in result
-    # Assert that the result does not contain any title attributes
-    assert 'title' not in result
-    # Assert that the result does not contain any dirname attributes
-    assert 'dirname' not in result
-    # Assert that the result does not contain any form attributes
-    assert 'form' not in result
-    # Assert that the result does not contain any formaction attributes
-    assert 'formaction' not in result
-    # Assert that the result does not contain any formenctype attributes
-    assert 'formenctype' not in result
-    # Assert that the result does not contain any formmethod attributes
-    assert 'formmethod' not in result
+# Unit test for method __str__ of class Form
+def test_Form___str__():
+    # Create a test schema
+    class TestSchema(Schema):
+        name = String(title="Name", max_length=100)
+        age = String(title="Age", max_length=3)
+
+    # Create a Jinja2Forms instance
+    jinja2_forms = Jinja2Forms(directory="templates")
+
+    # Create a Form instance
+    form = jinja2_forms.create_form(TestSchema)
+
+    # Render the form fields as a string
+    form_str = str(form)
+
+    # Assert that the form fields are rendered correctly
+    assert '<input type="text" name="name"' in form_str
+    assert '<input type="text" name="age"' in form_str
+
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for method render_field of class Form
-def test_Form_render_field():  # pragma: no cover
-    # Test case 1: Field with no error and no value
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    schema = Schema(fields={"name": String(title="Name")})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name="name", field=String(title="Name"))
-    assert html == ""
+# Unit test for method __html__ of class Form
+def test_Form___html__(): 
+    # Mocking necessary components
+    import markupsafe
+    import jinja2
 
-    # Test case 2: Field with error and value
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    schema = Schema(fields={"name": String(title="Name")})
-    form = Form(env=env, schema=schema)
-    form.validate({"name": ""})
-    html = form.render_field(field_name="name", field=String(title="Name"), value="", error="This field is required.")
-    assert html == ""
+    # Create a Jinja2 environment with a mock template
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}">'
+    }))
 
-    # Test case 3: Field with password input type
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    schema = Schema(fields={"password": String(title="Password", format="password")})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name="password", field=String(title="Password", format="password"), value="secret")
-    assert html == ""
+    # Create a simple schema with one field
+    class SimpleSchema(Schema):
+        name = String(title="Name")
 
-    # Test case 4: Field with textarea template
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    schema = Schema(fields={"description": String(title="Description", format="text")})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name="description", field=String(title="Description", format="text"), value="Some description")
-    assert html == ""
+    # Instantiate Form
+    form = Form(env=env, schema=SimpleSchema(), values={'name': 'Test'})
 
-    # Test case 5: Field with select template
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    schema = Schema(fields={"choice": Choice(title="Choice", choices=[("a", "A"), ("b", "B")])})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name="choice", field=Choice(title="Choice", choices=[("a", "A"), ("b", "B")]), value="a")
-    assert html == ""
+    # Call __html__ method
+    html_output = form.__html__()
 
-    # Test case 6: Field with checkbox template
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    schema = Schema(fields={"agree": Boolean(title="Agree")})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name="agree", field=Boolean(title="Agree"), value=True)
-    assert html == ""
-
-    # Test case 7: Field with required attribute
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    schema = Schema(fields={"name": String(title="Name", allow_null=False)})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name="name", field=String(title="Name", allow_null=False))
-    assert html == ""
-
-    # Test case 8: Field with allow_null attribute
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    schema = Schema(fields={"name": String(title="Name", allow_null=True)})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name="name", field=String(title="Name", allow_null=True))
-    assert html == ""
-
-    # Test case 9: Field with allow_blank attribute
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    schema = Schema(fields={"name": String(title="Name", allow_blank=True)})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name="name", field=String(title="Name", allow_blank=True))
-    assert html == ""
-
-    # Test case 10: Field with default value
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    schema = Schema(fields={"name": String(title="Name", default="John")})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name="name", field=String(title="Name", default="John"))
-    assert html == ""
+    # Assertions
+    assert isinstance(html_output, markupsafe.Markup)
+    assert str(html_output) == '<input type="text" name="name" value="Test">'
 
 
 # LLM-generated content at query #10
 #--------------------------
 
-# Unit test for method template_for_field of class Form
-def test_Form_template_for_field(): 
-    env = jinja2.Environment()
-    schema = Schema()
-    form = Form(env=env, schema=schema)
-    field = Field()
-    assert form.template_for_field(field) == "forms/input.html"
-    field = Choice()
-    assert form.template_for_field(field) == "forms/select.html"
-    field = Boolean()
-    assert form.template_for_field(field) == "forms/checkbox.html"
-    field = String(format="text")
-    assert form.template_for_field(field) == "forms/textarea.html"
-    field = String(format="email")
-    assert form.template_for_field(field) == "forms/input.html"
-    field = Object()
-    try:
-        form.template_for_field(field)
-    except AssertionError:
-        pass
-    else:
-        assert False, "Should have raised AssertionError"
+# Unit test for method __html__ of class Form
+def test_Form___html__():
+    # Test case 1: Test with a simple schema
+    schema = Schema(fields={"name": String()})
+    form = Form(env=jinja2.Environment(), schema=schema)
+    assert isinstance(form.__html__(), markupsafe.Markup)
+
+    # Test case 2: Test with a schema that has errors
+    schema = Schema(fields={"name": String(required=True)})
+    form = Form(env=jinja2.Environment(), schema=schema)
+    form.validate({})
+    assert isinstance(form.__html__(), markupsafe.Markup)
+
+    # Test case 3: Test with a schema that has nested fields
+    schema = Schema(fields={"user": Object(properties={"name": String()})})
+    form = Form(env=jinja2.Environment(), schema=schema)
+    assert isinstance(form.__html__(), markupsafe.Markup)
 
 
 # LLM-generated content at query #11
 #--------------------------
 
-# Unit test for method render_field of class Form
-def test_Form_render_field():  # pragma: no cover
-    # Setup
-    env = jinja2.Environment(loader=jinja2.DictLoader({
-        'forms/input.html': '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" />',
-        'forms/textarea.html': '<textarea name="{{ field_name }}">{{ value }}</textarea>',
-        'forms/checkbox.html': '<input type="checkbox" name="{{ field_name }}" {% if value %}checked{% endif %} />',
-        'forms/select.html': '<select name="{{ field_name }}"><option value="{{ value }}">{{ value }}</option></select>',
-    }))
-    schema = Schema(fields={
-        'name': String(title='Name'),
-        'description': String(title='Description', format='text'),
-        'active': Boolean(title='Active'),
-        'choice': Choice(title='Choice', choices=[('option1', 'Option 1'), ('option2', 'Option 2')]),
-    })
-    form = Form(env=env, schema=schema)
-
-    # Test text input
-    html = form.render_field(field_name='name', field=schema.fields['name'], value='John')
-    assert html == '<input type="text" name="name" value="John" />'
-
-    # Test textarea
-    html = form.render_field(field_name='description', field=schema.fields['description'], value='Some description')
-    assert html == '<textarea name="description">Some description</textarea>'
-
-    # Test checkbox
-    html = form.render_field(field_name='active', field=schema.fields['active'], value=True)
-    assert html == '<input type="checkbox" name="active" checked />'
-
-    # Test select
-    html = form.render_field(field_name='choice', field=schema.fields['choice'], value='option1')
-    assert html == '<select name="choice"><option value="option1">option1</option></select>'
-
-    # Test with error
-    html = form.render_field(field_name='name', field=schema.fields['name'], value='John', error='Invalid name')
-    assert html == '<input type="text" name="name" value="John" />'
-
-    # Test with no value
-    html = form.render_field(field_name='name', field=schema.fields['name'])
-    assert html == '<input type="text" name="name" value="" />'
-
-    # Test with password input type
-    password_field = String(title='Password', format='password')
-    html = form.render_field(field_name='password', field=password_field, value='secret')
-    assert html == '<input type="password" name="password" value="" />'
-
-    # Test with email input type
-    email_field = String(title='Email', format='email')
-    html = form.render_field(field_name='email', field=email_field, value='test@example.com')
-    assert html == '<input type="email" name="email" value="test@example.com" />'
-
-    # Test with required field
-    required_field = String(title='Required', allow_null=False)
-    html = form.render_field(field_name='required', field=required_field)
-    assert 'required' in html
-
-    # Test with non-required field
-    optional_field = String(title='Optional', allow_null=True)
-    html = form.render_field(field_name='optional', field=optional_field)
-    assert 'required' not in html
-
-    # Test with field having default value
-    default_field = String(title='Default', default='default_value')
-    html = form.render_field(field_name='default', field=default_field)
-    assert 'required' not in html
-
-    # Test with field having allow_blank
-    blank_field = String(title='Blank', allow_blank=True)
-    html = form.render_field(field_name='blank', field=blank_field)
-    assert 'required' not in html
-
-    # Test with field having both allow_null and allow_blank
-    nullable_blank_field = String(title='NullableBlank', allow_null=True, allow_blank=True)
-    html = form.render_field(field_name='nullable_blank', field=nullable_blank_field)
-    assert 'required' not in html
-
-    # Test with field having neither allow_null nor allow_blank
-    strict_field = String(title='Strict', allow_null=False, allow_blank=False)
-    html = form.render_field(field_name='strict', field=strict_field)
-    assert 'required' in html
-
-    # Test with field having a custom format not in FORMAT_TO_INPUTTYPE
-    custom_format_field = String(title='Custom', format='custom')
-    html = form.render_field(field_name='custom', field=custom_format_field)
-    assert html == '<input type="text" name="custom" value="" />'
-
-    # Test with field having a format in FORMAT_TO_INPUTTYPE
-    date_field = String(title='Date', format='date')
-    html = form.render_field(field_name='date', field=date_field, value='2023-01-01')
-    assert html == '<input type="date" name="date" value="2023-01-01" />'
-
-    # Test with field having a format that maps to a different input type
-    datetime_field = String(title='DateTime', format='datetime')
-    html = form.render_field(field_name='datetime', field=datetime_field, value='2023-01-01T12:00')
-    assert html == '<input type="datetime-local" name="datetime" value="2023-01-01T12:00" />'
-
-    # Test with field having a format that is not a string (should not happen in practice)
-    non_string_field = Boolean(title='NonString')
-    html = form.render_field(field_name='non_string', field=non_string_field)
-    assert html == '<input type="checkbox" name="non_string"  />'
-
-    # Test with field having a format but not a string field (should not happen in practice)
-    non_string_with_format_field = Boolean(title='NonStringWithFormat', format='text')
-    html = form.render_field(field_name='non_string_with_format', field=non_string_with_format_field)
-    assert html == '<input type="checkbox" name="non_string_with_format"  />'
-
-    # Test with field having a format that is None
-    no_format_field = String(title='NoFormat', format=None)
-    html = form.render_field(field_name='no_format', field=no_format_field)
-    assert html == '<input type="text" name="no_format" value="" />'
-
-    # Test with field having a format that is an empty string
-    empty_format_field = String(title='EmptyFormat', format='')
-    html = form.render_field(field_name='empty_format', field=empty_format_field)
-    assert html == '<input type="text" name="empty_format" value="" />'
-
-    # Test with field having a format that is a whitespace string
-    whitespace_format_field = String(title='WhitespaceFormat', format=' ')
-    html = form.render_field(field_name='whitespace_format', field=whitespace_format_field)
-    assert html == '<input type="text" name="whitespace_format" value="" />'
-
-    # Test with field having a format that is a number (should not happen in practice)
-    number_format_field = String(title='NumberFormat', format=123)
-    html = form.render_field(field_name='number_format', field=number_format_field)
-    assert html == '<input type="text" name="number_format" value="" />'
-
-    # Test with field having a format that is a boolean (should not happen in practice)
-    bool_format_field = String(title='BoolFormat', format=True)
-    html = form.render_field(field_name='bool_format', field=bool_format_field)
-    assert html == '<input type="text" name="bool_format" value="" />'
-
-    # Test with field having a format that is a list (should not happen in practice)
-    list_format_field = String(title='ListFormat', format=['text', 'email'])
-    html = form.render_field(field_name='list_format', field=list_format_field)
-    assert html == '<input type="text" name="list_format" value="" />'
-
-    # Test with field having a format that is a dict (should not happen in practice)
-    dict_format_field = String(title='DictFormat', format={'type': 'text'})
-    html = form.render_field(field_name='dict_format', field=dict_format_field)
-    assert html == '<input type="text" name="dict_format" value="" />'
-
-    # Test with field having a format that is a function (should not happen in practice)
-    def func_format(x):
-        return x
-    func_format_field = String(title='FuncFormat', format=func_format)
-    html = form.render_field(field_name='func_format', field=func_format_field)
-    assert html == '<input type="text" name="func_format" value="" />'
-
-    # Test with field having a format that is a class (should not happen in practice)
-    class ClassFormat:
-        pass
-    class_format_field = String(title='ClassFormat', format=ClassFormat)
-    html = form.render_field(field_name='class_format', field=class_format_field)
-    assert html == '<input type="text" name="class_format" value="" />'
-
-    # Test with field having a format that is an instance (should not happen in practice)
-    instance_format_field = String(title='InstanceFormat', format=ClassFormat())
-    html = form.render_field(f
+# Unit test for method template_for_field of class Form
+def test_Form_template_for_field():
+    pass
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for method template_for_field of class Form
-def test_Form_template_for_field(): 
-    env = jinja2.Environment()
-    schema = Schema()
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader('.'))
+    schema = Schema(fields={'name': String(title='Name')})
     form = Form(env=env, schema=schema)
-    field = Field()
-    assert form.template_for_field(field) == "forms/input.html"
-    field = Choice()
-    assert form.template_for_field(field) == "forms/select.html"
-    field = Boolean()
-    assert form.template_for_field(field) == "forms/checkbox.html"
-    field = String(format="text")
-    assert form.template_for_field(field) == "forms/textarea.html"
-    field = String(format="email")
-    assert form.template_for_field(field) == "forms/input.html"
-    field = Object()
-    try:
-        form.template_for_field(field)
-    except AssertionError as e:
-        assert str(e) == "Forms do not support rendering Object fields"
-    else:
-        assert False, "Expected AssertionError"
+    html = form.render_field(field_name='name', field=String(title='Name'), value='John')
+    assert 'John' in html
+    assert 'Name' in html
 
 
 # LLM-generated content at query #13
 #--------------------------
 
-# Unit test for method render_field of class Form
-def test_Form_render_field(): 
-    # Create a mock jinja2 environment
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    # Create a mock schema
-    schema = Schema(fields={})
-    # Create a Form instance
-    form = Form(env=env, schema=schema)
-    # Call render_field with a mock field
-    result = form.render_field(field_name='test_field', field=String())
-    # Assert that the result is a string
-    assert isinstance(result, str)
+# Unit test for method load_template_env of class Jinja2Forms
+def test_Jinja2Forms_load_template_env():
+    import jinja2
+    import os
+    import pytest
+
+    # Test with directory
+    directory = os.path.dirname(os.path.abspath(__file__))
+    jinja2_forms = Jinja2Forms(directory=directory)
+    assert isinstance(jinja2_forms.env.loader, jinja2.FileSystemLoader)
+
+    # Test with package
+    jinja2_forms = Jinja2Forms(package="typesystem")
+    assert isinstance(jinja2_forms.env.loader, jinja2.PackageLoader)
+
+    # Test with both directory and package
+    jinja2_forms = Jinja2Forms(directory=directory, package="typesystem")
+    assert isinstance(jinja2_forms.env.loader, jinja2.ChoiceLoader)
+
+    # Test with neither directory nor package
+    with pytest.raises(AssertionError):
+        Jinja2Forms()
 
 
 # LLM-generated content at query #14
 #--------------------------
 
 # Unit test for method template_for_field of class Form
-def test_Form_template_for_field(): 
-    # Test for Choice field
-    choice_field = Choice(choices=[("1", "One"), ("2", "Two")])
-    form = Form(env=None, schema=None)
-    assert form.template_for_field(choice_field) == "forms/select.html"
-
-    # Test for Boolean field
-    boolean_field = Boolean()
-    assert form.template_for_field(boolean_field) == "forms/checkbox.html"
-
-    # Test for String field with format "text"
-    string_field = String(format="text")
-    assert form.template_for_field(string_field) == "forms/textarea.html"
-
-    # Test for other fields
-    other_field = String()
-    assert form.template_for_field(other_field) == "forms/input.html"
-
-    # Test for Object field (should raise AssertionError)
-    object_field = Object(properties={})
-    try:
-        form.template_for_field(object_field)
-        assert False, "Expected AssertionError"
-    except AssertionError:
-        pass
-
-
-####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
-####################################################################
-
-
-# LLM-generated content at query #1
-#--------------------------
-
-# Unit test for method render_field of class Form
-def test_Form_render_field(): 
-    # Test case 1: Test with a String field
-    env = jinja2.Environment(loader=jinja2.FileSystemLoader('.'))
-    schema = Schema(fields={'name': String()})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='name', field=String())
-    assert '<input type="text"' in html
-    assert 'name="name"' in html
-
-    # Test case 2: Test with a Choice field
-    schema = Schema(fields={'color': Choice(choices=['red', 'green', 'blue'])})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='color', field=Choice(choices=['red', 'green', 'blue']))
-    assert '<select' in html
-    assert 'name="color"' in html
-
-    # Test case 3: Test with a Boolean field
-    schema = Schema(fields={'active': Boolean()})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='active', field=Boolean())
-    assert '<input type="checkbox"' in html
-    assert 'name="active"' in html
-
-    # Test case 4: Test with a String field with format 'text'
-    schema = Schema(fields={'description': String(format='text')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='description', field=String(format='text'))
-    assert '<textarea' in html
-    assert 'name="description"' in html
-
-    # Test case 5: Test with a String field with format 'email'
-    schema = Schema(fields={'email': String(format='email')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='email', field=String(format='email'))
-    assert '<input type="email"' in html
-    assert 'name="email"' in html
-
-    # Test case 6: Test with a String field with format 'password'
-    schema = Schema(fields={'password': String(format='password')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='password', field=String(format='password'))
-    assert '<input type="password"' in html
-    assert 'name="password"' in html
-
-    # Test case 7: Test with a String field with format 'date'
-    schema = Schema(fields={'birthday': String(format='date')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='birthday', field=String(format='date'))
-    assert '<input type="date"' in html
-    assert 'name="birthday"' in html
-
-    # Test case 8: Test with a String field with format 'datetime'
-    schema = Schema(fields={'appointment': String(format='datetime')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='appointment', field=String(format='datetime'))
-    assert '<input type="datetime-local"' in html
-    assert 'name="appointment"' in html
-
-    # Test case 9: Test with a String field with format 'time'
-    schema = Schema(fields={'alarm': String(format='time')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='alarm', field=String(format='time'))
-    assert '<input type="time"' in html
-    assert 'name="alarm"' in html
-
-    # Test case 10: Test with a String field with format 'url'
-    schema = Schema(fields={'website': String(format='url')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='website', field=String(format='url'))
-    assert '<input type="url"' in html
-    assert 'name="website"' in html
-
-    # Test case 11: Test with a String field with format 'tel'
-    schema = Schema(fields={'phone': String(format='tel')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='phone', field=String(format='tel'))
-    assert '<input type="tel"' in html
-    assert 'name="phone"' in html
-
-    # Test case 12: Test with a String field with format 'number'
-    schema = Schema(fields={'age': String(format='number')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='age', field=String(format='number'))
-    assert '<input type="number"' in html
-    assert 'name="age"' in html
-
-    # Test case 13: Test with a String field with format 'range'
-    schema = Schema(fields={'volume': String(format='range')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='volume', field=String(format='range'))
-    assert '<input type="range"' in html
-    assert 'name="volume"' in html
-
-    # Test case 14: Test with a String field with format 'color'
-    schema = Schema(fields={'color': String(format='color')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='color', field=String(format='color'))
-    assert '<input type="color"' in html
-    assert 'name="color"' in html
-
-    # Test case 15: Test with a String field with format 'search'
-    schema = Schema(fields={'query': String(format='search')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='query', field=String(format='search'))
-    assert '<input type="search"' in html
-    assert 'name="query"' in html
-
-    # Test case 16: Test with a String field with format 'month'
-    schema = Schema(fields={'month': String(format='month')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='month', field=String(format='month'))
-    assert '<input type="month"' in html
-    assert 'name="month"' in html
-
-    # Test case 17: Test with a String field with format 'week'
-    schema = Schema(fields={'week': String(format='week')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='week', field=String(format='week'))
-    assert '<input type="week"' in html
-    assert 'name="week"' in html
-
-    # Test case 18: Test with a String field with format 'hidden'
-    schema = Schema(fields={'secret': String(format='hidden')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='secret', field=String(format='hidden'))
-    assert '<input type="hidden"' in html
-    assert 'name="secret"' in html
-
-    # Test case 19: Test with a String field with format 'text' and error
-    schema = Schema(fields={'description': String(format='text')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='description', field=String(format='text'), error='This field is required.')
-    assert '<textarea' in html
-    assert 'name="description"' in html
-    assert 'This field is required.' in html
-
-    # Test case 20: Test with a String field with format 'text' and value
-    schema = Schema(fields={'description': String(format='text')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='description', field=String(format='text'), value='Hello, world!')
-    assert '<textarea' in html
-    assert 'name="description"' in html
-    assert 'Hello, world!' in html
-
-    # Test case 21: Test with a String field with format 'text' and required
-    schema = Schema(fields={'description': String(format='text', required=True)})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='description', field=String(format='text', required=True))
-    assert '<textarea' in html
-    assert 'name="description"' in html
-    assert 'required' in html
-
-    # Test case 22: Test with a String field with format 'text' and not required
-    schema = Schema(fields={'description': String(format='text', required=False)})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='description', field=String(format='text', required=False))
-    assert '<textarea' in html
-    assert 'name="description"' in html
-    assert 'required' not in html
-
-    # Test case 23: Test with a String field with format 'text' and label
-    schema = Schema(fields={'description': String(format='text', title='Description')})
-    form = Form(env=env, schema=schema)
-    html = form.render_field(field_name='description', field=String(format='text', title='Description'))
-    assert '<textarea' in html
-    assert 'name="description"' in html
-    assert '
-
-
-# LLM-generated content at query #2
-#--------------------------
-
-# Unit test for method __str__ of class Form
-def test_Form___str__(): 
-    # Test case 1: Test with a simple schema
-    class SimpleSchema(Schema):
-        name = String()
-        age = Integer()
-    
-    form = Form(env=None, schema=SimpleSchema())
-    assert str(form) == '<form>\n  <input type="text" name="name">\n  <input type="number" name="age">\n</form>'
-    
-    # Test case 2: Test with a schema with required fields
-    class RequiredSchema(Schema):
-        name = String(required=True)
-        age = Integer(required=True)
-    
-    form = Form(env=None, schema=RequiredSchema())
-    assert str(form) == '<form>\n  <input type="text" name="name" required>\n  <input type="number" name="age" required>\n</form>'
-    
-    # Test case 3: Test with a schema with default values
-    class DefaultSchema(Schema):
-        name = String(default='John')
-        age = Integer(default=30)
-    
-    form = Form(env=None, schema=DefaultSchema())
-    assert str(form) == '<form>\n  <input type="text" name="name" value="John">\n  <input type="number" name="age" value="30">\n</form>'
-    
-    # Test case 4: Test with a schema with choices
-    class ChoiceSchema(Schema):
-        gender = Choice(choices=['male', 'female'])
-    
-    form = Form(env=None, schema=ChoiceSchema())
-    assert str(form) == '<form>\n  <select name="gender">\n    <option value="male">male</option>\n    <option value="female">female</option>\n  </select>\n</form>'
-    
-    # Test case 5: Test with a schema with boolean field
-    class BooleanSchema(Schema):
-        active = Boolean()
-    
-    form = Form(env=None, schema=BooleanSchema())
-    assert str(form) == '<form>\n  <input type="checkbox" name="active">\n</form>'
-    
-    # Test case 6: Test with a schema with textarea field
-    class TextareaSchema(Schema):
-        description = String(format='text')
-    
-    form = Form(env=None, schema=TextareaSchema())
-    assert str(form) == '<form>\n  <textarea name="description"></textarea>\n</form>'
-    
-    # Test case 7: Test with a schema with hidden field
-    class HiddenSchema(Schema):
-        id = String(format='hidden')
-    
-    form = Form(env=None, schema=HiddenSchema())
-    assert str(form) == '<form>\n  <input type="hidden" name="id">\n</form>'
-    
-    # Test case 8: Test with a schema with password field
-    class PasswordSchema(Schema):
-        password = String(format='password')
-    
-    form = Form(env=None, schema=PasswordSchema())
-    assert str(form) == '<form>\n  <input type="password" name="password">\n</form>'
-    
-    # Test case 9: Test with a schema with email field
-    class EmailSchema(Schema):
-        email = String(format='email')
-    
-    form = Form(env=None, schema=EmailSchema())
-    assert str(form) == '<form>\n  <input type="email" name="email">\n</form>'
-    
-    # Test case 10: Test with a schema with url field
-    class UrlSchema(Schema):
-        website = String(format='url')
-    
-    form = Form(env=None, schema=UrlSchema())
-    assert str(form) == '<form>\n  <input type="url" name="website">\n</form>'
-
-
-# LLM-generated content at query #3
-#--------------------------
-
-# Unit test for method input_type_for_field of class Form
-def test_Form_input_type_for_field(): 
-    # Create a mock field with a format attribute
-    class MockField:
-        def __init__(self, format):
-            self.format = format
-
-    # Create a Form instance with a mock environment and schema
-    form = Form(env=None, schema=None)
-
-    # Test with a format that maps to a known input type
-    field = MockField('email')
-    assert form.input_type_for_field(field) == 'email'
-
-    # Test with a format that does not map to a known input type
-    field = MockField('unknown')
-    assert form.input_type_for_field(field) == 'text'
-
-    # Test with a field that does not have a format attribute
-    class MockFieldNoFormat:
-        pass
-
-    field = MockFieldNoFormat()
-    assert form.input_type_for_field(field) == 'text'
-
-
-# LLM-generated content at query #4
-#--------------------------
-
-# Unit test for method template_for_field of class Form
-def test_Form_template_for_field(): 
-    # Test for Choice field
-    choice_field = Choice(choices=[("1", "One"), ("2", "Two")])
-    form = Form(env=None, schema=None)
-    assert form.template_for_field(choice_field) == "forms/select.html"
-    
-    # Test for Boolean field
-    boolean_field = Boolean()
-    assert form.template_for_field(boolean_field) == "forms/checkbox.html"
-    
-    # Test for String field with format "text"
-    string_field = String(format="text")
-    assert form.template_for_field(string_field) == "forms/textarea.html"
-    
-    # Test for other fields
-    other_field = String()
-    assert form.template_for_field(other_field) == "forms/input.html"
-    
-    # Test for Object field (should raise AssertionError)
-    object_field = Object(properties={})
-    try:
-        form.template_for_field(object_field)
-        assert False, "Expected AssertionError"
-    except AssertionError:
-        pass
-
-
-# LLM-generated content at query #5
-#--------------------------
-
-# Unit test for method template_for_field of class Form
-def test_Form_template_for_field(): 
-    # Test for Choice field
-    choice_field = Choice(choices=[("1", "One"), ("2", "Two")])
-    form = Form(env=None, schema=None)
-    template = form.template_for_field(choice_field)
-    assert template == "forms/select.html"
-
-    # Test for Boolean field
-    boolean_field = Boolean()
-    template = form.template_for_field(boolean_field)
-    assert template == "forms/checkbox.html"
-
-    # Test for String field with format 'text'
-    string_field = String(format="text")
-    template = form.template_for_field(string_field)
-    assert template == "forms/textarea.html"
-
-    # Test for other fields
-    other_field = String()
-    template = form.template_for_field(other_field)
-    assert template == "forms/input.html"
-
-    # Test for Object field (should raise AssertionError)
-    object_field = Object(properties={})
-    try:
-        form.template_for_field(object_field)
-        assert False, "Expected AssertionError"
-    except AssertionError:
-        pass
-
-
-# LLM-generated content at query #6
-#--------------------------
-
-# Unit test for method input_type_for_field of class Form
-def test_Form_input_type_for_field(): 
-    # Test with field having no format attribute
-    field = Field()
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test with field having format attribute but not in FORMAT_TO_INPUTTYPE
-    field.format = "unknown"
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE
-    field.format = "email"
-    assert form.input_type_for_field(field) == "email"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "color"
-    assert form.input_type_for_field(field) == "color"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "datetime"
-    assert form.input_type_for_field(field) == "datetime-local"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "date"
-    assert form.input_type_for_field(field) == "date"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "month"
-    assert form.input_type_for_field(field) == "month"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "number"
-    assert form.input_type_for_field(field) == "number"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "password"
-    assert form.input_type_for_field(field) == "password"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "range"
-    assert form.input_type_for_field(field) == "range"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "search"
-    assert form.input_type_for_field(field) == "search"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "tel"
-    assert form.input_type_for_field(field) == "tel"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "time"
-    assert form.input_type_for_field(field) == "time"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "url"
-    assert form.input_type_for_field(field) == "url"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "week"
-    assert form.input_type_for_field(field) == "week"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "text"
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "hidden"
-    assert form.input_type_for_field(field) == "hidden"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "color"
-    assert form.input_type_for_field(field) == "color"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "datetime"
-    assert form.input_type_for_field(field) == "datetime-local"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "date"
-    assert form.input_type_for_field(field) == "date"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "month"
-    assert form.input_type_for_field(field) == "month"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "number"
-    assert form.input_type_for_field(field) == "number"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "password"
-    assert form.input_type_for_field(field) == "password"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "range"
-    assert form.input_type_for_field(field) == "range"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "search"
-    assert form.input_type_for_field(field) == "search"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "tel"
-    assert form.input_type_for_field(field) == "tel"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "time"
-    assert form.input_type_for_field(field) == "time"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "url"
-    assert form.input_type_for_field(field) == "url"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "week"
-    assert form.input_type_for_field(field) == "week"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "text"
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "hidden"
-    assert form.input_type_for_field(field) == "hidden"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "color"
-    assert form.input_type_for_field(field) == "color"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "datetime"
-    assert form.input_type_for_field(field) == "datetime-local"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "date"
-    assert form.input_type_for_field(field) == "date"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "month"
-    assert form.input_type_for_field(field) == "month"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "number"
-    assert form.input_type_for_field(field) == "number"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "password"
-    assert form.input_type_for_field(field) == "password"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "range"
-    assert form.input_type_for_field(field) == "range"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "search"
-    assert form.input_type_for_field(field) == "search"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "tel"
-    assert form.input_type_for_field(field) == "tel"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "time"
-    assert form.input_type_for_field(field) == "time"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "url"
-    assert form.input_type_for_field(field) == "url"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "week"
-    assert form.input_type_for_field(field) == "week"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "text"
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "hidden"
-    assert form.input_type_for_field(field) == "hidden"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "color"
-    assert form.input_type_for_field(field) == "color"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "datetime"
-    assert form.input_type_for_field(field) == "datetime-local"
-    
-    # Test with field having format attribute in FORMAT_TO_INPUTTYPE but not in the list
-    field.format = "date"
-    assert form.input
-
-
-# LLM-generated content at query #7
-#--------------------------
-
-# Unit test for method template_for_field of class Form
-def test_Form_template_for_field(): 
-    # Test for Choice field
-    field = Choice(choices=[("1", "One"), ("2", "Two")])
-    form = Form(env=None, schema=None)
-    assert form.template_for_field(field) == "forms/select.html"
-    
-    # Test for Boolean field
-    field = Boolean()
-    assert form.template_for_field(field) == "forms/checkbox.html"
-    
-    # Test for String field with format "text"
-    field = String(format="text")
-    assert form.template_for_field(field) == "forms/textarea.html"
-    
-    # Test for other fields
-    field = String()
-    assert form.template_for_field(field) == "forms/input.html"
-    
-    # Test for Object field (should raise AssertionError)
-    field = Object(properties={})
-    try:
-        form.template_for_field(field)
-        assert False, "Expected AssertionError"
-    except AssertionError:
-        pass
-
-
-# LLM-generated content at query #8
-#--------------------------
-
-# Unit test for method input_type_for_field of class Form
-def test_Form_input_type_for_field():  # noqa: N802
-    # Test with a field that has a format that maps to an input type
-    field = String(format="email")
-    form = Form(env=None, schema=None)  # type: ignore
-    assert form.input_type_for_field(field) == "email"
-
-    # Test with a field that has a format that does not map to an input type
-    field = String(format="unknown")
-    assert form.input_type_for_field(field) == "text"
-
-    # Test with a field that does not have a format attribute
-    field = String()
-    assert form.input_type_for_field(field) == "text"
-
-    # Test with a field that is not a String
-    field = Boolean()
-    assert form.input_type_for_field(field) == "text"
-
-    # Test with a field that is a Choice
-    field = Choice(choices=[("1", "One"), ("2", "Two")])
-    assert form.input_type_for_field(field) == "text"
-
-    # Test with a field that is an Object
-    field = Object(properties={})
-    try:
-        form.input_type_for_field(field)
-    except AssertionError as e:
-        assert str(e) == "Forms do not support rendering Object fields"
-    else:
-        assert False, "Expected AssertionError"
-
-    # Test with a field that has a format that maps to an input type, but the format is not in FORMAT_TO_INPUTTYPE
-    field = String(format="color")
-    assert form.input_type_for_field(field) == "color"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE
-    field = String(format="datetime")
-    assert form.input_type_for_field(field) == "datetime-local"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a date
-    field = String(format="date")
-    assert form.input_type_for_field(field) == "date"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a month
-    field = String(format="month")
-    assert form.input_type_for_field(field) == "month"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a number
-    field = String(format="number")
-    assert form.input_type_for_field(field) == "number"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a password
-    field = String(format="password")
-    assert form.input_type_for_field(field) == "password"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a range
-    field = String(format="range")
-    assert form.input_type_for_field(field) == "range"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a search
-    field = String(format="search")
-    assert form.input_type_for_field(field) == "search"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a tel
-    field = String(format="tel")
-    assert form.input_type_for_field(field) == "tel"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a time
-    field = String(format="time")
-    assert form.input_type_for_field(field) == "time"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a url
-    field = String(format="url")
-    assert form.input_type_for_field(field) == "url"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a week
-    field = String(format="week")
-    assert form.input_type_for_field(field) == "week"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a hidden
-    field = String(format="hidden")
-    assert form.input_type_for_field(field) == "hidden"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a text
-    field = String(format="text")
-    assert form.input_type_for_field(field) == "text"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a email
-    field = String(format="email")
-    assert form.input_type_for_field(field) == "email"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a datetime
-    field = String(format="datetime")
-    assert form.input_type_for_field(field) == "datetime-local"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a date
-    field = String(format="date")
-    assert form.input_type_for_field(field) == "date"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a month
-    field = String(format="month")
-    assert form.input_type_for_field(field) == "month"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a number
-    field = String(format="number")
-    assert form.input_type_for_field(field) == "number"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a password
-    field = String(format="password")
-    assert form.input_type_for_field(field) == "password"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a range
-    field = String(format="range")
-    assert form.input_type_for_field(field) == "range"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a search
-    field = String(format="search")
-    assert form.input_type_for_field(field) == "search"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a tel
-    field = String(format="tel")
-    assert form.input_type_for_field(field) == "tel"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a time
-    field = String(format="time")
-    assert form.input_type_for_field(field) == "time"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a url
-    field = String(format="url")
-    assert form.input_type_for_field(field) == "url"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a week
-    field = String(format="week")
-    assert form.input_type_for_field(field) == "week"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a hidden
-    field = String(format="hidden")
-    assert form.input_type_for_field(field) == "hidden"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a text
-    field = String(format="text")
-    assert form.input_type_for_field(field) == "text"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a email
-    field = String(format="email")
-    assert form.input_type_for_field(field) == "email"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a datetime
-    field = String(format="datetime")
-    assert form.input_type_for_field(field) == "datetime-local"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a date
-    field = String(format="date")
-    assert form.input_type_for_field(field) == "date"
-
-    # Test with a field that has a format that maps to an input type, but the format is in FORMAT_TO_INPUTTYPE and is a month
-    field = String(format="month")
-    assert form.input_type_for_field(field) == "month"
-
-    # Test with a field that has a format that
-
-
-# LLM-generated content at query #9
-#--------------------------
-
-# Unit test for method input_type_for_field of class Form
-def test_Form_input_type_for_field(): 
-    # Test case 1: field with format "color"
-    field = Field(format="color")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "color"
-
-    # Test case 2: field with format "datetime"
-    field = Field(format="datetime")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "datetime-local"
-
-    # Test case 3: field with format "date"
-    field = Field(format="date")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "date"
-
-    # Test case 4: field with format "email"
-    field = Field(format="email")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "email"
-
-    # Test case 5: field with format "hidden"
-    field = Field(format="hidden")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "hidden"
-
-    # Test case 6: field with format "month"
-    field = Field(format="month")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "month"
-
-    # Test case 7: field with format "number"
-    field = Field(format="number")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "number"
-
-    # Test case 8: field with format "password"
-    field = Field(format="password")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "password"
-
-    # Test case 9: field with format "range"
-    field = Field(format="range")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "range"
-
-    # Test case 10: field with format "search"
-    field = Field(format="search")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "search"
-
-    # Test case 11: field with format "tel"
-    field = Field(format="tel")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "tel"
-
-    # Test case 12: field with format "text"
-    field = Field(format="text")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "text"
-
-    # Test case 13: field with format "time"
-    field = Field(format="time")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "time"
-
-    # Test case 14: field with format "url"
-    field = Field(format="url")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "url"
-
-    # Test case 15: field with format "week"
-    field = Field(format="week")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "week"
-
-    # Test case 16: field with format "unknown"
-    field = Field(format="unknown")
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "text"
-
-    # Test case 17: field with no format
-    field = Field()
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "text"
-
-    # Test case 18: field with format "color" and other attributes
-    field = Field(format="color", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "color"
-
-    # Test case 19: field with format "datetime" and other attributes
-    field = Field(format="datetime", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "datetime-local"
-
-    # Test case 20: field with format "date" and other attributes
-    field = Field(format="date", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "date"
-
-    # Test case 21: field with format "email" and other attributes
-    field = Field(format="email", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "email"
-
-    # Test case 22: field with format "hidden" and other attributes
-    field = Field(format="hidden", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "hidden"
-
-    # Test case 23: field with format "month" and other attributes
-    field = Field(format="month", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "month"
-
-    # Test case 24: field with format "number" and other attributes
-    field = Field(format="number", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "number"
-
-    # Test case 25: field with format "password" and other attributes
-    field = Field(format="password", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "password"
-
-    # Test case 26: field with format "range" and other attributes
-    field = Field(format="range", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "range"
-
-    # Test case 27: field with format "search" and other attributes
-    field = Field(format="search", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "search"
-
-    # Test case 28: field with format "tel" and other attributes
-    field = Field(format="tel", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "tel"
-
-    # Test case 29: field with format "text" and other attributes
-    field = Field(format="text", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "text"
-
-    # Test case 30: field with format "time" and other attributes
-    field = Field(format="time", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "time"
-
-    # Test case 31: field with format "url" and other attributes
-    field = Field(format="url", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "url"
-
-    # Test case 32: field with format "week" and other attributes
-    field = Field(format="week", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "week"
-
-    # Test case 33: field with format "unknown" and other attributes
-    field = Field(format="unknown", required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "text"
-
-    # Test case 34: field with no format and other attributes
-    field = Field(required=True)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "text"
-
-    # Test case 35: field with format "color" and other attributes
-    field = Field(format="color", required=False)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "color"
-
-    # Test case 36: field with format "datetime" and other attributes
-    field = Field(format="datetime", required=False)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "datetime-local"
-
-    # Test case 37: field with format "date" and other attributes
-    field = Field(format="date", required=False)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "date"
-
-    # Test case 38: field with format "email" and other attributes
-    field = Field(format="email", required=False)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "email"
-
-    # Test case 39: field with format "hidden" and other attributes
-    field = Field(format="hidden", required=False)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "hidden"
-
-    # Test case 40: field with format "month" and other attributes
-    field = Field(format="month", required=False)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "month"
-
-    # Test case 41: field with format "number" and other attributes
-    field = Field(format="number", required=False)
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "number
-
-
-# LLM-generated content at query #10
+def test_Form_template_for_field():
+    form = Form(env=None, schema=None, values=None)
+    assert form.template_for_field(String()) == "forms/input.html"
+    assert form.template_for_field(String(format="text")) == "forms/textarea.html"
+    assert form.template_for_field(Boolean()) == "forms/checkbox.html"
+    assert form.template_for_field(Choice()) == "forms/select.html"
+
+
+# LLM-generated content at query #15
 #--------------------------
 
 # Unit test for constructor of class Jinja2Forms
-def test_Jinja2Forms():  # pragma: no cover
+def test_Jinja2Forms():
+    # Test with directory
+    forms = Jinja2Forms(directory="tests/templates")
+    assert forms.env.loader is not None
+    # Test with package
+    forms = Jinja2Forms(package="tests")
+    assert forms.env.loader is not None
+    # Test with both directory and package
+    forms = Jinja2Forms(directory="tests/templates", package="tests")
+    assert forms.env.loader is not None
+    # Test with neither directory nor package
+    try:
+        forms = Jinja2Forms()
+    except AssertionError:
+        pass
+    else:
+        assert False, "Should have raised an AssertionError"
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
     # Test with directory
     forms = Jinja2Forms(directory="templates")
     assert forms.env.loader is not None
@@ -2331,6 +372,2183 @@ def test_Jinja2Forms():  # pragma: no cover
 
     # Test with both directory and package
     forms = Jinja2Forms(directory="templates", package="tests")
+    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    # Setup Jinja2 environment and template
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}">',
+        'forms/textarea.html': '<textarea name="{{ field_name }}" id="{{ field_id }}">{{ value }}</textarea>',
+        'forms/select.html': '<select name="{{ field_name }}" id="{{ field_id }}">{{ value }}</select>',
+        'forms/checkbox.html': '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %}>'
+    }))
+    
+    # Define a simple schema with different field types
+    class TestSchema(Schema):
+        text_field = String(title="Test Text Field", format="text")
+        select_field = Choice(choices=[("option1", "Option 1"), ("option2", "Option 2")])
+        checkbox_field = Boolean(title="Test Checkbox Field")
+        input_field = String(title="Test Input Field")
+    
+    # Create an instance of Form
+    form = Form(env=env, schema=TestSchema)
+    
+    # Test rendering a textarea for a text format String field
+    rendered_text_field = form.render_field(field_name="text_field", field=TestSchema().fields["text_field"])
+    assert '<textarea name="text_field" id="text-field"></textarea>' in rendered_text_field
+    
+    # Test rendering a select for a Choice field
+    rendered_select_field = form.render_field(field_name="select_field", field=TestSchema().fields["select_field"])
+    assert '<select name="select_field" id="select-field"></select>' in rendered_select_field
+    
+    # Test rendering a checkbox for a Boolean field
+    rendered_checkbox_field = form.render_field(field_name="checkbox_field", field=TestSchema().fields["checkbox_field"], value=True)
+    assert '<input type="checkbox" name="checkbox_field" id="checkbox-field" checked>' in rendered_checkbox_field
+    
+    # Test rendering an input for a standard String field
+    rendered_input_field = form.render_field(field_name="input_field", field=TestSchema().fields["input_field"], value="Test Value")
+    assert '<input type="text" name="input_field" id="input-field" value="Test Value">' in rendered_input_field
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        "forms/input.html": """
+        <div>
+            <label for="{{ field_id }}">{{ label }}</label>
+            <input type="{{ input_type }}" id="{{ field_id }}" name="{{ field_name }}" value="{{ value }}" {% if required %}required{% endif %}>
+            {% if error %}<p>{{ error }}</p>{% endif %}
+        </div>
+        """,
+        "forms/textarea.html": """
+        <div>
+            <label for="{{ field_id }}">{{ label }}</label>
+            <textarea id="{{ field_id }}" name="{{ field_name }}" {% if required %}required{% endif %}>{{ value }}</textarea>
+            {% if error %}<p>{{ error }}</p>{% endif %}
+        </div>
+        """,
+        "forms/select.html": """
+        <div>
+            <label for="{{ field_id }}">{{ label }}</label>
+            <select id="{{ field_id }}" name="{{ field_name }}" {% if required %}required{% endif %}>
+                {% for choice in field.choices %}
+                    <option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>{{ choice.text }}</option>
+                {% endfor %}
+            </select>
+            {% if error %}<p>{{ error }}</p>{% endif %}
+        </div>
+        """,
+        "forms/checkbox.html": """
+        <div>
+            <label for="{{ field_id }}">{{ label }}</label>
+            <input type="checkbox" id="{{ field_id }}" name="{{ field_name }}" value="true" {% if value %}checked{% endif %} {% if required %}required{% endif %}>
+            {% if error %}<p>{{ error }}</p>{% endif %}
+        </div>
+        """,
+    }))
+    schema = Schema(
+        fields={
+            "username": String(title="Username"),
+            "password": String(title="Password", format="password"),
+            "description": String(title="Description", format="text"),
+            "role": Choice(title="Role", choices=[("admin", "Admin"), ("user", "User")]),
+            "is_active": Boolean(title="Is Active"),
+        }
+    )
+    form = Form(env=env, schema=schema)
+    assert form.render_field(field_name="username", field=schema.fields["username"]) == """
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" value="" required>
+            <p></p>
+        </div>
+    """
+    assert form.render_field(field_name="password", field=schema.fields["password"]) == """
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" value="" required>
+            <p></p>
+        </div>
+    """
+    assert form.render_field(field_name="description", field=schema.fields["description"]) == """
+        <div>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" required></textarea>
+            <p></p>
+        </div>
+    """
+    assert form.render_field(field_name="role", field=schema.fields["role"]) == """
+        <div>
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+            </select>
+            <p></p>
+        </div>
+    """
+    assert form.render_field(field_name="is_active", field=schema.fields["is_active"]) == """
+        <div>
+            <label for="is-active">Is Active</label>
+            <input type="checkbox" id="is-active" name="is_active" value="true"  required>
+            <p></p>
+        </div>
+    """
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    # Setup
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>',
+        'forms/textarea.html': '<textarea name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{{ value }}</textarea>',
+        'forms/checkbox.html': '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %}>',
+        'forms/select.html': '<select name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{% for choice in field.choices %}<option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>{{ choice.display }}</option>{% endfor %}</select>',
+    }))
+    schema = Schema(fields={
+        'username': String(title='Username', max_length=100),
+        'password': String(title='Password', format='password'),
+        'email': String(title='Email', format='email'),
+        'bio': String(title='Bio', format='text'),
+        'active': Boolean(title='Active'),
+        'role': Choice(title='Role', choices=[
+            {'value': 'admin', 'display': 'Administrator'},
+            {'value': 'user', 'display': 'User'},
+        ]),
+    })
+    form = Form(env=env, schema=schema)
+
+    # Test String field with default input type
+    result = form.render_field(field_name='username', field=schema.fields['username'])
+    assert result == '<input type="text" name="username" id="username" value="" required>'
+
+    # Test String field with password format
+    result = form.render_field(field_name='password', field=schema.fields['password'])
+    assert result == '<input type="password" name="password" id="password" value="" required>'
+
+    # Test String field with email format
+    result = form.render_field(field_name='email', field=schema.fields['email'])
+    assert result == '<input type="email" name="email" id="email" value="" required>'
+
+    # Test String field with text format (textarea)
+    result = form.render_field(field_name='bio', field=schema.fields['bio'])
+    assert result == '<textarea name="bio" id="bio" required></textarea>'
+
+    # Test Boolean field (checkbox)
+    result = form.render_field(field_name='active', field=schema.fields['active'])
+    assert result == '<input type="checkbox" name="active" id="active">'
+
+    # Test Choice field (select)
+    result = form.render_field(field_name='role', field=schema.fields['role'])
+    assert result == '<select name="role" id="role" required><option value="admin">Administrator</option><option value="user">User</option></select>'
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+# Unit test for method template_for_field of class Form
+def test_Form_template_for_field():
+    form = Form(env=jinja2.Environment(), schema=Schema())
+    
+    # Test for Choice field
+    choice_field = Choice(choices=[("1", "One"), ("2", "Two")])
+    assert form.template_for_field(choice_field) == "forms/select.html"
+    
+    # Test for Boolean field
+    boolean_field = Boolean()
+    assert form.template_for_field(boolean_field) == "forms/checkbox.html"
+    
+    # Test for String field with format 'text'
+    string_field_text = String(format="text")
+    assert form.template_for_field(string_field_text) == "forms/textarea.html"
+    
+    # Test for other fields
+    string_field = String()
+    assert form.template_for_field(string_field) == "forms/input.html"
+    
+    # Test for Object field
+    object_field = Object(properties={})
+    try:
+        form.template_for_field(object_field)
+        assert False, "Expected assertion error for Object field"
+    except AssertionError:
+        pass
+
+
+# LLM-generated content at query #21
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test with directory
+    directory = "/path/to/templates"
+    j = Jinja2Forms(directory=directory)
+    assert isinstance(j.env, jinja2.Environment)
+    assert isinstance(j.env.loader, jinja2.FileSystemLoader)
+    assert j.env.loader.searchpath == [directory]
+
+    # Test with package
+    package = "my_package"
+    j = Jinja2Forms(package=package)
+    assert isinstance(j.env, jinja2.Environment)
+    assert isinstance(j.env.loader, jinja2.PackageLoader)
+    assert j.env.loader.package_name == package
+    assert j.env.loader.package_path == "templates"
+
+    # Test with both directory and package
+    directory = "/path/to/templates"
+    package = "my_package"
+    j = Jinja2Forms(directory=directory, package=package)
+    assert isinstance(j.env, jinja2.Environment)
+    assert isinstance(j.env.loader, jinja2.ChoiceLoader)
+    assert len(j.env.loader.loaders) == 2
+    assert isinstance(j.env.loader.loaders[0], jinja2.FileSystemLoader)
+    assert j.env.loader.loaders[0].searchpath == [directory]
+    assert isinstance(j.env.loader.loaders[1], jinja2.PackageLoader)
+    assert j.env.loader.loaders[1].package_name == package
+    assert j.env.loader.loaders[1].package_path == "templates"
+
+
+# LLM-generated content at query #22
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test case 1: directory is provided
+    forms = Jinja2Forms(directory="templates")
+    assert isinstance(forms.env, jinja2.Environment)
+    assert isinstance(forms.env.loader, jinja2.FileSystemLoader)
+    assert forms.env.loader.searchpath == ["templates"]
+
+    # Test case 2: package is provided
+    forms = Jinja2Forms(package="myapp")
+    assert isinstance(forms.env, jinja2.Environment)
+    assert isinstance(forms.env.loader, jinja2.PackageLoader)
+    assert forms.env.loader.package_name == "myapp"
+    assert forms.env.loader.package_path == "templates"
+
+    # Test case 3: both directory and package are provided
+    forms = Jinja2Forms(directory="templates", package="myapp")
+    assert isinstance(forms.env, jinja2.Environment)
+    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+
+    # Test case 4: neither directory nor package is provided (should assert)
+    try:
+        forms = Jinja2Forms()
+        assert False, "Expected an assertion error"
+    except AssertionError:
+        pass
+
+
+# LLM-generated content at query #23
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test without specifying directory or package
+    try:
+        Jinja2Forms()
+    except AssertionError:
+        pass  # Expected assertion error raised
+
+    # Test with directory
+    try:
+        Jinja2Forms(directory="test_dir")
+    except ImportError:
+        pass  # Expected ImportError if jinja2 is not installed
+
+    # Test with package
+    try:
+        Jinja2Forms(package="test_pkg")
+    except ImportError:
+        pass  # Expected ImportError if jinja2 is not installed
+
+    # Test with both directory and package
+    try:
+        Jinja2Forms(directory="test_dir", package="test_pkg")
+    except ImportError:
+        pass  # Expected ImportError if jinja2 is not installed
+
+
+# LLM-generated content at query #24
+#--------------------------
+
+# Unit test for method render_fields of class Form
+def test_Form_render_fields():
+    from typesystem import Integer, String
+    from typesystem.schemas import Schema
+
+    class TestSchema(Schema):
+        name = String(title="Name", max_length=100)
+        age = Integer(title="Age", minimum=0)
+
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        "forms/input.html": '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>',
+    }))
+    form = Form(env=env, schema=TestSchema)
+    form.validate({"name": "John", "age": 30})
+    html = form.render_fields()
+    assert '<input type="text" name="name" id="name" value="John" required>' in html
+    assert '<input type="number" name="age" id="age" value="30" required>' in html
+
+
+# LLM-generated content at query #25
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        "forms/input.html": "<input id='{{ field_id }}' name='{{ field_name }}' type='{{ input_type }}' value='{{ value }}'>",
+        "forms/textarea.html": "<textarea id='{{ field_id }}' name='{{ field_name }}'>{{ value }}</textarea>",
+        "forms/checkbox.html": "<input id='{{ field_id }}' name='{{ field_name }}' type='checkbox' {% if value %}checked{% endif %}>",
+        "forms/select.html": "<select id='{{ field_id }}' name='{{ field_name }}'></select>",
+    }))
+    schema = Schema(fields={"test_field": String(title="Test Field")})
+    form = Form(env=env, schema=schema)
+
+    # Test rendering a text input field
+    field_name = "test_field"
+    field = String(title="Test Field")
+    rendered_field = form.render_field(field_name=field_name, field=field)
+    assert rendered_field == "<input id='test-field' name='test_field' type='text' value=''>"
+
+    # Test rendering a textarea field
+    field = String(title="Test Field", format="text")
+    rendered_field = form.render_field(field_name=field_name, field=field)
+    assert rendered_field == "<textarea id='test-field' name='test_field'></textarea>"
+
+    # Test rendering a checkbox field
+    field = Boolean(title="Test Field")
+    rendered_field = form.render_field(field_name=field_name, field=field)
+    assert rendered_field == "<input id='test-field' name='test_field' type='checkbox'>"
+
+    # Test rendering a select field
+    field = Choice(title="Test Field", choices=[("1", "One"), ("2", "Two")])
+    rendered_field = form.render_field(field_name=field_name, field=field)
+    assert rendered_field == "<select id='test-field' name='test_field'></select>"
+
+
+# LLM-generated content at query #26
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    from typesystem import String, Integer, Boolean, Choice, Object, Array
+
+    # Test with String field
+    field = String(title="Name")
+    form = Form(env=None, schema=None, values={"name": "test"})
+    html = form.render_field(field_name="name", field=field, value="test")
+    assert 'type="text"' in html
+    assert 'value="test"' in html
+
+    # Test with Integer field
+    field = Integer(title="Age")
+    form = Form(env=None, schema=None, values={"age": 25})
+    html = form.render_field(field_name="age", field=field, value=25)
+    assert 'type="number"' in html
+    assert 'value="25"' in html
+
+    # Test with Boolean field
+    field = Boolean(title="Active")
+    form = Form(env=None, schema=None, values={"active": True})
+    html = form.render_field(field_name="active", field=field, value=True)
+    assert 'type="checkbox"' in html
+    assert 'checked' in html
+
+    # Test with Choice field
+    field = Choice(title="Color", choices=[("red", "Red"), ("blue", "Blue")])
+    form = Form(env=None, schema=None, values={"color": "red"})
+    html = form.render_field(field_name="color", field=field, value="red")
+    assert "<select" in html
+    assert 'value="red"' in html
+
+    # Test with error
+    field = String(title="Name")
+    form = Form(env=None, schema=None, values={"name": ""})
+    html = form.render_field(field_name="name", field=field, value="", error="Required")
+    assert 'class="error"' in html
+    assert "Required" in html
+
+
+# LLM-generated content at query #27
+#--------------------------
+
+# Unit test for method load_template_env of class Jinja2Forms
+def test_Jinja2Forms_load_template_env():
+    # Test with directory
+    forms = Jinja2Forms(directory="tests/templates")
+    assert isinstance(forms.env.loader, jinja2.FileSystemLoader)
+    assert forms.env.loader.searchpath == ["tests/templates"]
+
+    # Test with package
+    forms = Jinja2Forms(package="tests")
+    assert isinstance(forms.env.loader, jinja2.PackageLoader)
+    assert forms.env.loader.package_name == "tests"
+    assert forms.env.loader.package_path == "templates"
+
+    # Test with both directory and package
+    forms = Jinja2Forms(directory="tests/templates", package="tests")
+    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+    assert len(forms.env.loader.loaders) == 2
+    assert isinstance(forms.env.loader.loaders[0], jinja2.FileSystemLoader)
+    assert isinstance(forms.env.loader.loaders[1], jinja2.PackageLoader)
+
+
+# LLM-generated content at query #28
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test case 1: Directory is provided
+    try:
+        forms_with_directory = Jinja2Forms(directory="templates")
+        assert forms_with_directory is not None, "Directory initialization failed"
+    except AssertionError as e:
+        print(f"Test case 1 failed: {e}")
+
+    # Test case 2: Package is provided
+    try:
+        forms_with_package = Jinja2Forms(package="tests")
+        assert forms_with_package is not None, "Package initialization failed"
+    except AssertionError as e:
+        print(f"Test case 2 failed: {e}")
+
+    # Test case 3: Both directory and package are provided
+    try:
+        forms_with_both = Jinja2Forms(directory="templates", package="tests")
+        assert forms_with_both is not None, "Both directory and package initialization failed"
+    except AssertionError as e:
+        print(f"Test case 3 failed: {e}")
+
+    # Test case 4: Neither directory nor package is provided
+    try:
+        forms_with_none = Jinja2Forms()
+        assert False, "Expected assertion error when neither directory nor package is provided"
+    except AssertionError as e:
+        assert str(e) == "Either 'directory' or 'package' must be specified.", f"Test case 4 failed: {e}"
+
+
+# LLM-generated content at query #29
+#--------------------------
+
+# Unit test for method load_template_env of class Jinja2Forms
+def test_Jinja2Forms_load_template_env():
+    # Test case 1: directory is specified
+    directory = "test_directory"
+    forms = Jinja2Forms(directory=directory)
+    assert isinstance(forms.env.loader, jinja2.FileSystemLoader)
+    assert forms.env.loader.searchpath == [directory]
+
+    # Test case 2: package is specified
+    package = "test_package"
+    forms = Jinja2Forms(package=package)
+    assert isinstance(forms.env.loader, jinja2.PackageLoader)
+    assert forms.env.loader.package_name == package
+    assert forms.env.loader.package_path == "templates"
+
+    # Test case 3: both directory and package are specified
+    forms = Jinja2Forms(directory=directory, package=package)
+    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+    assert len(forms.env.loader.loaders) == 2
+    assert isinstance(forms.env.loader.loaders[0], jinja2.FileSystemLoader)
+    assert isinstance(forms.env.loader.loaders[1], jinja2.PackageLoader)
+    assert forms.env.loader.loaders[0].searchpath == [directory]
+    assert forms.env.loader.loaders[1].package_name == package
+    assert forms.env.loader.loaders[1].package_path == "templates"
+
+    # Test case 4: neither directory nor package is specified
+    try:
+        forms = Jinja2Forms()
+        assert False, "Expected assertion error"
+    except AssertionError as e:
+        assert str(e) == "Either 'directory' or 'package' must be specified."
+
+    # Test case 5: autoescape is set to True
+    forms = Jinja2Forms(directory=directory)
+    assert forms.env.autoescape == True
+
+    # Test case 6: autoescape is set to False
+    forms = Jinja2Forms(directory=directory)
+    forms.env = forms.load_template_env(directory=directory, autoescape=False)
+    assert forms.env.autoescape == False
+
+    # Test case 7: autoescape is set to a function
+    forms = Jinja2Forms(directory=directory)
+    forms.env = forms.load_template_env(directory=directory, autoescape=lambda x: True)
+    assert forms.env.autoescape == True
+
+    # Test case 8: autoescape is set to a function that returns False
+    forms = Jinja2Forms(directory=directory)
+    forms.env = forms.load_template_env(directory=directory, autoescape=lambda x: False)
+    assert forms.env.autoescape == False
+
+    # Test case 9: autoescape is set to a function that returns True
+    forms = Jinja2Forms(directory=directory)
+    forms.env = forms.load_template_env(directory=directory, autoescape=lambda x: True)
+    assert forms.env.autoescape == True
+
+    # Test case 10: autoescape is set to a function that returns False
+    forms = Jinja2Forms(directory=directory)
+    forms.env = forms.load_template_env(directory=directory, autoescape=lambda x: False)
+    assert forms.env.autoescape == False
+
+
+# LLM-generated content at query #30
+#--------------------------
+
+# Unit test for method render_fields of class Form
+def test_Form_render_fields():
+    from typesystem import Schema, fields
+    from jinja2 import Environment, PackageLoader
+
+    env = Environment(loader=PackageLoader("tests", "templates"))
+    class TestSchema(Schema):
+        name = fields.String(max_length=100)
+        age = fields.Integer()
+
+    form = Form(env=env, schema=TestSchema)
+    form.validate({"name": "test", "age": 20})
+    html = form.render_fields()
+    assert "name" in html
+    assert "age" in html
+    assert "test" in html
+    assert "20" in html
+
+
+# LLM-generated content at query #31
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>',
+        'forms/textarea.html': '<textarea name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{{ value }}</textarea>',
+        'forms/select.html': '<select name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}></select>',
+        'forms/checkbox.html': '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %} {% if required %}required{% endif %}>',
+    }))
+    schema = Schema(fields={
+        'username': String(title='Username', max_length=100),
+        'password': String(title='Password', max_length=100, format='password'),
+        'bio': String(title='Bio', format='text'),
+        'is_active': Boolean(title='Is Active'),
+        'role': Choice(title='Role', choices=[('admin', 'Admin'), ('user', 'User')]),
+    })
+    form = Form(env=env, schema=schema)
+    
+    # Test input type text
+    html = form.render_field(field_name='username', field=schema.fields['username'])
+    assert '<input type="text" name="username" id="username" value="" required>' in html
+    
+    # Test input type password
+    html = form.render_field(field_name='password', field=schema.fields['password'])
+    assert '<input type="password" name="password" id="password" value="" required>' in html
+    
+    # Test textarea
+    html = form.render_field(field_name='bio', field=schema.fields['bio'])
+    assert '<textarea name="bio" id="bio" required></textarea>' in html
+    
+    # Test checkbox
+    html = form.render_field(field_name='is_active', field=schema.fields['is_active'], value=True)
+    assert '<input type="checkbox" name="is_active" id="is-active" checked required>' in html
+    
+    # Test select
+    html = form.render_field(field_name='role', field=schema.fields['role'])
+    assert '<select name="role" id="role" required></select>' in html
+
+
+# LLM-generated content at query #32
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test initialization with directory
+    forms = Jinja2Forms(directory="templates")
+    assert forms.env is not None
+
+    # Test initialization with package
+    forms = Jinja2Forms(package="typesystem.forms")
+    assert forms.env is not None
+
+    # Test initialization with both directory and package
+    forms = Jinja2Forms(directory="templates", package="typesystem.forms")
+    assert forms.env is not None
+
+
+
+# LLM-generated content at query #33
+#--------------------------
+
+# Unit test for method load_template_env of class Jinja2Forms
+def test_Jinja2Forms_load_template_env():
+    # Test with directory parameter
+    forms = Jinja2Forms(directory="tests/templates")
+    assert isinstance(forms.env.loader, jinja2.FileSystemLoader)
+    assert forms.env.loader.searchpath == ["tests/templates"]
+
+    # Test with package parameter
+    forms = Jinja2Forms(package="tests")
+    assert isinstance(forms.env.loader, jinja2.PackageLoader)
+    assert forms.env.loader.package_name == "tests"
+    assert forms.env.loader.package_path == "templates"
+
+    # Test with both directory and package parameters
+    forms = Jinja2Forms(directory="tests/templates", package="tests")
+    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+    loaders = forms.env.loader.loaders
+    assert isinstance(loaders[0], jinja2.FileSystemLoader)
+    assert loaders[0].searchpath == ["tests/templates"]
+    assert isinstance(loaders[1], jinja2.PackageLoader)
+    assert loaders[1].package_name == "tests"
+    assert loaders[1].package_path == "templates"
+
+
+# LLM-generated content at query #34
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
+    schema = Schema(title="TestSchema", fields={"test_field": String(title="Test Field")})
+    form = Form(env=env, schema=schema)
+    rendered_field = form.render_field(field_name="test_field", field=String(title="Test Field"))
+    assert "<label" in rendered_field
+    assert "Test Field" in rendered_field
+
+
+
+# LLM-generated content at query #35
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    # Test render_field method
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
+    schema = Schema(fields={"name": String(title="Name")})
+    form = Form(env=env, schema=schema)
+    field_name = "name"
+    field = String(title="Name")
+    value = "John Doe"
+    error = None
+    rendered_field = form.render_field(field_name=field_name, field=field, value=value, error=error)
+    assert "Name" in rendered_field
+    assert "John Doe" in rendered_field
+    assert "error" not in rendered_field
+
+    # Test with error
+    error = "Invalid name"
+    rendered_field = form.render_field(field_name=field_name, field=field, value=value, error=error)
+    assert "error" in rendered_field
+    assert "Invalid name" in rendered_field
+
+    # Test Choice field
+    field = Choice(choices=[("1", "One"), ("2", "Two")])
+    rendered_field = form.render_field(field_name=field_name, field=field, value=value, error=error)
+    assert "select" in rendered_field
+
+    # Test Boolean field
+    field = Boolean()
+    rendered_field = form.render_field(field_name=field_name, field=field, value=value, error=error)
+    assert "checkbox" in rendered_field
+
+    # Test String field with format text
+    field = String(format="text")
+    rendered_field = form.render_field(field_name=field_name, field=field, value=value, error=error)
+    assert "textarea" in rendered_field
+
+    # Test Object field
+    field = Object(properties={"name": String()})
+    try:
+        rendered_field = form.render_field(field_name=field_name, field=field, value=value, error=error)
+    except AssertionError:
+        pass
+    else:
+        assert False, "Expected AssertionError for Object field"
+
+
+# LLM-generated content at query #36
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    forms = Jinja2Forms(directory="tests/templates")
+    assert forms.env.loader.searchpath == ["tests/templates"]  # type: ignore
+
+
+# LLM-generated content at query #37
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
+    schema = Schema(fields={'username': String(title='Username')})
+    form = Form(env=env, schema=schema)
+    rendered_field = form.render_field(field_name='username', field=String(title='Username'))
+    assert '<label for="username">Username</label>' in rendered_field
+    assert '<input type="text" id="username" name="username"' in rendered_field
+
+
+# LLM-generated content at query #38
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    import jinja2
+    from typesystem.fields import String, Boolean, Choice, Object
+    from typesystem.schemas import Schema
+
+    # Setup Jinja2 environment
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>',
+        'forms/checkbox.html': '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %} {% if required %}required{% endif %}>',
+        'forms/select.html': '<select name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{% for choice in field.choices %}<option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>{{ choice.text }}</option>{% endfor %}</select>',
+        'forms/textarea.html': '<textarea name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{{ value }}</textarea>',
+    }))
+
+    # Test with String field
+    class TestSchema(Schema):
+        name = String(title="Name")
+
+    form = Form(env=env, schema=TestSchema)
+    html = form.render_field(field_name="name", field=String(title="Name"), value="John")
+    assert 'type="text"' in html
+    assert 'name="name"' in html
+    assert 'value="John"' in html
+
+    # Test with Boolean field
+    html = form.render_field(field_name="active", field=Boolean(title="Active"), value=True)
+    assert 'type="checkbox"' in html
+    assert 'checked' in html
+
+    # Test with Choice field
+    choices = [("a", "Option A"), ("b", "Option B")]
+    html = form.render_field(field_name="choice", field=Choice(choices=choices), value="a")
+    assert '<select' in html
+    assert 'selected' in html
+
+    # Test with textarea for String field with format="text"
+    html = form.render_field(field_name="description", field=String(format="text"), value="Test")
+    assert '<textarea' in html
+    assert 'Test' in html
+
+    # Test with error
+    html = form.render_field(field_name="name", field=String(title="Name"), value="", error="Required")
+    assert 'value=""' in html
+    # Note: Error rendering is not part of the template in this test setup
+
+    print("All tests passed.")
+
+test_Form_render_field()
+
+
+# LLM-generated content at query #39
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    Jinja2Forms(directory="templates")
+    Jinja2Forms(package="tests")
+    Jinja2Forms(directory="templates", package="tests")
+    try:
+        Jinja2Forms()
+    except AssertionError:
+        pass
+    else:
+        assert False, "Expected AssertionError"
+
+
+# LLM-generated content at query #40
+#--------------------------
+
+# Unit test for method load_template_env of class Jinja2Forms
+def test_Jinja2Forms_load_template_env():
+    forms = Jinja2Forms(directory="templates")
+    assert isinstance(forms.env.loader, jinja2.FileSystemLoader)
+    assert forms.env.loader.searchpath == ["templates"]
+
+    forms = Jinja2Forms(package="tests")
+    assert isinstance(forms.env.loader, jinja2.PackageLoader)
+    assert forms.env.loader.package_name == "tests"
+    assert forms.env.loader.package_path == "templates"
+
+    forms = Jinja2Forms(directory="templates", package="tests")
+    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+    assert len(forms.env.loader.loaders) == 2
+    assert isinstance(forms.env.loader.loaders[0], jinja2.FileSystemLoader)
+    assert isinstance(forms.env.loader.loaders[1], jinja2.PackageLoader)
+    assert forms.env.loader.loaders[0].searchpath == ["templates"]
+    assert forms.env.loader.loaders[1].package_name == "tests"
+    assert forms.env.loader.loaders[1].package_path == "templates"
+
+
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# LLM-generated content at query #1
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" {% if required %}required{% endif %}>',
+        'forms/textarea.html': '<textarea name="{{ field_name }}" {% if required %}required{% endif %}>{{ value }}</textarea>',
+        'forms/checkbox.html': '<input type="checkbox" name="{{ field_name }}" {% if value %}checked{% endif %}>',
+        'forms/select.html': '<select name="{{ field_name }}" {% if required %}required{% endif %}>{% for choice in field.choices %}<option value="{{ choice }}" {% if choice == value %}selected{% endif %}>{{ choice }}</option>{% endfor %}</select>'
+    }))
+    schema = Schema(fields={
+        'text_field': String(title='Text Field'),
+        'number_field': String(format='number', title='Number Field'),
+        'checkbox_field': Boolean(title='Checkbox Field'),
+        'select_field': Choice(choices=['option1', 'option2'], title='Select Field')
+    })
+    form = Form(env=env, schema=schema)
+
+    # Test text field
+    text_html = form.render_field(field_name='text_field', field=String(title='Text Field'), value='test value')
+    assert text_html == '<input type="text" name="text_field" value="test value" >'
+
+    # Test number field
+    number_html = form.render_field(field_name='number_field', field=String(format='number', title='Number Field'), value=42)
+    assert number_html == '<input type="number" name="number_field" value="42" >'
+
+    # Test checkbox field
+    checkbox_html = form.render_field(field_name='checkbox_field', field=Boolean(title='Checkbox Field'), value=True)
+    assert checkbox_html == '<input type="checkbox" name="checkbox_field" checked>'
+
+    # Test select field
+    select_html = form.render_field(field_name='select_field', field=Choice(choices=['option1', 'option2'], title='Select Field'), value='option1')
+    assert select_html == '<select name="select_field" ><option value="option1" selected>option1</option><option value="option2" >option2</option></select>'
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+# Unit test for method __str__ of class Form
+def test_Form___str__():
+    import typesystem
+
+    class TestSchema(typesystem.Schema):
+        name = typesystem.String(title="Name")
+        email = typesystem.String(title="Email", format="email")
+        age = typesystem.Integer(title="Age")
+    
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
+    form = Form(env=env, schema=TestSchema)
+    
+    # Test rendering without values or errors
+    rendered_form = str(form)
+    assert "Name" in rendered_form
+    assert "Email" in rendered_form
+    assert "Age" in rendered_form
+    assert "required" in rendered_form
+    
+    # Test rendering with values
+    form = Form(env=env, schema=TestSchema, values={"name": "John", "email": "john@example.com", "age": 30})
+    rendered_form = str(form)
+    assert 'value="John"' in rendered_form
+    assert 'value="john@example.com"' in rendered_form
+    assert 'value="30"' in rendered_form
+    
+    # Test rendering with errors
+    form = Form(env=env, schema=TestSchema)
+    form.validate({"name": "", "email": "invalid", "age": "not a number"})
+    rendered_form = str(form)
+    assert "This field is required" in rendered_form
+    assert "Must be a valid email address" in rendered_form
+    assert "Must be a number" in rendered_form
+
+
+# LLM-generated content at query #3
+#--------------------------
+
+# Unit test for method input_type_for_field of class Form
+def test_Form_input_type_for_field():
+    form = Form(env=None, schema=None)  # type: ignore
+    field = Field()
+    assert form.input_type_for_field(field) == "text"
+    field = String(format="email")
+    assert form.input_type_for_field(field) == "email"
+    field = String(format="datetime")
+    assert form.input_type_for_field(field) == "datetime-local"
+    field = String(format="date")
+    assert form.input_type_for_field(field) == "date"
+    field = String(format="color")
+    assert form.input_type_for_field(field) == "color"
+    field = String(format="month")
+    assert form.input_type_for_field(field) == "month"
+    field = String(format="number")
+    assert form.input_type_for_field(field) == "number"
+    field = String(format="password")
+    assert form.input_type_for_field(field) == "password"
+    field = String(format="range")
+    assert form.input_type_for_field(field) == "range"
+    field = String(format="search")
+    assert form.input_type_for_field(field) == "search"
+    field = String(format="tel")
+    assert form.input_type_for_field(field) == "tel"
+    field = String(format="time")
+    assert form.input_type_for_field(field) == "time"
+    field = String(format="url")
+    assert form.input_type_for_field(field) == "url"
+    field = String(format="week")
+    assert form.input_type_for_field(field) == "week"
+    field = String(format="unknown")
+    assert form.input_type_for_field(field) == "text"
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+# Unit test for method template_for_field of class Form
+def test_Form_template_for_field():
+    # Test Choice field
+    choice_field = Choice(choices=[("option1", "Option 1"), ("option2", "Option 2")])
+    assert Form.template_for_field(None, choice_field) == "forms/select.html"
+
+    # Test Boolean field
+    boolean_field = Boolean()
+    assert Form.template_for_field(None, boolean_field) == "forms/checkbox.html"
+
+    # Test String field with format "text"
+    string_field_text = String(format="text")
+    assert Form.template_for_field(None, string_field_text) == "forms/textarea.html"
+
+    # Test String field with format "email"
+    string_field_email = String(format="email")
+    assert Form.template_for_field(None, string_field_email) == "forms/input.html"
+
+    # Test Object field (should raise assertion)
+    object_field = Object(properties={"name": String()})
+    try:
+        Form.template_for_field(None, object_field)
+        assert False, "Expected AssertionError for Object field"
+    except AssertionError:
+        pass
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+# Unit test for method template_for_field of class Form
+def test_Form_template_for_field():
+    form = Form(env=None, schema=None)  # type: ignore
+    # Test with Choice field
+    choice_field = Choice(choices=[("a", "A"), ("b", "B")])
+    assert form.template_for_field(choice_field) == "forms/select.html"
+    # Test with Boolean field
+    boolean_field = Boolean()
+    assert form.template_for_field(boolean_field) == "forms/checkbox.html"
+    # Test with String field with format 'text'
+    string_field_text = String(format="text")
+    assert form.template_for_field(string_field_text) == "forms/textarea.html"
+    # Test with String field without format 'text'
+    string_field = String()
+    assert form.template_for_field(string_field) == "forms/input.html"
+    # Test with Object field (should raise AssertionError)
+    object_field = Object(properties={})
+    try:
+        form.template_for_field(object_field)
+        assert False, "Expected AssertionError"
+    except AssertionError:
+        pass
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+# Unit test for method template_for_field of class Form
+def test_Form_template_for_field():
+    form = Form(env=None, schema=None)
+    assert form.template_for_field(Choice(choices=[("a", "A")])) == "forms/select.html"
+    assert form.template_for_field(Boolean()) == "forms/checkbox.html"
+    assert form.template_for_field(String(format="text")) == "forms/textarea.html"
+    assert form.template_for_field(String()) == "forms/input.html"
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    # Initialize Jinja2Forms with a template directory or package
+    forms = Jinja2Forms(directory="tests/templates")
+    # Create a schema with a String field
+    class TestSchema(Schema):
+        name = String(title="Name", description="Your name", max_length=100)
+    schema = TestSchema()
+    form = forms.create_form(schema=schema)
+    # Render the field
+    html = form.render_field(field_name="name", field=schema.fields["name"])
+    # Check if the rendered HTML contains expected elements
+    assert "input" in html
+    assert 'type="text"' in html
+    assert 'name="name"' in html
+    assert 'id="name"' in html
+    assert 'required' in html
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test initialization with directory
+    forms = Jinja2Forms(directory="templates")
+    assert forms.env.loader is not None
+
+    # Test initialization with package
+    forms = Jinja2Forms(package="tests")
+    assert forms.env.loader is not None
+
+    # Test initialization with both directory and package
+    forms = Jinja2Forms(directory="templates", package="tests")
+    assert forms.env.loader is not None
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+# Unit test for method create_form of class Jinja2Forms
+def test_Jinja2Forms_create_form():
+    class TestSchema(Schema):
+        name = String(title="Name")
+        age = String(title="Age")
+
+    # Arrange
+    jinja_forms = Jinja2Forms(directory="./templates")
+
+    # Act
+    form = jinja_forms.create_form(schema=TestSchema, values={"name": "John", "age": "30"})
+
+    # Assert
+    assert isinstance(form, Form)
+    assert form.schema == TestSchema
+    assert form.values == {"name": "John", "age": "30"}
+
+
+# LLM-generated content at query #10
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    try:
+        Jinja2Forms(directory="test_directory")
+        assert False
+    except AssertionError:
+        assert True
+
+
+# LLM-generated content at query #11
+#--------------------------
+
+# Unit test for method template_for_field of class Form
+def test_Form_template_for_field():
+    form = Form(env=jinja2.Environment(loader=jinja2.FileSystemLoader("templates")), schema=Schema())
+    
+    # Test with Choice field
+    choice_field = Choice(choices=[("option1", "Option 1"), ("option2", "Option 2")])
+    assert form.template_for_field(choice_field) == "forms/select.html"
+    
+    # Test with Boolean field
+    boolean_field = Boolean()
+    assert form.template_for_field(boolean_field) == "forms/checkbox.html"
+    
+    # Test with String field with format "text"
+    text_field = String(format="text")
+    assert form.template_for_field(text_field) == "forms/textarea.html"
+    
+    # Test with String field with format "email"
+    email_field = String(format="email")
+    assert form.template_for_field(email_field) == "forms/input.html"
+    
+    # Test with String field without format
+    string_field = String()
+    assert form.template_for_field(string_field) == "forms/input.html"
+    
+    # Test with Object field should raise assertion
+    object_field = Object()
+    try:
+        form.template_for_field(object_field)
+    except AssertionError:
+        pass
+    else:
+        assert False, "Expected AssertionError for Object field"
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+# Unit test for method load_template_env of class Jinja2Forms
+def test_Jinja2Forms_load_template_env():
+    # Test with directory
+    forms_with_directory = Jinja2Forms(directory="templates")
+    assert isinstance(forms_with_directory.env.loader, jinja2.FileSystemLoader)
+    assert forms_with_directory.env.loader.searchpath == ["templates"]
+
+    # Test with package
+    forms_with_package = Jinja2Forms(package="forms")
+    assert isinstance(forms_with_package.env.loader, jinja2.PackageLoader)
+    assert forms_with_package.env.loader.package_name == "forms"
+    assert forms_with_package.env.loader.package_path == "templates"
+
+    # Test with both directory and package
+    forms_with_both = Jinja2Forms(directory="templates", package="forms")
+    assert isinstance(forms_with_both.env.loader, jinja2.ChoiceLoader)
+    assert len(forms_with_both.env.loader.loaders) == 2
+    assert isinstance(forms_with_both.env.loader.loaders[0], jinja2.FileSystemLoader)
+    assert isinstance(forms_with_both.env.loader.loaders[1], jinja2.PackageLoader)
+
+
+# LLM-generated content at query #13
+#--------------------------
+
+# Unit test for method create_form of class Jinja2Forms
+def test_Jinja2Forms_create_form():
+    # Mock schema and values
+    class TestSchema(Schema):
+        name = String(max_length=100)
+        age = Integer(minimum=0)
+
+    schema = TestSchema()
+    values = {"name": "John", "age": 30}
+
+    # Initialize Jinja2Forms with a package
+    forms = Jinja2Forms(package="tests")
+
+    # Create form
+    form = forms.create_form(schema, values)
+
+    # Assert form is created with correct schema and values
+    assert form.schema == schema
+    assert form.values == values
+    assert form.errors is None
+    assert not form._validate_called
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        "forms/input.html": """
+        <div>
+            <label for="{{ field_id }}">{{ label }}</label>
+            <input type="{{ input_type }}" id="{{ field_id }}" name="{{ field_name }}" value="{{ value }}" {% if required %}required{% endif %}>
+            {% if error %}<p>{{ error }}</p>{% endif %}
+        </div>
+        """,
+        "forms/textarea.html": """
+        <div>
+            <label for="{{ field_id }}">{{ label }}</label>
+            <textarea id="{{ field_id }}" name="{{ field_name }}" {% if required %}required{% endif %}>{{ value }}</textarea>
+            {% if error %}<p>{{ error }}</p>{% endif %}
+        </div>
+        """,
+        "forms/checkbox.html": """
+        <div>
+            <label for="{{ field_id }}">{{ label }}</label>
+            <input type="checkbox" id="{{ field_id }}" name="{{ field_name }}" {% if value %}checked{% endif %} {% if required %}required{% endif %}>
+            {% if error %}<p>{{ error }}</p>{% endif %}
+        </div>
+        """,
+        "forms/select.html": """
+        <div>
+            <label for="{{ field_id }}">{{ label }}</label>
+            <select id="{{ field_id }}" name="{{ field_name }}" {% if required %}required{% endif %}>
+                {% for choice in field.choices %}
+                    <option value="{{ choice }}" {% if choice == value %}selected{% endif %}>{{ choice }}</option>
+                {% endfor %}
+            </select>
+            {% if error %}<p>{{ error }}</p>{% endif %}
+        </div>
+        """
+    }))
+    schema = Schema(fields={"name": String(title="Name", min_length=1)})
+    form = Form(env=env, schema=schema)
+    rendered_field = form.render_field(field_name="name", field=String(title="Name", min_length=1), value="John", error=None)
+    expected_field = """
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" value="John" required>
+        </div>
+    """
+    assert rendered_field.strip() == expected_field.strip()
+
+    # Test textarea field
+    schema = Schema(fields={"bio": String(title="Bio", format="text")})
+    form = Form(env=env, schema=schema)
+    rendered_field = form.render_field(field_name="bio", field=String(title="Bio", format="text"), value="Hello, World!", error=None)
+    expected_field = """
+        <div>
+            <label for="bio">Bio</label>
+            <textarea id="bio" name="bio" required>Hello, World!</textarea>
+        </div>
+    """
+    assert rendered_field.strip() == expected_field.strip()
+
+    # Test checkbox field
+    schema = Schema(fields={"active": Boolean(title="Active")})
+    form = Form(env=env, schema=schema)
+    rendered_field = form.render_field(field_name="active", field=Boolean(title="Active"), value=True, error=None)
+    expected_field = """
+        <div>
+            <label for="active">Active</label>
+            <input type="checkbox" id="active" name="active" checked>
+        </div>
+    """
+    assert rendered_field.strip() == expected_field.strip()
+
+    # Test select field
+    choices = ["Red", "Green", "Blue"]
+    schema = Schema(fields={"color": Choice(title="Color", choices=choices)})
+    form = Form(env=env, schema=schema)
+    rendered_field = form.render_field(field_name="color", field=Choice(title="Color", choices=choices), value="Green", error=None)
+    expected_field = """
+        <div>
+            <label for="color">Color</label>
+            <select id="color" name="color" required>
+                <option value="Red">Red</option>
+                <option value="Green" selected>Green</option>
+                <option value="Blue">Blue</option>
+            </select>
+        </div>
+    """
+    assert rendered_field.strip() == expected_field.strip()
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+# Unit test for method create_form of class Jinja2Forms
+def test_Jinja2Forms_create_form():
+    from typesystem import Schema, String
+
+    class TestSchema(Schema):
+        name = String(title="Name", max_length=100)
+
+    jinja2_forms = Jinja2Forms(directory="templates")
+    form = jinja2_forms.create_form(TestSchema)
+    assert isinstance(form, Form)
+    assert form.schema == TestSchema
+    assert form.values == {}
+    assert form.errors is None
+    assert form._validate_called is False
+
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    # Setup test environment
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" {% if required %}required{% endif %}>',
+        'forms/checkbox.html': '<input type="checkbox" name="{{ field_name }}" {% if value %}checked{% endif %}>',
+        'forms/select.html': '<select name="{{ field_name }}">{% for choice in field.choices %}<option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>{{ choice.display }}</option>{% endfor %}</select>',
+        'forms/textarea.html': '<textarea name="{{ field_name }}">{{ value }}</textarea>'
+    }))
+    
+    # Test case 1: String field with text format
+    string_field = String(title="Test String", format="text")
+    form = Form(env=env, schema=Schema(fields={"test_field": string_field}))
+    rendered = form.render_field(field_name="test_field", field=string_field, value="test value")
+    assert rendered == '<textarea name="test_field">test value</textarea>'
+    
+    # Test case 2: Boolean field
+    boolean_field = Boolean(title="Test Boolean")
+    form = Form(env=env, schema=Schema(fields={"test_field": boolean_field}))
+    rendered = form.render_field(field_name="test_field", field=boolean_field, value=True)
+    assert rendered == '<input type="checkbox" name="test_field" checked>'
+    
+    # Test case 3: Choice field
+    choice_field = Choice(choices=[("option1", "Option 1"), ("option2", "Option 2")])
+    form = Form(env=env, schema=Schema(fields={"test_field": choice_field}))
+    rendered = form.render_field(field_name="test_field", field=choice_field, value="option1")
+    assert rendered == '<select name="test_field"><option value="option1" selected>Option 1</option><option value="option2">Option 2</option></select>'
+    
+    # Test case 4: String field with email format
+    email_field = String(title="Test Email", format="email")
+    form = Form(env=env, schema=Schema(fields={"test_field": email_field}))
+    rendered = form.render_field(field_name="test_field", field=email_field, value="test@example.com")
+    assert rendered == '<input type="email" name="test_field" value="test@example.com">'
+    
+    # Test case 5: Field with error
+    error_field = String(title="Test Error")
+    form = Form(env=env, schema=Schema(fields={"test_field": error_field}))
+    rendered = form.render_field(field_name="test_field", field=error_field, value="", error="This field is required")
+    assert 'value=""' in rendered
+    assert 'This field is required' in rendered
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+# Unit test for method create_form of class Jinja2Forms
+def test_Jinja2Forms_create_form():
+    from typesystem import Schema, fields
+
+    class TestSchema(Schema):
+        name = fields.String(max_length=100)
+        age = fields.Integer(minimum=0)
+
+    forms = Jinja2Forms(directory="tests/templates")
+    form = forms.create_form(TestSchema, values={"name": "John", "age": 30})
+
+    assert isinstance(form, Form)
+    assert form.schema == TestSchema
+    assert form.values == {"name": "John", "age": 30}
+    assert form.errors is None
+    assert not form._validate_called
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+# Unit test for method template_for_field of class Form
+def test_Form_template_for_field():
+    # Test for Choice field
+    choice_field = Choice(choices=[("1", "Option 1"), ("2", "Option 2")])
+    form = Form(env=jinja2.Environment(), schema=Schema(fields={}))
+    assert form.template_for_field(choice_field) == "forms/select.html"
+
+    # Test for Boolean field
+    boolean_field = Boolean()
+    assert form.template_for_field(boolean_field) == "forms/checkbox.html"
+
+    # Test for String field with format "text"
+    string_field_text = String(format="text")
+    assert form.template_for_field(string_field_text) == "forms/textarea.html"
+
+    # Test for String field without format "text"
+    string_field_default = String()
+    assert form.template_for_field(string_field_default) == "forms/input.html"
+
+    # Test for Object field (should raise assertion error)
+    object_field = Object(properties={})
+    try:
+        form.template_for_field(object_field)
+        assert False, "Expected assertion error for Object field"
+    except AssertionError:
+        pass
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    forms = Jinja2Forms(directory="templates")
+    assert forms.env.loader.searchpath == ["templates"]
+    forms = Jinja2Forms(package="tests")
+    assert forms.env.loader.package_name == "tests"
+    forms = Jinja2Forms(directory="templates", package="tests")
+    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
+    schema = Schema(fields={'username': String(title='Username')})
+    form = Form(env=env, schema=schema)
+    rendered_field = form.render_field(field_name='username', field=String(title='Username'), value='testuser')
+    assert 'Username' in rendered_field
+    assert 'testuser' in rendered_field
+    assert 'input' in rendered_field
+
+
+
+# LLM-generated content at query #21
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    try:
+        Jinja2Forms(directory="templates")
+        Jinja2Forms(package="tests")
+    except AssertionError:
+        pass  # Expected failure when neither directory nor package is specified
+    else:
+        raise AssertionError("Expected AssertionError when neither directory nor package is specified")
+
+
+# LLM-generated content at query #22
+#--------------------------
+
+# Unit test for method create_form of class Jinja2Forms
+def test_Jinja2Forms_create_form():
+    # Test case 1: Create a form with a schema and no values
+    schema = Schema(fields={"name": String()})
+    forms = Jinja2Forms(directory="tests/templates")
+    form = forms.create_form(schema)
+    assert form.schema == schema
+    assert form.values == {}
+    assert form.errors is None
+    assert not form._validate_called
+
+    # Test case 2: Create a form with a schema and values
+    values = {"name": "test"}
+    form = forms.create_form(schema, values)
+    assert form.schema == schema
+    assert form.values == values
+    assert form.errors is None
+    assert not form._validate_called
+
+    # Test case 3: Create a form with a schema and values that are not valid
+    values = {"name": 123}
+    form = forms.create_form(schema, values)
+    assert form.schema == schema
+    assert form.values == values
+    assert form.errors is None
+    assert not form._validate_called
+
+
+# LLM-generated content at query #23
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    # Test case 1: Test with a String field
+    field = String(title="Test Field", allow_null=True)
+    form = Form(env=None, schema=None, values=None)
+    result = form.render_field(field_name="test_field", field=field)
+    assert "Test Field" in result
+    assert "test-field" in result
+    assert "text" in result
+
+    # Test case 2: Test with a Boolean field
+    field = Boolean(title="Test Checkbox")
+    result = form.render_field(field_name="test_checkbox", field=field)
+    assert "Test Checkbox" in result
+    assert "test-checkbox" in result
+    assert "checkbox" in result
+
+    # Test case 3: Test with a Choice field
+    field = Choice(choices=[("option1", "Option 1"), ("option2", "Option 2")])
+    result = form.render_field(field_name="test_choice", field=field)
+    assert "test-choice" in result
+    assert "select" in result
+    assert "Option 1" in result
+    assert "Option 2" in result
+
+    # Test case 4: Test with a String field with format "text"
+    field = String(title="Test Textarea", format="text")
+    result = form.render_field(field_name="test_textarea", field=field)
+    assert "Test Textarea" in result
+    assert "test-textarea" in result
+    assert "textarea" in result
+
+    # Test case 5: Test with a String field with format "email"
+    field = String(title="Test Email", format="email")
+    result = form.render_field(field_name="test_email", field=field)
+    assert "Test Email" in result
+    assert "test-email" in result
+    assert "email" in result
+
+    # Test case 6: Test with a String field with format "password"
+    field = String(title="Test Password", format="password")
+    result = form.render_field(field_name="test_password", field=field)
+    assert "Test Password" in result
+    assert "test-password" in result
+    assert "password" in result
+    assert "value" not in result  # Password fields should not have a value attribute
+
+    # Test case 7: Test with a required field
+    field = String(title="Required Field", allow_null=False)
+    result = form.render_field(field_name="required_field", field=field)
+    assert "required" in result
+
+    # Test case 8: Test with a field that has a value
+    field = String(title="Field with Value")
+    result = form.render_field(field_name="field_with_value", field=field, value="test value")
+    assert "test value" in result
+
+    # Test case 9: Test with a field that has an error
+    field = String(title="Field with Error")
+    result = form.render_field(field_name="field_with_error", field=field, error="Test error")
+    assert "Test error" in result
+
+    # Test case 10: Test with a field that has a custom format
+    field = String(title="Custom Format Field", format="color")
+    result = form.render_field(field_name="custom_format_field", field=field)
+    assert "color" in result
+
+
+# LLM-generated content at query #24
+#--------------------------
+
+# Unit test for method create_form of class Jinja2Forms
+def test_Jinja2Forms_create_form():
+    class TestSchema(Schema):
+        name = String(title="Name", max_length=100)
+        age = String(title="Age")
+
+    forms = Jinja2Forms(directory="tests/templates")
+    form = forms.create_form(TestSchema, values={"name": "John", "age": "30"})
+
+    assert form.schema == TestSchema
+    assert form.values == {"name": "John", "age": "30"}
+    assert form.errors is None
+    assert form._validate_called is False
+
+
+# LLM-generated content at query #25
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Testing initialization with directory
+    Jinja2Forms(directory="tests/templates")
+    # Testing initialization with package
+    Jinja2Forms(package="tests")
+    # Testing initialization with both directory and package
+    Jinja2Forms(directory="tests/templates", package="tests")
+
+
+
+# LLM-generated content at query #26
+#--------------------------
+
+# Unit test for method render_fields of class Form
+def test_Form_render_fields():
+    from typesystem import Schema, String, Integer, Array, Object, Boolean, Choice
+
+    class Person(Schema):
+        name = String(title="Name", min_length=1)
+        age = Integer(title="Age", minimum=0)
+        hobbies = Array(items=String(title="Hobby"), title="Hobbies")
+        is_student = Boolean(title="Is Student")
+        gender = Choice(
+            choices=[("M", "Male"), ("F", "Female")], title="Gender", default="M"
+        )
+
+    env = Jinja2Forms(directory="templates").env
+    form = Form(env=env, schema=Person)
+
+    # Test rendering with no values and no errors
+    html = form.render_fields()
+    assert html != ""
+
+    # Test rendering with values
+    form = Form(env=env, schema=Person, values={"name": "John", "age": 30})
+    html = form.render_fields()
+    assert 'value="John"' in html
+    assert 'value="30"' in html
+
+    # Test rendering with errors
+    form.validate({"name": "", "age": -5})
+    html = form.render_fields()
+    assert "error" in html
+    assert "This field is required" in html
+    assert "Must be greater than or equal to 0" in html
+
+
+# LLM-generated content at query #27
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test with directory parameter
+    forms = Jinja2Forms(directory="templates")
+    assert forms.env.loader.searchpath == ["templates"]
+
+    # Test with package parameter
+    forms = Jinja2Forms(package="tests")
+    assert isinstance(forms.env.loader, jinja2.PackageLoader)
+
+    # Test with both directory and package parameters
+    forms = Jinja2Forms(directory="templates", package="tests")
+    assert len(forms.env.loader.loaders) == 2
+
+    # Test with neither directory nor package parameters
+    try:
+        forms = Jinja2Forms()
+        assert False, "Expected assertion error"
+    except AssertionError:
+        pass
+
+
+# LLM-generated content at query #28
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" id="{{ field_id }}" {% if required %}required{% endif %}>',
+        'forms/select.html': '<select name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{% for choice in field.choices %}<option value="{{ choice }}" {% if choice == value %}selected{% endif %}>{{ choice }}</option>{% endfor %}</select>',
+        'forms/checkbox.html': '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %}>',
+        'forms/textarea.html': '<textarea name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{{ value }}</textarea>',
+    }))
+    schema = Schema({
+        'field_name': String(title='Test Field', format='email'),
+        'choice_field': Choice(choices=['option1', 'option2']),
+        'bool_field': Boolean(),
+        'text_field': String(format='text'),
+    })
+    form = Form(env=env, schema=schema)
+    
+    # Test input field
+    input_html = form.render_field(field_name='field_name', field=String(title='Test Field', format='email'), value='test@example.com')
+    assert input_html == '<input type="email" name="field_name" value="test@example.com" id="field-name" required>'
+    
+    # Test select field
+    select_html = form.render_field(field_name='choice_field', field=Choice(choices=['option1', 'option2']), value='option1')
+    assert select_html == '<select name="choice_field" id="choice-field" required><option value="option1" selected>option1</option><option value="option2">option2</option></select>'
+    
+    # Test checkbox field
+    checkbox_html = form.render_field(field_name='bool_field', field=Boolean(), value=True)
+    assert checkbox_html == '<input type="checkbox" name="bool_field" id="bool-field" checked>'
+    
+    # Test textarea field
+    textarea_html = form.render_field(field_name='text_field', field=String(format='text'), value='Hello World')
+    assert textarea_html == '<textarea name="text_field" id="text-field" required>Hello World</textarea>'
+    
+    # Test field with error
+    error_html = form.render_field(field_name='field_name', field=String(title='Test Field', format='email'), value='', error='Invalid email')
+    assert error_html == '<input type="email" name="field_name" value="" id="field-name" required>'
+
+
+# LLM-generated content at query #29
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test with directory
+    forms = Jinja2Forms(directory="templates")
+    assert forms.env.loader is not None
+
+    # Test with package
+    forms = Jinja2Forms(package="tests")
+    assert forms.env.loader is not None
+
+    # Test with both directory and package
+    forms = Jinja2Forms(directory="templates", package="tests")
+    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+
+    # Test with neither directory nor package (should raise AssertionError)
+    try:
+        forms = Jinja2Forms()
+    except AssertionError:
+        pass
+    else:
+        assert False, "Expected AssertionError"
+
+
+# LLM-generated content at query #30
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    # Create a mock jinja2 environment
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': 'input template',
+        'forms/textarea.html': 'textarea template',
+        'forms/checkbox.html': 'checkbox template',
+        'forms/select.html': 'select template'
+    }))
+
+    # Create a mock schema with fields
+    class TestSchema(Schema):
+        text_field = String(title="Text Field")
+        textarea_field = String(format="text", title="Textarea Field")
+        checkbox_field = Boolean(title="Checkbox Field")
+        select_field = Choice(choices=[("1", "One"), ("2", "Two")], title="Select Field")
+
+    schema = TestSchema()
+
+    # Create a form instance
+    form = Form(env=env, schema=schema)
+
+    # Test rendering a text input field
+    rendered = form.render_field(field_name="text_field", field=schema.fields["text_field"])
+    assert rendered == "input template"
+
+    # Test rendering a textarea field
+    rendered = form.render_field(field_name="textarea_field", field=schema.fields["textarea_field"])
+    assert rendered == "textarea template"
+
+    # Test rendering a checkbox field
+    rendered = form.render_field(field_name="checkbox_field", field=schema.fields["checkbox_field"])
+    assert rendered == "checkbox template"
+
+    # Test rendering a select field
+    rendered = form.render_field(field_name="select_field", field=schema.fields["select_field"])
+    assert rendered == "select template"
+
+
+# LLM-generated content at query #31
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" />',
+    }))
+    field = String(title="Test Field")
+    form = Form(env=env, schema=Schema(fields={"test_field": field}))
+    rendered = form.render_field(field_name="test_field", field=field, value="test value")
+    assert rendered == '<input type="text" name="test_field" id="test-field" value="test value" />'
+
+
+# LLM-generated content at query #32
+#--------------------------
+
+# Unit test for method render_fields of class Form
+def test_Form_render_fields():
+    class UserSchema(Schema):
+        name = String(title="Name")
+        email = String(title="Email", format="email")
+
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': '''
+            <input type="{{ input_type }}" id="{{ field_id }}" name="{{ field_name }}" value="{{ value }}">
+        ''',
+    }))
+
+    form = Form(env=env, schema=UserSchema(), values={'name': 'John', 'email': 'john@example.com'})
+    rendered_fields = form.render_fields()
+
+    assert 'name' in rendered_fields
+    assert 'email' in rendered_fields
+    assert 'John' in rendered_fields
+    assert 'john@example.com' in rendered_fields
+
+
+# LLM-generated content at query #33
+#--------------------------
+
+# Unit test for method render_fields of class Form
+def test_Form_render_fields():
+    env = Jinja2Forms(directory="tests/templates").env
+    class TestSchema(Schema):
+        name = String(title="Name")
+        age = String(title="Age")
+    schema = TestSchema()
+    form = Form(env=env, schema=schema)
+    html = form.render_fields()
+    assert "Name" in html
+    assert "Age" in html
+
+
+# LLM-generated content at query #34
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    forms = Jinja2Forms(directory="tests/data")
+    assert forms.env.loader
+    assert isinstance(forms.env.loader, jinja2.FileSystemLoader)
+    forms = Jinja2Forms(package="tests")
+    assert forms.env.loader
+    assert isinstance(forms.env.loader, jinja2.PackageLoader)
+
+
+
+# LLM-generated content at query #35
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        'forms/input.html': 'input template',
+        'forms/textarea.html': 'textarea template',
+        'forms/checkbox.html': 'checkbox template',
+        'forms/select.html': 'select template',
+    }))
+    schema = Schema(title='TestSchema', fields={
+        'field1': String(title='Field1'),
+        'field2': String(title='Field2', format='email'),
+        'field3': Boolean(title='Field3'),
+        'field4': Choice(title='Field4', choices=[('1', 'One'), ('2', 'Two')]),
+        'field5': String(title='Field5', format='text'),
+    })
+    form = Form(env=env, schema=schema)
+
+    assert form.render_field(field_name='field1', field=schema.fields['field1']) == 'input template'
+    assert form.render_field(field_name='field2', field=schema.fields['field2']) == 'input template'
+    assert form.render_field(field_name='field3', field=schema.fields['field3']) == 'checkbox template'
+    assert form.render_field(field_name='field4', field=schema.fields['field4']) == 'select template'
+    assert form.render_field(field_name='field5', field=schema.fields['field5']) == 'textarea template'
+
+
+# LLM-generated content at query #36
+#--------------------------
+
+# Unit test for method load_template_env of class Jinja2Forms
+def test_Jinja2Forms_load_template_env():
+    # Test with directory
+    forms = Jinja2Forms(directory="templates")
+    assert isinstance(forms.env.loader, jinja2.FileSystemLoader)
+    assert forms.env.loader.searchpath == ["templates"]
+
+    # Test with package
+    forms = Jinja2Forms(package="package_name")
+    assert isinstance(forms.env.loader, jinja2.PackageLoader)
+    assert forms.env.loader.package_name == "package_name"
+    assert forms.env.loader.package_path == "templates"
+
+    # Test with both directory and package
+    forms = Jinja2Forms(directory="templates", package="package_name")
+    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+    assert isinstance(forms.env.loader.loaders[0], jinja2.FileSystemLoader)
+    assert isinstance(forms.env.loader.loaders[1], jinja2.PackageLoader)
+    assert forms.env.loader.loaders[0].searchpath == ["templates"]
+    assert forms.env.loader.loaders[1].package_name == "package_name"
+    assert forms.env.loader.loaders[1].package_path == "templates"
+
+
+# LLM-generated content at query #37
+#--------------------------
+
+# Unit test for method load_template_env of class Jinja2Forms
+def test_Jinja2Forms_load_template_env():
+    import os
+    import tempfile
+    import unittest
+
+    class TestJinja2Forms(unittest.TestCase):
+        def setUp(self):
+            self.temp_dir = tempfile.mkdtemp()
+            self.package = "test_package"
+            self.templates_dir = os.path.join(self.temp_dir, "templates")
+            os.makedirs(self.templates_dir)
+
+        def test_load_template_env_with_directory(self):
+            forms = Jinja2Forms(directory=self.templates_dir)
+            self.assertIsInstance(forms.env.loader, jinja2.FileSystemLoader)
+
+        def test_load_template_env_with_package(self):
+            forms = Jinja2Forms(package=self.package)
+            self.assertIsInstance(forms.env.loader, jinja2.PackageLoader)
+
+        def test_load_template_env_with_both(self):
+            forms = Jinja2Forms(directory=self.templates_dir, package=self.package)
+            self.assertIsInstance(forms.env.loader, jinja2.ChoiceLoader)
+
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestJinja2Forms)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+
+
+# LLM-generated content at query #38
+#--------------------------
+
+# Unit test for method render_fields of class Form
+def test_Form_render_fields():
+    import typesystem
+
+    class TestSchema(typesystem.Schema):
+        name = typesystem.String(title="Name")
+        age = typesystem.Integer(title="Age")
+
+    schema = TestSchema()
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
+    form = Form(env=env, schema=schema)
+
+    expected_html = (
+        '<div><label for="name">Name</label>'
+        '<input type="text" id="name" name="name" value=""></div>'
+        '<div><label for="age">Age</label>'
+        '<input type="number" id="age" name="age" value=""></div>'
+    )
+
+    assert form.render_fields() == expected_html
+
+
+# LLM-generated content at query #39
+#--------------------------
+
+# Unit test for method load_template_env of class Jinja2Forms
+def test_Jinja2Forms_load_template_env():
+    forms = Jinja2Forms(directory="templates")
+    assert isinstance(forms.env, jinja2.Environment)
+    assert isinstance(forms.env.loader, jinja2.FileSystemLoader)
+    assert forms.env.loader.searchpath == ["templates"]
+
+    forms = Jinja2Forms(package="test_package")
+    assert isinstance(forms.env, jinja2.Environment)
+    assert isinstance(forms.env.loader, jinja2.PackageLoader)
+    assert forms.env.loader.package_name == "test_package"
+    assert forms.env.loader.package_path == "templates"
+
+    forms = Jinja2Forms(directory="templates", package="test_package")
+    assert isinstance(forms.env, jinja2.Environment)
+    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+    assert len(forms.env.loader.loaders) == 2
+    assert isinstance(forms.env.loader.loaders[0], jinja2.FileSystemLoader)
+    assert isinstance(forms.env.loader.loaders[1], jinja2.PackageLoader)
+    assert forms.env.loader.loaders[0].searchpath == ["templates"]
+    assert forms.env.loader.loaders[1].package_name == "test_package"
+    assert forms.env.loader.loaders[1].package_path == "templates"
+
+
+# LLM-generated content at query #40
+#--------------------------
+
+# Unit test for method render_fields of class Form
+def test_Form_render_fields():
+    class TestSchema(Schema):
+        name = String(title="Name", required=True)
+        age = String(title="Age", required=False)
+
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        "forms/input.html": """
+            <input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>
+        """
+    }))
+    form = Form(env=env, schema=TestSchema())
+    form.validate({"name": "John", "age": "30"})
+    rendered_fields = form.render_fields()
+    assert '<input type="text" name="name" id="name" value="John" required>' in rendered_fields
+    assert '<input type="text" name="age" id="age" value="30">' in rendered_fields
+
+
+# LLM-generated content at query #41
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test with directory
+    jinja2_forms_directory = Jinja2Forms(directory="tests/templates")
+    assert isinstance(jinja2_forms_directory.env, jinja2.Environment)
+
+    # Test with package
+    jinja2_forms_package = Jinja2Forms(package="tests")
+    assert isinstance(jinja2_forms_package.env, jinja2.Environment)
+
+    # Test with both directory and package
+    jinja2_forms_both = Jinja2Forms(directory="tests/templates", package="tests")
+    assert isinstance(jinja2_forms_both.env, jinja2.Environment)
+
+    # Test with neither directory nor package
+    try:
+        Jinja2Forms()
+    except AssertionError:
+        pass
+    else:
+        assert False, "Expected AssertionError when neither directory nor package is provided"
+
+
+# LLM-generated content at query #42
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test with directory
+    forms = Jinja2Forms(directory="tests/templates")
+    assert forms.env.loader is not None
+
+    # Test with package
+    forms = Jinja2Forms(package="tests")
+    assert forms.env.loader is not None
+
+    # Test with both directory and package
+    forms = Jinja2Forms(directory="tests/templates", package="tests")
+    assert forms.env.loader is not None
+
+    # Test with neither directory nor package (should raise AssertionError)
+    try:
+        forms = Jinja2Forms()
+        assert False, "Expected AssertionError"
+    except AssertionError:
+        pass
+
+
+# LLM-generated content at query #43
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
+    class TestSchema(Schema):
+        name = String(title="Name", required=True)
+    schema = TestSchema()
+    form = Form(env=env, schema=schema)
+    rendered_field = form.render_field(field_name="name", field=schema.fields["name"])
+    assert "Name" in rendered_field
+    assert 'type="text"' in rendered_field
+    assert 'name="name"' in rendered_field
+    assert 'id="name"' in rendered_field
+
+
+# LLM-generated content at query #44
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
+    schema = Schema({"field_name": String(title="Field Title")})
+    form = Form(env=env, schema=schema)
+    rendered_field = form.render_field(field_name="field_name", field=String(title="Field Title"), value="test_value", error="test_error")
+    assert "Field Title" in rendered_field
+    assert "field_name" in rendered_field
+    assert "test_value" in rendered_field
+    assert "test_error" in rendered_field
+
+
+# LLM-generated content at query #45
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test with directory
+    forms = Jinja2Forms(directory="tests/templates")
+    assert forms.env.loader.searchpath == ["tests/templates"]
+
+    # Test with package
+    forms = Jinja2Forms(package="tests")
+    assert forms.env.loader.package_name == "tests"
+    assert forms.env.loader.package_path == "templates"
+
+    # Test with both directory and package
+    forms = Jinja2Forms(directory="tests/templates", package="tests")
+    assert len(forms.env.loader.loaders) == 2
+    assert forms.env.loader.loaders[0].searchpath == ["tests/templates"]
+    assert forms.env.loader.loaders[1].package_name == "tests"
+    assert forms.env.loader.loaders[1].package_path == "templates"
+
+    # Test with neither directory nor package (should raise AssertionError)
+    try:
+        forms = Jinja2Forms()
+    except AssertionError:
+        pass
+    else:
+        assert False, "Expected AssertionError"
+
+
+# LLM-generated content at query #46
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    # Define a simple schema with a String field
+    class TestSchema(Schema):
+        name = String(title="Name", description="Enter your name")
+
+    # Create a Jinja2 environment for testing
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader("tests/templates"))
+
+    # Create a Form instance with the TestSchema
+    form = Form(env=env, schema=TestSchema())
+
+    # Render the field and check the output
+    rendered_field = form.render_field(field_name="name", field=TestSchema.fields["name"])
+
+    # Assert that the rendered field contains the expected HTML elements
+    assert '<label for="name">Name</label>' in rendered_field
+    assert '<input type="text" id="name" name="name" required>' in rendered_field
+
+
+# LLM-generated content at query #47
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    forms = Jinja2Forms(directory="test_templates")
+    assert forms.env.loader is not None
+    assert isinstance(forms.env.loader, jinja2.FileSystemLoader)
+    assert forms.env.loader.searchpath == ["test_templates"]
+
+    forms = Jinja2Forms(package="test_package")
+    assert forms.env.loader is not None
+    assert isinstance(forms.env.loader, jinja2.PackageLoader)
+    assert forms.env.loader.package_name == "test_package"
+    assert forms.env.loader.package_path == "templates"
+
+    try:
+        forms = Jinja2Forms(directory="test_templates", package="test_package")
+        assert forms.env.loader is not None
+        assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
+        assert len(forms.env.loader.loaders) == 2
+        assert isinstance(forms.env.loader.loaders[0], jinja2.FileSystemLoader)
+        assert isinstance(forms.env.loader.loaders[1], jinja2.PackageLoader)
+        assert forms.env.loader.loaders[0].searchpath == ["test_templates"]
+        assert forms.env.loader.loaders[1].package_name == "test_package"
+        assert forms.env.loader.loaders[1].package_path == "templates"
+    except AssertionError as e:
+        raise e
+
+    try:
+        forms = Jinja2Forms()
+    except AssertionError as e:
+        assert str(e) == "Either 'directory' or 'package' must be specified."
+
+
+
+# LLM-generated content at query #48
+#--------------------------
+
+# Unit test for method render_field of class Form
+def test_Form_render_field():
+    from typesystem import Integer, String
+    from typesystem.schemas import Schema
+
+    class TestSchema(Schema):
+        name = String(title="Name", max_length=100)
+        age = Integer(title="Age", minimum=0, maximum=150)
+
+    env = jinja2.Environment(loader=jinja2.DictLoader({
+        "forms/input.html": '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>',
+        "forms/textarea.html": '<textarea name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{{ value }}</textarea>',
+        "forms/select.html": '<select name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{% for choice in field.choices %}<option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>{{ choice.text }}</option>{% endfor %}</select>',
+        "forms/checkbox.html": '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %}>',
+    }))
+
+    form = Form(env=env, schema=TestSchema())
+
+    # Test String field
+    html = form.render_field(field_name="name", field=String(title="Name"), value="John")
+    assert html == '<input type="text" name="name" id="name" value="John" required>'
+
+    # Test Integer field
+    html = form.render_field(field_name="age", field=Integer(title="Age"), value=30)
+    assert html == '<input type="text" name="age" id="age" value="30" required>'
+
+    # Test String field with text format (textarea)
+    html = form.render_field(field_name="description", field=String(title="Description", format="text"), value="Test description")
+    assert html == '<textarea name="description" id="description" required>Test description</textarea>'
+
+    # Test Choice field
+    choices = [("option1", "Option 1"), ("option2", "Option 2")]
+    html = form.render_field(field_name="choice", field=Choice(title="Choice", choices=choices), value="option1")
+    assert html == '<select name="choice" id="choice" required><option value="option1" selected>Option 1</option><option value="option2">Option 2</option></select>'
+
+    # Test Boolean field (checkbox)
+    html = form.render_field(field_name="active", field=Boolean(title="Active"), value=True)
+    assert html == '<input type="checkbox" name="active" id="active" checked>'
+
+
+# LLM-generated content at query #49
+#--------------------------
+
+# Unit test for constructor of class Jinja2Forms
+def test_Jinja2Forms():
+    # Test with directory
+    forms = Jinja2Forms(directory="tests/templates")
+    assert forms.env.loader is not None
+
+    # Test with package
+    forms = Jinja2Forms(package="tests")
+    assert forms.env.loader is not None
+
+    # Test with both directory and package
+    forms = Jinja2Forms(directory="tests/templates", package="tests")
     assert forms.env.loader is not None
 
     # Test with neither directory nor package (should raise AssertionError)
@@ -2341,531 +2559,45 @@ def test_Jinja2Forms():  # pragma: no cover
     else:
         assert False, "Expected AssertionError"
 
-    # Test with jinja2 not installed (should raise AssertionError)
+    # Test with invalid directory
     try:
-        import sys
-        import typesystem.forms
-        sys.modules['jinja2'] = None
-        forms = Jinja2Forms(directory="templates")
-    except AssertionError:
-        pass
-    finally:
-        sys.modules['jinja2'] = jinja2
-
-    # Test with jinja2 installed
-    forms = Jinja2Forms(directory="templates")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and package
-    forms = Jinja2Forms(package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and both directory and package
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and neither directory nor package (should raise AssertionError)
-    try:
-        forms = Jinja2Forms()
-    except AssertionError:
+        forms = Jinja2Forms(directory="invalid")
+    except jinja2.TemplateNotFound:
         pass
     else:
-        assert False, "Expected AssertionError"
+        assert False, "Expected jinja2.TemplateNotFound"
 
-    # Test with jinja2 installed and directory that does not exist
-    forms = Jinja2Forms(directory="does_not_exist")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and package that does not exist
-    forms = Jinja2Forms(package="does_not_exist")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and both directory and package that do not exist
-    forms = Jinja2Forms(directory="does_not_exist", package="does_not_exist")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists but package that does not exist
-    forms = Jinja2Forms(directory="templates", package="does_not_exist")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that does not exist but package that exists
-    forms = Jinja2Forms(directory="does_not_exist", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists but templates directory does not exist
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists but is empty
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates but not the ones we need
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need but they are empty
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty but they are invalid
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty and they are valid
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty and they are valid but they are not the ones we need
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty and they are valid and they are the ones we need
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty and they are valid and they are the ones we need but they are not in the right format
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty and they are valid and they are the ones we need and they are in the right format
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty and they are valid and they are the ones we need and they are in the right format but they are not in the right location
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty and they are valid and they are the ones we need and they are in the right format and they are in the right location
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty and they are valid and they are the ones we need and they are in the right format and they are in the right location but they are not in the right order
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty and they are valid and they are the ones we need and they are in the right format and they are in the right location and they are in the right order
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty and they are valid and they are the ones we need and they are in the right format and they are in the right location and they are in the right order but they are not in the right encoding
-    forms = Jinja2Forms(directory="templates", package="tests")
-    assert forms.env.loader is not None
-
-    # Test with jinja2 installed and directory that exists and package that exists and templates directory exists and contains templates and the ones we need and they are not empty and they are valid and they are the ones we need and they are in the right format and they are in the right location and
+    # Test with invalid package
+    try:
+        forms = Jinja2Forms(package="invalid")
+    except jinja2.TemplateNotFound:
+        pass
+    else:
+        assert False, "Expected jinja2.TemplateNotFound"
 
 
-# LLM-generated content at query #11
-#--------------------------
-
-# Unit test for method render_field of class Form
-def test_Form_render_field(): 
-    env = jinja2.Environment(loader=jinja2.DictLoader({}))
-    schema = Schema(fields={})
-    form = Form(env=env, schema=schema)
-    field = String(title="Test Field", allow_blank=True)
-    html = form.render_field(field_name="test_field", field=field, value="test value", error="test error")
-    assert html == ""
-
-
-# LLM-generated content at query #12
-#--------------------------
-
-# Unit test for method render_fields of class Form
-def test_Form_render_fields():  # pragma: no cover
-    # Create a mock schema with fields
-    class MockSchema(Schema):
-        name = String(title="Name")
-        email = String(title="Email", format="email")
-        age = String(title="Age", format="number")
-        bio = String(title="Bio", format="text")
-        active = Boolean(title="Active")
-        role = Choice(choices=[("admin", "Admin"), ("user", "User")])
-
-    # Create a mock Jinja2 environment
-    env = jinja2.Environment(loader=jinja2.DictLoader({
-        "forms/input.html": '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" />',
-        "forms/textarea.html": '<textarea name="{{ field_name }}">{{ value }}</textarea>',
-        "forms/checkbox.html": '<input type="checkbox" name="{{ field_name }}" {% if value %}checked{% endif %} />',
-        "forms/select.html": '<select name="{{ field_name }}">{% for key, val in field.choices %}<option value="{{ key }}" {% if value == key %}selected{% endif %}>{{ val }}</option>{% endfor %}</select>',
-    }))
-
-    # Test with no errors
-    form = Form(env=env, schema=MockSchema(), values={"name": "John", "email": "john@example.com", "age": 30, "bio": "Developer", "active": True, "role": "admin"})
-    html = form.render_fields()
-    assert '<input type="text" name="name" value="John" />' in html
-    assert '<input type="email" name="email" value="john@example.com" />' in html
-    assert '<input type="number" name="age" value="30" />' in html
-    assert '<textarea name="bio">Developer</textarea>' in html
-    assert '<input type="checkbox" name="active" checked />' in html
-    assert '<select name="role">' in html
-    assert '<option value="admin" selected>Admin</option>' in html
-    assert '<option value="user" >User</option>' in html
-
-    # Test with errors
-    form.validate({"name": "", "email": "invalid", "age": "not a number", "bio": "", "active": False, "role": "invalid"})
-    html = form.render_fields()
-    assert '<input type="text" name="name" value="" />' in html
-    assert '<input type="email" name="email" value="invalid" />' in html
-    assert '<input type="number" name="age" value="not a number" />' in html
-    assert '<textarea name="bio"></textarea>' in html
-    assert '<input type="checkbox" name="active"  />' in html
-    assert '<select name="role">' in html
-    assert '<option value="admin" >Admin</option>' in html
-    assert '<option value="user" >User</option>' in html
-
-    print("All tests passed!")
-
-if __name__ == "__main__":  # pragma: no cover
-    test_Form_render_fields()
-
-
-# LLM-generated content at query #13
-#--------------------------
-
-# Unit test for method input_type_for_field of class Form
-def test_Form_input_type_for_field(): 
-    # Test case 1: field has no format attribute
-    field = Field()
-    form = Form(env=None, schema=None)
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test case 2: field has format attribute but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="unknown")
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test case 3: field has format attribute in FORMAT_TO_INPUTTYPE
-    field = Field(format="email")
-    assert form.input_type_for_field(field) == "email"
-    
-    # Test case 4: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="datetime")
-    assert form.input_type_for_field(field) == "datetime-local"
-    
-    # Test case 5: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="date")
-    assert form.input_type_for_field(field) == "date"
-    
-    # Test case 6: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="time")
-    assert form.input_type_for_field(field) == "time"
-    
-    # Test case 7: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="url")
-    assert form.input_type_for_field(field) == "url"
-    
-    # Test case 8: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="password")
-    assert form.input_type_for_field(field) == "password"
-    
-    # Test case 9: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="search")
-    assert form.input_type_for_field(field) == "search"
-    
-    # Test case 10: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="tel")
-    assert form.input_type_for_field(field) == "tel"
-    
-    # Test case 11: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="color")
-    assert form.input_type_for_field(field) == "color"
-    
-    # Test case 12: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="range")
-    assert form.input_type_for_field(field) == "range"
-    
-    # Test case 13: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="month")
-    assert form.input_type_for_field(field) == "month"
-    
-    # Test case 14: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="week")
-    assert form.input_type_for_field(field) == "week"
-    
-    # Test case 15: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="number")
-    assert form.input_type_for_field(field) == "number"
-    
-    # Test case 16: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="hidden")
-    assert form.input_type_for_field(field) == "hidden"
-    
-    # Test case 17: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="text")
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test case 18: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="datetime-local")
-    assert form.input_type_for_field(field) == "datetime-local"
-    
-    # Test case 19: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="date")
-    assert form.input_type_for_field(field) == "date"
-    
-    # Test case 20: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="time")
-    assert form.input_type_for_field(field) == "time"
-    
-    # Test case 21: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="url")
-    assert form.input_type_for_field(field) == "url"
-    
-    # Test case 22: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="password")
-    assert form.input_type_for_field(field) == "password"
-    
-    # Test case 23: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="search")
-    assert form.input_type_for_field(field) == "search"
-    
-    # Test case 24: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="tel")
-    assert form.input_type_for_field(field) == "tel"
-    
-    # Test case 25: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="color")
-    assert form.input_type_for_field(field) == "color"
-    
-    # Test case 26: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="range")
-    assert form.input_type_for_field(field) == "range"
-    
-    # Test case 27: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="month")
-    assert form.input_type_for_field(field) == "month"
-    
-    # Test case 28: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="week")
-    assert form.input_type_for_field(field) == "week"
-    
-    # Test case 29: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="number")
-    assert form.input_type_for_field(field) == "number"
-    
-    # Test case 30: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="hidden")
-    assert form.input_type_for_field(field) == "hidden"
-    
-    # Test case 31: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="text")
-    assert form.input_type_for_field(field) == "text"
-    
-    # Test case 32: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="datetime-local")
-    assert form.input_type_for_field(field) == "datetime-local"
-    
-    # Test case 33: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="date")
-    assert form.input_type_for_field(field) == "date"
-    
-    # Test case 34: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="time")
-    assert form.input_type_for_field(field) == "time"
-    
-    # Test case 35: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="url")
-    assert form.input_type_for_field(field) == "url"
-    
-    # Test case 36: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="password")
-    assert form.input_type_for_field(field) == "password"
-    
-    # Test case 37: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="search")
-    assert form.input_type_for_field(field) == "search"
-    
-    # Test case 38: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="tel")
-    assert form.input_type_for_field(field) == "tel"
-    
-    # Test case 39: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="color")
-    assert form.input_type_for_field(field) == "color"
-    
-    # Test case 40: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_INPUTTYPE
-    field = Field(format="range")
-    assert form.input_type_for_field(field) == "range"
-    
-    # Test case 41: field has format attribute in FORMAT_TO_INPUTTYPE but not in FORMAT_TO_IN
-
-
-# LLM-generated content at query #14
+# LLM-generated content at query #50
 #--------------------------
 
 # Unit test for constructor of class Jinja2Forms
-def test_Jinja2Forms():  # pragma: no cover
-    # Test with directory parameter
-    forms = Jinja2Forms(directory="/path/to/templates")
-    assert forms.env.loader.searchpath == ["/path/to/templates"]
+def test_Jinja2Forms():
+    # Test with directory
+    forms = Jinja2Forms(directory="tests/templates")
+    assert forms.env.loader is not None
 
-    # Test with package parameter
-    forms = Jinja2Forms(package="myapp")
-    assert isinstance(forms.env.loader, jinja2.PackageLoader)
-    assert forms.env.loader.package_name == "myapp"
-    assert forms.env.loader.package_path == "templates"
+    # Test with package
+    forms = Jinja2Forms(package="tests")
+    assert forms.env.loader is not None
 
-    # Test with both directory and package parameters
-    forms = Jinja2Forms(directory="/path/to/templates", package="myapp")
-    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
-    assert len(forms.env.loader.loaders) == 2
-    assert forms.env.loader.loaders[0].searchpath == ["/path/to/templates"]
-    assert isinstance(forms.env.loader.loaders[1], jinja2.PackageLoader)
-    assert forms.env.loader.loaders[1].package_name == "myapp"
-    assert forms.env.loader.loaders[1].package_path == "templates"
+    # Test with both directory and package
+    forms = Jinja2Forms(directory="tests/templates", package="tests")
+    assert forms.env.loader is not None
 
-    # Test that jinja2 must be installed
-    import sys
-    import types
-
-    # Mock the case where jinja2 is not installed
-    original_import = __builtins__.__import__
-
-    def mock_import(name, *args, **kwargs):
-        if name == "jinja2":
-            raise ImportError
-        return original_import(name, *args, **kwargs)
-
-    __builtins__.__import__ = mock_import
+    # Test with neither directory nor package (should raise AssertionError)
     try:
-        Jinja2Forms(directory="/path/to/templates")
-    except AssertionError as e:
-        assert str(e) == "jinja2 must be installed to use Jinja2Forms."
-    finally:
-        __builtins__.__import__ = original_import
-
-    # Test that either directory or package must be specified
-    try:
-        Jinja2Forms()
-    except AssertionError as e:
-        assert str(e) == "Either 'directory' or 'package' must be specified."
-
-    # Test that autoescape is enabled
-    forms = Jinja2Forms(directory="/path/to/templates")
-    assert forms.env.autoescape is True
-
-    # Test that loader is set correctly
-    forms = Jinja2Forms(directory="/path/to/templates")
-    assert isinstance(forms.env.loader, jinja2.FileSystemLoader)
-    assert forms.env.loader.searchpath == ["/path/to/templates"]
-
-    forms = Jinja2Forms(package="myapp")
-    assert isinstance(forms.env.loader, jinja2.PackageLoader)
-    assert forms.env.loader.package_name == "myapp"
-    assert forms.env.loader.package_path == "templates"
-
-    forms = Jinja2Forms(directory="/path/to/templates", package="myapp")
-    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
-    assert len(forms.env.loader.loaders) == 2
-    assert forms.env.loader.loaders[0].searchpath == ["/path/to/templates"]
-    assert isinstance(forms.env.loader.loaders[1], jinja2.PackageLoader)
-    assert forms.env.loader.loaders[1].package_name == "myapp"
-    assert forms.env.loader.loaders[1].package_path == "templates"
-
-    # Test that the environment is properly configured
-    forms = Jinja2Forms(directory="/path/to/templates")
-    assert forms.env.autoescape is True
-    assert isinstance(forms.env.loader, jinja2.FileSystemLoader)
-    assert forms.env.loader.searchpath == ["/path/to/templates"]
-
-    forms = Jinja2Forms(package="myapp")
-    assert forms.env.autoescape is True
-    assert isinstance(forms.env.loader, jinja2.PackageLoader)
-    assert forms.env.loader.package_name == "myapp"
-    assert forms.env.loader.package_path == "templates"
-
-    forms = Jinja2Forms(directory="/path/to/templates", package="myapp")
-    assert forms.env.autoescape is True
-    assert isinstance(forms.env.loader, jinja2.ChoiceLoader)
-    assert len(forms.env.loader.loaders) == 2
-    assert forms.env.loader.loaders[0].searchpath == ["/path/to/templates"]
-    assert isinstance(forms.env.loader.loaders[1], jinja2.PackageLoader)
-    assert forms.env.loader.loaders[1].package_name == "myapp"
-    assert forms.env.loader.loaders[1].package_path == "templates"
-
-    # Test that the environment can load templates
-    forms = Jinja2Forms(directory="/path/to/templates")
-    template = forms.env.get_template("forms/input.html")
-    assert template is not None
-
-    forms = Jinja2Forms(package="myapp")
-    template = forms.env.get_template("forms/input.html")
-    assert template is not None
-
-    forms = Jinja2Forms(directory="/path/to/templates", package="myapp")
-    template = forms.env.get_template("forms/input.html")
-    assert template is not None
-
-    # Test that the environment can render templates
-    forms = Jinja2Forms(directory="/path/to/templates")
-    template = forms.env.get_template("forms/input.html")
-    rendered = template.render(field_id="test", field_name="test", field=String(), label="Test", required=True, input_type="text", value="", error=None)
-    assert rendered is not None
-
-    forms = Jinja2Forms(package="myapp")
-    template = forms.env.get_template("forms/input.html")
-    rendered = template.render(field_id="test", field_name="test", field=String(), label="Test", required=True, input_type="text", value="", error=None)
-    assert rendered is not None
-
-    forms = Jinja2Forms(directory="/path/to/templates", package="myapp")
-    template = forms.env.get_template("forms/input.html")
-    rendered = template.render(field_id="test", field_name="test", field=String(), label="Test", required=True, input_type="text", value="", error=None)
-    assert rendered is not None
-
-    # Test that the environment can render templates with autoescape
-    forms = Jinja2Forms(directory="/path/to/templates")
-    template = forms.env.get_template("forms/input.html")
-    rendered = template.render(field_id="test", field_name="test", field=String(), label="Test", required=True, input_type="text", value="<script>alert('xss')</script>", error=None)
-    assert "&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;" in rendered
-
-    forms = Jinja2Forms(package="myapp")
-    template = forms.env.get_template("forms/input.html")
-    rendered = template.render(field_id="test", field_name="test", field=String(), label="Test", required=True, input_type="text", value="<script>alert('xss')</script>", error=None)
-    assert "&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;" in rendered
-
-    forms = Jinja2Forms(directory="/path/to/templates", package="myapp")
-    template = forms.env.get_template("forms/input.html")
-    rendered = template.render(field_id="test", field_name="test", field=String(), label="Test", required=True, input_type="text", value="<script>alert('xss')</script>", error=None)
-    assert "&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;" in rendered
-
-    # Test that the environment can render templates with markupsafe
-    forms = Jinja2Forms(directory="/path/to/templates")
-    template = forms.env.get_template("forms/input.html")
-    rendered = template.render(field_id="test", field_name="test", field=String(), label="Test", required=True, input_type="text", value=markupsafe.Markup("<script>alert('xss')</script>"), error=None)
-    assert "<script>alert('xss')</script>" in rendered
-
-    forms = Jinja2Forms(package="myapp")
-    template = forms.env.get_template("forms/input.html")
-    rendered = template.render(field_id="test", field_name="test", field=String(), label="Test", required=True, input_type="text", value=markupsafe.Markup("<script>alert('xss')</script>"), error=None)
-    assert "<script>alert('xss')</script>" in rendered
-
-    forms = Jinja2Forms(directory="/path/to/templates", package="myapp")
-    template = forms.env.get_template("forms/input.html")
-    rendered = template.render(field_id="test", field_name="test", field=String(), label="Test", required=True, input_type="text", value=markupsafe.Markup("<script>alert('xss')</script>"), error=None)
-    assert "<script>alert('xss')</script>" in rendered
-
-    # Test that the environment can render templates with markupsafe and autoescape
-    forms = Jinja2Forms(directory="/path/to/templates")
-    template = forms.env.get_template("forms/input.html")
-    rendered = template.render(field
+        forms = Jinja2Forms()
+        assert False, "Expected AssertionError"
+    except AssertionError:
+        pass
 
 

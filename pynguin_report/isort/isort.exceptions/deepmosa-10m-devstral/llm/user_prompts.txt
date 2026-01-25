@@ -1,0 +1,84 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+class ISortError(Exception):
+    """Base isort exception object from which all isort sourced exceptions should inherit"""
+
+    def __reduce__(self):  # type: ignore
+        return (partial(type(self), **self.__dict__), ())
+
+
+class UnsupportedSettings(ISortError):
+    """Raised when settings are passed into isort (either from config, CLI, or runtime)
+    that it doesn't support.
+    """
+
+    @staticmethod
+    def _format_option(name: str, value: Any, source: str) -> str:
+        return f"\t- {name} = {value}  (source: '{source}')"
+
+    def __init__(self, unsupported_settings: dict[str, dict[str, str]]):
+        errors = "\n".join(
+            self._format_option(name, **option) for name, option in unsupported_settings.items()
+        )
+
+        super().__init__(
+            "isort was provided settings that it doesn't support:\n\n"
+            f"{errors}\n\n"
+            "For a complete and up-to-date listing of supported settings see: "
+            "https://pycqa.github.io/isort/docs/configuration/options.\n"
+        )
+        self.unsupported_settings = unsupported_settings
+
+```
+Write unit test for the constructor of class UnsupportedSettings
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+class ISortError(Exception):
+    """Base isort exception object from which all isort sourced exceptions should inherit"""
+
+    def __reduce__(self):  # type: ignore
+        return (partial(type(self), **self.__dict__), ())
+
+
+class UnsupportedSettings(ISortError):
+    """Raised when settings are passed into isort (either from config, CLI, or runtime)
+    that it doesn't support.
+    """
+
+    @staticmethod
+    def _format_option(name: str, value: Any, source: str) -> str:
+        return f"\t- {name} = {value}  (source: '{source}')"
+
+    def __init__(self, unsupported_settings: dict[str, dict[str, str]]):
+        errors = "\n".join(
+            self._format_option(name, **option) for name, option in unsupported_settings.items()
+        )
+
+        super().__init__(
+            "isort was provided settings that it doesn't support:\n\n"
+            f"{errors}\n\n"
+            "For a complete and up-to-date listing of supported settings see: "
+            "https://pycqa.github.io/isort/docs/configuration/options.\n"
+        )
+        self.unsupported_settings = unsupported_settings
+
+```
+Write unit test for the constructor of class UnsupportedSettings
+
+

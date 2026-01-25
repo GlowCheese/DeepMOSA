@@ -1,0 +1,5053 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def readable_size(size: float, n_digits: int = 2) -> str:
+    r"""Represent file size in human-readable format.
+
+    .. code:: python
+
+        >>> readable_size(1024 * 1024)
+        "1.00M"
+
+    :param size: File size in bytes.
+    :param n_digits: Number of digits to display. Defaults to 2.
+    :returns: A string representing the human-readable file size.
+    """
+    units = ["", "K", "M", "G", "T", "P"]
+    for unit in units[:-1]:
+        if size < 1024:
+            return f"{size:.{n_digits}f}{unit}"
+        size /= 1024
+    return f"{size:.{n_digits}f}{units[-1]}"
+
+```
+Write unit test for function readable_size
+
+
+# Prompt used at query #3
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #4
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #5
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def readable_size(size: float, n_digits: int = 2) -> str:
+    r"""Represent file size in human-readable format.
+
+    .. code:: python
+
+        >>> readable_size(1024 * 1024)
+        "1.00M"
+
+    :param size: File size in bytes.
+    :param n_digits: Number of digits to display. Defaults to 2.
+    :returns: A string representing the human-readable file size.
+    """
+    units = ["", "K", "M", "G", "T", "P"]
+    for unit in units[:-1]:
+        if size < 1024:
+            return f"{size:.{n_digits}f}{unit}"
+        size /= 1024
+    return f"{size:.{n_digits}f}{units[-1]}"
+
+```
+Write unit test for function readable_size
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #4
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def readable_size(size: float, n_digits: int = 2) -> str:
+    r"""Represent file size in human-readable format.
+
+    .. code:: python
+
+        >>> readable_size(1024 * 1024)
+        "1.00M"
+
+    :param size: File size in bytes.
+    :param n_digits: Number of digits to display. Defaults to 2.
+    :returns: A string representing the human-readable file size.
+    """
+    units = ["", "K", "M", "G", "T", "P"]
+    for unit in units[:-1]:
+        if size < 1024:
+            return f"{size:.{n_digits}f}{unit}"
+        size /= 1024
+    return f"{size:.{n_digits}f}{units[-1]}"
+
+```
+Write unit test for function readable_size
+
+
+# Prompt used at query #5
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def readable_size(size: float, n_digits: int = 2) -> str:
+    r"""Represent file size in human-readable format.
+
+    .. code:: python
+
+        >>> readable_size(1024 * 1024)
+        "1.00M"
+
+    :param size: File size in bytes.
+    :param n_digits: Number of digits to display. Defaults to 2.
+    :returns: A string representing the human-readable file size.
+    """
+    units = ["", "K", "M", "G", "T", "P"]
+    for unit in units[:-1]:
+        if size < 1024:
+            return f"{size:.{n_digits}f}{unit}"
+        size /= 1024
+    return f"{size:.{n_digits}f}{units[-1]}"
+
+```
+Write unit test for function readable_size
+
+
+# Prompt used at query #3
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #4
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #5
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+ 2 |     r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+ 3 |     disk and the function will not be executed.
+ 4 | 
+ 5 |     :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+ 6 |     :param verbose: If ``True``, will print to log.
+ 7 |     :param name: Name of the object to load. Only used for logging purposes.
+ 8 |     """
+ 9 |     name = (name or 'cache').capitalize()
+10 | 
+11 |     def decorator(func):
+12 |         @functools.wraps(func)
+13 |         def wrapped(*args, **kwargs):
+14 |             if path is not None and os.path.exists(path):
+15 |                 with open(path, "rb") as f:
+16 |                     ret = pickle.load(f)
+17 |                 if verbose:
+18 |                     log(f"{name} loaded from '{path}'")
+19 |             else:
+20 |                 ret = func(*args, **kwargs)
+21 |                 if path is not None:
+22 |                     with open(path, "wb") as f:
+23 |                         pickle.dump(ret, f)
+24 |                     if verbose:
+25 |                         log(f"{name} saved to '{path}'")
+26 |             return ret
+27 | 
+28 |         return wrapped
+29 | 
+30 |     return decorator
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #20
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+ 2 |     r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+ 3 |     disk and the function will not be executed.
+ 4 | 
+ 5 |     :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+ 6 |     :param verbose: If ``True``, will print to log.
+ 7 |     :param name: Name of the object to load. Only used for logging purposes.
+ 8 |     """
+ 9 |     name = (name or 'cache').capitalize()
+10 | 
+11 |     def decorator(func):
+12 |         @functools.wraps(func)
+13 |         def wrapped(*args, **kwargs):
+14 |             if path is not None and os.path.exists(path):
+15 |                 with open(path, "rb") as f:
+16 |                     ret = pickle.load(f)
+17 |                 if verbose:
+18 |                     log(f"{name} loaded from '{path}'")
+19 |             else:
+20 |                 ret = func(*args, **kwargs)
+21 |                 if path is not None:
+22 |                     with open(path, "wb") as f:
+23 |                         pickle.dump(ret, f)
+24 |                     if verbose:
+25 |                         log(f"{name} saved to '{path}'")
+26 |             return ret
+27 | 
+28 |         return wrapped
+29 | 
+30 |     return decorator
+```
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #28
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #31
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #32
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+ 2 |     r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+ 3 |     disk and the function will not be executed.
+ 4 | 
+ 5 |     :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+ 6 |     :param verbose: If ``True``, will print to log.
+ 7 |     :param name: Name of the object to load. Only used for logging purposes.
+ 8 |     """
+ 9 |     name = (name or 'cache').capitalize()
+10 | 
+11 |     def decorator(func):
+12 |         @functools.wraps(func)
+13 |         def wrapped(*args, **kwargs):
+14 |             if path is not None and os.path.exists(path):
+15 |                 with open(path, "rb") as f:
+16 |                     ret = pickle.load(f)
+17 |                 if verbose:
+18 |                     log(f"{name} loaded from '{path}'")
+19 |             else:
+20 |                 ret = func(*args, **kwargs)
+21 |                 if path is not None:
+22 |                     with open(path, "wb") as f:
+23 |                         pickle.dump(ret, f)
+24 |                     if verbose:
+25 |                         log(f"{name} saved to '{path}'")
+26 |             return ret
+27 | 
+28 |         return wrapped
+29 | 
+30 |     return decorator
+```
+
+
+# Prompt used at query #33
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #34
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+ 2 |     r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+ 3 |     disk and the function will not be executed.
+ 4 | 
+ 5 |     :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+ 6 |     :param verbose: If ``True``, will print to log.
+ 7 |     :param name: Name of the object to load. Only used for logging purposes.
+ 8 |     """
+ 9 |     name = (name or 'cache').capitalize()
+10 | 
+11 |     def decorator(func):
+12 |         @functools.wraps(func)
+13 |         def wrapped(*args, **kwargs):
+14 |             if path is not None and os.path.exists(path):
+15 |                 with open(path, "rb") as f:
+16 |                     ret = pickle.load(f)
+17 |                 if verbose:
+18 |                     log(f"{name} loaded from '{path}'")
+19 |             else:
+20 |                 ret = func(*args, **kwargs)
+21 |                 if path is not None:
+22 |                     with open(path, "wb") as f:
+23 |                         pickle.dump(ret, f)
+24 |                     if verbose:
+25 |                         log(f"{name} saved to '{path}'")
+26 |             return ret
+27 | 
+28 |         return wrapped
+29 | 
+30 |     return decorator
+```
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #36
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #37
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #38
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #39
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #40
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def readable_size(size: float, n_digits: int = 2) -> str:
+    r"""Represent file size in human-readable format.
+
+    .. code:: python
+
+        >>> readable_size(1024 * 1024)
+        "1.00M"
+
+    :param size: File size in bytes.
+    :param n_digits: Number of digits to display. Defaults to 2.
+    :returns: A string representing the human-readable file size.
+    """
+    units = ["", "K", "M", "G", "T", "P"]
+    for unit in units[:-1]:
+        if size < 1024:
+            return f"{size:.{n_digits}f}{unit}"
+        size /= 1024
+    return f"{size:.{n_digits}f}{units[-1]}"
+
+```
+Write unit test for function readable_size
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #12
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+ 2 |     r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+ 3 |     disk and the function will not be executed.
+ 4 | 
+ 5 |     :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+ 6 |     :param verbose: If ``True``, will print to log.
+ 7 |     :param name: Name of the object to load. Only used for logging purposes.
+ 8 |     """
+ 9 |     name = (name or 'cache').capitalize()
+10 | 
+11 |     def decorator(func):
+12 |         @functools.wraps(func)
+13 |         def wrapped(*args, **kwargs):
+14 |             if path is not None and os.path.exists(path):
+15 |                 with open(path, "rb") as f:
+16 |                     ret = pickle.load(f)
+17 |                 if verbose:
+18 |                     log(f"{name} loaded from '{path}'")
+19 |             else:
+20 |                 ret = func(*args, **kwargs)
+21 |                 if path is not None:
+22 |                     with open(path, "wb") as f:
+23 |                         pickle.dump(ret, f)
+24 |                     if verbose:
+25 |                         log(f"{name} saved to '{path}'")
+26 |             return ret
+27 | 
+28 |         return wrapped
+29 | 
+30 |     return decorator
+```
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #21
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #22
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #25
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+ 2 |     r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+ 3 |     disk and the function will not be executed.
+ 4 | 
+ 5 |     :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+ 6 |     :param verbose: If ``True``, will print to log.
+ 7 |     :param name: Name of the object to load. Only used for logging purposes.
+ 8 |     """
+ 9 |     name = (name or 'cache').capitalize()
+10 | 
+11 |     def decorator(func):
+12 |         @functools.wraps(func)
+13 |         def wrapped(*args, **kwargs):
+14 |             if path is not None and os.path.exists(path):
+15 |                 with open(path, "rb") as f:
+16 |                     ret = pickle.load(f)
+17 |                 if verbose:
+18 |                     log(f"{name} loaded from '{path}'")
+19 |             else:
+20 |                 ret = func(*args, **kwargs)
+21 |                 if path is not None:
+22 |                     with open(path, "wb") as f:
+23 |                         pickle.dump(ret, f)
+24 |                     if verbose:
+25 |                         log(f"{name} saved to '{path}'")
+26 |             return ret
+27 | 
+28 |         return wrapped
+29 | 
+30 |     return decorator
+```
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #30
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+ 2 |     r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+ 3 |     disk and the function will not be executed.
+ 4 | 
+ 5 |     :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+ 6 |     :param verbose: If ``True``, will print to log.
+ 7 |     :param name: Name of the object to load. Only used for logging purposes.
+ 8 |     """
+ 9 |     name = (name or 'cache').capitalize()
+10 | 
+11 |     def decorator(func):
+12 |         @functools.wraps(func)
+13 |         def wrapped(*args, **kwargs):
+14 |             if path is not None and os.path.exists(path):
+15 |                 with open(path, "rb") as f:
+16 |                     ret = pickle.load(f)
+17 |                 if verbose:
+18 |                     log(f"{name} loaded from '{path}'")
+19 |             else:
+20 |                 ret = func(*args, **kwargs)
+21 |                 if path is not None:
+22 |                     with open(path, "wb") as f:
+23 |                         pickle.dump(ret, f)
+24 |                     if verbose:
+25 |                         log(f"{name} saved to '{path}'")
+26 |             return ret
+27 | 
+28 |         return wrapped
+29 | 
+30 |     return decorator
+```
+
+
+# Prompt used at query #31
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+ 2 |     r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+ 3 |     disk and the function will not be executed.
+ 4 | 
+ 5 |     :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+ 6 |     :param verbose: If ``True``, will print to log.
+ 7 |     :param name: Name of the object to load. Only used for logging purposes.
+ 8 |     """
+ 9 |     name = (name or 'cache').capitalize()
+10 | 
+11 |     def decorator(func):
+12 |         @functools.wraps(func)
+13 |         def wrapped(*args, **kwargs):
+14 |             if path is not None and os.path.exists(path):
+15 |                 with open(path, "rb") as f:
+16 |                     ret = pickle.load(f)
+17 |                 if verbose:
+18 |                     log(f"{name} loaded from '{path}'")
+19 |             else:
+20 |                 ret = func(*args, **kwargs)
+21 |                 if path is not None:
+22 |                     with open(path, "wb") as f:
+23 |                         pickle.dump(ret, f)
+24 |                     if verbose:
+25 |                         log(f"{name} saved to '{path}'")
+26 |             return ret
+27 | 
+28 |         return wrapped
+29 | 
+30 |     return decorator
+```
+
+
+# Prompt used at query #32
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+ 2 |     r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+ 3 |     disk and the function will not be executed.
+ 4 | 
+ 5 |     :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+ 6 |     :param verbose: If ``True``, will print to log.
+ 7 |     :param name: Name of the object to load. Only used for logging purposes.
+ 8 |     """
+ 9 |     name = (name or 'cache').capitalize()
+10 | 
+11 |     def decorator(func):
+12 |         @functools.wraps(func)
+13 |         def wrapped(*args, **kwargs):
+14 |             if path is not None and os.path.exists(path):
+15 |                 with open(path, "rb") as f:
+16 |                     ret = pickle.load(f)
+17 |                 if verbose:
+18 |                     log(f"{name} loaded from '{path}'")
+19 |             else:
+20 |                 ret = func(*args, **kwargs)
+21 |                 if path is not None:
+22 |                     with open(path, "wb") as f:
+23 |                         pickle.dump(ret, f)
+24 |                     if verbose:
+25 |                         log(f"{name} saved to '{path}'")
+26 |             return ret
+27 | 
+28 |         return wrapped
+29 | 
+30 |     return decorator
+```
+
+
+# Prompt used at query #33
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+ 2 |     r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+ 3 |     disk and the function will not be executed.
+ 4 | 
+ 5 |     :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+ 6 |     :param verbose: If ``True``, will print to log.
+ 7 |     :param name: Name of the object to load. Only used for logging purposes.
+ 8 |     """
+ 9 |     name = (name or 'cache').capitalize()
+10 | 
+11 |     def decorator(func):
+12 |         @functools.wraps(func)
+13 |         def wrapped(*args, **kwargs):
+14 |             if path is not None and os.path.exists(path):
+15 |                 with open(path, "rb") as f:
+16 |                     ret = pickle.load(f)
+17 |                 if verbose:
+18 |                     log(f"{name} loaded from '{path}'")
+19 |             else:
+20 |                 ret = func(*args, **kwargs)
+21 |                 if path is not None:
+22 |                     with open(path, "wb") as f:
+23 |                         pickle.dump(ret, f)
+24 |                     if verbose:
+25 |                         log(f"{name} saved to '{path}'")
+26 |             return ret
+27 | 
+28 |         return wrapped
+29 | 
+30 |     return decorator
+```
+
+
+# Prompt used at query #34
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #36
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #37
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #38
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #39
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #40
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #41
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+    r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+    disk and the function will not be executed.
+
+    :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+    :param verbose: If ``True``, will print to log.
+    :param name: Name of the object to load. Only used for logging purposes.
+    """
+    name = (name or 'cache').capitalize()
+
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapped(*args, **kwargs):
+            if path is not None and os.path.exists(path):
+                with open(path, "rb") as f:
+                    ret = pickle.load(f)
+                if verbose:
+                    log(f"{name} loaded from '{path}'")
+            else:
+                ret = func(*args, **kwargs)
+                if path is not None:
+                    with open(path, "wb") as f:
+                        pickle.dump(ret, f)
+                    if verbose:
+                        log(f"{name} saved to '{path}'")
+            return ret
+
+        return wrapped
+
+    return decorator
+
+```
+Write unit test for function cache
+
+
+# Prompt used at query #42
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def cache(path: Optional[PathType], verbose: bool = True, name: Optional[str] = None):
+ 2 |     r"""A function decorator that caches the output of the function to disk. If the cache file exists, it is loaded from
+ 3 |     disk and the function will not be executed.
+ 4 | 
+ 5 |     :param path: Path to the cache file. If ``None``, no cache is loaded or saved.
+ 6 |     :param verbose: If ``True``, will print to log.
+ 7 |     :param name: Name of the object to load. Only used for logging purposes.
+ 8 |     """
+ 9 |     name = (name or 'cache').capitalize()
+10 | 
+11 |     def decorator(func):
+12 |         @functools.wraps(func)
+13 |         def wrapped(*args, **kwargs):
+14 |             if path is not None and os.path.exists(path):
+15 |                 with open(path, "rb") as f:
+16 |                     ret = pickle.load(f)
+17 |                 if verbose:
+18 |                     log(f"{name} loaded from '{path}'")
+19 |             else:
+20 |                 ret = func(*args, **kwargs)
+21 |                 if path is not None:
+22 |                     with open(path, "wb") as f:
+23 |                         pickle.dump(ret, f)
+24 |                     if verbose:
+25 |                         log(f"{name} saved to '{path}'")
+26 |             return ret
+27 | 
+28 |         return wrapped
+29 | 
+30 |     return decorator
+```
+
+
+# Prompt used at query #43
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #44
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #45
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+ 1 | def scandir(path: PathType) -> Iterator[PathType]:
+ 2 |     r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+ 3 |     child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+ 4 | 
+ 5 |     :param path: Path to the directory.
+ 6 |     :return: An iterator over children paths.
+ 7 |     """
+ 8 |     if isinstance(path, Path):
+ 9 |         with os.scandir(path) as it:
+10 |             for entry in it:
+11 |                 yield Path(entry.path)
+12 |     else:
+13 |         with os.scandir(path) as it:
+14 |             for entry in it:
+15 |                 yield entry.path
+```
+
+
+# Prompt used at query #46
+#--------------------------
+
+```
+def scandir(path: PathType) -> Iterator[PathType]:
+    r"""Lazily iterate over all files and directories under a directory. The returned path is the absolute path of the
+    child file or directory, with the same type as :attr:`path` (:py:class:`pathlib.Path` or :py:class:`str`).
+
+    :param path: Path to the directory.
+    :return: An iterator over children paths.
+    """
+    if isinstance(path, Path):
+        with os.scandir(path) as it:
+            for entry in it:
+                yield Path(entry.path)
+    else:
+        with os.scandir(path) as it:
+            for entry in it:
+                yield entry.path
+
+```
+Write unit test for function scandir
+
+
+# Prompt used at query #47
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #48
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #49
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+
+# Prompt used at query #50
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 14 evaluates to True.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #51
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 14 evaluates to True.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #52
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 14 evaluates to False.
+```
+ 1 | def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+ 2 |     r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+ 3 |     :py:func:`shutil.copytree`).
+ 4 | 
+ 5 |     :param src: The source directory.
+ 6 |     :param dst: The destination directory. If it doesn't exist, it will be created.
+ 7 |     :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+ 8 |         in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+ 9 |     """
+10 |     os.makedirs(dst, exist_ok=True)
+11 |     for file in os.listdir(src):
+12 |         src_path = os.path.join(src, file)
+13 |         dst_path = os.path.join(dst, file)
+14 |         if os.path.isdir(src_path):
+15 |             copy_tree(src_path, dst_path, overwrite=overwrite)
+16 |         elif overwrite or not os.path.exists(dst_path):
+17 |             shutil.copy2(src_path, dst_path)
+18 |     shutil.copystat(src, dst)
+```
+
+
+# Prompt used at query #53
+#--------------------------
+
+```
+def copy_tree(src: PathType, dst: PathType, overwrite: bool = False) -> None:
+    r"""Copy contents of folder ``src`` to folder ``dst``. The ``dst`` folder can exist or whatever (looking at you,
+    :py:func:`shutil.copytree`).
+
+    :param src: The source directory.
+    :param dst: The destination directory. If it doesn't exist, it will be created.
+    :param overwrite: If ``True``, files in ``dst`` will be overwritten if a file with the same relative path exists
+        in ``src``. If ``False``, these files are not copied. Defaults to ``False``.
+    """
+    os.makedirs(dst, exist_ok=True)
+    for file in os.listdir(src):
+        src_path = os.path.join(src, file)
+        dst_path = os.path.join(dst, file)
+        if os.path.isdir(src_path):
+            copy_tree(src_path, dst_path, overwrite=overwrite)
+        elif overwrite or not os.path.exists(dst_path):
+            shutil.copy2(src_path, dst_path)
+    shutil.copystat(src, dst)
+
+```
+Write unit test for function copy_tree
+
+

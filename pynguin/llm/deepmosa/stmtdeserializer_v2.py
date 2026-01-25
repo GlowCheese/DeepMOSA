@@ -194,7 +194,6 @@ class StatementDeserializerV2(StatementDeserializer):
         Returns:
             The statements or None if no statement type matches.
         """
-        print(ast.unparse(assign))
         assert len(assign.targets) == 1
 
         target = assign.targets[0]

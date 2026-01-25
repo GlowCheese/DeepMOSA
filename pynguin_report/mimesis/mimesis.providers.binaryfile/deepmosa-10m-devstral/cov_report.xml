@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.8181818181818182" lines-covered="0" lines-valid="0" branches-covered="9" branches-valid="11" complexity="0.0" version="pynguin-0.40.0" timestamp="1769037051">
+  <sources>
+    <source>mimesis.providers.binaryfile</source>
+  </sources>
+  <packages>
+    <package name="" line-rate="None" branch-rate="0.8181818181818182" complexity="0.0">
+      <classes>
+        <class name="" filename="mimesis.providers.binaryfile" line-rate="None" branch-rate="0.8181818181818182" complexity="0.0">
+          <methods />
+          <lines>
+            <line number="1" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="18" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="21" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="29" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="40" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="43" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="53" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="63" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="73" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="83" hits="1" branch="true" condition-coverage="100% (1/1)" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'pyrsistent._pbag'</h1>
+<p>Achieved 100.00% branch coverage:
+12/12 branchless code objects covered.
+36/36 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="fullyCovered" title="1/1 branchless code objects covered">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="notRelevant">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="notRelevant">33</span>
+                  <span class="notRelevant">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="notRelevant">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notRelevant">50</span>
+                  <span class="notRelevant">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notRelevant">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="notRelevant">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="fullyCovered" title="2/2 branches covered">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="notRelevant">66</span>
+                  <span class="notRelevant">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="notRelevant">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="notRelevant">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="notRelevant">79</span>
+                  <span class="fullyCovered" title="2/2 branches covered">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="fullyCovered" title="2/2 branches covered">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="notRelevant">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">88</span>
+                  <span class="notRelevant">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notRelevant">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="notRelevant">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="notRelevant">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="fullyCovered" title="2/2 branches covered">118</span>
+                  <span class="fullyCovered" title="2/2 branches covered">119</span>
+                  <span class="notRelevant">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">122</span>
+                  <span class="notRelevant">123</span>
+                  <span class="notRelevant">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="notRelevant">129</span>
+                  <span class="notRelevant">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="notRelevant">132</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="notRelevant">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="notRelevant">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notRelevant">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="notRelevant">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="notRelevant">143</span>
+                  <span class="notRelevant">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="fullyCovered" title="2/2 branches covered">146</span>
+                  <span class="notRelevant">147</span>
+                  <span class="notRelevant">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  <span class="notRelevant">161</span>
+                  <span class="notRelevant">162</span>
+                  <span class="notRelevant">163</span>
+                  <span class="notRelevant">164</span>
+                  <span class="notRelevant">165</span>
+                  <span class="fullyCovered" title="2/2 branches covered">166</span>
+                  <span class="notRelevant">167</span>
+                  <span class="notRelevant">168</span>
+                  <span class="fullyCovered" title="2/2 branches covered">169</span>
+                  <span class="notRelevant">170</span>
+                  <span class="notRelevant">171</span>
+                  <span class="notRelevant">172</span>
+                  <span class="notRelevant">173</span>
+                  <span class="notRelevant">174</span>
+                  <span class="notRelevant">175</span>
+                  <span class="notRelevant">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notRelevant">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="fullyCovered" title="2/2 branches covered">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notRelevant">182</span>
+                  <span class="fullyCovered" title="2/2 branches covered">183</span>
+                  <span class="notRelevant">184</span>
+                  <span class="fullyCovered" title="2/2 branches covered">185</span>
+                  <span class="notRelevant">186</span>
+                  <span class="fullyCovered" title="2/2 branches covered">187</span>
+                  <span class="notRelevant">188</span>
+                  <span class="notRelevant">189</span>
+                  <span class="notRelevant">190</span>
+                  <span class="notRelevant">191</span>
+                  <span class="notRelevant">192</span>
+                  <span class="notRelevant">193</span>
+                  <span class="notRelevant">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="notRelevant">196</span>
+                  <span class="notRelevant">197</span>
+                  <span class="fullyCovered" title="2/2 branches covered">198</span>
+                  <span class="notRelevant">199</span>
+                  <span class="notRelevant">200</span>
+                  <span class="fullyCovered" title="2/2 branches covered">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notRelevant">206</span>
+                  <span class="notRelevant">207</span>
+                  <span class="notRelevant">208</span>
+                  <span class="notRelevant">209</span>
+                  <span class="notRelevant">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="notRelevant">213</span>
+                  <span class="fullyCovered" title="2/2 branches covered">214</span>
+                  <span class="notRelevant">215</span>
+                  <span class="notRelevant">216</span>
+                  <span class="fullyCovered" title="2/2 branches covered">217</span>
+                  <span class="notRelevant">218</span>
+                  <span class="fullyCovered" title="2/2 branches covered">219</span>
+                  <span class="notRelevant">220</span>
+                  <span class="notRelevant">221</span>
+                  <span class="notRelevant">222</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">223</span>
+                  <span class="notRelevant">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="notRelevant">226</span>
+                  <span class="notRelevant">227</span>
+                  <span class="notRelevant">228</span>
+                  <span class="notRelevant">229</span>
+                  <span class="notRelevant">230</span>
+                  <span class="notRelevant">231</span>
+                  <span class="notRelevant">232</span>
+                  <span class="notRelevant">233</span>
+                  <span class="notRelevant">234</span>
+                  <span class="notRelevant">235</span>
+                  <span class="notRelevant">236</span>
+                  <span class="notRelevant">237</span>
+                  <span class="notRelevant">238</span>
+                  <span class="notRelevant">239</span>
+                  <span class="notRelevant">240</span>
+                  <span class="notRelevant">241</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">242</span>
+                  <span class="notRelevant">243</span>
+                  <span class="notRelevant">244</span>
+                  <span class="notRelevant">245</span>
+                  <span class="notRelevant">246</span>
+                  <span class="notRelevant">247</span>
+                  <span class="notRelevant">248</span>
+                  <span class="notRelevant">249</span>
+                  <span class="notRelevant">250</span>
+                  <span class="notRelevant">251</span>
+                  <span class="notRelevant">252</span>
+                  <span class="notRelevant">253</span>
+                  <span class="notRelevant">254</span>
+                  <span class="notRelevant">255</span>
+                  <span class="notRelevant">256</span>
+                  <span class="notRelevant">257</span>
+                  <span class="notRelevant">258</span>
+                  <span class="notRelevant">259</span>
+                  <span class="notRelevant">260</span>
+                  <span class="notRelevant">261</span>
+                  <span class="notRelevant">262</span>
+                  <span class="notRelevant">263</span>
+                  <span class="fullyCovered" title="2/2 branches covered">264</span>
+                  <span class="notRelevant">265</span>
+                  <span class="notRelevant">266</span>
+                  <span class="notRelevant">267</span>
+                  <span class="notRelevant">268</span>
+                  <span class="notRelevant">269</span>
+                  <span class="notRelevant">270</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Container</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Sized</span><span class="p">,</span> <span class="n">Hashable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">reduce</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyrsistent._pmap</span><span class="w"> </span><span class="kn">import</span> <span class="n">pmap</span>
+
+<span class="n">T_co</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T_co&#39;</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_add_to_counters</span><span class="p">(</span><span class="n">counters</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">counters</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">counters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PBag</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T_co</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A persistent bag/multiset type.</span>
+
+<span class="sd">    Requires elements to be hashable, and allows duplicates, but has no</span>
+<span class="sd">    ordering. Bags are hashable.</span>
+
+<span class="sd">    Do not instantiate directly, instead use the factory functions :py:func:`b`</span>
+<span class="sd">    or :py:func:`pbag` to create an instance.</span>
+
+<span class="sd">    Some examples:</span>
+
+<span class="sd">    &gt;&gt;&gt; s = pbag([1, 2, 3, 1])</span>
+<span class="sd">    &gt;&gt;&gt; s2 = s.add(4)</span>
+<span class="sd">    &gt;&gt;&gt; s3 = s2.remove(1)</span>
+<span class="sd">    &gt;&gt;&gt; s</span>
+<span class="sd">    pbag([1, 1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; s2</span>
+<span class="sd">    pbag([1, 1, 2, 3, 4])</span>
+<span class="sd">    &gt;&gt;&gt; s3</span>
+<span class="sd">    pbag([1, 2, 3, 4])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_counts&#39;</span><span class="p">,</span> <span class="s1">&#39;__weakref__&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span> <span class="o">=</span> <span class="n">counts</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add an element to the bag.</span>
+
+<span class="sd">        &gt;&gt;&gt; s = pbag([1])</span>
+<span class="sd">        &gt;&gt;&gt; s2 = s.add(1)</span>
+<span class="sd">        &gt;&gt;&gt; s3 = s.add(2)</span>
+<span class="sd">        &gt;&gt;&gt; s2</span>
+<span class="sd">        pbag([1, 1])</span>
+<span class="sd">        &gt;&gt;&gt; s3</span>
+<span class="sd">        pbag([1, 2])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">PBag</span><span class="p">(</span><span class="n">_add_to_counters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="p">,</span> <span class="n">element</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update bag with all elements in iterable.</span>
+
+<span class="sd">        &gt;&gt;&gt; s = pbag([1])</span>
+<span class="sd">        &gt;&gt;&gt; s.update([1, 2])</span>
+<span class="sd">        pbag([1, 1, 2])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">iterable</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">PBag</span><span class="p">(</span><span class="n">reduce</span><span class="p">(</span><span class="n">_add_to_counters</span><span class="p">,</span> <span class="n">iterable</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove an element from the bag.</span>
+
+<span class="sd">        &gt;&gt;&gt; s = pbag([1, 1, 2])</span>
+<span class="sd">        &gt;&gt;&gt; s2 = s.remove(1)</span>
+<span class="sd">        &gt;&gt;&gt; s3 = s.remove(2)</span>
+<span class="sd">        &gt;&gt;&gt; s2</span>
+<span class="sd">        pbag([1, 2])</span>
+<span class="sd">        &gt;&gt;&gt; s3</span>
+<span class="sd">        pbag([1, 1])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">element</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="p">[</span><span class="n">element</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">newc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">newc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="p">[</span><span class="n">element</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PBag</span><span class="p">(</span><span class="n">newc</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the number of times an element appears.</span>
+
+
+<span class="sd">        &gt;&gt;&gt; pbag([]).count(&#39;non-existent&#39;)</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; pbag([1, 1, 2]).count(1)</span>
+<span class="sd">        2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the length including duplicates.</span>
+
+<span class="sd">        &gt;&gt;&gt; len(pbag([1, 1, 2]))</span>
+<span class="sd">        3</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">itervalues</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return an iterator of all elements, including duplicates.</span>
+
+<span class="sd">        &gt;&gt;&gt; list(pbag([1, 1, 2]))</span>
+<span class="sd">        [1, 1, 2]</span>
+<span class="sd">        &gt;&gt;&gt; list(pbag([1, 2]))</span>
+<span class="sd">        [1, 2]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">elt</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">elt</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elt</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if an element is in the bag.</span>
+
+<span class="sd">        &gt;&gt;&gt; 1 in pbag([1, 1, 2])</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; 0 in pbag([1, 2])</span>
+<span class="sd">        False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">elt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;pbag(</span><span class="si">{0}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if two bags are equivalent, honoring the number of duplicates,</span>
+<span class="sd">        and ignoring insertion order.</span>
+
+<span class="sd">        &gt;&gt;&gt; pbag([1, 1, 2]) == pbag([1, 2])</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; pbag([2, 1, 0]) == pbag([0, 1, 2])</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">PBag</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Can only compare PBag with PBags&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_counts</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;PBags are not orderable&#39;</span><span class="p">)</span>
+
+    <span class="fm">__le__</span> <span class="o">=</span> <span class="fm">__lt__</span>
+    <span class="fm">__gt__</span> <span class="o">=</span> <span class="fm">__lt__</span>
+    <span class="fm">__ge__</span> <span class="o">=</span> <span class="fm">__lt__</span>
+
+    <span class="c1"># Multiset-style operations similar to collections.Counter</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Combine elements from two PBags.</span>
+
+<span class="sd">        &gt;&gt;&gt; pbag([1, 2, 2]) + pbag([2, 3, 3])</span>
+<span class="sd">        pbag([1, 2, 2, 2, 3, 3])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PBag</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">elem</span><span class="p">,</span> <span class="n">other_count</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">elem</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="o">+</span> <span class="n">other_count</span>
+        <span class="k">return</span> <span class="n">PBag</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">persistent</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove elements from one PBag that are present in another.</span>
+
+<span class="sd">        &gt;&gt;&gt; pbag([1, 2, 2, 2, 3]) - pbag([2, 3, 3, 4])</span>
+<span class="sd">        pbag([1, 2, 2])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PBag</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">elem</span><span class="p">,</span> <span class="n">other_count</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">newcount</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span> <span class="o">-</span> <span class="n">other_count</span>
+            <span class="k">if</span> <span class="n">newcount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">elem</span><span class="p">]</span> <span class="o">=</span> <span class="n">newcount</span>
+            <span class="k">elif</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PBag</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">persistent</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Union: Keep elements that are present in either of two PBags.</span>
+
+<span class="sd">        &gt;&gt;&gt; pbag([1, 2, 2, 2]) | pbag([2, 3, 3])</span>
+<span class="sd">        pbag([1, 2, 2, 2, 3, 3])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PBag</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">elem</span><span class="p">,</span> <span class="n">other_count</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+            <span class="n">newcount</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">other_count</span><span class="p">)</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">elem</span><span class="p">]</span> <span class="o">=</span> <span class="n">newcount</span>
+        <span class="k">return</span> <span class="n">PBag</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">persistent</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__and__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Intersection: Only keep elements that are present in both PBags.</span>
+
+<span class="sd">        &gt;&gt;&gt; pbag([1, 2, 2, 2]) &amp; pbag([2, 3, 3])</span>
+<span class="sd">        pbag([2])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PBag</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">NotImplemented</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">pmap</span><span class="p">()</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">elem</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">newcount</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">newcount</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">elem</span><span class="p">]</span> <span class="o">=</span> <span class="n">newcount</span>
+        <span class="k">return</span> <span class="n">PBag</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">persistent</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Hash based on value of elements.</span>
+
+<span class="sd">        &gt;&gt;&gt; m = pmap({pbag([1, 2]): &quot;it&#39;s here!&quot;})</span>
+<span class="sd">        &gt;&gt;&gt; m[pbag([2, 1])]</span>
+<span class="sd">        &quot;it&#39;s here!&quot;</span>
+<span class="sd">        &gt;&gt;&gt; pbag([1, 1, 2]) in m</span>
+<span class="sd">        False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_counts</span><span class="p">)</span>
+
+
+<span class="n">Container</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">PBag</span><span class="p">)</span>
+<span class="n">Iterable</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">PBag</span><span class="p">)</span>
+<span class="n">Sized</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">PBag</span><span class="p">)</span>
+<span class="n">Hashable</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">PBag</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">b</span><span class="p">(</span><span class="o">*</span><span class="n">elements</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Construct a persistent bag.</span>
+
+<span class="sd">    Takes an arbitrary number of arguments to insert into the new persistent</span>
+<span class="sd">    bag.</span>
+
+<span class="sd">    &gt;&gt;&gt; b(1, 2, 3, 2)</span>
+<span class="sd">    pbag([1, 2, 2, 3])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pbag</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pbag</span><span class="p">(</span><span class="n">elements</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert an iterable to a persistent bag.</span>
+
+<span class="sd">    Takes an iterable with elements to insert.</span>
+
+<span class="sd">    &gt;&gt;&gt; pbag([1, 2, 3, 2])</span>
+<span class="sd">    pbag([1, 2, 2, 3])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">elements</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_EMPTY_PBAG</span>
+    <span class="k">return</span> <span class="n">PBag</span><span class="p">(</span><span class="n">reduce</span><span class="p">(</span><span class="n">_add_to_counters</span><span class="p">,</span> <span class="n">elements</span><span class="p">,</span> <span class="n">pmap</span><span class="p">()))</span>
+
+
+<span class="n">_EMPTY_PBAG</span> <span class="o">=</span> <span class="n">PBag</span><span class="p">(</span><span class="n">pmap</span><span class="p">())</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-01-18 04:07:32.984614</p>
+</footer>
+</body>
+</html>

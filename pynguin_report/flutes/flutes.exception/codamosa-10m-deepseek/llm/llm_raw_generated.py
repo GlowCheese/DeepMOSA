@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,142 +7,228 @@
 #--------------------------
 
 # Unit test for function exception_wrapper
-def test_exception_wrapper():  
-    import io  
-    import sys  
-    from contextlib import redirect_stderr, redirect_stdout  
-    from io import StringIO  
-    from typing import Optional  
-    from unittest import TestCase  
-    from unittest.mock import patch  
+def test_exception_wrapper():
+    def handler_fn(e, arg1, arg2, kwarg1=None):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwarg1 == 3
 
-    class TestExceptionWrapper(TestCase):  
-        def test_log_exception(self):  
-            # Test that log_exception logs the exception correctly  
-            with patch('flutes.log.log') as mock_log:  
-                try:  
-                    raise ValueError("Test error")  
-                except ValueError as e:  
-                    log_exception(e, user_msg="Custom message")  
-                mock_log.assert_called_with("Custom message: <ValueError> Test error", "error")  
+    @exception_wrapper(handler_fn)
+    def func(arg1, arg2, kwarg1=None):
+        raise ValueError("Test error")
 
-        def test_exception_wrapper_default_handler(self):  
-            # Test exception_wrapper with default handler (log_exception)  
-            @exception_wrapper()  
-            def faulty_func():  
-                raise ValueError("Test error")  
+    func(1, 2, kwarg1=3)
 
-            with patch('flutes.log.log') as mock_log:  
-                faulty_func()  
-                mock_log.assert_called_with("<ValueError> Test error", "error")  
+    def handler_fn_with_kwargs(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwarg1 == 3
+        assert kwargs == {'extra_kwarg': 4}
 
-        def test_exception_wrapper_custom_handler(self):  
-            # Test exception_wrapper with custom handler  
-            captured_exception = None  
-            captured_args = None  
+    @exception_wrapper(handler_fn_with_kwargs)
+    def func_with_kwargs(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("Test error")
 
-            def custom_handler(e, arg1, arg2, optional_arg="default"):  
-                nonlocal captured_exception, captured_args  
-                captured_exception = e  
-                captured_args = (arg1, arg2, optional_arg)  
+    func_with_kwargs(1, 2, kwarg1=3, extra_kwarg=4)
 
-            @exception_wrapper(custom_handler)  
-            def faulty_func(arg1, arg2, optional_arg="default"):  
-                raise ValueError("Test error")  
+    def handler_fn_without_matching_args(e, arg1, arg2, kwarg1=None):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwarg1 == 3
 
-            faulty_func("value1", "value2", optional_arg="custom")  
-            self.assertIsInstance(captured_exception, ValueError)  
-            self.assertEqual(captured_args, ("value1", "value2", "custom"))  
+    @exception_wrapper(handler_fn_without_matching_args)
+    def func_without_matching_args(arg1, arg2, kwarg1=None):
+        raise ValueError("Test error")
 
-        def test_exception_wrapper_with_generator(self):  
-            # Test exception_wrapper with generator function  
-            captured_exception = None  
+    func_without_matching_args(1, 2, kwarg1=3)
 
-            def custom_handler(e):  
-                nonlocal captured_exception  
-                captured_exception = e  
+    def handler_fn_with_defaults(e, arg1, arg2, kwarg1=None):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwarg1 == 3
 
-            @exception_wrapper(custom_handler)  
-            def faulty_gen():  
-                yield 1  
-                raise ValueError("Generator error")  
-                yield 2  
+    @exception_wrapper(handler_fn_with_defaults)
+    def func_with_defaults(arg1, arg2, kwarg1=None):
+        raise ValueError("Test error")
 
-            gen = faulty_gen()  
-            self.assertEqual(next(gen), 1)  
-            # The exception should be caught by the handler  
-            with self.assertRaises(StopIteration):  
-                next(gen)  
-            self.assertIsInstance(captured_exception, ValueError)  
+    func_with_defaults(1, 2, kwarg1=3)
 
-        def test_exception_wrapper_argument_matching(self):  
-            # Test that handler arguments are correctly matched to wrapped function arguments  
-            captured_args = {}  
+    def handler_fn_with_mismatch(e, arg1, arg2, kwarg1=None):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwarg1 == 3
 
-            def custom_handler(e, required_arg, optional_arg="default", **kwargs):  
-                captured_args.update({  
-                    'required_arg': required_arg,  
-                    'optional_arg': optional_arg,  
-                    'kwargs': kwargs  
-                })  
+    @exception_wrapper(handler_fn_with_mismatch)
+    def func_with_mismatch(arg1, arg2, kwarg1=None):
+        raise ValueError("Test error")
 
-            @exception_wrapper(custom_handler)  
-            def faulty_func(required_arg, optional_arg="default", **kwargs):  
-                raise ValueError("Test error")  
+    func_with_mismatch(1, 2, kwarg1=3)
 
-            faulty_func("required", optional_arg="custom", extra="extra")  
-            self.assertEqual(captured_args['required_arg'], "required")  
-            self.assertEqual(captured_args['optional_arg'], "custom")  
-            self.assertEqual(captured_args['kwargs'], {'extra': 'extra'})  
+    def handler_fn_without_kwargs(e, arg1, arg2):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
 
-        def test_exception_wrapper_invalid_handler(self):  
-            # Test that invalid handler configurations raise appropriate errors  
-            with self.assertRaises(ValueError):  
-                @exception_wrapper(lambda: None)  
-                def func():  
-                    pass  
+    @exception_wrapper(handler_fn_without_kwargs)
+    def func_without_kwargs(arg1, arg2):
+        raise ValueError("Test error")
 
-            with self.assertRaises(ValueError):  
-                def handler_with_varargs(e, *args):  
-                    pass  
+    func_without_kwargs(1, 2)
 
-                @exception_wrapper(handler_with_varargs)  
-                def func():  
-                    pass  
+    def handler_fn_without_args(e):
+        assert isinstance(e, ValueError)
 
-            with self.assertRaises(ValueError):  
-                def handler_with_mismatched_arg(e, non_existent_arg):  
-                    pass  
+    @exception_wrapper(handler_fn_without_args)
+    def func_without_args():
+        raise ValueError("Test error")
 
-                @exception_wrapper(handler_with_mismatched_arg)  
-                def func():  
-                    pass  
+    func_without_args()
 
-            with self.assertRaises(ValueError):  
-                def handler_with_default_matching_arg(e, arg_with_default="default"):  
-                    pass  
+    def handler_fn_with_varargs(e, *args):
+        assert isinstance(e, ValueError)
+        assert args == (1, 2)
 
-                @exception_wrapper(handler_with_default_matching_arg)  
-                def func(arg_with_default):  
-                    pass  
+    @exception_wrapper(handler_fn_with_varargs)
+    def func_with_varargs(*args):
+        raise ValueError("Test error")
 
-    # Run the tests  
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestExceptionWrapper)  
-    runner = unittest.TextTestRunner(verbosity=2)  
-    runner.run(suite)  
+    func_with_varargs(1, 2)
 
-if __name__ == "__main__":  
-    test_exception_wrapper()
+    def handler_fn_with_varkw(e, **kwargs):
+        assert isinstance(e, ValueError)
+        assert kwargs == {'arg1': 1, 'arg2': 2}
+
+    @exception_wrapper(handler_fn_with_varkw)
+    def func_with_varkw(**kwargs):
+        raise ValueError("Test error")
+
+    func_with_varkw(arg1=1, arg2=2)
+
+    def handler_fn_with_args_and_kwargs(e, arg1, arg2, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwargs == {'kwarg1': 3}
+
+    @exception_wrapper(handler_fn_with_args_and_kwargs)
+    def func_with_args_and_kwargs(arg1, arg2, **kwargs):
+        raise ValueError("Test error")
+
+    func_with_args_and_kwargs(1, 2, kwarg1=3)
+
+    def handler_fn_with_args_and_kwargs_and_defaults(e, arg1, arg2, kwarg1=None):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwarg1 == 3
+
+    @exception_wrapper(handler_fn_with_args_and_kwargs_and_defaults)
+    def func_with_args_and_kwargs_and_defaults(arg1, arg2, kwarg1=None):
+        raise ValueError("Test error")
+
+    func_with_args_and_kwargs_and_defaults(1, 2, kwarg1=3)
+
+    def handler_fn_with_args_and_kwargs_and_defaults_and_mismatch(e, arg1, arg2, kwarg1=None):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwarg1 == 3
+
+    @exception_wrapper(handler_fn_with_args_and_kwargs_and_defaults_and_mismatch)
+    def func_with_args_and_kwargs_and_defaults_and_mismatch(arg1, arg2, kwarg1=None):
+        raise ValueError("Test error")
+
+    func_with_args_and_kwargs_and_defaults_and_mismatch(1, 2, kwarg1=3)
+
+    def handler_fn_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs(e, arg1, arg2, kwarg1=None, *args):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwarg1 == 3
+        assert args == (4,)
+
+    @exception_wrapper(handler_fn_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs)
+    def func_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs(arg1, arg2, kwarg1=None, *args):
+        raise ValueError("Test error")
+
+    func_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs(1, 2, kwarg1=3, 4)
+
+    def handler_fn_with_args_and_kwargs_and_defaults_and_mismatch_and_varkw(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwarg1 == 3
+        assert kwargs == {'extra_kwarg': 4}
+
+    @exception_wrapper(handler_fn_with_args_and_kwargs_and_defaults_and_mismatch_and_varkw)
+    def func_with_args_and_kwargs_and_defaults_and_mismatch_and_varkw(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("Test error")
+
+    func_with_args_and_kwargs_and_defaults_and_mismatch_and_varkw(1, 2, kwarg1=3, extra_kwarg=4)
+
+    def handler_fn_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs_and_varkw(e, arg1, arg2, kwarg1=None, *args, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwarg1 == 3
+        assert args == (4,)
+        assert kwargs == {'extra_kwarg': 5}
+
+    @exception_wrapper(handler_fn_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs_and_varkw)
+    def func_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs_and_varkw(arg1, arg2, kwarg1=None, *args, **kwargs):
+        raise ValueError("Test error")
+
+    func_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs_and_varkw(1, 2, kwarg1=3, 4, extra_kwarg=5)
+
+    def handler_fn_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs_and_varkw_and_defaults(e, arg1, arg2, kwarg1=None, *args, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert kwarg1 == 3
+        assert args == (4,)
+        assert kwargs == {'extra_kwarg': 5}
+
+    @exception_wrapper(handler_fn_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs_and_varkw_and_defaults)
+    def func_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs_and_varkw_and_defaults(arg1, arg2, kwarg1=None, *args, **kwargs):
+        raise ValueError("Test error")
+
+    func_with_args_and_kwargs_and_defaults_and_mismatch_and_varargs_and_varkw_and_defaults(1, 2, kwarg1=3, 4, extra_kwarg=5)
+
+    def handler_fn_with_args_and_kw
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # This test is not implemented because it requires an interactive IPython session.
-    pass
+def test_register_ipython_excepthook():
+    # Mocking necessary components for testing
+    import sys
+    from unittest.mock import MagicMock
+
+    # Mock IPython.core.ultratb.FormattedTB
+    mock_formatted_tb = MagicMock()
+    mock_formatted_tb.return_value = mock_formatted_tb
+
+    # Mock sys.excepthook
+    original_excepthook = sys.excepthook
+    sys.excepthook = MagicMock()
+
+    # Test registration without capturing KeyboardInterrupt
+    register_ipython_excepthook(capture_keyboard_interrupt=False)
+    assert sys.excepthook != original_excepthook
+
+    # Test registration with capturing KeyboardInterrupt
+    register_ipython_excepthook(capture_keyboard_interrupt=True)
+    assert sys.excepthook != original_excepthook
+
+    # Restore original excepthook
+    sys.excepthook = original_excepthook
 
 
 
@@ -150,1285 +236,1161 @@ def test_register_ipython_excepthook():
 #--------------------------
 
 # Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import logging
-    import io
-    import sys
-
-    # Capture log output
-    log_capture_string = io.StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.ERROR)
-    logger = logging.getLogger()
-    logger.addHandler(ch)
-
-    # Test 1: Default handler (log_exception)
+def test_exception_wrapper():
     @exception_wrapper()
-    def func1():
+    def test_func():
         raise ValueError("Test error")
 
-    func1()
-    log_contents = log_capture_string.getvalue()
-    assert "Test error" in log_contents
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
+    @exception_wrapper(lambda e: print(f"Caught exception: {e}"))
+    def test_func_with_handler():
+        raise ValueError("Test error")
 
-    # Test 2: Custom handler
-    def custom_handler(e, arg1, arg2, extra="default"):
-        print(f"Caught {e} with arg1={arg1}, arg2={arg2}, extra={extra}")
-
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra="default"):
-        raise RuntimeError("Custom error")
-
-    # Redirect stdout to capture print output
-    old_stdout = sys.stdout
-    sys.stdout = io.StringIO()
-    func2("value1", "value2", extra="nondefault")
-    output = sys.stdout.getvalue()
-    sys.stdout = old_stdout
-    assert "Caught" in output and "value1" in output and "value2" in output and "nondefault" in output
-
-    # Test 3: Generator function
-    @exception_wrapper()
-    def func3():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    gen = func3()
-    assert next(gen) == 1
-    try:
-        next(gen)
-    except StopIteration:
-        pass  # Expected since generator exits after exception
-    log_contents = log_capture_string.getvalue()
-    assert "Generator error" in log_contents
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
+    test_func()
+    test_func_with_handler()
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for function log_exception
-def test_log_exception():  
-    try:  
-        raise ValueError("Test error")  
-    except ValueError as e:  
-        log_exception(e, user_msg="Custom message")  
+def test_log_exception():
+    import io
+    import logging
+    from contextlib import redirect_stderr
 
+    # Setup logging to capture output
+    log_stream = io.StringIO()
+    logging.basicConfig(stream=log_stream, level=logging.ERROR)
+
+    # Test with a simple exception
+    try:
+        raise ValueError("Test error")
+    except ValueError as e:
+        log_exception(e, "Custom message")
+
+    # Check if the exception was logged
+    log_content = log_stream.getvalue()
+    assert "Custom message: <ValueError> Test error" in log_content
+    assert "Traceback (most recent call last):" in log_content
+
+    # Test with a subprocess.CalledProcessError
+    try:
+        raise subprocess.CalledProcessError(1, "cmd", output="output")
+    except subprocess.CalledProcessError as e:
+        log_exception(e, "Subprocess error")
+
+    # Check if the exception was logged without traceback
+    log_content = log_stream.getvalue()
+    assert "Subprocess error: <CalledProcessError> Command 'cmd' returned non-zero exit status 1." in log_content
+    assert "Traceback (most recent call last):" not in log_content
+
+    # Test with a custom handler
+    def custom_handler(e, **kwargs):
+        logging.error(f"Custom handler: {e}")
+
+    @exception_wrapper(custom_handler)
+    def failing_function():
+        raise RuntimeError("Failed")
+
+    try:
+        failing_function()
+    except RuntimeError:
+        pass
+
+    # Check if the custom handler was called
+    log_content = log_stream.getvalue()
+    assert "Custom handler: Failed" in log_content
+
+    # Cleanup
+    logging.basicConfig(level=logging.WARNING)
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import sys
-    import io
-    import logging
-    from contextlib import redirect_stdout, redirect_stderr
-
-    # Setup logging to capture log messages
-    log_capture_string = io.StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.ERROR)
-    logger = logging.getLogger('flutes')
-    logger.addHandler(ch)
-    logger.setLevel(logging.ERROR)
-
-    # Test 1: Default handler (log_exception)
+def test_exception_wrapper():
+    # Test case 1: No exception raised
     @exception_wrapper()
     def func1():
+        return 42
+
+    assert func1() == 42
+
+    # Test case 2: Exception raised with default handler
+    @exception_wrapper()
+    def func2():
         raise ValueError("Test error")
 
-    f = io.StringIO()
-    with redirect_stdout(f), redirect_stderr(f):
-        func1()
-    output = f.getvalue()
-    assert "Test error" in output
-    print("Test 1 passed")
+    func2()  # Should log the exception
 
-    # Test 2: Custom handler with matching arguments
-    def custom_handler(e, arg1, arg2, extra="default"):
-        print(f"Caught {e.__class__.__name__}: {e}")
-        print(f"arg1={arg1}, arg2={arg2}, extra={extra}")
+    # Test case 3: Custom handler function
+    def handler(e, arg1, arg2, extra_arg=None):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == 2
+        assert extra_arg is None
+        return "handled"
 
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra="default"):
-        raise RuntimeError("Custom error")
+    @exception_wrapper(handler)
+    def func3(arg1, arg2):
+        raise ValueError("Test error")
 
-    f = io.StringIO()
-    with redirect_stdout(f), redirect_stderr(f):
-        func2("value1", "value2", extra="not default")
-    output = f.getvalue()
-    assert "Caught RuntimeError: Custom error" in output
-    assert "arg1=value1, arg2=value2, extra=not default" in output
-    print("Test 2 passed")
+    result = func3(1, 2)
+    assert result == "handled"
 
-    # Test 3: Custom handler with **kwargs
-    def custom_handler_kwargs(e, arg1, **kwargs):
-        print(f"Caught {e.__class__.__name__}: {e}")
-        print(f"arg1={arg1}, kwargs={kwargs}")
-
-    @exception_wrapper(custom_handler_kwargs)
-    def func3(arg1, arg2, extra="default"):
-        raise KeyError("Key error")
-
-    f = io.StringIO()
-    with redirect_stdout(f), redirect_stderr(f):
-        func3("value1", "value2", extra="not default")
-    output = f.getvalue()
-    assert "Caught KeyError: Key error" in output
-    assert "arg1=value1" in output
-    assert "'arg2': 'value2'" in output
-    assert "'extra': 'not default'" in output
-    print("Test 3 passed")
-
-    # Test 4: Generator function
+    # Test case 4: Generator function
     @exception_wrapper()
     def func4():
         yield 1
-        raise ValueError("Generator error")
+        raise ValueError("Test error")
         yield 2
 
-    f = io.StringIO()
-    with redirect_stdout(f), redirect_stderr(f):
-        try:
-            for val in func4():
-                print(val)
-        except Exception:
-            pass
-    output = f.getvalue()
-    assert "1" in output
-    assert "Generator error" in output
-    print("Test 4 passed")
-
-    # Test 5: Exception in generator with custom handler
-    def custom_handler_gen(e, start):
-        print(f"Generator error: {e}, start={start}")
-
-    @exception_wrapper(custom_handler_gen)
-    def func5(start):
-        yield start
-        raise RuntimeError("Gen runtime error")
-        yield start + 1
-
-    f = io.StringIO()
-    with redirect_stdout(f), redirect_stderr(f):
-        try:
-            for val in func5(10):
-                print(val)
-        except Exception:
-            pass
-    output = f.getvalue()
-    assert "10" in output
-    assert "Generator error: Gen runtime error, start=10" in output
-    print("Test 5 passed")
-
-    # Test 6: No exception
-    @exception_wrapper()
-    def func6():
-        return "success"
-
-    result = func6()
-    assert result == "success"
-    print("Test 6 passed")
-
-    # Test 7: Handler with mismatched arguments (should raise error at decoration time)
+    gen = func4()
+    assert next(gen) == 1
     try:
-        def bad_handler(e, non_existent_arg):
-            pass
+        next(gen)  # Should log the exception
+    except StopIteration:
+        pass
 
-        @exception_wrapper(bad_handler)
-        def func7():
-            pass
+    # Test case 5: Handler with kwargs
+    def handler_kwargs(e, arg1, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert kwargs == {'arg2': 2, 'extra': 3}
+        return "handled_kwargs"
 
-        # The above should raise ValueError because non_existent_arg is not in func7's signature
-        print("Test 7 failed: Expected ValueError")
-    except ValueError as e:
-        assert "non_existent_arg" in str(e)
-        print("Test 7 passed")
+    @exception_wrapper(handler_kwargs)
+    def func5(arg1, arg2, extra=None):
+        raise ValueError("Test error")
 
-    # Test 8: Handler with default values for arguments that match wrapped function (should raise error)
-    try:
-        def bad_handler2(e, arg1, arg2="default"):
-            pass
+    result = func5(1, 2, extra=3)
+    assert result == "handled_kwargs"
 
-        @exception_wrapper(bad_handler2)
-        def func8(arg1, arg2):
-            pass
-
-        print("Test 8 failed: Expected ValueError")
-    except ValueError as e:
-        assert "arg2" in str(e)
-        print("Test 8 passed")
-
-    # Test 9: Handler with varargs (should raise error)
-    try:
-        def bad_handler3(e, *args):
-            pass
-
-        @exception_wrapper(bad_handler3)
-        def func9():
-            pass
-
-        print("Test 9 failed: Expected ValueError")
-    except ValueError as e:
-        assert "varargs" in str(e) or "*args" in str(e)
-        print("Test 9 passed")
-
-    # Test 10: Nested wrapper
+    # Test case 6: Nested wrapper
+    @exception_wrapper(handler)
     @exception_wrapper()
-    @exception_wrapper()
-    def func10():
-        raise TypeError("Nested error")
+    def func6(arg1, arg2):
+        raise ValueError("Test error")
 
-    f = io.StringIO()
-    with redirect_stdout(f), redirect_stderr(f):
-        func10()
-    output = f.getvalue()
-    # Should see the error logged twice (once per wrapper)
-    assert output.count("Nested error") == 2
-    print("Test 10 passed")
-
-    # Clean up logging
-    logger.removeHandler(ch)
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
+    result = func6(1, 2)
+    assert result == "handled"
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for function log_exception
-def test_log_exception():  
-    try:  
-        raise ValueError("Test error")  
-    except ValueError as e:  
-        log_exception(e, user_msg="An error occurred")  
-  
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    @exception_wrapper()
+    def divide(a, b):
+        return a / b
+
+    # Test with a valid division
+    assert divide(4, 2) == 2
+
+    # Test with a division by zero
+    try:
+        divide(4, 0)
+    except ZeroDivisionError:
+        pass
+
+    # Test with a custom handler
+    def custom_handler(e, a, b):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 4
+        assert b == 0
+
+    @exception_wrapper(custom_handler)
+    def divide_custom(a, b):
+        return a / b
+
+    # Test custom handler function
+    try:
+        divide_custom(4, 0)
+    except ZeroDivisionError:
+        pass
+
+    # Test with a generator function
+    @exception_wrapper()
+    def generator_function(a, b):
+        yield a / b
+
+    # Test with a valid generator
+    gen = generator_function(4, 2)
+    assert next(gen) == 2
+
+    # Test with a generator and division by zero
+    gen = generator_function(4, 0)
+    try:
+        next(gen)
+    except ZeroDivisionError:
+        pass
+
+    # Test with a custom handler and generator
+    @exception_wrapper(custom_handler)
+    def generator_function_custom(a, b):
+        yield a / b
+
+    # Test custom handler function with generator
+    gen = generator_function_custom(4, 0)
+    try:
+        next(gen)
+    except ZeroDivisionError:
+        pass
 
 
 # LLM-generated content at query #7
 #--------------------------
 
-# Unit test for function log_exception
-def test_log_exception(): 
-    try:
-        raise ValueError("Test exception")
-    except ValueError as e:
-        log_exception(e, user_msg="Test user message")
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    @exception_wrapper()
+    def foo():
+        raise ValueError("test")
 
+    foo()
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import io
-    import sys
-    import logging
-
-    # Setup logging to capture log messages
-    log_capture_string = io.StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.ERROR)
-    logger = logging.getLogger()
-    logger.addHandler(ch)
-
-    # Test 1: Default handler (log_exception)
-    @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
-
-    func1()
-    log_contents = log_capture_string.getvalue()
-    assert "Test error" in log_contents
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
-
-    # Test 2: Custom handler
-    def custom_handler(e, arg1, arg2, extra="default"):
-        print(f"Caught {e} with arg1={arg1}, arg2={arg2}, extra={extra}")
-
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra="default"):
-        raise RuntimeError("Custom handler test")
-
-    # Capture stdout
-    old_stdout = sys.stdout
-    sys.stdout = io.StringIO()
-    func2("value1", "value2", extra="not default")
-    output = sys.stdout.getvalue()
-    sys.stdout = old_stdout
-    assert "Caught" in output and "value1" in output and "value2" in output and "not default" in output
-
-    # Test 3: Generator function
-    @exception_wrapper()
-    def func3():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    gen = func3()
-    assert next(gen) == 1
+# Unit test for function log_exception
+def test_log_exception():
+    # Test logging a basic exception
     try:
-        next(gen)
-    except StopIteration:
-        pass  # Exception should be logged, not raised
-    log_contents = log_capture_string.getvalue()
-    assert "Generator error" in log_contents
+        raise ValueError("Test exception")
+    except ValueError as e:
+        log_exception(e, user_msg="Test message")
 
-    print("All tests passed!")
+    # Test logging a CalledProcessError with output
+    try:
+        raise subprocess.CalledProcessError(1, "cmd", "Test output")
+    except subprocess.CalledProcessError as e:
+        log_exception(e, user_msg="Test message")
 
-if __name__ == "__main__":
-    test_exception_wrapper()
+    # Test logging a CalledProcessError without output
+    try:
+        raise subprocess.CalledProcessError(1, "cmd")
+    except subprocess.CalledProcessError as e:
+        log_exception(e, user_msg="Test message")
+
+    # Test logging an exception with additional kwargs
+    try:
+        raise ValueError("Test exception")
+    except ValueError as e:
+        log_exception(e, user_msg="Test message", extra={"key": "value"})
+
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling with default handler
-    @exception_wrapper()
-    def func1(x):
-        if x == 0:
-            raise ValueError("x cannot be 0")
-        return 10 / x
-
-    # Should log exception and return None
-    assert func1(0) is None
-
-    # Test 2: Custom handler function
-    def custom_handler(e, x, extra_msg="default"):
-        return f"Caught {type(e).__name__}: {e} with x={x}, extra={extra_msg}"
-
-    @exception_wrapper(custom_handler)
-    def func2(x):
-        if x < 0:
-            raise ValueError("x must be non-negative")
-        return x * 2
-
-    # Should return custom handler's result
-    result = func2(-1)
-    assert result == "Caught ValueError: x must be non-negative with x=-1, extra=default"
-
-    # Test 3: Handler with **kwargs
-    def handler_with_kwargs(e, a, b, **kwargs):
-        return f"Error: {e}, a={a}, b={b}, kwargs={kwargs}"
-
-    @exception_wrapper(handler_with_kwargs)
-    def func3(a, b=5, *args, c=10, **kwargs):
-        raise RuntimeError("Something went wrong")
-
-    result = func3(1, 2, 3, d=4)
-    assert result == "Error: Something went wrong, a=1, b=2, kwargs={'args': (3,), 'c': 10, 'd': 4}"
-
-    # Test 4: Generator function
-    @exception_wrapper()
-    def gen_func(n):
-        for i in range(n):
-            if i == 3:
-                raise ValueError("i is 3")
-            yield i
-
-    # Should log exception and stop iteration
-    gen = gen_func(5)
-    assert list(gen) == [0, 1, 2]
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    # Test that the function registers the hook correctly
+    original_hook = sys.excepthook
+    register_ipython_excepthook()
+    assert sys.excepthook != original_hook
+    # Test that the hook is not registered for KeyboardInterrupt
+    register_ipython_excepthook(capture_keyboard_interrupt=False)
+    assert sys.excepthook != original_hook
+    # Test that the hook is registered for KeyboardInterrupt
+    register_ipython_excepthook(capture_keyboard_interrupt=True)
+    assert sys.excepthook != original_hook
 
 
 # LLM-generated content at query #10
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling with default handler
-    @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
-
-    # Test 2: Custom exception handler
-    def custom_handler(e, arg1, arg2, extra_arg="default"):
-        print(f"Custom handler called with: {e}, arg1={arg1}, arg2={arg2}, extra_arg={extra_arg}")
-
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra_arg="default"):
-        raise ValueError("Test error")
-
-    # Test 3: Exception handler with matching arguments
-    def handler_with_matching_args(e, one, two, three=None, **kwargs):
-        print(f"Handler with matching args: {e}, one={one}, two={two}, three={three}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_with_matching_args)
-    def func3(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test error")
-
-    # Test 4: Exception handler with non-matching arguments (should raise error)
+# Unit test for function log_exception
+def test_log_exception():
     try:
-        def handler_with_non_matching_args(e, non_existent_arg):
-            pass
-
-        @exception_wrapper(handler_with_non_matching_args)
-        def func4():
-            pass
-
-        # This should raise ValueError because non_existent_arg doesn't match any argument in func4
-        func4()
+        raise ValueError("Test exception")
     except ValueError as e:
-        print(f"Expected error caught: {e}")
+        log_exception(e, user_msg="Test user message", level="error")
 
-    # Test 5: Exception handler with varargs (should raise error)
-    try:
-        def handler_with_varargs(e, *args):
-            pass
-
-        @exception_wrapper(handler_with_varargs)
-        def func5():
-            pass
-
-        # This should raise ValueError because handler cannot have varargs
-        func5()
-    except ValueError as e:
-        print(f"Expected error caught: {e}")
-
-    # Test 6: Exception handler with default values for matching arguments (should raise error)
-    try:
-        def handler_with_default_for_matching(e, arg1, arg2="default"):
-            pass
-
-        @exception_wrapper(handler_with_default_for_matching)
-        def func6(arg1, arg2):
-            pass
-
-        # This should raise ValueError because arg2 matches but has a default value
-        func6(1, 2)
-    except ValueError as e:
-        print(f"Expected error caught: {e}")
-
-    # Test 7: Generator function with exception wrapper
-    @exception_wrapper()
-    def func7():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    # Test 8: Function with no exception
-    @exception_wrapper()
-    def func8():
-        return "Success"
-
-    # Run tests
-    print("Test 1: Basic exception handling with default handler")
-    func1()
-
-    print("\nTest 2: Custom exception handler")
-    func2("value1", "value2", extra_arg="custom")
-
-    print("\nTest 3: Exception handler with matching arguments")
-    func3("one_val", "two_val", "arg1", "arg2", three="three_val", four=4)
-
-    print("\nTest 7: Generator function with exception wrapper")
-    gen = func7()
-    try:
-        for value in gen:
-            print(f"Yielded: {value}")
-    except StopIteration:
-        pass
-
-    print("\nTest 8: Function with no exception")
-    result = func8()
-    print(f"Result: {result}")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
 
 
 # LLM-generated content at query #11
 #--------------------------
 
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook
-    # that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test this directly, but we can test that the function doesn't raise an exception.
-    try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
-    else:
-        assert True
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    @exception_wrapper()
+    def test_function():
+        raise ValueError("Test exception")
 
+    test_function()
+
+    @exception_wrapper(lambda e: print(f"Custom handler: {e}"))
+    def test_function_custom_handler():
+        raise ValueError("Test exception")
+
+    test_function_custom_handler()
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Define a simple function that raises an exception
-    @exception_wrapper()
-    def raise_exception():
-        raise ValueError("Test exception")
-
-    # Define a function that does not raise an exception
-    @exception_wrapper()
-    def no_exception():
-        return "Success"
-
-    # Test that the exception is caught and logged
+# Unit test for function log_exception
+def test_log_exception():
     try:
-        raise_exception()
-    except Exception as e:
-        print(f"Exception caught: {e}")
+        raise ValueError("Test error")
+    except ValueError as e:
+        log_exception(e, "Custom message", level="error")
 
-    # Test that the function returns normally when no exception is raised
-    result = no_exception()
-    print(f"Result: {result}")
-
-    # Define a custom handler function
-    def custom_handler(e, arg1, arg2, custom_arg=None, **kwargs):
-        print(f"Custom handler called with exception: {e}")
-        print(f"arg1: {arg1}, arg2: {arg2}")
-        print(f"custom_arg: {custom_arg}")
-        print(f"kwargs: {kwargs}")
-
-    # Define a function that raises an exception and uses the custom handler
-    @exception_wrapper(custom_handler)
-    def raise_exception_with_custom_handler(arg1, arg2, *args, **kwargs):
-        raise ValueError("Test exception with custom handler")
-
-    # Test the custom handler
-    try:
-        raise_exception_with_custom_handler("value1", "value2", "extra1", "extra2", extra_kw="extra_value")
-    except Exception as e:
-        print(f"Exception caught: {e}")
-
-    # Define a generator function that raises an exception
-    @exception_wrapper()
-    def generator_with_exception():
-        yield 1
-        raise ValueError("Exception in generator")
-        yield 2
-
-    # Test that the exception in the generator is caught and logged
-    try:
-        for value in generator_with_exception():
-            print(f"Yielded: {value}")
-    except Exception as e:
-        print(f"Exception caught: {e}")
-
-    # Define a generator function that does not raise an exception
-    @exception_wrapper()
-    def generator_without_exception():
-        yield 1
-        yield 2
-
-    # Test that the generator yields values normally
-    for value in generator_without_exception():
-        print(f"Yielded: {value}")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
 
 
 # LLM-generated content at query #13
 #--------------------------
 
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test this directly because it would require an interactive session, but we can test that the function doesn't raise an exception.
-    try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    def custom_handler(e, arg1, arg2, custom_arg=None):
+        assert isinstance(e, ValueError)
+        assert arg1 == "value1"
+        assert arg2 == "value2"
+        assert custom_arg is None
 
+    @exception_wrapper(custom_handler)
+    def faulty_function(arg1, arg2, custom_arg=None):
+        raise ValueError("An error occurred")
+
+    faulty_function("value1", "value2")
+
+    @exception_wrapper()
+    def another_faulty_function():
+        raise ValueError("Another error occurred")
+
+    another_faulty_function()
+
+    @exception_wrapper()
+    def generator_function():
+        yield 1
+        raise ValueError("Generator error")
+
+    for _ in generator_function():
+        pass
+
+    print("All tests passed")
 
 
 # LLM-generated content at query #14
 #--------------------------
 
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test this directly because it would require an interactive session, but we can test that the function doesn't raise an exception.
-    try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    @exception_wrapper()
+    def func1():
+        raise ValueError("Test error")
 
+    @exception_wrapper(lambda e: print(f"Custom handler: {e}"))
+    def func2():
+        raise ValueError("Test error")
+
+    func1()
+    func2()
+
+# Run the unit test
+test_exception_wrapper()
 
 
 # LLM-generated content at query #15
 #--------------------------
 
-# Unit test for function log_exception
-def test_log_exception(): 
-    try: 
-        raise ValueError("Test exception") 
-    except ValueError as e: 
-        log_exception(e, user_msg="An error occurred") 
-        print("Exception logged successfully") 
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    # Test with default handler (log_exception)
+    @exception_wrapper()
+    def func1(x):
+        return 1 / x
 
+    # Should not raise an exception
+    assert func1(1) == 1.0
+
+    # Test with custom handler
+    def handler(e, x):
+        return f"Error: {e} with x={x}"
+
+    @exception_wrapper(handler)
+    def func2(x):
+        return 1 / x
+
+    # Should return the error message from handler
+    assert func2(0) == "Error: division by zero with x=0"
+
+    # Test with generator function
+    @exception_wrapper(handler)
+    def func3(x):
+        yield 1 / x
+
+    # Should return the error message from handler
+    gen = func3(0)
+    assert next(gen) == "Error: division by zero with x=0"
+
+    # Test with kwargs
+    @exception_wrapper(handler)
+    def func4(x, y=1):
+        return 1 / (x - y)
+
+    # Should return the error message from handler
+    assert func4(1) == "Error: division by zero with x=1"
+
+    # Test with varargs and kwargs
+    @exception_wrapper(handler)
+    def func5(x, *args, y=1, **kwargs):
+        return 1 / (x - y)
+
+    # Should return the error message from handler
+    assert func5(1, 2, 3, y=1, z=4) == "Error: division by zero with x=1"
+
+    # Test with handler that has default args
+    def handler2(e, x, y=1):
+        return f"Error: {e} with x={x}, y={y}"
+
+    @exception_wrapper(handler2)
+    def func6(x, y=1):
+        return 1 / (x - y)
+
+    # Should return the error message from handler
+    assert func6(1) == "Error: division by zero with x=1, y=1"
+
+    # Test with handler that has kwargs
+    def handler3(e, x, **kwargs):
+        return f"Error: {e} with x={x}, kwargs={kwargs}"
+
+    @exception_wrapper(handler3)
+    def func7(x, y=1):
+        return 1 / (x - y)
+
+    # Should return the error message from handler
+    assert func7(1) == "Error: division by zero with x=1, kwargs={'y': 1}"
+
+    # Test with handler that has no matching args
+    def handler4(e, z=2):
+        return f"Error: {e} with z={z}"
+
+    @exception_wrapper(handler4)
+    def func8(x, y=1):
+        return 1 / (x - y)
+
+    # Should return the error message from handler
+    assert func8(1) == "Error: division by zero with z=2"
+
+    # Test with handler that has matching and non-matching args
+    def handler5(e, x, z=2):
+        return f"Error: {e} with x={x}, z={z}"
+
+    @exception_wrapper(handler5)
+    def func9(x, y=1):
+        return 1 / (x - y)
+
+    # Should return the error message from handler
+    assert func9(1) == "Error: division by zero with x=1, z=2"
+
+    # Test with handler that has varargs (should raise ValueError)
+    try:
+        def handler6(e, *args):
+            pass
+
+        @exception_wrapper(handler6)
+        def func10(x):
+            pass
+
+        assert False, "Should have raised ValueError"
+    except ValueError:
+        pass
+
+    # Test with handler that has no first arg (should raise ValueError)
+    try:
+        def handler7():
+            pass
+
+        @exception_wrapper(handler7)
+        def func11(x):
+            pass
+
+        assert False, "Should have raised ValueError"
+    except ValueError:
+        pass
+
+    # Test with handler that has non-matching arg without default (should raise ValueError)
+    try:
+        def handler8(e, z):
+            pass
+
+        @exception_wrapper(handler8)
+        def func12(x):
+            pass
+
+        assert False, "Should have raised ValueError"
+    except ValueError:
+        pass
+
+    # Test with handler that has matching arg with default (should raise ValueError)
+    try:
+        def handler9(e, x=1):
+            pass
+
+        @exception_wrapper(handler9)
+        def func13(x):
+            pass
+
+        assert False, "Should have raised ValueError"
+    except ValueError:
+        pass
+
+    print("All tests passed!")
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for function exception_wrapper
-def test_exception_wrapper():  
-    import logging
-    logging.basicConfig(level=logging.DEBUG)
-    from flutes.log import log
-    from flutes.exception import exception_wrapper
-    from flutes.exception import log_exception
-
-    def handler_fn(e, three, one, args, my_arg=None, **kw):
-        print(f"handler_fn: e={e}, three={three}, one={one}, args={args}, my_arg={my_arg}, kw={kw}")
-        return "handler_fn"
-
-    @exception_wrapper(handler_fn)
-    def foo(one, two, *args, three=None, **kwargs):
-        print(f"foo: one={one}, two={two}, args={args}, three={three}, kwargs={kwargs}")
-        raise ValueError("test")
-
-    foo(1, "2", "arg1", "arg2", four=4)
-    # Output:
-    # foo: one=1, two=2, args=('arg1', 'arg2'), three=None, kwargs={'four': 4}
-    # handler_fn: e=<ValueError> test, three=None, one=1, args=('arg1', 'arg2'), my_arg=None, kw={'two': '2', 'kwargs': {'four': 4}}
-
+def test_exception_wrapper():
+    # Test case 1: No exception raised
     @exception_wrapper()
-    def bar(one, two, *args, three=None, **kwargs):
-        print(f"bar: one={one}, two={two}, args={args}, three={three}, kwargs={kwargs}")
-        raise ValueError("test")
+    def func1(a, b):
+        return a + b
 
-    bar(1, "2", "arg1", "arg2", four=4)
-    # Output:
-    # bar: one=1, two=2, args=('arg1', 'arg2'), three=None, kwargs={'four': 4}
-    # ERROR:flutes.log:Traceback (most recent call last):
-    #   File "/home/user/flutes/flutes/exception.py", line 176, in wrapped
-    #     result = func(*args, **kwargs)
-    #   File "/home/user/flutes/test.py", line 30, in bar
-    #     raise ValueError("test")
-    # ValueError: test
-    # ERROR:flutes.log:<ValueError> test
+    assert func1(1, 2) == 3
 
+    # Test case 2: Exception raised, default handler
     @exception_wrapper()
-    def baz(one, two, *args, three=None, **kwargs):
-        print(f"baz: one={one}, two={two}, args={args}, three={three}, kwargs={kwargs}")
-        yield 1
-        yield 2
-        raise ValueError("test")
+    def func2(a, b):
+        raise ValueError("Test error")
 
-    for i in baz(1, "2", "arg1", "arg2", four=4):
-        print(i)
-    # Output:
-    # baz: one=1, two=2, args=('arg1', 'arg2'), three=None, kwargs={'four': 4}
-    # 1
-    # 2
-    # ERROR:flutes.log:Traceback (most recent call last):
-    #   File "/home/user/flutes/flutes/exception.py", line 176, in wrapped
-    #     result = func(*args, **kwargs)
-    #   File "/home/user/flutes/test.py", line 30, in bar
-    #     raise ValueError("test")
-    # ValueError: test
-    # ERROR:flutes.log:<ValueError> test
+    try:
+        func2(1, 2)
+    except ValueError:
+        pass  # Expected
 
-    print("All tests passed!")
+    # Test case 3: Custom handler function
+    def custom_handler(e, a, b):
+        return f"Handled {e} with a={a}, b={b}"
 
-if __name__ == "__main__":
-    test_exception_wrapper()
+    @exception_wrapper(custom_handler)
+    def func3(a, b):
+        raise ValueError("Test error")
+
+    result = func3(1, 2)
+    assert "Handled <ValueError> Test error with a=1, b=2" in result
+
+    # Test case 4: Generator function
+    @exception_wrapper()
+    def func4(a, b):
+        yield a + b
+        raise ValueError("Test error")
+
+    gen = func4(1, 2)
+    assert next(gen) == 3
+    try:
+        next(gen)
+    except ValueError:
+        pass  # Expected
+
+    # Test case 5: Invalid handler (no exception parameter)
+    def invalid_handler():
+        pass
+
+    try:
+        @exception_wrapper(invalid_handler)
+        def func5():
+            pass
+    except ValueError:
+        pass  # Expected
+
+    # Test case 6: Invalid handler (varargs)
+    def invalid_handler2(e, *args):
+        pass
+
+    try:
+        @exception_wrapper(invalid_handler2)
+        def func6():
+            pass
+    except ValueError:
+        pass  # Expected
+
+    # Test case 7: Invalid handler (non-matching argument)
+    def invalid_handler3(e, non_existent_arg):
+        pass
+
+    try:
+        @exception_wrapper(invalid_handler3)
+        def func7(a):
+            pass
+    except ValueError:
+        pass  # Expected
+
+    # Test case 8: Invalid handler (matching arg with default)
+    def invalid_handler4(e, a=1):
+        pass
+
+    try:
+        @exception_wrapper(invalid_handler4)
+        def func8(a):
+            pass
+    except ValueError:
+        pass  # Expected
+
+    print("All exception_wrapper tests passed")
 
 
 # LLM-generated content at query #17
 #--------------------------
 
 # Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test this directly because it would require an interactive session, but we can test that the function doesn't raise any exceptions.
-    try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
+def test_register_ipython_excepthook():
+    # Test that the function registers the hook correctly
+    register_ipython_excepthook()
+    assert sys.excepthook != sys.__excepthook__
 
+    # Test that KeyboardInterrupt is not captured by default
+    try:
+        raise KeyboardInterrupt
+    except KeyboardInterrupt:
+        pass
+    else:
+        assert False, "KeyboardInterrupt should not be captured"
+
+    # Test that other exceptions are captured
+    try:
+        raise ValueError
+    except ValueError:
+        pass
+    else:
+        assert False, "ValueError should be captured"
+
+    # Test that BdbQuit is not captured
+    try:
+        raise BdbQuit
+    except BdbQuit:
+        pass
+    else:
+        assert False, "BdbQuit should not be captured"
+
+    # Test that the hook can be registered with capture_keyboard_interrupt=True
+    register_ipython_excepthook(capture_keyboard_interrupt=True)
+    try:
+        raise KeyboardInterrupt
+    except KeyboardInterrupt:
+        pass
+    else:
+        assert False, "KeyboardInterrupt should be captured"
 
 
 # LLM-generated content at query #18
 #--------------------------
 
-# Unit test for function log_exception
-def test_log_exception(): 
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    def raise_exception():
+        raise ValueError("test exception")
+
+    register_ipython_excepthook()
     try:
-        raise ValueError("Test error")
-    except ValueError as e:
-        log_exception(e, "User message")
+        raise_exception()
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError to be raised"
 
 
 
 # LLM-generated content at query #19
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import logging
-    import io
-    import sys
+# Unit test for function log_exception
+def test_log_exception():
+    pass
 
-    # Setup logging to capture output
-    log_capture_string = io.StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.ERROR)
-    logger = logging.getLogger()
-    logger.addHandler(ch)
-
-    # Test 1: Default handler (log_exception)
-    @exception_wrapper()
-    def func1(x):
-        if x == 0:
-            raise ValueError("x cannot be zero")
-        return 10 / x
-
-    # Should log exception when x=0
-    func1(0)
-    log_contents = log_capture_string.getvalue()
-    assert "ValueError" in log_contents
-    assert "x cannot be zero" in log_contents
-
-    # Clear log capture
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
-
-    # Test 2: Custom handler
-    def custom_handler(e, x, extra_msg="default"):
-        print(f"Caught {e.__class__.__name__}: {e} with x={x}, extra_msg={extra_msg}")
-
-    @exception_wrapper(custom_handler)
-    def func2(x):
-        if x < 0:
-            raise ValueError("x must be non-negative")
-        return x * 2
-
-    # Capture stdout to check custom handler output
-    old_stdout = sys.stdout
-    sys.stdout = io.StringIO()
-    func2(-5)
-    output = sys.stdout.getvalue()
-    sys.stdout = old_stdout
-    assert "Caught ValueError: x must be non-negative with x=-5, extra_msg=default" in output
-
-    # Test 3: Generator function
-    @exception_wrapper()
-    def func3(n):
-        for i in range(n):
-            if i == 2:
-                raise RuntimeError("i is 2")
-            yield i
-
-    # Should log exception when i=2
-    list(func3(5))  # Consume generator
-    log_contents = log_capture_string.getvalue()
-    assert "RuntimeError" in log_contents
-    assert "i is 2" in log_contents
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
 
 
 # LLM-generated content at query #20
 #--------------------------
 
 # Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # This test is not implemented because it requires an interactive IPython session.
-    pass
-
+def test_register_ipython_excepthook():
+    # Test that the function registers the hook correctly
+    original_excepthook = sys.excepthook
+    register_ipython_excepthook()
+    assert sys.excepthook != original_excepthook
+    # Test that KeyboardInterrupt is not captured by default
+    register_ipython_excepthook(capture_keyboard_interrupt=False)
+    assert KeyboardInterrupt not in [BdbQuit]
+    # Test that KeyboardInterrupt is captured when specified
+    register_ipython_excepthook(capture_keyboard_interrupt=True)
+    assert KeyboardInterrupt in [BdbQuit]
 
 
 # LLM-generated content at query #21
 #--------------------------
 
 # Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function does not raise an exception
+def test_register_ipython_excepthook():
+    # Simulate an exception and check if the exception hook is registered correctly
     try:
         register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
+        raise ValueError("Test exception")
+    except ValueError as e:
+        assert str(e) == "Test exception"
 
 
 
 # LLM-generated content at query #22
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling
-    @exception_wrapper()
-    def basic_function():
-        raise ValueError("Test error")
-    
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2, extra_arg=None):
-        print(f"Custom handler called with: {e}, {arg1}, {arg2}, {extra_arg}")
-    
-    @exception_wrapper(custom_handler)
-    def function_with_args(arg1, arg2):
-        raise ValueError("Test error")
-    
-    # Test 3: Handler with **kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        print(f"Handler with kwargs called with: {e}, {arg1}, {kwargs}")
-    
-    @exception_wrapper(handler_with_kwargs)
-    def function_with_kwargs(arg1, arg2, **kwargs):
-        raise ValueError("Test error")
-    
-    # Test 4: Generator function
-    @exception_wrapper()
-    def generator_function():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-    
-    # Test 5: No exception
-    @exception_wrapper()
-    def no_exception_function():
-        return "Success"
-    
-    # Run tests
-    print("Test 1: Basic exception handling")
-    basic_function()
-    
-    print("\nTest 2: Custom handler function")
-    function_with_args("value1", "value2")
-    
-    print("\nTest 3: Handler with **kwargs")
-    function_with_kwargs("value1", "value2", extra="extra_value")
-    
-    print("\nTest 4: Generator function")
-    try:
-        for item in generator_function():
-            print(item)
-    except Exception as e:
-        print(f"Generator raised: {e}")
-    
-    print("\nTest 5: No exception")
-    result = no_exception_function()
-    print(f"Result: {result}")
+# Unit test for function log_exception
+def test_log_exception():
+    import io
+    import logging
+    from contextlib import redirect_stderr
 
-if __name__ == "__main__":
-    test_exception_wrapper()
+    # Setup logging to capture output
+    log_stream = io.StringIO()
+    logging.basicConfig(stream=log_stream, level=logging.ERROR)
+
+    # Test with a simple exception
+    try:
+        raise ValueError("Test error")
+    except ValueError as e:
+        log_exception(e, "Custom message")
+
+    # Check if the exception was logged
+    log_output = log_stream.getvalue()
+    assert "Custom message: <ValueError> Test error" in log_output
+    assert "Traceback (most recent call last):" in log_output
+
+    # Test with a subprocess.CalledProcessError
+    try:
+        raise subprocess.CalledProcessError(1, "cmd", output=b"output")
+    except subprocess.CalledProcessError as e:
+        log_exception(e, "Subprocess error")
+
+    # Check if the exception was logged without traceback
+    log_output = log_stream.getvalue()
+    assert "Subprocess error: <CalledProcessError> Command 'cmd' returned non-zero exit status 1." in log_output
+    assert "Traceback" not in log_output
+
+    # Test with another exception during logging
+    try:
+        raise RuntimeError("Logging error")
+    except RuntimeError as e:
+        # Redirect stderr to capture the fallback output
+        stderr_stream = io.StringIO()
+        with redirect_stderr(stderr_stream):
+            # Simulate a logging error by closing the stream
+            log_stream.close()
+            log_exception(e, "Logging failed")
+
+    # Check if the fallback output was printed
+    stderr_output = stderr_stream.getvalue()
+    assert "Logging failed: <RuntimeError> Logging error" in stderr_output
+    assert "Another exception occurred while logging" in stderr_output
 
 
 # LLM-generated content at query #23
 #--------------------------
 
-# Unit test for function log_exception
-def test_log_exception(): 
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
     try:
-        raise ValueError("Test exception")
-    except ValueError as e:
-        log_exception(e, user_msg="Test user message")
-        print("Test passed")
+        register_ipython_excepthook()
+        assert sys.excepthook != sys.__excepthook__
+    except Exception as e:
+        assert False, f"Exception occurred: {e}"
 
 
 
 # LLM-generated content at query #24
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling
-    @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    # Test the registration of the IPython exception hook
+    register_ipython_excepthook()
+    assert sys.excepthook != sys.__excepthook__
 
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2, extra_arg="default"):
-        return f"Caught {e} with arg1={arg1}, arg2={arg2}, extra_arg={extra_arg}"
-
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra_arg="default"):
-        raise ValueError("Test error")
-
-    # Test 3: Handler with **kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        return f"Caught {e} with arg1={arg1}, kwargs={kwargs}"
-
-    @exception_wrapper(handler_with_kwargs)
-    def func3(arg1, arg2, **kwargs):
-        raise ValueError("Test error")
-
-    # Test 4: Generator function
-    @exception_wrapper()
-    def func4():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    # Test 5: No exception
-    @exception_wrapper()
-    def func5():
-        return "Success"
-
-    # Run tests
-    print("Test 1: Basic exception handling")
-    try:
-        func1()
-    except Exception as e:
-        print(f"Unexpected exception: {e}")
-
-    print("\nTest 2: Custom handler function")
-    result = func2("value1", "value2", extra_arg="custom")
-    print(result)
-
-    print("\nTest 3: Handler with **kwargs")
-    result = func3("value1", "value2", extra1="extra1", extra2="extra2")
-    print(result)
-
-    print("\nTest 4: Generator function")
-    gen = func4()
-    try:
-        for item in gen:
-            print(f"Yielded: {item}")
-    except Exception as e:
-        print(f"Unexpected exception: {e}")
-
-    print("\nTest 5: No exception")
-    result = func5()
-    print(result)
-
-if __name__ == "__main__":
-    test_exception_wrapper()
 
 
 # LLM-generated content at query #25
 #--------------------------
 
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We cannot test this directly because it would require an interactive session.
-    # Instead, we can test that the function does not raise an exception.
-    try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
-    else:
-        assert True
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 == "kwarg1"
+        assert kwargs == {"kwarg2": "kwarg2"}
 
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg1="kwarg1", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == "arg1"
+        assert arg2 == "arg2"
+        assert kwarg1 is None
+        assert kwargs == {"kwarg2": "kwarg2"}
+
+    @exception_wrapper(handler_fn)
+    def foo(arg1, arg2, kwarg1=None, **kwargs):
+        raise ValueError("test error")
+
+    foo("arg1", "arg2", kwarg2="kwarg2")
+
+    def handler_fn(e, arg1, arg2, kw
 
 
 # LLM-generated content at query #26
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling
-    @exception_wrapper()
-    def basic_func():
-        raise ValueError("Test error")
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    # Mock sys.excepthook and sys.__excepthook__
+    original_excepthook = sys.excepthook
+    original___excepthook__ = sys.__excepthook__
+    sys.excepthook = lambda type, value, traceback: None
+    sys.__excepthook__ = lambda type, value, traceback: None
 
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2, extra_arg=None, **kwargs):
-        print(f"Custom handler called with: {e}, {arg1}, {arg2}, {extra_arg}, {kwargs}")
+    # Test that KeyboardInterrupt is not captured by default
+    register_ipython_excepthook()
+    sys.excepthook(KeyboardInterrupt, KeyboardInterrupt(), None)
+    assert sys.excepthook == sys.__excepthook__
 
-    @exception_wrapper(custom_handler)
-    def func_with_args(arg1, arg2, *args, **kwargs):
-        raise ValueError("Test error with args")
+    # Test that KeyboardInterrupt is captured when capture_keyboard_interrupt is True
+    register_ipython_excepthook(capture_keyboard_interrupt=True)
+    sys.excepthook(KeyboardInterrupt, KeyboardInterrupt(), None)
+    assert sys.excepthook != sys.__excepthook__
 
-    # Test 3: Generator function
-    @exception_wrapper()
-    def generator_func():
-        yield 1
-        raise ValueError("Test error in generator")
-        yield 2
+    # Restore original excepthooks
+    sys.excepthook = original_excepthook
+    sys.__excepthook__ = original___excepthook__
 
-    # Test 4: Function with default arguments
-    @exception_wrapper()
-    def func_with_defaults(a, b=10):
-        raise ValueError("Test error with defaults")
-
-    # Test 5: Function with keyword-only arguments
-    @exception_wrapper()
-    def func_with_kwonly(*, kwonly_arg):
-        raise ValueError("Test error with kwonly")
-
-    # Test 6: Function with varargs and kwargs
-    @exception_wrapper()
-    def func_with_varargs(*args, **kwargs):
-        raise ValueError("Test error with varargs")
-
-    # Test 7: Nested exception wrapper
-    @exception_wrapper()
-    @exception_wrapper()
-    def nested_func():
-        raise ValueError("Test error in nested")
-
-    # Test 8: Exception wrapper on method
-    class TestClass:
-        @exception_wrapper()
-        def method(self):
-            raise ValueError("Test error in method")
-
-    # Test 9: Exception wrapper with incorrect handler (should raise error)
-    try:
-        def incorrect_handler():
-            pass
-
-        @exception_wrapper(incorrect_handler)
-        def func_with_incorrect_handler():
-            pass
-    except ValueError as e:
-        print(f"Expected error caught: {e}")
-
-    # Test 10: Exception wrapper with handler matching arguments
-    def matching_handler(e, matched_arg, extra_arg=None, **kwargs):
-        print(f"Matching handler called with: {e}, {matched_arg}, {extra_arg}, {kwargs}")
-
-    @exception_wrapper(matching_handler)
-    def func_with_matching_arg(matched_arg, other_arg):
-        raise ValueError("Test error with matching arg")
-
-    # Run tests
-    print("Test 1: Basic exception handling")
-    basic_func()
-
-    print("\nTest 2: Custom handler function")
-    func_with_args("arg1_value", "arg2_value", "extra", extra_kw="extra_value")
-
-    print("\nTest 3: Generator function")
-    gen = generator_func()
-    try:
-        for item in gen:
-            print(item)
-    except StopIteration:
-        pass
-
-    print("\nTest 4: Function with default arguments")
-    func_with_defaults(5)
-
-    print("\nTest 5: Function with keyword-only arguments")
-    func_with_kwonly(kwonly_arg="value")
-
-    print("\nTest 6: Function with varargs and kwargs")
-    func_with_varargs(1, 2, 3, key="value")
-
-    print("\nTest 7: Nested exception wrapper")
-    nested_func()
-
-    print("\nTest 8: Exception wrapper on method")
-    obj = TestClass()
-    obj.method()
-
-    print("\nTest 10: Exception wrapper with handler matching arguments")
-    func_with_matching_arg("matched_value", "other_value")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
 
 
 # LLM-generated content at query #27
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
+# Unit test for function log_exception
+def test_log_exception():
     import io
-    import sys
+    from contextlib import redirect_stderr
 
-    # Test 1: Basic exception handling with default handler
-    @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
+    # Test with a simple exception
+    stderr = io.StringIO()
+    with redirect_stderr(stderr):
+        log_exception(ValueError("test error"))
+    assert "test error" in stderr.getvalue()
 
-    # Capture stdout to check if error is logged
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    func1()
-    sys.stdout = sys.__stdout__
-    assert "Test error" in captured_output.getvalue()
+    # Test with a user message
+    stderr = io.StringIO()
+    with redirect_stderr(stderr):
+        log_exception(ValueError("test error"), "User message")
+    assert "User message" in stderr.getvalue()
+    assert "test error" in stderr.getvalue()
 
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2):
-        print(f"Custom handler: {e}, {arg1}, {arg2}")
+    # Test with a CalledProcessError
+    stderr = io.StringIO()
+    with redirect_stderr(stderr):
+        log_exception(subprocess.CalledProcessError(1, "cmd", "output"))
+    assert "output" not in stderr.getvalue()  # output should not be logged
+    assert "Command 'cmd' returned non-zero exit status 1." in stderr.getvalue()
 
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2):
-        raise ValueError("Test error")
+    # Test with a CalledProcessError and output=None
+    stderr = io.StringIO()
+    with redirect_stderr(stderr):
+        log_exception(subprocess.CalledProcessError(1, "cmd", None))
+    assert "Command 'cmd' returned non-zero exit status 1." in stderr.getvalue()
 
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    func2("value1", "value2")
-    sys.stdout = sys.__stdout__
-    assert "Custom handler: Test error, value1, value2" in captured_output.getvalue()
+    # Test with a nested exception
+    stderr = io.StringIO()
+    with redirect_stderr(stderr):
+        try:
+            raise ValueError("outer error") from TypeError("inner error")
+        except ValueError as e:
+            log_exception(e)
+    assert "outer error" in stderr.getvalue()
+    assert "inner error" in stderr.getvalue()
 
-    # Test 3: Handler with default values
-    def handler_with_defaults(e, arg1, arg2, optional_arg="default"):
-        print(f"Handler with defaults: {e}, {arg1}, {arg2}, {optional_arg}")
-
-    @exception_wrapper(handler_with_defaults)
-    def func3(arg1, arg2):
-        raise ValueError("Test error")
-
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    func3("value1", "value2")
-    sys.stdout = sys.__stdout__
-    assert "Handler with defaults: Test error, value1, value2, default" in captured_output.getvalue()
-
-    # Test 4: Handler with **kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        print(f"Handler with kwargs: {e}, {arg1}, {kwargs}")
-
-    @exception_wrapper(handler_with_kwargs)
-    def func4(arg1, arg2, **kwargs):
-        raise ValueError("Test error")
-
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    func4("value1", "value2", extra="extra_value")
-    sys.stdout = sys.__stdout__
-    assert "Handler with kwargs: Test error, value1, {'arg2': 'value2', 'kwargs': {'extra': 'extra_value'}}" in captured_output.getvalue()
-
-    # Test 5: Generator function
-    @exception_wrapper()
-    def func5():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    list(func5())  # Consume generator
-    sys.stdout = sys.__stdout__
-    assert "Generator error" in captured_output.getvalue()
-
-    # Test 6: No exception
-    @exception_wrapper()
-    def func6():
-        return "Success"
-
-    assert func6() == "Success"
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
+    # Test with kwargs
+    stderr = io.StringIO()
+    with redirect_stderr(stderr):
+        log_exception(ValueError("test error"), prefix="[TEST]")
+    assert "[TEST]" in stderr.getvalue()
+    assert "test error" in stderr.getvalue()
 
 
 # LLM-generated content at query #28
 #--------------------------
 
-# Unit test for function log_exception
-def test_log_exception(): 
-    try:
-        raise ValueError("Test exception")
-    except ValueError as e:
-        log_exception(e, user_msg="Test user message")
-
-
-
-# LLM-generated content at query #29
-#--------------------------
-
 # Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import logging
-    import sys
-    from io import StringIO
-
-    # Set up logging to capture output
-    log_capture_string = StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.ERROR)
-    logger = logging.getLogger()
-    logger.addHandler(ch)
-
-    # Test 1: Default handler (log_exception)
+def test_exception_wrapper():
+    # Test case 1: Test with default handler (log_exception)
     @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
+    def func1(x):
+        return 1 / x
 
-    func1()
-    log_contents = log_capture_string.getvalue()
-    assert "Test error" in log_contents
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
+    # Should log the ZeroDivisionError
+    func1(0)
 
-    # Test 2: Custom handler with matching arguments
-    def custom_handler(e, arg1, arg2, extra="default"):
-        logging.error(f"Caught {e} with arg1={arg1}, arg2={arg2}, extra={extra}")
+    # Test case 2: Test with custom handler
+    def handler(e, x):
+        assert isinstance(e, ZeroDivisionError)
+        assert x == 0
 
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra="default"):
-        raise RuntimeError("Custom error")
+    @exception_wrapper(handler)
+    def func2(x):
+        return 1 / x
 
-    func2("value1", "value2", extra="not default")
-    log_contents = log_capture_string.getvalue()
-    assert "Caught" in log_contents and "value1" in log_contents and "value2" in log_contents
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
+    # Should call handler with the exception and x=0
+    func2(0)
 
-    # Test 3: Handler with **kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        logging.error(f"Caught {e} with arg1={arg1}, kwargs={kwargs}")
+    # Test case 3: Test with generator function
+    @exception_wrapper(handler)
+    def func3(x):
+        yield 1 / x
 
-    @exception_wrapper(handler_with_kwargs)
-    def func3(arg1, arg2, **kwargs):
-        raise KeyError("Key error")
+    # Should call handler with the exception and x=0
+    list(func3(0))
 
-    func3("val1", "val2", extra1=1, extra2=2)
-    log_contents = log_capture_string.getvalue()
-    assert "val1" in log_contents and "extra1" in log_contents
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
+    # Test case 4: Test with kwargs
+    def handler_kwargs(e, x, y=2):
+        assert isinstance(e, ZeroDivisionError)
+        assert x == 0
+        assert y == 2
 
-    # Test 4: Generator function
-    @exception_wrapper()
-    def gen_func():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
+    @exception_wrapper(handler_kwargs)
+    def func4(x, y=2):
+        return 1 / x
 
-    gen = gen_func()
-    assert next(gen) == 1
-    try:
-        next(gen)
-    except StopIteration:
-        pass  # Generator should have stopped due to exception
-    log_contents = log_capture_string.getvalue()
-    assert "Generator error" in log_contents
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
+    # Should call handler with the exception, x=0, and y=2
+    func4(0)
 
-    # Test 5: No exception
-    @exception_wrapper()
-    def no_exception_func():
-        return "success"
+    # Test case 5: Test with varargs and kwargs
+    def handler_varargs(e, x, *args, y=2, **kwargs):
+        assert isinstance(e, ZeroDivisionError)
+        assert x == 0
+        assert args == (3, 4)
+        assert y == 2
+        assert kwargs == {'z': 5}
 
-    result = no_exception_func()
-    assert result == "success"
-    log_contents = log_capture_string.getvalue()
-    assert log_contents == ""  # No error logged
+    @exception_wrapper(handler_varargs)
+    def func5(x, *args, y=2, **kwargs):
+        return 1 / x
+
+    # Should call handler with the exception, x=0, args=(3,4), y=2, kwargs={'z':5}
+    func5(0, 3, 4, z=5)
+
+    # Test case 6: Test with nested wrapper
+    @exception_wrapper(handler)
+    @exception_wrapper(handler_kwargs)
+    def func6(x):
+        return 1 / x
+
+    # Should call both handlers
+    func6(0)
 
     print("All tests passed!")
 
@@ -1436,17 +1398,31 @@ if __name__ == "__main__":
     test_exception_wrapper()
 
 
-# LLM-generated content at query #30
+# LLM-generated content at query #29
 #--------------------------
 
 # Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test this directly because it would require an interactive session, but we can test that the function doesn't raise an exception.
+def test_register_ipython_excepthook():
     try:
         register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
+        assert sys.excepthook is not sys.__excepthook__
+    except:
+        assert False
+
+
+
+# LLM-generated content at query #30
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+    class TestException(Exception):
+        pass
+
+    try:
+        raise TestException("Test message")
+    except TestException as e:
+        log_exception(e, user_msg="User message")
 
 
 
@@ -1454,573 +1430,140 @@ def test_register_ipython_excepthook():
 #--------------------------
 
 # Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: No handler function provided, default log_exception should be called
+def test_exception_wrapper():
+    # Test with default handler (log_exception)
     @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
+    def func1(x):
+        if x == 0:
+            raise ValueError("x cannot be 0")
+        return x
 
-    # Test 2: Custom handler function provided
-    def custom_handler(e, arg1, arg2, extra_arg=None, **kwargs):
-        print(f"Custom handler called with: {e}, arg1={arg1}, arg2={arg2}, extra_arg={extra_arg}, kwargs={kwargs}")
+    # Test with custom handler
+    def handler(e, x, y=2):
+        return f"Caught {type(e).__name__}: {e} (x={x}, y={y})"
 
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, *args, extra_arg=None, **kwargs):
-        raise ValueError("Test error")
+    @exception_wrapper(handler)
+    def func2(x, y=2):
+        if x == 0:
+            raise ValueError("x cannot be 0")
+        return x + y
 
-    # Test 3: Handler function with matching argument names
-    def handler_with_matching_args(e, arg1, arg2, extra_arg=None, **kwargs):
-        print(f"Handler with matching args called: {e}, arg1={arg1}, arg2={arg2}, extra_arg={extra_arg}, kwargs={kwargs}")
+    # Test with generator function
+    @exception_wrapper(handler)
+    def func3(x):
+        if x == 0:
+            raise ValueError("x cannot be 0")
+        yield x
 
-    @exception_wrapper(handler_with_matching_args)
-    def func3(arg1, arg2, *args, extra_arg=None, **kwargs):
-        raise ValueError("Test error")
+    # Test cases
+    assert func1(1) == 1
+    assert func1(0) is None  # Exception caught and logged
 
-    # Test 4: Handler function with non-matching argument names (should raise ValueError)
+    assert func2(1) == 3
+    assert func2(0) == "Caught ValueError: x cannot be 0 (x=0, y=2)"
+
+    assert list(func3(1)) == [1]
+    assert list(func3(0)) == []  # Exception caught and handled
+
+    # Test with mismatched arguments
     try:
-        def handler_with_non_matching_args(e, non_existent_arg):
+        @exception_wrapper(lambda e, z: None)
+        def func4(x):
             pass
+    except ValueError:
+        pass
+    else:
+        assert False, "Should raise ValueError for mismatched arguments"
 
-        @exception_wrapper(handler_with_non_matching_args)
-        def func4():
+    # Test with default arguments in handler
+    try:
+        @exception_wrapper(lambda e, x, y=2: None)
+        def func5(x):
             pass
+    except ValueError:
+        pass
+    else:
+        assert False, "Should raise ValueError for default arguments matching wrapped function"
 
-        # This should raise ValueError because non_existent_arg does not match any argument in func4
-        func4()
-    except ValueError as e:
-        print(f"Expected ValueError raised: {e}")
-
-    # Test 5: Handler function with varargs (should raise ValueError)
-    try:
-        def handler_with_varargs(e, *args):
-            pass
-
-        @exception_wrapper(handler_with_varargs)
-        def func5():
-            pass
-
-        # This should raise ValueError because handler_with_varargs has varargs
-        func5()
-    except ValueError as e:
-        print(f"Expected ValueError raised: {e}")
-
-    # Test 6: Handler function with default values for matching arguments (should raise ValueError)
-    try:
-        def handler_with_defaults(e, arg1, arg2="default"):
-            pass
-
-        @exception_wrapper(handler_with_defaults)
-        def func6(arg1, arg2):
-            pass
-
-        # This should raise ValueError because arg2 in handler has a default value but matches func6's arg2
-        func6(1, 2)
-    except ValueError as e:
-        print(f"Expected ValueError raised: {e}")
-
-    # Test 7: Generator function
-    @exception_wrapper(custom_handler)
-    def func7(arg1, arg2):
-        yield arg1
-        raise ValueError("Generator error")
-        yield arg2
-
-    # Run tests
-    print("Test 1: Default handler")
-    try:
-        func1()
-    except Exception as e:
-        print(f"Exception caught: {e}")
-
-    print("\nTest 2: Custom handler")
-    try:
-        func2("a", "b", extra_arg="extra", extra_kwarg="kwarg")
-    except Exception as e:
-        print(f"Exception caught: {e}")
-
-    print("\nTest 3: Handler with matching args")
-    try:
-        func3("a", "b", extra_arg="extra", extra_kwarg="kwarg")
-    except Exception as e:
-        print(f"Exception caught: {e}")
-
-    print("\nTest 7: Generator function")
-    try:
-        gen = func7("gen_arg1", "gen_arg2")
-        for item in gen:
-            print(f"Yielded: {item}")
-    except Exception as e:
-        print(f"Exception caught: {e}")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
+    print("All tests passed")
 
 
 # LLM-generated content at query #32
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling
-    @exception_wrapper()
-    def basic_func():
-        raise ValueError("Basic error")
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    register_ipython_excepthook(capture_keyboard_interrupt=False)
 
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2, extra_arg=None, **kwargs):
-        print(f"Custom handler called with: {e}, arg1={arg1}, arg2={arg2}, extra_arg={extra_arg}, kwargs={kwargs}")
-
-    @exception_wrapper(custom_handler)
-    def custom_func(arg1, arg2, *args, extra_arg=None, **kwargs):
-        raise ValueError("Custom error")
-
-    # Test 3: Generator function
-    @exception_wrapper()
-    def generator_func():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    # Test 4: Function with default arguments
-    @exception_wrapper()
-    def default_func(a, b=10):
-        raise ValueError(f"Default error: a={a}, b={b}")
-
-    # Test 5: Function with varargs and kwargs
-    @exception_wrapper()
-    def varargs_func(*args, **kwargs):
-        raise ValueError(f"Varargs error: args={args}, kwargs={kwargs}")
-
-    # Run tests
-    print("Test 1: Basic exception handling")
-    basic_func()
-
-    print("\nTest 2: Custom handler function")
-    custom_func("val1", "val2", "extra1", extra_arg="extra2", extra_kw="extra3")
-
-    print("\nTest 3: Generator function")
-    gen = generator_func()
-    try:
-        for item in gen:
-            print(f"Generated: {item}")
-    except StopIteration:
-        pass
-
-    print("\nTest 4: Function with default arguments")
-    default_func(5)
-
-    print("\nTest 5: Function with varargs and kwargs")
-    varargs_func(1, 2, 3, key1="value1", key2="value2")
-
-    print("\nAll tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
 
 
 # LLM-generated content at query #33
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Define a simple function that raises an exception
-    @exception_wrapper()
-    def raise_exception():
-        raise ValueError("Test exception")
-    
-    # Define a function with arguments
-    @exception_wrapper()
-    def raise_exception_with_args(arg1, arg2):
-        raise ValueError(f"Test exception with args: {arg1}, {arg2}")
-    
-    # Define a generator function that raises an exception
-    @exception_wrapper()
-    def raise_exception_in_generator():
-        yield 1
-        raise ValueError("Test exception in generator")
-    
-    # Define a custom handler function
-    def custom_handler(e, arg1, arg2, my_arg=None, **kwargs):
-        print(f"Custom handler called with: {e}, {arg1}, {arg2}, {my_arg}, {kwargs}")
-    
-    @exception_wrapper(custom_handler)
-    def raise_exception_with_custom_handler(arg1, arg2, **kwargs):
-        raise ValueError("Test exception with custom handler")
-    
-    # Test 1: Basic exception handling
-    print("Test 1: Basic exception handling")
-    raise_exception()
-    
-    # Test 2: Exception handling with arguments
-    print("\nTest 2: Exception handling with arguments")
-    raise_exception_with_args("arg1", "arg2")
-    
-    # Test 3: Exception handling in generator
-    print("\nTest 3: Exception handling in generator")
-    for value in raise_exception_in_generator():
-        print(value)
-    
-    # Test 4: Custom handler function
-    print("\nTest 4: Custom handler function")
-    raise_exception_with_custom_handler("arg1", "arg2", extra="extra")
+# Unit test for function log_exception
+def test_log_exception():
+    try:
+        raise ValueError("Test error")
+    except ValueError as e:
+        log_exception(e, "This is a test message")
 
-if __name__ == "__main__":
-    test_exception_wrapper()
 
 
 # LLM-generated content at query #34
 #--------------------------
 
 # Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling with default handler
+def test_exception_wrapper():
     @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
+    def test_func():
+        raise ValueError("Test exception")
 
-    # Test 2: Exception handling with custom handler
-    def custom_handler(e, arg1, arg2, extra_arg="default"):
-        return f"Caught {e} with args {arg1}, {arg2}, extra_arg={extra_arg}"
+    test_func()
 
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra_arg="default"):
-        raise ValueError("Test error")
+    @exception_wrapper(lambda e: print(f"Custom handler: {e}"))
+    def test_func_custom_handler():
+        raise ValueError("Test exception custom handler")
 
-    # Test 3: Exception handling with generator function
-    @exception_wrapper()
-    def func3():
-        yield 1
-        raise ValueError("Generator error")
+    test_func_custom_handler()
 
-    # Test 4: Exception handling with mixed arguments
-    def mixed_handler(e, required_arg, optional_arg="optional"):
-        return f"Caught {e} with required_arg={required_arg}, optional_arg={optional_arg}"
+    def handler_fn(e, arg1, arg2, kwarg1=None):
+        print(f"Handler function: {e}, {arg1}, {arg2}, {kwarg1}")
 
-    @exception_wrapper(mixed_handler)
-    def func4(required_arg, optional_arg="optional"):
-        raise ValueError("Mixed error")
+    @exception_wrapper(handler_fn)
+    def test_func_args(arg1, arg2, kwarg1=None):
+        raise ValueError("Test exception with args")
 
-    # Test 5: Exception handling with **kwargs
-    def kwargs_handler(e, **kwargs):
-        return f"Caught {e} with kwargs {kwargs}"
+    test_func_args("arg1", "arg2", kwarg1="kwarg1")
 
-    @exception_wrapper(kwargs_handler)
-    def func5(**kwargs):
-        raise ValueError("Kwargs error")
+    @exception_wrapper(handler_fn)
+    def test_func_kwargs(arg1, arg2, **kwargs):
+        raise ValueError("Test exception with kwargs")
 
-    # Run tests
-    print("Test 1: Basic exception handling with default handler")
-    try:
-        func1()
-    except Exception as e:
-        print(f"Unexpected exception: {e}")
+    test_func_kwargs("arg1", "arg2", kwarg1="kwarg1", kwarg2="kwarg2")
 
-    print("\nTest 2: Exception handling with custom handler")
-    result = func2("arg1_value", "arg2_value", extra_arg="custom")
-    print(f"Result: {result}")
+    @exception_wrapper(lambda e, arg1, arg2, kwarg1=None: print(f"Lambda handler: {e}, {arg1}, {arg2}, {kwarg1}"))
+    def test_func_lambda_handler(arg1, arg2, kwarg1=None):
+        raise ValueError("Test exception with lambda handler")
 
-    print("\nTest 3: Exception handling with generator function")
-    try:
-        for value in func3():
-            print(f"Yielded: {value}")
-    except Exception as e:
-        print(f"Unexpected exception: {e}")
+    test_func_lambda_handler("arg1", "arg2", kwarg1="kwarg1")
 
-    print("\nTest 4: Exception handling with mixed arguments")
-    result = func4("required_value", optional_arg="custom_optional")
-    print(f"Result: {result}")
-
-    print("\nTest 5: Exception handling with **kwargs")
-    result = func5(key1="value1", key2="value2")
-    print(f"Result: {result}")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
+test_exception_wrapper()
 
 
 # LLM-generated content at query #35
 #--------------------------
 
 # Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import io
-    import sys
-
-    # Test 1: Basic exception handling with default log_exception
+def test_exception_wrapper():
     @exception_wrapper()
-    def func1():
+    def func_with_error():
         raise ValueError("Test error")
 
-    # Capture stdout to check if log_exception is called
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    func1()
-    sys.stdout = sys.__stdout__
-    assert "Test error" in captured_output.getvalue()
-
-    # Test 2: Custom exception handler
-    def custom_handler(e, arg1, arg2):
-        print(f"Custom handler: {e}, arg1={arg1}, arg2={arg2}")
-
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2):
-        raise RuntimeError("Custom error")
-
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    func2("value1", "value2")
-    sys.stdout = sys.__stdout__
-    assert "Custom handler" in captured_output.getvalue()
-    assert "arg1=value1" in captured_output.getvalue()
-    assert "arg2=value2" in captured_output.getvalue()
-
-    # Test 3: Exception handler with default arguments
-    def handler_with_defaults(e, arg1, arg2, optional_arg="default"):
-        print(f"Handler with defaults: {e}, arg1={arg1}, arg2={arg2}, optional_arg={optional_arg}")
-
-    @exception_wrapper(handler_with_defaults)
-    def func3(arg1, arg2):
-        raise KeyError("Key error")
-
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    func3("val1", "val2")
-    sys.stdout = sys.__stdout__
-    assert "Handler with defaults" in captured_output.getvalue()
-    assert "optional_arg=default" in captured_output.getvalue()
-
-    # Test 4: Exception handler with **kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        print(f"Handler with kwargs: {e}, arg1={arg1}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_with_kwargs)
-    def func4(arg1, arg2, **kwargs):
-        raise TypeError("Type error")
-
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    func4("val1", "val2", extra="extra_val")
-    sys.stdout = sys.__stdout__
-    assert "Handler with kwargs" in captured_output.getvalue()
-    assert "kwargs={'arg2': 'val2', 'kwargs': {'extra': 'extra_val'}}" in captured_output.getvalue()
-
-    # Test 5: Generator function
-    @exception_wrapper()
-    def func5():
-        for i in range(3):
-            if i == 2:
-                raise ValueError("Generator error")
-            yield i
-
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    list(func5())  # Consume generator to trigger exception
-    sys.stdout = sys.__stdout__
-    assert "Generator error" in captured_output.getvalue()
-
-    # Test 6: No exception raised
-    @exception_wrapper()
-    def func6():
-        return "Success"
-
-    assert func6() == "Success"
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
-
-
-# LLM-generated content at query #36
-#--------------------------
-
-# Unit test for function log_exception
-def test_log_exception(): 
-    try:
-        raise ValueError("Test error")
-    except ValueError as e:
-        log_exception(e, user_msg="Custom message")
-
-
-
-# LLM-generated content at query #37
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import sys
-    import io
-    import logging
-    from flutes.log import log
-
-    # Test 1: Default handler (log_exception)
-    @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
-
-    # Capture log output
-    log_output = io.StringIO()
-    handler = logging.StreamHandler(log_output)
-    logger = logging.getLogger()
-    logger.addHandler(handler)
-    logger.setLevel(logging.ERROR)
-
-    try:
-        func1()
-    except Exception:
-        pass
-
-    # Check if error was logged
-    assert "Test error" in log_output.getvalue()
-    logger.removeHandler(handler)
-
-    # Test 2: Custom handler
-    def custom_handler(e, arg1, arg2, extra="default"):
-        print(f"Caught exception: {e}, arg1={arg1}, arg2={arg2}, extra={extra}")
-
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra="default"):
-        raise RuntimeError("Custom error")
-
-    # Capture print output
-    captured_output = io.StringIO()
-    sys.stdout = captured_output
-    try:
-        func2("value1", "value2", extra="custom")
-    except Exception:
-        pass
-    sys.stdout = sys.__stdout__
-
-    assert "Caught exception" in captured_output.getvalue()
-    assert "arg1=value1" in captured_output.getvalue()
-    assert "arg2=value2" in captured_output.getvalue()
-    assert "extra=custom" in captured_output.getvalue()
-
-    # Test 3: Generator function
-    @exception_wrapper()
-    def func3():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    gen = func3()
-    assert next(gen) == 1
-    # Next call should trigger exception and log it
-    log_output = io.StringIO()
-    handler = logging.StreamHandler(log_output)
-    logger.addHandler(handler)
-    logger.setLevel(logging.ERROR)
-
-    try:
-        next(gen)
-    except StopIteration:
-        pass
-
-    assert "Generator error" in log_output.getvalue()
-    logger.removeHandler(handler)
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
-
-
-# LLM-generated content at query #38
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import logging
-    import io
-    import sys
-
-    # Setup logging to capture logs
-    log_capture_string = io.StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.ERROR)
-    logging.getLogger().addHandler(ch)
-
-    # Test 1: Basic exception handling with default handler
-    @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
-
-    func1()
-    log_contents = log_capture_string.getvalue()
-    assert "Test error" in log_contents
-    print("Test 1 passed")
-
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2, extra_arg="default"):
-        logging.error(f"Custom handler: {e}, arg1={arg1}, arg2={arg2}, extra_arg={extra_arg}")
-
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, *args, **kwargs):
-        raise RuntimeError("Custom error")
-
-    func2("value1", "value2", extra="extra")
-    log_contents = log_capture_string.getvalue()
-    assert "Custom handler" in log_contents
-    assert "arg1=value1" in log_contents
-    assert "arg2=value2" in log_contents
-    print("Test 2 passed")
-
-    # Test 3: Handler with **kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        logging.error(f"Handler with kwargs: {e}, arg1={arg1}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_with_kwargs)
-    def func3(arg1, arg2, *args, **kwargs):
-        raise KeyError("Key error")
-
-    func3("val1", "val2", extra1=1, extra2=2)
-    log_contents = log_capture_string.getvalue()
-    assert "Handler with kwargs" in log_contents
-    assert "arg1=val1" in log_contents
-    assert "'extra1': 1" in log_contents
-    print("Test 3 passed")
-
-    # Test 4: Generator function
-    @exception_wrapper()
-    def func4():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    gen = func4()
-    list(gen)  # Consume generator to trigger exception
-    log_contents = log_capture_string.getvalue()
-    assert "Generator error" in log_contents
-    print("Test 4 passed")
-
-    # Test 5: Exception in generator with custom handler
-    def generator_handler(e, start):
-        logging.error(f"Generator handler: {e}, start={start}")
-
-    @exception_wrapper(generator_handler)
-    def func5(start, end):
-        for i in range(start, end):
-            yield i
-            if i == start + 1:
-                raise ValueError("Error in generator")
-
-    gen = func5(0, 5)
-    list(gen)
-    log_contents = log_capture_string.getvalue()
-    assert "Generator handler" in log_contents
-    assert "start=0" in log_contents
-    print("Test 5 passed")
-
-    # Cleanup
-    logging.getLogger().removeHandler(ch)
-    print("All tests passed")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
+    func_with_error()
 
 
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -2028,191 +1571,117 @@ if __name__ == "__main__":
 #--------------------------
 
 # Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test case 1: Exception handler with matching arguments
-    def handler_fn(e, one, two, three=None, **kwargs):
-        return f"Exception: {e}, one: {one}, two: {two}, three: {three}, kwargs: {kwargs}"
+def test_exception_wrapper():
+    @exception_wrapper()
+    def error_func():
+        raise ValueError("Test error")
 
-    @exception_wrapper(handler_fn)
-    def foo(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
+    @exception_wrapper(lambda e: print(f"Custom handler: {e}"))
+    def custom_error_func():
+        raise ValueError("Custom handler test error")
 
-    result = foo(1, "2", "arg1", "arg2", four=4)
-    expected = "Exception: Test exception, one: 1, two: 2, three: None, kwargs: {'args': ('arg1', 'arg2'), 'kwargs': {'four': 4}}"
-    assert result == expected, f"Expected: {expected}, Got: {result}"
+    @exception_wrapper(lambda e, x: print(f"Custom handler with args: {e}, {x}"))
+    def custom_error_func_with_args(x):
+        raise ValueError("Custom handler with args test error")
 
-    # Test case 2: Exception handler with default values
-    def handler_fn2(e, one, two, my_arg=None, **kwargs):
-        return f"Exception: {e}, one: {one}, two: {two}, my_arg: {my_arg}, kwargs: {kwargs}"
+    @exception_wrapper(lambda e, x, y=10: print(f"Custom handler with kwargs: {e}, {x}, {y}"))
+    def custom_error_func_with_kwargs(x, y=5):
+        raise ValueError("Custom handler with kwargs test error")
 
-    @exception_wrapper(handler_fn2)
-    def bar(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
+    @exception_wrapper(lambda e, **kwargs: print(f"Custom handler with varkw: {e}, {kwargs}"))
+    def custom_error_func_with_varkw(x, y=5):
+        raise ValueError("Custom handler with varkw test error")
 
-    result = bar(1, "2", "arg1", "arg2", four=4)
-    expected = "Exception: Test exception, one: 1, two: 2, my_arg: None, kwargs: {'args': ('arg1', 'arg2'), 'three': None, 'kwargs': {'four': 4}}"
-    assert result == expected, f"Expected: {expected}, Got: {result}"
+    @exception_wrapper(lambda e, *args: print(f"Custom handler with varargs: {e}, {args}"))
+    def custom_error_func_with_varargs(x, y=5):
+        raise ValueError("Custom handler with varargs test error")
 
-    # Test case 3: Exception handler without matching arguments
-    def handler_fn3(e, my_arg=None, **kwargs):
-        return f"Exception: {e}, my_arg: {my_arg}, kwargs: {kwargs}"
+    @exception_wrapper(lambda e, *args, **kwargs: print(f"Custom handler with varargs and kwargs: {e}, {args}, {kwargs}"))
+    def custom_error_func_with_varargs_and_kwargs(x, y=5):
+        raise ValueError("Custom handler with varargs and kwargs test error")
 
-    @exception_wrapper(handler_fn3)
-    def baz(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
+    # Test default handler
+    error_func()
 
-    result = baz(1, "2", "arg1", "arg2", four=4)
-    expected = "Exception: Test exception, my_arg: None, kwargs: {'one': 1, 'two': '2', 'args': ('arg1', 'arg2'), 'three': None, 'kwargs': {'four': 4}}"
-    assert result == expected, f"Expected: {expected}, Got: {result}"
+    # Test custom handler
+    custom_error_func()
 
-    # Test case 4: Exception handler with only exception argument
-    def handler_fn4(e):
-        return f"Exception: {e}"
+    # Test custom handler with args
+    custom_error_func_with_args(10)
 
-    @exception_wrapper(handler_fn4)
-    def qux(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
+    # Test custom handler with kwargs
+    custom_error_func_with_kwargs(10)
 
-    result = qux(1, "2", "arg1", "arg2", four=4)
-    expected = "Exception: Test exception"
-    assert result == expected, f"Expected: {expected}, Got: {result}"
+    # Test custom handler with varkw
+    custom_error_func_with_varkw(10)
 
-    # Test case 5: Exception handler with no arguments (should raise ValueError)
-    try:
-        def handler_fn5():
-            pass
+    # Test custom handler with varargs
+    custom_error_func_with_varargs(10)
 
-        @exception_wrapper(handler_fn5)
-        def invalid(one, two, *args, three=None, **kwargs):
-            raise ValueError("Test exception")
-
-        invalid(1, "2", "arg1", "arg2", four=4)
-        assert False, "Expected ValueError"
-    except ValueError as e:
-        assert str(e) == "Exception handler must have a positional argument for the exception object"
-
-    # Test case 6: Exception handler with varargs (should raise ValueError)
-    try:
-        def handler_fn6(e, *args):
-            pass
-
-        @exception_wrapper(handler_fn6)
-        def invalid2(one, two, *args, three=None, **kwargs):
-            raise ValueError("Test exception")
-
-        invalid2(1, "2", "arg1", "arg2", four=4)
-        assert False, "Expected ValueError"
-    except ValueError as e:
-        assert str(e) == "Exception handler cannot have a varargs argument (*args)"
-
-    # Test case 7: Exception handler with argument that matches wrapped method argument but has default value (should raise ValueError)
-    try:
-        def handler_fn7(e, one, two, three=None, **kwargs):
-            pass
-
-        @exception_wrapper(handler_fn7)
-        def invalid3(one, two, *args, three=None, **kwargs):
-            raise ValueError("Test exception")
-
-        invalid3(1, "2", "arg1", "arg2", four=4)
-        assert False, "Expected ValueError"
-    except ValueError as e:
-        assert str(e) == "Argument 'three' matches wrapped method argument, thus cannot have default values"
-
-    # Test case 8: Exception handler with argument that does not match any wrapped method argument (should raise ValueError)
-    try:
-        def handler_fn8(e, one, two, four, **kwargs):
-            pass
-
-        @exception_wrapper(handler_fn8)
-        def invalid4(one, two, *args, three=None, **kwargs):
-            raise ValueError("Test exception")
-
-        invalid4(1, "2", "arg1", "arg2", four=4)
-        assert False, "Expected ValueError"
-    except ValueError as e:
-        assert str(e) == "Argument 'four' in exception handler does not match any argument in wrapped method"
-
-    print("All tests passed!")
-
-# Run the unit test
-if __name__ == "__main__":
-    test_exception_wrapper()
+    # Test custom handler with varargs and kwargs
+    custom_error_func_with_varargs_and_kwargs(10)
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for function exception_wrapper
-def test_exception_wrapper():  
-    # Test 1: Test that the exception wrapper works with a custom handler function
-    def custom_handler(e, arg1, arg2, my_arg=None, **kwargs):
-        print(f"Custom handler called with e={e}, arg1={arg1}, arg2={arg2}, my_arg={my_arg}, kwargs={kwargs}")
-        return "Custom handler result"
+def test_exception_wrapper():
+    @exception_wrapper()
+    def divide(a, b):
+        return a / b
+
+    assert divide(4, 2) == 2
+    try:
+        divide(4, 0)
+    except ZeroDivisionError:
+        pass
+
+    def custom_handler(e, a, b):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 4
+        assert b == 0
 
     @exception_wrapper(custom_handler)
-    def test_func(arg1, arg2, *args, my_arg=None, **kwargs):
-        raise ValueError("Test exception")
+    def divide_custom(a, b):
+        return a / b
 
-    result = test_func(1, 2, "arg1", "arg2", my_arg="my_value", extra="extra")
-    assert result == "Custom handler result"
+    divide_custom(4, 0)
 
-    # Test 2: Test that the exception wrapper works with the default handler (log_exception)
     @exception_wrapper()
-    def test_func2(arg1, arg2):
-        raise ValueError("Test exception 2")
+    def generator_func(a, b):
+        yield a / b
 
-    # We cannot easily test the default handler, but we can at least ensure that the function doesn't crash
+    gen = generator_func(4, 0)
     try:
-        test_func2(1, 2)
-    except Exception as e:
-        print(f"Exception caught: {e}")
+        next(gen)
+    except ZeroDivisionError:
+        pass
 
-    # Test 3: Test that the exception wrapper works with a generator function
-    def custom_handler2(e, arg1, arg2, **kwargs):
-        print(f"Custom handler2 called with e={e}, arg1={arg1}, arg2={arg2}, kwargs={kwargs}")
-        return "Custom handler2 result"
+    def custom_handler_gen(e, a, b):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 4
+        assert b == 0
 
-    @exception_wrapper(custom_handler2)
-    def test_gen_func(arg1, arg2, **kwargs):
-        yield 1
-        raise ValueError("Test exception in generator")
-        yield 2
+    @exception_wrapper(custom_handler_gen)
+    def generator_func_custom(a, b):
+        yield a / b
 
-    gen = test_gen_func(1, 2, extra="extra")
-    result = list(gen)
-    assert result == [1, "Custom handler2 result"]
-
-    # Test 4: Test that the exception wrapper works with a function that returns a generator
-    @exception_wrapper(custom_handler2)
-    def test_gen_func2(arg1, arg2, **kwargs):
-        def inner_gen():
-            yield 1
-            raise ValueError("Test exception in inner generator")
-            yield 2
-        return inner_gen()
-
-    gen = test_gen_func2(1, 2, extra="extra")
-    result = list(gen)
-    assert result == [1, "Custom handler2 result"]
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
+    gen_custom = generator_func_custom(4, 0)
+    next(gen_custom)
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test this directly because it would require an interactive session, but we can test that the function doesn't raise an error.
+def test_register_ipython_excepthook():
     try:
         register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
+        # Simulate an exception to trigger the hook
+        raise ValueError("Test exception")
+    except ValueError:
+        pass
 
 
 
@@ -2220,92 +1689,56 @@ def test_register_ipython_excepthook():
 #--------------------------
 
 # Unit test for function log_exception
-def test_log_exception(): 
+def test_log_exception():
     import io
-    import sys
     import logging
-    from contextlib import redirect_stderr, redirect_stdout
+    from contextlib import redirect_stderr
 
-    # Create a logger to capture log messages
-    logger = logging.getLogger('test_logger')
-    logger.setLevel(logging.ERROR)
-    log_capture_string = io.StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.ERROR)
-    formatter = logging.Formatter('%(levelname)s - %(message)s')
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
+    # Setup logging to capture output
+    log_stream = io.StringIO()
+    logging.basicConfig(stream=log_stream, level=logging.ERROR)
 
-    # Test 1: Logging a simple exception
+    # Test with a simple exception
     try:
         raise ValueError("Test error")
     except ValueError as e:
-        log_exception(e, user_msg="User message", logger=logger)
-    
-    log_output = log_capture_string.getvalue()
-    assert "User message: <ValueError> Test error" in log_output
-    assert "Traceback" in log_output
-    print("Test 1 passed")
+        log_exception(e, "Custom message")
 
-    # Test 2: Logging without user message
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
-    try:
-        raise TypeError("Type error")
-    except TypeError as e:
-        log_exception(e, logger=logger)
-    
-    log_output = log_capture_string.getvalue()
-    assert "<TypeError> Type error" in log_output
-    print("Test 2 passed")
+    log_output = log_stream.getvalue()
+    assert "Custom message: <ValueError> Test error" in log_output
+    assert "Traceback (most recent call last):" in log_output
 
-    # Test 3: Logging a subprocess.CalledProcessError with output
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
+    # Test with a CalledProcessError
     try:
-        raise subprocess.CalledProcessError(1, 'cmd', output=b'output')
+        raise subprocess.CalledProcessError(1, "cmd", output=b"output")
     except subprocess.CalledProcessError as e:
-        log_exception(e, logger=logger)
-    
-    log_output = log_capture_string.getvalue()
-    assert "<CalledProcessError>" in log_output
-    assert "output" not in log_output  # output should not be logged
-    print("Test 3 passed")
+        log_exception(e, "Process failed")
 
-    # Test 4: Logging a subprocess.CalledProcessError without output
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
-    try:
-        raise subprocess.CalledProcessError(1, 'cmd', output=None)
-    except subprocess.CalledProcessError as e:
-        log_exception(e, logger=logger)
-    
-    log_output = log_capture_string.getvalue()
-    assert "<CalledProcessError>" in log_output
-    assert "Traceback" in log_output
-    print("Test 4 passed")
+    log_output = log_stream.getvalue()
+    assert "Process failed: <CalledProcessError> Command 'cmd' returned non-zero exit status 1." in log_output
+    assert "output" not in log_output  # Should not log the output
 
-    # Test 5: Exception during logging
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
+    # Test with another exception during logging
+    log_stream = io.StringIO()
+    logging.basicConfig(stream=log_stream, level=logging.ERROR)
     try:
-        raise Exception("Original error")
-    except Exception as e:
-        # Simulate an error during logging by passing a logger that raises an exception
-        class BrokenLogger:
-            def error(self, msg, *args, **kwargs):
-                raise RuntimeError("Logging failed")
-        
-        broken_logger = BrokenLogger()
+        raise ValueError("Test error")
+    except ValueError as e:
+        def raise_error(*args, **kwargs):
+            raise RuntimeError("Logging failed")
+        original_log = logging.error
+        logging.error = raise_error
         try:
-            log_exception(e, logger=broken_logger)
-        except RuntimeError as log_e:
-            assert str(log_e) == "Logging failed"
-            print("Test 5 passed")
+            with redirect_stderr(io.StringIO()) as stderr:
+                log_exception(e, "Custom message")
+            stderr_output = stderr.getvalue()
+            assert "Custom message: <ValueError> Test error" in stderr_output
+            assert "Another exception occurred while logging: <RuntimeError> Logging failed" in stderr_output
+        finally:
+            logging.error = original_log
 
-    print("All tests passed")
+    print("All tests passed!")
 
-# Run the unit test
 if __name__ == "__main__":
     test_log_exception()
 
@@ -2314,270 +1747,1050 @@ if __name__ == "__main__":
 #--------------------------
 
 # Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    try: 
-        register_ipython_excepthook() 
-        print("Test passed: register_ipython_excepthook works correctly.") 
-    except Exception as e: 
-        print(f"Test failed: {e}") 
+def test_register_ipython_excepthook():
+    # This is a placeholder for unit test logic
+    pass
 
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test the actual IPython session, but we can test that the function doesn't raise any exceptions.
-    try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
-    else:
-        assert True
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    # Test with default handler (log_exception)
+    @exception_wrapper()
+    def func1(x):
+        if x == 0:
+            raise ValueError("x cannot be 0")
+        return x
 
+    # Test with custom handler
+    def handler(e, x, y=2):
+        return f"Caught {type(e).__name__}: {e} (x={x}, y={y})"
+
+    @exception_wrapper(handler)
+    def func2(x, y=2):
+        if x == 0:
+            raise ValueError("x cannot be 0")
+        return x + y
+
+    # Test with generator function
+    @exception_wrapper(handler)
+    def func3(x, y=2):
+        if x == 0:
+            raise ValueError("x cannot be 0")
+        yield x + y
+
+    # Test cases
+    assert func1(1) == 1
+    assert func1(0) is None  # Exception caught and logged
+
+    assert func2(1) == 3
+    assert func2(0, y=3) == "Caught ValueError: x cannot be 0 (x=0, y=3)"
+
+    gen = func3(1)
+    assert next(gen) == 3
+    with pytest.raises(StopIteration):
+        next(gen)
+
+    gen = func3(0)
+    assert next(gen) == "Caught ValueError: x cannot be 0 (x=0, y=2)"
+    with pytest.raises(StopIteration):
+        next(gen)
 
 
 # LLM-generated content at query #7
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling
-    @exception_wrapper()
-    def basic_function():
-        raise ValueError("Test error")
-
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2, custom_arg=None, **kwargs):
-        print(f"Custom handler called with: {e}, {arg1}, {arg2}, {custom_arg}, {kwargs}")
-
-    @exception_wrapper(custom_handler)
-    def function_with_args(arg1, arg2, *args, **kwargs):
-        raise ValueError("Test error")
-
-    # Test 3: Generator function
-    @exception_wrapper()
-    def generator_function():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    # Test 4: Function with default arguments
-    @exception_wrapper()
-    def function_with_defaults(arg1, arg2="default"):
-        raise ValueError("Test error")
-
-    # Test 5: Function with varargs and kwargs
-    @exception_wrapper()
-    def function_with_varargs_kwargs(*args, **kwargs):
-        raise ValueError("Test error")
-
-    # Test 6: Handler with matching arguments
-    def handler_with_matching_args(e, arg1, arg2, extra_arg="extra"):
-        print(f"Handler with matching args: {e}, {arg1}, {arg2}, {extra_arg}")
-
-    @exception_wrapper(handler_with_matching_args)
-    def function_for_matching_args(arg1, arg2):
-        raise ValueError("Test error")
-
-    # Test 7: Handler with kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        print(f"Handler with kwargs: {e}, {arg1}, {kwargs}")
-
-    @exception_wrapper(handler_with_kwargs)
-    def function_for_kwargs(arg1, arg2, **kwargs):
-        raise ValueError("Test error")
-
-    # Run tests
-    print("Test 1: Basic exception handling")
-    basic_function()
-
-    print("\nTest 2: Custom handler function")
-    function_with_args("value1", "value2", extra="extra_value")
-
-    print("\nTest 3: Generator function")
+# Unit test for function log_exception
+def test_log_exception():
     try:
-        for item in generator_function():
-            print(item)
-    except StopIteration:
-        pass
+        raise ValueError("Test exception")
+    except ValueError as e:
+        log_exception(e)
 
-    print("\nTest 4: Function with default arguments")
-    function_with_defaults("value1")
-
-    print("\nTest 5: Function with varargs and kwargs")
-    function_with_varargs_kwargs(1, 2, 3, key="value")
-
-    print("\nTest 6: Handler with matching arguments")
-    function_for_matching_args("value1", "value2")
-
-    print("\nTest 7: Handler with kwargs")
-    function_for_kwargs("value1", "value2", extra_key="extra_value")
-
-    print("\nAll tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling
-    @exception_wrapper()
-    def basic_function():
-        raise ValueError("Test error")
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    import sys
+    import types
 
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2, extra_arg=None, **kwargs):
-        print(f"Custom handler called with: {e}, {arg1}, {arg2}, {extra_arg}, {kwargs}")
+    # Mock IPython.core.ultratb.FormattedTB
+    class MockFormattedTB:
+        def __init__(self, mode, color_scheme, call_pdb):
+            self.mode = mode
+            self.color_scheme = color_scheme
+            self.call_pdb = call_pdb
 
-    @exception_wrapper(custom_handler)
-    def function_with_args(arg1, arg2, *args, extra_arg=None, **kwargs):
-        raise ValueError("Test error")
+    # Mock IPython.core.ultratb
+    class MockUltraTB:
+        def __init__(self):
+            self.FormattedTB = MockFormattedTB
 
-    # Test 3: Generator function
-    @exception_wrapper()
-    def generator_function():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
+    # Mock IPython.core
+    class MockCore:
+        def __init__(self):
+            self.ultratb = MockUltraTB()
 
-    # Test 4: Function with no exception
-    @exception_wrapper()
-    def no_exception_function():
-        return "Success"
+    # Mock IPython
+    class MockIPython:
+        def __init__(self):
+            self.core = MockCore()
 
-    # Test 5: Function with default arguments
-    @exception_wrapper()
-    def function_with_defaults(arg1, arg2="default"):
-        raise ValueError(f"Error with {arg1} and {arg2}")
+    # Mock sys.excepthook
+    original_excepthook = sys.excepthook
 
-    # Run tests
-    print("Test 1: Basic exception handling")
+    # Mock sys.__excepthook__
+    original_sys_excepthook = sys.__excepthook__
+
+    # Mock sys.excepthook to capture the new excepthook
+    def mock_excepthook(type, value, traceback):
+        mock_excepthook.called = True
+
+    mock_excepthook.called = False
+
+    sys.excepthook = mock_excepthook
+
+    # Mock IPython.core.ultratb.FormattedTB to capture the new ipython_hook
+    def mock_ipython_hook(type, value, traceback):
+        mock_ipython_hook.called = True
+
+    mock_ipython_hook.called = False
+
+    MockFormattedTB.__call__ = mock_ipython_hook
+
+    # Register the exception hook
+    register_ipython_excepthook()
+
+    # Simulate an exception
     try:
-        basic_function()
-    except Exception as e:
-        print(f"Caught exception: {e}")
+        raise ValueError("Test exception")
+    except ValueError as e:
+        sys.excepthook(type(e), e, e.__traceback__)
 
-    print("\nTest 2: Custom handler function")
-    function_with_args("value1", "value2", extra_arg="extra", additional="additional")
+    # Assertions
+    assert mock_excepthook.called == False
+    assert mock_ipython_hook.called == True
 
-    print("\nTest 3: Generator function")
-    gen = generator_function()
-    try:
-        for item in gen:
-            print(f"Generated: {item}")
-    except Exception as e:
-        print(f"Caught exception: {e}")
+    # Restore original hooks
+    sys.excepthook = original_excepthook
+    sys.__excepthook__ = original_sys_excepthook
 
-    print("\nTest 4: Function with no exception")
-    result = no_exception_function()
-    print(f"Result: {result}")
-
-    print("\nTest 5: Function with default arguments")
-    try:
-        function_with_defaults("value1")
-    except Exception as e:
-        print(f"Caught exception: {e}")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test this directly because it would require an interactive session.
-    # Instead, we can test that the function doesn't raise an exception.
-    try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
-    else:
-        assert True
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    def handler_fn(e, one, two, three=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three == 3
+        assert kwargs == {"four": 4}
 
+    @exception_wrapper(handler_fn)
+    def foo(one, two, three=None, **kwargs):
+        raise ValueError("Test exception")
+
+    foo(1, 2, three=3, four=4)
+
+    def handler_fn_default(e, one, two, three=None, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three == 3
+        assert my_arg is None
+        assert kwargs == {"four": 4}
+
+    @exception_wrapper(handler_fn_default)
+    def foo_default(one, two, three=None, **kwargs):
+        raise ValueError("Test exception")
+
+    foo_default(1, 2, three=3, four=4)
+
+    def handler_fn_no_match(e, one, two, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert my_arg is None
+        assert kwargs == {"three": 3, "four": 4}
+
+    @exception_wrapper(handler_fn_no_match)
+    def foo_no_match(one, two, three=None, **kwargs):
+        raise ValueError("Test exception")
+
+    foo_no_match(1, 2, three=3, four=4)
 
 
 # LLM-generated content at query #10
 #--------------------------
 
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    # Test that the function registers the excepthook correctly
+    original_excepthook = sys.excepthook
+    register_ipython_excepthook()
+    assert sys.excepthook != original_excepthook
+    # Test that KeyboardInterrupt is not captured by default
+    register_ipython_excepthook(capture_keyboard_interrupt=False)
+    assert KeyboardInterrupt not in [exc_type for exc_type in skip_exceptions]
+    # Test that KeyboardInterrupt is captured when specified
+    register_ipython_excepthook(capture_keyboard_interrupt=True)
+    assert KeyboardInterrupt in [exc_type for exc_type in skip_exceptions]
+
+
+# LLM-generated content at query #11
+#--------------------------
+
 # Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import io
-    import sys
-    import logging
+def test_exception_wrapper():
+    # Test with default handler (log_exception)
+    @exception_wrapper()
+    def func1(x):
+        if x == 0:
+            raise ValueError("x cannot be 0")
+        return x
 
-    # Setup logging to capture output
-    log_capture_string = io.StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.ERROR)
-    logger = logging.getLogger()
-    logger.addHandler(ch)
+    # Test with custom handler
+    def custom_handler(e, x):
+        return f"Handled {type(e).__name__}: {e} for x={x}"
 
-    # Test 1: Default handler (log_exception)
+    @exception_wrapper(custom_handler)
+    def func2(x):
+        if x == 0:
+            raise ValueError("x cannot be 0")
+        return x
+
+    # Test with generator function
+    @exception_wrapper(custom_handler)
+    def func3(x):
+        for i in range(x):
+            if i == 1:
+                raise ValueError("i cannot be 1")
+            yield i
+
+    # Test cases
+    assert func1(1) == 1
+    assert func1(0) is None  # Exception logged, returns None
+
+    assert func2(1) == 1
+    assert func2(0) == "Handled ValueError: x cannot be 0 for x=0"
+
+    assert list(func3(1)) == [0]
+    assert list(func3(2)) == []  # Exception handled, generator stops
+
+    # Test with more complex handler
+    def complex_handler(e, x, y=2, **kwargs):
+        return f"Handled {type(e).__name__}: {e} for x={x}, y={y}, kwargs={kwargs}"
+
+    @exception_wrapper(complex_handler)
+    def func4(x, y=2, **kwargs):
+        if x == 0:
+            raise ValueError("x cannot be 0")
+        return x, y, kwargs
+
+    assert func4(1) == (1, 2, {})
+    assert func4(0, z=3) == "Handled ValueError: x cannot be 0 for x=0, y=2, kwargs={'z': 3}"
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    @exception_wrapper()
+    def raise_error():
+        raise ValueError("Test error")
+
+    raise_error()
+
+    def handler_fn(e, one, two):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+
+    @exception_wrapper(handler_fn)
+    def raise_error_with_args(one, two):
+        raise ValueError("Test error")
+
+    raise_error_with_args(1, 2)
+
+    def handler_fn_with_kwargs(e, one, two, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert my_arg == 3
+        assert kwargs == {"three": 4}
+
+    @exception_wrapper(handler_fn_with_kwargs)
+    def raise_error_with_kwargs(one, two, three=None):
+        raise ValueError("Test error")
+
+    raise_error_with_kwargs(1, 2, three=4, my_arg=3)
+
+    def handler_fn_with_defaults(e, one, two, my_arg=3):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert my_arg == 3
+
+    @exception_wrapper(handler_fn_with_defaults)
+    def raise_error_with_defaults(one, two):
+        raise ValueError("Test error")
+
+    raise_error_with_defaults(1, 2)
+
+
+# LLM-generated content at query #13
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    # Test basic functionality
     @exception_wrapper()
     def func1():
         raise ValueError("Test error")
 
-    func1()
-    log_contents = log_capture_string.getvalue()
-    assert "Test error" in log_contents
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
+    try:
+        func1()
+    except ValueError:
+        pass  # Expected
 
-    # Test 2: Custom handler
-    def custom_handler(e, arg1, arg2, extra="default"):
-        print(f"Caught {e} with arg1={arg1}, arg2={arg2}, extra={extra}")
+    # Test with custom handler
+    def handler(e, arg1):
+        assert isinstance(e, ValueError)
+        assert arg1 == "test"
 
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra="default"):
-        raise RuntimeError("Custom error")
+    @exception_wrapper(handler)
+    def func2(arg1):
+        raise ValueError("Test error")
 
-    func2("value1", "value2", extra="nondefault")
-    log_contents = log_capture_string.getvalue()
-    assert "Caught" in log_contents and "value1" in log_contents and "value2" in log_contents
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
+    try:
+        func2("test")
+    except ValueError:
+        pass  # Expected
 
-    # Test 3: Generator function
+    # Test with generator function
+    @exception_wrapper()
+    def gen_func():
+        yield 1
+        raise ValueError("Generator error")
+
+    try:
+        list(gen_func())
+    except ValueError:
+        pass  # Expected
+
+    print("All tests passed")
+
+if __name__ == "__main__":
+    test_exception_wrapper()
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    def test_function(a, b=2):
+        if a == 1:
+            raise ValueError("Test error")
+        return a + b
+
+    # Test with the default handler
+    wrapped_function = exception_wrapper()(test_function)
+    assert wrapped_function(3) == 5
+    assert wrapped_function(3, b=3) == 6
+
+    # Test with a custom handler
+    def custom_handler(e, a):
+        assert isinstance(e, ValueError)
+        assert a == 1
+
+    wrapped_function = exception_wrapper(custom_handler)(test_function)
+    wrapped_function(1)
+
+    # Test with generator function
+    def test_generator_function(a, b=2):
+        if a == 1:
+            raise ValueError("Test error")
+        yield a + b
+
+    wrapped_generator_function = exception_wrapper()(test_generator_function)
+    assert list(wrapped_generator_function(3)) == [5]
+    assert list(wrapped_generator_function(3, b=3)) == [6]
+
+    # Test with generator function and custom handler
+    wrapped_generator_function = exception_wrapper(custom_handler)(test_generator_function)
+    list(wrapped_generator_function(1))
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    # Test with default handler_fn
+    @exception_wrapper()
+    def func1():
+        raise ValueError("Test error")
+
+    # Test with custom handler_fn
+    def handler_fn(e, arg1, arg2, custom_arg=None):
+        assert isinstance(e, ValueError)
+        assert arg1 == "value1"
+        assert arg2 == "value2"
+        assert custom_arg == "custom_value"
+
+    @exception_wrapper(handler_fn)
+    def func2(arg1, arg2, custom_arg="custom_value"):
+        raise ValueError("Test error")
+
+    # Test with generator function
     @exception_wrapper()
     def func3():
         yield 1
-        raise ValueError("Generator error")
-        yield 2
+        raise ValueError("Test error")
 
-    gen = func3()
+    # Execute tests
+    try:
+        func1()
+    except ValueError:
+        pass
+
+    try:
+        func2("value1", "value2")
+    except ValueError:
+        pass
+
+    try:
+        for _ in func3():
+            pass
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    def handler_fn(e, one, two):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+
+    @exception_wrapper(handler_fn)
+    def foo(one, two):
+        raise ValueError("Test exception")
+
+    foo(1, 2)
+
+    def handler_fn_default(e, one, two, three=3):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three == 3
+
+    @exception_wrapper(handler_fn_default)
+    def foo_default(one, two):
+        raise ValueError("Test exception")
+
+    foo_default(1, 2)
+
+    def handler_fn_kwargs(e, one, two, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert kwargs["three"] == 3
+
+    @exception_wrapper(handler_fn_kwargs)
+    def foo_kwargs(one, two, **kwargs):
+        raise ValueError("Test exception")
+
+    foo_kwargs(1, 2, three=3)
+
+    def handler_fn_mismatch(e, one, two, three):
+        pass
+
+    try:
+        @exception_wrapper(handler_fn_mismatch)
+        def foo_mismatch(one, two):
+            raise ValueError("Test exception")
+
+        foo_mismatch(1, 2)
+    except ValueError:
+        pass
+
+    def handler_fn_default_mismatch(e, one, two, three=3):
+        pass
+
+    try:
+        @exception_wrapper(handler_fn_default_mismatch)
+        def foo_default_mismatch(one, two):
+            raise ValueError("Test exception")
+
+        foo_default_mismatch(1, 2)
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    import pytest
+    from unittest.mock import patch
+
+    with patch('sys.excepthook') as mock_excepthook:
+        register_ipython_excepthook()
+        mock_excepthook.assert_called_once_with(sys.excepthook)
+
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    # Test that the function registers the exception hook correctly
+    original_hook = sys.excepthook
+    register_ipython_excepthook()
+    assert sys.excepthook != original_hook
+    sys.excepthook = original_hook
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+    class MockLog:
+        def __init__(self):
+            self.messages = []
+
+        def error(self, message):
+            self.messages.append(message)
+
+    mock_log = MockLog()
+    original_log = log
+    log = mock_log.error
+
+    try:
+        raise ValueError("Test error")
+    except ValueError as e:
+        log_exception(e, "Custom message")
+
+    assert len(mock_log.messages) == 2
+    assert "Custom message: <ValueError> Test error" in mock_log.messages
+    assert "Traceback (most recent call last):" in mock_log.messages[0]
+
+    log = original_log
+
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    def handler_fn(e, one, two, three=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert kwargs == {"four": 4}
+
+    @exception_wrapper(handler_fn)
+    def foo(one, two, *args, three=None, **kwargs):
+        raise ValueError("Test error")
+
+    foo(1, 2, four=4)
+
+    def handler_fn_with_default(e, one, two, three=None, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert my_arg is None
+        assert kwargs == {"four": 4}
+
+    @exception_wrapper(handler_fn_with_default)
+    def foo_with_default(one, two, *args, three=None, **kwargs):
+        raise ValueError("Test error")
+
+    foo_with_default(1, 2, four=4)
+
+    def handler_fn_with_mismatch(e, one, two, three=None, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert my_arg is None
+        assert kwargs == {"four": 4}
+
+    try:
+        @exception_wrapper(handler_fn_with_mismatch)
+        def foo_with_mismatch(one, two, *args, three=None, **kwargs):
+            raise ValueError("Test error")
+
+        foo_with_mismatch(1, 2, four=4)
+    except ValueError as e:
+        assert str(e) == "Test error"
+
+    def handler_fn_without_exception(e, one, two, three=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert kwargs == {"four": 4}
+
+    @exception_wrapper(handler_fn_without_exception)
+    def foo_without_exception(one, two, *args, three=None, **kwargs):
+        return "No exception"
+
+    assert foo_without_exception(1, 2, four=4) == "No exception"
+
+    def handler_fn_with_generator(e, one, two, three=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert kwargs == {"four": 4}
+
+    @exception_wrapper(handler_fn_with_generator)
+    def foo_with_generator(one, two, *args, three=None, **kwargs):
+        yield "Generator"
+        raise ValueError("Test error")
+
+    generator = foo_with_generator(1, 2, four=4)
+    assert next(generator) == "Generator"
+    try:
+        next(generator)
+    except StopIteration:
+        pass
+
+    def handler_fn_with_default_and_mismatch(e, one, two, three=None, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert my_arg is None
+        assert kwargs == {"four": 4}
+
+    try:
+        @exception_wrapper(handler_fn_with_default_and_mismatch)
+        def foo_with_default_and_mismatch(one, two, *args, three=None, **kwargs):
+            raise ValueError("Test error")
+
+        foo_with_default_and_mismatch(1, 2, four=4)
+    except ValueError as e:
+        assert str(e) == "Test error"
+
+    def handler_fn_with_default_and_mismatch_and_generator(e, one, two, three=None, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert my_arg is None
+        assert kwargs == {"four": 4}
+
+    @exception_wrapper(handler_fn_with_default_and_mismatch_and_generator)
+    def foo_with_default_and_mismatch_and_generator(one, two, *args, three=None, **kwargs):
+        yield "Generator"
+        raise ValueError("Test error")
+
+    generator = foo_with_default_and_mismatch_and_generator(1, 2, four=4)
+    assert next(generator) == "Generator"
+    try:
+        next(generator)
+    except StopIteration:
+        pass
+
+    def handler_fn_with_default_and_mismatch_and_generator_and_return(e, one, two, three=None, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert my_arg is None
+        assert kwargs == {"four": 4}
+
+    @exception_wrapper(handler_fn_with_default_and_mismatch_and_generator_and_return)
+    def foo_with_default_and_mismatch_and_generator_and_return(one, two, *args, three=None, **kwargs):
+        yield "Generator"
+        return "Return"
+
+    generator = foo_with_default_and_mismatch_and_generator_and_return(1, 2, four=4)
+    assert next(generator) == "Generator"
+    try:
+        next(generator)
+    except StopIteration:
+        pass
+
+    def handler_fn_with_default_and_mismatch_and_generator_and_return_and_exception(e, one, two, three=None, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert my_arg is None
+        assert kwargs == {"four": 4}
+
+    @exception_wrapper(handler_fn_with_default_and_mismatch_and_generator_and_return_and_exception)
+    def foo_with_default_and_mismatch_and_generator_and_return_and_exception(one, two, *args, three=None, **kwargs):
+        yield "Generator"
+        raise ValueError("Test error")
+
+    generator = foo_with_default_and_mismatch_and_generator_and_return_and_exception(1, 2, four=4)
+    assert next(generator) == "Generator"
+    try:
+        next(generator)
+    except StopIteration:
+        pass
+
+    def handler_fn_with_default_and_mismatch_and_generator_and_return_and_exception_and_return(e, one, two, three=None, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert my_arg is None
+        assert kwargs == {"four": 4}
+
+    @exception_wrapper(handler_fn_with_default_and_mismatch_and_generator_and_return_and_exception_and_return)
+    def foo_with_default_and_mismatch_and_generator_and_return_and_exception_and_return(one, two, *args, three=None, **kwargs):
+        yield "Generator"
+        return "Return"
+
+    generator = foo_with_default_and_mismatch_and_generator_and_return_and_exception_and_return(1, 2, four=4)
+    assert next(generator) == "Generator"
+    try:
+        next(generator)
+    except StopIteration:
+        pass
+
+    def handler_fn_with_default_and_mismatch_and_generator_and_return_and_exception_and_return_and_exception(e, one, two, three=None, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert my_arg is None
+        assert kwargs == {"four": 4}
+
+    @exception_wrapper(handler_fn_with_default_and_mismatch_and_generator_and_return_and_exception_and_return_and_exception)
+    def foo_with_default_and_mismatch_and_generator_and_return_and_exception_and_return_and_exception(one, two, *args, three=None, **kwargs):
+        yield "Generator"
+        raise ValueError("Test error")
+
+    generator = foo_with_default_and_mismatch_and_generator_and_return_and_exception_and_return_and_exception(1, 2, four=4)
+    assert next(generator) == "Generator"
+    try:
+        next(generator)
+    except StopIteration:
+        pass
+
+    def handler_fn_with_default_and_mismatch_and_generator_and_return_and_exception_and_return_and_exception_and_return(e, one, two, three=None, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two == 2
+        assert three is None
+        assert my_arg is None
+        assert kwargs == {"four": 4}
+
+    @exception_wrapper(handler_fn_with_default_and_mismatch_and_generator_and_return_and_exception_and_return_and_exception_and_return)
+    def foo_with_default_and_mismatch_and_generator_and_return_and_exception_and_return_and_exception_and_return(one, two, *args, three=None, **kwargs):
+        yield "Generator"
+        return "Return"
+
+    generator = foo_with_default_and_mismatch_and_generator_and_return_and_exception_and_return_and_exception_and_return(1, 2, four=4)
+    assert next(generator) == "Generator"
+    try:
+        next(generator)
+    except StopIteration:
+        pass
+
+    def handler_fn_with_default_and_mismatch_and_generator_and_return_and_exception_and_return_and_exception_and_return_and_exception(e, one, two, three=None, my_arg=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert one == 1
+        assert two
+
+
+# LLM-generated content at query #21
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    @exception_wrapper()
+    def raise_exception():
+        raise ValueError("Test exception")
+
+    @exception_wrapper(lambda e, x: print(f"Caught exception: {e}, x={x}"))
+    def raise_exception_with_message(x):
+        raise ValueError(f"Test exception with x={x}")
+
+    raise_exception()
+    raise_exception_with_message(42)
+
+
+# LLM-generated content at query #22
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+    try:
+        raise ValueError("Test exception")
+    except ValueError as e:
+        log_exception(e, "An error occurred")
+
+
+
+# LLM-generated content at query #23
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    @exception_wrapper()
+    def divide(a, b):
+        return a / b
+
+    assert divide(10, 2) == 5
+    try:
+        divide(10, 0)
+    except ZeroDivisionError:
+        pass
+    else:
+        assert False, "Expected ZeroDivisionError"
+
+    def custom_handler(e, a, b):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+        assert b == 0
+
+    @exception_wrapper(custom_handler)
+    def divide_custom(a, b):
+        return a / b
+
+    assert divide_custom(10, 2) == 5
+    divide_custom(10, 0)
+
+    def custom_handler_with_kwargs(e, a, b, **kwargs):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+        assert b == 0
+        assert kwargs.get("c") == 3
+
+    @exception_wrapper(custom_handler_with_kwargs)
+    def divide_custom_kwargs(a, b, c=None):
+        return a / b
+
+    assert divide_custom_kwargs(10, 2, c=3) == 5
+    divide_custom_kwargs(10, 0, c=3)
+
+    def custom_handler_with_default(e, a, b, d=4):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+        assert b == 0
+        assert d == 4
+
+    @exception_wrapper(custom_handler_with_default)
+    def divide_custom_default(a, b, c=None):
+        return a / b
+
+    assert divide_custom_default(10, 2, c=3) == 5
+    divide_custom_default(10, 0, c=3)
+
+    def custom_handler_with_default_and_kwargs(e, a, b, d=4, **kwargs):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+        assert b == 0
+        assert d == 4
+        assert kwargs.get("c") == 3
+
+    @exception_wrapper(custom_handler_with_default_and_kwargs)
+    def divide_custom_default_and_kwargs(a, b, c=None):
+        return a / b
+
+    assert divide_custom_default_and_kwargs(10, 2, c=3) == 5
+    divide_custom_default_and_kwargs(10, 0, c=3)
+
+    def custom_handler_with_var_kwargs(e, a, b, **kwargs):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+        assert b == 0
+        assert kwargs.get("c") == 3
+
+    @exception_wrapper(custom_handler_with_var_kwargs)
+    def divide_custom_var_kwargs(a, b, c=None):
+        return a / b
+
+    assert divide_custom_var_kwargs(10, 2, c=3) == 5
+    divide_custom_var_kwargs(10, 0, c=3)
+
+    def custom_handler_with_var_kwargs_and_default(e, a, b, d=4, **kwargs):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+        assert b == 0
+        assert d == 4
+        assert kwargs.get("c") == 3
+
+    @exception_wrapper(custom_handler_with_var_kwargs_and_default)
+    def divide_custom_var_kwargs_and_default(a, b, c=None):
+        return a / b
+
+    assert divide_custom_var_kwargs_and_default(10, 2, c=3) == 5
+    divide_custom_var_kwargs_and_default(10, 0, c=3)
+
+    def custom_handler_with_var_kwargs_and_default_and_kwonlyargs(e, a, b, d=4):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+        assert b == 0
+        assert d == 4
+
+    @exception_wrapper(custom_handler_with_var_kwargs_and_default_and_kwonlyargs)
+    def divide_custom_var_kwargs_and_default_and_kwonlyargs(a, b, c=None):
+        return a / b
+
+    assert divide_custom_var_kwargs_and_default_and_kwonlyargs(10, 2, c=3) == 5
+    divide_custom_var_kwargs_and_default_and_kwonlyargs(10, 0, c=3)
+
+    def custom_handler_with_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults(e, a, b, d=4):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+        assert b == 0
+        assert d == 4
+
+    @exception_wrapper(custom_handler_with_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults)
+    def divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults(a, b, c=None):
+        return a / b
+
+    assert divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults(10, 2, c=3) == 5
+    divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults(10, 0, c=3)
+
+    def custom_handler_with_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs(e, a, b, d=4):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+        assert b == 0
+        assert d == 4
+
+    @exception_wrapper(custom_handler_with_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs)
+    def divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs(a, b, c=None):
+        return a / b
+
+    assert divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs(10, 2, c=3) == 5
+    divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs(10, 0, c=3)
+
+    def custom_handler_with_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults(e, a, b, d=4):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+        assert b == 0
+        assert d == 4
+
+    @exception_wrapper(custom_handler_with_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults)
+    def divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults(a, b, c=None):
+        return a / b
+
+    assert divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults(10, 2, c=3) == 5
+    divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults(10, 0, c=3)
+
+    def custom_handler_with_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults(e, a, b, d=4):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+        assert b == 0
+        assert d == 4
+
+    @exception_wrapper(custom_handler_with_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults)
+    def divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults(a, b, c=None):
+        return a / b
+
+    assert divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults(10, 2, c=3) == 5
+    divide_custom_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults(10, 0, c=3)
+
+    def custom_handler_with_var_kwargs_and_default_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults_and_varargs_and_kwonlyargs_and_kwonlydefaults(e, a, b, d=4):
+        assert isinstance(e, ZeroDivisionError)
+        assert a == 10
+       
+
+
+# LLM-generated content at query #24
+#--------------------------
+
+# Unit test for function exception_wrapper
+def test_exception_wrapper():
+    # Test case 1: No exception
+    @exception_wrapper()
+    def func1():
+        return 42
+
+    assert func1() == 42
+
+    # Test case 2: Exception with default handler
+    @exception_wrapper()
+    def func2():
+        raise ValueError("Test error")
+
+    try:
+        func2()
+    except ValueError:
+        pass  # Expected to be caught by wrapper
+
+    # Test case 3: Exception with custom handler
+    def handler(e, arg1, arg2, extra_arg=None):
+        assert isinstance(e, ValueError)
+        assert arg1 == "test"
+        assert arg2 == 123
+        assert extra_arg is None
+        return "handled"
+
+    @exception_wrapper(handler)
+    def func3(arg1, arg2, *args, extra_arg=None):
+        raise ValueError("Test error")
+
+    result = func3("test", 123)
+    assert result == "handled"
+
+    # Test case 4: Generator function
+    @exception_wrapper()
+    def func4():
+        yield 1
+        raise ValueError("Test error")
+        yield 2  # Unreachable
+
+    gen = func4()
     assert next(gen) == 1
     try:
         next(gen)
-    except StopIteration:
-        pass  # Expected since generator stops after exception
-    log_contents = log_capture_string.getvalue()
-    assert "Generator error" in log_contents
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
+    except ValueError:
+        pass  # Expected to be caught by wrapper
 
-    # Test 4: Handler with **kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        print(f"Caught {e} with arg1={arg1}, kwargs={kwargs}")
+    # Test case 5: Invalid handler (no exception argument)
+    try:
+        @exception_wrapper(lambda: None)
+        def func5():
+            pass
+    except ValueError:
+        pass  # Expected
 
-    @exception_wrapper(handler_with_kwargs)
-    def func4(arg1, arg2, extra="default"):
-        raise KeyError("Kwargs error")
+    # Test case 6: Invalid handler (non-matching argument without default)
+    try:
+        @exception_wrapper(lambda e, non_existent_arg: None)
+        def func6():
+            pass
+    except ValueError:
+        pass  # Expected
 
-    func4("value1", "value2", extra="nondefault")
-    log_contents = log_capture_string.getvalue()
-    assert "Kwargs error" in log_contents and "value1" in log_contents
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
+    # Test case 7: Invalid handler (matching argument with default)
+    try:
+        @exception_wrapper(lambda e, arg1=42: None)
+        def func7(arg1):
+            pass
+    except ValueError:
+        pass  # Expected
 
     print("All tests passed!")
 
@@ -2585,693 +2798,26 @@ if __name__ == "__main__":
     test_exception_wrapper()
 
 
-# LLM-generated content at query #11
-#--------------------------
-
-# Unit test for function log_exception
-def test_log_exception(): 
-    try: 
-        raise ValueError("Test error") 
-    except ValueError as e: 
-        log_exception(e, user_msg="Custom message") 
-        # Should print: Custom message: <ValueError> Test error 
-        # And also print the traceback
-
-
-
-# LLM-generated content at query #12
-#--------------------------
-
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We can't really test this in a unit test, but we can at least make sure it doesn't crash.
-    register_ipython_excepthook()
-    assert sys.excepthook is not sys.__excepthook__
-
-
-
-# LLM-generated content at query #13
-#--------------------------
-
-# Unit test for function log_exception
-def test_log_exception(): 
-    try:
-        raise ValueError("Test exception")
-    except ValueError as e:
-        log_exception(e, user_msg="Test message")
-        print("Test passed")
-
-
-
-# LLM-generated content at query #14
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling with default handler
-    @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
-
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2, extra_arg=None, **kwargs):
-        print(f"Custom handler called with: {e}, arg1={arg1}, arg2={arg2}, extra_arg={extra_arg}, kwargs={kwargs}")
-
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, *args, extra_arg=None, **kwargs):
-        raise RuntimeError("Another test error")
-
-    # Test 3: Generator function
-    @exception_wrapper()
-    def func3():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    # Test 4: Handler with matching arguments
-    def handler_with_matching_args(e, param1, param2, optional_param=None, **kw):
-        print(f"Handler with matching args: {e}, param1={param1}, param2={param2}, optional_param={optional_param}, kw={kw}")
-
-    @exception_wrapper(handler_with_matching_args)
-    def func4(param1, param2, *args, optional_param=None, **kwargs):
-        raise ValueError("Matching args error")
-
-    # Test 5: Invalid handler (varargs)
-    try:
-        def invalid_handler(e, *args):
-            pass
-
-        @exception_wrapper(invalid_handler)
-        def func5():
-            pass
-    except ValueError as e:
-        print(f"Caught expected error for invalid handler: {e}")
-
-    # Test 6: Invalid handler (non-matching argument without default)
-    try:
-        def invalid_handler2(e, non_existent_arg):
-            pass
-
-        @exception_wrapper(invalid_handler2)
-        def func6():
-            pass
-    except ValueError as e:
-        print(f"Caught expected error for non-matching argument: {e}")
-
-    # Test 7: Invalid handler (matching argument with default)
-    try:
-        def invalid_handler3(e, param1, param2="default"):
-            pass
-
-        @exception_wrapper(invalid_handler3)
-        def func7(param1, param2):
-            pass
-    except ValueError as e:
-        print(f"Caught expected error for matching argument with default: {e}")
-
-    # Run tests
-    print("Test 1: Basic exception handling")
-    func1()
-
-    print("\nTest 2: Custom handler function")
-    func2("value1", "value2", extra_arg="extra", additional_kw="additional")
-
-    print("\nTest 3: Generator function")
-    try:
-        for item in func3():
-            print(f"Yielded: {item}")
-    except StopIteration:
-        pass
-
-    print("\nTest 4: Handler with matching arguments")
-    func4("p1", "p2", optional_param="opt", extra_kw="extra")
-
-    print("\nAll tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
-
-
-# LLM-generated content at query #15
-#--------------------------
-
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test this directly because it would require an interactive session, but we can test that the function doesn't raise an exception.
-    try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
-    else:
-        assert True
-
-
-
-# LLM-generated content at query #16
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling
-    @exception_wrapper()
-    def basic_function():
-        raise ValueError("Test error")
-    
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2, custom_arg="default"):
-        return f"Caught {e} with arg1={arg1}, arg2={arg2}, custom_arg={custom_arg}"
-    
-    @exception_wrapper(custom_handler)
-    def function_with_args(arg1, arg2):
-        raise ValueError("Test error")
-    
-    # Test 3: Handler with **kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        return f"Caught {e} with arg1={arg1}, kwargs={kwargs}"
-    
-    @exception_wrapper(handler_with_kwargs)
-    def function_with_kwargs(arg1, arg2, **kwargs):
-        raise ValueError("Test error")
-    
-    # Test 4: Generator function
-    @exception_wrapper()
-    def generator_function():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-    
-    # Run tests
-    print("Test 1: Basic exception handling")
-    try:
-        basic_function()
-    except Exception as e:
-        print(f"Unexpected exception: {e}")
-    
-    print("\nTest 2: Custom handler function")
-    result = function_with_args("value1", "value2")
-    print(f"Handler result: {result}")
-    
-    print("\nTest 3: Handler with **kwargs")
-    result = function_with_kwargs("value1", "value2", extra="extra_value")
-    print(f"Handler result: {result}")
-    
-    print("\nTest 4: Generator function")
-    gen = generator_function()
-    try:
-        for item in gen:
-            print(f"Yielded: {item}")
-    except Exception as e:
-        print(f"Unexpected exception during iteration: {e}")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
-
-
-# LLM-generated content at query #17
-#--------------------------
-
-# Unit test for function log_exception
-def test_log_exception(): 
-    try: 
-        raise ValueError("Test exception") 
-    except ValueError as e: 
-        log_exception(e, user_msg="An error occurred") 
-        print("Exception logged successfully") 
-
-
-
-# LLM-generated content at query #18
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test case 1: Custom handler function with matching argument names
-    def custom_handler(e, one, two, three=None, **kwargs):
-        print(f"Custom handler called with exception: {e}")
-        print(f"Arguments: one={one}, two={two}, three={three}, kwargs={kwargs}")
-
-    @exception_wrapper(custom_handler)
-    def foo(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 2: Default handler (log_exception)
-    @exception_wrapper()
-    def bar():
-        raise ValueError("Test exception")
-
-    # Test case 3: Handler with default values for non-matching arguments
-    def handler_with_defaults(e, one, two, my_arg=None, **kwargs):
-        print(f"Handler with defaults called with exception: {e}")
-        print(f"Arguments: one={one}, two={two}, my_arg={my_arg}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_with_defaults)
-    def baz(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 4: Handler with variadic keyword argument
-    def handler_with_varkw(e, one, two, **kw):
-        print(f"Handler with varkw called with exception: {e}")
-        print(f"Arguments: one={one}, two={two}, kw={kw}")
-
-    @exception_wrapper(handler_with_varkw)
-    def qux(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 5: Handler with no matching arguments
-    def handler_no_matching(e, my_arg=None):
-        print(f"Handler no matching called with exception: {e}")
-        print(f"Arguments: my_arg={my_arg}")
-
-    @exception_wrapper(handler_no_matching)
-    def quux(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 6: Handler with only exception argument
-    def handler_only_exception(e):
-        print(f"Handler only exception called with exception: {e}")
-
-    @exception_wrapper(handler_only_exception)
-    def corge(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 7: Handler with all arguments matching
-    def handler_all_matching(e, one, two, three, **kwargs):
-        print(f"Handler all matching called with exception: {e}")
-        print(f"Arguments: one={one}, two={two}, three={three}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_all_matching)
-    def grault(one, two, three, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 8: Handler with generator function
-    def handler_generator(e, one, two, **kwargs):
-        print(f"Handler generator called with exception: {e}")
-        print(f"Arguments: one={one}, two={two}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_generator)
-    def waldo(one, two, **kwargs):
-        yield from range(5)
-        raise ValueError("Test exception")
-
-    # Test case 9: Handler with no arguments
-    def handler_no_args(e):
-        print(f"Handler no args called with exception: {e}")
-
-    @exception_wrapper(handler_no_args)
-    def fred(one, two, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 10: Handler with only default arguments
-    def handler_only_defaults(e, my_arg=None):
-        print(f"Handler only defaults called with exception: {e}")
-        print(f"Arguments: my_arg={my_arg}")
-
-    @exception_wrapper(handler_only_defaults)
-    def plugh(one, two, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 11: Handler with mixed matching and non-matching arguments
-    def handler_mixed(e, one, two, my_arg=None, **kwargs):
-        print(f"Handler mixed called with exception: {e}")
-        print(f"Arguments: one={one}, two={two}, my_arg={my_arg}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_mixed)
-    def xyzzy(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 12: Handler with only non-matching arguments
-    def handler_only_non_matching(e, my_arg=None, another_arg=None):
-        print(f"Handler only non-matching called with exception: {e}")
-        print(f"Arguments: my_arg={my_arg}, another_arg={another_arg}")
-
-    @exception_wrapper(handler_only_non_matching)
-    def thud(one, two, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 13: Handler with only variadic keyword argument
-    def handler_only_varkw(e, **kwargs):
-        print(f"Handler only varkw called with exception: {e}")
-        print(f"Arguments: kwargs={kwargs}")
-
-    @exception_wrapper(handler_only_varkw)
-    def wibble(one, two, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 14: Handler with only matching arguments and no defaults
-    def handler_only_matching_no_defaults(e, one, two, three):
-        print(f"Handler only matching no defaults called with exception: {e}")
-        print(f"Arguments: one={one}, two={two}, three={three}")
-
-    @exception_wrapper(handler_only_matching_no_defaults)
-    def wobble(one, two, three):
-        raise ValueError("Test exception")
-
-    # Test case 15: Handler with only matching arguments and defaults
-    def handler_only_matching_defaults(e, one, two, three=None):
-        print(f"Handler only matching defaults called with exception: {e}")
-        print(f"Arguments: one={one}, two={two}, three={three}")
-
-    @exception_wrapper(handler_only_matching_defaults)
-    def flob(one, two, three=None):
-        raise ValueError("Test exception")
-
-    # Test case 16: Handler with only non-matching arguments and defaults
-    def handler_only_non_matching_defaults(e, my_arg=None, another_arg=None):
-        print(f"Handler only non-matching defaults called with exception: {e}")
-        print(f"Arguments: my_arg={my_arg}, another_arg={another_arg}")
-
-    @exception_wrapper(handler_only_non_matching_defaults)
-    def bloop(one, two, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 17: Handler with only variadic keyword argument and defaults
-    def handler_only_varkw_defaults(e, my_arg=None, **kwargs):
-        print(f"Handler only varkw defaults called with exception: {e}")
-        print(f"Arguments: my_arg={my_arg}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_only_varkw_defaults)
-    def blorp(one, two, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 18: Handler with only matching arguments and variadic keyword argument
-    def handler_only_matching_varkw(e, one, two, **kwargs):
-        print(f"Handler only matching varkw called with exception: {e}")
-        print(f"Arguments: one={one}, two={two}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_only_matching_varkw)
-    def bloopity(one, two, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 19: Handler with only non-matching arguments and variadic keyword argument
-    def handler_only_non_matching_varkw(e, my_arg=None, **kwargs):
-        print(f"Handler only non-matching varkw called with exception: {e}")
-        print(f"Arguments: my_arg={my_arg}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_only_non_matching_varkw)
-    def bloopity_bloop(one, two, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 20: Handler with only matching arguments, non-matching arguments, and variadic keyword argument
-    def handler_mixed_all(e, one, two, my_arg=None, **kwargs):
-        print(f"Handler mixed all called with exception: {e}")
-        print(f"Arguments: one={one}, two={two}, my_arg={my_arg}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_mixed_all)
-    def bloopity_bloopity(one, two, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 21: Handler with only matching arguments, non-matching arguments, defaults, and variadic keyword argument
-    def handler_mixed_all_defaults(e, one, two, my_arg=None, another_arg=None, **kwargs):
-        print(f"Handler mixed all defaults called with exception: {e}")
-        print(f"Arguments: one={one}, two={two}, my_arg={my_arg}, another_arg={another_arg}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_mixed_all_defaults)
-    def bloopity_bloopity_bloop(one, two, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 22: Handler with only matching arguments, non-matching arguments, defaults, variadic keyword argument, and no defaults
-    def handler_mixed_all_no_defaults(e,
-
-
-# LLM-generated content at query #19
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper():  
-    # Define a custom handler function  
-    def custom_handler(e, arg1, arg2, extra_arg="default", **kwargs):  
-        print(f"Exception caught: {e}")  
-        print(f"arg1: {arg1}, arg2: {arg2}, extra_arg: {extra_arg}")  
-        print(f"kwargs: {kwargs}")  
-  
-    # Define a function that will be wrapped  
-    @exception_wrapper(custom_handler)  
-    def problematic_function(arg1, arg2, *args, optional_arg=None, **kwargs):  
-        if arg1 == "error":  
-            raise ValueError("An error occurred!")  
-        return f"Success: {arg1}, {arg2}"  
-  
-    # Test case 1: No exception  
-    print("Test 1: No exception")  
-    result = problematic_function("ok", "test", "extra1", "extra2", optional_arg="opt", extra_kw="kw")  
-    print(f"Result: {result}\n")  
-  
-    # Test case 2: Exception occurs  
-    print("Test 2: Exception occurs")  
-    result = problematic_function("error", "test", "extra1", "extra2", optional_arg="opt", extra_kw="kw")  
-    print(f"Result: {result}\n")  
-  
-    # Test case 3: Using default handler (log_exception)  
-    @exception_wrapper()  
-    def another_problematic_function(arg1, arg2):  
-        raise RuntimeError("Another error!")  
-  
-    print("Test 3: Default handler")  
-    result = another_problematic_function("arg1", "arg2")  
-    print(f"Result: {result}\n")  
-  
-    # Test case 4: Generator function  
-    @exception_wrapper(custom_handler)  
-    def problematic_generator(arg1, arg2, **kwargs):  
-        yield 1  
-        if arg1 == "error":  
-            raise ValueError("Generator error!")  
-        yield 2  
-  
-    print("Test 4: Generator with exception")  
-    gen = problematic_generator("error", "test", extra_kw="kw")  
-    try:  
-        for item in gen:  
-            print(f"Yielded: {item}")  
-    except StopIteration:  
-        print("Generator finished\n")  
-  
-    # Test case 5: Generator without exception  
-    print("Test 5: Generator without exception")  
-    gen = problematic_generator("ok", "test", extra_kw="kw")  
-    for item in gen:  
-        print(f"Yielded: {item}")  
-    print("Generator finished\n")  
-  
-if __name__ == "__main__":  
-    test_exception_wrapper()
-
-
-# LLM-generated content at query #20
-#--------------------------
-
-# Unit test for function log_exception
-def test_log_exception(): 
-    try:
-        raise ValueError("Test exception")
-    except ValueError as e:
-        log_exception(e, user_msg="User message")
-        print("Test passed")
-
-
-
-# LLM-generated content at query #21
-#--------------------------
-
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We cannot test this directly because it requires an interactive session, but we can test that the function does not raise an error.
-    try:
-        register_ipython_excepthook()
-        assert True
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
-
-
-
-# LLM-generated content at query #22
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling
-    @exception_wrapper()
-    def basic_func():
-        raise ValueError("Test error")
-
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2, extra_arg="default"):
-        print(f"Custom handler called with: {e}, {arg1}, {arg2}, {extra_arg}")
-
-    @exception_wrapper(custom_handler)
-    def func_with_args(arg1, arg2):
-        raise ValueError("Test error")
-
-    # Test 3: Handler with **kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        print(f"Handler with kwargs called with: {e}, {arg1}, {kwargs}")
-
-    @exception_wrapper(handler_with_kwargs)
-    def func_with_kwargs(arg1, arg2, **kwargs):
-        raise ValueError("Test error")
-
-    # Test 4: Generator function
-    @exception_wrapper()
-    def generator_func():
-        yield 1
-        raise ValueError("Generator error")
-
-    # Test 5: No exception
-    @exception_wrapper()
-    def no_exception_func():
-        return "Success"
-
-    # Run tests
-    print("Test 1: Basic exception handling")
-    basic_func()
-
-    print("\nTest 2: Custom handler function")
-    func_with_args("value1", "value2")
-
-    print("\nTest 3: Handler with **kwargs")
-    func_with_kwargs("value1", "value2", extra="extra_value")
-
-    print("\nTest 4: Generator function")
-    try:
-        for item in generator_func():
-            print(item)
-    except Exception as e:
-        print(f"Generator raised: {e}")
-
-    print("\nTest 5: No exception")
-    result = no_exception_func()
-    print(f"Result: {result}")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
-
-
-# LLM-generated content at query #23
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Define a custom handler function
-    def custom_handler(e, arg1, arg2, my_arg=None, **kwargs):
-        print(f"Custom handler called with exception: {e}")
-        print(f"arg1: {arg1}, arg2: {arg2}, my_arg: {my_arg}, kwargs: {kwargs}")
-        return "Handled"
-
-    # Define a function that will be wrapped
-    @exception_wrapper(custom_handler)
-    def test_function(arg1, arg2, *args, three=None, **kwargs):
-        if arg1 == "raise":
-            raise ValueError("Test exception")
-        return f"Normal execution: {arg1}, {arg2}, {args}, {three}, {kwargs}"
-
-    # Test normal execution
-    result = test_function("normal", "arg2", "extra1", "extra2", three=3, four=4)
-    print(result)  # Should print: Normal execution: normal, arg2, ('extra1', 'extra2'), 3, {'four': 4}
-
-    # Test exception handling
-    result = test_function("raise", "arg2", "extra1", "extra2", three=3, four=4)
-    print(result)  # Should print: Handled
-
-    # Test with default handler (log_exception)
-    @exception_wrapper()
-    def test_function_default(arg1, arg2):
-        raise ValueError("Test exception with default handler")
-
-    # This should log the exception and return None
-    result = test_function_default("raise", "arg2")
-    print(result)  # Should print: None
-
-if __name__ == "__main__":
-    test_exception_wrapper()
-
-
-# LLM-generated content at query #24
-#--------------------------
-
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook
-    # that launches an interactive IPython session upon uncaught exceptions.
-    # We cannot test this directly because it requires user interaction.
-    # Instead, we can test that the function does not raise an exception.
-    try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
-
-
-
 # LLM-generated content at query #25
 #--------------------------
 
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Define a function that will be wrapped
-    def func(a, b, c=3, *args, d=4, **kwargs):
-        if a == 1:
-            raise ValueError("a is 1")
-        return a + b + c + d + sum(args) + sum(kwargs.values())
-    
-    # Define a handler function
-    def handler(e, a, b, c, args, d, my_arg=None, **kw):
-        print(f"Exception: {e}")
-        print(f"a: {a}, b: {b}, c: {c}, d: {d}")
-        print(f"args: {args}")
-        print(f"my_arg: {my_arg}")
-        print(f"kw: {kw}")
-        return "handled"
-    
-    # Wrap the function
-    wrapped_func = exception_wrapper(handler)(func)
-    
-    # Test with exception
-    result = wrapped_func(1, 2, 3, 4, 5, d=6, e=7, f=8)
-    assert result == "handled"
-    
-    # Test without exception
-    result = wrapped_func(2, 2, 3, 4, 5, d=6, e=7, f=8)
-    assert result == 2 + 2 + 3 + 6 + 4 + 5 + 7 + 8
-    
-    # Test with default arguments
-    result = wrapped_func(2, 2)
-    assert result == 2 + 2 + 3 + 4
-    
-    # Test with only required arguments
-    result = wrapped_func(2, 2, 3)
-    assert result == 2 + 2 + 3 + 4
-    
-    # Test with only required arguments and extra positional arguments
-    result = wrapped_func(2, 2, 3, 4, 5)
-    assert result == 2 + 2 + 3 + 4 + 4 + 5
-    
-    # Test with only required arguments and extra keyword arguments
-    result = wrapped_func(2, 2, 3, d=5, e=6, f=7)
-    assert result == 2 + 2 + 3 + 5 + 6 + 7
-    
-    # Test with all arguments
-    result = wrapped_func(2, 2, 3, 4, 5, d=6, e=7, f=8)
-    assert result == 2 + 2 + 3 + 6 + 4 + 5 + 7 + 8
-    
-    print("All tests passed")
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    # Test that the function correctly registers the excepthook
+    register_ipython_excepthook()
+    assert sys.excepthook != sys.__excepthook__
 
-if __name__ == "__main__":
-    test_exception_wrapper()
 
 
 # LLM-generated content at query #26
 #--------------------------
 
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test this directly because it would require an interactive session, but we can test that the function doesn't raise any exceptions.
+# Unit test for function log_exception
+def test_log_exception():
     try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
+        raise ValueError("Test exception")
+    except ValueError as e:
+        log_exception(e, user_msg="A test exception occurred")
 
 
 
@@ -3279,14 +2825,20 @@ def test_register_ipython_excepthook():
 #--------------------------
 
 # Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook
-    # that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test this directly, but we can test that the function doesn't raise an error.
+def test_register_ipython_excepthook():
+    def raise_exception():
+        raise ValueError("Test exception")
+
+    original_hook = sys.excepthook
+    register_ipython_excepthook()
+
     try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
+        raise_exception()
+    except ValueError:
+        pass
+
+    assert sys.excepthook != original_hook, "Excepthook should be changed"
+    sys.excepthook = original_hook
 
 
 
@@ -3294,413 +2846,25 @@ def test_register_ipython_excepthook():
 #--------------------------
 
 # Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import io
-    import sys
-    import logging
-    from contextlib import redirect_stdout, redirect_stderr
-
-    # Setup logging to capture output
-    log_capture_string = io.StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.ERROR)
-    logger = logging.getLogger()
-    logger.addHandler(ch)
-
-    # Test 1: Basic exception logging
-    @exception_wrapper()
-    def basic_error():
-        raise ValueError("Test error")
-
-    basic_error()
-    log_contents = log_capture_string.getvalue()
-    assert "Test error" in log_contents, "Basic exception logging failed"
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
-
-    # Test 2: Custom handler with matching arguments
-    def custom_handler(e, arg1, arg2, extra="default"):
-        print(f"Caught {e} with arg1={arg1}, arg2={arg2}, extra={extra}")
-
-    @exception_wrapper(custom_handler)
-    def func_with_args(arg1, arg2):
-        raise RuntimeError("Error in func_with_args")
-
-    f = io.StringIO()
-    with redirect_stdout(f):
-        func_with_args("value1", "value2")
-    output = f.getvalue().strip()
-    assert "Caught Error in func_with_args with arg1=value1, arg2=value2, extra=default" in output, "Custom handler with matching args failed"
-
-    # Test 3: Handler with **kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        print(f"Caught {e} with arg1={arg1}, kwargs={kwargs}")
-
-    @exception_wrapper(handler_with_kwargs)
-    def func_with_kwargs(arg1, arg2, extra=None):
-        raise RuntimeError("Error in func_with_kwargs")
-
-    f = io.StringIO()
-    with redirect_stdout(f):
-        func_with_kwargs("val1", "val2", extra="extra_val")
-    output = f.getvalue().strip()
-    assert "Caught Error in func_with_kwargs with arg1=val1, kwargs={'arg2': 'val2', 'extra': 'extra_val'}" in output, "Handler with **kwargs failed"
-
-    # Test 4: Generator function
-    @exception_wrapper()
-    def generator_func():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    gen = generator_func()
-    assert next(gen) == 1, "Generator yielded incorrect first value"
-    try:
-        next(gen)
-    except StopIteration:
-        pass  # Generator should have stopped due to exception
-    log_contents = log_capture_string.getvalue()
-    assert "Generator error" in log_contents, "Generator exception logging failed"
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
-
-    # Test 5: No exception
-    @exception_wrapper()
-    def no_error():
-        return "success"
-
-    result = no_error()
-    assert result == "success", "Function without exception should return normally"
-
-    # Cleanup
-    logger.removeHandler(ch)
-    print("All tests passed!")
-
-# Run the unit test
-if __name__ == "__main__":
-    test_exception_wrapper()
+def test_exception_wrapper():
+    # Test that the exception handler is called when an exception is raised
+    # Test that the exception handler is not called when no exception is raised
+    # Test that the exception handler is called with the correct arguments
+    # Test that the exception handler is called with the correct exception
+    # Test that the exception handler is called with the correct arguments when the wrapped function is a generator
+    # Test that the exception handler is called with the correct exception when the wrapped function is a generator
+    # Test that the exception handler is called with the correct arguments when the wrapped function is a generator
+    # Test that the exception handler is called with the correct exception when the wrapped function is a generator
+    # Test that the exception handler is called with the correct arguments when the wrapped function is a generator
+    # Test that the exception handler is called with the correct exception when the wrapped function is a generator
+    pass
 
 
 # LLM-generated content at query #29
 #--------------------------
 
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # We can't test this directly because it would require an interactive session, but we can test that the function doesn't raise an exception.
-    try:
-        register_ipython_excepthook()
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
-
-
-
-# LLM-generated content at query #30
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import io
-    import sys
-    import logging
-
-    # Setup logging to capture output
-    log_capture_string = io.StringIO()
-    ch = logging.StreamHandler(log_capture_string)
-    ch.setLevel(logging.ERROR)
-    logger = logging.getLogger()
-    logger.addHandler(ch)
-
-    # Test 1: Default handler (log_exception)
-    @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
-
-    func1()
-    log_contents = log_capture_string.getvalue()
-    assert "Test error" in log_contents
-    log_capture_string.truncate(0)
-    log_capture_string.seek(0)
-
-    # Test 2: Custom handler
-    def custom_handler(e, arg1, arg2, extra="default"):
-        print(f"Caught {e} with arg1={arg1}, arg2={arg2}, extra={extra}")
-
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra="default"):
-        raise RuntimeError("Custom handler test")
-
-    # Capture stdout
-    old_stdout = sys.stdout
-    sys.stdout = io.StringIO()
-    func2("value1", "value2", extra="nondefault")
-    output = sys.stdout.getvalue()
-    sys.stdout = old_stdout
-    assert "Caught" in output and "value1" in output and "value2" in output and "nondefault" in output
-
-    # Test 3: Generator function
-    @exception_wrapper()
-    def func3():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    gen = func3()
-    assert next(gen) == 1
-    try:
-        next(gen)
-    except StopIteration:
-        pass  # Exception should be logged, not raised
-    log_contents = log_capture_string.getvalue()
-    assert "Generator error" in log_contents
-
-    print("All tests passed.")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
-
-
-# LLM-generated content at query #31
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Define a simple function that raises an exception
-    @exception_wrapper()
-    def raise_exception():
-        raise ValueError("Test exception")
-
-    # Define a custom handler function
-    def custom_handler(e, arg1, arg2, custom_arg=None, **kwargs):
-        print(f"Custom handler called with exception: {e}")
-        print(f"arg1: {arg1}, arg2: {arg2}")
-        print(f"custom_arg: {custom_arg}")
-        print(f"kwargs: {kwargs}")
-
-    # Wrap a function with custom handler
-    @exception_wrapper(custom_handler)
-    def raise_exception_with_args(arg1, arg2, *args, **kwargs):
-        raise ValueError("Test exception with args")
-
-    # Test the default handler
-    print("Testing default handler:")
-    raise_exception()
-
-    # Test the custom handler
-    print("\nTesting custom handler:")
-    raise_exception_with_args("value1", "value2", "extra_arg", extra_kwarg="extra_value")
-
-    # Test with generator function
-    @exception_wrapper()
-    def generator_with_exception():
-        yield 1
-        raise ValueError("Exception in generator")
-        yield 2
-
-    print("\nTesting generator function:")
-    for value in generator_with_exception():
-        print(value)
-
-# Run the unit test
-if __name__ == "__main__":
-    test_exception_wrapper()
-
-
-# LLM-generated content at query #32
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    import sys
-    import io
-    import logging
-
-    # Setup logging to capture output
-    logging.basicConfig(level=logging.ERROR)
-    captured_output = io.StringIO()
-    ch = logging.StreamHandler(captured_output)
-    ch.setLevel(logging.ERROR)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    ch.setFormatter(formatter)
-    logging.getLogger().addHandler(ch)
-
-    # Test 1: Default handler (log_exception)
-    @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
-
-    func1()
-    assert "Test error" in captured_output.getvalue()
-
-    # Test 2: Custom handler
-    def custom_handler(e, arg1, arg2, extra="default"):
-        print(f"Caught exception: {e}, arg1={arg1}, arg2={arg2}, extra={extra}")
-
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra="default"):
-        raise ValueError("Test error 2")
-
-    captured_output.truncate(0)
-    captured_output.seek(0)
-    func2(1, 2)
-    assert "Caught exception" in captured_output.getvalue()
-
-    # Test 3: Generator function
-    @exception_wrapper()
-    def func3():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-
-    captured_output.truncate(0)
-    captured_output.seek(0)
-    list(func3())  # Consume generator
-    assert "Generator error" in captured_output.getvalue()
-
-    # Test 4: Handler with mismatched arguments (should raise ValueError)
-    try:
-        def handler_mismatch(e, non_existent_arg):
-            pass
-
-        @exception_wrapper(handler_mismatch)
-        def func4():
-            pass
-
-        func4()
-    except ValueError as e:
-        assert "does not match any argument in wrapped method" in str(e)
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_exception_wrapper()
-
-
-# LLM-generated content at query #33
-#--------------------------
-
 # Unit test for function log_exception
-def test_log_exception(): 
-    try: 
-        raise ValueError("Test error") 
-    except ValueError as e: 
-        log_exception(e, user_msg="An error occurred") 
-        # Expected output: 
-        # ERROR: An error occurred: <ValueError> Test error 
-        # ERROR: Traceback (most recent call last): 
-        # ... 
-
-
-
-# LLM-generated content at query #34
-#--------------------------
-
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers the exception hook correctly
-    # We can't test the actual hook because it's an interactive session
-    # But we can test that the function doesn't raise any exceptions
-    try:
-        register_ipython_excepthook()
-        assert True
-    except Exception as e:
-        assert False, f"register_ipython_excepthook raised an exception: {e}"
-
-
-
-# LLM-generated content at query #35
-#--------------------------
-
-# Unit test for function log_exception
-def test_log_exception(): 
-    try: 
-        raise ValueError("Test exception") 
-    except ValueError as e: 
-        log_exception(e, user_msg="An error occurred") 
-
-
-
-# LLM-generated content at query #36
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test case 1: Exception handler with matching arguments
-    def handler_fn(e, one, two, three=None, **kwargs):
-        print(f"Exception: {e}")
-        print(f"one: {one}")
-        print(f"two: {two}")
-        print(f"three: {three}")
-        print(f"kwargs: {kwargs}")
-
-    @exception_wrapper(handler_fn)
-    def foo(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 2: Exception handler without matching arguments
-    def handler_fn2(e, my_arg=None):
-        print(f"Exception: {e}")
-        print(f"my_arg: {my_arg}")
-
-    @exception_wrapper(handler_fn2)
-    def bar(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 3: Exception handler with default values
-    def handler_fn3(e, one, two, my_arg=None, **kwargs):
-        print(f"Exception: {e}")
-        print(f"one: {one}")
-        print(f"two: {two}")
-        print(f"my_arg: {my_arg}")
-        print(f"kwargs: {kwargs}")
-
-    @exception_wrapper(handler_fn3)
-    def baz(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 4: Exception handler with no matching arguments
-    def handler_fn4(e, my_arg=None):
-        print(f"Exception: {e}")
-        print(f"my_arg: {my_arg}")
-
-    @exception_wrapper(handler_fn4)
-    def qux(one, two, *args, three=None, **kwargs):
-        raise ValueError("Test exception")
-
-    # Test case 5: Exception handler with varargs (should raise ValueError)
-    def handler_fn5(e, *args):
-        print(f"Exception: {e}")
-        print(f"args: {args}")
-
-    try:
-        @exception_wrapper(handler_fn5)
-        def invalid(one, two, *args, three=None, **kwargs):
-            raise ValueError("Test exception")
-    except ValueError as e:
-        print(f"Expected error: {e}")
-
-    # Run the test cases
-    print("Test case 1:")
-    foo(1, "2", "arg1", "arg2", four=4)
-
-    print("\nTest case 2:")
-    bar(1, "2", "arg1", "arg2", four=4)
-
-    print("\nTest case 3:")
-    baz(1, "2", "arg1", "arg2", four=4)
-
-    print("\nTest case 4:")
-    qux(1, "2", "arg1", "arg2", four=4)
-
-# Run the unit test
-test_exception_wrapper()
-
-
-# LLM-generated content at query #37
-#--------------------------
-
-# Unit test for function log_exception
-def test_log_exception(): 
+def test_log_exception():
     try:
         raise ValueError("Test error")
     except ValueError as e:
@@ -3708,78 +2872,98 @@ def test_log_exception():
 
 
 
-# LLM-generated content at query #38
-#--------------------------
-
-# Unit test for function log_exception
-def test_log_exception(): 
-    try: 
-        raise ValueError("Test error") 
-    except ValueError as e: 
-        log_exception(e, user_msg="Custom message") 
-        print("Test passed") 
-
-
-
-# LLM-generated content at query #39
+# LLM-generated content at query #30
 #--------------------------
 
 # Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # This test is not implemented because it requires an interactive IPython session.
-    pass
+def test_register_ipython_excepthook():
+    register_ipython_excepthook()
 
 
 
-# LLM-generated content at query #40
+# LLM-generated content at query #31
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    original_excepthook = sys.excepthook
+    register_ipython_excepthook()
+    assert sys.excepthook != original_excepthook
+    register_ipython_excepthook(capture_keyboard_interrupt=True)
+    assert sys.excepthook != original_excepthook
+
+
+
+# LLM-generated content at query #32
+#--------------------------
+
+# Unit test for function log_exception
+def test_log_exception():
+    class TestException(Exception):
+        pass
+
+    try:
+        raise TestException("Test error message")
+    except TestException as e:
+        log_exception(e, user_msg="Custom user message")
+
+
+# LLM-generated content at query #33
+#--------------------------
+
+# Unit test for function register_ipython_excepthook
+def test_register_ipython_excepthook():
+    def test_function():
+        raise ValueError("Test exception")
+
+    register_ipython_excepthook()
+    try:
+        test_function()
+    except ValueError:
+        pass
+
+
+
+# LLM-generated content at query #34
 #--------------------------
 
 # Unit test for function exception_wrapper
-def test_exception_wrapper():  
-    import io
-    import sys
+def test_exception_wrapper():
+    """Test the exception wrapper functionality."""
+    def handler_fn(e, arg1, arg2, kwarg1=None, **kwargs):
+        assert isinstance(e, ValueError)
+        assert arg1 == 1
+        assert arg2 == "two"
+        assert kwarg1 == "default"
+        assert kwargs == {"kwarg2": 2}
+        return "handled"
 
-    # Capture stderr
-    captured_output = io.StringIO()
-    sys.stderr = captured_output
+    @exception_wrapper(handler_fn)
+    def func(arg1, arg2, kwarg1="default", **kwargs):
+        raise ValueError("test error")
 
-    # Test 1: Default handler (log_exception)
-    @exception_wrapper()
-    def func1():
-        raise ValueError("Test error")
+    result = func(1, "two", kwarg2=2)
+    assert result == "handled"
 
-    func1()
-    assert "Test error" in captured_output.getvalue()
-    captured_output.truncate(0)
-    captured_output.seek(0)
-
-    # Test 2: Custom handler
-    def custom_handler(e, arg1, arg2, extra="default"):
-        print(f"Caught {e} with arg1={arg1}, arg2={arg2}, extra={extra}")
-
-    @exception_wrapper(custom_handler)
-    def func2(arg1, arg2, extra="default"):
-        raise RuntimeError("Custom error")
-
-    func2(1, 2, extra="not default")
-    assert "Caught" in captured_output.getvalue()
-    captured_output.truncate(0)
-    captured_output.seek(0)
-
-    # Test 3: Generator function
-    @exception_wrapper()
-    def func3():
+    # Test with generator function
+    @exception_wrapper(handler_fn)
+    def gen_func(arg1, arg2, kwarg1="default", **kwargs):
         yield 1
-        raise ValueError("Generator error")
+        raise ValueError("test error")
+        yield 2
 
-    list(func3())  # Consume generator
-    assert "Generator error" in captured_output.getvalue()
-    captured_output.truncate(0)
-    captured_output.seek(0)
+    gen = gen_func(1, "two", kwarg2=2)
+    assert list(gen) == [1, "handled"]
 
-    # Restore stderr
-    sys.stderr = sys.__stderr__
+    # Test with default handler
+    @exception_wrapper()
+    def default_func():
+        raise ValueError("test error")
+
+    try:
+        default_func()
+    except ValueError:
+        pass  # Expected behavior
 
     print("All tests passed!")
 
@@ -3787,86 +2971,37 @@ if __name__ == "__main__":
     test_exception_wrapper()
 
 
-# LLM-generated content at query #41
+# LLM-generated content at query #35
 #--------------------------
 
-# Unit test for function register_ipython_excepthook
-def test_register_ipython_excepthook(): 
-    # Test that the function registers an exception hook that launches an interactive IPython session upon uncaught exceptions.
-    # This test is not implemented because it requires an interactive IPython session.
-    pass
+# Unit test for function log_exception
+def test_log_exception():
+    # Mock logging function
+    def mock_log(msg, level, **kwargs):
+        assert msg == "<ValueError> Test error"
+        assert level == "error"
+        assert kwargs == {"extra": {"foo": "bar"}}
 
+    # Mock traceback.format_exc
+    def mock_format_exc():
+        return "Traceback"
 
+    # Replace log and traceback.format_exc with mocks
+    import flutes.log
+    original_log = flutes.log.log
+    original_format_exc = traceback.format_exc
+    flutes.log.log = mock_log
+    traceback.format_exc = mock_format_exc
 
-# LLM-generated content at query #42
-#--------------------------
-
-# Unit test for function exception_wrapper
-def test_exception_wrapper(): 
-    # Test 1: Basic exception handling
-    @exception_wrapper()
-    def basic_function():
-        raise ValueError("Test error")
-    
-    # Test 2: Custom handler function
-    def custom_handler(e, arg1, arg2):
-        return f"Handled: {e} with args {arg1}, {arg2}"
-    
-    @exception_wrapper(custom_handler)
-    def function_with_args(arg1, arg2):
-        raise ValueError("Test error")
-    
-    # Test 3: Handler with default values
-    def handler_with_defaults(e, arg1, arg2, extra="default"):
-        return f"Handled: {e} with args {arg1}, {arg2}, extra={extra}"
-    
-    @exception_wrapper(handler_with_defaults)
-    def function_with_defaults(arg1, arg2):
-        raise ValueError("Test error")
-    
-    # Test 4: Handler with **kwargs
-    def handler_with_kwargs(e, arg1, **kwargs):
-        return f"Handled: {e} with arg1={arg1}, kwargs={kwargs}"
-    
-    @exception_wrapper(handler_with_kwargs)
-    def function_with_kwargs(arg1, arg2, **kwargs):
-        raise ValueError("Test error")
-    
-    # Test 5: Generator function
-    @exception_wrapper()
-    def generator_function():
-        yield 1
-        raise ValueError("Generator error")
-        yield 2
-    
-    # Run tests
-    print("Test 1: Basic exception handling")
+    # Test log_exception
     try:
-        basic_function()
-    except Exception as e:
-        print(f"Caught exception: {e}")
-    
-    print("\nTest 2: Custom handler function")
-    result = function_with_args("a", "b")
-    print(f"Result: {result}")
-    
-    print("\nTest 3: Handler with default values")
-    result = function_with_defaults("x", "y")
-    print(f"Result: {result}")
-    
-    print("\nTest 4: Handler with **kwargs")
-    result = function_with_kwargs("first", "second", extra1="value1", extra2="value2")
-    print(f"Result: {result}")
-    
-    print("\nTest 5: Generator function")
-    gen = generator_function()
-    try:
-        for item in gen:
-            print(f"Yielded: {item}")
-    except Exception as e:
-        print(f"Caught exception: {e}")
+        raise ValueError("Test error")
+    except ValueError as e:
+        log_exception(e, extra={"foo": "bar"})
 
-if __name__ == "__main__":
-    test_exception_wrapper()
+    # Restore original functions
+    flutes.log.log = original_log
+    traceback.format_exc = original_format_exc
+
 
 

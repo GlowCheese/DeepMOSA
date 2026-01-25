@@ -17,6 +17,7 @@ from pynguin.export.pytestexporter import PyTestExporter
 from pynguin.ga.coveragegoals import BranchGoal
 from pynguin.llm.ast_to_testcase import AstToTestCaseVisitor
 from pynguin.llm.deepmosa.stmtdeserializer_v2 import StatementDeserializerV2
+from pynguin.llm.stmtdeserializer import StatementDeserializer
 from pynguin.testcase.statement import ASTAssignStatement
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
@@ -63,9 +64,19 @@ def deserialize_code_to_testcases(
         (2) the number of parsable statements in the given code (3) the number
         of successfully parsed statements from that code
     """
+    match config.deepmosa.deserializer_version:
+        case 1:
+            deserializer = StatementDeserializer(test_cluster, use_uninterpreted_statements)
+        case 2:
+            deserializer = StatementDeserializerV2(test_cluster, use_uninterpreted_statements)
+        case _:
+            raise ValueError(
+                f"Invalid deserializer version: {config.deepmosa.deserializer_version}"
+            )
+
     visitor = AstToTestCaseVisitor(
         include_nontest_functions=False,
-        statement_deserializer=StatementDeserializerV2(test_cluster, use_uninterpreted_statements),
+        statement_deserializer=deserializer,
     )
     visitor.visit(ast.parse(test_file_contents))
     return (

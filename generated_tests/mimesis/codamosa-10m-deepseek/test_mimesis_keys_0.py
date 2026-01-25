@@ -1,10 +1,9 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import re as module_2
-
-import mimesis.enums as module_1
-import mimesis.keys as module_0
 import pytest
-
+import mimesis.keys as module_0
+import builtins as module_1
+import re as module_2
+import mimesis.enums as module_3
 
 def test_case_0():
     var_0 = 'tN'
@@ -80,14 +79,15 @@ def test_case_5():
         module_0.camel_case(var_4)
 
 def test_case_6():
-    var_0 = module_1.Locale.UK
-    var_1 = module_0.join()
+    var_0 = module_0.pipe()
     assert module_0.COMMON_LETTERS == {'\t': '\t', ' ': ' ', 'А': 'A', 'Б': 'B', 'В': 'V', 'Д': 'D', 'Е': 'E', 'Ж': 'Zh', 'З': 'Z', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ю': 'Yu', 'Я': 'Ja', 'а': 'a', 'б': 'b', 'в': 'v', 'д': 'd', 'е': 'e', 'ж': 'zh', 'з': 'z', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ю': 'yu', 'я': 'ja'}
     assert module_0.ROMANIZATION_DICT == {'kk': {'Ё': 'Yo', 'І': 'I', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo', 'і': 'i', 'Ғ': 'Ğ', 'ғ': 'ğ', 'Қ': 'Q', 'қ': 'q', 'Ң': 'Ñ', 'ң': 'ñ', 'Ү': 'Ü', 'ү': 'ü', 'Ұ': 'U', 'ұ': 'u', 'Һ': 'H', 'һ': 'h', 'Ә': 'Ä', 'ә': 'ä', 'Ө': 'Ö', 'ө': 'ö'}, 'ru': {'Ё': 'Yo', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo'}, 'uk': {'Є': 'Ye', 'І': 'I', 'Ї': 'Yi', 'Г': 'H', 'И': 'Y', 'Й': 'Y', 'Ь': '’', 'г': 'h', 'и': 'y', 'й': 'y', 'ь': '’', 'є': 'ye', 'і': 'i', 'ї': 'yi', 'Ґ': 'G', 'ґ': 'g'}}
-    var_2 = module_0.romanize(var_0)
-    var_3 = None
+    var_1 = 's i2x)--}RBjpGtM+v'
+    var_2 = module_0.apply_if(var_0, var_1)
+    var_3 = module_0.prefix(var_1)
+    var_4 = None
     with pytest.raises(TypeError):
-        module_0.camel_case(var_3)
+        module_0.camel_case(var_4)
 
 def test_case_7():
     var_0 = 'A&@d'
@@ -101,28 +101,19 @@ def test_case_7():
 
 @pytest.mark.xfail(strict=True)
 def test_case_8():
-    var_0 = module_1.Locale.UK
-    var_1 = module_0.romanize(var_0)
+    var_0 = module_1.dict
+    var_1 = None
+    var_2 = module_0.maybe(var_0, var_1)
     assert module_0.COMMON_LETTERS == {'\t': '\t', ' ': ' ', 'А': 'A', 'Б': 'B', 'В': 'V', 'Д': 'D', 'Е': 'E', 'Ж': 'Zh', 'З': 'Z', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ю': 'Yu', 'Я': 'Ja', 'а': 'a', 'б': 'b', 'в': 'v', 'д': 'd', 'е': 'e', 'ж': 'zh', 'з': 'z', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ю': 'yu', 'я': 'ja'}
     assert module_0.ROMANIZATION_DICT == {'kk': {'Ё': 'Yo', 'І': 'I', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo', 'і': 'i', 'Ғ': 'Ğ', 'ғ': 'ğ', 'Қ': 'Q', 'қ': 'q', 'Ң': 'Ñ', 'ң': 'ñ', 'Ү': 'Ü', 'ү': 'ü', 'Ұ': 'U', 'ұ': 'u', 'Һ': 'H', 'һ': 'h', 'Ә': 'Ä', 'ә': 'ä', 'Ө': 'Ö', 'ө': 'ö'}, 'ru': {'Ё': 'Yo', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo'}, 'uk': {'Є': 'Ye', 'І': 'I', 'Ї': 'Yi', 'Г': 'H', 'И': 'Y', 'Й': 'Y', 'Ь': '’', 'г': 'h', 'и': 'y', 'й': 'y', 'ь': '’', 'є': 'ye', 'і': 'i', 'ї': 'yi', 'Ґ': 'G', 'ґ': 'g'}}
-    var_2 = '[C3~#Fm`.\\\rQY0PF'
-    var_3 = module_0.kebab_case(var_2)
-    assert var_3 == 'c3fm-qy0pf'
-    var_4 = '\tOQO*aZ)8XOlP'
-    var_5 = module_0.slugify(var_4)
-    assert var_5 == 'oqoaz8xolp'
-    var_6 = module_0.redact()
-    var_7 = module_0.reverse(var_3)
-    assert var_7 == 'fp0yq-mf3c'
-    var_8 = module_0.kebab_case(var_3)
-    assert var_8 == 'c3fm-qy0pf'
-    var_9 = None
-    var_10 = module_0.remove_whitespace(var_2)
-    assert var_10 == '[C3~#Fm`.\\QY0PF'
-    var_11 = module_0.apply_if(var_9, var_1, var_9)
-    var_12 = module_0.suffix(var_9)
-    var_13 = module_0.hash_with()
-    module_0.kebab_case(var_9)
+    var_3 = None
+    var_4 = False
+    var_5 = module_0.maybe(var_3, var_4)
+    var_6 = None
+    var_7 = '[oC`Nd=_J!a='
+    var_8 = module_0.remove_whitespace(var_7)
+    assert var_8 == '[oC`Nd=_J!a='
+    module_0.truncate(var_6)
 
 def test_case_9():
     var_0 = None
@@ -157,19 +148,14 @@ def test_case_12():
         module_0.slugify(var_2)
 
 def test_case_13():
-    var_0 = module_1.Locale.UK
-    var_1 = module_0.romanize(var_0)
+    var_0 = 'shj9Bc'
+    var_1 = module_0.snake_case(var_0)
+    assert var_1 == 'shj9bc'
     assert module_0.COMMON_LETTERS == {'\t': '\t', ' ': ' ', 'А': 'A', 'Б': 'B', 'В': 'V', 'Д': 'D', 'Е': 'E', 'Ж': 'Zh', 'З': 'Z', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ю': 'Yu', 'Я': 'Ja', 'а': 'a', 'б': 'b', 'в': 'v', 'д': 'd', 'е': 'e', 'ж': 'zh', 'з': 'z', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ю': 'yu', 'я': 'ja'}
     assert module_0.ROMANIZATION_DICT == {'kk': {'Ё': 'Yo', 'І': 'I', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo', 'і': 'i', 'Ғ': 'Ğ', 'ғ': 'ğ', 'Қ': 'Q', 'қ': 'q', 'Ң': 'Ñ', 'ң': 'ñ', 'Ү': 'Ü', 'ү': 'ü', 'Ұ': 'U', 'ұ': 'u', 'Һ': 'H', 'һ': 'h', 'Ә': 'Ä', 'ә': 'ä', 'Ө': 'Ö', 'ө': 'ö'}, 'ru': {'Ё': 'Yo', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo'}, 'uk': {'Є': 'Ye', 'І': 'I', 'Ї': 'Yi', 'Г': 'H', 'И': 'Y', 'Й': 'Y', 'Ь': '’', 'г': 'h', 'и': 'y', 'й': 'y', 'ь': '’', 'є': 'ye', 'і': 'i', 'ї': 'yi', 'Ґ': 'G', 'ґ': 'g'}}
-    var_2 = '[C3~#Fm`.\\\rQY0PF'
-    var_3 = module_0.redact()
-    var_4 = module_0.reverse(var_2)
-    assert var_4 == 'FP0YQ\r\\.`mF#~3C['
-    var_5 = module_0.kebab_case(var_4)
-    assert var_5 == 'fp0yq-mf3c'
-    var_6 = None
+    var_2 = None
     with pytest.raises(TypeError):
-        module_0.base64_encode(var_6)
+        module_0.base64_encode(var_2)
 
 def test_case_14():
     var_0 = None
@@ -216,25 +202,12 @@ def test_case_19():
     assert module_0.COMMON_LETTERS == {'\t': '\t', ' ': ' ', 'А': 'A', 'Б': 'B', 'В': 'V', 'Д': 'D', 'Е': 'E', 'Ж': 'Zh', 'З': 'Z', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ю': 'Yu', 'Я': 'Ja', 'а': 'a', 'б': 'b', 'в': 'v', 'д': 'd', 'е': 'e', 'ж': 'zh', 'з': 'z', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ю': 'yu', 'я': 'ja'}
     assert module_0.ROMANIZATION_DICT == {'kk': {'Ё': 'Yo', 'І': 'I', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo', 'і': 'i', 'Ғ': 'Ğ', 'ғ': 'ğ', 'Қ': 'Q', 'қ': 'q', 'Ң': 'Ñ', 'ң': 'ñ', 'Ү': 'Ü', 'ү': 'ü', 'Ұ': 'U', 'ұ': 'u', 'Һ': 'H', 'һ': 'h', 'Ә': 'Ä', 'ә': 'ä', 'Ө': 'Ö', 'ө': 'ö'}, 'ru': {'Ё': 'Yo', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo'}, 'uk': {'Є': 'Ye', 'І': 'I', 'Ї': 'Yi', 'Г': 'H', 'И': 'Y', 'Й': 'Y', 'Ь': '’', 'г': 'h', 'и': 'y', 'й': 'y', 'ь': '’', 'є': 'ye', 'і': 'i', 'ї': 'yi', 'Ґ': 'G', 'ґ': 'g'}}
 
-@pytest.mark.xfail(strict=True)
 def test_case_20():
-    var_0 = module_1.Locale.UK
-    var_1 = module_0.romanize(var_0)
-    assert module_0.COMMON_LETTERS == {'\t': '\t', ' ': ' ', 'А': 'A', 'Б': 'B', 'В': 'V', 'Д': 'D', 'Е': 'E', 'Ж': 'Zh', 'З': 'Z', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ю': 'Yu', 'Я': 'Ja', 'а': 'a', 'б': 'b', 'в': 'v', 'д': 'd', 'е': 'e', 'ж': 'zh', 'з': 'z', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ю': 'yu', 'я': 'ja'}
-    assert module_0.ROMANIZATION_DICT == {'kk': {'Ё': 'Yo', 'І': 'I', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo', 'і': 'i', 'Ғ': 'Ğ', 'ғ': 'ğ', 'Қ': 'Q', 'қ': 'q', 'Ң': 'Ñ', 'ң': 'ñ', 'Ү': 'Ü', 'ү': 'ü', 'Ұ': 'U', 'ұ': 'u', 'Һ': 'H', 'һ': 'h', 'Ә': 'Ä', 'ә': 'ä', 'Ө': 'Ö', 'ө': 'ö'}, 'ru': {'Ё': 'Yo', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo'}, 'uk': {'Є': 'Ye', 'І': 'I', 'Ї': 'Yi', 'Г': 'H', 'И': 'Y', 'Й': 'Y', 'Ь': '’', 'г': 'h', 'и': 'y', 'й': 'y', 'ь': '’', 'є': 'ye', 'і': 'i', 'ї': 'yi', 'Ґ': 'G', 'ґ': 'g'}}
-    var_2 = module_0.redact()
-    var_3 = module_0.hash_with()
-    var_4 = module_0.pipe()
-    var_5 = None
-    var_6 = module_0.apply_if(var_5, var_0)
-    module_0.truncate(var_5)
-
-def test_case_21():
     var_0 = module_0.pipe()
     assert module_0.COMMON_LETTERS == {'\t': '\t', ' ': ' ', 'А': 'A', 'Б': 'B', 'В': 'V', 'Д': 'D', 'Е': 'E', 'Ж': 'Zh', 'З': 'Z', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ю': 'Yu', 'Я': 'Ja', 'а': 'a', 'б': 'b', 'в': 'v', 'д': 'd', 'е': 'e', 'ж': 'zh', 'з': 'z', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ю': 'yu', 'я': 'ja'}
     assert module_0.ROMANIZATION_DICT == {'kk': {'Ё': 'Yo', 'І': 'I', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo', 'і': 'i', 'Ғ': 'Ğ', 'ғ': 'ğ', 'Қ': 'Q', 'қ': 'q', 'Ң': 'Ñ', 'ң': 'ñ', 'Ү': 'Ü', 'ү': 'ü', 'Ұ': 'U', 'ұ': 'u', 'Һ': 'H', 'һ': 'h', 'Ә': 'Ä', 'ә': 'ä', 'Ө': 'Ö', 'ө': 'ö'}, 'ru': {'Ё': 'Yo', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo'}, 'uk': {'Є': 'Ye', 'І': 'I', 'Ї': 'Yi', 'Г': 'H', 'И': 'Y', 'Й': 'Y', 'Ь': '’', 'г': 'h', 'и': 'y', 'й': 'y', 'ь': '’', 'є': 'ye', 'і': 'i', 'ї': 'yi', 'Ґ': 'G', 'ґ': 'g'}}
 
-def test_case_22():
+def test_case_21():
     var_0 = []
     var_1 = module_0.pipe(*var_0)
     assert module_0.COMMON_LETTERS == {'\t': '\t', ' ': ' ', 'А': 'A', 'Б': 'B', 'В': 'V', 'Д': 'D', 'Е': 'E', 'Ж': 'Zh', 'З': 'Z', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ю': 'Yu', 'Я': 'Ja', 'а': 'a', 'б': 'b', 'в': 'v', 'д': 'd', 'е': 'e', 'ж': 'zh', 'з': 'z', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ю': 'yu', 'я': 'ja'}
@@ -243,7 +216,7 @@ def test_case_22():
     with pytest.raises(TypeError):
         module_0.snake_case(var_2)
 
-def test_case_23():
+def test_case_22():
     var_0 = module_0.hash_with()
     assert module_0.COMMON_LETTERS == {'\t': '\t', ' ': ' ', 'А': 'A', 'Б': 'B', 'В': 'V', 'Д': 'D', 'Е': 'E', 'Ж': 'Zh', 'З': 'Z', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ю': 'Yu', 'Я': 'Ja', 'а': 'a', 'б': 'b', 'в': 'v', 'д': 'd', 'е': 'e', 'ж': 'zh', 'з': 'z', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ю': 'yu', 'я': 'ja'}
     assert module_0.ROMANIZATION_DICT == {'kk': {'Ё': 'Yo', 'І': 'I', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo', 'і': 'i', 'Ғ': 'Ğ', 'ғ': 'ğ', 'Қ': 'Q', 'қ': 'q', 'Ң': 'Ñ', 'ң': 'ñ', 'Ү': 'Ü', 'ү': 'ü', 'Ұ': 'U', 'ұ': 'u', 'Һ': 'H', 'һ': 'h', 'Ә': 'Ä', 'ә': 'ä', 'Ө': 'Ö', 'ө': 'ö'}, 'ru': {'Ё': 'Yo', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo'}, 'uk': {'Є': 'Ye', 'І': 'I', 'Ї': 'Yi', 'Г': 'H', 'И': 'Y', 'Й': 'Y', 'Ь': '’', 'г': 'h', 'и': 'y', 'й': 'y', 'ь': '’', 'є': 'ye', 'і': 'i', 'ї': 'yi', 'Ґ': 'G', 'ґ': 'g'}}
@@ -256,7 +229,7 @@ def test_case_23():
     with pytest.raises(ValueError):
         module_0.hash_with(var_5)
 
-def test_case_24():
+def test_case_23():
     var_0 = None
     var_1 = 'zi\n'
     var_2 = module_0.kebab_case(var_1)
@@ -269,7 +242,7 @@ def test_case_24():
     with pytest.raises(TypeError):
         module_0.urlsafe_base64_encode(var_0)
 
-def test_case_25():
+def test_case_24():
     var_0 = True
     var_1 = module_0.maybe(var_0, var_0)
     assert module_0.COMMON_LETTERS == {'\t': '\t', ' ': ' ', 'А': 'A', 'Б': 'B', 'В': 'V', 'Д': 'D', 'Е': 'E', 'Ж': 'Zh', 'З': 'Z', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ю': 'Yu', 'Я': 'Ja', 'а': 'a', 'б': 'b', 'в': 'v', 'д': 'd', 'е': 'e', 'ж': 'zh', 'з': 'z', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ю': 'yu', 'я': 'ja'}
@@ -300,7 +273,40 @@ def test_case_25():
     with pytest.raises(TypeError):
         module_0.base64_encode(var_2)
 
-def test_case_26():
-    var_0 = module_1.Locale.EN_GB
+def test_case_25():
+    var_0 = module_3.Locale.AZ
     with pytest.raises(ValueError):
         module_0.romanize(var_0)
+
+@pytest.mark.xfail(strict=True)
+def test_case_26():
+    var_0 = 'zOi\n'
+    var_1 = module_0.camel_case(var_0)
+    assert var_1 == 'zoi'
+    assert module_0.COMMON_LETTERS == {'\t': '\t', ' ': ' ', 'А': 'A', 'Б': 'B', 'В': 'V', 'Д': 'D', 'Е': 'E', 'Ж': 'Zh', 'З': 'Z', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ю': 'Yu', 'Я': 'Ja', 'а': 'a', 'б': 'b', 'в': 'v', 'д': 'd', 'е': 'e', 'ж': 'zh', 'з': 'z', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ю': 'yu', 'я': 'ja'}
+    assert module_0.ROMANIZATION_DICT == {'kk': {'Ё': 'Yo', 'І': 'I', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo', 'і': 'i', 'Ғ': 'Ğ', 'ғ': 'ğ', 'Қ': 'Q', 'қ': 'q', 'Ң': 'Ñ', 'ң': 'ñ', 'Ү': 'Ü', 'ү': 'ü', 'Ұ': 'U', 'ұ': 'u', 'Һ': 'H', 'һ': 'h', 'Ә': 'Ä', 'ә': 'ä', 'Ө': 'Ö', 'ө': 'ö'}, 'ru': {'Ё': 'Yo', 'Г': 'G', 'И': 'I', 'Й': 'Ye', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'г': 'g', 'и': 'i', 'й': 'ye', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ё': 'yo'}, 'uk': {'Є': 'Ye', 'І': 'I', 'Ї': 'Yi', 'Г': 'H', 'И': 'Y', 'Й': 'Y', 'Ь': '’', 'г': 'h', 'и': 'y', 'й': 'y', 'ь': '’', 'є': 'ye', 'і': 'i', 'ї': 'yi', 'Ґ': 'G', 'ґ': 'g'}}
+    var_2 = module_2.purge()
+    assert module_2.ASCII == module_2.RegexFlag.ASCII
+    assert module_2.A == module_2.RegexFlag.ASCII
+    assert module_2.IGNORECASE == module_2.RegexFlag.IGNORECASE
+    assert module_2.I == module_2.RegexFlag.IGNORECASE
+    assert module_2.LOCALE == module_2.RegexFlag.LOCALE
+    assert module_2.L == module_2.RegexFlag.LOCALE
+    assert module_2.UNICODE == module_2.RegexFlag.UNICODE
+    assert module_2.U == module_2.RegexFlag.UNICODE
+    assert module_2.MULTILINE == module_2.RegexFlag.MULTILINE
+    assert module_2.M == module_2.RegexFlag.MULTILINE
+    assert module_2.DOTALL == module_2.RegexFlag.DOTALL
+    assert module_2.S == module_2.RegexFlag.DOTALL
+    assert module_2.VERBOSE == module_2.RegexFlag.VERBOSE
+    assert module_2.X == module_2.RegexFlag.VERBOSE
+    assert module_2.TEMPLATE == module_2.RegexFlag.TEMPLATE
+    assert module_2.T == module_2.RegexFlag.TEMPLATE
+    assert module_2.DEBUG == module_2.RegexFlag.DEBUG
+    var_3 = module_0.suffix(var_1)
+    var_4 = '\x0c\\Gbr'
+    var_5 = module_0.slugify(var_4)
+    assert var_5 == 'gbr'
+    var_6 = module_3.Locale.UK
+    var_7 = module_0.romanize(var_6)
+    module_0.romanize(var_2)

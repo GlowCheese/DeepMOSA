@@ -1,0 +1,798 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def get_in(keys, coll, default=None, no_default=False):
+    """
+    NB: This is a straight copy of the get_in implementation found in
+        the toolz library (https://github.com/pytoolz/toolz/). It works
+        with persistent data structures as well as the corresponding
+        datastructures from the stdlib.
+
+    Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+
+    If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+    ``no_default`` is specified, then it raises KeyError or IndexError.
+
+    ``get_in`` is a generalization of ``operator.getitem`` for nested data
+    structures such as dictionaries and lists.
+    >>> from pyrsistent import freeze
+    >>> transaction = freeze({'name': 'Alice',
+    ...                       'purchase': {'items': ['Apple', 'Orange'],
+    ...                                    'costs': [0.50, 1.25]},
+    ...                       'credit card': '5555-1234-1234-1234'})
+    >>> get_in(['purchase', 'items', 0], transaction)
+    'Apple'
+    >>> get_in(['name'], transaction)
+    'Alice'
+    >>> get_in(['purchase', 'total'], transaction)
+    >>> get_in(['purchase', 'items', 'apple'], transaction)
+    >>> get_in(['purchase', 'items', 10], transaction)
+    >>> get_in(['purchase', 'total'], transaction, 0)
+    0
+    >>> get_in(['y'], {}, no_default=True)
+    Traceback (most recent call last):
+    ...
+    KeyError: 'y'
+    """
+    try:
+        return reduce(operator.getitem, keys, coll)
+    except (KeyError, IndexError, TypeError):
+        if no_default:
+            raise
+        return default
+
+```
+Write unit test for function get_in
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 36 evaluates to False.
+```
+ 1 | def get_in(keys, coll, default=None, no_default=False):
+ 2 |     """
+ 3 |     NB: This is a straight copy of the get_in implementation found in
+ 4 |         the toolz library (https://github.com/pytoolz/toolz/). It works
+ 5 |         with persistent data structures as well as the corresponding
+ 6 |         datastructures from the stdlib.
+ 7 | 
+ 8 |     Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+ 9 | 
+10 |     If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+11 |     ``no_default`` is specified, then it raises KeyError or IndexError.
+12 | 
+13 |     ``get_in`` is a generalization of ``operator.getitem`` for nested data
+14 |     structures such as dictionaries and lists.
+15 |     >>> from pyrsistent import freeze
+16 |     >>> transaction = freeze({'name': 'Alice',
+17 |     ...                       'purchase': {'items': ['Apple', 'Orange'],
+18 |     ...                                    'costs': [0.50, 1.25]},
+19 |     ...                       'credit card': '5555-1234-1234-1234'})
+20 |     >>> get_in(['purchase', 'items', 0], transaction)
+21 |     'Apple'
+22 |     >>> get_in(['name'], transaction)
+23 |     'Alice'
+24 |     >>> get_in(['purchase', 'total'], transaction)
+25 |     >>> get_in(['purchase', 'items', 'apple'], transaction)
+26 |     >>> get_in(['purchase', 'items', 10], transaction)
+27 |     >>> get_in(['purchase', 'total'], transaction, 0)
+28 |     0
+29 |     >>> get_in(['y'], {}, no_default=True)
+30 |     Traceback (most recent call last):
+31 |     ...
+32 |     KeyError: 'y'
+33 |     """
+34 |     try:
+35 |         return reduce(operator.getitem, keys, coll)
+36 |     except (KeyError, IndexError, TypeError):
+37 |         if no_default:
+38 |             raise
+39 |         return default
+```
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 36 evaluates to False.
+```
+ 1 | def get_in(keys, coll, default=None, no_default=False):
+ 2 |     """
+ 3 |     NB: This is a straight copy of the get_in implementation found in
+ 4 |         the toolz library (https://github.com/pytoolz/toolz/). It works
+ 5 |         with persistent data structures as well as the corresponding
+ 6 |         datastructures from the stdlib.
+ 7 | 
+ 8 |     Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+ 9 | 
+10 |     If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+11 |     ``no_default`` is specified, then it raises KeyError or IndexError.
+12 | 
+13 |     ``get_in`` is a generalization of ``operator.getitem`` for nested data
+14 |     structures such as dictionaries and lists.
+15 |     >>> from pyrsistent import freeze
+16 |     >>> transaction = freeze({'name': 'Alice',
+17 |     ...                       'purchase': {'items': ['Apple', 'Orange'],
+18 |     ...                                    'costs': [0.50, 1.25]},
+19 |     ...                       'credit card': '5555-1234-1234-1234'})
+20 |     >>> get_in(['purchase', 'items', 0], transaction)
+21 |     'Apple'
+22 |     >>> get_in(['name'], transaction)
+23 |     'Alice'
+24 |     >>> get_in(['purchase', 'total'], transaction)
+25 |     >>> get_in(['purchase', 'items', 'apple'], transaction)
+26 |     >>> get_in(['purchase', 'items', 10], transaction)
+27 |     >>> get_in(['purchase', 'total'], transaction, 0)
+28 |     0
+29 |     >>> get_in(['y'], {}, no_default=True)
+30 |     Traceback (most recent call last):
+31 |     ...
+32 |     KeyError: 'y'
+33 |     """
+34 |     try:
+35 |         return reduce(operator.getitem, keys, coll)
+36 |     except (KeyError, IndexError, TypeError):
+37 |         if no_default:
+38 |             raise
+39 |         return default
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def get_in(keys, coll, default=None, no_default=False):
+    """
+    NB: This is a straight copy of the get_in implementation found in
+        the toolz library (https://github.com/pytoolz/toolz/). It works
+        with persistent data structures as well as the corresponding
+        datastructures from the stdlib.
+
+    Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+
+    If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+    ``no_default`` is specified, then it raises KeyError or IndexError.
+
+    ``get_in`` is a generalization of ``operator.getitem`` for nested data
+    structures such as dictionaries and lists.
+    >>> from pyrsistent import freeze
+    >>> transaction = freeze({'name': 'Alice',
+    ...                       'purchase': {'items': ['Apple', 'Orange'],
+    ...                                    'costs': [0.50, 1.25]},
+    ...                       'credit card': '5555-1234-1234-1234'})
+    >>> get_in(['purchase', 'items', 0], transaction)
+    'Apple'
+    >>> get_in(['name'], transaction)
+    'Alice'
+    >>> get_in(['purchase', 'total'], transaction)
+    >>> get_in(['purchase', 'items', 'apple'], transaction)
+    >>> get_in(['purchase', 'items', 10], transaction)
+    >>> get_in(['purchase', 'total'], transaction, 0)
+    0
+    >>> get_in(['y'], {}, no_default=True)
+    Traceback (most recent call last):
+    ...
+    KeyError: 'y'
+    """
+    try:
+        return reduce(operator.getitem, keys, coll)
+    except (KeyError, IndexError, TypeError):
+        if no_default:
+            raise
+        return default
+
+```
+Write unit test for function get_in
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 36 evaluates to False.
+```
+ 1 | def get_in(keys, coll, default=None, no_default=False):
+ 2 |     """
+ 3 |     NB: This is a straight copy of the get_in implementation found in
+ 4 |         the toolz library (https://github.com/pytoolz/toolz/). It works
+ 5 |         with persistent data structures as well as the corresponding
+ 6 |         datastructures from the stdlib.
+ 7 | 
+ 8 |     Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+ 9 | 
+10 |     If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+11 |     ``no_default`` is specified, then it raises KeyError or IndexError.
+12 | 
+13 |     ``get_in`` is a generalization of ``operator.getitem`` for nested data
+14 |     structures such as dictionaries and lists.
+15 |     >>> from pyrsistent import freeze
+16 |     >>> transaction = freeze({'name': 'Alice',
+17 |     ...                       'purchase': {'items': ['Apple', 'Orange'],
+18 |     ...                                    'costs': [0.50, 1.25]},
+19 |     ...                       'credit card': '5555-1234-1234-1234'})
+20 |     >>> get_in(['purchase', 'items', 0], transaction)
+21 |     'Apple'
+22 |     >>> get_in(['name'], transaction)
+23 |     'Alice'
+24 |     >>> get_in(['purchase', 'total'], transaction)
+25 |     >>> get_in(['purchase', 'items', 'apple'], transaction)
+26 |     >>> get_in(['purchase', 'items', 10], transaction)
+27 |     >>> get_in(['purchase', 'total'], transaction, 0)
+28 |     0
+29 |     >>> get_in(['y'], {}, no_default=True)
+30 |     Traceback (most recent call last):
+31 |     ...
+32 |     KeyError: 'y'
+33 |     """
+34 |     try:
+35 |         return reduce(operator.getitem, keys, coll)
+36 |     except (KeyError, IndexError, TypeError):
+37 |         if no_default:
+38 |             raise
+39 |         return default
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 36 evaluates to False.
+```
+ 1 | def get_in(keys, coll, default=None, no_default=False):
+ 2 |     """
+ 3 |     NB: This is a straight copy of the get_in implementation found in
+ 4 |         the toolz library (https://github.com/pytoolz/toolz/). It works
+ 5 |         with persistent data structures as well as the corresponding
+ 6 |         datastructures from the stdlib.
+ 7 | 
+ 8 |     Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+ 9 | 
+10 |     If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+11 |     ``no_default`` is specified, then it raises KeyError or IndexError.
+12 | 
+13 |     ``get_in`` is a generalization of ``operator.getitem`` for nested data
+14 |     structures such as dictionaries and lists.
+15 |     >>> from pyrsistent import freeze
+16 |     >>> transaction = freeze({'name': 'Alice',
+17 |     ...                       'purchase': {'items': ['Apple', 'Orange'],
+18 |     ...                                    'costs': [0.50, 1.25]},
+19 |     ...                       'credit card': '5555-1234-1234-1234'})
+20 |     >>> get_in(['purchase', 'items', 0], transaction)
+21 |     'Apple'
+22 |     >>> get_in(['name'], transaction)
+23 |     'Alice'
+24 |     >>> get_in(['purchase', 'total'], transaction)
+25 |     >>> get_in(['purchase', 'items', 'apple'], transaction)
+26 |     >>> get_in(['purchase', 'items', 10], transaction)
+27 |     >>> get_in(['purchase', 'total'], transaction, 0)
+28 |     0
+29 |     >>> get_in(['y'], {}, no_default=True)
+30 |     Traceback (most recent call last):
+31 |     ...
+32 |     KeyError: 'y'
+33 |     """
+34 |     try:
+35 |         return reduce(operator.getitem, keys, coll)
+36 |     except (KeyError, IndexError, TypeError):
+37 |         if no_default:
+38 |             raise
+39 |         return default
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+def get_in(keys, coll, default=None, no_default=False):
+    """
+    NB: This is a straight copy of the get_in implementation found in
+        the toolz library (https://github.com/pytoolz/toolz/). It works
+        with persistent data structures as well as the corresponding
+        datastructures from the stdlib.
+
+    Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+
+    If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+    ``no_default`` is specified, then it raises KeyError or IndexError.
+
+    ``get_in`` is a generalization of ``operator.getitem`` for nested data
+    structures such as dictionaries and lists.
+    >>> from pyrsistent import freeze
+    >>> transaction = freeze({'name': 'Alice',
+    ...                       'purchase': {'items': ['Apple', 'Orange'],
+    ...                                    'costs': [0.50, 1.25]},
+    ...                       'credit card': '5555-1234-1234-1234'})
+    >>> get_in(['purchase', 'items', 0], transaction)
+    'Apple'
+    >>> get_in(['name'], transaction)
+    'Alice'
+    >>> get_in(['purchase', 'total'], transaction)
+    >>> get_in(['purchase', 'items', 'apple'], transaction)
+    >>> get_in(['purchase', 'items', 10], transaction)
+    >>> get_in(['purchase', 'total'], transaction, 0)
+    0
+    >>> get_in(['y'], {}, no_default=True)
+    Traceback (most recent call last):
+    ...
+    KeyError: 'y'
+    """
+    try:
+        return reduce(operator.getitem, keys, coll)
+    except (KeyError, IndexError, TypeError):
+        if no_default:
+            raise
+        return default
+
+```
+Write unit test for function get_in
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 36 evaluates to False.
+```
+ 1 | def get_in(keys, coll, default=None, no_default=False):
+ 2 |     """
+ 3 |     NB: This is a straight copy of the get_in implementation found in
+ 4 |         the toolz library (https://github.com/pytoolz/toolz/). It works
+ 5 |         with persistent data structures as well as the corresponding
+ 6 |         datastructures from the stdlib.
+ 7 | 
+ 8 |     Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+ 9 | 
+10 |     If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+11 |     ``no_default`` is specified, then it raises KeyError or IndexError.
+12 | 
+13 |     ``get_in`` is a generalization of ``operator.getitem`` for nested data
+14 |     structures such as dictionaries and lists.
+15 |     >>> from pyrsistent import freeze
+16 |     >>> transaction = freeze({'name': 'Alice',
+17 |     ...                       'purchase': {'items': ['Apple', 'Orange'],
+18 |     ...                                    'costs': [0.50, 1.25]},
+19 |     ...                       'credit card': '5555-1234-1234-1234'})
+20 |     >>> get_in(['purchase', 'items', 0], transaction)
+21 |     'Apple'
+22 |     >>> get_in(['name'], transaction)
+23 |     'Alice'
+24 |     >>> get_in(['purchase', 'total'], transaction)
+25 |     >>> get_in(['purchase', 'items', 'apple'], transaction)
+26 |     >>> get_in(['purchase', 'items', 10], transaction)
+27 |     >>> get_in(['purchase', 'total'], transaction, 0)
+28 |     0
+29 |     >>> get_in(['y'], {}, no_default=True)
+30 |     Traceback (most recent call last):
+31 |     ...
+32 |     KeyError: 'y'
+33 |     """
+34 |     try:
+35 |         return reduce(operator.getitem, keys, coll)
+36 |     except (KeyError, IndexError, TypeError):
+37 |         if no_default:
+38 |             raise
+39 |         return default
+```
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def get_in(keys, coll, default=None, no_default=False):
+    """
+    NB: This is a straight copy of the get_in implementation found in
+        the toolz library (https://github.com/pytoolz/toolz/). It works
+        with persistent data structures as well as the corresponding
+        datastructures from the stdlib.
+
+    Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+
+    If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+    ``no_default`` is specified, then it raises KeyError or IndexError.
+
+    ``get_in`` is a generalization of ``operator.getitem`` for nested data
+    structures such as dictionaries and lists.
+    >>> from pyrsistent import freeze
+    >>> transaction = freeze({'name': 'Alice',
+    ...                       'purchase': {'items': ['Apple', 'Orange'],
+    ...                                    'costs': [0.50, 1.25]},
+    ...                       'credit card': '5555-1234-1234-1234'})
+    >>> get_in(['purchase', 'items', 0], transaction)
+    'Apple'
+    >>> get_in(['name'], transaction)
+    'Alice'
+    >>> get_in(['purchase', 'total'], transaction)
+    >>> get_in(['purchase', 'items', 'apple'], transaction)
+    >>> get_in(['purchase', 'items', 10], transaction)
+    >>> get_in(['purchase', 'total'], transaction, 0)
+    0
+    >>> get_in(['y'], {}, no_default=True)
+    Traceback (most recent call last):
+    ...
+    KeyError: 'y'
+    """
+    try:
+        return reduce(operator.getitem, keys, coll)
+    except (KeyError, IndexError, TypeError):
+        if no_default:
+            raise
+        return default
+
+```
+Write unit test for function get_in
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 36 evaluates to False.
+```
+ 1 | def get_in(keys, coll, default=None, no_default=False):
+ 2 |     """
+ 3 |     NB: This is a straight copy of the get_in implementation found in
+ 4 |         the toolz library (https://github.com/pytoolz/toolz/). It works
+ 5 |         with persistent data structures as well as the corresponding
+ 6 |         datastructures from the stdlib.
+ 7 | 
+ 8 |     Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+ 9 | 
+10 |     If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+11 |     ``no_default`` is specified, then it raises KeyError or IndexError.
+12 | 
+13 |     ``get_in`` is a generalization of ``operator.getitem`` for nested data
+14 |     structures such as dictionaries and lists.
+15 |     >>> from pyrsistent import freeze
+16 |     >>> transaction = freeze({'name': 'Alice',
+17 |     ...                       'purchase': {'items': ['Apple', 'Orange'],
+18 |     ...                                    'costs': [0.50, 1.25]},
+19 |     ...                       'credit card': '5555-1234-1234-1234'})
+20 |     >>> get_in(['purchase', 'items', 0], transaction)
+21 |     'Apple'
+22 |     >>> get_in(['name'], transaction)
+23 |     'Alice'
+24 |     >>> get_in(['purchase', 'total'], transaction)
+25 |     >>> get_in(['purchase', 'items', 'apple'], transaction)
+26 |     >>> get_in(['purchase', 'items', 10], transaction)
+27 |     >>> get_in(['purchase', 'total'], transaction, 0)
+28 |     0
+29 |     >>> get_in(['y'], {}, no_default=True)
+30 |     Traceback (most recent call last):
+31 |     ...
+32 |     KeyError: 'y'
+33 |     """
+34 |     try:
+35 |         return reduce(operator.getitem, keys, coll)
+36 |     except (KeyError, IndexError, TypeError):
+37 |         if no_default:
+38 |             raise
+39 |         return default
+```
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def get_in(keys, coll, default=None, no_default=False):
+    """
+    NB: This is a straight copy of the get_in implementation found in
+        the toolz library (https://github.com/pytoolz/toolz/). It works
+        with persistent data structures as well as the corresponding
+        datastructures from the stdlib.
+
+    Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+
+    If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+    ``no_default`` is specified, then it raises KeyError or IndexError.
+
+    ``get_in`` is a generalization of ``operator.getitem`` for nested data
+    structures such as dictionaries and lists.
+    >>> from pyrsistent import freeze
+    >>> transaction = freeze({'name': 'Alice',
+    ...                       'purchase': {'items': ['Apple', 'Orange'],
+    ...                                    'costs': [0.50, 1.25]},
+    ...                       'credit card': '5555-1234-1234-1234'})
+    >>> get_in(['purchase', 'items', 0], transaction)
+    'Apple'
+    >>> get_in(['name'], transaction)
+    'Alice'
+    >>> get_in(['purchase', 'total'], transaction)
+    >>> get_in(['purchase', 'items', 'apple'], transaction)
+    >>> get_in(['purchase', 'items', 10], transaction)
+    >>> get_in(['purchase', 'total'], transaction, 0)
+    0
+    >>> get_in(['y'], {}, no_default=True)
+    Traceback (most recent call last):
+    ...
+    KeyError: 'y'
+    """
+    try:
+        return reduce(operator.getitem, keys, coll)
+    except (KeyError, IndexError, TypeError):
+        if no_default:
+            raise
+        return default
+
+```
+Write unit test for function get_in
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 36 evaluates to False.
+```
+ 1 | def get_in(keys, coll, default=None, no_default=False):
+ 2 |     """
+ 3 |     NB: This is a straight copy of the get_in implementation found in
+ 4 |         the toolz library (https://github.com/pytoolz/toolz/). It works
+ 5 |         with persistent data structures as well as the corresponding
+ 6 |         datastructures from the stdlib.
+ 7 | 
+ 8 |     Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+ 9 | 
+10 |     If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+11 |     ``no_default`` is specified, then it raises KeyError or IndexError.
+12 | 
+13 |     ``get_in`` is a generalization of ``operator.getitem`` for nested data
+14 |     structures such as dictionaries and lists.
+15 |     >>> from pyrsistent import freeze
+16 |     >>> transaction = freeze({'name': 'Alice',
+17 |     ...                       'purchase': {'items': ['Apple', 'Orange'],
+18 |     ...                                    'costs': [0.50, 1.25]},
+19 |     ...                       'credit card': '5555-1234-1234-1234'})
+20 |     >>> get_in(['purchase', 'items', 0], transaction)
+21 |     'Apple'
+22 |     >>> get_in(['name'], transaction)
+23 |     'Alice'
+24 |     >>> get_in(['purchase', 'total'], transaction)
+25 |     >>> get_in(['purchase', 'items', 'apple'], transaction)
+26 |     >>> get_in(['purchase', 'items', 10], transaction)
+27 |     >>> get_in(['purchase', 'total'], transaction, 0)
+28 |     0
+29 |     >>> get_in(['y'], {}, no_default=True)
+30 |     Traceback (most recent call last):
+31 |     ...
+32 |     KeyError: 'y'
+33 |     """
+34 |     try:
+35 |         return reduce(operator.getitem, keys, coll)
+36 |     except (KeyError, IndexError, TypeError):
+37 |         if no_default:
+38 |             raise
+39 |         return default
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 36 evaluates to False.
+```
+ 1 | def get_in(keys, coll, default=None, no_default=False):
+ 2 |     """
+ 3 |     NB: This is a straight copy of the get_in implementation found in
+ 4 |         the toolz library (https://github.com/pytoolz/toolz/). It works
+ 5 |         with persistent data structures as well as the corresponding
+ 6 |         datastructures from the stdlib.
+ 7 | 
+ 8 |     Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+ 9 | 
+10 |     If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+11 |     ``no_default`` is specified, then it raises KeyError or IndexError.
+12 | 
+13 |     ``get_in`` is a generalization of ``operator.getitem`` for nested data
+14 |     structures such as dictionaries and lists.
+15 |     >>> from pyrsistent import freeze
+16 |     >>> transaction = freeze({'name': 'Alice',
+17 |     ...                       'purchase': {'items': ['Apple', 'Orange'],
+18 |     ...                                    'costs': [0.50, 1.25]},
+19 |     ...                       'credit card': '5555-1234-1234-1234'})
+20 |     >>> get_in(['purchase', 'items', 0], transaction)
+21 |     'Apple'
+22 |     >>> get_in(['name'], transaction)
+23 |     'Alice'
+24 |     >>> get_in(['purchase', 'total'], transaction)
+25 |     >>> get_in(['purchase', 'items', 'apple'], transaction)
+26 |     >>> get_in(['purchase', 'items', 10], transaction)
+27 |     >>> get_in(['purchase', 'total'], transaction, 0)
+28 |     0
+29 |     >>> get_in(['y'], {}, no_default=True)
+30 |     Traceback (most recent call last):
+31 |     ...
+32 |     KeyError: 'y'
+33 |     """
+34 |     try:
+35 |         return reduce(operator.getitem, keys, coll)
+36 |     except (KeyError, IndexError, TypeError):
+37 |         if no_default:
+38 |             raise
+39 |         return default
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def get_in(keys, coll, default=None, no_default=False):
+    """
+    NB: This is a straight copy of the get_in implementation found in
+        the toolz library (https://github.com/pytoolz/toolz/). It works
+        with persistent data structures as well as the corresponding
+        datastructures from the stdlib.
+
+    Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+
+    If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+    ``no_default`` is specified, then it raises KeyError or IndexError.
+
+    ``get_in`` is a generalization of ``operator.getitem`` for nested data
+    structures such as dictionaries and lists.
+    >>> from pyrsistent import freeze
+    >>> transaction = freeze({'name': 'Alice',
+    ...                       'purchase': {'items': ['Apple', 'Orange'],
+    ...                                    'costs': [0.50, 1.25]},
+    ...                       'credit card': '5555-1234-1234-1234'})
+    >>> get_in(['purchase', 'items', 0], transaction)
+    'Apple'
+    >>> get_in(['name'], transaction)
+    'Alice'
+    >>> get_in(['purchase', 'total'], transaction)
+    >>> get_in(['purchase', 'items', 'apple'], transaction)
+    >>> get_in(['purchase', 'items', 10], transaction)
+    >>> get_in(['purchase', 'total'], transaction, 0)
+    0
+    >>> get_in(['y'], {}, no_default=True)
+    Traceback (most recent call last):
+    ...
+    KeyError: 'y'
+    """
+    try:
+        return reduce(operator.getitem, keys, coll)
+    except (KeyError, IndexError, TypeError):
+        if no_default:
+            raise
+        return default
+
+```
+Write unit test for function get_in
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 36 evaluates to False.
+```
+ 1 | def get_in(keys, coll, default=None, no_default=False):
+ 2 |     """
+ 3 |     NB: This is a straight copy of the get_in implementation found in
+ 4 |         the toolz library (https://github.com/pytoolz/toolz/). It works
+ 5 |         with persistent data structures as well as the corresponding
+ 6 |         datastructures from the stdlib.
+ 7 | 
+ 8 |     Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+ 9 | 
+10 |     If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+11 |     ``no_default`` is specified, then it raises KeyError or IndexError.
+12 | 
+13 |     ``get_in`` is a generalization of ``operator.getitem`` for nested data
+14 |     structures such as dictionaries and lists.
+15 |     >>> from pyrsistent import freeze
+16 |     >>> transaction = freeze({'name': 'Alice',
+17 |     ...                       'purchase': {'items': ['Apple', 'Orange'],
+18 |     ...                                    'costs': [0.50, 1.25]},
+19 |     ...                       'credit card': '5555-1234-1234-1234'})
+20 |     >>> get_in(['purchase', 'items', 0], transaction)
+21 |     'Apple'
+22 |     >>> get_in(['name'], transaction)
+23 |     'Alice'
+24 |     >>> get_in(['purchase', 'total'], transaction)
+25 |     >>> get_in(['purchase', 'items', 'apple'], transaction)
+26 |     >>> get_in(['purchase', 'items', 10], transaction)
+27 |     >>> get_in(['purchase', 'total'], transaction, 0)
+28 |     0
+29 |     >>> get_in(['y'], {}, no_default=True)
+30 |     Traceback (most recent call last):
+31 |     ...
+32 |     KeyError: 'y'
+33 |     """
+34 |     try:
+35 |         return reduce(operator.getitem, keys, coll)
+36 |     except (KeyError, IndexError, TypeError):
+37 |         if no_default:
+38 |             raise
+39 |         return default
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 36 evaluates to False.
+```
+ 1 | def get_in(keys, coll, default=None, no_default=False):
+ 2 |     """
+ 3 |     NB: This is a straight copy of the get_in implementation found in
+ 4 |         the toolz library (https://github.com/pytoolz/toolz/). It works
+ 5 |         with persistent data structures as well as the corresponding
+ 6 |         datastructures from the stdlib.
+ 7 | 
+ 8 |     Returns coll[i0][i1]...[iX] where [i0, i1, ..., iX]==keys.
+ 9 | 
+10 |     If coll[i0][i1]...[iX] cannot be found, returns ``default``, unless
+11 |     ``no_default`` is specified, then it raises KeyError or IndexError.
+12 | 
+13 |     ``get_in`` is a generalization of ``operator.getitem`` for nested data
+14 |     structures such as dictionaries and lists.
+15 |     >>> from pyrsistent import freeze
+16 |     >>> transaction = freeze({'name': 'Alice',
+17 |     ...                       'purchase': {'items': ['Apple', 'Orange'],
+18 |     ...                                    'costs': [0.50, 1.25]},
+19 |     ...                       'credit card': '5555-1234-1234-1234'})
+20 |     >>> get_in(['purchase', 'items', 0], transaction)
+21 |     'Apple'
+22 |     >>> get_in(['name'], transaction)
+23 |     'Alice'
+24 |     >>> get_in(['purchase', 'total'], transaction)
+25 |     >>> get_in(['purchase', 'items', 'apple'], transaction)
+26 |     >>> get_in(['purchase', 'items', 10], transaction)
+27 |     >>> get_in(['purchase', 'total'], transaction, 0)
+28 |     0
+29 |     >>> get_in(['y'], {}, no_default=True)
+30 |     Traceback (most recent call last):
+31 |     ...
+32 |     KeyError: 'y'
+33 |     """
+34 |     try:
+35 |         return reduce(operator.getitem, keys, coll)
+36 |     except (KeyError, IndexError, TypeError):
+37 |         if no_default:
+38 |             raise
+39 |         return default
+```
+
+

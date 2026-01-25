@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,109 +7,45 @@
 #--------------------------
 
 # Unit test for method __str__ of class Import
-def test_Import___str__():  # noqa: N802
-    # Test case 1: No alias, no cimport, no file path
-    import1 = Import(line_number=1, indented=False, module="os")
-    assert str(import1) == ":1 import os"
+def test_Import___str__():
+    import_instance = Import(line_number=42, indented=False, module="os", file_path=Path("example.py"))
+    assert str(import_instance) == "example.py:42 import os"
 
-    # Test case 2: With alias, no cimport, no file path
-    import2 = Import(line_number=2, indented=True, module="numpy", alias="np")
-    assert str(import2) == ":2 indented import numpy as np"
+    import_instance = Import(line_number=10, indented=True, module="math", attribute="pi", alias="PI", file_path=Path("example.py"))
+    assert str(import_instance) == "example.py:10 indented from math import pi as PI"
 
-    # Test case 3: With attribute, no alias, no cimport, no file path
-    import3 = Import(line_number=3, indented=False, module="os", attribute="path")
-    assert str(import3) == ":3 from os import path"
-
-    # Test case 4: With attribute and alias, no cimport, no file path
-    import4 = Import(line_number=4, indented=True, module="pandas", attribute="DataFrame", alias="df")
-    assert str(import4) == ":4 indented from pandas import DataFrame as df"
-
-    # Test case 5: With cimport, no alias, no file path
-    import5 = Import(line_number=5, indented=False, module="cython", cimport=True)
-    assert str(import5) == ":5 cimport cython"
-
-    # Test case 6: With cimport, attribute, no alias, no file path
-    import6 = Import(line_number=6, indented=True, module="cython", attribute="boundscheck", cimport=True)
-    assert str(import6) == ":6 indented from cython cimport boundscheck"
-
-    # Test case 7: With file path, no alias, no cimport
-    import7 = Import(line_number=7, indented=False, module="sys", file_path=Path("/home/user/project"))
-    assert str(import7) == "/home/user/project:7 import sys"
-
-    # Test case 8: With file path, alias, cimport
-    import8 = Import(line_number=8, indented=True, module="numpy", alias="np", cimport=True, file_path=Path("/home/user/project"))
-    assert str(import8) == "/home/user/project:8 indented cimport numpy as np"
-
-    # Test case 9: With file path, attribute, alias, cimport
-    import9 = Import(line_number=9, indented=False, module="pandas", attribute="DataFrame", alias="df", cimport=True, file_path=Path("/home/user/project"))
-    assert str(import9) == "/home/user/project:9 from pandas cimport DataFrame as df"
-
-    # Test case 10: Empty module name (edge case)
-    import10 = Import(line_number=10, indented=False, module="")
-    assert str(import10) == ":10 import "
-
-    # Test case 11: Module with dot notation, no alias
-    import11 = Import(line_number=11, indented=True, module="os.path")
-    assert str(import11) == ":11 indented import os.path"
-
-    # Test case 12: Module with dot notation, with attribute
-    import12 = Import(line_number=12, indented=False, module="os.path", attribute="join")
-    assert str(import12) == ":12 from os.path import join"
-
-    # Test case 13: Module with special characters, no alias
-    import13 = Import(line_number=13, indented=True, module="my_module_123")
-    assert str(import13) == ":13 indented import my_module_123"
-
-    # Test case 14: Very long module name, no alias
-    import14 = Import(line_number=14, indented=False, module="very_long_module_name_that_exceeds_normal_length")
-    assert str(import14) == ":14 import very_long_module_name_that_exceeds_normal_length"
-
-    # Test case 15: Module name with underscores and numbers, with alias
-    import15 = Import(line_number=15, indented=True, module="module_123", alias="m123")
-    assert str(import15) == ":15 indented import module_123 as m123"
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_Import___str__()
+    import_instance = Import(line_number=7, indented=False, module="sys", cimport=True, file_path=Path("example.py"))
+    assert str(import_instance) == "example.py:7 cimport sys"
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for method __str__ of class Import
-def test_Import___str__():  # noqa: N802
-    # Test case 1: No alias, no attribute, not cimport, no file path
-    import1 = Import(line_number=1, indented=False, module="os")
-    assert str(import1) == ":1 import os"
+def test_Import___str__():
+    import_instance = Import(line_number=1, indented=False, module="os", file_path=Path("test.py"))
+    assert str(import_instance) == "test.py:1 import os"
 
-    # Test case 2: With alias, no attribute, not cimport, no file path
-    import2 = Import(line_number=2, indented=True, module="pandas", alias="pd")
-    assert str(import2) == ":2 indented import pandas as pd"
+    import_instance = Import(line_number=2, indented=True, module="sys", file_path=Path("test.py"))
+    assert str(import_instance) == "test.py:2 indented import sys"
 
-    # Test case 3: With attribute, no alias, not cimport, no file path
-    import3 = Import(line_number=3, indented=False, module="numpy", attribute="array")
-    assert str(import3) == ":3 from numpy import array"
+    import_instance = Import(line_number=3, indented=False, module="math", attribute="sqrt", file_path=Path("test.py"))
+    assert str(import_instance) == "test.py:3 from math import sqrt"
 
-    # Test case 4: With attribute and alias, not cimport, no file path
-    import4 = Import(line_number=4, indented=True, module="matplotlib.pyplot", attribute="plot", alias="plt")
-    assert str(import4) == ":4 indented from matplotlib.pyplot import plot as plt"
+    import_instance = Import(line_number=4, indented=False, module="numpy", alias="np", file_path=Path("test.py"))
+    assert str(import_instance) == "test.py:4 import numpy as np"
 
-    # Test case 5: Cimport, no alias, no attribute, no file path
-    import5 = Import(line_number=5, indented=False, module="cython", cimport=True)
-    assert str(import5) == ":5 cimport cython"
+    import_instance = Import(line_number=5, indented=True, module="pandas", attribute="DataFrame", alias="df", file_path=Path("test.py"))
+    assert str(import_instance) == "test.py:5 indented from pandas import DataFrame as df"
 
-    # Test case 6: Cimport with attribute, no alias, no file path
-    import6 = Import(line_number=6, indented=True, module="libc.math", attribute="sin", cimport=True)
-    assert str(import6) == ":6 indented from libc.math cimport sin"
+    import_instance = Import(line_number=6, indented=False, module="cython", cimport=True, file_path=Path("test.py"))
+    assert str(import_instance) == "test.py:6 cimport cython"
 
-    # Test case 7: With file path
-    import7 = Import(line_number=7, indented=False, module="sys", file_path=Path("/home/user/test.py"))
-    assert str(import7) == "/home/user/test.py:7 import sys"
+    import_instance = Import(line_number=7, indented=True, module="cython", attribute="cfunc", cimport=True, file_path=Path("test.py"))
+    assert str(import_instance) == "test.py:7 indented from cython cimport cfunc"
 
-    # Test case 8: All fields populated
-    import8 = Import(line_number=8, indented=True, module="my_module", attribute="my_func", alias="func", cimport=True, file_path=Path("/home/user/test.py"))
-    assert str(import8) == "/home/user/test.py:8 indented from my_module cimport my_func as func"
+    import_instance = Import(line_number=8, indented=False, module="requests", file_path=None)
+    assert str(import_instance) == ":8 import requests"
 
 
 # LLM-generated content at query #3
@@ -117,438 +53,181 @@ def test_Import___str__():  # noqa: N802
 
 # Unit test for function imports
 def test_imports():
+    from io import StringIO
+    from pathlib import Path
+
+    config = DEFAULT_CONFIG
+
+    # Test with a simple import statement
+    input_stream = StringIO("import os\n")
+    result = list(imports(input_stream, config))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute is None
+    assert result[0].alias is None
+
+    # Test with a from import statement
+    input_stream = StringIO("from os import path\n")
+    result = list(imports(input_stream, config))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias is None
+
+    # Test with an aliased import statement
+    input_stream = StringIO("import os as operating_system\n")
+    result = list(imports(input_stream, config))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute is None
+    assert result[0].alias == "operating_system"
+
+    # Test with a from import statement with an alias
+    input_stream = StringIO("from os import path as p\n")
+    result = list(imports(input_stream, config))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias == "p"
+
+    # Test with a multiline import statement
+    input_stream = StringIO("from os import (\n    path,\n    sep\n)\n")
+    result = list(imports(input_stream, config))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "sep"
+
+    # Test with a cimport statement
+    input_stream = StringIO("cimport numpy as np\n")
+    result = list(imports(input_stream, config))
+    assert len(result) == 1
+    assert result[0].module == "numpy"
+    assert result[0].attribute is None
+    assert result[0].alias == "np"
+    assert result[0].cimport is True
+
+    # Test with a file path
+    file_path = Path("test.py")
+    input_stream = StringIO("import os\n")
+    result = list(imports(input_stream, config, file_path))
+    assert len(result) == 1
+    assert result[0].file_path == file_path
+
+    # Test with top_only flag
+    input_stream = StringIO("import os\ndef foo():\n    pass\n")
+    result = list(imports(input_stream, config, top_only=True))
+    assert len(result) == 1
+    assert result[0].module == "os"
+
+    # Test with a redundant alias
+    config = DEFAULT_CONFIG._replace(remove_redundant_aliases=True)
+    input_stream = StringIO("import os as os\n")
+    result = list(imports(input_stream, config))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].alias is None
+
+    # Test with a redundant alias in from import
+    input_stream = StringIO("from os import path as path\n")
+    result = list(imports(input_stream, config))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias is None
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for method __str__ of class Import
-def test_Import___str__():  # noqa: N802
-    # Test with minimal fields
-    imp = Import(line_number=1, indented=False, module="os")
-    assert str(imp) == ":1 import os"
+def test_Import___str__():
+    import_obj = Import(line_number=1, indented=False, module='os', attribute=None, alias=None, cimport=False, file_path=None)
+    assert str(import_obj) == ":1 import os"
 
-    # Test with all fields
-    imp = Import(
-        line_number=10,
-        indented=True,
-        module="numpy",
-        attribute="array",
-        alias="arr",
-        cimport=True,
-        file_path=Path("/home/user/project/test.py"),
-    )
-    assert str(imp) == "/home/user/project/test.py:10 indented from numpy cimport array as arr"
+    import_obj = Import(line_number=2, indented=True, module='sys', attribute='path', alias='p', cimport=False, file_path=Path('test.py'))
+    assert str(import_obj) == "test.py:2 indented from sys import path as p"
 
-    # Test with file_path as None
-    imp = Import(
-        line_number=5,
-        indented=False,
-        module="pandas",
-        attribute="DataFrame",
-        alias="df",
-        cimport=False,
-        file_path=None,
-    )
-    assert str(imp) == ":5 from pandas import DataFrame as df"
+    import_obj = Import(line_number=3, indented=False, module='numpy', attribute=None, alias='np', cimport=True, file_path=Path('test.py'))
+    assert str(import_obj) == "test.py:3 cimport numpy as np"
 
-    # Test with indented=False
-    imp = Import(
-        line_number=3,
-        indented=False,
-        module="sys",
-        attribute="path",
-        alias=None,
-        cimport=False,
-        file_path=Path("script.py"),
-    )
-    assert str(imp) == "script.py:3 from sys import path"
-
-    # Test with cimport=False
-    imp = Import(
-        line_number=7,
-        indented=True,
-        module="cython",
-        attribute="boundscheck",
-        alias="bc",
-        cimport=False,
-        file_path=Path("/src/module.pyx"),
-    )
-    assert str(imp) == "/src/module.pyx:7 indented from cython import boundscheck as bc"
-
-    # Test with no attribute and no alias
-    imp = Import(
-        line_number=2,
-        indented=True,
-        module="math",
-        attribute=None,
-        alias=None,
-        cimport=False,
-        file_path=Path("calc.py"),
-    )
-    assert str(imp) == "calc.py:2 indented import math"
-
-    # Test with attribute but no alias
-    imp = Import(
-        line_number=4,
-        indented=False,
-        module="collections",
-        attribute="defaultdict",
-        alias=None,
-        cimport=True,
-        file_path=None,
-    )
-    assert str(imp) == ":4 from collections cimport defaultdict"
-
-    # Test with alias but no attribute
-    imp = Import(
-        line_number=6,
-        indented=True,
-        module="itertools",
-        attribute=None,
-        alias="it",
-        cimport=False,
-        file_path=Path("/utils/helpers.py"),
-    )
-    assert str(imp) == "/utils/helpers.py:6 indented import itertools as it"
-
-    # Test with Windows path
-    imp = Import(
-        line_number=8,
-        indented=False,
-        module="os.path",
-        attribute="join",
-        alias=None,
-        cimport=False,
-        file_path=Path("C:\\Users\\test\\file.py"),
-    )
-    assert str(imp) == "C:\\Users\\test\\file.py:8 from os.path import join"
-
-    # Test with empty module (edge case)
-    imp = Import(line_number=9, indented=False, module="", attribute=None, alias=None, cimport=False)
-    assert str(imp) == ":9 import "
+    import_obj = Import(line_number=4, indented=True, module='pandas', attribute='DataFrame', alias=None, cimport=False, file_path=None)
+    assert str(import_obj) == ":4 indented from pandas import DataFrame"
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for method statement of class Import
-def test_Import_statement():  
-    # Test case 1: cimport with attribute and alias
-    import1 = Import(1, False, "module", "attribute", "alias", True, None)
-    assert import1.statement() == "from module cimport attribute as alias"
-    
-    # Test case 2: import with attribute and alias
-    import2 = Import(2, True, "module", "attribute", "alias", False, None)
-    assert import2.statement() == "from module import attribute as alias"
-    
-    # Test case 3: cimport without attribute and alias
-    import3 = Import(3, False, "module", None, None, True, None)
-    assert import3.statement() == "cimport module"
-    
-    # Test case 4: import without attribute and alias
-    import4 = Import(4, True, "module", None, None, False, None)
-    assert import4.statement() == "import module"
-    
-    # Test case 5: cimport with attribute but no alias
-    import5 = Import(5, False, "module", "attribute", None, True, None)
-    assert import5.statement() == "from module cimport attribute"
-    
-    # Test case 6: import with attribute but no alias
-    import6 = Import(6, True, "module", "attribute", None, False, None)
-    assert import6.statement() == "from module import attribute"
-    
-    # Test case 7: cimport with alias but no attribute
-    import7 = Import(7, False, "module", None, "alias", True, None)
-    assert import7.statement() == "cimport module as alias"
-    
-    # Test case 8: import with alias but no attribute
-    import8 = Import(8, True, "module", None, "alias", False, None)
-    assert import8.statement() == "import module as alias"
+def test_Import_statement():
+    assert Import(1, False, "module", None, None).statement() == "import module"
+    assert Import(1, False, "module", "attribute", None).statement() == "from module import attribute"
+    assert Import(1, False, "module", "attribute", "alias").statement() == "from module import attribute as alias"
+    assert Import(1, False, "module", None, "alias").statement() == "import module as alias"
+    assert Import(1, False, "module", None, None, True).statement() == "cimport module"
+    assert Import(1, False, "module", "attribute", None, True).statement() == "from module cimport attribute"
+    assert Import(1, False, "module", "attribute", "alias", True).statement() == "from module cimport attribute as alias"
+    assert Import(1, False, "module", None, "alias", True).statement() == "cimport module as alias"
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for method __str__ of class Import
-def test_Import___str__():  # noqa: N802
-    # Test case 1: Import with all attributes
-    import_obj = Import(
-        line_number=10,
-        indented=True,
-        module="my_module",
-        attribute="my_attribute",
-        alias="my_alias",
-        cimport=True,
-        file_path=Path("/path/to/file.py"),
-    )
-    expected = "/path/to/file.py:10 indented from my_module cimport my_attribute as my_alias"
-    assert str(import_obj) == expected
-
-    # Test case 2: Import without alias
-    import_obj = Import(
-        line_number=5,
-        indented=False,
-        module="another_module",
-        attribute="another_attribute",
-        alias=None,
-        cimport=False,
-        file_path=Path("/another/path.py"),
-    )
-    expected = "/another/path.py:5 from another_module import another_attribute"
-    assert str(import_obj) == expected
-
-    # Test case 3: Import without attribute and alias
-    import_obj = Import(
-        line_number=1,
-        indented=False,
-        module="simple_module",
-        attribute=None,
-        alias=None,
-        cimport=False,
-        file_path=None,
-    )
-    expected = ":1 import simple_module"
-    assert str(import_obj) == expected
-
-    # Test case 4: Import with cimport but no attribute
-    import_obj = Import(
-        line_number=20,
-        indented=True,
-        module="c_module",
-        attribute=None,
-        alias="c_alias",
-        cimport=True,
-        file_path=Path("/c/path.py"),
-    )
-    expected = "/c/path.py:20 indented cimport c_module as c_alias"
-    assert str(import_obj) == expected
-
-    # Test case 5: Import without file_path
-    import_obj = Import(
-        line_number=15,
-        indented=False,
-        module="no_path_module",
-        attribute="no_path_attribute",
-        alias="no_path_alias",
-        cimport=False,
-        file_path=None,
-    )
-    expected = ":15 from no_path_module import no_path_attribute as no_path_alias"
-    assert str(import_obj) == expected
-
-    # Test case 6: Import with indented but no other special attributes
-    import_obj = Import(
-        line_number=3,
-        indented=True,
-        module="indented_module",
-        attribute=None,
-        alias=None,
-        cimport=False,
-        file_path=Path("/indented/path.py"),
-    )
-    expected = "/indented/path.py:3 indented import indented_module"
-    assert str(import_obj) == expected
-
-    # Test case 7: Import with cimport and attribute but no alias
-    import_obj = Import(
-        line_number=7,
-        indented=False,
-        module="c_from_module",
-        attribute="c_from_attribute",
-        alias=None,
-        cimport=True,
-        file_path=Path("/c/from/path.py"),
-    )
-    expected = "/c/from/path.py:7 from c_from_module cimport c_from_attribute"
-    assert str(import_obj) == expected
-
-    # Test case 8: Import with all None for optional attributes
-    import_obj = Import(
-        line_number=1,
-        indented=False,
-        module="only_module",
-        attribute=None,
-        alias=None,
-        cimport=False,
-        file_path=None,
-    )
-    expected = ":1 import only_module"
-    assert str(import_obj) == expected
-
-    # Test case 9: Import with special characters in module name
-    import_obj = Import(
-        line_number=12,
-        indented=True,
-        module="my.module.with.dots",
-        attribute="attribute_with_underscore",
-        alias="alias_with_underscore",
-        cimport=False,
-        file_path=Path("/special/chars.py"),
-    )
-    expected = "/special/chars.py:12 indented from my.module.with.dots import attribute_with_underscore as alias_with_underscore"
-    assert str(import_obj) == expected
-
-    # Test case 10: Import with cimport and no indentation
-    import_obj = Import(
-        line_number=8,
-        indented=False,
-        module="c_no_indent",
-        attribute=None,
-        alias="c_no_indent_alias",
-        cimport=True,
-        file_path=Path("/c/no/indent.py"),
-    )
-    expected = "/c/no/indent.py:8 cimport c_no_indent as c_no_indent_alias"
-    assert str(import_obj) == expected
-
-
-# LLM-generated content at query #7
-#--------------------------
-
-# Unit test for method statement of class Import
-def test_Import_statement():  
-    # Test case 1: cimport with attribute and alias
-    import1 = Import(1, False, "module", "attribute", "alias", True, Path("test.py"))
-    assert import1.statement() == "from module cimport attribute as alias"
-    
-    # Test case 2: import with attribute and alias
-    import2 = Import(2, True, "module", "attribute", "alias", False, Path("test.py"))
-    assert import2.statement() == "from module import attribute as alias"
-    
-    # Test case 3: cimport without attribute and alias
-    import3 = Import(3, False, "module", None, None, True, Path("test.py"))
-    assert import3.statement() == "cimport module"
-    
-    # Test case 4: import without attribute and alias
-    import4 = Import(4, True, "module", None, None, False, Path("test.py"))
-    assert import4.statement() == "import module"
-    
-    # Test case 5: cimport with attribute but no alias
-    import5 = Import(5, False, "module", "attribute", None, True, Path("test.py"))
-    assert import5.statement() == "from module cimport attribute"
-    
-    # Test case 6: import with attribute but no alias
-    import6 = Import(6, True, "module", "attribute", None, False, Path("test.py"))
-    assert import6.statement() == "from module import attribute"
-    
-    # Test case 7: cimport with alias but no attribute
-    import7 = Import(7, False, "module", None, "alias", True, Path("test.py"))
-    assert import7.statement() == "cimport module as alias"
-    
-    # Test case 8: import with alias but no attribute
-    import8 = Import(8, True, "module", None, "alias", False, Path("test.py"))
-    assert import8.statement() == "import module as alias"
-
-
-# LLM-generated content at query #8
-#--------------------------
-
 # Unit test for function imports
-def test_imports():  # pragma: no cover
+def test_imports():
     import io
-    import tempfile
+    import sys
+    from pathlib import Path
 
-    # Test case 1: Simple import
-    content = "import os\nimport sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 2
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys'
-            print("Test case 1 passed")
+    # Test basic import
+    input_stream = io.StringIO("import os\nimport sys")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 2
+    assert imports_list[0].module == "os"
+    assert imports_list[1].module == "sys"
 
-    # Test case 2: From import with alias
-    content = "from django.conf import settings as django_settings\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 1
-            assert result[0].module == 'django.conf'
-            assert result[0].attribute == 'settings'
-            assert result[0].alias == 'django_settings'
-            print("Test case 2 passed")
+    # Test from import
+    input_stream = io.StringIO("from os import path")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+    assert imports_list[0].attribute == "path"
 
-    # Test case 3: Cython cimport
-    content = "cimport numpy as np\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 1
-            assert result[0].module == 'numpy'
-            assert result[0].alias == 'np'
-            assert result[0].cimport is True
-            print("Test case 3 passed")
+    # Test aliased import
+    input_stream = io.StringIO("import pandas as pd")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "pandas"
+    assert imports_list[0].alias == "pd"
 
-    # Test case 4: Indented import
-    content = "def foo():\n    import bar\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 1
-            assert result[0].module == 'bar'
-            assert result[0].indented is True
-            print("Test case 4 passed")
+    # Test cimport
+    input_stream = io.StringIO("cimport numpy as np")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "numpy"
+    assert imports_list[0].alias == "np"
+    assert imports_list[0].cimport is True
 
-    # Test case 5: Multi-line import
-    content = "from very.long.module.path import (\\\n    function1,\\\n    function2)\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 2
-            assert result[0].module == 'very.long.module.path'
-            assert result[0].attribute == 'function1'
-            assert result[1].module == 'very.long.module.path'
-            assert result[1].attribute == 'function2'
-            print("Test case 5 passed")
+    # Test indented import
+    input_stream = io.StringIO("    import os")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+    assert imports_list[0].indented is True
 
-    # Test case 6: Import with comments
-    content = "import os  # system module\nimport sys  # system module\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 2
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys'
-            print("Test case 6 passed")
+    # Test file path
+    test_path = Path("test.py")
+    input_stream = io.StringIO("import os")
+    imports_list = list(imports(input_stream, file_path=test_path))
+    assert len(imports_list) == 1
+    assert imports_list[0].file_path == test_path
 
-    # Test case 7: Empty file
-    content = ""
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 0
-            print("Test case 7 passed")
-
-    # Test case 8: Mixed imports
-    content = "import os\nfrom sys import argv\nimport numpy as np\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 3
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys'
-            assert result[1].attribute == 'argv'
-            assert result[2].module == 'numpy'
-            assert result[2].alias == 'np'
-            print("Test case 8 passed")
+    # Test top_only
+    input_stream = io.StringIO("import os\ndef foo():\n    import sys")
+    imports_list = list(imports(input_stream, top_only=True))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
 
     print("All tests passed!")
 
@@ -556,340 +235,450 @@ if __name__ == "__main__":
     test_imports()
 
 
-# LLM-generated content at query #9
+# LLM-generated content at query #7
 #--------------------------
 
 # Unit test for function imports
-def test_imports():  # pragma: no cover
+def test_imports():
     import io
-    import tempfile
+    import sys
+    from pathlib import Path
 
     # Test case 1: Simple import
-    content = "import os\nimport sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys'
-            print("Test case 1 passed: Simple imports")
+    input_stream = io.StringIO("import os\nimport sys")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
 
-    # Test case 2: From import with alias
-    content = "from collections import defaultdict as dd\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'collections'
-            assert result[0].attribute == 'defaultdict'
-            assert result[0].alias == 'dd'
-            print("Test case 2 passed: From import with alias")
+    # Test case 2: From import
+    input_stream = io.StringIO("from os import path\nfrom sys import version")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os" and result[0].attribute == "path"
+    assert result[1].module == "sys" and result[1].attribute == "version"
 
-    # Test case 3: Cimport
-    content = "cimport numpy as np\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'numpy'
-            assert result[0].alias == 'np'
-            assert result[0].cimport is True
-            print("Test case 3 passed: Cimport")
+    # Test case 3: Import with alias
+    input_stream = io.StringIO("import os as operating_system\nfrom sys import version as v")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os" and result[0].alias == "operating_system"
+    assert result[1].module == "sys" and result[1].attribute == "version" and result[1].alias == "v"
 
-    # Test case 4: Indented import
-    content = "def foo():\n    import bar\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'bar'
-            assert result[0].indented is True
-            print("Test case 4 passed: Indented import")
+    # Test case 4: Cimport
+    input_stream = io.StringIO("cimport numpy as np\nfrom cython cimport boundscheck")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "numpy" and result[0].alias == "np" and result[0].cimport
+    assert result[1].module == "cython" and result[1].attribute == "boundscheck" and result[1].cimport
 
-    # Test case 5: Multiple from imports
-    content = "from module import a, b, c\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 3
-            modules = {r.attribute for r in result}
-            assert modules == {'a', 'b', 'c'}
-            print("Test case 5 passed: Multiple from imports")
+    # Test case 5: Indented import
+    input_stream = io.StringIO("def foo():\n    import os")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os" and result[0].indented
 
-    # Test case 6: Import with continuation lines
-    content = "from very.long.module.name import (\\\n    first_thing,\\\n    second_thing)\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            attributes = {r.attribute for r in result}
-            assert attributes == {'first_thing', 'second_thing'}
-            print("Test case 6 passed: Import with continuation lines")
+    # Test case 6: Multi-line import
+    input_stream = io.StringIO("from os import (\n    path,\n    name\n)")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os" and result[0].attribute == "path"
+    assert result[1].module == "os" and result[1].attribute == "name"
 
-    # Test case 7: Mixed imports with comments
-    content = """# This is a comment
-import os  # inline comment
-import sys
+    # Test case 7: Top only
+    input_stream = io.StringIO("import os\ndef foo():\n    import sys")
+    result = list(imports(input_stream, top_only=True))
+    assert len(result) == 1
+    assert result[0].module == "os"
 
+    # Test case 8: File path
+    file_path = Path("test.py")
+    input_stream = io.StringIO("import os")
+    result = list(imports(input_stream, file_path=file_path))
+    assert len(result) == 1
+    assert result[0].file_path == file_path
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    test_imports()
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+# Unit test for function imports
+def test_imports():
+    from io import StringIO
+
+    # Test simple straight import
+    input_stream = StringIO("import os\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute is None
+    assert result[0].alias is None
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+
+    # Test simple cimport
+    input_stream = StringIO("cimport numpy\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "numpy"
+    assert result[0].attribute is None
+    assert result[0].alias is None
+    assert result[0].cimport is True
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+
+    # Test simple from import
+    input_stream = StringIO("from os import path\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias is None
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+
+    # Test from import with alias
+    input_stream = StringIO("from os import path as p\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias == "p"
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+
+    # Test indented import
+    input_stream = StringIO("    import os\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute is None
+    assert result[0].alias is None
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is True
+
+    # Test multiple imports in one line
+    input_stream = StringIO("import os, sys\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute is None
+    assert result[0].alias is None
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+    assert result[1].module == "sys"
+    assert result[1].attribute is None
+    assert result[1].alias is None
+    assert result[1].cimport is False
+    assert result[1].line_number == 1
+    assert result[1].indented is False
+
+    # Test multiple from imports in one line
+    input_stream = StringIO("from os import path, environ\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias is None
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+    assert result[1].alias is None
+    assert result[1].cimport is False
+    assert result[1].line_number == 1
+    assert result[1].indented is False
+
+    # Test import with alias
+    input_stream = StringIO("import os as operating_system\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute is None
+    assert result[0].alias == "operating_system"
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+
+    # Test top_only parameter
+    input_stream = StringIO("import os\n\ndef foo():\n    import sys\n")
+    result = list(imports(input_stream, top_only=True))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute is None
+    assert result[0].alias is None
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+
+    # Test commented import
+    input_stream = StringIO("# import os\n")
+    result = list(imports(input_stream))
+    assert len(result) == 0
+
+    # Test multiline import
+    input_stream = StringIO("from os import (path, environ)\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias is None
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+    assert result[1].alias is None
+    assert result[1].cimport is False
+    assert result[1].line_number == 1
+    assert result[1].indented is False
+
+    # Test multiline import with alias
+    input_stream = StringIO("from os import (path as p, environ as e)\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias == "p"
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+    assert result[1].alias == "e"
+    assert result[1].cimport is False
+    assert result[1].line_number == 1
+    assert result[1].indented is False
+
+    # Test multiline import with continuation
+    input_stream = StringIO("from os import path, \\\n    environ\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias is None
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+    assert result[1].alias is None
+    assert result[1].cimport is False
+    assert result[1].line_number == 2
+    assert result[1].indented is False
+
+    # Test multiline import with continuation and alias
+    input_stream = StringIO("from os import path as p, \\\n    environ as e\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias == "p"
+    assert result[0].cimport is False
+    assert result[0].line_number == 1
+    assert result[0].indented is False
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+    assert result[1].alias == "e"
+    assert result[1].cimport is False
+    assert result[1].line_number == 2
+    assert result[1].indented is False
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+# Unit test for method __str__ of class Import
+def test_Import___str__():
+    import1 = Import(1, False, "module1", None, None, False, None)
+    assert str(import1) == ":1 import module1"
+    
+    import2 = Import(2, True, "module2", "attr2", None, False, Path("test.py"))
+    assert str(import2) == "test.py:2 indented from module2 import attr2"
+    
+    import3 = Import(3, False, "module3", None, "alias3", True, Path("test.py"))
+    assert str(import3) == "test.py:3 cimport module3 as alias3"
+    
+    import4 = Import(4, True, "module4", "attr4", "alias4", False, None)
+    assert str(import4) == ":4 indented from module4 import attr4 as alias4"
 
 
 # LLM-generated content at query #10
 #--------------------------
 
-# Unit test for method __str__ of class Import
-def test_Import___str__():  # noqa: N802
-    # Test case 1: No alias, no cimport, no file path
-    import1 = Import(line_number=1, indented=False, module="os")
-    assert str(import1) == ":1 import os"
+# Unit test for method statement of class Import
+def test_Import_statement():
+    # Test basic import statement
+    import_stmt = Import(1, False, "module")
+    assert import_stmt.statement() == "import module"
 
-    # Test case 2: With alias, no cimport, no file path
-    import2 = Import(line_number=2, indented=True, module="numpy", alias="np")
-    assert str(import2) == ":2 indented import numpy as np"
+    # Test from import statement
+    from_import_stmt = Import(1, False, "module", "attribute")
+    assert from_import_stmt.statement() == "from module import attribute"
 
-    # Test case 3: With attribute, no alias, no cimport, no file path
-    import3 = Import(line_number=3, indented=False, module="os", attribute="path")
-    assert str(import3) == ":3 from os import path"
+    # Test import with alias
+    import_with_alias = Import(1, False, "module", alias="alias")
+    assert import_with_alias.statement() == "import module as alias"
 
-    # Test case 4: With attribute and alias, no cimport, no file path
-    import4 = Import(line_number=4, indented=True, module="numpy", attribute="array", alias="arr")
-    assert str(import4) == ":4 indented from numpy import array as arr"
+    # Test from import with alias
+    from_import_with_alias = Import(1, False, "module", "attribute", "alias")
+    assert from_import_with_alias.statement() == "from module import attribute as alias"
 
-    # Test case 5: With cimport, no alias, no file path
-    import5 = Import(line_number=5, indented=False, module="cython", cimport=True)
-    assert str(import5) == ":5 cimport cython"
+    # Test cimport statement
+    cimport_stmt = Import(1, False, "module", cimport=True)
+    assert cimport_stmt.statement() == "cimport module"
 
-    # Test case 6: With cimport, attribute, and alias, no file path
-    import6 = Import(line_number=6, indented=True, module="cython", attribute="parallel", alias="par", cimport=True)
-    assert str(import6) == ":6 indented from cython cimport parallel as par"
+    # Test from cimport statement
+    from_cimport_stmt = Import(1, False, "module", "attribute", cimport=True)
+    assert from_cimport_stmt.statement() == "from module cimport attribute"
 
-    # Test case 7: With file path, no alias, no cimport
-    import7 = Import(line_number=7, indented=False, module="sys", file_path=Path("/home/user/project/main.py"))
-    assert str(import7) == "/home/user/project/main.py:7 import sys"
+    # Test cimport with alias
+    cimport_with_alias = Import(1, False, "module", alias="alias", cimport=True)
+    assert cimport_with_alias.statement() == "cimport module as alias"
 
-    # Test case 8: With file path, attribute, alias, and cimport
-    import8 = Import(line_number=8, indented=True, module="cython", attribute="boundscheck", alias="bc", cimport=True, file_path=Path("/home/user/project/utils.pyx"))
-    assert str(import8) == "/home/user/project/utils.pyx:8 indented from cython cimport boundscheck as bc"
-
-    # Test case 9: Empty module name (edge case)
-    import9 = Import(line_number=9, indented=False, module="")
-    assert str(import9) == ":9 import "
-
-    # Test case 10: Module with dots, no alias
-    import10 = Import(line_number=10, indented=False, module="os.path")
-    assert str(import10) == ":10 import os.path"
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_Import___str__()
+    # Test from cimport with alias
+    from_cimport_with_alias = Import(1, False, "module", "attribute", "alias", cimport=True)
+    assert from_cimport_with_alias.statement() == "from module cimport attribute as alias"
 
 
 # LLM-generated content at query #11
 #--------------------------
 
-# Unit test for method __str__ of class Import
-def test_Import___str__():  # noqa: N802
-    # Test case 1: Import with file_path and line_number
-    import1 = Import(line_number=1, indented=False, module="os", file_path=Path("/path/to/file.py"))
-    assert str(import1) == "/path/to/file.py:1 import os"
+# Unit test for function imports
+def test_imports():
+    import io
+    import sys
+    from pathlib import Path
 
-    # Test case 2: Import with indented=True
-    import2 = Import(line_number=2, indented=True, module="sys", file_path=Path("/path/to/file.py"))
-    assert str(import2) == "/path/to/file.py:2 indented import sys"
+    # Test case 1: Simple import
+    input_stream = io.StringIO("import os\nimport sys")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
 
-    # Test case 3: Import with attribute
-    import3 = Import(line_number=3, indented=False, module="os", attribute="path", file_path=Path("/path/to/file.py"))
-    assert str(import3) == "/path/to/file.py:3 from os import path"
+    # Test case 2: From import
+    input_stream = io.StringIO("from os import path\nfrom sys import version")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os" and result[0].attribute == "path"
+    assert result[1].module == "sys" and result[1].attribute == "version"
 
-    # Test case 4: Import with alias
-    import4 = Import(line_number=4, indented=False, module="numpy", alias="np", file_path=Path("/path/to/file.py"))
-    assert str(import4) == "/path/to/file.py:4 import numpy as np"
+    # Test case 3: Import with alias
+    input_stream = io.StringIO("import os as operating_system\nfrom sys import version as ver")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os" and result[0].alias == "operating_system"
+    assert result[1].module == "sys" and result[1].attribute == "version" and result[1].alias == "ver"
 
-    # Test case 5: Import with attribute and alias
-    import5 = Import(line_number=5, indented=False, module="pandas", attribute="DataFrame", alias="df", file_path=Path("/path/to/file.py"))
-    assert str(import5) == "/path/to/file.py:5 from pandas import DataFrame as df"
+    # Test case 4: Cimport
+    input_stream = io.StringIO("cimport numpy as np\nfrom numpy cimport array")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "numpy" and result[0].alias == "np" and result[0].cimport
+    assert result[1].module == "numpy" and result[1].attribute == "array" and result[1].cimport
 
-    # Test case 6: Import with cimport=True
-    import6 = Import(line_number=6, indented=False, module="cython", cimport=True, file_path=Path("/path/to/file.py"))
-    assert str(import6) == "/path/to/file.py:6 cimport cython"
+    # Test case 5: Multi-line import
+    input_stream = io.StringIO("from os import (\n    path,\n    name\n)")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os" and result[0].attribute == "path"
+    assert result[1].module == "os" and result[1].attribute == "name"
 
-    # Test case 7: Import without file_path
-    import7 = Import(line_number=7, indented=False, module="math")
-    assert str(import7) == ":7 import math"
+    # Test case 6: File path included
+    file_path = Path("test.py")
+    input_stream = io.StringIO("import test_module")
+    result = list(imports(input_stream, file_path=file_path))
+    assert len(result) == 1
+    assert result[0].module == "test_module" and result[0].file_path == file_path
 
-    # Test case 8: Import with indented=True and cimport=True
-    import8 = Import(line_number=8, indented=True, module="cython", cimport=True, file_path=Path("/path/to/file.py"))
-    assert str(import8) == "/path/to/file.py:8 indented cimport cython"
+    # Test case 7: Top only
+    input_stream = io.StringIO("import os\ndef function():\n    import sys")
+    result = list(imports(input_stream, top_only=True))
+    assert len(result) == 1
+    assert result[0].module == "os"
 
-    # Test case 9: Import with attribute and cimport=True
-    import9 = Import(line_number=9, indented=False, module="cython", attribute="parallel", cimport=True, file_path=Path("/path/to/file.py"))
-    assert str(import9) == "/path/to/file.py:9 from cython cimport parallel"
+    print("All tests passed!")
 
-    # Test case 10: Import with attribute, alias, and cimport=True
-    import10 = Import(line_number=10, indented=False, module="cython", attribute="parallel", alias="par", cimport=True, file_path=Path("/path/to/file.py"))
-    assert str(import10) == "/path/to/file.py:10 from cython cimport parallel as par"
-
-    # Test case 11: Import with empty module (edge case)
-    import11 = Import(line_number=11, indented=False, module="", file_path=Path("/path/to/file.py"))
-    assert str(import11) == "/path/to/file.py:11 import "
-
-    # Test case 12: Import with special characters in module name
-    import12 = Import(line_number=12, indented=False, module="my_module.submodule", file_path=Path("/path/to/file.py"))
-    assert str(import12) == "/path/to/file.py:12 import my_module.submodule"
-
-    # Test case 13: Import with line_number=0 (edge case)
-    import13 = Import(line_number=0, indented=False, module="os", file_path=Path("/path/to/file.py"))
-    assert str(import13) == "/path/to/file.py:0 import os"
-
-    # Test case 14: Import with very large line_number
-    import14 = Import(line_number=999999, indented=False, module="os", file_path=Path("/path/to/file.py"))
-    assert str(import14) == "/path/to/file.py:999999 import os"
-
-    # Test case 15: Import with file_path as None and indented=True
-    import15 = Import(line_number=15, indented=True, module="sys")
-    assert str(import15) == ":15 indented import sys"
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_Import___str__()
+if __name__ == "__main__":
+    test_imports()
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for method __str__ of class Import
-def test_Import___str__():  # noqa: N802
-    # Test with minimal fields
-    import_obj = Import(line_number=1, indented=False, module="os")
-    assert str(import_obj) == ":1 import os"
+# Unit test for function imports
+def test_imports():
+    import io
+    import sys
+    from pathlib import Path
 
-    # Test with all fields
-    import_obj = Import(
-        line_number=10,
-        indented=True,
-        module="numpy",
-        attribute="array",
-        alias="arr",
-        cimport=True,
-        file_path=Path("/home/user/file.py"),
-    )
-    assert str(import_obj) == "/home/user/file.py:10 indented from numpy cimport array as arr"
+    # Test case 1: Simple import
+    input_stream = io.StringIO("import os\nimport sys\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
 
-    # Test with file_path as None
-    import_obj = Import(
-        line_number=5,
-        indented=False,
-        module="pandas",
-        attribute="DataFrame",
-        alias="df",
-        cimport=False,
-        file_path=None,
-    )
-    assert str(import_obj) == ":5 from pandas import DataFrame as df"
+    # Test case 2: From import
+    input_stream = io.StringIO("from os import path\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
 
-    # Test with indented=True and no alias
-    import_obj = Import(
-        line_number=3,
-        indented=True,
-        module="sys",
-        attribute="path",
-        alias=None,
-        cimport=False,
-        file_path=Path("script.py"),
-    )
-    assert str(import_obj) == "script.py:3 indented from sys import path"
+    # Test case 3: Aliased import
+    input_stream = io.StringIO("import numpy as np\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "numpy"
+    assert result[0].alias == "np"
 
-    # Test with cimport=True and no attribute
-    import_obj = Import(
-        line_number=7,
-        indented=False,
-        module="cython",
-        attribute=None,
-        alias="c",
-        cimport=True,
-        file_path=Path("/tmp/test.py"),
-    )
-    assert str(import_obj) == "/tmp/test.py:7 cimport cython as c"
+    # Test case 4: Cimport
+    input_stream = io.StringIO("cimport numpy as np\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "numpy"
+    assert result[0].alias == "np"
+    assert result[0].cimport is True
 
-    # Test with no attribute and no alias
-    import_obj = Import(
-        line_number=2,
-        indented=True,
-        module="math",
-        attribute=None,
-        alias=None,
-        cimport=False,
-        file_path=None,
-    )
-    assert str(import_obj) == ":2 indented import math"
+    # Test case 5: Multi-line import
+    input_stream = io.StringIO("from os import (\n    path,\n    name\n)\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "name"
 
-    # Test with empty module string (edge case)
-    import_obj = Import(
-        line_number=0,
-        indented=False,
-        module="",
-        attribute=None,
-        alias=None,
-        cimport=False,
-        file_path=Path("empty.py"),
-    )
-    assert str(import_obj) == "empty.py:0 import "
+    # Test case 6: Top only
+    input_stream = io.StringIO("import os\ndef foo():\n    import sys\n")
+    result = list(imports(input_stream, top_only=True))
+    assert len(result) == 1
+    assert result[0].module == "os"
 
-    # Test with special characters in module name
-    import_obj = Import(
-        line_number=15,
-        indented=False,
-        module="my_package.sub_module",
-        attribute="my_function",
-        alias="func",
-        cimport=False,
-        file_path=Path("project/main.py"),
-    )
-    assert str(import_obj) == "project/main.py:15 from my_package.sub_module import my_function as func"
-
-    # Test with Windows path
-    import_obj = Import(
-        line_number=20,
-        indented=True,
-        module="os",
-        attribute="path",
-        alias="p",
-        cimport=False,
-        file_path=Path("C:\\Users\\test\\file.py"),
-    )
-    # Note: Path representation may vary by OS, but __str__ uses Path.__str__
-    expected = "C:\\Users\\test\\file.py:20 indented from os import path as p"
-    assert str(import_obj) == expected
-
-    # Test with line_number 0 (edge case)
-    import_obj = Import(
-        line_number=0,
-        indented=False,
-        module="builtins",
-        attribute=None,
-        alias=None,
-        cimport=False,
-        file_path=None,
-    )
-    assert str(import_obj) == ":0 import builtins"
+    # Test case 7: With file path
+    input_stream = io.StringIO("import os\n")
+    result = list(imports(input_stream, file_path=Path("test.py")))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].file_path == Path("test.py")
 
     print("All tests passed!")
 
 if __name__ == "__main__":
-    test_Import___str__()
+    test_imports()
 
 
 # LLM-generated content at query #13
@@ -897,277 +686,109 @@ if __name__ == "__main__":
 
 # Unit test for function imports
 def test_imports():
+    import io
+    config = Config()
+    file_path = Path("example.py")
+
+    # Test case 1: Basic import
+    input_stream = io.StringIO("import os\nimport sys")
+    assert list(imports(input_stream, config, file_path)) == [
+        Import(line_number=1, indented=False, module="os", file_path=file_path),
+        Import(line_number=2, indented=False, module="sys", file_path=file_path)
+    ]
+
+    # Test case 2: From import with attribute
+    input_stream = io.StringIO("from os import path")
+    assert list(imports(input_stream, config, file_path)) == [
+        Import(line_number=1, indented=False, module="os", attribute="path", file_path=file_path)
+    ]
+
+    # Test case 3: Import with alias
+    input_stream = io.StringIO("import os as operating_system")
+    assert list(imports(input_stream, config, file_path)) == [
+        Import(line_number=1, indented=False, module="os", alias="operating_system", file_path=file_path)
+    ]
+
+    # Test case 4: From import with multiple attributes
+    input_stream = io.StringIO("from os import path, sep")
+    assert list(imports(input_stream, config, file_path)) == [
+        Import(line_number=1, indented=False, module="os", attribute="path", file_path=file_path),
+        Import(line_number=1, indented=False, module="os", attribute="sep", file_path=file_path)
+    ]
+
+    # Test case 5: Indented import
+    input_stream = io.StringIO("    import os")
+    assert list(imports(input_stream, config, file_path)) == [
+        Import(line_number=1, indented=True, module="os", file_path=file_path)
+    ]
+
+    # Test case 6: Cimport
+    input_stream = io.StringIO("cimport numpy as np")
+    assert list(imports(input_stream, config, file_path)) == [
+        Import(line_number=1, indented=False, module="numpy", alias="np", cimport=True, file_path=file_path)
+    ]
+
+    # Test case 7: Top only with statement declaration
+    input_stream = io.StringIO("import os\ndef foo():\n    import sys")
+    assert list(imports(input_stream, config, file_path, top_only=True)) == [
+        Import(line_number=1, indented=False, module="os", file_path=file_path)
+    ]
+
+    # Test case 8: Import with continuation line
+    input_stream = io.StringIO("import os, \\\n    sys")
+    assert list(imports(input_stream, config, file_path)) == [
+        Import(line_number=1, indented=False, module="os", file_path=file_path),
+        Import(line_number=2, indented=False, module="sys", file_path=file_path)
+    ]
+
+    # Test case 9: From import with continuation line
+    input_stream = io.StringIO("from os import path, \\\n    sep")
+    assert list(imports(input_stream, config, file_path)) == [
+        Import(line_number=1, indented=False, module="os", attribute="path", file_path=file_path),
+        Import(line_number=2, indented=False, module="os", attribute="sep", file_path=file_path)
+    ]
+
+    # Test case 10: From import with alias and continuation line
+    input_stream = io.StringIO("from os import path as pth, \\\n    sep as separator")
+    assert list(imports(input_stream, config, file_path)) == [
+        Import(line_number=1, indented=False, module="os", attribute="path", alias="pth", file_path=file_path),
+        Import(line_number=2, indented=False, module="os", attribute="sep", alias="separator", file_path=file_path)
+    ]
 
 
 # LLM-generated content at query #14
 #--------------------------
 
-# Unit test for method __str__ of class Import
-def test_Import___str__():  # noqa: N802
-    # Test case 1: Import with file_path, line_number, indented, module, attribute, alias, cimport
-    import1 = Import(
-        line_number=10,
-        indented=True,
-        module="numpy",
-        attribute="array",
-        alias="arr",
-        cimport=True,
-        file_path=Path("/path/to/file.py"),
-    )
-    expected1 = "/path/to/file.py:10 indented from numpy cimport array as arr"
-    assert str(import1) == expected1
+# Unit test for method statement of class Import
+def test_Import_statement():
+    # Test basic import
+    imp = Import(1, False, "os")
+    assert imp.statement() == "import os"
 
-    # Test case 2: Import without file_path, indented, module, attribute, alias, cimport
-    import2 = Import(
-        line_number=5,
-        indented=False,
-        module="pandas",
-        attribute="DataFrame",
-        alias="df",
-        cimport=False,
-        file_path=None,
-    )
-    expected2 = ":5 from pandas import DataFrame as df"
-    assert str(import2) == expected2
+    # Test cimport
+    imp = Import(2, False, "numpy", cimport=True)
+    assert imp.statement() == "cimport numpy"
 
-    # Test case 3: Import with file_path, line_number, not indented, module, attribute, no alias, cimport
-    import3 = Import(
-        line_number=15,
-        indented=False,
-        module="os",
-        attribute="path",
-        alias=None,
-        cimport=True,
-        file_path=Path("/another/path.py"),
-    )
-    expected3 = "/another/path.py:15 from os cimport path"
-    assert str(import3) == expected3
+    # Test from import
+    imp = Import(3, False, "math", "sqrt")
+    assert imp.statement() == "from math import sqrt"
 
-    # Test case 4: Import without file_path, indented, module, no attribute, alias, cimport
-    import4 = Import(
-        line_number=20,
-        indented=True,
-        module="sys",
-        attribute=None,
-        alias="s",
-        cimport=False,
-        file_path=None,
-    )
-    expected4 = ":20 indented import sys as s"
-    assert str(import4) == expected4
+    # Test from cimport
+    imp = Import(4, False, "cython", "parallel", cimport=True)
+    assert imp.statement() == "from cython cimport parallel"
 
-    # Test case 5: Import with file_path, line_number, not indented, module, no attribute, no alias, cimport
-    import5 = Import(
-        line_number=25,
-        indented=False,
-        module="math",
-        attribute=None,
-        alias=None,
-        cimport=True,
-        file_path=Path("/math/file.py"),
-    )
-    expected5 = "/math/file.py:25 cimport math"
-    assert str(import5) == expected5
+    # Test import with alias
+    imp = Import(5, False, "pandas", alias="pd")
+    assert imp.statement() == "import pandas as pd"
 
-    # Test case 6: Import without file_path, indented, module, attribute, no alias, cimport
-    import6 = Import(
-        line_number=30,
-        indented=True,
-        module="collections",
-        attribute="Counter",
-        alias=None,
-        cimport=False,
-        file_path=None,
-    )
-    expected6 = ":30 indented from collections import Counter"
-    assert str(import6) == expected6
+    # Test from import with alias
+    imp = Import(6, False, "numpy", "array", alias="arr")
+    assert imp.statement() == "from numpy import array as arr"
 
-    # Test case 7: Import with file_path, line_number, not indented, module, no attribute, alias, cimport
-    import7 = Import(
-        line_number=35,
-        indented=False,
-        module="typing",
-        attribute=None,
-        alias="t",
-        cimport=True,
-        file_path=Path("/typing/file.py"),
-    )
-    expected7 = "/typing/file.py:35 cimport typing as t"
-    assert str(import7) == expected7
+    # Test from cimport with alias
+    imp = Import(7, False, "cython", "parallel", alias="par", cimport=True)
+    assert imp.statement() == "from cython cimport parallel as par"
 
-    # Test case 8: Import without file_path, indented, module, no attribute, no alias, cimport
-    import8 = Import(
-        line_number=40,
-        indented=True,
-        module="itertools",
-        attribute=None,
-        alias=None,
-        cimport=False,
-        file_path=None,
-    )
-    expected8 = ":40 indented import itertools"
-    assert str(import8) == expected8
-
-    # Test case 9: Import with file_path, line_number, not indented, module, attribute, alias, cimport
-    import9 = Import(
-        line_number=45,
-        indented=False,
-        module="json",
-        attribute="loads",
-        alias="jl",
-        cimport=True,
-        file_path=Path("/json/file.py"),
-    )
-    expected9 = "/json/file.py:45 from json cimport loads as jl"
-    assert str(import9) == expected9
-
-    # Test case 10: Import without file_path, indented, module, attribute, alias, cimport
-    import10 = Import(
-        line_number=50,
-        indented=True,
-        module="csv",
-        attribute="reader",
-        alias="cr",
-        cimport=False,
-        file_path=None,
-    )
-    expected10 = ":50 indented from csv import reader as cr"
-    assert str(import10) == expected10
-
-    # Test case 11: Import with file_path, line_number, not indented, module, no attribute, no alias, cimport
-    import11 = Import(
-        line_number=55,
-        indented=False,
-        module="datetime",
-        attribute=None,
-        alias=None,
-        cimport=True,
-        file_path=Path("/datetime/file.py"),
-    )
-    expected11 = "/datetime/file.py:55 cimport datetime"
-    assert str(import11) == expected11
-
-    # Test case 12: Import without file_path, indented, module, no attribute, alias, cimport
-    import12 = Import(
-        line_number=60,
-        indented=True,
-        module="random",
-        attribute=None,
-        alias="rnd",
-        cimport=False,
-        file_path=None,
-    )
-    expected12 = ":60 indented import random as rnd"
-    assert str(import12) == expected12
-
-    # Test case 13: Import with file_path, line_number, not indented, module, attribute, no alias, cimport
-    import13 = Import(
-        line_number=65,
-        indented=False,
-        module="re",
-        attribute="match",
-        alias=None,
-        cimport=True,
-        file_path=Path("/re/file.py"),
-    )
-    expected13 = "/re/file.py:65 from re cimport match"
-    assert str(import13) == expected13
-
-    # Test case 14: Import without file_path, indented, module, no attribute, no alias, cimport
-    import14 = Import(
-        line_number=70,
-        indented=True,
-        module="string",
-        attribute=None,
-        alias=None,
-        cimport=False,
-        file_path=None,
-    )
-    expected14 = ":70 indented import string"
-    assert str(import14) == expected14
-
-    # Test case 15: Import with file_path, line_number, not indented, module, attribute, alias, cimport
-    import15 = Import(
-        line_number=75,
-        indented=False,
-        module="collections",
-        attribute="defaultdict",
-        alias="dd",
-        cimport=True,
-        file_path=Path("/collections/file.py"),
-    )
-    expected15 = "/collections/file.py:75 from collections cimport defaultdict as dd"
-    assert str(import15) == expected15
-
-    # Test case 16: Import without file_path, indented, module, attribute, no alias, cimport
-    import16 = Import(
-        line_number=80,
-        indented=True,
-        module="os",
-        attribute="path",
-        alias=None,
-        cimport=False,
-        file_path=None,
-    )
-    expected16 = ":80 indented from os import path"
-    assert str(import16) == expected16
-
-    # Test case 17: Import with file_path, line_number, not indented, module, no attribute, alias, cimport
-    import17 = Import(
-        line_number=85,
-        indented=False,
-        module="sys",
-        attribute=None,
-        alias="s",
-        cimport=True,
-        file_path=Path("/sys/file.py"),
-    )
-    expected17 = "/sys/file.py:85 cimport sys as s"
-    assert str(import17) == expected17
-
-    # Test case 18: Import without file_path, indented, module, no attribute, alias, cimport
-    import18 = Import(
-        line_number=90,
-        indented=True,
-        module="math",
-        attribute=None,
-        alias="m",
-        cimport=False,
-        file_path=None,
-    )
-    expected18 = ":90 indented import math as m"
-    assert str(import18) == expected18
-
-    # Test case 19: Import with file_path, line_number, not indented, module, attribute, no alias, cimport
-    import19 = Import(
-        line_number=95,
-        indented=False,
-        module="json",
-        attribute="dumps",
-        alias=None,
-        cimport=True,
-        file_path=Path("/json/file.py"),
-    )
-    expected19 = "/json/file.py:95 from json cimport dumps"
-    assert str(import19) == expected19
-
-    # Test case 20: Import without file_path, indented, module, attribute, alias, cimport
-    import20 = Import(
-        line_number=100,
-        indented=True,
-        module="csv",
-        attribute="writer",
-        alias="cw",
-        cimport=False,
-        file_path=None,
-    )
-    expected20 = ":100 indented from csv import writer as cw"
-    assert str(import20) == expected20
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_Import___str__()
 
 
 # LLM-generated content at query #15
@@ -1175,236 +796,226 @@ test_Import___str__()
 
 # Unit test for function imports
 def test_imports():
+    from io import StringIO
+
+    # Test basic import
+    input_stream = StringIO("import os\n")
+    assert list(imports(input_stream)) == [Import(1, False, "os")]
+
+    # Test from import
+    input_stream = StringIO("from os import path\n")
+    assert list(imports(input_stream)) == [Import(1, False, "os", "path")]
+
+    # Test import with alias
+    input_stream = StringIO("import os as operating_system\n")
+    assert list(imports(input_stream)) == [Import(1, False, "os", alias="operating_system")]
+
+    # Test from import with alias
+    input_stream = StringIO("from os import path as p\n")
+    assert list(imports(input_stream)) == [Import(1, False, "os", "path", alias="p")]
+
+    # Test cimport
+    input_stream = StringIO("cimport numpy as np\n")
+    assert list(imports(input_stream)) == [Import(1, False, "numpy", alias="np", cimport=True)]
+
+    # Test indented import
+    input_stream = StringIO("    import os\n")
+    assert list(imports(input_stream)) == [Import(1, True, "os")]
+
+    # Test top_only flag
+    input_stream = StringIO("import os\ndef foo():\n    import sys\n")
+    assert len(list(imports(input_stream, top_only=True))) == 1
+
+    # Test multi-line import
+    input_stream = StringIO("from os import (\n    path,\n    environ\n)\n")
+    assert list(imports(input_stream)) == [
+        Import(1, False, "os", "path"),
+        Import(2, False, "os", "environ"),
+    ]
+
+    # Test import with comments
+    input_stream = StringIO("import os  # comment\n")
+    assert list(imports(input_stream)) == [Import(1, False, "os")]
+
+    # Test import with syntax stripping
+    input_stream = StringIO("import os.path as path\n")
+    assert list(imports(input_stream)) == [Import(1, False, "os.path", alias="path")]
+
+    # Test complex import
+    input_stream = StringIO("from os import path as p, environ as e\n")
+    assert list(imports(input_stream)) == [
+        Import(1, False, "os", "path", alias="p"),
+        Import(1, False, "os", "environ", alias="e"),
+    ]
+
+    # Test import with file path
+    file_path = Path("test.py")
+    input_stream = StringIO("import os\n")
+    assert list(imports(input_stream, file_path=file_path)) == [Import(1, False, "os", file_path=file_path)]
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for function imports
-def test_imports():  # pragma: no cover
-    import io
-    import tempfile
+def test_imports():
+    from io import StringIO
 
     # Test case 1: Simple import
-    code = "import os\nimport sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys'
-            print("Test 1 passed: Simple imports")
+    input_stream = StringIO("import os\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
 
-    # Test case 2: From import with alias
-    code = "from collections import defaultdict as dd\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'collections'
-            assert result[0].attribute == 'defaultdict'
-            assert result[0].alias == 'dd'
-            print("Test 2 passed: From import with alias")
+    # Test case 2: From import
+    input_stream = StringIO("from os import path\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
 
-    # Test case 3: Cython cimport
-    code = "cimport numpy as np\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'numpy'
-            assert result[0].alias == 'np'
-            assert result[0].cimport is True
-            print("Test 3 passed: Cython cimport")
+    # Test case 3: Import with alias
+    input_stream = StringIO("import os as operating_system\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].alias == "operating_system"
 
-    # Test case 4: Indented import
-    code = "def foo():\n    import os\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'os'
-            assert result[0].indented is True
-            print("Test 4 passed: Indented import")
+    # Test case 4: Cimport
+    input_stream = StringIO("cimport numpy as np\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "numpy"
+    assert result[0].alias == "np"
+    assert result[0].cimport is True
 
-    # Test case 5: Multiple imports on one line
-    code = "import os, sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys'
-            print("Test 5 passed: Multiple imports on one line")
+    # Test case 5: Multiline import
+    input_stream = StringIO("from os import (\n    path,\n    environ\n)\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
 
-    # Test case 6: From import with multiple attributes
-    code = "from os.path import join, split\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            assert result[0].module == 'os.path'
-            assert result[0].attribute == 'join'
-            assert result[1].module == 'os.path'
-            assert result[1].attribute == 'split'
-            print("Test 6 passed: From import with multiple attributes")
+    # Test case 6: Indented import
+    input_stream = StringIO("    import os\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].indented is True
 
-    # Test case 7: Import with continuation lines
-    code = "from very.long.module.name import (\\\n    function1,\\\n    function2)\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            assert result[0].module == 'very.long.module.name'
-            assert result[0].attribute == 'function1'
-            assert result[1].module == 'very.long.module.name'
-            assert result[1].attribute == 'function2'
-            print("Test 7 passed: Import with continuation lines")
+    # Test case 7: File path handling
+    file_path = Path("test.py")
+    input_stream = StringIO("import os\n")
+    result = list(imports(input_stream, file_path=file_path))
+    assert len(result) == 1
+    assert result[0].file_path == file_path
 
-    # Test case 8: Mixed imports
-    code = '''import os
-from sys import version
-import numpy as np
-from collections import defaultdict, OrderedDict as OD
-'''
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 5
-            modules = [r.module for r in result]
-            attributes = [r.attribute for r in result if r.attribute]
-            aliases = [r.alias for r in result if r.alias]
-            assert 'os' in modules
-            assert 'sys' in modules
-            assert 'numpy' in modules
-            assert 'collections' in modules
-            assert 'version' in attributes
-            assert 'defaultdict' in attributes
-            assert 'OrderedDict' in attributes
-            assert 'np' in aliases
-            assert 'OD' in aliases
-            print("Test 8 passed: Mixed imports")
+    # Test case 8: Top only flag
+    input_stream = StringIO("import os\ndef foo():\n    import sys\n")
+    result = list(imports(input_stream, top_only=True))
+    assert len(result) == 1
+    assert result[0].module == "os"
 
-    print("All tests passed!")
+    # Test case 9: Redundant alias removal
+    config = DEFAULT_CONFIG.copy()
+    config.remove_redundant_aliases = True
+    input_stream = StringIO("import os as os\n")
+    result = list(imports(input_stream, config=config))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].alias is None
 
-if __name__ == "__main__":
-    test_imports()
+    # Test case 10: Complex multiline import
+    input_stream = StringIO("from os import (\n    path as p,\n    environ as e,\n    sep as s\n)\n")
+    result = list(imports(input_stream))
+    assert len(result) == 3
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias == "p"
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+    assert result[1].alias == "e"
+    assert result[2].module == "os"
+    assert result[2].attribute == "sep"
+    assert result[2].alias == "s"
 
 
 # LLM-generated content at query #17
 #--------------------------
 
-# Unit test for function imports
-def test_imports():  
-    import io  
-    config = Config()  
-    file_path = Path("test.py")  
-    input_stream = io.StringIO("import os\nfrom sys import path\ncimport numpy as np")  
-    result = list(imports(input_stream, config, file_path))  
-    assert len(result) == 3  
-    assert result[0].module == "os"  
-    assert result[1].module == "sys" and result[1].attribute == "path"  
-    assert result[2].module == "numpy" and result[2].alias == "np" and result[2].cimport  
-    print("All tests passed!")  
+# Unit test for method __str__ of class Import
+def test_Import___str__(): 
+    file_path = Path("test_file.py")
+    import_instance = Import(line_number=5, indented=True, module="module_name", file_path=file_path)
+    expected_output = f"{file_path}:5 indented import module_name"
+    assert str(import_instance) == expected_output
 
-if __name__ == "__main__":  
-    test_imports()
+    import_instance = Import(line_number=10, indented=False, module="another_module", file_path=None)
+    expected_output = ":10 import another_module"
+    assert str(import_instance) == expected_output
+
+    import_instance = Import(line_number=15, indented=True, module="module", attribute="attribute", file_path=file_path)
+    expected_output = f"{file_path}:15 indented from module import attribute"
+    assert str(import_instance) == expected_output
+
+    import_instance = Import(line_number=20, indented=False, module="module", attribute="attribute", alias="alias", file_path=file_path)
+    expected_output = f"{file_path}:20 from module import attribute as alias"
+    assert str(import_instance) == expected_output
+
+    import_instance = Import(line_number=25, indented=True, module="module", cimport=True, file_path=file_path)
+    expected_output = f"{file_path}:25 indented cimport module"
+    assert str(import_instance) == expected_output
+
+    import_instance = Import(line_number=30, indented=False, module="module", attribute="attribute", cimport=True, file_path=file_path)
+    expected_output = f"{file_path}:30 from module cimport attribute"
+    assert str(import_instance) == expected_output
 
 
 # LLM-generated content at query #18
 #--------------------------
 
-# Unit test for function imports
-def test_imports():  # pragma: no cover
-    import io
-    import tempfile
+# Unit test for method __str__ of class Import
+def test_Import___str__():
+    import1 = Import(1, False, "module1", None, None, False, None)
+    assert str(import1) == ":1 import module1"
 
-    # Test case 1: Basic import
-    content = "import os\nimport sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 2
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys'
+    import2 = Import(2, True, "module2", "attribute", None, False, Path("test.py"))
+    assert str(import2) == "test.py:2 indented from module2 import attribute"
 
-    # Test case 2: From import with alias
-    content = "from collections import defaultdict as dd\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 1
-            assert result[0].module == 'collections'
-            assert result[0].attribute == 'defaultdict'
-            assert result[0].alias == 'dd'
+    import3 = Import(3, False, "module3", None, "alias", True, Path("test.py"))
+    assert str(import3) == "test.py:3 cimport module3 as alias"
 
-    # Test case 3: Cimport
-    content = "cimport numpy as np\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 1
-            assert result[0].module == 'numpy'
-            assert result[0].alias == 'np'
-            assert result[0].cimport is True
-
-    # Test case 4: Indented import
-    content = "def foo():\n    import bar\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 1
-            assert result[0].module == 'bar'
-            assert result[0].indented is True
-
-    # Test case 5: Multi-line import
-    content = "from very.long.module.name import (\\\n    function1,\\\n    function2)\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream))
-            assert len(result) == 2
-            assert result[0].module == 'very.long.module.name'
-            assert result[0].attribute == 'function1'
-            assert result[1].module == 'very.long.module.name'
-            assert result[1].attribute == 'function2'
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_imports()
+    import4 = Import(4, True, "module4", "attribute", "alias", False, Path("test.py"))
+    assert str(import4) == "test.py:4 indented from module4 import attribute as alias"
 
 
 # LLM-generated content at query #19
 #--------------------------
 
-# Unit test for function imports
-def test_imports():
+# Unit test for method __str__ of class Import
+def test_Import___str__():
+    file_path = Path("example.py")
+    import_instance = Import(line_number=10, indented=True, module="os", file_path=file_path)
+    expected = "example.py:10 indented import os"
+    assert str(import_instance) == expected
+
+    import_instance = Import(line_number=5, indented=False, module="sys", attribute="path", file_path=None)
+    expected = ":5 from sys import path"
+    assert str(import_instance) == expected
+
+    import_instance = Import(line_number=7, indented=False, module="math", alias="m", file_path=file_path)
+    expected = "example.py:7 import math as m"
+    assert str(import_instance) == expected
+
+    import_instance = Import(line_number=3, indented=True, module="numpy", cimport=True, file_path=file_path)
+    expected = "example.py:3 indented cimport numpy"
+    assert str(import_instance) == expected
+
+    import_instance = Import(line_number=8, indented=False, module="pandas", attribute="DataFrame", alias="df", file_path=file_path)
+    expected = "example.py:8 from pandas import DataFrame as df"
+    assert str(import_instance) == expected
 
 
 # LLM-generated content at query #20
@@ -1412,10 +1023,21 @@ def test_imports():
 
 # Unit test for function imports
 def test_imports():
+    from io import StringIO
+    input_stream = StringIO("import os\nfrom sys import path\nimport numpy as np\n")
+    config = DEFAULT_CONFIG
+    file_path = Path("test.py")
+    result = list(imports(input_stream, config, file_path))
+    expected = [
+        Import(line_number=1, indented=False, module="os", file_path=file_path),
+        Import(line_number=2, indented=False, module="sys", attribute="path", file_path=file_path),
+        Import(line_number=3, indented=False, module="np", alias="np", file_path=file_path),
+    ]
+    assert result == expected
 
 
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -1423,219 +1045,272 @@ def test_imports():
 #--------------------------
 
 # Unit test for function imports
-def test_imports():  
-    import io  
-    config = Config()  
-    test_content = """  
-import os  
-import sys as system  
-from collections import defaultdict, OrderedDict  
-from typing import List as MyList  
-cimport numpy as np  
-"""  
-    input_stream = io.StringIO(test_content)  
-    result = list(imports(input_stream, config=config))  
-    expected = [  
-        Import(2, False, 'os', None, None, False, None),  
-        Import(3, False, 'sys', None, 'system', False, None),  
-        Import(4, False, 'collections', 'defaultdict', None, False, None),  
-        Import(4, False, 'collections', 'OrderedDict', None, False, None),  
-        Import(5, False, 'typing', 'List', 'MyList', False, None),  
-        Import(6, False, 'numpy', None, 'np', True, None),  
-    ]  
-    assert result == expected, f"Expected {expected}, got {result}"  
-    print("All tests passed!")  
+def test_imports():
+    from io import StringIO
 
-if __name__ == "__main__":  
-    test_imports()
+    # Test basic import
+    input_stream = StringIO("import os\nimport sys")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 2
+    assert imports_list[0].module == "os"
+    assert imports_list[1].module == "sys"
+
+    # Test from import
+    input_stream = StringIO("from os import path")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+    assert imports_list[0].attribute == "path"
+
+    # Test alias
+    input_stream = StringIO("import os as operating_system")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+    assert imports_list[0].alias == "operating_system"
+
+    # Test cimport
+    input_stream = StringIO("cimport cython")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "cython"
+    assert imports_list[0].cimport is True
+
+    # Test indented import
+    input_stream = StringIO("    import os")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+    assert imports_list[0].indented is True
+
+    # Test top_only
+    input_stream = StringIO("import os\ndef foo(): pass")
+    imports_list = list(imports(input_stream, top_only=True))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+
+    # Test multi-line import
+    input_stream = StringIO("import os, \\\nsys")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 2
+    assert imports_list[0].module == "os"
+    assert imports_list[1].module == "sys"
+
+    # Test from import with multi-line
+    input_stream = StringIO("from os import \\\npath")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+    assert imports_list[0].attribute == "path"
+
+    # Test from import with parentheses
+    input_stream = StringIO("from os import (path)")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+    assert imports_list[0].attribute == "path"
+
+    # Test from import with multiple attributes
+    input_stream = StringIO("from os import path, sep")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 2
+    assert imports_list[0].module == "os"
+    assert imports_list[0].attribute == "path"
+    assert imports_list[1].module == "os"
+    assert imports_list[1].attribute == "sep"
+
+    # Test from import with alias
+    input_stream = StringIO("from os import path as p")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+    assert imports_list[0].attribute == "path"
+    assert imports_list[0].alias == "p"
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for function imports
-def test_imports():  
-    import io  
-    config = Config()  
-    test_code = """  
-import os  
-from sys import argv  
-import numpy as np  
-from collections import defaultdict as dd  
-"""  
-    input_stream = io.StringIO(test_code)  
-    result = list(imports(input_stream, config=config))  
-    expected = [  
-        Import(2, False, "os", None, None, False, None),  
-        Import(3, False, "sys", "argv", None, False, None),  
-        Import(4, False, "numpy", None, "np", False, None),  
-        Import(5, False, "collections", "defaultdict", "dd", False, None),  
-    ]  
-    assert result == expected, f"Expected {expected}, got {result}"  
-    print("All tests passed!")  
+def test_imports():
+    from io import StringIO
 
-if __name__ == "__main__":  
-    test_imports()
+    # Test case 1: Simple import statement
+    input_stream = StringIO("import os\nimport sys")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
+
+    # Test case 2: From import statement
+    input_stream = StringIO("from os import path\nfrom sys import version")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "sys"
+    assert result[1].attribute == "version"
+
+    # Test case 3: Import with alias
+    input_stream = StringIO("import os as operating_system\nfrom sys import version as ver")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].alias == "operating_system"
+    assert result[1].module == "sys"
+    assert result[1].attribute == "version"
+    assert result[1].alias == "ver"
+
+    # Test case 4: Cimport statement
+    input_stream = StringIO("cimport numpy as np\nfrom cython cimport parallel")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "numpy"
+    assert result[0].alias == "np"
+    assert result[0].cimport is True
+    assert result[1].module == "cython"
+    assert result[1].attribute == "parallel"
+    assert result[1].cimport is True
+
+    # Test case 5: Indented import statement
+    input_stream = StringIO("    import os\n    from sys import version")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].indented is True
+    assert result[1].module == "sys"
+    assert result[1].attribute == "version"
+    assert result[1].indented is True
+
+    # Test case 6: Import statement with parentheses
+    input_stream = StringIO("from os import (path, environ)\nimport sys")
+    result = list(imports(input_stream))
+    assert len(result) == 3
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+    assert result[2].module == "sys"
+
+    # Test case 7: Import statement with escaped lines
+    input_stream = StringIO("from os import path, \\\n environ\nimport sys")
+    result = list(imports(input_stream))
+    assert len(result) == 3
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+    assert result[2].module == "sys"
+
+    # Test case 8: Import statement with comments
+    input_stream = StringIO("import os  # comment\n# comment\nfrom sys import version")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
+    assert result[1].attribute == "version"
+
+    # Test case 9: Multiple imports in one line
+    input_stream = StringIO("import os, sys\nfrom math import sqrt, log")
+    result = list(imports(input_stream))
+    assert len(result) == 4
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
+    assert result[2].module == "math"
+    assert result[2].attribute == "sqrt"
+    assert result[3].module == "math"
+    assert result[3].attribute == "log"
+
+    # Test case 10: Import statement with redundant alias
+    input_stream = StringIO("import os as os\nfrom sys import version as version")
+    result = list(imports(input_stream, config=DEFAULT_CONFIG))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].alias is None
+    assert result[1].module == "sys"
+    assert result[1].attribute == "version"
+    assert result[1].alias is None
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for method __str__ of class Import
-def test_Import___str__():  
-    # Test case 1: file_path is None
-    import_obj = Import(line_number=1, indented=False, module='module1', attribute='attribute1', alias='alias1', cimport=False, file_path=None)
-    expected_output = ':1 import module1.attribute1 as alias1'
-    assert str(import_obj) == expected_output
+def test_Import___str__():
+    import1 = Import(1, False, "module1", None, None, False, None)
+    assert str(import1) == ":1 import module1"
 
-    # Test case 2: file_path is provided
-    import_obj = Import(line_number=2, indented=True, module='module2', attribute='attribute2', alias='alias2', cimport=True, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:2 indented cimport module2.attribute2 as alias2'
-    assert str(import_obj) == expected_output
+    import2 = Import(2, True, "module2", "attribute2", None, False, Path("test.py"))
+    assert str(import2) == "test.py:2 indented from module2 import attribute2"
 
-    # Test case 3: attribute is None
-    import_obj = Import(line_number=3, indented=False, module='module3', attribute=None, alias='alias3', cimport=False, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:3 import module3 as alias3'
-    assert str(import_obj) == expected_output
+    import3 = Import(3, False, "module3", None, "alias3", True, Path("test.py"))
+    assert str(import3) == "test.py:3 cimport module3 as alias3"
 
-    # Test case 4: alias is None
-    import_obj = Import(line_number=4, indented=True, module='module4', attribute='attribute4', alias=None, cimport=True, file_path=None)
-    expected_output = ':4 indented cimport module4.attribute4'
-    assert str(import_obj) == expected_output
-
-    # Test case 5: both attribute and alias are None
-    import_obj = Import(line_number=5, indented=False, module='module5', attribute=None, alias=None, cimport=False, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:5 import module5'
-    assert str(import_obj) == expected_output
-
-    # Test case 6: cimport is False
-    import_obj = Import(line_number=6, indented=True, module='module6', attribute='attribute6', alias='alias6', cimport=False, file_path=None)
-    expected_output = ':6 indented import module6.attribute6 as alias6'
-    assert str(import_obj) == expected_output
-
-    # Test case 7: indented is False
-    import_obj = Import(line_number=7, indented=False, module='module7', attribute='attribute7', alias='alias7', cimport=True, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:7 cimport module7.attribute7 as alias7'
-    assert str(import_obj) == expected_output
-
-    # Test case 8: line_number is 0
-    import_obj = Import(line_number=0, indented=True, module='module8', attribute='attribute8', alias='alias8', cimport=False, file_path=None)
-    expected_output = ':0 indented import module8.attribute8 as alias8'
-    assert str(import_obj) == expected_output
-
-    # Test case 9: module contains special characters
-    import_obj = Import(line_number=9, indented=False, module='module-9', attribute='attribute9', alias='alias9', cimport=True, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:9 cimport module-9.attribute9 as alias9'
-    assert str(import_obj) == expected_output
-
-    # Test case 10: attribute contains special characters
-    import_obj = Import(line_number=10, indented=True, module='module10', attribute='attribute-10', alias='alias10', cimport=False, file_path=None)
-    expected_output = ':10 indented import module10.attribute-10 as alias10'
-    assert str(import_obj) == expected_output
-
-    # Test case 11: alias contains special characters
-    import_obj = Import(line_number=11, indented=False, module='module11', attribute='attribute11', alias='alias-11', cimport=True, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:11 cimport module11.attribute11 as alias-11'
-    assert str(import_obj) == expected_output
-
-    # Test case 12: file_path is empty Path
-    import_obj = Import(line_number=12, indented=True, module='module12', attribute='attribute12', alias='alias12', cimport=False, file_path=Path())
-    expected_output = '.:12 indented import module12.attribute12 as alias12'
-    assert str(import_obj) == expected_output
-
-    # Test case 13: line_number is negative
-    import_obj = Import(line_number=-1, indented=False, module='module13', attribute='attribute13', alias='alias13', cimport=True, file_path=None)
-    expected_output = ':-1 cimport module13.attribute13 as alias13'
-    assert str(import_obj) == expected_output
-
-    # Test case 14: module is empty string
-    import_obj = Import(line_number=14, indented=True, module='', attribute='attribute14', alias='alias14', cimport=False, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:14 indented import .attribute14 as alias14'
-    assert str(import_obj) == expected_output
-
-    # Test case 15: attribute is empty string
-    import_obj = Import(line_number=15, indented=False, module='module15', attribute='', alias='alias15', cimport=True, file_path=None)
-    expected_output = ':15 cimport module15. as alias15'
-    assert str(import_obj) == expected_output
-
-    # Test case 16: alias is empty string
-    import_obj = Import(line_number=16, indented=True, module='module16', attribute='attribute16', alias='', cimport=False, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:16 indented import module16.attribute16 as '
-    assert str(import_obj) == expected_output
-
-    # Test case 17: all fields are empty or default
-    import_obj = Import(line_number=0, indented=False, module='', attribute=None, alias=None, cimport=False, file_path=None)
-    expected_output = ':0 import '
-    assert str(import_obj) == expected_output
-
-    # Test case 18: module, attribute, and alias are all provided
-    import_obj = Import(line_number=18, indented=True, module='module18', attribute='attribute18', alias='alias18', cimport=True, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:18 indented cimport module18.attribute18 as alias18'
-    assert str(import_obj) == expected_output
-
-    # Test case 19: module and alias are provided, attribute is None
-    import_obj = Import(line_number=19, indented=False, module='module19', attribute=None, alias='alias19', cimport=False, file_path=None)
-    expected_output = ':19 import module19 as alias19'
-    assert str(import_obj) == expected_output
-
-    # Test case 20: module and attribute are provided, alias is None
-    import_obj = Import(line_number=20, indented=True, module='module20', attribute='attribute20', alias=None, cimport=True, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:20 indented cimport module20.attribute20'
-    assert str(import_obj) == expected_output
-
-    # Test case 21: attribute and alias are provided, module is None
-    import_obj = Import(line_number=21, indented=False, module='', attribute='attribute21', alias='alias21', cimport=False, file_path=None)
-    expected_output = ':21 import .attribute21 as alias21'
-    assert str(import_obj) == expected_output
-
-    # Test case 22: module, attribute, and alias are all None
-    import_obj = Import(line_number=22, indented=True, module='', attribute=None, alias=None, cimport=True, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:22 indented cimport '
-    assert str(import_obj) == expected_output
-
-    # Test case 23: module contains dot
-    import_obj = Import(line_number=23, indented=False, module='module.submodule', attribute='attribute23', alias='alias23', cimport=False, file_path=None)
-    expected_output = ':23 import module.submodule.attribute23 as alias23'
-    assert str(import_obj) == expected_output
-
-    # Test case 24: attribute contains dot
-    import_obj = Import(line_number=24, indented=True, module='module24', attribute='attribute.subattribute', alias='alias24', cimport=True, file_path=Path('/path/to/file.py'))
-    expected_output = '/path/to/file.py:24 indented cimport module24.attribute.subattribute as alias24'
-    assert str(import_obj) == expected_output
-
-    # Test case 25: alias contains dot
-    import_obj = Import(line_number=25, indented=False, module='module25', attribute='attribute25', alias='alias.subalias', cimport=False, file_path=None)
-    expected_output = ':25 import module25.attribute25 as alias.subalias'
-    assert str(import_obj) == expected_output
-
-    # Test case 26: module, attribute, and alias
+    import4 = Import(4, True, "module4", "attribute4", "alias4", False, Path("test.py"))
+    assert str(import4) == "test.py:4 indented from module4 import attribute4 as alias4"
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for function imports
-def test_imports():  
-    import io  
-    config = Config()  
-    test_code = """  
-import os  
-from sys import argv  
-import numpy as np  
-from collections import defaultdict as dd  
-"""  
-    stream = io.StringIO(test_code)  
-    result = list(imports(stream, config=config))  
-    expected = [  
-        Import(2, False, 'os', None, None, False, None),  
-        Import(3, False, 'sys', 'argv', None, False, None),  
-        Import(4, False, 'numpy', None, 'np', False, None),  
-        Import(5, False, 'collections', 'defaultdict', 'dd', False, None)  
-    ]  
-    assert result == expected, f"Expected {expected}, got {result}"  
-    print("All tests passed!")  
+def test_imports():
+    import io
+    import sys
+    from pathlib import Path
 
-if __name__ == "__main__":  
+    # Test basic import
+    input_stream = io.StringIO("import os\nimport sys")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 2
+    assert imports_list[0].module == "os"
+    assert imports_list[1].module == "sys"
+
+    # Test from import
+    input_stream = io.StringIO("from os import path")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+    assert imports_list[0].attribute == "path"
+
+    # Test aliased import
+    input_stream = io.StringIO("import numpy as np")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "numpy"
+    assert imports_list[0].alias == "np"
+
+    # Test cimport
+    input_stream = io.StringIO("cimport numpy as np")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "numpy"
+    assert imports_list[0].alias == "np"
+    assert imports_list[0].cimport is True
+
+    # Test indented import
+    input_stream = io.StringIO("    import os")
+    imports_list = list(imports(input_stream))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+    assert imports_list[0].indented is True
+
+    # Test file_path parameter
+    test_path = Path("test.py")
+    input_stream = io.StringIO("import os")
+    imports_list = list(imports(input_stream, file_path=test_path))
+    assert len(imports_list) == 1
+    assert imports_list[0].file_path == test_path
+
+    # Test top_only parameter
+    input_stream = io.StringIO("import os\ndef foo():\n    import sys")
+    imports_list = list(imports(input_stream, top_only=True))
+    assert len(imports_list) == 1
+    assert imports_list[0].module == "os"
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
     test_imports()
 
 
@@ -1643,616 +1318,154 @@ if __name__ == "__main__":
 #--------------------------
 
 # Unit test for method statement of class Import
-def test_Import_statement():  
-    # Test case 1: cimport with attribute and alias
-    import1 = Import(1, False, "module", "attribute", "alias", True, Path("test.py"))
-    assert import1.statement() == "from module cimport attribute as alias"
-    
-    # Test case 2: regular import with alias
-    import2 = Import(2, True, "module", None, "alias", False, Path("test.py"))
-    assert import2.statement() == "import module as alias"
-    
-    # Test case 3: from import without alias
-    import3 = Import(3, False, "module", "attribute", None, False, Path("test.py"))
-    assert import3.statement() == "from module import attribute"
-    
-    # Test case 4: cimport without attribute and alias
-    import4 = Import(4, True, "module", None, None, True, Path("test.py"))
-    assert import4.statement() == "cimport module"
-    
-    # Test case 5: regular import without alias
-    import5 = Import(5, False, "module", None, None, False, Path("test.py"))
-    assert import5.statement() == "import module"
-    
-    print("All test cases passed!")
+def test_Import_statement():
+    import_obj = Import(
+        line_number=1,
+        indented=False,
+        module='math',
+        attribute='sqrt',
+        alias='square_root',
+        cimport=False,
+        file_path=Path('test.py')
+    )
 
-# Run the unit test
-test_Import_statement()
+    assert import_obj.statement() == 'from math import sqrt as square_root'
 
 
 # LLM-generated content at query #6
 #--------------------------
 
+# Unit test for method __str__ of class Import
+def test_Import___str__():
+    import_instance = Import(
+        line_number=42,
+        indented=True,
+        module="example_module",
+        attribute="example_attribute",
+        alias="example_alias",
+        cimport=True,
+        file_path=Path("/path/to/file.py"),
+    )
+    expected_str = "/path/to/file.py:42 indented from example_module cimport example_attribute as example_alias"
+    assert str(import_instance) == expected_str
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+# Unit test for method statement of class Import
+def test_Import_statement():
+    import_instance = Import(1, False, "module", "attribute", "alias", False, Path("test.py"))
+    assert import_instance.statement() == "from module import attribute as alias"
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+# Unit test for method __str__ of class Import
+def test_Import___str__():
+    # Test case 1: Basic import statement
+    import1 = Import(line_number=1, indented=False, module="os")
+    assert str(import1) == ":1 import os"
+
+    # Test case 2: Import with attribute
+    import2 = Import(line_number=2, indented=True, module="sys", attribute="path")
+    assert str(import2) == ":2 indented from sys import path"
+
+    # Test case 3: Import with alias
+    import3 = Import(line_number=3, indented=False, module="numpy", alias="np")
+    assert str(import3) == ":3 import numpy as np"
+
+    # Test case 4: Cimport statement
+    import4 = Import(line_number=4, indented=True, module="cython", cimport=True)
+    assert str(import4) == ":4 indented cimport cython"
+
+    # Test case 5: Import with file path
+    import5 = Import(line_number=5, indented=False, module="pandas", file_path=Path("/test.py"))
+    assert str(import5) == "/test.py:5 import pandas"
+
+    # Test case 6: Complex import with all attributes
+    import6 = Import(
+        line_number=6,
+        indented=True,
+        module="module",
+        attribute="attr",
+        alias="alias",
+        cimport=True,
+        file_path=Path("/complex.py"),
+    )
+    assert str(import6) == "/complex.py:6 indented from module cimport attr as alias"
+
+
+# LLM-generated content at query #9
+#--------------------------
+
 # Unit test for function imports
-def test_imports():  # pragma: no cover
+def test_imports():
     import io
     import tempfile
     from pathlib import Path
 
     # Test case 1: Simple import
-    content = "import os\nimport sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as input_stream:
-            imports_list = list(imports(input_stream, file_path=Path(f.name)))
-            assert len(imports_list) == 2
-            assert imports_list[0].module == 'os'
-            assert imports_list[1].module == 'sys'
-            print("Test case 1 passed: Simple imports")
-
-    # Test case 2: From import with alias
-    content = "from collections import defaultdict as dd\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as input_stream:
-            imports_list = list(imports(input_stream, file_path=Path(f.name)))
-            assert len(imports_list) == 1
-            assert imports_list[0].module == 'collections'
-            assert imports_list[0].attribute == 'defaultdict'
-            assert imports_list[0].alias == 'dd'
-            print("Test case 2 passed: From import with alias")
-
-    # Test case 3: Cimport
-    content = "cimport numpy as np\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as input_stream:
-            imports_list = list(imports(input_stream, file_path=Path(f.name)))
-            assert len(imports_list) == 1
-            assert imports_list[0].module == 'numpy'
-            assert imports_list[0].alias == 'np'
-            assert imports_list[0].cimport is True
-            print("Test case 3 passed: Cimport")
-
-    # Test case 4: Indented import
-    content = "def foo():\n    import bar\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as input_stream:
-            imports_list = list(imports(input_stream, file_path=Path(f.name)))
-            assert len(imports_list) == 1
-            assert imports_list[0].module == 'bar'
-            assert imports_list[0].indented is True
-            print("Test case 4 passed: Indented import")
-
-    # Test case 5: Multiple imports in one line
-    content = "import os, sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as input_stream:
-            imports_list = list(imports(input_stream, file_path=Path(f.name)))
-            assert len(imports_list) == 2
-            assert imports_list[0].module == 'os'
-            assert imports_list[1].module == 'sys'
-            print("Test case 5 passed: Multiple imports in one line")
-
-    # Test case 6: Import with continuation lines
-    content = "from very.long.module.name import (\\\n    function1,\\\n    function2)\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as input_stream:
-            imports_list = list(imports(input_stream, file_path=Path(f.name)))
-            assert len(imports_list) == 2
-            assert imports_list[0].module == 'very.long.module.name'
-            assert imports_list[0].attribute == 'function1'
-            assert imports_list[1].module == 'very.long.module.name'
-            assert imports_list[1].attribute == 'function2'
-            print("Test case 6 passed: Import with continuation lines")
-
-    # Test case 7: No imports
-    content = "print('Hello, World!')\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as input_stream:
-            imports_list = list(imports(input_stream, file_path=Path(f.name)))
-            assert len(imports_list) == 0
-            print("Test case 7 passed: No imports")
-
-    # Test case 8: Mixed imports and code
-    content = "import os\nprint('Hello')\nimport sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as input_stream:
-            imports_list = list(imports(input_stream, file_path=Path(f.name)))
-            assert len(imports_list) == 2
-            assert imports_list[0].module == 'os'
-            assert imports_list[1].module == 'sys'
-            print("Test case 8 passed: Mixed imports and code")
-
-    # Test case 9: From import with multiple attributes
-    content = "from module import attr1, attr2, attr3\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as input_stream:
-            imports_list = list(imports(input_stream, file_path=Path(f.name)))
-            assert len(imports_list) == 3
-            assert all(imp.module == 'module' for imp in imports_list)
-            assert [imp.attribute for imp in imports_list] == ['attr1', 'attr2', 'attr3']
-            print("Test case 9 passed: From import with multiple attributes")
-
-    # Test case 10: Complex scenario with comments and line continuations
-    content = """# This is a comment
-import os  # inline comment
-import sys
-
-
-
-# LLM-generated content at query #7
-#--------------------------
-
-# Unit test for method __str__ of class Import
-def test_Import___str__():  # noqa: N802
-    # Test with minimal fields
-    imp = Import(line_number=1, indented=False, module="os")
-    assert str(imp) == ":1 import os"
-
-    # Test with all fields
-    imp = Import(
-        line_number=10,
-        indented=True,
-        module="numpy",
-        attribute="array",
-        alias="arr",
-        cimport=True,
-        file_path=Path("/home/user/project/test.py"),
-    )
-    assert str(imp) == "/home/user/project/test.py:10 indented from numpy cimport array as arr"
-
-    # Test with only file_path and line_number
-    imp = Import(line_number=5, indented=False, module="sys", file_path=Path("script.py"))
-    assert str(imp) == "script.py:5 import sys"
-
-    # Test with indented but no alias
-    imp = Import(line_number=3, indented=True, module="pandas", attribute="DataFrame")
-    assert str(imp) == ":3 indented from pandas import DataFrame"
-
-    # Test with cimport but no attribute
-    imp = Import(line_number=7, indented=False, module="cython", cimport=True)
-    assert str(imp) == ":7 cimport cython"
-
-    # Test with attribute and alias but no cimport
-    imp = Import(
-        line_number=2,
-        indented=False,
-        module="typing",
-        attribute="List",
-        alias="L",
-        cimport=False,
-    )
-    assert str(imp) == ":2 from typing import List as L"
-
-    # Test with indented, cimport, and file_path
-    imp = Import(
-        line_number=15,
-        indented=True,
-        module="libc.math",
-        attribute="sin",
-        cimport=True,
-        file_path=Path("/usr/local/lib/math.pyx"),
-    )
-    assert str(imp) == "/usr/local/lib/math.pyx:15 indented from libc.math cimport sin"
-
-    # Test with empty file_path
-    imp = Import(line_number=1, indented=False, module="os", file_path=None)
-    assert str(imp) == ":1 import os"
-
-    # Test with Windows path
-    imp = Import(
-        line_number=20,
-        indented=False,
-        module="json",
-        file_path=Path("C:\\Users\\test\\file.py"),
-    )
-    assert str(imp) == "C:\\Users\\test\\file.py:20 import json"
-
-    # Test with relative path
-    imp = Import(line_number=3, indented=True, module="utils", file_path=Path("./src/utils.py"))
-    assert str(imp) == "./src/utils.py:3 indented import utils"
-
-    # Test with line_number zero (edge case)
-    imp = Import(line_number=0, indented=False, module="builtins")
-    assert str(imp) == ":0 import builtins"
-
-    # Test with very long module name
-    imp = Import(
-        line_number=100,
-        indented=False,
-        module="very.long.module.path.with.many.components",
-    )
-    assert str(imp) == ":100 import very.long.module.path.with.many.components"
-
-    # Test with special characters in module name
-    imp = Import(line_number=1, indented=False, module="module_with_underscores")
-    assert str(imp) == ":1 import module_with_underscores"
-
-    # Test with numeric module name (though unlikely in practice)
-    imp = Import(line_number=1, indented=False, module="123")
-    assert str(imp) == ":1 import 123"
-
-    # Test with empty module name (edge case)
-    imp = Import(line_number=1, indented=False, module="")
-    assert str(imp) == ":1 import "
-
-    # Test with all boolean flags False
-    imp = Import(
-        line_number=5,
-        indented=False,
-        module="collections",
-        attribute="defaultdict",
-        alias=None,
-        cimport=False,
-        file_path=None,
-    )
-    assert str(imp) == ":5 from collections import defaultdict"
-
-    # Test with all boolean flags True
-    imp = Import(
-        line_number=8,
-        indented=True,
-        module="cython_module",
-        attribute="function",
-        alias="func",
-        cimport=True,
-        file_path=Path("/path/to/file.pyx"),
-    )
-    expected = "/path/to/file.pyx:8 indented from cython_module cimport function as func"
-    assert str(imp) == expected
-
-    # Test with attribute but no module (should not happen in practice)
-    imp = Import(line_number=1, indented=False, module="", attribute="something")
-    assert str(imp) == ":1 from  import something"
-
-    # Test with alias but no attribute
-    imp = Import(line_number=1, indented=False, module="sys", alias="system")
-    assert str(imp) == ":1 import sys as system"
-
-    # Test with only indented flag True
-    imp = Import(line_number=2, indented=True, module="os")
-    assert str(imp) == ":2 indented import os"
-
-    # Test with only cimport flag True
-    imp = Import(line_number=3, indented=False, module="libc", cimport=True)
-    assert str(imp) == ":3 cimport libc"
-
-    # Test combination of indented and cimport
-    imp = Import(line_number=4, indented=True, module="libc.stdio", cimport=True)
-    assert str(imp) == ":4 indented cimport libc.stdio"
-
-    # Test with file_path as string (Path conversion happens in constructor)
-    imp = Import(line_number=10, indented=False, module="os", file_path=Path("test.py"))
-    assert str(imp) == "test.py:10 import os"
-
-    # Test with line_number as string (should not happen, but let's see)
-    # This would actually fail at construction since line_number is int
-
-    # Test with very large line number
-    imp = Import(line_number=999999, indented=False, module="sys")
-    assert str(imp) == ":999999 import sys"
-
-    # Test with module containing dots
-    imp = Import(line_number=1, indented=False, module="os.path")
-    assert str(imp) == ":1 import os.path"
-
-    # Test with from import without attribute (should not happen)
-    imp = Import(line_number=1, indented=False, module="os", attribute="")
-    assert str(imp) == ":1 from os import "
-
-    # Test with all fields empty or None except required ones
-    imp = Import(line_number=1, indented=False, module="m")
-    assert str(imp) == ":1 import m"
-
-    # Test the __str__ method directly
-    imp = Import(line_number=42, indented=True, module="my_module")
-    assert imp.__str__() == ":42 indented import my_module"
-
-    # Test that statement() method is called within __str__
-    # We can verify this by checking if the output contains the statement
-    imp = Import(line_number=1, indented=False, module="os.path", attribute="join")
-    assert "from os.path import join" in str(imp)
-
-    # Test with Unicode in module name
-    imp = Import(line_number=1, indented=False, module="módulo")
-    assert str(imp) == ":1 import módulo"
-
-    # Test with spaces in file path (properly escaped in Path)
-    imp = Import(
-        line_number=1,
-        indented=False,
-        module="os",
-        file_path=Path("/path/with spaces/file.py"),
-    )
-    assert str(imp) == "/path/with spaces/file.py:1 import os"
-
-    # Test with backslashes in file path (Windows style)
-    imp = Import(
-        line_number=1,
-        indented=False,
-        module="os",
-        file_path=Path("C:\\Program Files\\app\\script.py"),
-    )
-    assert str(imp) == "C:\\Program Files\\app\\script.py:1 import os"
-
-    # Test with forward slashes in file path (Unix style)
-    imp = Import(
-        line_number=1,
-        indented=False,
-        module="os",
-        file_path=Path("/home/user/app/script.py"),
-    )
-    assert str(imp) == "/home/user/app/script.py:1 import os"
-
-    # Test with mixed slashes in file path
-    imp = Import(
-        line_number=1,
-        indented=False,
-        module="os",
-        file_path=Path("C:/Program Files/app/script.py"),
-    )
-    assert str(imp) == "C:/Program Files/app/script.py:1 import os"
-
-    # Test with file_path that has parent directory
-    imp = Import(
-        line_number=1,
-        indented=False,
-        module="os",
-        file_path=Path("../parent/script.py"),
-    )
-    assert str(imp) == "../parent/script.py:1 import os"
-
-    # Test with file_path that is just a filename
-    imp = Import(line_number=1, indented=False, module="os", file_path=Path("script.py"))
-    assert str(imp) == "script.py:1 import os"
-
-    # Test with file_path that is absolute
-    imp = Import(
-        line_number=1,
-        indented=False,
-        module="os",
-       
-
-
-# LLM-generated content at query #8
-#--------------------------
-
-# Unit test for function imports
-def test_imports():  # pragma: no cover
-    import io
-    import tempfile
-
-    # Test case 1: Simple import
-    content = "import os\nimport sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file:
-            result = list(imports(file))
-            assert len(result) == 2
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys'
-            print("Test case 1 passed")
+    input_stream = io.StringIO("import os\nimport sys\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
 
     # Test case 2: From import
-    content = "from django.conf import settings\nfrom django.urls import path, include\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file:
-            result = list(imports(file))
-            assert len(result) == 3
-            assert result[0].module == 'django.conf' and result[0].attribute == 'settings'
-            assert result[1].module == 'django.urls' and result[1].attribute == 'path'
-            assert result[2].module == 'django.urls' and result[2].attribute == 'include'
-            print("Test case 2 passed")
+    input_stream = io.StringIO("from os import path\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
 
     # Test case 3: Import with alias
-    content = "import pandas as pd\nimport numpy as np\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file:
-            result = list(imports(file))
-            assert len(result) == 2
-            assert result[0].module == 'pandas' and result[0].alias == 'pd'
-            assert result[1].module == 'numpy' and result[1].alias == 'np'
-            print("Test case 3 passed")
+    input_stream = io.StringIO("import os as operating_system\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].alias == "operating_system"
 
-    # Test case 4: Mixed imports
-    content = "import os\nfrom sys import path\nimport numpy as np\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file:
-            result = list(imports(file))
-            assert len(result) == 3
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys' and result[1].attribute == 'path'
-            assert result[2].module == 'numpy' and result[2].alias == 'np'
-            print("Test case 4 passed")
+    # Test case 4: From import with alias
+    input_stream = io.StringIO("from os import path as p\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias == "p"
 
-    # Test case 5: Cython cimport
-    content = "cimport numpy as np\nfrom numpy cimport ndarray\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file:
-            result = list(imports(file))
-            assert len(result) == 2
-            assert result[0].module == 'numpy' and result[0].alias == 'np' and result[0].cimport
-            assert result[1].module == 'numpy' and result[1].attribute == 'ndarray' and result[1].cimport
-            print("Test case 5 passed")
+    # Test case 5: Cimport
+    input_stream = io.StringIO("cimport numpy as np\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "numpy"
+    assert result[0].alias == "np"
+    assert result[0].cimport is True
 
-    # Test case 6: Indented imports
-    content = "def foo():\n    import os\n    import sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file:
-            result = list(imports(file))
-            assert len(result) == 2
-            assert result[0].module == 'os' and result[0].indented
-            assert result[1].module == 'sys' and result[1].indented
-            print("Test case 6 passed")
+    # Test case 6: Indented import
+    input_stream = io.StringIO("    import os\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].indented is True
 
-    # Test case 7: Multi-line imports
-    content = "from very.long.package.name import (\\\n    module1,\\\n    module2,\\\n    module3\\\n)\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file:
-            result = list(imports(file))
-            assert len(result) == 3
-            assert result[0].module == 'very.long.package.name' and result[0].attribute == 'module1'
-            assert result[1].module == 'very.long.package.name' and result[1].attribute == 'module2'
-            assert result[2].module == 'very.long.package.name' and result[2].attribute == 'module3'
-            print("Test case 7 passed")
+    # Test case 7: File path
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        temp_file.write(b"import os\n")
+        temp_file_path = Path(temp_file.name)
+    with open(temp_file_path, "r") as input_stream:
+        result = list(imports(input_stream, file_path=temp_file_path))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].file_path == temp_file_path
+    temp_file_path.unlink()
 
-    # Test case 8: Import with comments
-    content = "import os  # operating system\nfrom sys import path  # system path\n"
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file:
-            result = list(imports(file))
-            assert len(result) == 2
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys' and result[1].attribute == 'path'
-            print("Test case 8 passed")
-
-    # Test case 9: Empty file
-    content = ""
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file:
-            result = list(imports(file))
-            assert len(result) == 0
-            print("Test case 9 passed")
-
-    # Test case 10: Complex mixed imports
-    content = '''import os, sys
-from django.conf import settings
-import numpy as np
-from pandas import DataFrame, Series as S
-cimport cython
-from cython cimport boundscheck, wraparound
-'''
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file:
-            result = list(imports(file))
-            assert len(result) == 9
-            imports_list = [(imp.module, imp.attribute, imp.alias, imp.cimport) for imp in result]
-            expected = [
-                ('os', None, None, False),
-                ('sys', None, None, False),
-                ('django.conf', 'settings', None, False),
-                ('numpy', None, 'np', False),
-                ('pandas', 'DataFrame', None, False),
-                ('pandas', 'Series', 'S', False),
-                ('cython', None, None, True),
-                ('cython', 'boundscheck', None, True),
-                ('cython', 'wraparound', None, True),
-            ]
-            assert imports_list == expected
-            print("Test case 10 passed")
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_imports()
-
-
-# LLM-generated content at query #9
-#--------------------------
-
-# Unit test for function imports
-def test_imports():  # pragma: no cover
-    import io
-    import tempfile
-
-    # Test case 1: Simple import
-    content = "import os\nimport sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys'
-            print("Test case 1 passed: Simple imports")
-
-    # Test case 2: From import with alias
-    content = "from collections import defaultdict as dd\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'collections'
-            assert result[0].attribute == 'defaultdict'
-            assert result[0].alias == 'dd'
-            print("Test case 2 passed: From import with alias")
-
-    # Test case 3: Cimport
-    content = "cimport numpy as np\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'numpy'
-            assert result[0].alias == 'np'
-            assert result[0].cimport
-            print("Test case 3 passed: Cimport")
-
-    # Test case 4: Indented import
-    content = "def foo():\n    import bar\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'bar'
-            assert result[0].indented
-            print("Test case 4 passed: Indented import")
-
-    # Test case 5: Multiple from imports
-    content = "from os.path import join, dirname\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(content)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            assert result[0].module == 'os.path'
-            assert result[0].attribute == 'join'
-            assert result[1].module == 'os.path'
-            assert result[1].attribute == 'dirname'
-            print("Test case 5 passed: Multiple from imports")
+    # Test case 8: Top only
+    input_stream = io.StringIO("import os\ndef foo():\n    import sys\n")
+    result = list(imports(input_stream, top_only=True))
+    assert len(result) == 1
+    assert result[0].module == "os"
 
     print("All tests passed!")
 
@@ -2264,212 +1477,309 @@ if __name__ == "__main__":
 #--------------------------
 
 # Unit test for function imports
-def test_imports():  
-    import io  
-    config = DEFAULT_CONFIG  
-    file_path = Path("test.py")  
-    input_stream = io.StringIO("import os\nfrom sys import path\nimport numpy as np")  
-    result = list(imports(input_stream, config, file_path))  
-    expected = [  
-        Import(1, False, "os", file_path=file_path),  
-        Import(2, False, "sys", "path", file_path=file_path),  
-        Import(3, False, "numpy", alias="np", file_path=file_path),  
-    ]  
-    assert result == expected, f"Expected {expected}, got {result}"  
-    print("All tests passed!")  
+def test_imports():
+    import io
+    from pathlib import Path
 
-if __name__ == "__main__":  
+    # Test case 1: Simple import
+    input_stream = io.StringIO("import os\nimport sys\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
+
+    # Test case 2: From import
+    input_stream = io.StringIO("from os import path\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+
+    # Test case 3: Import with alias
+    input_stream = io.StringIO("import os as operating_system\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].alias == "operating_system"
+
+    # Test case 4: From import with alias
+    input_stream = io.StringIO("from os import path as p\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias == "p"
+
+    # Test case 5: Cimport
+    input_stream = io.StringIO("cimport numpy as np\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "numpy"
+    assert result[0].alias == "np"
+    assert result[0].cimport is True
+
+    # Test case 6: Indented import
+    input_stream = io.StringIO("    import os\n")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].indented is True
+
+    # Test case 7: Multiline import
+    input_stream = io.StringIO("from os import (\n    path,\n    name\n)\n")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "name"
+
+    # Test case 8: Top only flag
+    input_stream = io.StringIO("import os\ndef foo():\n    import sys\n")
+    result = list(imports(input_stream, top_only=True))
+    assert len(result) == 1
+    assert result[0].module == "os"
+
+    # Test case 9: File path included
+    file_path = Path("test.py")
+    input_stream = io.StringIO("import os\n")
+    result = list(imports(input_stream, file_path=file_path))
+    assert len(result) == 1
+    assert result[0].file_path == file_path
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
     test_imports()
 
 
 # LLM-generated content at query #11
 #--------------------------
 
-# Unit test for method statement of class Import
-def test_Import_statement():  
-    # Test case 1: cimport with attribute and alias
-    import1 = Import(1, False, "module", "attribute", "alias", True, None)
-    assert import1.statement() == "from module cimport attribute as alias"
-    
-    # Test case 2: import with attribute and alias
-    import2 = Import(2, True, "module", "attribute", "alias", False, None)
-    assert import2.statement() == "from module import attribute as alias"
-    
-    # Test case 3: cimport without attribute and alias
-    import3 = Import(3, False, "module", None, None, True, None)
-    assert import3.statement() == "cimport module"
-    
-    # Test case 4: import without attribute and alias
-    import4 = Import(4, True, "module", None, None, False, None)
-    assert import4.statement() == "import module"
-    
-    # Test case 5: cimport with attribute but no alias
-    import5 = Import(5, False, "module", "attribute", None, True, None)
-    assert import5.statement() == "from module cimport attribute"
-    
-    # Test case 6: import with attribute but no alias
-    import6 = Import(6, True, "module", "attribute", None, False, None)
-    assert import6.statement() == "from module import attribute"
-    
-    # Test case 7: cimport with alias but no attribute
-    import7 = Import(7, False, "module", None, "alias", True, None)
-    assert import7.statement() == "cimport module as alias"
-    
-    # Test case 8: import with alias but no attribute
-    import8 = Import(8, True, "module", None, "alias", False, None)
-    assert import8.statement() == "import module as alias"
-    
-    print("All test cases passed!")
+# Unit test for function imports
+def test_imports():
+    from io import StringIO
 
-# Run the unit test
-test_Import_statement()
+    # Test case 1: Simple import
+    input_stream = StringIO("import os")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute is None
+    assert result[0].alias is None
+
+    # Test case 2: From import
+    input_stream = StringIO("from os import path")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias is None
+
+    # Test case 3: Import with alias
+    input_stream = StringIO("import os as operating_system")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].alias == "operating_system"
+
+    # Test case 4: From import with alias
+    input_stream = StringIO("from os import path as p")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias == "p"
+
+    # Test case 5: Multiple imports
+    input_stream = StringIO("import os, sys")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
+
+    # Test case 6: Indented import
+    input_stream = StringIO("    import os")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].indented
+
+    # Test case 7: Cimport
+    input_stream = StringIO("cimport cython")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].cimport
+
+    # Test case 8: From Cimport
+    input_stream = StringIO("from cython cimport parallel")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].cimport
+    assert result[0].module == "cython"
+    assert result[0].attribute == "parallel"
+
+    # Test case 9: Import with redundant alias
+    input_stream = StringIO("import os as os")
+    result = list(imports(input_stream, config=Config(remove_redundant_aliases=True)))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].alias is None
+
+    # Test case 10: From import with redundant alias
+    input_stream = StringIO("from os import path as path")
+    result = list(imports(input_stream, config=Config(remove_redundant_aliases=True)))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias is None
 
 
 # LLM-generated content at query #12
 #--------------------------
 
 # Unit test for function imports
-def test_imports():  
-    import io  
-    config = Config()  
-    test_content = """  
-import os  
-from sys import argv  
-import numpy as np  
-from collections import defaultdict as ddict  
-cimport cython  
-    """  
-    input_stream = io.StringIO(test_content)  
-    result = list(imports(input_stream, config=config))  
-    expected = [  
-        Import(2, False, 'os', None, None, False, None),  
-        Import(3, False, 'sys', 'argv', None, False, None),  
-        Import(4, False, 'numpy', None, 'np', False, None),  
-        Import(5, False, 'collections', 'defaultdict', 'ddict', False, None),  
-        Import(6, False, 'cython', None, None, True, None),  
-    ]  
-    assert result == expected, f"Expected {expected}, got {result}"  
-    print("All tests passed!")  
+def test_imports():
+    import io
 
-if __name__ == "__main__":  
-    test_imports()
+    # Test case 1: Simple import statement
+    input_stream = io.StringIO("import os\nimport sys")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
+
+    # Test case 2: Import with alias
+    input_stream = io.StringIO("import os as operating_system")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].alias == "operating_system"
+
+    # Test case 3: From import statement
+    input_stream = io.StringIO("from os import path")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+
+    # Test case 4: From import statement with alias
+    input_stream = io.StringIO("from os import path as p")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias == "p"
+
+    # Test case 5: Multi-line import statement
+    input_stream = io.StringIO("from os import \\\n    path,\n    environ")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+
+    # Test case 6: Import statement with comments
+    input_stream = io.StringIO("import os  # This is a comment")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+
+    # Test case 7: Import statement with inline comment
+    input_stream = io.StringIO("import os  # This is a comment\nimport sys")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
+
+    # Test case 8: Import statement with multiple imports
+    input_stream = io.StringIO("import os, sys, math")
+    result = list(imports(input_stream))
+    assert len(result) == 3
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
+    assert result[2].module == "math"
+
+    # Test case 9: Import statement with multiple imports and aliases
+    input_stream = io.StringIO("import os as operating_system, sys as system")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].alias == "operating_system"
+    assert result[1].module == "sys"
+    assert result[1].alias == "system"
+
+    # Test case 10: Import statement with multiple from imports
+    input_stream = io.StringIO("from os import path, environ")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
 
 
 # LLM-generated content at query #13
 #--------------------------
 
 # Unit test for function imports
-def test_imports():  # pragma: no cover
+def test_imports():
     import io
-    import tempfile
+    import sys
+    from pathlib import Path
 
-    # Test case 1: Simple import
-    code = "import os\nimport sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys'
-            print("Test case 1 passed: Simple imports")
+    # Test basic import
+    input_stream = io.StringIO("import os\nimport sys")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
 
-    # Test case 2: From import with alias
-    code = "from collections import defaultdict as dd\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'collections'
-            assert result[0].attribute == 'defaultdict'
-            assert result[0].alias == 'dd'
-            print("Test case 2 passed: From import with alias")
+    # Test from import
+    input_stream = io.StringIO("from os import path\nfrom sys import version")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os" and result[0].attribute == "path"
+    assert result[1].module == "sys" and result[1].attribute == "version"
 
-    # Test case 3: Cimport
-    code = "cimport numpy as np\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'numpy'
-            assert result[0].alias == 'np'
-            assert result[0].cimport is True
-            print("Test case 3 passed: Cimport")
+    # Test aliased import
+    input_stream = io.StringIO("import os as operating_system\nfrom sys import version as v")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os" and result[0].alias == "operating_system"
+    assert result[1].module == "sys" and result[1].attribute == "version" and result[1].alias == "v"
 
-    # Test case 4: Indented import
-    code = "def foo():\n    import bar\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 1
-            assert result[0].module == 'bar'
-            assert result[0].indented is True
-            print("Test case 4 passed: Indented import")
+    # Test cimport
+    input_stream = io.StringIO("cimport numpy\nfrom numpy cimport array")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "numpy" and result[0].cimport
+    assert result[1].module == "numpy" and result[1].attribute == "array" and result[1].cimport
 
-    # Test case 5: Multiple imports in one line
-    code = "import os, sys\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            assert result[0].module == 'os'
-            assert result[1].module == 'sys'
-            print("Test case 5 passed: Multiple imports in one line")
+    # Test indented import
+    input_stream = io.StringIO("    import os\n  import sys")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].indented and result[0].module == "os"
+    assert result[1].indented and result[1].module == "sys"
 
-    # Test case 6: From import with multiple attributes
-    code = "from django.shortcuts import render, redirect\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            assert result[0].module == 'django.shortcuts'
-            assert result[0].attribute == 'render'
-            assert result[1].module == 'django.shortcuts'
-            assert result[1].attribute == 'redirect'
-            print("Test case 6 passed: From import with multiple attributes")
+    # Test with file path
+    file_path = Path("test.py")
+    input_stream = io.StringIO("import os")
+    result = list(imports(input_stream, file_path=file_path))
+    assert len(result) == 1
+    assert result[0].file_path == file_path
 
-    # Test case 7: Import with line continuation
-    code = "from very.long.package.name import (\\\n    function1,\\\n    function2)\n"
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 2
-            assert result[0].module == 'very.long.package.name'
-            assert result[0].attribute == 'function1'
-            assert result[1].module == 'very.long.package.name'
-            assert result[1].attribute == 'function2'
-            print("Test case 7 passed: Import with line continuation")
+    # Test top_only flag
+    input_stream = io.StringIO("import os\ndef foo():\n    import sys")
+    result = list(imports(input_stream, top_only=True))
+    assert len(result) == 1
+    assert result[0].module == "os"
 
-    # Test case 8: Mixed imports
-    code = '''import os
-from sys import path
-import numpy as np
-from collections import defaultdict, OrderedDict as OD
-cimport cython
-'''
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        f.flush()
-        with open(f.name, 'r') as file_stream:
-            result = list(imports(file_stream, file_path=Path(f.name)))
-            assert len(result) == 6
-            print("Test case 8 passed: Mixed imports")
+    print("All tests passed!")
 
-    # Test case 9: Top only mode
-    code = '''import os
+if __name__ == "__main__":
+    test_imports()
 
 
 # LLM-generated content at query #14
@@ -2477,42 +1787,133 @@ cimport cython
 
 # Unit test for function imports
 def test_imports():
+    import io
+    import sys
+    import unittest
+
+    class TestImports(unittest.TestCase):
+        def test_imports(self):
+            test_cases = [
+                ("import os", [Import(1, False, "os", None, None, False, None)]),
+                ("from os import path", [Import(1, False, "os", "path", None, False, None)]),
+                ("import os as os_alias", [Import(1, False, "os", None, "os_alias", False, None)]),
+                ("from os import path as path_alias", [Import(1, False, "os", "path", "path_alias", False, None)]),
+                ("import os\nimport sys", [Import(1, False, "os", None, None, False, None), Import(2, False, "sys", None, None, False, None)]),
+                ("import os\nfrom sys import path", [Import(1, False, "os", None, None, False, None), Import(2, False, "sys", "path", None, False, None)]),
+                ("cimport os", [Import(1, False, "os", None, None, True, None)]),
+                ("from os cimport path", [Import(1, False, "os", "path", None, True, None)]),
+                ("import os\n\nimport sys", [Import(1, False, "os", None, None, False, None), Import(3, False, "sys", None, None, False, None)]),
+                ("import os\n\nfrom sys import path", [Import(1, False, "os", None, None, False, None), Import(3, False, "sys", "path", None, False, None)]),
+                ("import os\n\n# comment\nimport sys", [Import(1, False, "os", None, None, False, None), Import(4, False, "sys", None, None, False, None)]),
+                ("import os\n\n# comment\nfrom sys import path", [Import(1, False, "os", None, None, False, None), Import(4, False, "sys", "path", None, False, None)]),
+                ("import os\n\n# comment\ncimport sys", [Import(1, False, "os", None, None, False, None), Import(4, False, "sys", None, None, True, None)]),
+                ("import os\n\n# comment\nfrom sys cimport path", [Import(1, False, "os", None, None, False, None), Import(4, False, "sys", "path", None, True, None)]),
+                ("import os\n\n# comment\nfrom sys cimport path as path_alias", [Import(1, False, "os", None, None, False, None), Import(4, False, "sys", "path", "path_alias", True, None)]),
+                ("import os\n\n# comment\nfrom sys import path as path_alias", [Import(1, False, "os", None, None, False, None), Import(4, False, "sys", "path", "path_alias", False, None)]),
+                ("import os\n\n# comment\nfrom sys import path as path_alias\nimport sys", [Import(1, False, "os", None, None, False, None), Import(4, False, "sys", "path", "path_alias", False, None), Import(5, False, "sys", None, None, False, None)]),
+                ("import os\n\n# comment\nfrom sys import path as path_alias\ncimport sys", [Import(1, False, "os", None, None, False, None), Import(4, False, "sys", "path", "path_alias", False, None), Import(5, False, "sys", None, None, True, None)]),
+                ("import os\n\n# comment\nfrom sys import path as path_alias\nfrom sys cimport path", [Import(1, False, "os", None, None, False, None), Import(4, False, "sys", "path", "path_alias", False, None), Import(5, False, "sys", "path", None, True, None)]),
+                ("import os\n\n# comment\nfrom sys import path as path_alias\nfrom sys cimport path as path_alias", [Import(1, False, "os", None, None, False, None), Import(4, False, "sys", "path", "path_alias", False, None), Import(5, False, "sys", "path", "path_alias", True, None)]),
+            ]
+
+            for case, expected in test_cases:
+                with self.subTest(case=case):
+                    input_stream = io.StringIO(case)
+                    result = list(imports(input_stream))
+                    self.assertEqual(result, expected)
+
+    if __name__ == "__main__":
+        unittest.main()
 
 
 # LLM-generated content at query #15
 #--------------------------
 
-# Unit test for function imports
-def test_imports():
+# Unit test for method __str__ of class Import
+def test_Import___str__():
+    import_obj = Import(42, True, 'my_module', 'my_attr', 'my_alias', True, Path('my_file.py'))
+    assert str(import_obj) == "my_file.py:42 indented from my_module cimport my_attr as my_alias"
+
+    import_obj = Import(1, False, 'another_module', None, None, False, None)
+    assert str(import_obj) == ":1 import another_module"
+
+    import_obj = Import(99, True, 'some.module', 'some_attr', None, False, Path('another_file.py'))
+    assert str(import_obj) == "another_file.py:99 indented from some.module import some_attr"
+
+    import_obj = Import(10, False, 'yet_another.module', None, 'alias', True, None)
+    assert str(import_obj) == ":10 cimport yet_another.module as alias"
+
+    import_obj = Import(5, False, 'simple_module', None, None, False, Path('simple_file.py'))
+    assert str(import_obj) == "simple_file.py:5 import simple_module"
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for function imports
-def test_imports():  
-    import io  
-    config = Config()  
-    test_code = """import os  
-from sys import argv  
-import numpy as np  
-from collections import defaultdict as dd  
-cimport cython  
-"""  
-    input_stream = io.StringIO(test_code)  
-    result = list(imports(input_stream, config=config))  
-    expected = [  
-        Import(1, False, 'os', None, None, False, None),  
-        Import(2, False, 'sys', 'argv', None, False, None),  
-        Import(3, False, 'numpy', None, 'np', False, None),  
-        Import(4, False, 'collections', 'defaultdict', 'dd', False, None),  
-        Import(5, False, 'cython', None, None, True, None),  
-    ]  
-    assert result == expected, f"Expected {expected}, got {result}"  
-    print("All tests passed!")  
+def test_imports():
+    import io
+    import unittest
+    from pathlib import Path
 
-if __name__ == "__main__":  
-    test_imports()
+    class TestImports(unittest.TestCase):
+        def test_simple_import(self):
+            input_stream = io.StringIO("import os\nimport sys")
+            result = list(imports(input_stream))
+            self.assertEqual(len(result), 2)
+            self.assertEqual(result[0].module, "os")
+            self.assertEqual(result[1].module, "sys")
+
+        def test_from_import(self):
+            input_stream = io.StringIO("from os import path\nfrom sys import version")
+            result = list(imports(input_stream))
+            self.assertEqual(len(result), 2)
+            self.assertEqual(result[0].module, "os")
+            self.assertEqual(result[0].attribute, "path")
+            self.assertEqual(result[1].module, "sys")
+            self.assertEqual(result[1].attribute, "version")
+
+        def test_import_with_alias(self):
+            input_stream = io.StringIO("import os as operating_system\nfrom sys import version as v")
+            result = list(imports(input_stream))
+            self.assertEqual(len(result), 2)
+            self.assertEqual(result[0].module, "os")
+            self.assertEqual(result[0].alias, "operating_system")
+            self.assertEqual(result[1].module, "sys")
+            self.assertEqual(result[1].attribute, "version")
+            self.assertEqual(result[1].alias, "v")
+
+        def test_cimport(self):
+            input_stream = io.StringIO("cimport numpy\nfrom numpy cimport array")
+            result = list(imports(input_stream))
+            self.assertEqual(len(result), 2)
+            self.assertTrue(result[0].cimport)
+            self.assertEqual(result[0].module, "numpy")
+            self.assertTrue(result[1].cimport)
+            self.assertEqual(result[1].module, "numpy")
+            self.assertEqual(result[1].attribute, "array")
+
+        def test_indented_import(self):
+            input_stream = io.StringIO("    import os\n    from sys import version")
+            result = list(imports(input_stream))
+            self.assertEqual(len(result), 2)
+            self.assertTrue(result[0].indented)
+            self.assertTrue(result[1].indented)
+
+        def test_top_only(self):
+            input_stream = io.StringIO("import os\ndef foo():\n    import sys")
+            result = list(imports(input_stream, top_only=True))
+            self.assertEqual(len(result), 1)
+            self.assertEqual(result[0].module, "os")
+
+        def test_file_path(self):
+            input_stream = io.StringIO("import os")
+            file_path = Path("/test/path.py")
+            result = list(imports(input_stream, file_path=file_path))
+            self.assertEqual(len(result), 1)
+            self.assertEqual(result[0].file_path, file_path)
+
+    unittest.main()
 
 
 # LLM-generated content at query #17
@@ -2520,217 +1921,432 @@ if __name__ == "__main__":
 
 # Unit test for function imports
 def test_imports():
+    from io import StringIO
+
+    # Test case 1: Simple import
+    input_stream = StringIO("import os\nimport sys")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
+
+    # Test case 2: From import
+    input_stream = StringIO("from os import path")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+
+    # Test case 3: Aliased import
+    input_stream = StringIO("import numpy as np")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "numpy"
+    assert result[0].alias == "np"
+
+    # Test case 4: Cimport
+    input_stream = StringIO("cimport cython")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "cython"
+    assert result[0].cimport
+
+    # Test case 5: Multiline import
+    input_stream = StringIO("from os import (\n    path,\n    environ\n)")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+
+    # Test case 6: Indented import
+    input_stream = StringIO("    import os")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].indented
+
+    # Test case 7: Import with redundant alias
+    input_stream = StringIO("import os as os")
+    config = DEFAULT_CONFIG._replace(remove_redundant_aliases=True)
+    result = list(imports(input_stream, config=config))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].alias is None
+
+    # Test case 8: From import with redundant alias
+    input_stream = StringIO("from os import path as path")
+    config = DEFAULT_CONFIG._replace(remove_redundant_aliases=True)
+    result = list(imports(input_stream, config=config))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias is None
+
+    # Test case 9: Import with continuation lines
+    input_stream = StringIO("from os import (\\\n    path,\n    environ)")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+
+    # Test case 10: Import with comment
+    input_stream = StringIO("import os # comment")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+
+    # Test case 11: Import with comment and continuation lines
+    input_stream = StringIO("from os import (\\\n    path, # comment\n    environ)")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+
+    # Test case 12: Import with syntax characters
+    input_stream = StringIO("from os import path as {|path|}")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[0].alias == "path"
+
+    # Test case 13: Import with syntax characters and continuation lines
+    input_stream = StringIO("from os import (\\\n    {|path|},\n    environ)")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
+
+    # Test case 14: Import with syntax characters and comment
+    input_stream = StringIO("from os import {|path|} # comment")
+    result = list(imports(input_stream))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+
+    # Test case 15: Import with syntax characters and continuation lines and comment
+    input_stream = StringIO("from os import (\\\n    {|path|}, # comment\n    environ)")
+    result = list(imports(input_stream))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "os"
+    assert result[1].attribute == "environ"
 
 
 # LLM-generated content at query #18
 #--------------------------
 
 # Unit test for function imports
-def test_imports():  
-    import io  
-    config = Config()  
-    file_path = Path("test.py")  
-    
-    # Test case 1: Simple import  
-    input_stream = io.StringIO("import os\nimport sys")  
-    result = list(imports(input_stream, config, file_path))  
-    assert len(result) == 2  
-    assert result[0].module == "os"  
-    assert result[1].module == "sys"  
-    
-    # Test case 2: From import  
-    input_stream = io.StringIO("from datetime import datetime, timedelta")  
-    result = list(imports(input_stream, config, file_path))  
-    assert len(result) == 2  
-    assert result[0].module == "datetime" and result[0].attribute == "datetime"  
-    assert result[1].module == "datetime" and result[1].attribute == "timedelta"  
-    
-    # Test case 3: Import with alias  
-    input_stream = io.StringIO("import numpy as np")  
-    result = list(imports(input_stream, config, file_path))  
-    assert len(result) == 1  
-    assert result[0].module == "numpy" and result[0].alias == "np"  
-    
-    # Test case 4: From import with alias  
-    input_stream = io.StringIO("from pandas import DataFrame as df")  
-    result = list(imports(input_stream, config, file_path))  
-    assert len(result) == 1  
-    assert result[0].module == "pandas" and result[0].attribute == "DataFrame" and result[0].alias == "df"  
-    
-    # Test case 5: Cimport  
-    input_stream = io.StringIO("cimport cython")  
-    result = list(imports(input_stream, config, file_path))  
-    assert len(result) == 1  
-    assert result[0].module == "cython" and result[0].cimport  
-    
-    # Test case 6: Indented import  
-    input_stream = io.StringIO("    import os")  
-    result = list(imports(input_stream, config, file_path))  
-    assert len(result) == 1  
-    assert result[0].module == "os" and result[0].indented  
-    
-    # Test case 7: Multi-line import  
-    input_stream = io.StringIO("from module import (\\\n    func1,\\\n    func2)")  
-    result = list(imports(input_stream, config, file_path))  
-    assert len(result) == 2  
-    assert result[0].module == "module" and result[0].attribute == "func1"  
-    assert result[1].module == "module" and result[1].attribute == "func2"  
-    
-    # Test case 8: Top only flag  
-    input_stream = io.StringIO("import os\ndef foo():\n    import sys")  
-    result = list(imports(input_stream, config, file_path, top_only=True))  
-    assert len(result) == 1  
-    assert result[0].module == "os"  
-    
-    print("All tests passed!")  
+def test_imports():
+    import io
+    from pathlib import Path
 
-if __name__ == "__main__":  
-    test_imports()
+    config = Config()
+
+    # Test case 1: Simple import
+    input_stream = io.StringIO("import os\nimport sys")
+    result = list(imports(input_stream, config))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[1].module == "sys"
+
+    # Test case 2: From import
+    input_stream = io.StringIO("from os import path\nfrom sys import version")
+    result = list(imports(input_stream, config))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].attribute == "path"
+    assert result[1].module == "sys"
+    assert result[1].attribute == "version"
+
+    # Test case 3: Import with alias
+    input_stream = io.StringIO("import os as operating_system\nfrom sys import version as ver")
+    result = list(imports(input_stream, config))
+    assert len(result) == 2
+    assert result[0].module == "os"
+    assert result[0].alias == "operating_system"
+    assert result[1].module == "sys"
+    assert result[1].attribute == "version"
+    assert result[1].alias == "ver"
+
+    # Test case 4: Cimport
+    input_stream = io.StringIO("cimport numpy as np\nfrom cython cimport boundscheck")
+    result = list(imports(input_stream, config))
+    assert len(result) == 2
+    assert result[0].module == "numpy"
+    assert result[0].alias == "np"
+    assert result[0].cimport == True
+    assert result[1].module == "cython"
+    assert result[1].attribute == "boundscheck"
+    assert result[1].cimport == True
+
+    # Test case 5: Indented import
+    input_stream = io.StringIO("def func():\n\timport os")
+    result = list(imports(input_stream, config))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].indented == True
+
+    # Test case 6: Top only
+    input_stream = io.StringIO("import os\ndef func():\n\timport sys")
+    result = list(imports(input_stream, config, top_only=True))
+    assert len(result) == 1
+    assert result[0].module == "os"
+
+    # Test case 7: File path
+    file_path = Path("test.py")
+    input_stream = io.StringIO("import os")
+    result = list(imports(input_stream, config, file_path=file_path))
+    assert len(result) == 1
+    assert result[0].module == "os"
+    assert result[0].file_path == file_path
+
+    print("All tests passed!")
+
+test_imports()
 
 
 # LLM-generated content at query #19
 #--------------------------
 
 # Unit test for function imports
-def test_imports():  
-    import io  
-    import tempfile  
-    import os  
+def test_imports():  # pragma: no cover
+    """Test the imports function."""
+    import io
 
-    # Test case 1: Simple import  
-    content = "import os\nimport sys\n"  
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.py') as f:  
-        f.write(content)  
-        f.flush()  
-        with open(f.name, 'r') as file_stream:  
-            imports_list = list(imports(file_stream, file_path=Path(f.name)))  
-            assert len(imports_list) == 2  
-            assert imports_list[0].module == 'os'  
-            assert imports_list[1].module == 'sys'  
-    os.unlink(f.name)  
+    test_input = io.StringIO(
+        '''import os
+from sys import path
+from collections import defaultdict as dd
+'''
+    )
+    expected = [
+        Import(1, False, "os"),
+        Import(2, False, "sys", "path"),
+        Import(3, False, "collections", "defaultdict", "dd"),
+    ]
+    assert list(imports(test_input)) == expected
 
-    # Test case 2: From import  
-    content = "from collections import defaultdict, OrderedDict\n"  
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.py') as f:  
-        f.write(content)  
-        f.flush()  
-        with open(f.name, 'r') as file_stream:  
-            imports_list = list(imports(file_stream, file_path=Path(f.name)))  
-            assert len(imports_list) == 2  
-            assert imports_list[0].module == 'collections'  
-            assert imports_list[0].attribute == 'defaultdict'  
-            assert imports_list[1].module == 'collections'  
-            assert imports_list[1].attribute == 'OrderedDict'  
-    os.unlink(f.name)  
+    test_input = io.StringIO(
+        '''import os.path
+from sys import path as sys_path
+'''
+    )
+    expected = [
+        Import(1, False, "os.path"),
+        Import(2, False, "sys", "path", "sys_path"),
+    ]
+    assert list(imports(test_input)) == expected
 
-    # Test case 3: Import with alias  
-    content = "import numpy as np\nimport pandas as pd\n"  
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.py') as f:  
-        f.write(content)  
-        f.flush()  
-        with open(f.name, 'r') as file_stream:  
-            imports_list = list(imports(file_stream, file_path=Path(f.name)))  
-            assert len(imports_list) == 2  
-            assert imports_list[0].module == 'numpy'  
-            assert imports_list[0].alias == 'np'  
-            assert imports_list[1].module == 'pandas'  
-            assert imports_list[1].alias == 'pd'  
-    os.unlink(f.name)  
+    test_input = io.StringIO(
+        '''import os.path as ospath
+from sys import path
+'''
+    )
+    expected = [
+        Import(1, False, "os.path", None, "ospath"),
+        Import(2, False, "sys", "path"),
+    ]
+    assert list(imports(test_input)) == expected
 
-    # Test case 4: Mixed imports  
-    content = "import os\nfrom sys import path\nimport numpy as np\n"  
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.py') as f:  
-        f.write(content)  
-        f.flush()  
-        with open(f.name, 'r') as file_stream:  
-            imports_list = list(imports(file_stream, file_path=Path(f.name)))  
-            assert len(imports_list) == 3  
-            assert imports_list[0].module == 'os'  
-            assert imports_list[1].module == 'sys'  
-            assert imports_list[1].attribute == 'path'  
-            assert imports_list[2].module == 'numpy'  
-            assert imports_list[2].alias == 'np'  
-    os.unlink(f.name)  
+    test_input = io.StringIO(
+        '''import os.path as ospath
+from sys import path as sys_path
+'''
+    )
+    expected = [
+        Import(1, False, "os.path", None, "ospath"),
+        Import(2, False, "sys", "path", "sys_path"),
+    ]
+    assert list(imports(test_input)) == expected
 
-    # Test case 5: Indented import  
-    content = "def foo():\n    import os\n"  
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.py') as f:  
-        f.write(content)  
-        f.flush()  
-        with open(f.name, 'r') as file_stream:  
-            imports_list = list(imports(file_stream, file_path=Path(f.name)))  
-            assert len(imports_list) == 1  
-            assert imports_list[0].module == 'os'  
-            assert imports_list[0].indented  
-    os.unlink(f.name)  
+    test_input = io.StringIO(
+        '''import os.path as ospath
+from sys import path as sys_path
+from collections import defaultdict as dd
+'''
+    )
+    expected = [
+        Import(1, False, "os.path", None, "ospath"),
+        Import(2, False, "sys", "path", "sys_path"),
+        Import(3, False, "collections", "defaultdict", "dd"),
+    ]
+    assert list(imports(test_input)) == expected
 
-    # Test case 6: cimport  
-    content = "cimport numpy as np\n"  
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.py') as f:  
-        f.write(content)  
-        f.flush()  
-        with open(f.name, 'r') as file_stream:  
-            imports_list = list(imports(file_stream, file_path=Path(f.name)))  
-            assert len(imports_list) == 1  
-            assert imports_list[0].module == 'numpy'  
-            assert imports_list[0].alias == 'np'  
-            assert imports_list[0].cimport  
-    os.unlink(f.name)  
+    test_input = io.StringIO(
+        '''import os.path as ospath
+from sys import path as sys_path
+from collections import defaultdict as dd
+from . import relative
+'''
+    )
+    expected = [
+        Import(1, False, "os.path", None, "ospath"),
+        Import(2, False, "sys", "path", "sys_path"),
+        Import(3, False, "collections", "defaultdict", "dd"),
+        Import(4, False, ".", "relative"),
+    ]
+    assert list(imports(test_input)) == expected
 
-    # Test case 7: Import with continuation lines  
-    content = "from very.long.module.name import (\\\n    function1,\\\n    function2)\n"  
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.py') as f:  
-        f.write(content)  
-        f.flush()  
-        with open(f.name, 'r') as file_stream:  
-            imports_list = list(imports(file_stream, file_path=Path(f.name)))  
-            assert len(imports_list) == 2  
-            assert imports_list[0].module == 'very.long.module.name'  
-            assert imports_list[0].attribute == 'function1'  
-            assert imports_list[1].module == 'very.long.module.name'  
-            assert imports_list[1].attribute == 'function2'  
-    os.unlink(f.name)  
+    test_input = io.StringIO(
+        '''import os.path as ospath
+from sys import path as sys_path
+from collections import defaultdict as dd
+from . import relative
+from .. import parent_relative
+'''
+    )
+    expected = [
+        Import(1, False, "os.path", None, "ospath"),
+        Import(2, False, "sys", "path", "sys_path"),
+        Import(3, False, "collections", "defaultdict", "dd"),
+        Import(4, False, ".", "relative"),
+        Import(5, False, "..", "parent_relative"),
+    ]
+    assert list(imports(test_input)) == expected
 
-    # Test case 8: Empty file  
-    content = ""  
-    with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.py') as f:  
-        f.write(content)  
-        f.flush()  
-        with open(f.name, 'r') as file_stream:  
-            imports_list = list(imports(file_stream, file_path=Path(f.name)))  
-            assert len(imports_list) == 0  
-    os.unlink(f.name)  
+    test_input = io.StringIO(
+        '''import os.path as ospath
+from sys import path as sys_path
+from collections import defaultdict as dd
+from . import relative
+from .. import parent_relative
+from ... import grandparent_relative
+'''
+    )
+    expected = [
+        Import(1, False, "os.path", None, "ospath"),
+        Import(2, False, "sys", "path", "sys_path"),
+        Import(3, False, "collections", "defaultdict", "dd"),
+        Import(4, False, ".", "relative"),
+        Import(5, False, "..", "parent_relative"),
+        Import(6, False, "...", "grandparent_relative"),
+    ]
+    assert list(imports(test_input)) == expected
 
-    print("All tests passed!")  
+    test_input = io.StringIO(
+        '''import os.path as ospath
+from sys import path as sys_path
+from collections import defaultdict as dd
+from . import relative
+from .. import parent_relative
+from ... import grandparent_relative
+from .... import great_grandparent_relative
+'''
+    )
+    expected = [
+        Import(1, False, "os.path", None, "ospath"),
+        Import(2, False, "sys", "path", "sys_path"),
+        Import(3, False, "collections", "defaultdict", "dd"),
+        Import(4, False, ".", "relative"),
+        Import(5, False, "..", "parent_relative"),
+        Import(6, False, "...", "grandparent_relative"),
+        Import(7, False, "....", "great_grandparent_relative"),
+    ]
+    assert list(imports(test_input)) == expected
 
-if __name__ == "__main__":  
-    test_imports()
+    test_input = io.StringIO(
+        '''import os.path as ospath
+from sys import path as sys_path
+from collections import defaultdict as dd
+from . import relative
+from .. import parent_relative
+from ... import grandparent_relative
+from .... import great_grandparent_relative
+from ..... import great_great_grandparent_relative
+'''
+    )
+    expected = [
+        Import(1, False, "os.path", None, "ospath"),
+        Import(2, False, "sys", "path", "sys_path"),
+        Import(3, False, "collections", "defaultdict", "dd"),
+        Import(4, False, ".", "relative"),
+        Import(5, False, "..", "parent_relative"),
+        Import(6, False, "...", "grandparent_relative"),
+        Import(7, False, "....", "great_grandparent_relative"),
+        Import(8, False, ".....", "great_great_grandparent_relative"),
+    ]
+    assert list(imports(test_input)) == expected
 
+    test_input = io.StringIO(
+        '''import os.path as ospath
+from sys import path as sys_path
+from collections import defaultdict as dd
+from . import relative
+from .. import parent_relative
+from ... import grandparent_relative
+from .... import great_grandparent_relative
+from ..... import great_great_grandparent_relative
+from ...... import great_great_great_grandparent_relative
+'''
+    )
+    expected = [
+        Import(1, False, "os.path", None, "ospath"),
+        Import(2, False, "sys", "path", "sys_path"),
+        Import(3, False, "collections", "defaultdict", "dd"),
+        Import(4, False, ".", "relative"),
+        Import(5, False, "..", "parent_relative"),
+        Import(6, False, "...", "grandparent_relative"),
+        Import(7, False, "....", "great_grandparent_relative"),
+        Import(8, False, ".....", "great_great_grandparent_relative"),
+        Import(9, False, "......", "great_great_great_grandparent_relative"),
+    ]
+    assert list(imports(test_input)) == expected
 
-# LLM-generated content at query #20
-#--------------------------
+    test_input = io.StringIO(
+        '''import os.path as ospath
+from sys import path as sys_path
+from collections import defaultdict as dd
+from . import relative
+from .. import parent_relative
+from ... import grandparent_relative
+from .... import great_grandparent_relative
+from ..... import great_great_grandparent_relative
+from ...... import great_great_great_grandparent_relative
+from ....... import great_great_great_great_grandparent_relative
+'''
+    )
+    expected = [
+        Import(1, False, "os.path", None, "ospath"),
+        Import(2, False, "sys", "path", "sys_path"),
+        Import(3, False, "collections", "defaultdict", "dd"),
+        Import(4, False, ".", "relative"),
+        Import(5, False, "..", "parent_relative"),
+        Import(6, False, "...", "grandparent_relative"),
+        Import(7, False, "....", "great_grandparent_relative"),
+        Import(8, False, ".....", "great_great_grandparent_relative"),
+        Import(9, False, "......", "great_great_great_grandparent_relative"),
+        Import(10, False, ".......", "great_great_great_great_grandparent_relative"),
+    ]
+    assert list(imports(test_input)) == expected
 
-# Unit test for function imports
-def test_imports():  
-    import io  
-    config = Config()  
-    test_content = """import os  
-from sys import argv  
-import numpy as np  
-from collections import defaultdict  
-"""  
-    input_stream = io.StringIO(test_content)  
-    result = list(imports(input_stream, config=config))  
-    expected = [  
-        Import(1, False, 'os', None, None, False, None),  
-        Import(2, False, 'sys', 'argv', None, False, None),  
-        Import(3, False, 'numpy', None, 'np', False, None),  
-        Import(4, False, 'collections', 'defaultdict', None, False, None),  
-    ]  
-    assert result == expected, f"Expected {expected}, got {result}"  
-    print("All tests passed!")  
-
-if __name__ == "__main__":  
-    test_imports()
+    test_input = io.StringIO(
+        '''import os.path as ospath
+from sys import path as sys_path
+from collections import defaultdict as dd
+from . import relative
+from .. import parent_relative
+from ... import grandparent_relative
+from .... import great_grandparent_relative
+from ..... import great_great_grandparent_relative
+from ...... import great_great_great_grandparent_relative
+from ....... import great_great_great_great_grandparent_relative
+from ........ import great_great_great_great_great_grandparent_relative
+'''
+    )
+    expected = [
+        Import(1, False, "os.path", None, "ospath"),
+        Import(2, False, "sys", "path", "sys_path"),
+        Import(3, False, "collections", "defaultdict", "dd"),
+        Import(4, False, ".",
 
 

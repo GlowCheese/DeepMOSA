@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'mimesis.providers.internet'</h1>
+<p>Achieved 94.44% branch coverage:
+30/30 branchless code objects covered.
+21/24 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="fullyCovered" title="1/1 branchless code objects covered">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="notRelevant">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="notRelevant">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="notRelevant">33</span>
+                  <span class="notRelevant">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="notRelevant">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="notRelevant">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="notRelevant">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">50</span>
+                  <span class="notRelevant">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notRelevant">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="notRelevant">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="notRelevant">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="notRelevant">66</span>
+                  <span class="notRelevant">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="notRelevant">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="notRelevant">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="notRelevant">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="notRelevant">88</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notRelevant">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="notRelevant">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">99</span>
+                  <span class="notRelevant">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="notRelevant">118</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">119</span>
+                  <span class="notRelevant">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notRelevant">122</span>
+                  <span class="notRelevant">123</span>
+                  <span class="notRelevant">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">129</span>
+                  <span class="notRelevant">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="notRelevant">132</span>
+                  <span class="notRelevant">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="notRelevant">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="notRelevant">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notRelevant">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="notRelevant">143</span>
+                  <span class="notRelevant">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="notRelevant">147</span>
+                  <span class="notRelevant">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  <span class="notRelevant">161</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">162</span>
+                  <span class="notRelevant">163</span>
+                  <span class="notRelevant">164</span>
+                  <span class="notRelevant">165</span>
+                  <span class="notRelevant">166</span>
+                  <span class="notRelevant">167</span>
+                  <span class="notRelevant">168</span>
+                  <span class="notRelevant">169</span>
+                  <span class="notRelevant">170</span>
+                  <span class="notRelevant">171</span>
+                  <span class="notRelevant">172</span>
+                  <span class="notRelevant">173</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">174</span>
+                  <span class="notRelevant">175</span>
+                  <span class="notRelevant">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notRelevant">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="notRelevant">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notRelevant">182</span>
+                  <span class="notRelevant">183</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">184</span>
+                  <span class="notRelevant">185</span>
+                  <span class="notRelevant">186</span>
+                  <span class="notRelevant">187</span>
+                  <span class="notRelevant">188</span>
+                  <span class="notRelevant">189</span>
+                  <span class="notRelevant">190</span>
+                  <span class="notRelevant">191</span>
+                  <span class="notRelevant">192</span>
+                  <span class="notRelevant">193</span>
+                  <span class="notRelevant">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="notRelevant">196</span>
+                  <span class="notRelevant">197</span>
+                  <span class="notRelevant">198</span>
+                  <span class="notRelevant">199</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">200</span>
+                  <span class="notRelevant">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notRelevant">206</span>
+                  <span class="notRelevant">207</span>
+                  <span class="notRelevant">208</span>
+                  <span class="notRelevant">209</span>
+                  <span class="notRelevant">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="notRelevant">213</span>
+                  <span class="notRelevant">214</span>
+                  <span class="notRelevant">215</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">216</span>
+                  <span class="notRelevant">217</span>
+                  <span class="notRelevant">218</span>
+                  <span class="notRelevant">219</span>
+                  <span class="notRelevant">220</span>
+                  <span class="notRelevant">221</span>
+                  <span class="notRelevant">222</span>
+                  <span class="notRelevant">223</span>
+                  <span class="notRelevant">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="notRelevant">226</span>
+                  <span class="notRelevant">227</span>
+                  <span class="notRelevant">228</span>
+                  <span class="notRelevant">229</span>
+                  <span class="notRelevant">230</span>
+                  <span class="notRelevant">231</span>
+                  <span class="notRelevant">232</span>
+                  <span class="notRelevant">233</span>
+                  <span class="notRelevant">234</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">235</span>
+                  <span class="notRelevant">236</span>
+                  <span class="notRelevant">237</span>
+                  <span class="notRelevant">238</span>
+                  <span class="notRelevant">239</span>
+                  <span class="notRelevant">240</span>
+                  <span class="notRelevant">241</span>
+                  <span class="notRelevant">242</span>
+                  <span class="notRelevant">243</span>
+                  <span class="notRelevant">244</span>
+                  <span class="notRelevant">245</span>
+                  <span class="notRelevant">246</span>
+                  <span class="notRelevant">247</span>
+                  <span class="notRelevant">248</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">249</span>
+                  <span class="notRelevant">250</span>
+                  <span class="notRelevant">251</span>
+                  <span class="notRelevant">252</span>
+                  <span class="notRelevant">253</span>
+                  <span class="notRelevant">254</span>
+                  <span class="notRelevant">255</span>
+                  <span class="notRelevant">256</span>
+                  <span class="notRelevant">257</span>
+                  <span class="notRelevant">258</span>
+                  <span class="notRelevant">259</span>
+                  <span class="notRelevant">260</span>
+                  <span class="notRelevant">261</span>
+                  <span class="notRelevant">262</span>
+                  <span class="notRelevant">263</span>
+                  <span class="notRelevant">264</span>
+                  <span class="fullyCovered" title="2/2 branches covered">265</span>
+                  <span class="notRelevant">266</span>
+                  <span class="notRelevant">267</span>
+                  <span class="notRelevant">268</span>
+                  <span class="notRelevant">269</span>
+                  <span class="notRelevant">270</span>
+                  <span class="notRelevant">271</span>
+                  <span class="notRelevant">272</span>
+                  <span class="notRelevant">273</span>
+                  <span class="notRelevant">274</span>
+                  <span class="notRelevant">275</span>
+                  <span class="notRelevant">276</span>
+                  <span class="notRelevant">277</span>
+                  <span class="notRelevant">278</span>
+                  <span class="notRelevant">279</span>
+                  <span class="notRelevant">280</span>
+                  <span class="notRelevant">281</span>
+                  <span class="notRelevant">282</span>
+                  <span class="notRelevant">283</span>
+                  <span class="fullyCovered" title="2/2 branches covered">284</span>
+                  <span class="notRelevant">285</span>
+                  <span class="notRelevant">286</span>
+                  <span class="notRelevant">287</span>
+                  <span class="notRelevant">288</span>
+                  <span class="notRelevant">289</span>
+                  <span class="notRelevant">290</span>
+                  <span class="notRelevant">291</span>
+                  <span class="notRelevant">292</span>
+                  <span class="notRelevant">293</span>
+                  <span class="notRelevant">294</span>
+                  <span class="notRelevant">295</span>
+                  <span class="notRelevant">296</span>
+                  <span class="notRelevant">297</span>
+                  <span class="notRelevant">298</span>
+                  <span class="notRelevant">299</span>
+                  <span class="notRelevant">300</span>
+                  <span class="notRelevant">301</span>
+                  <span class="notRelevant">302</span>
+                  <span class="notRelevant">303</span>
+                  <span class="notRelevant">304</span>
+                  <span class="fullyCovered" title="2/2 branches covered">305</span>
+                  <span class="notRelevant">306</span>
+                  <span class="notRelevant">307</span>
+                  <span class="notRelevant">308</span>
+                  <span class="notRelevant">309</span>
+                  <span class="notRelevant">310</span>
+                  <span class="notRelevant">311</span>
+                  <span class="notRelevant">312</span>
+                  <span class="notRelevant">313</span>
+                  <span class="notRelevant">314</span>
+                  <span class="notRelevant">315</span>
+                  <span class="notRelevant">316</span>
+                  <span class="notRelevant">317</span>
+                  <span class="notRelevant">318</span>
+                  <span class="notRelevant">319</span>
+                  <span class="notRelevant">320</span>
+                  <span class="notRelevant">321</span>
+                  <span class="notRelevant">322</span>
+                  <span class="notRelevant">323</span>
+                  <span class="notRelevant">324</span>
+                  <span class="notRelevant">325</span>
+                  <span class="notRelevant">326</span>
+                  <span class="notRelevant">327</span>
+                  <span class="notRelevant">328</span>
+                  <span class="notRelevant">329</span>
+                  <span class="notRelevant">330</span>
+                  <span class="fullyCovered" title="2/2 branches covered">331</span>
+                  <span class="notRelevant">332</span>
+                  <span class="notRelevant">333</span>
+                  <span class="notRelevant">334</span>
+                  <span class="notRelevant">335</span>
+                  <span class="notRelevant">336</span>
+                  <span class="notRelevant">337</span>
+                  <span class="notRelevant">338</span>
+                  <span class="notRelevant">339</span>
+                  <span class="notRelevant">340</span>
+                  <span class="notRelevant">341</span>
+                  <span class="notRelevant">342</span>
+                  <span class="notRelevant">343</span>
+                  <span class="notRelevant">344</span>
+                  <span class="notRelevant">345</span>
+                  <span class="notRelevant">346</span>
+                  <span class="notRelevant">347</span>
+                  <span class="notRelevant">348</span>
+                  <span class="notRelevant">349</span>
+                  <span class="notRelevant">350</span>
+                  <span class="notRelevant">351</span>
+                  <span class="notRelevant">352</span>
+                  <span class="notRelevant">353</span>
+                  <span class="notRelevant">354</span>
+                  <span class="notRelevant">355</span>
+                  <span class="notRelevant">356</span>
+                  <span class="notRelevant">357</span>
+                  <span class="notRelevant">358</span>
+                  <span class="fullyCovered" title="2/2 branches covered">359</span>
+                  <span class="notRelevant">360</span>
+                  <span class="notRelevant">361</span>
+                  <span class="notRelevant">362</span>
+                  <span class="notRelevant">363</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">364</span>
+                  <span class="notRelevant">365</span>
+                  <span class="notRelevant">366</span>
+                  <span class="notRelevant">367</span>
+                  <span class="notRelevant">368</span>
+                  <span class="notRelevant">369</span>
+                  <span class="notRelevant">370</span>
+                  <span class="notRelevant">371</span>
+                  <span class="notRelevant">372</span>
+                  <span class="notRelevant">373</span>
+                  <span class="notRelevant">374</span>
+                  <span class="notRelevant">375</span>
+                  <span class="notRelevant">376</span>
+                  <span class="notRelevant">377</span>
+                  <span class="notRelevant">378</span>
+                  <span class="notRelevant">379</span>
+                  <span class="notRelevant">380</span>
+                  <span class="notRelevant">381</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">382</span>
+                  <span class="notRelevant">383</span>
+                  <span class="notRelevant">384</span>
+                  <span class="notRelevant">385</span>
+                  <span class="notRelevant">386</span>
+                  <span class="fullyCovered" title="2/2 branches covered">387</span>
+                  <span class="notRelevant">388</span>
+                  <span class="notRelevant">389</span>
+                  <span class="fullyCovered" title="2/2 branches covered">390</span>
+                  <span class="notRelevant">391</span>
+                  <span class="notRelevant">392</span>
+                  <span class="notRelevant">393</span>
+                  <span class="notRelevant">394</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">395</span>
+                  <span class="notRelevant">396</span>
+                  <span class="notRelevant">397</span>
+                  <span class="notRelevant">398</span>
+                  <span class="notRelevant">399</span>
+                  <span class="notRelevant">400</span>
+                  <span class="notRelevant">401</span>
+                  <span class="notRelevant">402</span>
+                  <span class="notRelevant">403</span>
+                  <span class="notRelevant">404</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">405</span>
+                  <span class="notRelevant">406</span>
+                  <span class="notRelevant">407</span>
+                  <span class="notRelevant">408</span>
+                  <span class="notRelevant">409</span>
+                  <span class="notRelevant">410</span>
+                  <span class="notRelevant">411</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">412</span>
+                  <span class="notRelevant">413</span>
+                  <span class="notRelevant">414</span>
+                  <span class="notRelevant">415</span>
+                  <span class="notRelevant">416</span>
+                  <span class="notRelevant">417</span>
+                  <span class="notRelevant">418</span>
+                  <span class="notRelevant">419</span>
+                  <span class="notRelevant">420</span>
+                  <span class="notRelevant">421</span>
+                  <span class="notRelevant">422</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">423</span>
+                  <span class="notRelevant">424</span>
+                  <span class="notRelevant">425</span>
+                  <span class="notRelevant">426</span>
+                  <span class="notRelevant">427</span>
+                  <span class="notRelevant">428</span>
+                  <span class="notRelevant">429</span>
+                  <span class="notRelevant">430</span>
+                  <span class="notRelevant">431</span>
+                  <span class="notRelevant">432</span>
+                  <span class="notRelevant">433</span>
+                  <span class="notRelevant">434</span>
+                  <span class="notRelevant">435</span>
+                  <span class="notRelevant">436</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">437</span>
+                  <span class="notRelevant">438</span>
+                  <span class="notRelevant">439</span>
+                  <span class="notRelevant">440</span>
+                  <span class="notRelevant">441</span>
+                  <span class="notRelevant">442</span>
+                  <span class="notRelevant">443</span>
+                  <span class="notRelevant">444</span>
+                  <span class="notRelevant">445</span>
+                  <span class="notRelevant">446</span>
+                  <span class="notRelevant">447</span>
+                  <span class="notRelevant">448</span>
+                  <span class="notRelevant">449</span>
+                  <span class="notRelevant">450</span>
+                  <span class="notRelevant">451</span>
+                  <span class="notRelevant">452</span>
+                  <span class="fullyCovered" title="2/2 branches covered">453</span>
+                  <span class="notRelevant">454</span>
+                  <span class="notRelevant">455</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">456</span>
+                  <span class="notRelevant">457</span>
+                  <span class="notRelevant">458</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">459</span>
+                  <span class="notRelevant">460</span>
+                  <span class="notRelevant">461</span>
+                  <span class="notRelevant">462</span>
+                  <span class="notRelevant">463</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">464</span>
+                  <span class="notRelevant">465</span>
+                  <span class="notRelevant">466</span>
+                  <span class="notRelevant">467</span>
+                  <span class="notRelevant">468</span>
+                  <span class="notRelevant">469</span>
+                  <span class="notRelevant">470</span>
+                  <span class="notRelevant">471</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">472</span>
+                  <span class="notRelevant">473</span>
+                  <span class="notRelevant">474</span>
+                  <span class="notRelevant">475</span>
+                  <span class="notRelevant">476</span>
+                  <span class="notRelevant">477</span>
+                  <span class="notRelevant">478</span>
+                  <span class="notRelevant">479</span>
+                  <span class="notRelevant">480</span>
+                  <span class="notRelevant">481</span>
+                  <span class="notRelevant">482</span>
+                  <span class="notRelevant">483</span>
+                  <span class="notRelevant">484</span>
+                  <span class="notRelevant">485</span>
+                  <span class="notRelevant">486</span>
+                  <span class="notRelevant">487</span>
+                  <span class="notRelevant">488</span>
+                  <span class="notRelevant">489</span>
+                  <span class="notRelevant">490</span>
+                  <span class="notRelevant">491</span>
+                  <span class="notRelevant">492</span>
+                  <span class="notRelevant">493</span>
+                  <span class="notRelevant">494</span>
+                  <span class="notRelevant">495</span>
+                  <span class="notRelevant">496</span>
+                  <span class="notRelevant">497</span>
+                  <span class="notRelevant">498</span>
+                  <span class="notRelevant">499</span>
+                  <span class="notRelevant">500</span>
+                  <span class="notRelevant">501</span>
+                  <span class="notRelevant">502</span>
+                  <span class="notRelevant">503</span>
+                  <span class="notRelevant">504</span>
+                  <span class="notRelevant">505</span>
+                  <span class="notRelevant">506</span>
+                  <span class="notRelevant">507</span>
+                  <span class="notRelevant">508</span>
+                  <span class="notRelevant">509</span>
+                  <span class="notRelevant">510</span>
+                  <span class="notRelevant">511</span>
+                  <span class="notRelevant">512</span>
+                  <span class="notRelevant">513</span>
+                  <span class="notRelevant">514</span>
+                  <span class="notRelevant">515</span>
+                  <span class="notRelevant">516</span>
+                  <span class="notRelevant">517</span>
+                  <span class="notRelevant">518</span>
+                  <span class="notRelevant">519</span>
+                  <span class="notRelevant">520</span>
+                  <span class="notRelevant">521</span>
+                  <span class="notRelevant">522</span>
+                  <span class="notRelevant">523</span>
+                  <span class="notRelevant">524</span>
+                  <span class="notRelevant">525</span>
+                  <span class="notRelevant">526</span>
+                  <span class="notRelevant">527</span>
+                  <span class="notRelevant">528</span>
+                  <span class="notRelevant">529</span>
+                  <span class="notRelevant">530</span>
+                  <span class="notRelevant">531</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">532</span>
+                  <span class="notRelevant">533</span>
+                  <span class="notRelevant">534</span>
+                  <span class="notRelevant">535</span>
+                  <span class="notRelevant">536</span>
+                  <span class="notRelevant">537</span>
+                  <span class="notRelevant">538</span>
+                  <span class="notRelevant">539</span>
+                  <span class="notRelevant">540</span>
+                  <span class="notRelevant">541</span>
+                  <span class="notRelevant">542</span>
+                  <span class="notRelevant">543</span>
+                  <span class="notRelevant">544</span>
+                  <span class="notRelevant">545</span>
+                  <span class="notRelevant">546</span>
+                  <span class="notRelevant">547</span>
+                  <span class="notRelevant">548</span>
+                  <span class="notRelevant">549</span>
+                  <span class="notRelevant">550</span>
+                  <span class="notRelevant">551</span>
+                  <span class="notRelevant">552</span>
+                  <span class="notRelevant">553</span>
+                  <span class="notRelevant">554</span>
+                  <span class="notRelevant">555</span>
+                  <span class="notRelevant">556</span>
+                  <span class="notRelevant">557</span>
+                  <span class="notRelevant">558</span>
+                  <span class="notRelevant">559</span>
+                  <span class="notRelevant">560</span>
+                  <span class="notRelevant">561</span>
+                  <span class="notRelevant">562</span>
+                  <span class="notRelevant">563</span>
+                  <span class="notRelevant">564</span>
+                  <span class="notRelevant">565</span>
+                  <span class="notRelevant">566</span>
+                  <span class="notRelevant">567</span>
+                  <span class="notRelevant">568</span>
+                  <span class="notRelevant">569</span>
+                  <span class="notRelevant">570</span>
+                  <span class="notRelevant">571</span>
+                  <span class="notRelevant">572</span>
+                  <span class="notRelevant">573</span>
+                  <span class="notRelevant">574</span>
+                  <span class="notRelevant">575</span>
+                  <span class="notRelevant">576</span>
+                  <span class="notRelevant">577</span>
+                  <span class="notRelevant">578</span>
+                  <span class="notRelevant">579</span>
+                  <span class="notRelevant">580</span>
+                  <span class="notRelevant">581</span>
+                  <span class="notRelevant">582</span>
+                  <span class="notRelevant">583</span>
+                  <span class="notRelevant">584</span>
+                  <span class="notRelevant">585</span>
+                  <span class="notRelevant">586</span>
+                  <span class="notRelevant">587</span>
+                  <span class="notRelevant">588</span>
+                  <span class="notRelevant">589</span>
+                  <span class="notRelevant">590</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">591</span>
+                  <span class="notRelevant">592</span>
+                  <span class="notRelevant">593</span>
+                  <span class="notRelevant">594</span>
+                  <span class="notRelevant">595</span>
+                  <span class="notRelevant">596</span>
+                  <span class="notRelevant">597</span>
+                  <span class="notRelevant">598</span>
+                  <span class="notRelevant">599</span>
+                  <span class="notRelevant">600</span>
+                  <span class="notRelevant">601</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">602</span>
+                  <span class="notRelevant">603</span>
+                  <span class="notRelevant">604</span>
+                  <span class="notRelevant">605</span>
+                  <span class="notRelevant">606</span>
+                  <span class="notRelevant">607</span>
+                  <span class="notRelevant">608</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Provides data related to internet.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">t</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.error</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.parse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">base64</span><span class="w"> </span><span class="kn">import</span> <span class="n">b64encode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ipaddress</span><span class="w"> </span><span class="kn">import</span> <span class="n">IPv4Address</span><span class="p">,</span> <span class="n">IPv4Network</span><span class="p">,</span> <span class="n">IPv6Address</span><span class="p">,</span> <span class="n">IPv6Network</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">mimesis.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CLOUD_REGION_DIRECTIONS</span><span class="p">,</span>
+    <span class="n">CLOUD_REGION_PREFIXES</span><span class="p">,</span>
+    <span class="n">CONTENT_ENCODING_DIRECTIVES</span><span class="p">,</span>
+    <span class="n">CORS_OPENER_POLICIES</span><span class="p">,</span>
+    <span class="n">CORS_RESOURCE_POLICIES</span><span class="p">,</span>
+    <span class="n">HTTP_METHODS</span><span class="p">,</span>
+    <span class="n">HTTP_SERVERS</span><span class="p">,</span>
+    <span class="n">HTTP_STATUS_CODES</span><span class="p">,</span>
+    <span class="n">HTTP_STATUS_MSGS</span><span class="p">,</span>
+    <span class="n">PUBLIC_DNS</span><span class="p">,</span>
+    <span class="n">TLD</span><span class="p">,</span>
+    <span class="n">USER_AGENTS</span><span class="p">,</span>
+    <span class="n">USERNAMES</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mimesis.enums</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DSNType</span><span class="p">,</span>
+    <span class="n">IPv4Purpose</span><span class="p">,</span>
+    <span class="n">Locale</span><span class="p">,</span>
+    <span class="n">MimeType</span><span class="p">,</span>
+    <span class="n">PortRange</span><span class="p">,</span>
+    <span class="n">TLDType</span><span class="p">,</span>
+    <span class="n">URLScheme</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mimesis.providers.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mimesis.providers.code</span><span class="w"> </span><span class="kn">import</span> <span class="n">Code</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mimesis.providers.date</span><span class="w"> </span><span class="kn">import</span> <span class="n">Datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mimesis.providers.file</span><span class="w"> </span><span class="kn">import</span> <span class="n">File</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mimesis.providers.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">Text</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mimesis.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Keywords</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Internet&quot;</span><span class="p">]</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Internet</span><span class="p">(</span><span class="n">BaseProvider</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class for generating data related to the internet.&quot;&quot;&quot;</span>
+
+    <span class="n">_MAX_IPV4</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Final</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">32</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">_MAX_IPV6</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Final</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">128</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize attributes.</span>
+
+<span class="sd">        :param args: Arguments.</span>
+<span class="sd">        :param kwargs: Keyword arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_file</span> <span class="o">=</span> <span class="n">File</span><span class="p">(</span>
+            <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+            <span class="n">random</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_code</span> <span class="o">=</span> <span class="n">Code</span><span class="p">(</span>
+            <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+            <span class="n">random</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_text</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span>
+            <span class="n">locale</span><span class="o">=</span><span class="n">Locale</span><span class="o">.</span><span class="n">EN</span><span class="p">,</span>
+            <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+            <span class="n">random</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span> <span class="o">=</span> <span class="n">Datetime</span><span class="p">(</span>
+            <span class="n">locale</span><span class="o">=</span><span class="n">Locale</span><span class="o">.</span><span class="n">EN</span><span class="p">,</span>
+            <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+            <span class="n">random</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;internet&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">content_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mime_type</span><span class="p">:</span> <span class="n">MimeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random HTTP content type.</span>
+
+<span class="sd">        :return: Content type.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            application/json</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">mime_type</span><span class="p">(</span><span class="n">type_</span><span class="o">=</span><span class="n">mime_type</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">dsn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dsn_type</span><span class="p">:</span> <span class="n">DSNType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random DSN (Data Source Name).</span>
+
+<span class="sd">        :param dsn_type: DSN type.</span>
+<span class="sd">        :param kwargs: Additional keyword-arguments for hostname method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">hostname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">scheme</span><span class="p">,</span> <span class="n">port</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_enum</span><span class="p">(</span><span class="n">dsn_type</span><span class="p">,</span> <span class="n">DSNType</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">hostname</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">http_status_message</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random HTTP status message.</span>
+
+<span class="sd">        :return: HTTP status message.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            200 OK</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">HTTP_STATUS_MSGS</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">http_status_code</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random HTTP status code.</span>
+
+<span class="sd">        :return: HTTP status.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            200</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">HTTP_STATUS_CODES</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">http_method</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random HTTP method.</span>
+
+<span class="sd">        :return: HTTP method.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            POST</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">HTTP_METHODS</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">ip_v4_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IPv4Address</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random :py:class:`ipaddress.IPv4Address` object.</span>
+
+<span class="sd">        If you only need special purpose IPv4 addresses,</span>
+<span class="sd">        use :meth:`special_ip_v4_object`.</span>
+
+<span class="sd">        :return: :py:class:`ipaddress.IPv4Address` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">IPv4Address</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_MAX_IPV4</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">ip_v4_with_port</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_range</span><span class="p">:</span> <span class="n">PortRange</span> <span class="o">=</span> <span class="n">PortRange</span><span class="o">.</span><span class="n">ALL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random IPv4 address as string.</span>
+
+<span class="sd">        :param port_range: PortRange enum object.</span>
+<span class="sd">        :return: IPv4 address as string.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            19.121.223.58:8000</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ip_v4</span><span class="p">()</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">(</span><span class="n">port_range</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">addr</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">ip_v4</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random IPv4 address as string.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            19.121.223.58</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ip_v4_object</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">ip_v6_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IPv6Address</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates random :py:class:`ipaddress.IPv6Address` object.</span>
+
+<span class="sd">        :return: :py:class:`ipaddress.IPv6Address` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">IPv6Address</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span>
+                <span class="mi">0</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_MAX_IPV6</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">ip_v6</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random IPv6 address as string.</span>
+
+<span class="sd">        :return: IPv6 address string.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            2001:c244:cf9d:1fb1:c56d:f52c:8a04:94f3</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ip_v6_object</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">ip_v4_cidr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random valid IPv4 CIDR notation.</span>
+
+<span class="sd">        The generated CIDR represents a valid network address where</span>
+<span class="sd">        host bits are properly zeroed according to the prefix length.</span>
+
+<span class="sd">        :return: IPv4 CIDR notation.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            192.168.1.0/24</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ip_v4_object</span><span class="p">()</span>
+        <span class="n">prefix_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+        <span class="n">network</span> <span class="o">=</span> <span class="n">IPv4Network</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ip</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">prefix_length</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">ip_v6_cidr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random valid IPv6 CIDR notation.</span>
+
+<span class="sd">        The generated CIDR represents a valid network address where</span>
+<span class="sd">        host bits are properly zeroed according to the prefix length.</span>
+
+<span class="sd">        :return: IPv6 CIDR notation.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            2001:db8::/32</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ip</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ip_v6_object</span><span class="p">()</span>
+        <span class="n">prefix_length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+        <span class="n">network</span> <span class="o">=</span> <span class="n">IPv6Network</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ip</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">prefix_length</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">cloud_region</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random cloud provider region identifier.</span>
+
+<span class="sd">        This generates region identifiers commonly used by cloud providers</span>
+<span class="sd">        like AWS, Azure, GCP, etc.</span>
+
+<span class="sd">        :param separator: Separator between parts (default is &quot;-&quot;).</span>
+<span class="sd">        :return: Cloud region identifier.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            eu-west-1</span>
+<span class="sd">            us-east-2</span>
+<span class="sd">            ap-southeast-3</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">CLOUD_REGION_PREFIXES</span><span class="p">)</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">CLOUD_REGION_DIRECTIONS</span><span class="p">)</span>
+        <span class="n">zone_number</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">separator</span><span class="si">}{</span><span class="n">direction</span><span class="si">}{</span><span class="n">separator</span><span class="si">}{</span><span class="n">zone_number</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">asn</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random 4-byte ASN.</span>
+
+<span class="sd">        ASNs reserved for private use are not considered.</span>
+
+<span class="sd">        :return: ASN number as a string.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            AS123456</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4_199_999_999</span><span class="p">)</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">*</span><span class="n">ranges</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;AS</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">mac_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random MAC address.</span>
+
+<span class="sd">        :return: Random MAC address.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            00:16:3e:25:e7:f1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mac_hex</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="mh">0x00</span><span class="p">,</span>
+            <span class="mh">0x16</span><span class="p">,</span>
+            <span class="mh">0x3E</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x7F</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="n">mac</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">02x</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">mac_hex</span><span class="p">]</span>
+        <span class="k">return</span> <span class="s2">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mac</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stock_image_url</span><span class="p">(</span>
+        <span class="n">width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="mi">1920</span><span class="p">,</span>
+        <span class="n">height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="mi">1080</span><span class="p">,</span>
+        <span class="n">keywords</span><span class="p">:</span> <span class="n">Keywords</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random stock image URL hosted on Unsplash.</span>
+
+<span class="sd">        See «Random search term» on https://source.unsplash.com/</span>
+<span class="sd">        for more details.</span>
+
+<span class="sd">        :param width: Width of the image.</span>
+<span class="sd">        :param height: Height of the image.</span>
+<span class="sd">        :param keywords: Sequence of search keywords.</span>
+<span class="sd">        :return: URL of the image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">keywords</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">keywords_str</span> <span class="o">=</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">keywords_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;https://source.unsplash.com/</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s2">?</span><span class="si">{</span><span class="n">keywords_str</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">hostname</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tld_type</span><span class="p">:</span> <span class="n">TLDType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">subdomains</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random hostname without a scheme.</span>
+
+<span class="sd">        :param tld_type: TLDType.</span>
+<span class="sd">        :param subdomains: List of subdomains (make sure they are valid).</span>
+<span class="sd">        :return: Hostname.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tld</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tld</span><span class="p">(</span><span class="n">tld_type</span><span class="o">=</span><span class="n">tld_type</span><span class="p">)</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">USERNAMES</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">subdomains</span><span class="p">:</span>
+            <span class="n">subdomain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">subdomains</span><span class="p">)</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subdomain</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">host</span><span class="si">}{</span><span class="n">tld</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">url</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">scheme</span><span class="p">:</span> <span class="n">URLScheme</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">URLScheme</span><span class="o">.</span><span class="n">HTTPS</span><span class="p">,</span>
+        <span class="n">port_range</span><span class="p">:</span> <span class="n">PortRange</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">tld_type</span><span class="p">:</span> <span class="n">TLDType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">subdomains</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random URL.</span>
+
+<span class="sd">        :param scheme: The scheme.</span>
+<span class="sd">        :param port_range: PortRange enum object.</span>
+<span class="sd">        :param tld_type: TLDType.</span>
+<span class="sd">        :param subdomains: List of subdomains (make sure they are valid).</span>
+<span class="sd">        :return: URL.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">host</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">(</span><span class="n">tld_type</span><span class="p">,</span> <span class="n">subdomains</span><span class="p">)</span>
+        <span class="n">url_scheme</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_enum</span><span class="p">(</span><span class="n">scheme</span><span class="p">,</span> <span class="n">URLScheme</span><span class="p">)</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url_scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">port_range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">(</span><span class="n">port_range</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">/&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">uri</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">scheme</span><span class="p">:</span> <span class="n">URLScheme</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">URLScheme</span><span class="o">.</span><span class="n">HTTPS</span><span class="p">,</span>
+        <span class="n">tld_type</span><span class="p">:</span> <span class="n">TLDType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">subdomains</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">query_params_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random URI.</span>
+
+<span class="sd">        :param scheme: Scheme.</span>
+<span class="sd">        :param tld_type: TLDType.</span>
+<span class="sd">        :param subdomains: List of subdomains (make sure they are valid).</span>
+<span class="sd">        :param query_params_count: Query params.</span>
+<span class="sd">        :return: URI.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">2010</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_datetime</span><span class="o">.</span><span class="n">_CURRENT_YEAR</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">(</span><span class="n">scheme</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tld_type</span><span class="p">,</span> <span class="n">subdomains</span><span class="p">)</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">url</span><span class="si">}{</span><span class="n">directory</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">slug</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">if</span> <span class="n">query_params_count</span><span class="p">:</span>
+            <span class="n">uri</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;?</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">query_string</span><span class="p">(</span><span class="n">query_params_count</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="k">return</span> <span class="n">uri</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">query_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates an arbitrary query string of given length.</span>
+
+<span class="sd">        :param length: Length of query string.</span>
+<span class="sd">        :return: Query string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">query_parameters</span><span class="p">(</span><span class="n">length</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">query_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates an arbitrary query parameters as a dict.</span>
+
+<span class="sd">        :param length: Length of query parameters dictionary (maximum is 32).</span>
+<span class="sd">        :return: Dict of query parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">pick_unique_words</span><span class="p">(</span><span class="n">quantity</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+            <span class="n">words</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">!=</span> <span class="n">quantity</span><span class="p">:</span>
+                <span class="n">words</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="o">.</span><span class="n">word</span><span class="p">())</span>
+
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">length</span><span class="p">:</span>
+            <span class="n">length</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="mi">32</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Maximum allowed length of query parameters is 32.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">pick_unique_words</span><span class="p">(</span><span class="n">length</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">length</span><span class="p">)))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">top_level_domain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tld_type</span><span class="p">:</span> <span class="n">TLDType</span> <span class="o">=</span> <span class="n">TLDType</span><span class="o">.</span><span class="n">CCTLD</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates random top level domain.</span>
+
+<span class="sd">        :param tld_type: Enum object :class:`enums.TLDType`</span>
+<span class="sd">        :return: Top level domain.</span>
+<span class="sd">        :raises NonEnumerableError: if tld_type not in :class:`enums.TLDType`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_enum</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">tld_type</span><span class="p">,</span> <span class="n">enum</span><span class="o">=</span><span class="n">TLDType</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">TLD</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">tld</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random TLD.</span>
+
+<span class="sd">        An alias for :meth:`top_level_domain`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_level_domain</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">user_agent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a random user agent.</span>
+
+<span class="sd">        :return: User agent.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:15.0)</span>
+<span class="sd">            Gecko/20100101 Firefox/15.0.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">USER_AGENTS</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">port</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port_range</span><span class="p">:</span> <span class="n">PortRange</span> <span class="o">=</span> <span class="n">PortRange</span><span class="o">.</span><span class="n">ALL</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random port.</span>
+
+<span class="sd">        :param port_range: PortRange enum object.</span>
+<span class="sd">        :return: Port number.</span>
+<span class="sd">        :raises NonEnumerableError: if port_range is not in PortRange.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            8080</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">rng</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_enum</span><span class="p">(</span><span class="n">port_range</span><span class="p">,</span> <span class="n">PortRange</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">*</span><span class="n">rng</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random path.</span>
+
+<span class="sd">        :param args: Arguments to pass to :meth:`slug`.</span>
+<span class="sd">        :param kwargs: Keyword arguments to pass to :meth:`slug`.</span>
+<span class="sd">        :return: Path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slug</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">slug</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parts_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random slug of given parts count.</span>
+
+<span class="sd">        :param parts_count: Slug&#39;s parts count.</span>
+<span class="sd">        :return: Slug.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parts_count</span><span class="p">:</span>
+            <span class="n">parts_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">parts_count</span> <span class="o">&gt;</span> <span class="mi">12</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Slug&#39;s parts count must be &lt;= 12&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">parts_count</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Slug must contain more than 2 parts&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">parts_count</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">public_dns</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random public DNS.</span>
+
+<span class="sd">        :Example:</span>
+<span class="sd">            1.1.1.1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">PUBLIC_DNS</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">http_response_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random HTTP response headers.</span>
+
+<span class="sd">        The following headers are included:</span>
+
+<span class="sd">        - Allow</span>
+<span class="sd">        - Age</span>
+<span class="sd">        - Server</span>
+<span class="sd">        - Content-Type</span>
+<span class="sd">        - X-Request-ID</span>
+<span class="sd">        - Content-Language</span>
+<span class="sd">        - Content-Location</span>
+<span class="sd">        - Set-Cookie</span>
+<span class="sd">        - Upgrade-Insecure-Requests</span>
+<span class="sd">        - X-Content-Type-Options</span>
+<span class="sd">        - X-XSS-Protection</span>
+<span class="sd">        - Connection</span>
+<span class="sd">        - X-Frame-Options</span>
+<span class="sd">        - Content-Encoding</span>
+<span class="sd">        - Cross-Origin-Opener-Policy</span>
+<span class="sd">        - Cross-Origin-Resource-Policy</span>
+<span class="sd">        - Strict-Transport-Security</span>
+
+<span class="sd">        :return: Response headers as dict.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">max_age</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span>
+        <span class="n">cookie_attributes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;Secure&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HttpOnly&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SameSite=Lax&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SameSite=Strict&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Max-Age=</span><span class="si">{</span><span class="n">max_age</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Domain=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">quantity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">cookie_attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">cookie_attributes</span><span class="p">)</span>
+        <span class="n">csrf_token</span> <span class="o">=</span> <span class="n">b64encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randbytes</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">32</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="n">cookie_value</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;csrftoken=</span><span class="si">{</span><span class="n">csrf_token</span><span class="si">}</span><span class="s2">; </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">; </span><span class="si">{</span><span class="n">cookie_attr</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Allow&quot;</span><span class="p">:</span> <span class="s2">&quot;*&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Age&quot;</span><span class="p">:</span> <span class="n">max_age</span><span class="p">,</span>
+            <span class="s2">&quot;Server&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">HTTP_SERVERS</span><span class="p">),</span>
+            <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">mime_type</span><span class="p">(),</span>
+            <span class="s2">&quot;X-Request-ID&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randbytes</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">(),</span>
+            <span class="s2">&quot;Content-Language&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_code</span><span class="o">.</span><span class="n">locale_code</span><span class="p">(),</span>
+            <span class="s2">&quot;Content-Location&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="n">parts_count</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+            <span class="s2">&quot;Set-Cookie&quot;</span><span class="p">:</span> <span class="n">cookie_value</span><span class="p">,</span>
+            <span class="s2">&quot;Upgrade-Insecure-Requests&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;X-Content-Type-Options&quot;</span><span class="p">:</span> <span class="s2">&quot;nosniff&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;X-XSS-Protection&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;Connection&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="s2">&quot;keep-alive&quot;</span><span class="p">]),</span>
+            <span class="s2">&quot;X-Frame-Options&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">&quot;DENY&quot;</span><span class="p">,</span> <span class="s2">&quot;SAMEORIGIN&quot;</span><span class="p">]),</span>
+            <span class="s2">&quot;Content-Encoding&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">CONTENT_ENCODING_DIRECTIVES</span><span class="p">),</span>
+            <span class="s2">&quot;Cross-Origin-Opener-Policy&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">CORS_OPENER_POLICIES</span><span class="p">),</span>
+            <span class="s2">&quot;Cross-Origin-Resource-Policy&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">CORS_RESOURCE_POLICIES</span><span class="p">),</span>
+            <span class="s2">&quot;Strict-Transport-Security&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;max-age=</span><span class="si">{</span><span class="n">max_age</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">headers</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">http_request_headers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a random HTTP request headers.</span>
+
+<span class="sd">        The following headers are included:</span>
+
+<span class="sd">        - Referer</span>
+<span class="sd">        - Authorization</span>
+<span class="sd">        - Cookie</span>
+<span class="sd">        - User-Agent</span>
+<span class="sd">        - X-CSRF-Token</span>
+<span class="sd">        - Content-Type</span>
+<span class="sd">        - Content-Length</span>
+<span class="sd">        - Connection</span>
+<span class="sd">        - Cache-Control</span>
+<span class="sd">        - Accept</span>
+<span class="sd">        - Host</span>
+<span class="sd">        - Accept-Language</span>
+
+<span class="sd">        :return: Request headers as dict.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="n">quantity</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">max_age</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">15</span><span class="p">)</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">b64encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randbytes</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
+        <span class="n">csrf_token</span> <span class="o">=</span> <span class="n">b64encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randbytes</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">32</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;Referer&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">(),</span>
+            <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Cookie&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;csrftoken=</span><span class="si">{</span><span class="n">csrf_token</span><span class="si">}</span><span class="s2">; </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;User-Agent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span><span class="p">(),</span>
+            <span class="s2">&quot;X-CSRF-Token&quot;</span><span class="p">:</span> <span class="n">b64encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randbytes</span><span class="p">(</span><span class="mi">32</span><span class="p">))</span><span class="o">.</span><span class="n">hex</span><span class="p">(),</span>
+            <span class="s2">&quot;Content-Type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">mime_type</span><span class="p">(),</span>
+            <span class="s2">&quot;Content-Length&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span>
+            <span class="s2">&quot;Connection&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="s2">&quot;keep-alive&quot;</span><span class="p">]),</span>
+            <span class="s2">&quot;Cache-Control&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="s2">&quot;no-cache&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;no-store&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;must-revalidate&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;public&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;private&quot;</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s2">&quot;max-age=</span><span class="si">{</span><span class="n">max_age</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="p">]</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="s2">&quot;*/*&quot;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_file</span><span class="o">.</span><span class="n">mime_type</span><span class="p">(),</span>
+                <span class="p">]</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;Host&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">(),</span>
+            <span class="s2">&quot;Accept-Language&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="s2">&quot;*&quot;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_code</span><span class="o">.</span><span class="n">locale_code</span><span class="p">(),</span>
+                <span class="p">]</span>
+            <span class="p">),</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">headers</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">special_ip_v4_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">purpose</span><span class="p">:</span> <span class="n">IPv4Purpose</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IPv4Address</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a special purpose IPv4 address.</span>
+
+<span class="sd">        :param purpose: Enum object :class:`enums.IPv4Purpose`.</span>
+<span class="sd">        :return: IPv4 address.</span>
+<span class="sd">        :raises NonEnumerableError: if purpose not in :class:`enums.IPv4Purpose`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ranges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_enum</span><span class="p">(</span><span class="n">purpose</span><span class="p">,</span> <span class="n">IPv4Purpose</span><span class="p">)</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">*</span><span class="n">ranges</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">IPv4Address</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">special_ip_v4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">purpose</span><span class="p">:</span> <span class="n">IPv4Purpose</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generates a special purpose IPv4 address as string.</span>
+
+<span class="sd">        :param purpose: Enum object :class:`enums.IPv4Purpose`.</span>
+<span class="sd">        :return: IPv4 address as string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">special_ip_v4_object</span><span class="p">(</span><span class="n">purpose</span><span class="p">))</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-01-22 10:12:30.843660</p>
+</footer>
+</body>
+</html>

@@ -12,12 +12,12 @@ def test_case_0():
 
 @pytest.mark.xfail(strict=True)
 def test_case_1():
-    var_0 = 'PUyP1'
-    module_0.module_key(var_0, var_0, var_0)
+    var_0 = '59+I%SBGp()'
+    module_0.module_key(var_0, var_0, var_0, section_name=var_0)
 
 @pytest.mark.xfail(strict=True)
 def test_case_2():
-    var_0 = 'm`\t/'
+    var_0 = '/>%8YsO \x0b'
     module_0.module_key(var_0, var_0)
 
 @pytest.mark.xfail(strict=True)
@@ -27,14 +27,15 @@ def test_case_3():
 
 @pytest.mark.xfail(strict=True)
 def test_case_4():
-    var_0 = 'n\\r\\Td"9"j;'
-    var_1 = [var_0, var_0, var_0]
-    var_2 = True
-    var_3 = module_0.naturally(var_1, reverse=var_2)
+    var_0 = '\\r\\Td"9"jZ;'
+    var_1 = 'n3}B/'
+    var_2 = [var_0, var_0, var_1]
+    var_3 = True
+    var_4 = module_0.naturally(var_2, reverse=var_3)
     assert module_0.TYPE_CHECKING is False
-    var_4 = 'xEz{` rUe'
     var_5 = None
-    module_0.module_key(var_4, var_5, var_2)
+    var_6 = True
+    module_0.module_key(var_1, var_5, var_6)
 
 def test_case_5():
     var_0 = 'k\x0bG\x0c`'
@@ -63,10 +64,8 @@ def test_case_5():
 
 @pytest.mark.xfail(strict=True)
 def test_case_6():
-    var_0 = '19;)NYi\\o%yu'
-    var_1 = None
-    var_2 = True
-    module_0.module_key(var_0, var_1, ignore_case=var_2, section_name=var_1)
+    var_0 = 'HYuvfq\nRw\nH@B@cb'
+    module_0.module_key(var_0, var_0, var_0, var_0)
 
 @pytest.mark.xfail(strict=True)
 def test_case_7():

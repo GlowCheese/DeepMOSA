@@ -1,0 +1,512 @@
+####################################################################
+#     TEST GENERATION BEGINS (DEEPMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def find_template(repo_dir: Path | str, env: Environment) -> Path:
+    """Determine which child directory of ``repo_dir`` is the project template.
+
+    :param repo_dir: Local directory of newly cloned repo.
+    :return: Relative path to project template.
+    """
+    logger.debug('Searching %s for the project template.', repo_dir)
+
+    for str_path in os.listdir(repo_dir):
+        if (
+            'cookiecutter' in str_path
+            and env.variable_start_string in str_path
+            and env.variable_end_string in str_path
+        ):
+            project_template = Path(repo_dir, str_path)
+            break
+    else:
+        raise NonTemplatedInputDirException
+
+    logger.debug('The project template appears to be %s', project_template)
+    return project_template
+
+```
+Write unit test for function find_template
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def find_template(repo_dir: Path | str, env: Environment) -> Path:
+ 2 |     """Determine which child directory of ``repo_dir`` is the project template.
+ 3 | 
+ 4 |     :param repo_dir: Local directory of newly cloned repo.
+ 5 |     :return: Relative path to project template.
+ 6 |     """
+ 7 |     logger.debug('Searching %s for the project template.', repo_dir)
+ 8 | 
+ 9 |     for str_path in os.listdir(repo_dir):
+10 |         if (
+11 |             'cookiecutter' in str_path
+12 |             and env.variable_start_string in str_path
+13 |             and env.variable_end_string in str_path
+14 |         ):
+15 |             project_template = Path(repo_dir, str_path)
+16 |             break
+17 |     else:
+18 |         raise NonTemplatedInputDirException
+19 | 
+20 |     logger.debug('The project template appears to be %s', project_template)
+21 |     return project_template
+```
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def find_template(repo_dir: Path | str, env: Environment) -> Path:
+    """Determine which child directory of ``repo_dir`` is the project template.
+
+    :param repo_dir: Local directory of newly cloned repo.
+    :return: Relative path to project template.
+    """
+    logger.debug('Searching %s for the project template.', repo_dir)
+
+    for str_path in os.listdir(repo_dir):
+        if (
+            'cookiecutter' in str_path
+            and env.variable_start_string in str_path
+            and env.variable_end_string in str_path
+        ):
+            project_template = Path(repo_dir, str_path)
+            break
+    else:
+        raise NonTemplatedInputDirException
+
+    logger.debug('The project template appears to be %s', project_template)
+    return project_template
+
+```
+Write unit test for function find_template
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def find_template(repo_dir: Path | str, env: Environment) -> Path:
+ 2 |     """Determine which child directory of ``repo_dir`` is the project template.
+ 3 | 
+ 4 |     :param repo_dir: Local directory of newly cloned repo.
+ 5 |     :return: Relative path to project template.
+ 6 |     """
+ 7 |     logger.debug('Searching %s for the project template.', repo_dir)
+ 8 | 
+ 9 |     for str_path in os.listdir(repo_dir):
+10 |         if (
+11 |             'cookiecutter' in str_path
+12 |             and env.variable_start_string in str_path
+13 |             and env.variable_end_string in str_path
+14 |         ):
+15 |             project_template = Path(repo_dir, str_path)
+16 |             break
+17 |     else:
+18 |         raise NonTemplatedInputDirException
+19 | 
+20 |     logger.debug('The project template appears to be %s', project_template)
+21 |     return project_template
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+def find_template(repo_dir: Path | str, env: Environment) -> Path:
+    """Determine which child directory of ``repo_dir`` is the project template.
+
+    :param repo_dir: Local directory of newly cloned repo.
+    :return: Relative path to project template.
+    """
+    logger.debug('Searching %s for the project template.', repo_dir)
+
+    for str_path in os.listdir(repo_dir):
+        if (
+            'cookiecutter' in str_path
+            and env.variable_start_string in str_path
+            and env.variable_end_string in str_path
+        ):
+            project_template = Path(repo_dir, str_path)
+            break
+    else:
+        raise NonTemplatedInputDirException
+
+    logger.debug('The project template appears to be %s', project_template)
+    return project_template
+
+```
+Write unit test for function find_template
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def find_template(repo_dir: Path | str, env: Environment) -> Path:
+    """Determine which child directory of ``repo_dir`` is the project template.
+
+    :param repo_dir: Local directory of newly cloned repo.
+    :return: Relative path to project template.
+    """
+    logger.debug('Searching %s for the project template.', repo_dir)
+
+    for str_path in os.listdir(repo_dir):
+        if (
+            'cookiecutter' in str_path
+            and env.variable_start_string in str_path
+            and env.variable_end_string in str_path
+        ):
+            project_template = Path(repo_dir, str_path)
+            break
+    else:
+        raise NonTemplatedInputDirException
+
+    logger.debug('The project template appears to be %s', project_template)
+    return project_template
+
+```
+Write unit test for function find_template
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def find_template(repo_dir: Path | str, env: Environment) -> Path:
+ 2 |     """Determine which child directory of ``repo_dir`` is the project template.
+ 3 | 
+ 4 |     :param repo_dir: Local directory of newly cloned repo.
+ 5 |     :return: Relative path to project template.
+ 6 |     """
+ 7 |     logger.debug('Searching %s for the project template.', repo_dir)
+ 8 | 
+ 9 |     for str_path in os.listdir(repo_dir):
+10 |         if (
+11 |             'cookiecutter' in str_path
+12 |             and env.variable_start_string in str_path
+13 |             and env.variable_end_string in str_path
+14 |         ):
+15 |             project_template = Path(repo_dir, str_path)
+16 |             break
+17 |     else:
+18 |         raise NonTemplatedInputDirException
+19 | 
+20 |     logger.debug('The project template appears to be %s', project_template)
+21 |     return project_template
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def find_template(repo_dir: Path | str, env: Environment) -> Path:
+ 2 |     """Determine which child directory of ``repo_dir`` is the project template.
+ 3 | 
+ 4 |     :param repo_dir: Local directory of newly cloned repo.
+ 5 |     :return: Relative path to project template.
+ 6 |     """
+ 7 |     logger.debug('Searching %s for the project template.', repo_dir)
+ 8 | 
+ 9 |     for str_path in os.listdir(repo_dir):
+10 |         if (
+11 |             'cookiecutter' in str_path
+12 |             and env.variable_start_string in str_path
+13 |             and env.variable_end_string in str_path
+14 |         ):
+15 |             project_template = Path(repo_dir, str_path)
+16 |             break
+17 |     else:
+18 |         raise NonTemplatedInputDirException
+19 | 
+20 |     logger.debug('The project template appears to be %s', project_template)
+21 |     return project_template
+```
+
+
+####################################################################
+#     TEST GENERATION BEGINS (DEEPMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def find_template(repo_dir: Path | str, env: Environment) -> Path:
+    """Determine which child directory of ``repo_dir`` is the project template.
+
+    :param repo_dir: Local directory of newly cloned repo.
+    :return: Relative path to project template.
+    """
+    logger.debug('Searching %s for the project template.', repo_dir)
+
+    for str_path in os.listdir(repo_dir):
+        if (
+            'cookiecutter' in str_path
+            and env.variable_start_string in str_path
+            and env.variable_end_string in str_path
+        ):
+            project_template = Path(repo_dir, str_path)
+            break
+    else:
+        raise NonTemplatedInputDirException
+
+    logger.debug('The project template appears to be %s', project_template)
+    return project_template
+
+```
+Write unit test for function find_template
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def find_template(repo_dir: Path | str, env: Environment) -> Path:
+ 2 |     """Determine which child directory of ``repo_dir`` is the project template.
+ 3 | 
+ 4 |     :param repo_dir: Local directory of newly cloned repo.
+ 5 |     :return: Relative path to project template.
+ 6 |     """
+ 7 |     logger.debug('Searching %s for the project template.', repo_dir)
+ 8 | 
+ 9 |     for str_path in os.listdir(repo_dir):
+10 |         if (
+11 |             'cookiecutter' in str_path
+12 |             and env.variable_start_string in str_path
+13 |             and env.variable_end_string in str_path
+14 |         ):
+15 |             project_template = Path(repo_dir, str_path)
+16 |             break
+17 |     else:
+18 |         raise NonTemplatedInputDirException
+19 | 
+20 |     logger.debug('The project template appears to be %s', project_template)
+21 |     return project_template
+```
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def find_template(repo_dir: Path | str, env: Environment) -> Path:
+ 2 |     """Determine which child directory of ``repo_dir`` is the project template.
+ 3 | 
+ 4 |     :param repo_dir: Local directory of newly cloned repo.
+ 5 |     :return: Relative path to project template.
+ 6 |     """
+ 7 |     logger.debug('Searching %s for the project template.', repo_dir)
+ 8 | 
+ 9 |     for str_path in os.listdir(repo_dir):
+10 |         if (
+11 |             'cookiecutter' in str_path
+12 |             and env.variable_start_string in str_path
+13 |             and env.variable_end_string in str_path
+14 |         ):
+15 |             project_template = Path(repo_dir, str_path)
+16 |             break
+17 |     else:
+18 |         raise NonTemplatedInputDirException
+19 | 
+20 |     logger.debug('The project template appears to be %s', project_template)
+21 |     return project_template
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def find_template(repo_dir: Path | str, env: Environment) -> Path:
+ 2 |     """Determine which child directory of ``repo_dir`` is the project template.
+ 3 | 
+ 4 |     :param repo_dir: Local directory of newly cloned repo.
+ 5 |     :return: Relative path to project template.
+ 6 |     """
+ 7 |     logger.debug('Searching %s for the project template.', repo_dir)
+ 8 | 
+ 9 |     for str_path in os.listdir(repo_dir):
+10 |         if (
+11 |             'cookiecutter' in str_path
+12 |             and env.variable_start_string in str_path
+13 |             and env.variable_end_string in str_path
+14 |         ):
+15 |             project_template = Path(repo_dir, str_path)
+16 |             break
+17 |     else:
+18 |         raise NonTemplatedInputDirException
+19 | 
+20 |     logger.debug('The project template appears to be %s', project_template)
+21 |     return project_template
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def find_template(repo_dir: Path | str, env: Environment) -> Path:
+ 2 |     """Determine which child directory of ``repo_dir`` is the project template.
+ 3 | 
+ 4 |     :param repo_dir: Local directory of newly cloned repo.
+ 5 |     :return: Relative path to project template.
+ 6 |     """
+ 7 |     logger.debug('Searching %s for the project template.', repo_dir)
+ 8 | 
+ 9 |     for str_path in os.listdir(repo_dir):
+10 |         if (
+11 |             'cookiecutter' in str_path
+12 |             and env.variable_start_string in str_path
+13 |             and env.variable_end_string in str_path
+14 |         ):
+15 |             project_template = Path(repo_dir, str_path)
+16 |             break
+17 |     else:
+18 |         raise NonTemplatedInputDirException
+19 | 
+20 |     logger.debug('The project template appears to be %s', project_template)
+21 |     return project_template
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def find_template(repo_dir: Path | str, env: Environment) -> Path:
+ 2 |     """Determine which child directory of ``repo_dir`` is the project template.
+ 3 | 
+ 4 |     :param repo_dir: Local directory of newly cloned repo.
+ 5 |     :return: Relative path to project template.
+ 6 |     """
+ 7 |     logger.debug('Searching %s for the project template.', repo_dir)
+ 8 | 
+ 9 |     for str_path in os.listdir(repo_dir):
+10 |         if (
+11 |             'cookiecutter' in str_path
+12 |             and env.variable_start_string in str_path
+13 |             and env.variable_end_string in str_path
+14 |         ):
+15 |             project_template = Path(repo_dir, str_path)
+16 |             break
+17 |     else:
+18 |         raise NonTemplatedInputDirException
+19 | 
+20 |     logger.debug('The project template appears to be %s', project_template)
+21 |     return project_template
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def find_template(repo_dir: Path | str, env: Environment) -> Path:
+ 2 |     """Determine which child directory of ``repo_dir`` is the project template.
+ 3 | 
+ 4 |     :param repo_dir: Local directory of newly cloned repo.
+ 5 |     :return: Relative path to project template.
+ 6 |     """
+ 7 |     logger.debug('Searching %s for the project template.', repo_dir)
+ 8 | 
+ 9 |     for str_path in os.listdir(repo_dir):
+10 |         if (
+11 |             'cookiecutter' in str_path
+12 |             and env.variable_start_string in str_path
+13 |             and env.variable_end_string in str_path
+14 |         ):
+15 |             project_template = Path(repo_dir, str_path)
+16 |             break
+17 |     else:
+18 |         raise NonTemplatedInputDirException
+19 | 
+20 |     logger.debug('The project template appears to be %s', project_template)
+21 |     return project_template
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def find_template(repo_dir: Path | str, env: Environment) -> Path:
+ 2 |     """Determine which child directory of ``repo_dir`` is the project template.
+ 3 | 
+ 4 |     :param repo_dir: Local directory of newly cloned repo.
+ 5 |     :return: Relative path to project template.
+ 6 |     """
+ 7 |     logger.debug('Searching %s for the project template.', repo_dir)
+ 8 | 
+ 9 |     for str_path in os.listdir(repo_dir):
+10 |         if (
+11 |             'cookiecutter' in str_path
+12 |             and env.variable_start_string in str_path
+13 |             and env.variable_end_string in str_path
+14 |         ):
+15 |             project_template = Path(repo_dir, str_path)
+16 |             break
+17 |     else:
+18 |         raise NonTemplatedInputDirException
+19 | 
+20 |     logger.debug('The project template appears to be %s', project_template)
+21 |     return project_template
+```
+
+

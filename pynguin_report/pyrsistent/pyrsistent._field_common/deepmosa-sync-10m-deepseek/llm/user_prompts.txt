@@ -1,0 +1,3856 @@
+####################################################################
+#     TEST GENERATION BEGINS (DEEPMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def check_global_invariants(subject, invariants):
+    error_codes = tuple(error_code for is_ok, error_code in
+                        (invariant(subject) for invariant in invariants) if not is_ok)
+    if error_codes:
+        raise InvariantException(error_codes, (), 'Global invariant failed')
+
+```
+Write unit test for function check_global_invariants
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def set_fields(dct, bases, name):
+    dct[name] = dict(sum([list(b.__dict__.get(name, {}).items()) for b in bases], []))
+
+    for k, v in list(dct.items()):
+        if isinstance(v, _PField):
+            dct[name][k] = v
+            del dct[k]
+
+```
+Write unit test for function set_fields
+
+
+# Prompt used at query #3
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+```
+Write unit test for function _make_seq_field_type
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+```
+Write unit test for function _check_field_parameters
+
+
+# Prompt used at query #5
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def check_type(destination_cls, field, name, value):
+    if field.type and not any(isinstance(value, get_type(t)) for t in field.type):
+        actual_type = type(value)
+        message = "Invalid type for field {0}.{1}, was {2}".format(destination_cls.__name__, name, actual_type.__name__)
+        raise PTypeError(destination_cls, name, field.type, actual_type, message)
+
+```
+Write unit test for function check_type
+
+
+# Prompt used at query #6
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _make_pmap_field_type(key_type, value_type):
+    """Create a subclass of CheckedPMap with the given key and value types."""
+    type_ = _pmap_field_types.get((key_type, value_type))
+    if type_ is not None:
+        return type_
+
+    class TheMap(CheckedPMap):
+        __key_type__ = key_type
+        __value_type__ = value_type
+
+        def __reduce__(self):
+            return (_restore_pmap_field_pickle,
+                    (self.__key_type__, self.__value_type__, dict(self)))
+
+    TheMap.__name__ = "{0}To{1}PMap".format(
+        _types_to_names(TheMap._checked_key_types),
+        _types_to_names(TheMap._checked_value_types))
+    _pmap_field_types[key_type, value_type] = TheMap
+    return TheMap
+
+```
+Write unit test for function _make_pmap_field_type
+
+
+# Prompt used at query #7
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def check_type(destination_cls, field, name, value):
+    if field.type and not any(isinstance(value, get_type(t)) for t in field.type):
+        actual_type = type(value)
+        message = "Invalid type for field {0}.{1}, was {2}".format(destination_cls.__name__, name, actual_type.__name__)
+        raise PTypeError(destination_cls, name, field.type, actual_type, message)
+
+```
+Write unit test for function check_type
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to True.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def is_type_cls(type_cls, field_type):
+    if type(field_type) is set:
+        return True
+    types = tuple(field_type)
+    if len(types) == 0:
+        return False
+    return issubclass(get_type(types[0]), type_cls)
+
+
+def is_field_ignore_extra_complaint(type_cls, field, ignore_extra):
+    # ignore_extra param has default False value, for speed purpose no need to propagate False
+    if not ignore_extra:
+        return False
+
+    if not is_type_cls(type_cls, field.type):
+        return False
+
+    return 'ignore_extra' in inspect.signature(field.factory).parameters
+
+```
+Write unit test for function is_field_ignore_extra_complaint
+
+
+# Prompt used at query #10
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+
+def _merge_invariant_results(result):
+    verdict = True
+    data = []
+    for verd, dat in result:
+        if not verd:
+            verdict = False
+            data.append(dat)
+
+    return verdict, tuple(data)
+
+
+def wrap_invariant(invariant):
+    # Invariant functions may return the outcome of several tests
+    # In those cases the results have to be merged before being passed
+    # back to the client.
+    def f(*args, **kwargs):
+        result = invariant(*args, **kwargs)
+        if isinstance(result[0], bool):
+            return result
+
+        return _merge_invariant_results(result)
+
+    return f
+
+
+def maybe_parse_many_user_types(ts):
+    # Just a different name to communicate that you're parsing multiple user
+    # inputs. `maybe_parse_user_type` handles the iterable case anyway.
+    return maybe_parse_user_type(ts)
+
+
+def maybe_parse_user_type(t):
+    """Try to coerce a user-supplied type directive into a list of types.
+
+    This function should be used in all places where a user specifies a type,
+    for consistency.
+
+    The policy for what defines valid user input should be clear from the implementation.
+    """
+    is_type = isinstance(t, type)
+    is_preserved = isinstance(t, type) and issubclass(t, _preserved_iterable_types)
+    is_string = isinstance(t, str)
+    is_iterable = isinstance(t, Iterable)
+
+    if is_preserved:
+        return [t]
+    elif is_string:
+        return [t]
+    elif is_type and not is_iterable:
+        return [t]
+    elif is_iterable:
+        # Recur to validate contained types as well.
+        ts = t
+        return tuple(e for t in ts for e in maybe_parse_user_type(t))
+    else:
+        # If this raises because `t` cannot be formatted, so be it.
+        raise TypeError(
+            'Type specifications must be types or strings. Input: {}'.format(t)
+        )
+
+
+def optional(*typs):
+    """ Convenience function to specify that a value may be of any of the types in type 'typs' or None """
+    return tuple(typs) + (type(None),)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+
+def field(type=PFIELD_NO_TYPE, invariant=PFIELD_NO_INVARIANT, initial=PFIELD_NO_INITIAL,
+          mandatory=False, factory=PFIELD_NO_FACTORY, serializer=PFIELD_NO_SERIALIZER):
+    """
+    Field specification factory for :py:class:`PRecord`.
+
+    :param type: a type or iterable with types that are allowed for this field
+    :param invariant: a function specifying an invariant that must hold for the field
+    :param initial: value of field if not specified when instantiating the record
+    :param mandatory: boolean specifying if the field is mandatory or not
+    :param factory: function called when field is set.
+    :param serializer: function that returns a serialized version of the field
+    """
+
+    # NB: We have to check this predicate separately from the predicates in
+    # `maybe_parse_user_type` et al. because this one is related to supporting
+    # the argspec for `field`, while those are related to supporting the valid
+    # ways to specify types.
+
+    # Multiple types must be passed in one of the following containers. Note
+    # that a type that is a subclass of one of these containers, like a
+    # `collections.namedtuple`, will work as expected, since we check
+    # `isinstance` and not `issubclass`.
+    if isinstance(type, (list, set, tuple)):
+        types = set(maybe_parse_many_user_types(type))
+    else:
+        types = set(maybe_parse_user_type(type))
+
+    invariant_function = wrap_invariant(invariant) if invariant != PFIELD_NO_INVARIANT and callable(invariant) else invariant
+    field = _PField(type=types, invariant=invariant_function, initial=initial,
+                    mandatory=mandatory, factory=factory, serializer=serializer)
+
+    _check_field_parameters(field)
+
+    return field
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+
+def _sequence_field(checked_class, item_type, optional, initial,
+                    invariant=PFIELD_NO_INVARIANT,
+                    item_invariant=PFIELD_NO_INVARIANT):
+    """
+    Create checked field for either ``PSet`` or ``PVector``.
+
+    :param checked_class: ``CheckedPSet`` or ``CheckedPVector``.
+    :param item_type: The required type for the items in the set.
+    :param optional: If true, ``None`` can be used as a value for
+        this field.
+    :param initial: Initial value to pass to factory.
+
+    :return: A ``field`` containing a checked class.
+    """
+    TheType = _make_seq_field_type(checked_class, item_type, item_invariant)
+
+    if optional:
+        def factory(argument, _factory_fields=None, ignore_extra=False):
+            if argument is None:
+                return None
+            else:
+                return TheType.create(argument, _factory_fields=_factory_fields, ignore_extra=ignore_extra)
+    else:
+        factory = TheType.create
+
+    return field(type=optional_type(TheType) if optional else TheType,
+                 factory=factory, mandatory=True,
+                 invariant=invariant,
+                 initial=factory(initial))
+
+```
+Write unit test for function _sequence_field
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+1 | def check_global_invariants(subject, invariants):
+2 |     error_codes = tuple(error_code for is_ok, error_code in
+3 |                         (invariant(subject) for invariant in invariants) if not is_ok)
+4 |     if error_codes:
+5 |         raise InvariantException(error_codes, (), 'Global invariant failed')
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def is_type_cls(type_cls, field_type):
+    if type(field_type) is set:
+        return True
+    types = tuple(field_type)
+    if len(types) == 0:
+        return False
+    return issubclass(get_type(types[0]), type_cls)
+
+```
+Write unit test for function is_type_cls
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+1 | def check_global_invariants(subject, invariants):
+2 |     error_codes = tuple(error_code for is_ok, error_code in
+3 |                         (invariant(subject) for invariant in invariants) if not is_ok)
+4 |     if error_codes:
+5 |         raise InvariantException(error_codes, (), 'Global invariant failed')
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+def serialize(serializer, format, value):
+    if isinstance(value, CheckedType) and serializer is PFIELD_NO_SERIALIZER:
+        return value.serialize(format)
+
+    return serializer(format, value)
+
+```
+Write unit test for function serialize
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+1 | def check_global_invariants(subject, invariants):
+2 |     error_codes = tuple(error_code for is_ok, error_code in
+3 |                         (invariant(subject) for invariant in invariants) if not is_ok)
+4 |     if error_codes:
+5 |         raise InvariantException(error_codes, (), 'Global invariant failed')
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+```
+Write unit test for function _make_seq_field_type
+
+
+# Prompt used at query #20
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+```
+Write unit test for function _make_seq_field_type
+
+
+# Prompt used at query #21
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+
+def _merge_invariant_results(result):
+    verdict = True
+    data = []
+    for verd, dat in result:
+        if not verd:
+            verdict = False
+            data.append(dat)
+
+    return verdict, tuple(data)
+
+
+def maybe_parse_many_user_types(ts):
+    # Just a different name to communicate that you're parsing multiple user
+    # inputs. `maybe_parse_user_type` handles the iterable case anyway.
+    return maybe_parse_user_type(ts)
+
+
+def wrap_invariant(invariant):
+    # Invariant functions may return the outcome of several tests
+    # In those cases the results have to be merged before being passed
+    # back to the client.
+    def f(*args, **kwargs):
+        result = invariant(*args, **kwargs)
+        if isinstance(result[0], bool):
+            return result
+
+        return _merge_invariant_results(result)
+
+    return f
+
+
+def maybe_parse_user_type(t):
+    """Try to coerce a user-supplied type directive into a list of types.
+
+    This function should be used in all places where a user specifies a type,
+    for consistency.
+
+    The policy for what defines valid user input should be clear from the implementation.
+    """
+    is_type = isinstance(t, type)
+    is_preserved = isinstance(t, type) and issubclass(t, _preserved_iterable_types)
+    is_string = isinstance(t, str)
+    is_iterable = isinstance(t, Iterable)
+
+    if is_preserved:
+        return [t]
+    elif is_string:
+        return [t]
+    elif is_type and not is_iterable:
+        return [t]
+    elif is_iterable:
+        # Recur to validate contained types as well.
+        ts = t
+        return tuple(e for t in ts for e in maybe_parse_user_type(t))
+    else:
+        # If this raises because `t` cannot be formatted, so be it.
+        raise TypeError(
+            'Type specifications must be types or strings. Input: {}'.format(t)
+        )
+
+
+def optional(*typs):
+    """ Convenience function to specify that a value may be of any of the types in type 'typs' or None """
+    return tuple(typs) + (type(None),)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+
+def _make_pmap_field_type(key_type, value_type):
+    """Create a subclass of CheckedPMap with the given key and value types."""
+    type_ = _pmap_field_types.get((key_type, value_type))
+    if type_ is not None:
+        return type_
+
+    class TheMap(CheckedPMap):
+        __key_type__ = key_type
+        __value_type__ = value_type
+
+        def __reduce__(self):
+            return (_restore_pmap_field_pickle,
+                    (self.__key_type__, self.__value_type__, dict(self)))
+
+    TheMap.__name__ = "{0}To{1}PMap".format(
+        _types_to_names(TheMap._checked_key_types),
+        _types_to_names(TheMap._checked_value_types))
+    _pmap_field_types[key_type, value_type] = TheMap
+    return TheMap
+
+
+def field(type=PFIELD_NO_TYPE, invariant=PFIELD_NO_INVARIANT, initial=PFIELD_NO_INITIAL,
+          mandatory=False, factory=PFIELD_NO_FACTORY, serializer=PFIELD_NO_SERIALIZER):
+    """
+    Field specification factory for :py:class:`PRecord`.
+
+    :param type: a type or iterable with types that are allowed for this field
+    :param invariant: a function specifying an invariant that must hold for the field
+    :param initial: value of field if not specified when instantiating the record
+    :param mandatory: boolean specifying if the field is mandatory or not
+    :param factory: function called when field is set.
+    :param serializer: function that returns a serialized version of the field
+    """
+
+    # NB: We have to check this predicate separately from the predicates in
+    # `maybe_parse_user_type` et al. because this one is related to supporting
+    # the argspec for `field`, while those are related to supporting the valid
+    # ways to specify types.
+
+    # Multiple types must be passed in one of the following containers. Note
+    # that a type that is a subclass of one of these containers, like a
+    # `collections.namedtuple`, will work as expected, since we check
+    # `isinstance` and not `issubclass`.
+    if isinstance(type, (list, set, tuple)):
+        types = set(maybe_parse_many_user_types(type))
+    else:
+        types = set(maybe_parse_user_type(type))
+
+    invariant_function = wrap_invariant(invariant) if invariant != PFIELD_NO_INVARIANT and callable(invariant) else invariant
+    field = _PField(type=types, invariant=invariant_function, initial=initial,
+                    mandatory=mandatory, factory=factory, serializer=serializer)
+
+    _check_field_parameters(field)
+
+    return field
+
+
+def pmap_field(key_type, value_type, optional=False, invariant=PFIELD_NO_INVARIANT):
+    """
+    Create a checked ``PMap`` field.
+
+    :param key: The required type for the keys of the map.
+    :param value: The required type for the values of the map.
+    :param optional: If true, ``None`` can be used as a value for
+        this field.
+    :param invariant: Pass-through to ``field``.
+
+    :return: A ``field`` containing a ``CheckedPMap``.
+    """
+    TheMap = _make_pmap_field_type(key_type, value_type)
+
+    if optional:
+        def factory(argument):
+            if argument is None:
+                return None
+            else:
+                return TheMap.create(argument)
+    else:
+        factory = TheMap.create
+
+    return field(mandatory=True, initial=TheMap(),
+                 type=optional_type(TheMap) if optional else TheMap,
+                 factory=factory, invariant=invariant)
+
+```
+Write unit test for function pmap_field
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+```
+Write unit test for the constructor of class _PField
+
+
+# Prompt used at query #23
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+1 | def check_type(destination_cls, field, name, value):
+2 |     if field.type and not any(isinstance(value, get_type(t)) for t in field.type):
+3 |         actual_type = type(value)
+4 |         message = "Invalid type for field {0}.{1}, was {2}".format(destination_cls.__name__, name, actual_type.__name__)
+5 |         raise PTypeError(destination_cls, name, field.type, actual_type, message)
+```
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+```
+Write unit test for function _check_field_parameters
+
+
+# Prompt used at query #25
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+
+def _merge_invariant_results(result):
+    verdict = True
+    data = []
+    for verd, dat in result:
+        if not verd:
+            verdict = False
+            data.append(dat)
+
+    return verdict, tuple(data)
+
+
+def wrap_invariant(invariant):
+    # Invariant functions may return the outcome of several tests
+    # In those cases the results have to be merged before being passed
+    # back to the client.
+    def f(*args, **kwargs):
+        result = invariant(*args, **kwargs)
+        if isinstance(result[0], bool):
+            return result
+
+        return _merge_invariant_results(result)
+
+    return f
+
+
+def maybe_parse_many_user_types(ts):
+    # Just a different name to communicate that you're parsing multiple user
+    # inputs. `maybe_parse_user_type` handles the iterable case anyway.
+    return maybe_parse_user_type(ts)
+
+
+def maybe_parse_user_type(t):
+    """Try to coerce a user-supplied type directive into a list of types.
+
+    This function should be used in all places where a user specifies a type,
+    for consistency.
+
+    The policy for what defines valid user input should be clear from the implementation.
+    """
+    is_type = isinstance(t, type)
+    is_preserved = isinstance(t, type) and issubclass(t, _preserved_iterable_types)
+    is_string = isinstance(t, str)
+    is_iterable = isinstance(t, Iterable)
+
+    if is_preserved:
+        return [t]
+    elif is_string:
+        return [t]
+    elif is_type and not is_iterable:
+        return [t]
+    elif is_iterable:
+        # Recur to validate contained types as well.
+        ts = t
+        return tuple(e for t in ts for e in maybe_parse_user_type(t))
+    else:
+        # If this raises because `t` cannot be formatted, so be it.
+        raise TypeError(
+            'Type specifications must be types or strings. Input: {}'.format(t)
+        )
+
+
+def optional(*typs):
+    """ Convenience function to specify that a value may be of any of the types in type 'typs' or None """
+    return tuple(typs) + (type(None),)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+
+def field(type=PFIELD_NO_TYPE, invariant=PFIELD_NO_INVARIANT, initial=PFIELD_NO_INITIAL,
+          mandatory=False, factory=PFIELD_NO_FACTORY, serializer=PFIELD_NO_SERIALIZER):
+    """
+    Field specification factory for :py:class:`PRecord`.
+
+    :param type: a type or iterable with types that are allowed for this field
+    :param invariant: a function specifying an invariant that must hold for the field
+    :param initial: value of field if not specified when instantiating the record
+    :param mandatory: boolean specifying if the field is mandatory or not
+    :param factory: function called when field is set.
+    :param serializer: function that returns a serialized version of the field
+    """
+
+    # NB: We have to check this predicate separately from the predicates in
+    # `maybe_parse_user_type` et al. because this one is related to supporting
+    # the argspec for `field`, while those are related to supporting the valid
+    # ways to specify types.
+
+    # Multiple types must be passed in one of the following containers. Note
+    # that a type that is a subclass of one of these containers, like a
+    # `collections.namedtuple`, will work as expected, since we check
+    # `isinstance` and not `issubclass`.
+    if isinstance(type, (list, set, tuple)):
+        types = set(maybe_parse_many_user_types(type))
+    else:
+        types = set(maybe_parse_user_type(type))
+
+    invariant_function = wrap_invariant(invariant) if invariant != PFIELD_NO_INVARIANT and callable(invariant) else invariant
+    field = _PField(type=types, invariant=invariant_function, initial=initial,
+                    mandatory=mandatory, factory=factory, serializer=serializer)
+
+    _check_field_parameters(field)
+
+    return field
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+
+def _sequence_field(checked_class, item_type, optional, initial,
+                    invariant=PFIELD_NO_INVARIANT,
+                    item_invariant=PFIELD_NO_INVARIANT):
+    """
+    Create checked field for either ``PSet`` or ``PVector``.
+
+    :param checked_class: ``CheckedPSet`` or ``CheckedPVector``.
+    :param item_type: The required type for the items in the set.
+    :param optional: If true, ``None`` can be used as a value for
+        this field.
+    :param initial: Initial value to pass to factory.
+
+    :return: A ``field`` containing a checked class.
+    """
+    TheType = _make_seq_field_type(checked_class, item_type, item_invariant)
+
+    if optional:
+        def factory(argument, _factory_fields=None, ignore_extra=False):
+            if argument is None:
+                return None
+            else:
+                return TheType.create(argument, _factory_fields=_factory_fields, ignore_extra=ignore_extra)
+    else:
+        factory = TheType.create
+
+    return field(type=optional_type(TheType) if optional else TheType,
+                 factory=factory, mandatory=True,
+                 invariant=invariant,
+                 initial=factory(initial))
+
+```
+Write unit test for function _sequence_field
+
+
+# Prompt used at query #26
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+```
+Write unit test for function _make_seq_field_type
+
+
+# Prompt used at query #27
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def check_type(destination_cls, field, name, value):
+    if field.type and not any(isinstance(value, get_type(t)) for t in field.type):
+        actual_type = type(value)
+        message = "Invalid type for field {0}.{1}, was {2}".format(destination_cls.__name__, name, actual_type.__name__)
+        raise PTypeError(destination_cls, name, field.type, actual_type, message)
+
+```
+Write unit test for function check_type
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+1 | def check_global_invariants(subject, invariants):
+2 |     error_codes = tuple(error_code for is_ok, error_code in
+3 |                         (invariant(subject) for invariant in invariants) if not is_ok)
+4 |     if error_codes:
+5 |         raise InvariantException(error_codes, (), 'Global invariant failed')
+```
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #31
+#--------------------------
+
+```
+def set_fields(dct, bases, name):
+    dct[name] = dict(sum([list(b.__dict__.get(name, {}).items()) for b in bases], []))
+
+    for k, v in list(dct.items()):
+        if isinstance(v, _PField):
+            dct[name][k] = v
+            del dct[k]
+
+```
+Write unit test for function set_fields
+
+
+# Prompt used at query #32
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to True.
+```
+1 | def set_fields(dct, bases, name):
+2 |     dct[name] = dict(sum([list(b.__dict__.get(name, {}).items()) for b in bases], []))
+3 | 
+4 |     for k, v in list(dct.items()):
+5 |         if isinstance(v, _PField):
+6 |             dct[name][k] = v
+7 |             del dct[k]
+```
+
+
+# Prompt used at query #33
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to True.
+```
+1 | def set_fields(dct, bases, name):
+2 |     dct[name] = dict(sum([list(b.__dict__.get(name, {}).items()) for b in bases], []))
+3 | 
+4 |     for k, v in list(dct.items()):
+5 |         if isinstance(v, _PField):
+6 |             dct[name][k] = v
+7 |             del dct[k]
+```
+
+
+# Prompt used at query #34
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+1 | def check_type(destination_cls, field, name, value):
+2 |     if field.type and not any(isinstance(value, get_type(t)) for t in field.type):
+3 |         actual_type = type(value)
+4 |         message = "Invalid type for field {0}.{1}, was {2}".format(destination_cls.__name__, name, actual_type.__name__)
+5 |         raise PTypeError(destination_cls, name, field.type, actual_type, message)
+```
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #36
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+1 | def check_global_invariants(subject, invariants):
+2 |     error_codes = tuple(error_code for is_ok, error_code in
+3 |                         (invariant(subject) for invariant in invariants) if not is_ok)
+4 |     if error_codes:
+5 |         raise InvariantException(error_codes, (), 'Global invariant failed')
+```
+
+
+# Prompt used at query #37
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _restore_pickle(cls, data):
+    return cls.create(data, _factory_fields=set())
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _restore_seq_field_pickle(checked_class, item_type, data):
+    """Unpickling function for auto-generated PVec/PSet field types."""
+    type_ = _seq_field_types[checked_class, item_type]
+    return _restore_pickle(type_, data)
+
+```
+Write unit test for function _restore_seq_field_pickle
+
+
+# Prompt used at query #38
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _make_pmap_field_type(key_type, value_type):
+    """Create a subclass of CheckedPMap with the given key and value types."""
+    type_ = _pmap_field_types.get((key_type, value_type))
+    if type_ is not None:
+        return type_
+
+    class TheMap(CheckedPMap):
+        __key_type__ = key_type
+        __value_type__ = value_type
+
+        def __reduce__(self):
+            return (_restore_pmap_field_pickle,
+                    (self.__key_type__, self.__value_type__, dict(self)))
+
+    TheMap.__name__ = "{0}To{1}PMap".format(
+        _types_to_names(TheMap._checked_key_types),
+        _types_to_names(TheMap._checked_value_types))
+    _pmap_field_types[key_type, value_type] = TheMap
+    return TheMap
+
+```
+Write unit test for function _make_pmap_field_type
+
+
+# Prompt used at query #39
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def _merge_invariant_results(result):
+    verdict = True
+    data = []
+    for verd, dat in result:
+        if not verd:
+            verdict = False
+            data.append(dat)
+
+    return verdict, tuple(data)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+
+def wrap_invariant(invariant):
+    # Invariant functions may return the outcome of several tests
+    # In those cases the results have to be merged before being passed
+    # back to the client.
+    def f(*args, **kwargs):
+        result = invariant(*args, **kwargs)
+        if isinstance(result[0], bool):
+            return result
+
+        return _merge_invariant_results(result)
+
+    return f
+
+
+def maybe_parse_many_user_types(ts):
+    # Just a different name to communicate that you're parsing multiple user
+    # inputs. `maybe_parse_user_type` handles the iterable case anyway.
+    return maybe_parse_user_type(ts)
+
+
+def maybe_parse_user_type(t):
+    """Try to coerce a user-supplied type directive into a list of types.
+
+    This function should be used in all places where a user specifies a type,
+    for consistency.
+
+    The policy for what defines valid user input should be clear from the implementation.
+    """
+    is_type = isinstance(t, type)
+    is_preserved = isinstance(t, type) and issubclass(t, _preserved_iterable_types)
+    is_string = isinstance(t, str)
+    is_iterable = isinstance(t, Iterable)
+
+    if is_preserved:
+        return [t]
+    elif is_string:
+        return [t]
+    elif is_type and not is_iterable:
+        return [t]
+    elif is_iterable:
+        # Recur to validate contained types as well.
+        ts = t
+        return tuple(e for t in ts for e in maybe_parse_user_type(t))
+    else:
+        # If this raises because `t` cannot be formatted, so be it.
+        raise TypeError(
+            'Type specifications must be types or strings. Input: {}'.format(t)
+        )
+
+
+def optional(*typs):
+    """ Convenience function to specify that a value may be of any of the types in type 'typs' or None """
+    return tuple(typs) + (type(None),)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+
+def field(type=PFIELD_NO_TYPE, invariant=PFIELD_NO_INVARIANT, initial=PFIELD_NO_INITIAL,
+          mandatory=False, factory=PFIELD_NO_FACTORY, serializer=PFIELD_NO_SERIALIZER):
+    """
+    Field specification factory for :py:class:`PRecord`.
+
+    :param type: a type or iterable with types that are allowed for this field
+    :param invariant: a function specifying an invariant that must hold for the field
+    :param initial: value of field if not specified when instantiating the record
+    :param mandatory: boolean specifying if the field is mandatory or not
+    :param factory: function called when field is set.
+    :param serializer: function that returns a serialized version of the field
+    """
+
+    # NB: We have to check this predicate separately from the predicates in
+    # `maybe_parse_user_type` et al. because this one is related to supporting
+    # the argspec for `field`, while those are related to supporting the valid
+    # ways to specify types.
+
+    # Multiple types must be passed in one of the following containers. Note
+    # that a type that is a subclass of one of these containers, like a
+    # `collections.namedtuple`, will work as expected, since we check
+    # `isinstance` and not `issubclass`.
+    if isinstance(type, (list, set, tuple)):
+        types = set(maybe_parse_many_user_types(type))
+    else:
+        types = set(maybe_parse_user_type(type))
+
+    invariant_function = wrap_invariant(invariant) if invariant != PFIELD_NO_INVARIANT and callable(invariant) else invariant
+    field = _PField(type=types, invariant=invariant_function, initial=initial,
+                    mandatory=mandatory, factory=factory, serializer=serializer)
+
+    _check_field_parameters(field)
+
+    return field
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+
+def _sequence_field(checked_class, item_type, optional, initial,
+                    invariant=PFIELD_NO_INVARIANT,
+                    item_invariant=PFIELD_NO_INVARIANT):
+    """
+    Create checked field for either ``PSet`` or ``PVector``.
+
+    :param checked_class: ``CheckedPSet`` or ``CheckedPVector``.
+    :param item_type: The required type for the items in the set.
+    :param optional: If true, ``None`` can be used as a value for
+        this field.
+    :param initial: Initial value to pass to factory.
+
+    :return: A ``field`` containing a checked class.
+    """
+    TheType = _make_seq_field_type(checked_class, item_type, item_invariant)
+
+    if optional:
+        def factory(argument, _factory_fields=None, ignore_extra=False):
+            if argument is None:
+                return None
+            else:
+                return TheType.create(argument, _factory_fields=_factory_fields, ignore_extra=ignore_extra)
+    else:
+        factory = TheType.create
+
+    return field(type=optional_type(TheType) if optional else TheType,
+                 factory=factory, mandatory=True,
+                 invariant=invariant,
+                 initial=factory(initial))
+
+```
+Write unit test for function _sequence_field
+
+
+# Prompt used at query #40
+#--------------------------
+
+```
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+```
+Write unit test for the constructor of class _PField
+
+
+# Prompt used at query #41
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #42
+#--------------------------
+
+```
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+```
+Write unit test for function _check_field_parameters
+
+
+####################################################################
+#     TEST GENERATION BEGINS (DEEPMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+```
+Write unit test for the constructor of class _PField
+
+
+# Prompt used at query #2
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def check_type(destination_cls, field, name, value):
+    if field.type and not any(isinstance(value, get_type(t)) for t in field.type):
+        actual_type = type(value)
+        message = "Invalid type for field {0}.{1}, was {2}".format(destination_cls.__name__, name, actual_type.__name__)
+        raise PTypeError(destination_cls, name, field.type, actual_type, message)
+
+```
+Write unit test for function check_type
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+```
+Write unit test for function _check_field_parameters
+
+
+# Prompt used at query #4
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+```
+Write unit test for function _make_seq_field_type
+
+
+# Prompt used at query #5
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def _merge_invariant_results(result):
+    verdict = True
+    data = []
+    for verd, dat in result:
+        if not verd:
+            verdict = False
+            data.append(dat)
+
+    return verdict, tuple(data)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+
+def wrap_invariant(invariant):
+    # Invariant functions may return the outcome of several tests
+    # In those cases the results have to be merged before being passed
+    # back to the client.
+    def f(*args, **kwargs):
+        result = invariant(*args, **kwargs)
+        if isinstance(result[0], bool):
+            return result
+
+        return _merge_invariant_results(result)
+
+    return f
+
+
+def maybe_parse_many_user_types(ts):
+    # Just a different name to communicate that you're parsing multiple user
+    # inputs. `maybe_parse_user_type` handles the iterable case anyway.
+    return maybe_parse_user_type(ts)
+
+
+def maybe_parse_user_type(t):
+    """Try to coerce a user-supplied type directive into a list of types.
+
+    This function should be used in all places where a user specifies a type,
+    for consistency.
+
+    The policy for what defines valid user input should be clear from the implementation.
+    """
+    is_type = isinstance(t, type)
+    is_preserved = isinstance(t, type) and issubclass(t, _preserved_iterable_types)
+    is_string = isinstance(t, str)
+    is_iterable = isinstance(t, Iterable)
+
+    if is_preserved:
+        return [t]
+    elif is_string:
+        return [t]
+    elif is_type and not is_iterable:
+        return [t]
+    elif is_iterable:
+        # Recur to validate contained types as well.
+        ts = t
+        return tuple(e for t in ts for e in maybe_parse_user_type(t))
+    else:
+        # If this raises because `t` cannot be formatted, so be it.
+        raise TypeError(
+            'Type specifications must be types or strings. Input: {}'.format(t)
+        )
+
+
+def optional(*typs):
+    """ Convenience function to specify that a value may be of any of the types in type 'typs' or None """
+    return tuple(typs) + (type(None),)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+
+def field(type=PFIELD_NO_TYPE, invariant=PFIELD_NO_INVARIANT, initial=PFIELD_NO_INITIAL,
+          mandatory=False, factory=PFIELD_NO_FACTORY, serializer=PFIELD_NO_SERIALIZER):
+    """
+    Field specification factory for :py:class:`PRecord`.
+
+    :param type: a type or iterable with types that are allowed for this field
+    :param invariant: a function specifying an invariant that must hold for the field
+    :param initial: value of field if not specified when instantiating the record
+    :param mandatory: boolean specifying if the field is mandatory or not
+    :param factory: function called when field is set.
+    :param serializer: function that returns a serialized version of the field
+    """
+
+    # NB: We have to check this predicate separately from the predicates in
+    # `maybe_parse_user_type` et al. because this one is related to supporting
+    # the argspec for `field`, while those are related to supporting the valid
+    # ways to specify types.
+
+    # Multiple types must be passed in one of the following containers. Note
+    # that a type that is a subclass of one of these containers, like a
+    # `collections.namedtuple`, will work as expected, since we check
+    # `isinstance` and not `issubclass`.
+    if isinstance(type, (list, set, tuple)):
+        types = set(maybe_parse_many_user_types(type))
+    else:
+        types = set(maybe_parse_user_type(type))
+
+    invariant_function = wrap_invariant(invariant) if invariant != PFIELD_NO_INVARIANT and callable(invariant) else invariant
+    field = _PField(type=types, invariant=invariant_function, initial=initial,
+                    mandatory=mandatory, factory=factory, serializer=serializer)
+
+    _check_field_parameters(field)
+
+    return field
+
+
+def _sequence_field(checked_class, item_type, optional, initial,
+                    invariant=PFIELD_NO_INVARIANT,
+                    item_invariant=PFIELD_NO_INVARIANT):
+    """
+    Create checked field for either ``PSet`` or ``PVector``.
+
+    :param checked_class: ``CheckedPSet`` or ``CheckedPVector``.
+    :param item_type: The required type for the items in the set.
+    :param optional: If true, ``None`` can be used as a value for
+        this field.
+    :param initial: Initial value to pass to factory.
+
+    :return: A ``field`` containing a checked class.
+    """
+    TheType = _make_seq_field_type(checked_class, item_type, item_invariant)
+
+    if optional:
+        def factory(argument, _factory_fields=None, ignore_extra=False):
+            if argument is None:
+                return None
+            else:
+                return TheType.create(argument, _factory_fields=_factory_fields, ignore_extra=ignore_extra)
+    else:
+        factory = TheType.create
+
+    return field(type=optional_type(TheType) if optional else TheType,
+                 factory=factory, mandatory=True,
+                 invariant=invariant,
+                 initial=factory(initial))
+
+```
+Write unit test for function _sequence_field
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def check_global_invariants(subject, invariants):
+    error_codes = tuple(error_code for is_ok, error_code in
+                        (invariant(subject) for invariant in invariants) if not is_ok)
+    if error_codes:
+        raise InvariantException(error_codes, (), 'Global invariant failed')
+
+```
+Write unit test for function check_global_invariants
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+```
+Write unit test for function _check_field_parameters
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+1 | def check_global_invariants(subject, invariants):
+2 |     error_codes = tuple(error_code for is_ok, error_code in
+3 |                         (invariant(subject) for invariant in invariants) if not is_ok)
+4 |     if error_codes:
+5 |         raise InvariantException(error_codes, (), 'Global invariant failed')
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+
+def _merge_invariant_results(result):
+    verdict = True
+    data = []
+    for verd, dat in result:
+        if not verd:
+            verdict = False
+            data.append(dat)
+
+    return verdict, tuple(data)
+
+
+def maybe_parse_many_user_types(ts):
+    # Just a different name to communicate that you're parsing multiple user
+    # inputs. `maybe_parse_user_type` handles the iterable case anyway.
+    return maybe_parse_user_type(ts)
+
+
+def maybe_parse_user_type(t):
+    """Try to coerce a user-supplied type directive into a list of types.
+
+    This function should be used in all places where a user specifies a type,
+    for consistency.
+
+    The policy for what defines valid user input should be clear from the implementation.
+    """
+    is_type = isinstance(t, type)
+    is_preserved = isinstance(t, type) and issubclass(t, _preserved_iterable_types)
+    is_string = isinstance(t, str)
+    is_iterable = isinstance(t, Iterable)
+
+    if is_preserved:
+        return [t]
+    elif is_string:
+        return [t]
+    elif is_type and not is_iterable:
+        return [t]
+    elif is_iterable:
+        # Recur to validate contained types as well.
+        ts = t
+        return tuple(e for t in ts for e in maybe_parse_user_type(t))
+    else:
+        # If this raises because `t` cannot be formatted, so be it.
+        raise TypeError(
+            'Type specifications must be types or strings. Input: {}'.format(t)
+        )
+
+
+def wrap_invariant(invariant):
+    # Invariant functions may return the outcome of several tests
+    # In those cases the results have to be merged before being passed
+    # back to the client.
+    def f(*args, **kwargs):
+        result = invariant(*args, **kwargs)
+        if isinstance(result[0], bool):
+            return result
+
+        return _merge_invariant_results(result)
+
+    return f
+
+
+def optional(*typs):
+    """ Convenience function to specify that a value may be of any of the types in type 'typs' or None """
+    return tuple(typs) + (type(None),)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+
+def _make_pmap_field_type(key_type, value_type):
+    """Create a subclass of CheckedPMap with the given key and value types."""
+    type_ = _pmap_field_types.get((key_type, value_type))
+    if type_ is not None:
+        return type_
+
+    class TheMap(CheckedPMap):
+        __key_type__ = key_type
+        __value_type__ = value_type
+
+        def __reduce__(self):
+            return (_restore_pmap_field_pickle,
+                    (self.__key_type__, self.__value_type__, dict(self)))
+
+    TheMap.__name__ = "{0}To{1}PMap".format(
+        _types_to_names(TheMap._checked_key_types),
+        _types_to_names(TheMap._checked_value_types))
+    _pmap_field_types[key_type, value_type] = TheMap
+    return TheMap
+
+
+def field(type=PFIELD_NO_TYPE, invariant=PFIELD_NO_INVARIANT, initial=PFIELD_NO_INITIAL,
+          mandatory=False, factory=PFIELD_NO_FACTORY, serializer=PFIELD_NO_SERIALIZER):
+    """
+    Field specification factory for :py:class:`PRecord`.
+
+    :param type: a type or iterable with types that are allowed for this field
+    :param invariant: a function specifying an invariant that must hold for the field
+    :param initial: value of field if not specified when instantiating the record
+    :param mandatory: boolean specifying if the field is mandatory or not
+    :param factory: function called when field is set.
+    :param serializer: function that returns a serialized version of the field
+    """
+
+    # NB: We have to check this predicate separately from the predicates in
+    # `maybe_parse_user_type` et al. because this one is related to supporting
+    # the argspec for `field`, while those are related to supporting the valid
+    # ways to specify types.
+
+    # Multiple types must be passed in one of the following containers. Note
+    # that a type that is a subclass of one of these containers, like a
+    # `collections.namedtuple`, will work as expected, since we check
+    # `isinstance` and not `issubclass`.
+    if isinstance(type, (list, set, tuple)):
+        types = set(maybe_parse_many_user_types(type))
+    else:
+        types = set(maybe_parse_user_type(type))
+
+    invariant_function = wrap_invariant(invariant) if invariant != PFIELD_NO_INVARIANT and callable(invariant) else invariant
+    field = _PField(type=types, invariant=invariant_function, initial=initial,
+                    mandatory=mandatory, factory=factory, serializer=serializer)
+
+    _check_field_parameters(field)
+
+    return field
+
+
+def pmap_field(key_type, value_type, optional=False, invariant=PFIELD_NO_INVARIANT):
+    """
+    Create a checked ``PMap`` field.
+
+    :param key: The required type for the keys of the map.
+    :param value: The required type for the values of the map.
+    :param optional: If true, ``None`` can be used as a value for
+        this field.
+    :param invariant: Pass-through to ``field``.
+
+    :return: A ``field`` containing a ``CheckedPMap``.
+    """
+    TheMap = _make_pmap_field_type(key_type, value_type)
+
+    if optional:
+        def factory(argument):
+            if argument is None:
+                return None
+            else:
+                return TheMap.create(argument)
+    else:
+        factory = TheMap.create
+
+    return field(mandatory=True, initial=TheMap(),
+                 type=optional_type(TheMap) if optional else TheMap,
+                 factory=factory, invariant=invariant)
+
+```
+Write unit test for function pmap_field
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+```
+Write unit test for function _check_field_parameters
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+```
+Write unit test for function _check_field_parameters
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+1 | def check_global_invariants(subject, invariants):
+2 |     error_codes = tuple(error_code for is_ok, error_code in
+3 |                         (invariant(subject) for invariant in invariants) if not is_ok)
+4 |     if error_codes:
+5 |         raise InvariantException(error_codes, (), 'Global invariant failed')
+```
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+def serialize(serializer, format, value):
+    if isinstance(value, CheckedType) and serializer is PFIELD_NO_SERIALIZER:
+        return value.serialize(format)
+
+    return serializer(format, value)
+
+```
+Write unit test for function serialize
+
+
+# Prompt used at query #18
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _restore_pickle(cls, data):
+    return cls.create(data, _factory_fields=set())
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _restore_pmap_field_pickle(key_type, value_type, data):
+    """Unpickling function for auto-generated PMap field types."""
+    type_ = _pmap_field_types[key_type, value_type]
+    return _restore_pickle(type_, data)
+
+```
+Write unit test for function _restore_pmap_field_pickle
+
+
+# Prompt used at query #19
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def _merge_invariant_results(result):
+    verdict = True
+    data = []
+    for verd, dat in result:
+        if not verd:
+            verdict = False
+            data.append(dat)
+
+    return verdict, tuple(data)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+
+def maybe_parse_many_user_types(ts):
+    # Just a different name to communicate that you're parsing multiple user
+    # inputs. `maybe_parse_user_type` handles the iterable case anyway.
+    return maybe_parse_user_type(ts)
+
+
+def wrap_invariant(invariant):
+    # Invariant functions may return the outcome of several tests
+    # In those cases the results have to be merged before being passed
+    # back to the client.
+    def f(*args, **kwargs):
+        result = invariant(*args, **kwargs)
+        if isinstance(result[0], bool):
+            return result
+
+        return _merge_invariant_results(result)
+
+    return f
+
+
+def maybe_parse_user_type(t):
+    """Try to coerce a user-supplied type directive into a list of types.
+
+    This function should be used in all places where a user specifies a type,
+    for consistency.
+
+    The policy for what defines valid user input should be clear from the implementation.
+    """
+    is_type = isinstance(t, type)
+    is_preserved = isinstance(t, type) and issubclass(t, _preserved_iterable_types)
+    is_string = isinstance(t, str)
+    is_iterable = isinstance(t, Iterable)
+
+    if is_preserved:
+        return [t]
+    elif is_string:
+        return [t]
+    elif is_type and not is_iterable:
+        return [t]
+    elif is_iterable:
+        # Recur to validate contained types as well.
+        ts = t
+        return tuple(e for t in ts for e in maybe_parse_user_type(t))
+    else:
+        # If this raises because `t` cannot be formatted, so be it.
+        raise TypeError(
+            'Type specifications must be types or strings. Input: {}'.format(t)
+        )
+
+
+def optional(*typs):
+    """ Convenience function to specify that a value may be of any of the types in type 'typs' or None """
+    return tuple(typs) + (type(None),)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def pmap_field(key_type, value_type, optional=False, invariant=PFIELD_NO_INVARIANT):
+ 2 |     """
+ 3 |     Create a checked ``PMap`` field.
+ 4 | 
+ 5 |     :param key: The required type for the keys of the map.
+ 6 |     :param value: The required type for the values of the map.
+ 7 |     :param optional: If true, ``None`` can be used as a value for
+ 8 |         this field.
+ 9 |     :param invariant: Pass-through to ``field``.
+10 | 
+11 |     :return: A ``field`` containing a ``CheckedPMap``.
+12 |     """
+13 |     TheMap = _make_pmap_field_type(key_type, value_type)
+14 | 
+15 |     if optional:
+16 |         def factory(argument):
+17 |             if argument is None:
+18 |                 return None
+19 |             else:
+20 |                 return TheMap.create(argument)
+21 |     else:
+22 |         factory = TheMap.create
+23 | 
+24 |     return field(mandatory=True, initial=TheMap(),
+25 |                  type=optional_type(TheMap) if optional else TheMap,
+26 |                  factory=factory, invariant=invariant)
+```
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+def check_global_invariants(subject, invariants):
+    error_codes = tuple(error_code for is_ok, error_code in
+                        (invariant(subject) for invariant in invariants) if not is_ok)
+    if error_codes:
+        raise InvariantException(error_codes, (), 'Global invariant failed')
+
+```
+Write unit test for function check_global_invariants
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+1 | def serialize(serializer, format, value):
+2 |     if isinstance(value, CheckedType) and serializer is PFIELD_NO_SERIALIZER:
+3 |         return value.serialize(format)
+4 | 
+5 |     return serializer(format, value)
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def is_type_cls(type_cls, field_type):
+    if type(field_type) is set:
+        return True
+    types = tuple(field_type)
+    if len(types) == 0:
+        return False
+    return issubclass(get_type(types[0]), type_cls)
+
+
+def is_field_ignore_extra_complaint(type_cls, field, ignore_extra):
+    # ignore_extra param has default False value, for speed purpose no need to propagate False
+    if not ignore_extra:
+        return False
+
+    if not is_type_cls(type_cls, field.type):
+        return False
+
+    return 'ignore_extra' in inspect.signature(field.factory).parameters
+
+```
+Write unit test for function is_field_ignore_extra_complaint
+
+
+# Prompt used at query #24
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+```
+Write unit test for function _make_seq_field_type
+
+
+# Prompt used at query #25
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 | def is_field_ignore_extra_complaint(type_cls, field, ignore_extra):
+2 |     # ignore_extra param has default False value, for speed purpose no need to propagate False
+3 |     if not ignore_extra:
+4 |         return False
+5 | 
+6 |     if not is_type_cls(type_cls, field.type):
+7 |         return False
+8 | 
+9 |     return 'ignore_extra' in inspect.signature(field.factory).parameters
+```
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+```
+Write unit test for the constructor of class _PField
+
+
+# Prompt used at query #27
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def is_type_cls(type_cls, field_type):
+    if type(field_type) is set:
+        return True
+    types = tuple(field_type)
+    if len(types) == 0:
+        return False
+    return issubclass(get_type(types[0]), type_cls)
+
+```
+Write unit test for function is_type_cls
+
+
+# Prompt used at query #28
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _restore_pickle(cls, data):
+    return cls.create(data, _factory_fields=set())
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _restore_pmap_field_pickle(key_type, value_type, data):
+    """Unpickling function for auto-generated PMap field types."""
+    type_ = _pmap_field_types[key_type, value_type]
+    return _restore_pickle(type_, data)
+
+```
+Write unit test for function _restore_pmap_field_pickle
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+1 | def check_global_invariants(subject, invariants):
+2 |     error_codes = tuple(error_code for is_ok, error_code in
+3 |                         (invariant(subject) for invariant in invariants) if not is_ok)
+4 |     if error_codes:
+5 |         raise InvariantException(error_codes, (), 'Global invariant failed')
+```
+
+
+# Prompt used at query #30
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def _merge_invariant_results(result):
+    verdict = True
+    data = []
+    for verd, dat in result:
+        if not verd:
+            verdict = False
+            data.append(dat)
+
+    return verdict, tuple(data)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+
+def wrap_invariant(invariant):
+    # Invariant functions may return the outcome of several tests
+    # In those cases the results have to be merged before being passed
+    # back to the client.
+    def f(*args, **kwargs):
+        result = invariant(*args, **kwargs)
+        if isinstance(result[0], bool):
+            return result
+
+        return _merge_invariant_results(result)
+
+    return f
+
+
+def maybe_parse_many_user_types(ts):
+    # Just a different name to communicate that you're parsing multiple user
+    # inputs. `maybe_parse_user_type` handles the iterable case anyway.
+    return maybe_parse_user_type(ts)
+
+
+def maybe_parse_user_type(t):
+    """Try to coerce a user-supplied type directive into a list of types.
+
+    This function should be used in all places where a user specifies a type,
+    for consistency.
+
+    The policy for what defines valid user input should be clear from the implementation.
+    """
+    is_type = isinstance(t, type)
+    is_preserved = isinstance(t, type) and issubclass(t, _preserved_iterable_types)
+    is_string = isinstance(t, str)
+    is_iterable = isinstance(t, Iterable)
+
+    if is_preserved:
+        return [t]
+    elif is_string:
+        return [t]
+    elif is_type and not is_iterable:
+        return [t]
+    elif is_iterable:
+        # Recur to validate contained types as well.
+        ts = t
+        return tuple(e for t in ts for e in maybe_parse_user_type(t))
+    else:
+        # If this raises because `t` cannot be formatted, so be it.
+        raise TypeError(
+            'Type specifications must be types or strings. Input: {}'.format(t)
+        )
+
+
+def optional(*typs):
+    """ Convenience function to specify that a value may be of any of the types in type 'typs' or None """
+    return tuple(typs) + (type(None),)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _check_field_parameters(field):
+    for t in field.type:
+        if not isinstance(t, type) and not isinstance(t, str):
+            raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+
+    if field.initial is not PFIELD_NO_INITIAL and \
+            not callable(field.initial) and \
+            field.type and not any(isinstance(field.initial, t) for t in field.type):
+        raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+
+    if not callable(field.invariant):
+        raise TypeError('Invariant must be callable')
+
+    if not callable(field.factory):
+        raise TypeError('Factory must be callable')
+
+    if not callable(field.serializer):
+        raise TypeError('Serializer must be callable')
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+
+def field(type=PFIELD_NO_TYPE, invariant=PFIELD_NO_INVARIANT, initial=PFIELD_NO_INITIAL,
+          mandatory=False, factory=PFIELD_NO_FACTORY, serializer=PFIELD_NO_SERIALIZER):
+    """
+    Field specification factory for :py:class:`PRecord`.
+
+    :param type: a type or iterable with types that are allowed for this field
+    :param invariant: a function specifying an invariant that must hold for the field
+    :param initial: value of field if not specified when instantiating the record
+    :param mandatory: boolean specifying if the field is mandatory or not
+    :param factory: function called when field is set.
+    :param serializer: function that returns a serialized version of the field
+    """
+
+    # NB: We have to check this predicate separately from the predicates in
+    # `maybe_parse_user_type` et al. because this one is related to supporting
+    # the argspec for `field`, while those are related to supporting the valid
+    # ways to specify types.
+
+    # Multiple types must be passed in one of the following containers. Note
+    # that a type that is a subclass of one of these containers, like a
+    # `collections.namedtuple`, will work as expected, since we check
+    # `isinstance` and not `issubclass`.
+    if isinstance(type, (list, set, tuple)):
+        types = set(maybe_parse_many_user_types(type))
+    else:
+        types = set(maybe_parse_user_type(type))
+
+    invariant_function = wrap_invariant(invariant) if invariant != PFIELD_NO_INVARIANT and callable(invariant) else invariant
+    field = _PField(type=types, invariant=invariant_function, initial=initial,
+                    mandatory=mandatory, factory=factory, serializer=serializer)
+
+    _check_field_parameters(field)
+
+    return field
+
+
+def _sequence_field(checked_class, item_type, optional, initial,
+                    invariant=PFIELD_NO_INVARIANT,
+                    item_invariant=PFIELD_NO_INVARIANT):
+    """
+    Create checked field for either ``PSet`` or ``PVector``.
+
+    :param checked_class: ``CheckedPSet`` or ``CheckedPVector``.
+    :param item_type: The required type for the items in the set.
+    :param optional: If true, ``None`` can be used as a value for
+        this field.
+    :param initial: Initial value to pass to factory.
+
+    :return: A ``field`` containing a checked class.
+    """
+    TheType = _make_seq_field_type(checked_class, item_type, item_invariant)
+
+    if optional:
+        def factory(argument, _factory_fields=None, ignore_extra=False):
+            if argument is None:
+                return None
+            else:
+                return TheType.create(argument, _factory_fields=_factory_fields, ignore_extra=ignore_extra)
+    else:
+        factory = TheType.create
+
+    return field(type=optional_type(TheType) if optional else TheType,
+                 factory=factory, mandatory=True,
+                 invariant=invariant,
+                 initial=factory(initial))
+
+```
+Write unit test for function _sequence_field
+
+
+# Prompt used at query #31
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _make_seq_field_type(checked_class, item_type, item_invariant):
+    """Create a subclass of the given checked class with the given item type."""
+    type_ = _seq_field_types.get((checked_class, item_type))
+    if type_ is not None:
+        return type_
+
+    class TheType(checked_class):
+        __type__ = item_type
+        __invariant__ = item_invariant
+
+        def __reduce__(self):
+            return (_restore_seq_field_pickle,
+                    (checked_class, item_type, list(self)))
+
+    suffix = SEQ_FIELD_TYPE_SUFFIXES[checked_class]
+    TheType.__name__ = _types_to_names(TheType._checked_types) + suffix
+    _seq_field_types[checked_class, item_type] = TheType
+    return TheType
+
+```
+Write unit test for function _make_seq_field_type
+
+
+# Prompt used at query #32
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _restore_pickle(cls, data):
+    return cls.create(data, _factory_fields=set())
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _restore_seq_field_pickle(checked_class, item_type, data):
+    """Unpickling function for auto-generated PVec/PSet field types."""
+    type_ = _seq_field_types[checked_class, item_type]
+    return _restore_pickle(type_, data)
+
+```
+Write unit test for function _restore_seq_field_pickle
+
+
+# Prompt used at query #33
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+
+def _merge_invariant_results(result):
+    verdict = True
+    data = []
+    for verd, dat in result:
+        if not verd:
+            verdict = False
+            data.append(dat)
+
+    return verdict, tuple(data)
+
+
+def maybe_parse_many_user_types(ts):
+    # Just a different name to communicate that you're parsing multiple user
+    # inputs. `maybe_parse_user_type` handles the iterable case anyway.
+    return maybe_parse_user_type(ts)
+
+
+def wrap_invariant(invariant):
+    # Invariant functions may return the outcome of several tests
+    # In those cases the results have to be merged before being passed
+    # back to the client.
+    def f(*args, **kwargs):
+        result = invariant(*args, **kwargs)
+        if isinstance(result[0], bool):
+            return result
+
+        return _merge_invariant_results(result)
+
+    return f
+
+
+def maybe_parse_user_type(t):
+    """Try to coerce a user-supplied type directive into a list of types.
+
+    This function should be used in all places where a user specifies a type,
+    for consistency.
+
+    The policy for what defines valid user input should be clear from the implementation.
+    """
+    is_type = isinstance(t, type)
+    is_preserved = isinstance(t, type) and issubclass(t, _preserved_iterable_types)
+    is_string = isinstance(t, str)
+    is_iterable = isinstance(t, Iterable)
+
+    if is_preserved:
+        return [t]
+    elif is_string:
+        return [t]
+    elif is_type and not is_iterable:
+        return [t]
+    elif is_iterable:
+        # Recur to validate contained types as well.
+        ts = t
+        return tuple(e for t in ts for e in maybe_parse_user_type(t))
+    else:
+        # If this raises because `t` cannot be formatted, so be it.
+        raise TypeError(
+            'Type specifications must be types or strings. Input: {}'.format(t)
+        )
+
+
+def optional(*typs):
+    """ Convenience function to specify that a value may be of any of the types in type 'typs' or None """
+    return tuple(typs) + (type(None),)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+class _PField(object):
+    __slots__ = ('type', 'invariant', 'initial', 'mandatory', '_factory', 'serializer')
+
+    def __init__(self, type, invariant, initial, mandatory, factory, serializer):
+        self.type = type
+        self.invariant = invariant
+        self.initial = initial
+        self.mandatory = mandatory
+        self._factory = factory
+        self.serializer = serializer
+
+    @property
+    def factory(self):
+        # If no factory is specified and the type is another CheckedType use the factory method of that CheckedType
+        if self._factory is PFIELD_NO_FACTORY and len(self.type) == 1:
+            typ = get_type(tuple(self.type)[0])
+            if issubclass(typ, CheckedType):
+                return typ.create
+
+        return self._factory
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def pmap_field(key_type, value_type, optional=False, invariant=PFIELD_NO_INVARIANT):
+ 2 |     """
+ 3 |     Create a checked ``PMap`` field.
+ 4 | 
+ 5 |     :param key: The required type for the keys of the map.
+ 6 |     :param value: The required type for the values of the map.
+ 7 |     :param optional: If true, ``None`` can be used as a value for
+ 8 |         this field.
+ 9 |     :param invariant: Pass-through to ``field``.
+10 | 
+11 |     :return: A ``field`` containing a ``CheckedPMap``.
+12 |     """
+13 |     TheMap = _make_pmap_field_type(key_type, value_type)
+14 | 
+15 |     if optional:
+16 |         def factory(argument):
+17 |             if argument is None:
+18 |                 return None
+19 |             else:
+20 |                 return TheMap.create(argument)
+21 |     else:
+22 |         factory = TheMap.create
+23 | 
+24 |     return field(mandatory=True, initial=TheMap(),
+25 |                  type=optional_type(TheMap) if optional else TheMap,
+26 |                  factory=factory, invariant=invariant)
+```
+
+
+# Prompt used at query #34
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _check_field_parameters(field):
+ 2 |     for t in field.type:
+ 3 |         if not isinstance(t, type) and not isinstance(t, str):
+ 4 |             raise TypeError('Type parameter expected, not {0}'.format(type(t)))
+ 5 | 
+ 6 |     if field.initial is not PFIELD_NO_INITIAL and \
+ 7 |             not callable(field.initial) and \
+ 8 |             field.type and not any(isinstance(field.initial, t) for t in field.type):
+ 9 |         raise TypeError('Initial has invalid type {0}'.format(type(field.initial)))
+10 | 
+11 |     if not callable(field.invariant):
+12 |         raise TypeError('Invariant must be callable')
+13 | 
+14 |     if not callable(field.factory):
+15 |         raise TypeError('Factory must be callable')
+16 | 
+17 |     if not callable(field.serializer):
+18 |         raise TypeError('Serializer must be callable')
+```
+
+
+# Prompt used at query #35
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _get_class(type_name):
+    module_name, class_name = type_name.rsplit('.', 1)
+    module = __import__(module_name, fromlist=[class_name])
+    return getattr(module, class_name)
+
+
+def get_type(typ):
+    if isinstance(typ, type):
+        return typ
+
+    return _get_class(typ)
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _types_to_names(types):
+    """Convert a tuple of types to a human-readable string."""
+    return "".join(get_type(typ).__name__.capitalize() for typ in types)
+
+
+def _make_pmap_field_type(key_type, value_type):
+    """Create a subclass of CheckedPMap with the given key and value types."""
+    type_ = _pmap_field_types.get((key_type, value_type))
+    if type_ is not None:
+        return type_
+
+    class TheMap(CheckedPMap):
+        __key_type__ = key_type
+        __value_type__ = value_type
+
+        def __reduce__(self):
+            return (_restore_pmap_field_pickle,
+                    (self.__key_type__, self.__value_type__, dict(self)))
+
+    TheMap.__name__ = "{0}To{1}PMap".format(
+        _types_to_names(TheMap._checked_key_types),
+        _types_to_names(TheMap._checked_value_types))
+    _pmap_field_types[key_type, value_type] = TheMap
+    return TheMap
+
+```
+Write unit test for function _make_pmap_field_type
+
+
+# Prompt used at query #36
+#--------------------------
+
+```
+def check_global_invariants(subject, invariants):
+    error_codes = tuple(error_code for is_ok, error_code in
+                        (invariant(subject) for invariant in invariants) if not is_ok)
+    if error_codes:
+        raise InvariantException(error_codes, (), 'Global invariant failed')
+
+```
+Write unit test for function check_global_invariants
+
+
+# Prompt used at query #37
+#--------------------------
+
+pyrsistent/_checked_types.py:
+```
+def _restore_pickle(cls, data):
+    return cls.create(data, _factory_fields=set())
+
+```
+
+pyrsistent/_field_common.py (module to test):
+```
+def _restore_seq_field_pickle(checked_class, item_type, data):
+    """Unpickling function for auto-generated PVec/PSet field types."""
+    type_ = _seq_field_types[checked_class, item_type]
+    return _restore_pickle(type_, data)
+
+```
+Write unit test for function _restore_seq_field_pickle
+
+
+# Prompt used at query #38
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+1 | def serialize(serializer, format, value):
+2 |     if isinstance(value, CheckedType) and serializer is PFIELD_NO_SERIALIZER:
+3 |         return value.serialize(format)
+4 | 
+5 |     return serializer(format, value)
+```
+
+

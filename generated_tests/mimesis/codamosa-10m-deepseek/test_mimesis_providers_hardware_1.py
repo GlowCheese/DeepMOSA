@@ -1,7 +1,6 @@
 # Check out: https://github.com/GlowCheese/deepmosa
 import mimesis.providers.hardware as module_0
 
-
 def test_case_0():
     var_0 = module_0.Hardware()
     assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'mimesis.providers.hardware.Hardware'
@@ -111,7 +110,6 @@ def test_case_3():
     assert f'{type(var_3.random).__module__}.{type(var_3.random).__qualname__}' == 'mimesis.random.Random'
     assert f'{type(var_3.seed).__module__}.{type(var_3.seed).__qualname__}' == 'mimesis.types._MissingSeed'
     var_4 = var_3.cpu()
-    assert var_4 == 'AMD Ryzen 7 1800X'
     var_5 = var_1.ssd_or_hdd()
     assert var_5 == 'Western Digital 512GB HDD'
     var_6 = module_0.Hardware()
@@ -119,6 +117,7 @@ def test_case_3():
     assert f'{type(var_6.random).__module__}.{type(var_6.random).__qualname__}' == 'mimesis.random.Random'
     assert f'{type(var_6.seed).__module__}.{type(var_6.seed).__qualname__}' == 'mimesis.types._MissingSeed'
     var_7 = var_6.cpu()
+    assert var_7 == 'Apple M1 Pro'
 
 def test_case_4():
     var_0 = module_0.Hardware()
@@ -137,6 +136,7 @@ def test_case_4():
     assert module_0.RESOLUTIONS == ['1152x768', '1280x854', '1440x960', '2880x1920', '1024x768', '1152x864', '1280x960', '1400x1050', '1600x1200', '2048x1536', '3200x2400', '1280x768', '1280x1024', '2560x2048', '1280x720', '1365x768', '1600x900', '1920x1080', '1280x800', '1440x900', '1680x1050', '1920x1200', '2560x1600', '3840x2400']
     assert module_0.SCREEN_SIZES == ['14″', '12.1″', '12″', '14.4″', '15″', '15.7″', '13.3″', '13″', '17″', '15.4″', '14.1″', '16″', '27″', '29″', '34″', '32″', '40″']
     var_1 = var_0.generation()
+    assert var_1 == '6th Generation'
     var_2 = var_0.cpu()
     var_3 = var_0.ram_type()
     var_4 = module_0.Hardware()
@@ -146,8 +146,8 @@ def test_case_4():
     var_5 = var_4.ram_type()
     var_6 = var_0.cpu()
     var_7 = var_0.ram_size()
+    assert var_7 == '4GB'
     var_8 = var_4.cpu()
-    assert var_8 == 'Apple M2'
 
 def test_case_5():
     var_0 = True

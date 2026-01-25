@@ -1,29 +1,24 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import flutes.fs as module_0
 import pytest
-
+import flutes.fs as module_0
 
 def test_case_0():
     pass
 
-@pytest.mark.xfail(strict=True)
 def test_case_1():
-    var_0 = -2122
-    module_0.readable_size(var_0, var_0)
+    var_0 = True
+    var_1 = module_0.readable_size(var_0)
+    assert var_1 == '1.00'
+    assert f'{type(module_0.PathType).__module__}.{type(module_0.PathType).__qualname__}' == 'typing.TypeVar'
 
-@pytest.mark.xfail(strict=True)
 def test_case_2():
-    var_0 = None
-    module_0.readable_size(var_0)
-
-def test_case_3():
     var_0 = "la+3\rsB4zs'Al\x0cW"
     var_1 = module_0.remove_prefix(var_0, var_0)
     assert var_1 == ''
     assert f'{type(module_0.PathType).__module__}.{type(module_0.PathType).__qualname__}' == 'typing.TypeVar'
 
 @pytest.mark.xfail(strict=True)
-def test_case_4():
+def test_case_3():
     var_0 = '$q_c[5u4oiCrh:)r.'
     var_1 = module_0.remove_suffix(var_0, var_0, var_0)
     assert var_1 == ''
@@ -33,7 +28,7 @@ def test_case_4():
     module_0.copy_tree(var_2, var_2, var_3)
 
 @pytest.mark.xfail(strict=True)
-def test_case_5():
+def test_case_4():
     var_0 = None
     var_1 = 'dbMcJI:x5~'
     var_2 = module_0.remove_suffix(var_1, var_1, var_0)
@@ -43,7 +38,7 @@ def test_case_5():
     module_0.copy_tree(var_0, var_1, var_3)
 
 @pytest.mark.xfail(strict=True)
-def test_case_6():
+def test_case_5():
     var_0 = None
     var_1 = module_0.cache(var_0, var_0)
     assert f'{type(module_0.PathType).__module__}.{type(module_0.PathType).__qualname__}' == 'typing.TypeVar'
@@ -51,17 +46,17 @@ def test_case_6():
     module_0.get_folder_size(var_2)
 
 @pytest.mark.xfail(strict=True)
-def test_case_7():
+def test_case_6():
     var_0 = None
     module_0.get_folder_size(var_0)
 
 @pytest.mark.xfail(strict=True)
-def test_case_8():
+def test_case_7():
     var_0 = None
     module_0.get_file_lines(var_0)
 
 @pytest.mark.xfail(strict=True)
-def test_case_9():
+def test_case_8():
     var_0 = ']l7cJYm6f$@H.'
     var_1 = True
     var_2 = module_0.readable_size(var_1)
@@ -81,19 +76,13 @@ def test_case_9():
     var_11 = module_0.scandir(var_10)
     module_0.readable_size(var_4)
 
-def test_case_10():
-    var_0 = 1071
+def test_case_9():
+    var_0 = 2095.99768
     var_1 = module_0.readable_size(var_0)
-    assert var_1 == '1.05K'
+    assert var_1 == '2.05K'
     assert f'{type(module_0.PathType).__module__}.{type(module_0.PathType).__qualname__}' == 'typing.TypeVar'
-    var_2 = ']l7cJYm6f$@H.'
-    var_3 = False
-    var_4 = module_0.readable_size(var_3)
-    assert var_4 == '0.00'
-    var_5 = module_0.remove_prefix(var_2, var_2)
-    assert var_5 == ''
 
-def test_case_11():
+def test_case_10():
     var_0 = ']l7cJYm6f$@H.'
     var_1 = False
     var_2 = module_0.readable_size(var_1)
@@ -105,7 +94,7 @@ def test_case_11():
     assert var_5 == ' &}"p8B'
 
 @pytest.mark.xfail(strict=True)
-def test_case_12():
+def test_case_11():
     var_0 = None
     var_1 = 'dbMcJI:x5~'
     var_2 = module_0.remove_suffix(var_1, var_1, var_0)
@@ -136,50 +125,69 @@ def test_case_12():
     var_19 = module_0.scandir(var_14)
     module_0.readable_size(var_0)
 
-@pytest.mark.xfail(strict=True)
+def test_case_12():
+    var_0 = 'test_dir'
+    var_1 = 'test'
+    var_2 = None
+    var_3 = module_0.scandir(var_2)
+    assert f'{type(module_0.PathType).__module__}.{type(module_0.PathType).__qualname__}' == 'typing.TypeVar'
+    var_4 = module_0.scandir(var_0)
+    var_5 = '>|t\tM.Y\tt'
+    var_6 = module_0.remove_suffix(var_1, var_5)
+    assert var_6 == 'test'
+    with pytest.raises(FileNotFoundError):
+        var_7 = list(var_4)
+
 def test_case_13():
-    var_0 = None
-    var_1 = 'dbMcJI:x5~'
-    var_2 = module_0.remove_suffix(var_1, var_1, var_0)
-    assert var_2 == ''
+    var_0 = 'test_dir'
+    var_1 = 'file1.txt'
+    var_2 = module_0.cache(var_1, name=var_0)
     assert f'{type(module_0.PathType).__module__}.{type(module_0.PathType).__qualname__}' == 'typing.TypeVar'
-    var_3 = ']o?gU&O4k&B`<\x0c'
-    var_4 = 'KJ@\\28i8[/\\'
-    var_5 = False
-    var_6 = module_0.remove_suffix(var_3, var_4, var_5)
-    assert var_6 == ']o?gU&O4k&B`<\x0c'
-    var_7 = None
-    var_8 = module_0.scandir(var_7)
-    module_0.readable_size(var_0)
-
-@pytest.mark.xfail(strict=True)
-def test_case_14():
-    var_0 = True
-    var_1 = module_0.readable_size(var_0)
-    assert var_1 == '1.00'
-    assert f'{type(module_0.PathType).__module__}.{type(module_0.PathType).__qualname__}' == 'typing.TypeVar'
-    var_2 = module_0.remove_prefix(var_1, var_1)
-    assert var_2 == ''
-    var_3 = None
-    var_4 = module_0.scandir(var_3)
-    var_5 = module_0.scandir(var_3)
-    var_6 = '\\NwO:1='
-    var_7 = True
-    var_8 = module_0.remove_suffix(var_1, var_6, var_7)
-    assert var_8 == '1.00'
-    module_0.readable_size(var_3, var_3)
-
-@pytest.mark.xfail(strict=True)
-def test_case_15():
-    var_0 = ']l7cJYm6f$@H.'
-    var_1 = module_0.remove_prefix(var_0, var_0)
-    assert var_1 == ''
-    assert f'{type(module_0.PathType).__module__}.{type(module_0.PathType).__qualname__}' == 'typing.TypeVar'
-    var_2 = '\nt__'
-    var_3 = module_0.remove_prefix(var_2, var_0)
-    assert var_3 == '\nt__'
+    var_3 = module_0.scandir(var_0)
     var_4 = None
-    var_5 = module_0.scandir(var_4)
-    var_6 = 'U4>hrT(b]6}\\xS'
-    var_7 = module_0.cache(var_4, name=var_6)
-    module_0.get_file_lines(var_4)
+    var_5 = module_0.cache(var_1, var_4, var_4)
+    with pytest.raises(FileNotFoundError):
+        var_6 = list(var_3)
+
+def test_case_14():
+    var_0 = 1024
+    var_1 = module_0.readable_size(var_0)
+    assert var_1 == '1.00K'
+    assert f'{type(module_0.PathType).__module__}.{type(module_0.PathType).__qualname__}' == 'typing.TypeVar'
+    var_2 = var_0 * var_0
+    var_3 = module_0.readable_size(var_2)
+    assert var_3 == '1.00M'
+    var_4 = var_0 * var_0
+    var_5 = var_4 * var_0
+    var_6 = module_0.readable_size(var_5)
+    assert var_6 == '1.00G'
+    var_7 = var_0 * var_0
+    var_8 = var_7 * var_0
+    var_9 = var_8 * var_0
+    var_10 = module_0.readable_size(var_9)
+    assert var_10 == '1.00T'
+    var_11 = var_0 * var_0
+    var_12 = var_11 * var_0
+    var_13 = var_12 * var_0
+    var_14 = var_13 * var_0
+    var_15 = module_0.readable_size(var_14)
+    assert var_15 == '1.00P'
+    var_16 = 0
+    var_17 = module_0.readable_size(var_0, var_16)
+    assert var_17 == '1K'
+
+def test_case_15():
+    var_0 = 'fle2txt'
+    var_1 = module_0.scandir(var_0)
+    assert f'{type(module_0.PathType).__module__}.{type(module_0.PathType).__qualname__}' == 'typing.TypeVar'
+    with pytest.raises(FileNotFoundError):
+        var_2 = list(var_1)
+
+@pytest.mark.xfail(strict=True)
+def test_case_16():
+    var_0 = None
+    var_1 = module_0.cache(var_0)
+    assert f'{type(module_0.PathType).__module__}.{type(module_0.PathType).__qualname__}' == 'typing.TypeVar'
+    var_2 = module_0.scandir(var_0)
+    var_3 = list(var_2)
+    var_1.__call__(var_3, var_1, var_0)

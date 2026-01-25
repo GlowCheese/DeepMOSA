@@ -1,0 +1,134 @@
+# Check out: https://github.com/GlowCheese/deepmosa
+import cookiecutter.hooks as module_0
+import pytest
+
+
+def test_case_0():
+    var_0 = '/path/to/hooks/commit-msg'
+    var_1 = module_0.valid_hook(var_0, var_0)
+    assert var_1 is False
+    assert f'{type(module_0.annotations).__module__}.{type(module_0.annotations).__qualname__}' == '__future__._Feature'
+    assert module_0.annotations.optional == (3, 7, 0, 'beta', 1)
+    assert module_0.annotations.mandatory == (3, 11, 0, 'alpha', 0)
+    assert module_0.annotations.compiler_flag == 16777216
+    assert f'{type(module_0.logger).__module__}.{type(module_0.logger).__qualname__}' == 'libs.custom_logger.logger.CustomLogger'
+    assert module_0.logger.filters == []
+    assert module_0.logger.name == 'cookiecutter.hooks'
+    assert module_0.logger.level == 0
+    assert f'{type(module_0.logger.parent).__module__}.{type(module_0.logger.parent).__qualname__}' == 'logging.RootLogger'
+    assert module_0.logger.propagate is True
+    assert module_0.logger.handlers == []
+    assert module_0.logger.disabled is False
+    assert f'{type(module_0.logger.manager).__module__}.{type(module_0.logger.manager).__qualname__}' == 'logging.Manager'
+    assert module_0.EXIT_SUCCESS == 0
+
+def test_case_1():
+    var_0 = None
+    var_1 = module_0.find_hook(var_0)
+    assert f'{type(module_0.annotations).__module__}.{type(module_0.annotations).__qualname__}' == '__future__._Feature'
+    assert module_0.annotations.optional == (3, 7, 0, 'beta', 1)
+    assert module_0.annotations.mandatory == (3, 11, 0, 'alpha', 0)
+    assert module_0.annotations.compiler_flag == 16777216
+    assert f'{type(module_0.logger).__module__}.{type(module_0.logger).__qualname__}' == 'libs.custom_logger.logger.CustomLogger'
+    assert module_0.logger.filters == []
+    assert module_0.logger.name == 'cookiecutter.hooks'
+    assert module_0.logger.level == 0
+    assert f'{type(module_0.logger.parent).__module__}.{type(module_0.logger.parent).__qualname__}' == 'logging.RootLogger'
+    assert module_0.logger.propagate is True
+    assert module_0.logger.handlers == []
+    assert module_0.logger.disabled is False
+    assert f'{type(module_0.logger.manager).__module__}.{type(module_0.logger.manager).__qualname__}' == 'logging.Manager'
+    assert module_0.EXIT_SUCCESS == 0
+
+@pytest.mark.xfail(strict=True)
+def test_case_2():
+    var_0 = '^V"w<`'
+    module_0.run_script(var_0, var_0)
+
+def test_case_3():
+    var_0 = None
+    var_1 = module_0.run_hook(var_0, var_0, var_0)
+    assert f'{type(module_0.annotations).__module__}.{type(module_0.annotations).__qualname__}' == '__future__._Feature'
+    assert module_0.annotations.optional == (3, 7, 0, 'beta', 1)
+    assert module_0.annotations.mandatory == (3, 11, 0, 'alpha', 0)
+    assert module_0.annotations.compiler_flag == 16777216
+    assert f'{type(module_0.logger).__module__}.{type(module_0.logger).__qualname__}' == 'libs.custom_logger.logger.CustomLogger'
+    assert module_0.logger.filters == []
+    assert module_0.logger.name == 'cookiecutter.hooks'
+    assert module_0.logger.level == 0
+    assert f'{type(module_0.logger.parent).__module__}.{type(module_0.logger.parent).__qualname__}' == 'logging.RootLogger'
+    assert module_0.logger.propagate is True
+    assert module_0.logger.handlers == []
+    assert module_0.logger.disabled is False
+    assert f'{type(module_0.logger.manager).__module__}.{type(module_0.logger.manager).__qualname__}' == 'logging.Manager'
+    assert module_0.EXIT_SUCCESS == 0
+
+def test_case_4():
+    var_0 = None
+    var_1 = module_0.run_pre_prompt_hook(var_0)
+    assert f'{type(module_0.annotations).__module__}.{type(module_0.annotations).__qualname__}' == '__future__._Feature'
+    assert module_0.annotations.optional == (3, 7, 0, 'beta', 1)
+    assert module_0.annotations.mandatory == (3, 11, 0, 'alpha', 0)
+    assert module_0.annotations.compiler_flag == 16777216
+    assert f'{type(module_0.logger).__module__}.{type(module_0.logger).__qualname__}' == 'libs.custom_logger.logger.CustomLogger'
+    assert module_0.logger.filters == []
+    assert module_0.logger.name == 'cookiecutter.hooks'
+    assert module_0.logger.level == 0
+    assert f'{type(module_0.logger.parent).__module__}.{type(module_0.logger.parent).__qualname__}' == 'logging.RootLogger'
+    assert module_0.logger.propagate is True
+    assert module_0.logger.handlers == []
+    assert module_0.logger.disabled is False
+    assert f'{type(module_0.logger.manager).__module__}.{type(module_0.logger.manager).__qualname__}' == 'logging.Manager'
+    assert module_0.EXIT_SUCCESS == 0
+
+def test_case_5():
+    pass
+
+def test_case_6():
+    var_0 = ''
+    var_1 = module_0.valid_hook(var_0, var_0)
+    assert var_1 is False
+    assert f'{type(module_0.annotations).__module__}.{type(module_0.annotations).__qualname__}' == '__future__._Feature'
+    assert module_0.annotations.optional == (3, 7, 0, 'beta', 1)
+    assert module_0.annotations.mandatory == (3, 11, 0, 'alpha', 0)
+    assert module_0.annotations.compiler_flag == 16777216
+    assert f'{type(module_0.logger).__module__}.{type(module_0.logger).__qualname__}' == 'libs.custom_logger.logger.CustomLogger'
+    assert module_0.logger.filters == []
+    assert module_0.logger.name == 'cookiecutter.hooks'
+    assert module_0.logger.level == 0
+    assert f'{type(module_0.logger.parent).__module__}.{type(module_0.logger.parent).__qualname__}' == 'logging.RootLogger'
+    assert module_0.logger.propagate is True
+    assert module_0.logger.handlers == []
+    assert module_0.logger.disabled is False
+    assert f'{type(module_0.logger.manager).__module__}.{type(module_0.logger.manager).__qualname__}' == 'logging.Manager'
+    assert module_0.EXIT_SUCCESS == 0
+
+@pytest.mark.xfail(strict=True)
+def test_case_7():
+    var_0 = '/path/to/script.py'
+    module_0.run_script(var_0)
+
+@pytest.mark.xfail(strict=True)
+def test_case_8():
+    var_0 = 'pre_gen_project'
+    var_1 = module_0.valid_hook(var_0, var_0)
+    assert var_1 is True
+    assert f'{type(module_0.annotations).__module__}.{type(module_0.annotations).__qualname__}' == '__future__._Feature'
+    assert module_0.annotations.optional == (3, 7, 0, 'beta', 1)
+    assert module_0.annotations.mandatory == (3, 11, 0, 'alpha', 0)
+    assert module_0.annotations.compiler_flag == 16777216
+    assert f'{type(module_0.logger).__module__}.{type(module_0.logger).__qualname__}' == 'libs.custom_logger.logger.CustomLogger'
+    assert module_0.logger.filters == []
+    assert module_0.logger.name == 'cookiecutter.hooks'
+    assert module_0.logger.level == 0
+    assert f'{type(module_0.logger.parent).__module__}.{type(module_0.logger.parent).__qualname__}' == 'logging.RootLogger'
+    assert module_0.logger.propagate is True
+    assert module_0.logger.handlers == []
+    assert module_0.logger.disabled is False
+    assert f'{type(module_0.logger.manager).__module__}.{type(module_0.logger.manager).__qualname__}' == 'logging.Manager'
+    assert module_0.EXIT_SUCCESS == 0
+    var_2 = None
+    var_3 = module_0.run_pre_prompt_hook(var_2)
+    var_4 = None
+    var_5 = 'n\\ZpX8V3UGO)H>'
+    module_0.valid_hook(var_4, var_5)

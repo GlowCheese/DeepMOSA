@@ -1,7 +1,6 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import mimesis.enums as module_1
 import mimesis.providers.code as module_0
-
+import mimesis.enums as module_1
 
 def test_case_0():
     var_0 = module_0.Code()
@@ -33,7 +32,7 @@ def test_case_1():
     assert f'{type(var_4.random).__module__}.{type(var_4.random).__qualname__}' == 'mimesis.random.Random'
     assert var_4.seed == module_1.EANFormat.EAN8
     var_5 = var_4.ean(var_0)
-    assert var_5 == '0613678105734'
+    assert var_5 == '3896326506763'
     var_6 = var_3.locale_code()
 
 def test_case_2():

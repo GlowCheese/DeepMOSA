@@ -1,8 +1,7 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import mimesis.providers.base as module_1
-import mimesis.providers.development as module_0
 import pytest
-
+import mimesis.providers.development as module_0
+import mimesis.providers.base as module_1
 
 @pytest.mark.xfail(strict=True)
 def test_case_0():
@@ -40,6 +39,7 @@ def test_case_1():
     assert module_0.SYSTEM_QUALITY_ATTRIBUTES == ('accessibility', 'accountability', 'accuracy', 'adaptability', 'administrability', 'affordability', 'agility', 'auditability', 'autonomy', 'availability', 'compatibility', 'composability', 'confidentiality', 'configurability', 'correctness', 'credibility', 'customizability', 'debuggability', 'degradability', 'demonstrability', 'dependability', 'deployability', 'determinability', 'discoverability', 'distributability', 'durability', 'effectiveness', 'efficiency', 'evolvability', 'extensibility', 'failure transparency', 'fault-tolerance', 'fidelity', 'flexibility', 'inspectability', 'installability', 'integrity', 'interchangeability', 'interoperability', 'learnability', 'localizability', 'maintainability', 'manageability', 'mobility', 'modifiability', 'modularity', 'observability', 'operability', 'orthogonality', 'portability', 'precision', 'predictability', 'process capabilities', 'producibility', 'provability', 'recoverability', 'redundancy', 'relevance', 'reliability', 'repeatability', 'reproducibility', 'resilience', 'responsiveness', 'reusability', 'robustness', 'safety', 'scalability', 'seamlessness', 'securability', 'self-sustainability', 'serviceability', 'simplicity', 'stability', 'standards compliance', 'survivability', 'sustainability', 'tailorability', 'testability', 'timeliness', 'traceability', 'transparency', 'ubiquity', 'understandability', 'upgradability', 'usability', 'vulnerability')
     var_3 = var_2.boolean()
     var_4 = var_2.software_license()
+    assert var_4 == 'Mozilla Public License 2.0 (MPL-2.0)'
     var_5 = var_2.software_license()
     var_1.validate_enum(var_0, var_0)
 
@@ -94,7 +94,6 @@ def test_case_4():
     assert module_0.SYSTEM_QUALITY_ATTRIBUTES == ('accessibility', 'accountability', 'accuracy', 'adaptability', 'administrability', 'affordability', 'agility', 'auditability', 'autonomy', 'availability', 'compatibility', 'composability', 'confidentiality', 'configurability', 'correctness', 'credibility', 'customizability', 'debuggability', 'degradability', 'demonstrability', 'dependability', 'deployability', 'determinability', 'discoverability', 'distributability', 'durability', 'effectiveness', 'efficiency', 'evolvability', 'extensibility', 'failure transparency', 'fault-tolerance', 'fidelity', 'flexibility', 'inspectability', 'installability', 'integrity', 'interchangeability', 'interoperability', 'learnability', 'localizability', 'maintainability', 'manageability', 'mobility', 'modifiability', 'modularity', 'observability', 'operability', 'orthogonality', 'portability', 'precision', 'predictability', 'process capabilities', 'producibility', 'provability', 'recoverability', 'redundancy', 'relevance', 'reliability', 'repeatability', 'reproducibility', 'resilience', 'responsiveness', 'reusability', 'robustness', 'safety', 'scalability', 'seamlessness', 'securability', 'self-sustainability', 'serviceability', 'simplicity', 'stability', 'standards compliance', 'survivability', 'sustainability', 'tailorability', 'testability', 'timeliness', 'traceability', 'transparency', 'ubiquity', 'understandability', 'upgradability', 'usability', 'vulnerability')
     var_1 = var_0.ility()
     var_2 = var_0.stage()
-    assert var_2 == 'RC'
     var_3 = 1804
     var_4 = b'@{\xa3'
     var_5 = (var_3, var_4, var_4)

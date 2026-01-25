@@ -1,5 +1,4 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import _locale as module_5
 import encodings.utf_8 as module_6
 import enum as module_4
 import http.cookies as module_7
@@ -7,6 +6,7 @@ import importlib.metadata as module_8
 import inspect as module_3
 import re as module_0
 
+import _locale as module_5
 import isort.api as module_1
 import isort.wrap_modes as module_2
 import pytest

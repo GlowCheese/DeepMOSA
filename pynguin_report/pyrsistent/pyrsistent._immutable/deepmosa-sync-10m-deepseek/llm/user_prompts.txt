@@ -1,0 +1,634 @@
+####################################################################
+#     TEST GENERATION BEGINS (DEEPMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def immutable(members='', name='Immutable', verbose=False):
+    """
+    Produces a class that either can be used standalone or as a base class for persistent classes.
+
+    This is a thin wrapper around a named tuple.
+
+    Constructing a type and using it to instantiate objects:
+
+    >>> Point = immutable('x, y', name='Point')
+    >>> p = Point(1, 2)
+    >>> p2 = p.set(x=3)
+    >>> p
+    Point(x=1, y=2)
+    >>> p2
+    Point(x=3, y=2)
+
+    Inheriting from a constructed type. In this case no type name needs to be supplied:
+
+    >>> class PositivePoint(immutable('x, y')):
+    ...     __slots__ = tuple()
+    ...     def __new__(cls, x, y):
+    ...         if x > 0 and y > 0:
+    ...             return super(PositivePoint, cls).__new__(cls, x, y)
+    ...         raise Exception('Coordinates must be positive!')
+    ...
+    >>> p = PositivePoint(1, 2)
+    >>> p.set(x=3)
+    PositivePoint(x=3, y=2)
+    >>> p.set(y=-3)
+    Traceback (most recent call last):
+    Exception: Coordinates must be positive!
+
+    The persistent class also supports the notion of frozen members. The value of a frozen member
+    cannot be updated. For example it could be used to implement an ID that should remain the same
+    over time. A frozen member is denoted by a trailing underscore.
+
+    >>> Point = immutable('x, y, id_', name='Point')
+    >>> p = Point(1, 2, id_=17)
+    >>> p.set(x=3)
+    Point(x=3, y=2, id_=17)
+    >>> p.set(id_=18)
+    Traceback (most recent call last):
+    AttributeError: Cannot set frozen members id_
+    """
+
+    if isinstance(members, str):
+        members = members.replace(',', ' ').split()
+
+    def frozen_member_test():
+        frozen_members = ["'%s'" % f for f in members if f.endswith('_')]
+        if frozen_members:
+            return """
+        frozen_fields = fields_to_modify & set([{frozen_members}])
+        if frozen_fields:
+            raise AttributeError('Cannot set frozen members %s' % ', '.join(frozen_fields))
+            """.format(frozen_members=', '.join(frozen_members))
+
+        return ''
+
+    quoted_members = ', '.join("'%s'" % m for m in members)
+    template = """
+class {class_name}(namedtuple('ImmutableBase', [{quoted_members}])):
+    __slots__ = tuple()
+
+    def __repr__(self):
+        return super({class_name}, self).__repr__().replace('ImmutableBase', self.__class__.__name__)
+
+    def set(self, **kwargs):
+        if not kwargs:
+            return self
+
+        fields_to_modify = set(kwargs.keys())
+        if not fields_to_modify <= {member_set}:
+            raise AttributeError("'%s' is not a member" % ', '.join(fields_to_modify - {member_set}))
+
+        {frozen_member_test}
+
+        return self.__class__.__new__(self.__class__, *map(kwargs.pop, [{quoted_members}], self))
+""".format(quoted_members=quoted_members,
+               member_set="set([%s])" % quoted_members if quoted_members else 'set()',
+               frozen_member_test=frozen_member_test(),
+               class_name=name)
+
+    if verbose:
+        print(template)
+
+    from collections import namedtuple
+    namespace = dict(namedtuple=namedtuple, __name__='pyrsistent_immutable')
+    try:
+        exec(template, namespace)
+    except SyntaxError as e:
+        raise SyntaxError(str(e) + ':\n' + template) from e
+
+    return namespace[name]
+
+```
+Write unit test for function immutable
+
+
+####################################################################
+#     TEST GENERATION BEGINS (DEEPMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def immutable(members='', name='Immutable', verbose=False):
+    """
+    Produces a class that either can be used standalone or as a base class for persistent classes.
+
+    This is a thin wrapper around a named tuple.
+
+    Constructing a type and using it to instantiate objects:
+
+    >>> Point = immutable('x, y', name='Point')
+    >>> p = Point(1, 2)
+    >>> p2 = p.set(x=3)
+    >>> p
+    Point(x=1, y=2)
+    >>> p2
+    Point(x=3, y=2)
+
+    Inheriting from a constructed type. In this case no type name needs to be supplied:
+
+    >>> class PositivePoint(immutable('x, y')):
+    ...     __slots__ = tuple()
+    ...     def __new__(cls, x, y):
+    ...         if x > 0 and y > 0:
+    ...             return super(PositivePoint, cls).__new__(cls, x, y)
+    ...         raise Exception('Coordinates must be positive!')
+    ...
+    >>> p = PositivePoint(1, 2)
+    >>> p.set(x=3)
+    PositivePoint(x=3, y=2)
+    >>> p.set(y=-3)
+    Traceback (most recent call last):
+    Exception: Coordinates must be positive!
+
+    The persistent class also supports the notion of frozen members. The value of a frozen member
+    cannot be updated. For example it could be used to implement an ID that should remain the same
+    over time. A frozen member is denoted by a trailing underscore.
+
+    >>> Point = immutable('x, y, id_', name='Point')
+    >>> p = Point(1, 2, id_=17)
+    >>> p.set(x=3)
+    Point(x=3, y=2, id_=17)
+    >>> p.set(id_=18)
+    Traceback (most recent call last):
+    AttributeError: Cannot set frozen members id_
+    """
+
+    if isinstance(members, str):
+        members = members.replace(',', ' ').split()
+
+    def frozen_member_test():
+        frozen_members = ["'%s'" % f for f in members if f.endswith('_')]
+        if frozen_members:
+            return """
+        frozen_fields = fields_to_modify & set([{frozen_members}])
+        if frozen_fields:
+            raise AttributeError('Cannot set frozen members %s' % ', '.join(frozen_fields))
+            """.format(frozen_members=', '.join(frozen_members))
+
+        return ''
+
+    quoted_members = ', '.join("'%s'" % m for m in members)
+    template = """
+class {class_name}(namedtuple('ImmutableBase', [{quoted_members}])):
+    __slots__ = tuple()
+
+    def __repr__(self):
+        return super({class_name}, self).__repr__().replace('ImmutableBase', self.__class__.__name__)
+
+    def set(self, **kwargs):
+        if not kwargs:
+            return self
+
+        fields_to_modify = set(kwargs.keys())
+        if not fields_to_modify <= {member_set}:
+            raise AttributeError("'%s' is not a member" % ', '.join(fields_to_modify - {member_set}))
+
+        {frozen_member_test}
+
+        return self.__class__.__new__(self.__class__, *map(kwargs.pop, [{quoted_members}], self))
+""".format(quoted_members=quoted_members,
+               member_set="set([%s])" % quoted_members if quoted_members else 'set()',
+               frozen_member_test=frozen_member_test(),
+               class_name=name)
+
+    if verbose:
+        print(template)
+
+    from collections import namedtuple
+    namespace = dict(namedtuple=namedtuple, __name__='pyrsistent_immutable')
+    try:
+        exec(template, namespace)
+    except SyntaxError as e:
+        raise SyntaxError(str(e) + ':\n' + template) from e
+
+    return namespace[name]
+
+```
+Write unit test for function immutable
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 91 evaluates to False.
+```
+ 1 | def immutable(members='', name='Immutable', verbose=False):
+ 2 |     """
+ 3 |     Produces a class that either can be used standalone or as a base class for persistent classes.
+ 4 | 
+ 5 |     This is a thin wrapper around a named tuple.
+ 6 | 
+ 7 |     Constructing a type and using it to instantiate objects:
+ 8 | 
+ 9 |     >>> Point = immutable('x, y', name='Point')
+10 |     >>> p = Point(1, 2)
+11 |     >>> p2 = p.set(x=3)
+12 |     >>> p
+13 |     Point(x=1, y=2)
+14 |     >>> p2
+15 |     Point(x=3, y=2)
+16 | 
+17 |     Inheriting from a constructed type. In this case no type name needs to be supplied:
+18 | 
+19 |     >>> class PositivePoint(immutable('x, y')):
+20 |     ...     __slots__ = tuple()
+21 |     ...     def __new__(cls, x, y):
+22 |     ...         if x > 0 and y > 0:
+23 |     ...             return super(PositivePoint, cls).__new__(cls, x, y)
+24 |     ...         raise Exception('Coordinates must be positive!')
+25 |     ...
+26 |     >>> p = PositivePoint(1, 2)
+27 |     >>> p.set(x=3)
+28 |     PositivePoint(x=3, y=2)
+29 |     >>> p.set(y=-3)
+30 |     Traceback (most recent call last):
+31 |     Exception: Coordinates must be positive!
+32 | 
+33 |     The persistent class also supports the notion of frozen members. The value of a frozen member
+34 |     cannot be updated. For example it could be used to implement an ID that should remain the same
+35 |     over time. A frozen member is denoted by a trailing underscore.
+36 | 
+37 |     >>> Point = immutable('x, y, id_', name='Point')
+38 |     >>> p = Point(1, 2, id_=17)
+39 |     >>> p.set(x=3)
+40 |     Point(x=3, y=2, id_=17)
+41 |     >>> p.set(id_=18)
+42 |     Traceback (most recent call last):
+43 |     AttributeError: Cannot set frozen members id_
+44 |     """
+45 | 
+46 |     if isinstance(members, str):
+47 |         members = members.replace(',', ' ').split()
+48 | 
+49 |     def frozen_member_test():
+50 |         frozen_members = ["'%s'" % f for f in members if f.endswith('_')]
+51 |         if frozen_members:
+52 |             return """
+53 |         frozen_fields = fields_to_modify & set([{frozen_members}])
+54 |         if frozen_fields:
+55 |             raise AttributeError('Cannot set frozen members %s' % ', '.join(frozen_fields))
+56 |             """.format(frozen_members=', '.join(frozen_members))
+57 | 
+58 |         return ''
+59 | 
+60 |     quoted_members = ', '.join("'%s'" % m for m in members)
+61 |     template = """
+62 | class {class_name}(namedtuple('ImmutableBase', [{quoted_members}])):
+63 |     __slots__ = tuple()
+64 | 
+65 |     def __repr__(self):
+66 |         return super({class_name}, self).__repr__().replace('ImmutableBase', self.__class__.__name__)
+67 | 
+68 |     def set(self, **kwargs):
+69 |         if not kwargs:
+70 |             return self
+71 | 
+72 |         fields_to_modify = set(kwargs.keys())
+73 |         if not fields_to_modify <= {member_set}:
+74 |             raise AttributeError("'%s' is not a member" % ', '.join(fields_to_modify - {member_set}))
+75 | 
+76 |         {frozen_member_test}
+77 | 
+78 |         return self.__class__.__new__(self.__class__, *map(kwargs.pop, [{quoted_members}], self))
+79 | """.format(quoted_members=quoted_members,
+80 |                member_set="set([%s])" % quoted_members if quoted_members else 'set()',
+81 |                frozen_member_test=frozen_member_test(),
+82 |                class_name=name)
+83 | 
+84 |     if verbose:
+85 |         print(template)
+86 | 
+87 |     from collections import namedtuple
+88 |     namespace = dict(namedtuple=namedtuple, __name__='pyrsistent_immutable')
+89 |     try:
+90 |         exec(template, namespace)
+91 |     except SyntaxError as e:
+92 |         raise SyntaxError(str(e) + ':\n' + template) from e
+93 | 
+94 |     return namespace[name]
+```
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 91 evaluates to False.
+```
+ 1 | def immutable(members='', name='Immutable', verbose=False):
+ 2 |     """
+ 3 |     Produces a class that either can be used standalone or as a base class for persistent classes.
+ 4 | 
+ 5 |     This is a thin wrapper around a named tuple.
+ 6 | 
+ 7 |     Constructing a type and using it to instantiate objects:
+ 8 | 
+ 9 |     >>> Point = immutable('x, y', name='Point')
+10 |     >>> p = Point(1, 2)
+11 |     >>> p2 = p.set(x=3)
+12 |     >>> p
+13 |     Point(x=1, y=2)
+14 |     >>> p2
+15 |     Point(x=3, y=2)
+16 | 
+17 |     Inheriting from a constructed type. In this case no type name needs to be supplied:
+18 | 
+19 |     >>> class PositivePoint(immutable('x, y')):
+20 |     ...     __slots__ = tuple()
+21 |     ...     def __new__(cls, x, y):
+22 |     ...         if x > 0 and y > 0:
+23 |     ...             return super(PositivePoint, cls).__new__(cls, x, y)
+24 |     ...         raise Exception('Coordinates must be positive!')
+25 |     ...
+26 |     >>> p = PositivePoint(1, 2)
+27 |     >>> p.set(x=3)
+28 |     PositivePoint(x=3, y=2)
+29 |     >>> p.set(y=-3)
+30 |     Traceback (most recent call last):
+31 |     Exception: Coordinates must be positive!
+32 | 
+33 |     The persistent class also supports the notion of frozen members. The value of a frozen member
+34 |     cannot be updated. For example it could be used to implement an ID that should remain the same
+35 |     over time. A frozen member is denoted by a trailing underscore.
+36 | 
+37 |     >>> Point = immutable('x, y, id_', name='Point')
+38 |     >>> p = Point(1, 2, id_=17)
+39 |     >>> p.set(x=3)
+40 |     Point(x=3, y=2, id_=17)
+41 |     >>> p.set(id_=18)
+42 |     Traceback (most recent call last):
+43 |     AttributeError: Cannot set frozen members id_
+44 |     """
+45 | 
+46 |     if isinstance(members, str):
+47 |         members = members.replace(',', ' ').split()
+48 | 
+49 |     def frozen_member_test():
+50 |         frozen_members = ["'%s'" % f for f in members if f.endswith('_')]
+51 |         if frozen_members:
+52 |             return """
+53 |         frozen_fields = fields_to_modify & set([{frozen_members}])
+54 |         if frozen_fields:
+55 |             raise AttributeError('Cannot set frozen members %s' % ', '.join(frozen_fields))
+56 |             """.format(frozen_members=', '.join(frozen_members))
+57 | 
+58 |         return ''
+59 | 
+60 |     quoted_members = ', '.join("'%s'" % m for m in members)
+61 |     template = """
+62 | class {class_name}(namedtuple('ImmutableBase', [{quoted_members}])):
+63 |     __slots__ = tuple()
+64 | 
+65 |     def __repr__(self):
+66 |         return super({class_name}, self).__repr__().replace('ImmutableBase', self.__class__.__name__)
+67 | 
+68 |     def set(self, **kwargs):
+69 |         if not kwargs:
+70 |             return self
+71 | 
+72 |         fields_to_modify = set(kwargs.keys())
+73 |         if not fields_to_modify <= {member_set}:
+74 |             raise AttributeError("'%s' is not a member" % ', '.join(fields_to_modify - {member_set}))
+75 | 
+76 |         {frozen_member_test}
+77 | 
+78 |         return self.__class__.__new__(self.__class__, *map(kwargs.pop, [{quoted_members}], self))
+79 | """.format(quoted_members=quoted_members,
+80 |                member_set="set([%s])" % quoted_members if quoted_members else 'set()',
+81 |                frozen_member_test=frozen_member_test(),
+82 |                class_name=name)
+83 | 
+84 |     if verbose:
+85 |         print(template)
+86 | 
+87 |     from collections import namedtuple
+88 |     namespace = dict(namedtuple=namedtuple, __name__='pyrsistent_immutable')
+89 |     try:
+90 |         exec(template, namespace)
+91 |     except SyntaxError as e:
+92 |         raise SyntaxError(str(e) + ':\n' + template) from e
+93 | 
+94 |     return namespace[name]
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 91 evaluates to False.
+```
+ 1 | def immutable(members='', name='Immutable', verbose=False):
+ 2 |     """
+ 3 |     Produces a class that either can be used standalone or as a base class for persistent classes.
+ 4 | 
+ 5 |     This is a thin wrapper around a named tuple.
+ 6 | 
+ 7 |     Constructing a type and using it to instantiate objects:
+ 8 | 
+ 9 |     >>> Point = immutable('x, y', name='Point')
+10 |     >>> p = Point(1, 2)
+11 |     >>> p2 = p.set(x=3)
+12 |     >>> p
+13 |     Point(x=1, y=2)
+14 |     >>> p2
+15 |     Point(x=3, y=2)
+16 | 
+17 |     Inheriting from a constructed type. In this case no type name needs to be supplied:
+18 | 
+19 |     >>> class PositivePoint(immutable('x, y')):
+20 |     ...     __slots__ = tuple()
+21 |     ...     def __new__(cls, x, y):
+22 |     ...         if x > 0 and y > 0:
+23 |     ...             return super(PositivePoint, cls).__new__(cls, x, y)
+24 |     ...         raise Exception('Coordinates must be positive!')
+25 |     ...
+26 |     >>> p = PositivePoint(1, 2)
+27 |     >>> p.set(x=3)
+28 |     PositivePoint(x=3, y=2)
+29 |     >>> p.set(y=-3)
+30 |     Traceback (most recent call last):
+31 |     Exception: Coordinates must be positive!
+32 | 
+33 |     The persistent class also supports the notion of frozen members. The value of a frozen member
+34 |     cannot be updated. For example it could be used to implement an ID that should remain the same
+35 |     over time. A frozen member is denoted by a trailing underscore.
+36 | 
+37 |     >>> Point = immutable('x, y, id_', name='Point')
+38 |     >>> p = Point(1, 2, id_=17)
+39 |     >>> p.set(x=3)
+40 |     Point(x=3, y=2, id_=17)
+41 |     >>> p.set(id_=18)
+42 |     Traceback (most recent call last):
+43 |     AttributeError: Cannot set frozen members id_
+44 |     """
+45 | 
+46 |     if isinstance(members, str):
+47 |         members = members.replace(',', ' ').split()
+48 | 
+49 |     def frozen_member_test():
+50 |         frozen_members = ["'%s'" % f for f in members if f.endswith('_')]
+51 |         if frozen_members:
+52 |             return """
+53 |         frozen_fields = fields_to_modify & set([{frozen_members}])
+54 |         if frozen_fields:
+55 |             raise AttributeError('Cannot set frozen members %s' % ', '.join(frozen_fields))
+56 |             """.format(frozen_members=', '.join(frozen_members))
+57 | 
+58 |         return ''
+59 | 
+60 |     quoted_members = ', '.join("'%s'" % m for m in members)
+61 |     template = """
+62 | class {class_name}(namedtuple('ImmutableBase', [{quoted_members}])):
+63 |     __slots__ = tuple()
+64 | 
+65 |     def __repr__(self):
+66 |         return super({class_name}, self).__repr__().replace('ImmutableBase', self.__class__.__name__)
+67 | 
+68 |     def set(self, **kwargs):
+69 |         if not kwargs:
+70 |             return self
+71 | 
+72 |         fields_to_modify = set(kwargs.keys())
+73 |         if not fields_to_modify <= {member_set}:
+74 |             raise AttributeError("'%s' is not a member" % ', '.join(fields_to_modify - {member_set}))
+75 | 
+76 |         {frozen_member_test}
+77 | 
+78 |         return self.__class__.__new__(self.__class__, *map(kwargs.pop, [{quoted_members}], self))
+79 | """.format(quoted_members=quoted_members,
+80 |                member_set="set([%s])" % quoted_members if quoted_members else 'set()',
+81 |                frozen_member_test=frozen_member_test(),
+82 |                class_name=name)
+83 | 
+84 |     if verbose:
+85 |         print(template)
+86 | 
+87 |     from collections import namedtuple
+88 |     namespace = dict(namedtuple=namedtuple, __name__='pyrsistent_immutable')
+89 |     try:
+90 |         exec(template, namespace)
+91 |     except SyntaxError as e:
+92 |         raise SyntaxError(str(e) + ':\n' + template) from e
+93 | 
+94 |     return namespace[name]
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+def immutable(members='', name='Immutable', verbose=False):
+    """
+    Produces a class that either can be used standalone or as a base class for persistent classes.
+
+    This is a thin wrapper around a named tuple.
+
+    Constructing a type and using it to instantiate objects:
+
+    >>> Point = immutable('x, y', name='Point')
+    >>> p = Point(1, 2)
+    >>> p2 = p.set(x=3)
+    >>> p
+    Point(x=1, y=2)
+    >>> p2
+    Point(x=3, y=2)
+
+    Inheriting from a constructed type. In this case no type name needs to be supplied:
+
+    >>> class PositivePoint(immutable('x, y')):
+    ...     __slots__ = tuple()
+    ...     def __new__(cls, x, y):
+    ...         if x > 0 and y > 0:
+    ...             return super(PositivePoint, cls).__new__(cls, x, y)
+    ...         raise Exception('Coordinates must be positive!')
+    ...
+    >>> p = PositivePoint(1, 2)
+    >>> p.set(x=3)
+    PositivePoint(x=3, y=2)
+    >>> p.set(y=-3)
+    Traceback (most recent call last):
+    Exception: Coordinates must be positive!
+
+    The persistent class also supports the notion of frozen members. The value of a frozen member
+    cannot be updated. For example it could be used to implement an ID that should remain the same
+    over time. A frozen member is denoted by a trailing underscore.
+
+    >>> Point = immutable('x, y, id_', name='Point')
+    >>> p = Point(1, 2, id_=17)
+    >>> p.set(x=3)
+    Point(x=3, y=2, id_=17)
+    >>> p.set(id_=18)
+    Traceback (most recent call last):
+    AttributeError: Cannot set frozen members id_
+    """
+
+    if isinstance(members, str):
+        members = members.replace(',', ' ').split()
+
+    def frozen_member_test():
+        frozen_members = ["'%s'" % f for f in members if f.endswith('_')]
+        if frozen_members:
+            return """
+        frozen_fields = fields_to_modify & set([{frozen_members}])
+        if frozen_fields:
+            raise AttributeError('Cannot set frozen members %s' % ', '.join(frozen_fields))
+            """.format(frozen_members=', '.join(frozen_members))
+
+        return ''
+
+    quoted_members = ', '.join("'%s'" % m for m in members)
+    template = """
+class {class_name}(namedtuple('ImmutableBase', [{quoted_members}])):
+    __slots__ = tuple()
+
+    def __repr__(self):
+        return super({class_name}, self).__repr__().replace('ImmutableBase', self.__class__.__name__)
+
+    def set(self, **kwargs):
+        if not kwargs:
+            return self
+
+        fields_to_modify = set(kwargs.keys())
+        if not fields_to_modify <= {member_set}:
+            raise AttributeError("'%s' is not a member" % ', '.join(fields_to_modify - {member_set}))
+
+        {frozen_member_test}
+
+        return self.__class__.__new__(self.__class__, *map(kwargs.pop, [{quoted_members}], self))
+""".format(quoted_members=quoted_members,
+               member_set="set([%s])" % quoted_members if quoted_members else 'set()',
+               frozen_member_test=frozen_member_test(),
+               class_name=name)
+
+    if verbose:
+        print(template)
+
+    from collections import namedtuple
+    namespace = dict(namedtuple=namedtuple, __name__='pyrsistent_immutable')
+    try:
+        exec(template, namespace)
+    except SyntaxError as e:
+        raise SyntaxError(str(e) + ':\n' + template) from e
+
+    return namespace[name]
+
+```
+Write unit test for function immutable
+
+

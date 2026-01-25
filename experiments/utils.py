@@ -1,107 +1,62 @@
-import ast
-import logging
 import os
 import pkgutil
-import re
 import subprocess
 import sys
-from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
 import pandas as pd
 import setuptools
-from pydantic import BaseModel, Field, field_validator
 
+from experiments.models import RunConfig, StatisticsRow
 from libs.custom_logger import getLogger
 
-_logger = getLogger(__name__, logging.ERROR)
+_logger = getLogger("utils")
 
 
-class LanguageModel(BaseModel):
-    id: str
-    base_url: str
+# Some constants
+NUM_RUNS_PER_MODULE = 2
+RANDOM_SEEDS = [42, 1302, 1337, 2004, 2412]
+BASE_REPORT_PATH = Path("pynguin_report").resolve(True)
+BASE_PROJECT_PATH = Path("experiments", "projects").resolve(True)
 
 
-def find_all_modules(project_name: str, project_path: str | Path):
+def find_all_modules(project_name: str):
     "Find all modules in a project using `setuptools.find_packages`."
+
+    project_path = BASE_PROJECT_PATH / project_name
+    assert project_path.exists()
+
     packages = setuptools.find_packages(project_path)
     all_modules: set[str] = set()
     for package in packages:
+        if package.startswith("tests"):
+            continue
         package_path = os.path.join(project_path, package.replace(".", "/"))
         modules = [module for module in pkgutil.iter_modules([package_path])]
         all_modules.update([f"{package}.{module.name}" for module in modules if not module.ispkg])
-    ignore_path = Path("pynguin_report") / project_name / "ignore.list"
+
+    ignore_path = BASE_REPORT_PATH / project_name / "ignore.list"
     if ignore_path.exists() and ignore_path.is_file():
-        ignore_list = ignore_path.read_text().split()
-        all_modules.difference_update(ignore_list)
+        ignored_modules = ignore_path.read_text().split()
+        all_modules.difference_update(ignored_modules)
     return all_modules
 
 
-class RunConfig(BaseModel):
-    config_id: str
-    argv: list[str]
+def find_all_projects():
+    all_projects: set[str] = set()
+    for base_report_path in BASE_PROJECT_PATH.iterdir():
+        project_name = base_report_path.name
+        all_projects.add(project_name)
+    return all_projects
 
 
-class RunEntry(BaseModel):
-    module_name: str
-    run_config: RunConfig
-
-
-class StatisticsRow(BaseModel):
-    run_id: int = Field(alias="RunId")
-    project_name: str = Field(alias="ProjectName")
-    target_module: str = Field(alias="TargetModule")
-    configuration_id: str = Field(alias="ConfigurationId")
-    line_nos: int = Field(alias="LineNos")
-    random_seed: int = Field(alias="RandomSeed")
-    lines: int = Field(alias="Lines")
-    predicates: int = Field(alias="Predicates")
-    goals: int = Field(alias="Goals")
-    mccabe_ast: list[int] = Field(alias="McCabeAST")
-    mccabe_code_object: list[int] = Field(alias="McCabeCodeObject")
-    code_objects: int = Field(alias="CodeObjects")
-    accessible_objects_under_test: int = Field(alias="AccessibleObjectsUnderTest")
-    llm_calls: int = Field(alias="LLMCalls")
-    llm_query_time: float = Field(alias="LLMQueryTime")
-    llm_stage_saved_tests: int = Field(alias="LLMStageSavedTests")
-    llm_input_tokens: int = Field(alias="LLMInputTokens")
-    llm_output_tokens: int = Field(alias="LLMOutputTokens")
-    parsed_statements: int = Field(alias="ParsedStatements")
-    parsable_statements: int = Field(alias="ParsableStatements")
-    final_size: int = Field(alias="FinalSize")
-    final_length: int = Field(alias="FinalLength")
-    branch_coverage: float = Field(alias="BranchCoverage")
-    coverage_timeline: list[float] = Field(alias="CoverageTimeline", exclude=True)
-
-    @field_validator("mccabe_ast", "mccabe_code_object", mode="before")
-    @classmethod
-    def validate_mccabe(cls, v):
-        return ast.literal_eval(v)
-
-    @field_validator(
-        "llm_calls",
-        "llm_query_time",
-        "llm_stage_saved_tests",
-        "llm_input_tokens",
-        "llm_output_tokens",
-        "parsed_statements",
-        "parsable_statements",
-        mode="before",
-    )
-    @classmethod
-    def empty_llm_stats(cls, v):
-        if v == "":
-            return 0
-        return v
-
-
-@lru_cache(maxsize=None)
-def read_module_statistics(report_dir: Path):
-    report_path = report_dir / "statistics.csv"
+def read_module_statistics(project_name: str, module_name: str, config_id: str):
+    base_report_path = Path("pynguin_report") / project_name
+    report_path = base_report_path / module_name / config_id / "statistics.csv"
 
     if not report_path.exists():
-        _logger.warning("statistics path '%s' does not exist!", report_path)
+        _logger.debug("statistics path '%s' does not exist!", report_path)
         return None
 
     df = pd.read_csv(report_path, keep_default_na=False)
@@ -125,36 +80,37 @@ def read_module_statistics(report_dir: Path):
     return result
 
 
-def run_deepmosa_runner(project_name: str, *argv: str):
+def run_deepmosa_runner(project_name: str, env_file: str, *argv: str):
     pwd = Path.cwd()
 
     # fmt: off
     cmd = [
-        "docker", "run", "--rm",
-        "-t",
-        "--user", f"{os.getuid()}:{os.getgid()}",
-        "--env-file", str(pwd / ".env"),
-        "-e", f"PROJECT_NAME={project_name}",
-        "-e", "UV_CACHE_DIR=/tmp/uv-cache",
-        "-v", f"{pwd}/experiments/projects/{project_name}:/workspace/project:ro",
-        "-v", f"{pwd}/generated_tests:/workspace/generated_tests",
-        "-v", f"{pwd}/pynguin_report:/workspace/pynguin_report",
-        "-v", f"{pwd}/.cache/project-deps:/workspace/.project-deps",
+        "docker", "run",     "--rm", "-t",
+        "--user",            f"{os.getuid()}:{os.getgid()}",
+        "--env-file",        str(pwd / env_file),
+        "-e",                f"PROJECT_NAME={project_name}",
+        "-e",                "UV_CACHE_DIR=/tmp/uv-cache",
+        "-v",                f"{pwd}/experiments/projects/{project_name}:/workspace/project:ro",
+        "-v",                f"{pwd}/generated_tests:/workspace/generated_tests",
+        "-v",                f"{pwd}/pynguin_report:/workspace/pynguin_report",
+        "-v",                f"{pwd}/.cache/project-deps:/workspace/.project-deps",
         "deepmosa-runner",
-        "--project-path", "/workspace/project",
-        "--project-name", project_name,
+        "--project-path",    "/workspace/project",
+        "--project-name",    project_name,
         *argv,
     ]
     # fmt: on
 
     proc = subprocess.Popen(
         cmd,
+        stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
         bufsize=1,  # line-buffered
     )
 
+    err_msg: str | None = None
     stderr_lines = []
 
     try:
@@ -162,6 +118,8 @@ def run_deepmosa_runner(project_name: str, *argv: str):
         if proc.stdout:
             for line in proc.stdout:
                 print(line, end="")
+                if line.startswith("Exception:"):
+                    err_msg = line[11:].strip()
 
         # stream + collect stderr
         if proc.stderr:
@@ -172,9 +130,8 @@ def run_deepmosa_runner(project_name: str, *argv: str):
         ret = proc.wait()
         if ret != 0:
             stderr = "".join(stderr_lines)
-            m = re.search(r"Exception:\s*(.*)", stderr)
-            if m:
-                raise RuntimeError(m.group(1))
+            if err_msg:
+                raise RuntimeError(err_msg)
             else:
                 raise subprocess.CalledProcessError(ret, cmd, stderr=stderr)
 
@@ -192,25 +149,45 @@ RUN_CONFIGS = [
             "--maximum-search-time", "600",
         ]
     ),
-    RunConfig(
-        config_id="codamosa-10m-deepseek",
-        argv=[
-            "--configuration-id", "codamosa-10m-deepseek",
-            "--algorithm", "CODAMOSA",
-            "--maximum-search-time", "600",
-            "--model", "deepseek-chat",
-            "--base-url", "https://api.deepseek.com/beta",
-        ],
-    ),
-    RunConfig(
-        config_id="deepmosa-10m-deepseek",
-        argv=[
-            "--configuration-id", "deepmosa-10m-deepseek",
-            "--algorithm", "DEEPMOSA",
-            "--maximum-search-time", "600",
-            "--model", "deepseek-chat",
-            "--base-url", "https://api.deepseek.com",
-        ],
-    ),
 ]
+
+for baseline in [
+    ("codamosa", "CODAMOSA", []),
+    ("deepmosa", "DEEPMOSA", []),
+    ("deepmosa-sync", "DEEPMOSA", ["--async-enabled", "False"]),
+    ("deepmosa-dese-v1", "DEEPMOSA", ["--deserializer-version", "1"])
+]:
+    for llm_config in [
+        ("deepseek", "deepseek/deepseek-chat"),
+        # ("deepseek", "deepseek-chat", "https://api.deepseek.com"),
+        # ("claude", "claude-haiku-4-5", "https://api.anthropic.com/v1"),
+        ("devstral", "mistralai/devstral-2512:free")
+    ]:
+        config_id = f"{baseline[0]}-10m-{llm_config[0]}"
+        RUN_CONFIGS.append(
+            RunConfig(
+                config_id=config_id,
+                argv=[
+                    "--configuration-id", config_id,
+                    "--algorithm", baseline[1],
+                    "--maximum-search-time", "600",
+                    "--model", llm_config[1],
+                    *(
+                        ["--base-url", llm_config[2]]
+                        if len(llm_config) == 3 else []
+                    ),
+                    *baseline[2]
+                ]
+            )
+        )
+
+
+def print_table(a: list[list[str]], alg: str | None = None):
+    alg = alg or "<" * len(a[0])
+    mx_len = [max(len(a[i][j]) for i in range(len(a))) for j in range(len(a[0]))]
+    for r in a:
+        msg = ""
+        for i in range(len(r)):
+            msg += f"{r[i]:{alg[i]}{mx_len[i]}} "
+        _logger.info(msg)
 # fmt: on

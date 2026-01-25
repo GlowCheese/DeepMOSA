@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,140 +7,26 @@
 #--------------------------
 
 # Unit test for method search of class Trie
-def test_Trie_search():  # noqa: N802
-    """Test that the Trie search method returns the correct config file."""
+def test_Trie_search():
     trie = Trie()
-    trie.insert("/home/user/project/config.json", {"key": "value"})
-    trie.insert("/home/user/project/src/config.json", {"key": "value2"})
-    trie.insert("/home/user/project/src/subdir/config.json", {"key": "value3"})
-    assert trie.search("/home/user/project/src/subdir/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/file.py") == (
-        "/home/user/project/src/config.json",
-        {"key": "value2"},
-    )
-    assert trie.search("/home/user/project/file.py") == (
-        "/home/user/project/config.json",
-        {"key": "value"},
-    )
-    assert trie.search("/home/user/file.py") == ("", {})
-    assert trie.search("/home/user/project/src/subdir/deep/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/file.py") == (
-        "/home/user/project/src/subdir/config.json",
-        {"key": "value3"},
-    )
-    assert trie.search("/home/user/project/src/subdir/deep/deeper/deepest/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper/deeper
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/another/config2.json", {"key2": "value2"})
+    trie.insert("/path/to/another/config3.json", {"key3": "value3"})
+    
+    assert trie.search("/path/to/file.txt") == ("/path/to/config1.json", {"key1": "value1"})
+    assert trie.search("/path/to/another/file.txt") == ("/path/to/another/config2.json", {"key2": "value2"})
+    assert trie.search("/path/to/another/config3.json") == ("/path/to/another/config3.json", {"key3": "value3"})
+    assert trie.search("/path/to/nonexistent/file.txt") == ("/path/to/config1.json", {"key1": "value1"})
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
+def test_Trie_insert():
     trie = Trie()
-    trie.insert('/home/user/.config.json', {'key': 'value'})
-    assert trie.root.nodes['home'].nodes['user'].config_info == ('/home/user/.config.json', {'key': 'value'})
+    trie.insert("config_file", {"key": "value"})
+    assert trie.root.nodes["config_file"].config_info == ("config_file", {"key": "value"})
 
 
 
@@ -148,693 +34,323 @@ def test_Trie_insert():  # noqa: N802
 #--------------------------
 
 # Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
-    """Test that the Trie insert method works correctly."""
+def test_Trie_insert(): 
     trie = Trie()
-    config_file = "/home/user/project/.ruff.toml"
-    config_data = {"line_length": 100}
+    trie.insert("C:/Users/username/Documents/project/config.json", {"key": "value"})
+    trie.insert("C:/Users/username/Documents/project/src/main.py", {})
+    trie.insert("C:/Users/username/Documents/project/src/utils.py", {})
+    trie.insert("C:/Users/username/Documents/project/tests/test_main.py", {})
+    trie.insert("C:/Users/username/Documents/project/tests/test_utils.py", {})
+    assert trie.root.nodes["C:"].nodes["Users"].nodes["username"].nodes["Documents"].nodes["project"].nodes["src"].nodes["main.py"].config_info == ("C:/Users/username/Documents/project/src/main.py", {})
+    assert trie.root.nodes["C:"].nodes["Users"].nodes["username"].nodes["Documents"].nodes["project"].nodes["src"].nodes["utils.py"].config_info == ("C:/Users/username/Documents/project/src/utils.py", {})
+    assert trie.root.nodes["C:"].nodes["Users"].nodes["username"].nodes["Documents"].nodes["project"].nodes["tests"].nodes["test_main.py"].config_info == ("C:/Users/username/Documents/project/tests/test_main.py", {})
+    assert trie.root.nodes["C:"].nodes["Users"].nodes["username"].nodes["Documents"].nodes["project"].nodes["tests"].nodes["test_utils.py"].config_info == ("C:/Users/username/Documents/project/tests/test_utils.py", {})
+
+
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+# Unit test for constructor of class TrieNode
+def test_TrieNode():
+    config_file = "test_config.json"
+    config_data = {"key": "value"}
+    node = TrieNode(config_file, config_data)
+    assert node.config_info == (config_file, config_data)
+    assert node.nodes == {}
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+# Unit test for method insert of class Trie
+def test_Trie_insert():
+    trie = Trie()
+    config_file = "/path/to/config/file.json"
+    config_data = {"key": "value"}
+    trie.insert(config_file, config_data)
+    assert trie.root.nodes["path"].nodes["to"].nodes["config"].config_info == (config_file, config_data)
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+# Unit test for method search of class Trie
+def test_Trie_search():
+    trie = Trie()
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/subdir/config2.json", {"key2": "value2"})
+    trie.insert("/another/path/config3.json", {"key3": "value3"})
+
+    # Test exact match
+    assert trie.search("/path/to/subdir/file.txt") == ("/path/to/subdir/config2.json", {"key2": "value2"})
+
+    # Test parent directory config
+    assert trie.search("/path/to/otherfile.txt") == ("/path/to/config1.json", {"key1": "value1"})
+
+    # Test no match (should return root config)
+    assert trie.search("/nonexistent/path/file.txt") == ("", {})
+
+    # Test root config
+    trie_with_root = Trie("/root/config.json", {"root": "value"})
+    assert trie_with_root.search("/any/path/file.txt") == ("/root/config.json", {"root": "value"})
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+# Unit test for method search of class Trie
+def test_Trie_search():
+    trie = Trie()
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/subdir/config2.json", {"key2": "value2"})
+    trie.insert("/another/path/config3.json", {"key3": "value3"})
+
+    # Test exact path match
+    assert trie.search("/path/to/subdir/file.txt") == ("/path/to/subdir/config2.json", {"key2": "value2"})
+    
+    # Test parent directory config
+    assert trie.search("/path/to/otherfile.txt") == ("/path/to/config1.json", {"key1": "value1"})
+    
+    # Test root level config
+    assert trie.search("/another/file.txt") == ("/another/path/config3.json", {"key3": "value3"})
+    
+    # Test no config found (should return empty tuple)
+    assert trie.search("/nonexistent/path/file.txt") == ("", {})
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+# Unit test for method insert of class Trie
+def test_Trie_insert():
+    trie = Trie()
+    trie.insert("config1.json", {"key1": "value1"})
+    trie.insert("config2.json", {"key2": "value2"})
+    assert trie.root.nodes["config1.json"].config_info == ("config1.json", {"key1": "value1"})
+    assert trie.root.nodes["config2.json"].config_info == ("config2.json", {"key2": "value2"})
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+# Unit test for constructor of class Trie
+def test_Trie():
+    trie = Trie("test_config_file", {"test_key": "test_value"})
+    assert trie.root.config_info == ("test_config_file", {"test_key": "test_value"})
+
+
+
+# LLM-generated content at query #10
+#--------------------------
+
+# Unit test for method search of class Trie
+def test_Trie_search():
+    trie = Trie()
+    trie.insert("/root/config1.json", {"key1": "value1"})
+    trie.insert("/root/subdir/config2.json", {"key2": "value2"})
+    trie.insert("/root/subdir/subsubdir/config3.json", {"key3": "value3"})
+
+    # Search for a file in the root directory
+    assert trie.search("/root/file1.txt") == ("/root/config1.json", {"key1": "value1"})
+
+    # Search for a file in a subdirectory
+    assert trie.search("/root/subdir/file2.txt") == ("/root/subdir/config2.json", {"key2": "value2"})
+
+    # Search for a file in a subsubdirectory
+    assert trie.search("/root/subdir/subsubdir/file3.txt") == ("/root/subdir/subsubdir/config3.json", {"key3": "value3"})
+
+    # Search for a file in a directory without a config
+    assert trie.search("/root/subdir/subsubdir/subsubsubdir/file4.txt") == ("/root/subdir/subsubdir/config3.json", {"key3": "value3"})
+
+    # Search for a file in a completely different directory
+    assert trie.search("/otherroot/file5.txt") == ("", {})
+
+
+# LLM-generated content at query #11
+#--------------------------
+
+# Unit test for method insert of class Trie
+def test_Trie_insert():
+    trie = Trie()
+    trie.insert('/path/to/config1.json', {'key1': 'value1'})
+    trie.insert('/path/to/config2.json', {'key2': 'value2'})
+
+    assert trie.root.nodes['path'].nodes['to'].nodes['config1.json'].config_info == ('/path/to/config1.json', {'key1': 'value1'})
+    assert trie.root.nodes['path'].nodes['to'].nodes['config2.json'].config_info == ('/path/to/config2.json', {'key2': 'value2'})
+
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+# Unit test for method search of class Trie
+def test_Trie_search():
+    trie = Trie()
+    trie.insert("/home/user/project/config.json", {"option1": True})
+    trie.insert("/home/user/project/subdir/config.json", {"option2": False})
+    
+    assert trie.search("/home/user/project/file.txt") == ("/home/user/project/config.json", {"option1": True})
+    assert trie.search("/home/user/project/subdir/file.txt") == ("/home/user/project/subdir/config.json", {"option2": False})
+    assert trie.search("/home/user/project/subdir/subsubdir/file.txt") == ("/home/user/project/subdir/config.json", {"option2": False})
+    assert trie.search("/home/user/other_project/file.txt") == ("", {})
+
+
+# LLM-generated content at query #13
+#--------------------------
+
+# Unit test for constructor of class Trie
+def test_Trie():
+    trie = Trie()
+    assert trie.root.config_info == ("", {})
+
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+# Unit test for method search of class Trie
+def test_Trie_search():
+    trie = Trie()
+    config_file = "/project/config.json"
+    config_data = {"key": "value"}
     trie.insert(config_file, config_data)
 
-    # Check that the config was inserted at the correct path
+    result = trie.search("/project/src/file.py")
+    assert result == (config_file, config_data)
+
+    result = trie.search("/different/project/src/file.py")
+    assert result == ("", {})
+
+    config_file2 = "/project/src/config.json"
+    config_data2 = {"key2": "value2"}
+    trie.insert(config_file2, config_data2)
+
+    result = trie.search("/project/src/file.py")
+    assert result == (config_file2, config_data2)
+
+    result = trie.search("/project/tests/file.py")
+    assert result == (config_file, config_data)
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+# Unit test for method search of class Trie
+def test_Trie_search():
+    trie = Trie()
+    config_file1 = "/path/to/config1.json"
+    config_data1 = {"key1": "value1"}
+    trie.insert(config_file1, config_data1)
+
+    config_file2 = "/path/to/subdir/config2.json"
+    config_data2 = {"key2": "value2"}
+    trie.insert(config_file2, config_data2)
+
+    config_file3 = "/path/to/subdir/deeper/config3.json"
+    config_data3 = {"key3": "value3"}
+    trie.insert(config_file3, config_data3)
+
+    assert trie.search("/path/to/file.txt") == (config_file1, config_data1)
+    assert trie.search("/path/to/subdir/file.txt") == (config_file2, config_data2)
+    assert trie.search("/path/to/subdir/deeper/file.txt") == (config_file3, config_data3)
+    assert trie.search("/path/to/subdir/deeper/even_deeper/file.txt") == (config_file3, config_data3)
+    assert trie.search("/path/to/otherdir/file.txt") == ("", {})
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+# Unit test for constructor of class TrieNode
+def test_TrieNode():
+    config_file = "test_config"
+    config_data = {"key": "value"}
+    node = TrieNode(config_file, config_data)
+    assert node.config_info == (config_file, config_data)
+    assert node.nodes == {}
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+# Unit test for method search of class Trie
+def test_Trie_search():
+    trie = Trie()
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/subdir/config2.json", {"key2": "value2"})
+    trie.insert("/another/path/config3.json", {"key3": "value3"})
+
+    # Test exact match
+    assert trie.search("/path/to/subdir/config2.json") == ("/path/to/subdir/config2.json", {"key2": "value2"})
+
+    # Test closest parent config
+    assert trie.search("/path/to/subdir/another/file.txt") == ("/path/to/subdir/config2.json", {"key2": "value2"})
+
+    # Test root config
+    assert trie.search("/path/to/file.txt") == ("/path/to/config1.json", {"key1": "value1"})
+
+    # Test no config found (should return empty tuple)
+    assert trie.search("/nonexistent/path/file.txt") == ("", {})
+
+    # Test case with empty Trie
+    empty_trie = Trie()
+    assert empty_trie.search("/any/path") == ("", {})
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+# Unit test for method insert of class Trie
+def test_Trie_insert():
+    trie = Trie()
+    config_file = "/path/to/config.json"
+    config_data = {"key": "value"}
+    trie.insert(config_file, config_data)
+    
+    # Check if the path was inserted correctly
     node = trie.root
     for part in Path(config_file).parent.resolve().parts:
         assert part in node.nodes
         node = node.nodes[part]
     assert node.config_info == (config_file, config_data)
 
-    # Insert another config file in a subdirectory
-    config_file2 = "/home/user/project/src/.ruff.toml"
-    config_data2 = {"line_length": 120}
-    trie.insert(config_file2, config_data2)
-
-    # Check that both configs are present
-    node = trie.root
-    for part in Path(config_file2).parent.resolve().parts:
-        if part in node.nodes:
-            node = node.nodes[part]
-    assert node.config_info == (config_file2, config_data2)
-
-    # The parent directory should still have its config
-    node = trie.root
-    for part in Path(config_file).parent.resolve().parts:
-        node = node.nodes[part]
-    assert node.config_info == (config_file, config_data)
-
-
-
-# LLM-generated content at query #4
-#--------------------------
-
-# Unit test for constructor of class TrieNode
-def test_TrieNode():  # noqa: N802
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-
-
-# LLM-generated content at query #5
-#--------------------------
-
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
-    trie = Trie()
-    config_file = "/home/user/project/.isort.cfg"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["home"].nodes["user"].nodes["project"].config_info == (config_file, config_data)
-
-
-
-# LLM-generated content at query #6
-#--------------------------
-
-# Unit test for constructor of class TrieNode
-def test_TrieNode(): # type: ignore
-    # Test with default parameters
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test with custom parameters
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-
-
-# LLM-generated content at query #7
-#--------------------------
-
-# Unit test for constructor of class TrieNode
-def test_TrieNode():  # noqa: N802
-    # Test with default parameters
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test with custom parameters
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-
-
-# LLM-generated content at query #8
-#--------------------------
-
-# Unit test for constructor of class Trie
-def test_Trie():  # noqa: N802
-    """Test that the Trie class can be instantiated."""
-    trie = Trie()
-    assert trie.root.config_info == ("", {})
-    assert trie.root.nodes == {}
-
-
-
-# LLM-generated content at query #9
-#--------------------------
-
-# Unit test for method search of class Trie
-def test_Trie_search():  # noqa: N802
-    """Test that the Trie search method returns the correct config file and data."""
-    # Create a Trie instance
-    trie = Trie()
-    
-    # Insert some config files
-    config_data_1 = {"key1": "value1"}
-    config_data_2 = {"key2": "value2"}
-    config_data_3 = {"key3": "value3"}
-    
-    trie.insert("/home/user/project/config1.json", config_data_1)
-    trie.insert("/home/user/project/subdir/config2.json", config_data_2)
-    trie.insert("/home/user/another_project/config3.json", config_data_3)
-    
-    # Test searching for a file in the same directory as config1
-    result = trie.search("/home/user/project/file.py")
-    assert result == ("/home/user/project/config1.json", config_data_1), f"Expected config1, got {result}"
-    
-    # Test searching for a file in a subdirectory with its own config
-    result = trie.search("/home/user/project/subdir/file.py")
-    assert result == ("/home/user/project/subdir/config2.json", config_data_2), f"Expected config2, got {result}"
-    
-    # Test searching for a file in a directory without a config (should return root config)
-    trie.root.config_info = ("/default/config.json", {"default": "config"})
-    result = trie.search("/home/user/unknown/file.py")
-    assert result == ("/default/config.json", {"default": "config"}), f"Expected default config, got {result}"
-    
-    # Test searching for a file in another project
-    result = trie.search("/home/user/another_project/file.py")
-    assert result == ("/home/user/another_project/config3.json", config_data_3), f"Expected config3, got {result}"
-    
-    # Test searching for a file in a nested subdirectory without its own config
-    result = trie.search("/home/user/project/subdir/nested/file.py")
-    assert result == ("/home/user/project/subdir/config2.json", config_data_2), f"Expected config2, got {result}"
-    
-    print("All tests passed!")
-
-# Run the unit test
-if __name__ == "__main__":
-    test_Trie_search()
-
-
-# LLM-generated content at query #10
-#--------------------------
-
-# Unit test for constructor of class Trie
-def test_Trie():  # noqa: N802
-    trie = Trie()
-    assert trie.root.config_info == ("", {})
-    assert trie.root.nodes == {}
-
-
-
-
-# LLM-generated content at query #11
-#--------------------------
-
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
-    trie = Trie()
-    config_file = "/home/user/.config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["home"].nodes["user"].config_info == (config_file, config_data)
-
-
-
-# LLM-generated content at query #12
-#--------------------------
-
-# Unit test for method search of class Trie
-def test_Trie_search():  # noqa: N802
-    # Create a Trie instance
-    trie = Trie()
-
-    # Insert some config files
-    trie.insert("/home/user/project/config.json", {"key1": "value1"})
-    trie.insert("/home/user/project/src/config.json", {"key2": "value2"})
-    trie.insert("/home/user/project/src/subdir/config.json", {"key3": "value3"})
-
-    # Test searching for a file in the root directory
-    config_file, config_data = trie.search("/home/user/project/file.txt")
-    assert config_file == "/home/user/project/config.json"
-    assert config_data == {"key1": "value1"}
-
-    # Test searching for a file in a subdirectory
-    config_file, config_data = trie.search("/home/user/project/src/file.txt")
-    assert config_file == "/home/user/project/src/config.json"
-    assert config_data == {"key2": "value2"}
-
-    # Test searching for a file in a deeper subdirectory
-    config_file, config_data = trie.search("/home/user/project/src/subdir/file.txt")
-    assert config_file == "/home/user/project/src/subdir/config.json"
-    assert config_data == {"key3": "value3"}
-
-    # Test searching for a file in a directory without a config file
-    config_file, config_data = trie.search("/home/user/project/other/file.txt")
-    assert config_file == "/home/user/project/config.json"
-    assert config_data == {"key1": "value1"}
-
-    # Test searching for a file in a directory with no config files at all
-    config_file, config_data = trie.search("/home/user/other/file.txt")
-    assert config_file == ""
-    assert config_data == {}
-
-    print("All tests passed!")
-
-
-if __name__ == "__main__":
-    test_Trie_search()
-
-
-# LLM-generated content at query #13
-#--------------------------
-
-# Unit test for method search of class Trie
-def test_Trie_search():  # noqa: N802
-    """Test that the Trie search method returns the closest config file."""
-    # Create a Trie instance
-    trie = Trie()
-
-    # Insert some config files
-    trie.insert("/home/user/project/.isort.cfg", {"key": "value1"})
-    trie.insert("/home/user/project/src/.isort.cfg", {"key": "value2"})
-    trie.insert("/home/user/project/src/module/.isort.cfg", {"key": "value3"})
-
-    # Test search for a file in the root directory
-    config_file, config_data = trie.search("/home/user/project/main.py")
-    assert config_file == "/home/user/project/.isort.cfg"
-    assert config_data == {"key": "value1"}
-
-    # Test search for a file in the src directory
-    config_file, config_data = trie.search("/home/user/project/src/other.py")
-    assert config_file == "/home/user/project/src/.isort.cfg"
-    assert config_data == {"key": "value2"}
-
-    # Test search for a file in the src/module directory
-    config_file, config_data = trie.search("/home/user/project/src/module/submodule/file.py")
-    assert config_file == "/home/user/project/src/module/.isort.cfg"
-    assert config_data == {"key": "value3"}
-
-    # Test search for a file outside any config directory
-    config_file, config_data = trie.search("/home/user/otherproject/file.py")
-    assert config_file == ""
-    assert config_data == {}
-
-    # Test search for a file in a directory without a config file
-    config_file, config_data = trie.search("/home/user/project/docs/index.md")
-    assert config_file == "/home/user/project/.isort.cfg"
-    assert config_data == {"key": "value1"}
-
-    # Test search for a file in a subdirectory of a config directory
-    config_file, config_data = trie.search("/home/user/project/src/module/deep/nested/file.py")
-    assert config_file == "/home/user/project/src/module/.isort.cfg"
-    assert config_data == {"key": "value3"}
-
-    # Test search for a file in a directory with a config file in a parent directory
-    trie.insert("/home/user/.isort.cfg", {"key": "value0"})
-    config_file, config_data = trie.search("/home/user/project/docs/index.md")
-    assert config_file == "/home/user/project/.isort.cfg"
-    assert config_data == {"key": "value1"}
-
-    # Test search for a file in the user's home directory
-    config_file, config_data = trie.search("/home/user/.bashrc")
-    assert config_file == "/home/user/.isort.cfg"
-    assert config_data == {"key": "value0"}
-
-    # Test search for a file in a directory with no config files at all
-    config_file, config_data = trie.search("/tmp/test.py")
-    assert config_file == ""
-    assert config_data == {}
-
-    # Test search for a file with a path that doesn't exist
-    config_file, config_data = trie.search("/home/user/project/nonexistent/file.py")
-    assert config_file == "/home/user/project/.isort.cfg"
-    assert config_data == {"key": "value1"}
-
-    # Test search for a file with an empty path
-    config_file, config_data = trie.search("")
-    assert config_file == ""
-    assert config_data == {}
-
-    # Test search for a file with a relative path
-    config_file, config_data = trie.search("src/module/file.py")
-    # This will depend on the current working directory, so we just check that it doesn't crash
-    assert isinstance(config_file, str)
-    assert isinstance(config_data, dict)
-
-    print("All tests passed!")
-
-
-if __name__ == "__main__":
-    test_Trie_search()
-
-
-# LLM-generated content at query #14
-#--------------------------
-
-# Unit test for constructor of class TrieNode
-def test_TrieNode(): # noqa
-    # Test with default parameters
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test with custom parameters
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-
-
-# LLM-generated content at query #15
-#--------------------------
-
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
-    trie = Trie()
-    trie.insert("/home/user/.isort.cfg", {"key": "value"})
-    assert trie.root.nodes["home"].nodes["user"].config_info == (
-        "/home/user/.isort.cfg",
-        {"key": "value"},
-    )
-
-
-
-# LLM-generated content at query #16
-#--------------------------
-
-# Unit test for constructor of class TrieNode
-def test_TrieNode():  # noqa: N802
-    # Test default constructor
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test constructor with config_file and config_data
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with only config_file
-    node = TrieNode(config_file)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, {})
-
-    # Test constructor with only config_data
-    config_data = {"key": "value"}
-    node = TrieNode(config_data=config_data)
-    assert node.nodes == {}
-    assert node.config_info == ("", config_data)
-
-    # Test constructor with both config_file and config_data as None
-    node = TrieNode(None, None)
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test constructor with empty config_file and config_data
-    node = TrieNode("", {})
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test constructor with config_file as empty string and config_data as None
-    node = TrieNode("", None)
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test constructor with config_file as None and config_data as empty dict
-    node = TrieNode(None, {})
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test constructor with config_file as string and config_data as empty dict
-    config_file = "config.json"
-    node = TrieNode(config_file, {})
-    assert node.nodes == {}
-    assert node.config_info == (config_file, {})
-
-    # Test constructor with config_file as empty string and config_data as dict
-    config_data = {"key": "value"}
-    node = TrieNode("", config_data)
-    assert node.nodes == {}
-    assert node.config_info == ("", config_data)
-
-    # Test constructor with config_file as string and config_data as dict with multiple keys
-    config_file = "config.json"
-    config_data = {"key1": "value1", "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with nested dict
-    config_file = "config.json"
-    config_data = {"key": {"nested_key": "nested_value"}}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with list
-    config_file = "config.json"
-    config_data = {"key": ["value1", "value2"]}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with mixed types
-    config_file = "config.json"
-    config_data = {"key1": "value1", "key2": 2, "key3": True}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with None value
-    config_file = "config.json"
-    config_data = {"key": None}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with empty dict
-    config_file = "config.json"
-    config_data = {}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with empty list
-    config_file = "config.json"
-    config_data = {"key": []}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with empty string
-    config_file = "config.json"
-    config_data = {"key": ""}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with zero
-    config_file = "config.json"
-    config_data = {"key": 0}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with False
-    config_file = "config.json"
-    config_data = {"key": False}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with complex nested structure
-    config_file = "config.json"
-    config_data = {"key1": {"key2": {"key3": "value"}}}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with list of dicts
-    config_file = "config.json"
-    config_data = {"key": [{"subkey": "subvalue"}, {"subkey2": "subvalue2"}]}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with tuple
-    config_file = "config.json"
-    config_data = {"key": (1, 2, 3)}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with set
-    config_file = "config.json"
-    config_data = {"key": {1, 2, 3}}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with bytes
-    config_file = "config.json"
-    config_data = {"key": b"value"}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with bytearray
-    config_file = "config.json"
-    config_data = {"key": bytearray(b"value")}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with memoryview
-    config_file = "config.json"
-    config_data = {"key": memoryview(b"value")}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with range
-    config_file = "config.json"
-    config_data = {"key": range(10)}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with slice
-    config_file = "config.json"
-    config_data = {"key": slice(1, 10, 2)}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with complex number
-    config_file = "config.json"
-    config_data = {"key": complex(1, 2)}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with frozenset
-    config_file = "config.json"
-    config_data = {"key": frozenset([1, 2, 3])}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with Ellipsis
-    config_file = "config.json"
-    config_data = {"key": ...}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test constructor with config_file as string and config_data as dict with NotImplemented
-    config_file = "config.json"
-    config_data = {"key": NotImplemented}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info
-
-
-# LLM-generated content at query #17
-#--------------------------
-
-# Unit test for method search of class Trie
-def test_Trie_search():  # pragma: no cover
-    """Test the search method of the Trie class."""
-    # Create a Trie instance
-    trie = Trie()
-
-    # Insert some config files
-    config1 = {"key1": "value1"}
-    config2 = {"key2": "value2"}
-    config3 = {"key3": "value3"}
-
-    trie.insert("/home/user/project/config1.json", config1)
-    trie.insert("/home/user/project/subdir/config2.json", config2)
-    trie.insert("/home/user/otherproject/config3.json", config3)
-
-    # Test search for a file in the same directory as config1
-    result = trie.search("/home/user/project/file.txt")
-    assert result == ("/home/user/project/config1.json", config1), f"Expected config1, got {result}"
-
-    # Test search for a file in a subdirectory with config2
-    result = trie.search("/home/user/project/subdir/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config2), f"Expected config2, got {result}"
-
-    # Test search for a file in a directory without a config (should return nearest parent config)
-    result = trie.search("/home/user/project/subdir/deep/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config2), f"Expected config2, got {result}"
-
-    # Test search for a file in a different project
-    result = trie.search("/home/user/otherproject/file.txt")
-    assert result == ("/home/user/otherproject/config3.json", config3), f"Expected config3, got {result}"
-
-    # Test search for a file outside any config directory (should return root config if set)
-    trie.root.config_info = ("/root.json", {"root": "config"})
-    result = trie.search("/home/file.txt")
-    assert result == ("/root.json", {"root": "config"}), f"Expected root config, got {result}"
-
-    print("All tests passed!")
-
-if __name__ == "__main__":  # pragma: no cover
-    test_Trie_search()
-
-
-# LLM-generated content at query #18
-#--------------------------
-
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
-    trie = Trie()
-    config_file = "/home/user/project/.flake8"
-    config_data = {"max_line_length": 120}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["home"].nodes["user"].nodes["project"].config_info == (config_file, config_data)
-
-
 
 # LLM-generated content at query #19
 #--------------------------
 
 # Unit test for method search of class Trie
-def test_Trie_search():  # noqa: N802
-    """Test the search method of the Trie class."""
-    # Create a Trie instance
+def test_Trie_search():
     trie = Trie()
-
-    # Insert some config files
-    config_data_1 = {"key1": "value1"}
-    config_data_2 = {"key2": "value2"}
-    config_data_3 = {"key3": "value3"}
-
-    trie.insert("/home/user/project/config1.json", config_data_1)
-    trie.insert("/home/user/project/subdir/config2.json", config_data_2)
-    trie.insert("/home/user/another_project/config3.json", config_data_3)
-
-    # Test searching for a file in the same directory as config1.json
-    config_file, config_data = trie.search("/home/user/project/file.txt")
-    assert config_file == "/home/user/project/config1.json"
-    assert config_data == config_data_1
-
-    # Test searching for a file in a subdirectory with its own config
-    config_file, config_data = trie.search("/home/user/project/subdir/file.txt")
-    assert config_file == "/home/user/project/subdir/config2.json"
-    assert config_data == config_data_2
-
-    # Test searching for a file in a directory without a config, should return parent config
-    config_file, config_data = trie.search("/home/user/project/another_subdir/file.txt")
-    assert config_file == "/home/user/project/config1.json"
-    assert config_data == config_data_1
-
-    # Test searching for a file in a different project
-    config_file, config_data = trie.search("/home/user/another_project/file.txt")
-    assert config_file == "/home/user/another_project/config3.json"
-    assert config_data == config_data_3
-
-    # Test searching for a file outside any config directory, should return root config
-    trie.root.config_info = ("/root_config.json", {"root_key": "root_value"})
-    config_file, config_data = trie.search("/home/user/file.txt")
-    assert config_file == "/root_config.json"
-    assert config_data == {"root_key": "root_value"}
-
-    print("All tests passed!")
-
-
-if __name__ == "__main__":
-    test_Trie_search()
+    trie.insert("/root/project/config.json", {"key": "value"})
+    trie.insert("/root/project/subdir/config.json", {"key": "subdir_value"})
+    
+    # Test case 1: File in the same directory as the config
+    result = trie.search("/root/project/file.txt")
+    assert result == ("/root/project/config.json", {"key": "value"}), f"Expected {('/root/project/config.json', {'key': 'value'})}, but got {result}"
+    
+    # Test case 2: File in a subdirectory with another config
+    result = trie.search("/root/project/subdir/file.txt")
+    assert result == ("/root/project/subdir/config.json", {"key": "subdir_value"}), f"Expected {('/root/project/subdir/config.json', {'key': 'subdir_value'})}, but got {result}"
+    
+    # Test case 3: File in a directory without a config but with a parent config
+    result = trie.search("/root/project/anotherdir/file.txt")
+    assert result == ("/root/project/config.json", {"key": "value"}), f"Expected {('/root/project/config.json', {'key': 'value'})}, but got {result}"
+    
+    # Test case 4: File in a directory without any config
+    result = trie.search("/root/anotherproject/file.txt")
+    assert result == ("", {}), f"Expected {('', {})}, but got {result}"
 
 
 # LLM-generated content at query #20
 #--------------------------
 
 # Unit test for constructor of class TrieNode
-def test_TrieNode(): # type: ignore
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
+def test_TrieNode():
+    config_file = ""
+    config_data = {}
+    tn = TrieNode(config_file, config_data)
+    assert tn.config_info == ("", {})
 
 
 
@@ -842,12 +358,12 @@ def test_TrieNode(): # type: ignore
 #--------------------------
 
 # Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
+def test_Trie_insert():
     trie = Trie()
-    config_file = "/path/to/config.json"
+    config_file = "/path/to/config/file"
     config_data = {"key": "value"}
     trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to"].config_info == (config_file, config_data)
+    assert trie.root.nodes["path"].nodes["to"].nodes["config"].config_info == (config_file, config_data)
 
 
 
@@ -855,12 +371,10 @@ def test_Trie_insert():  # noqa: N802
 #--------------------------
 
 # Unit test for method insert of class Trie
-def test_Trie_insert():  # pragma: no cover
+def test_Trie_insert():
     trie = Trie()
-    config_file = "/home/user/project/.flake8"
-    config_data = {"max_line_length": 100}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["home"].nodes["user"].nodes["project"].config_info == (config_file, config_data)
+    trie.insert('config.yaml', {'key': 'value'})
+    assert trie.root.nodes['path'].nodes['to'].config_info == ('config.yaml', {'key': 'value'})
 
 
 
@@ -868,18 +382,12 @@ def test_Trie_insert():  # pragma: no cover
 #--------------------------
 
 # Unit test for constructor of class TrieNode
-def test_TrieNode():  # noqa: N802
-    # Test with default parameters
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test with custom parameters
-    config_file = "config.json"
+def test_TrieNode():
+    config_file = "test_config.json"
     config_data = {"key": "value"}
     node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
     assert node.config_info == (config_file, config_data)
+    assert node.nodes == {}
 
 
 
@@ -887,37 +395,24 @@ def test_TrieNode():  # noqa: N802
 #--------------------------
 
 # Unit test for constructor of class TrieNode
-def test_TrieNode(): # noqa
-    # Test with default parameters
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test with custom parameters
-    config_file = "config.json"
+def test_TrieNode():
+    config_file = "test_config.json"
     config_data = {"key": "value"}
     node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
     assert node.config_info == (config_file, config_data)
-
+    assert node.nodes == {}
 
 
 # LLM-generated content at query #25
 #--------------------------
 
 # Unit test for constructor of class TrieNode
-def test_TrieNode(): # type: ignore
-    # Test with default parameters
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test with custom parameters
-    config_file = "config.json"
+def test_TrieNode():
+    config_file = "config_file"
     config_data = {"key": "value"}
     node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
     assert node.config_info == (config_file, config_data)
+    assert node.nodes == {}
 
 
 
@@ -925,186 +420,181 @@ def test_TrieNode(): # type: ignore
 #--------------------------
 
 # Unit test for method search of class Trie
-def test_Trie_search():  # noqa: N802
-    # Create a Trie instance
+def test_Trie_search():
     trie = Trie()
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/config2.json", {"key2": "value2"})
+    trie.insert("/another/path/config3.json", {"key3": "value3"})
 
-    # Insert some config files
-    trie.insert("/home/user/project/config.json", {"key1": "value1"})
-    trie.insert("/home/user/project/src/config.json", {"key2": "value2"})
-    trie.insert("/home/user/project/src/subdir/config.json", {"key3": "value3"})
+    # Test exact match
+    assert trie.search("/path/to/config1.json") == ("/path/to/config1.json", {"key1": "value1"})
+    assert trie.search("/path/to/config2.json") == ("/path/to/config2.json", {"key2": "value2"})
 
-    # Test searching for a file in the root directory
-    config_file, config_data = trie.search("/home/user/project/file.txt")
-    assert config_file == "/home/user/project/config.json"
-    assert config_data == {"key1": "value1"}
+    # Test closest config match
+    assert trie.search("/path/to/other/file.txt") == ("/path/to/config2.json", {"key2": "value2"})
+    assert trie.search("/path/to/") == ("", {})
+    assert trie.search("/another/path/subdir/file.txt") == ("/another/path/config3.json", {"key3": "value3"})
 
-    # Test searching for a file in a subdirectory
-    config_file, config_data = trie.search("/home/user/project/src/file.txt")
-    assert config_file == "/home/user/project/src/config.json"
-    assert config_data == {"key2": "value2"}
+    # Test non-existent path
+    assert trie.search("/nonexistent/path/file.txt") == ("", {})
 
-    # Test searching for a file in a deeper subdirectory
-    config_file, config_data = trie.search("/home/user/project/src/subdir/file.txt")
-    assert config_file == "/home/user/project/src/subdir/config.json"
-    assert config_data == {"key3": "value3"}
+    print("All tests passed!")
 
-    # Test searching for a file in a directory without a config file
-    config_file, config_data = trie.search("/home/user/project/other/file.txt")
-    assert config_file == "/home/user/project/config.json"
-    assert config_data == {"key1": "value1"}
-
-    # Test searching for a file in a directory with no config files
-    config_file, config_data = trie.search("/home/user/other/file.txt")
-    assert config_file == ""
-    assert config_data == {}
-
-    # Test searching for a file with an empty path
-    config_file, config_data = trie.search("")
-    assert config_file == ""
-    assert config_data == {}
-
-    # Test searching for a file with a single component path
-    config_file, config_data = trie.search("file.txt")
-    assert config_file == ""
-    assert config_data == {}
-
-    # Test searching for a file with a path that doesn't exist
-    config_file, config_data = trie.search("/nonexistent/path/file.txt")
-    assert config_file == ""
-    assert config_data == {}
-
-    # Test searching for a file with a path that is a prefix of an existing config file
-    config_file, config_data = trie.search("/home/user/project/src/subdir")
-    assert config_file == "/home/user/project/src/subdir/config.json"
-    assert config_data == {"key3": "value3"}
-
-    # Test searching for a file with a path that is a suffix of an existing config file
-    config_file, config_data = trie.search("/home/user/project/src/subdir/deeper/file.txt")
-    assert config_file == "/home/user/project/src/subdir/config.json"
-    assert config_data == {"key3": "value3"}
-
-    # Test searching for a file with a path that matches exactly an existing config file
-    config_file, config_data = trie.search("/home/user/project/src/subdir/config.json")
-    assert config_file == "/home/user/project/src/subdir/config.json"
-    assert config_data == {"key3": "value3"}
-
-    # Test searching for a file with a path that is a directory
-    config_file, config_data = trie.search("/home/user/project/src/subdir/")
-    assert config_file == "/home/user/project/src/subdir/config.json"
-    assert config_data == {"key3": "value3"}
-
-    # Test searching for a file with a path that is a directory without a trailing slash
-    config_file, config_data = trie.search("/home/user/project/src/subdir")
-    assert config_file == "/home/user/project/src/subdir/config.json"
-    assert config_data == {"key3": "value3"}
-
-    # Test searching for a file with a path that is a directory with multiple trailing slashes
-    config_file, config_data = trie.search("/home/user/project/src/subdir///")
-    assert config_file == "/home/user/project/src/subdir/config.json"
-    assert config_data == {"key3": "value3"}
-
-    # Test searching for a file with a path that contains special characters
-    trie.insert("/home/user/project/src/special@dir/config.json", {"key4": "value4"})
-    config_file, config_data = trie.search("/home/user/project/src/special@dir/file.txt")
-    assert config_file == "/home/user/project/src/special@dir/config.json"
-    assert config_data == {"key4": "value4"}
-
-    # Test searching for a file with a path that contains spaces
-    trie.insert("/home/user/project/src/dir with spaces/config.json", {"key5": "value5"})
-    config_file, config_data = trie.search("/home/user/project/src/dir with spaces/file.txt")
-    assert config_file == "/home/user/project/src/dir with spaces/config.json"
-    assert config_data == {"key5": "value5"}
-
-    # Test searching for a file with a path that contains Unicode characters
-    trie.insert("/home/user/project/src/目录/config.json", {"key6": "value6"})
-    config_file, config_data = trie.search("/home/user/project/src/目录/file.txt")
-    assert config_file == "/home/user/project/src/目录/config.json"
-    assert config_data == {"key6": "value6"}
-
-    # Test searching for a file with a path that is a symlink (not testing actual symlink creation)
-    # This test assumes the symlink points to an existing directory
-    # Since we can't create symlinks in the test environment, we'll skip this test for now
-    # config_file, config_data = trie.search("/home/user/project/src/symlink/file.txt")
-    # assert config_file == "/home/user/project/src/config.json"
-    # assert config_data == {"key2": "value2"}
-
-    # Test searching for a file with a path that is a relative path
-    # Since the Trie uses resolved paths, relative paths are converted to absolute paths
-    # We'll test with a relative path that resolves to an existing directory
-    # This test assumes the current working directory is /home/user/project
-    import os
-    original_cwd = os.getcwd()
-    os.chdir("/home/user/project")
-    config_file, config_data = trie.search("src/file.txt")
-    assert config_file == "/home/user/project/src/config.json"
-    assert config_data == {"key2": "value2"}
-    os.chdir(original_cwd)
-
-    # Test searching for a file with a path that is a Windows path (with backslashes)
-    # Since the Trie uses Path.resolve().parts, it should handle Windows paths correctly
-    # We'll test with a path using backslashes
-    config_file, config_data = trie.search("\\home\\user\\project\\src\\file.txt")
-    # The result depends on the platform, so we'll just check that it doesn't crash
-    # On Unix, the path will be resolved as an absolute path starting from the root
-    # On Windows, it will be resolved as a path relative to the current drive
-    # We'll skip the assertion for now
-    # assert config_file == "/home/user/project/src/config.json" or config_file == ""
-    # assert config_data == {"key2": "value2"} or config_data == {}
-
-    # Test searching for a file with a path that is a UNC path (Windows)
-    # We'll skip this test as it's platform-specific and may not be relevant
-    # config_file, config_data = trie.search("\\\\server\\share\\file.txt")
-    # assert config_file == ""
-    # assert config_data == {}
-
-    # Test searching for a file with a path that is a device path (Windows)
-    # We'll skip this test as it's platform-specific and may not be relevant
-    # config_file, config_data = trie.search("\\\\.\\C:\\file.txt")
-    # assert config_file == ""
-    # assert config_data == {}
-
-    # Test searching for a file with a path that is a reserved name (Windows)
-    # We'll skip this test as it's platform-specific and may not be relevant
-    # config_file, config_data = trie.search("CON")
-    # assert config_file == ""
-    # assert config_data == {}
-
-    # Test searching for a file with a path that is a dot (current directory)
-    config_file, config_data = trie.search(".")
-    # The result depends on the current working directory, so we'll just check that it doesn't crash
-    # assert config_file == "" or config_file.startswith("/")
-    # assert config_data == {} or isinstance(config_data, dict)
-
-    # Test searching for a file with a path that is a dot dot (parent directory)
-    config_file, config_data = trie.search("..")
-    # The result depends on the current working directory, so we'll just check that it doesn't crash
-    # assert config_file == "" or config_file.startswith("/")
-    # assert config_data == {} or isinstance(config_data, dict)
-
-    # Test searching for a file with a path that is a dot slash (current directory)
-    config_file, config_data = trie.search("./file.txt")
-    # The result depends on the current working directory, so we'll just check that
+test_Trie_search()
 
 
 # LLM-generated content at query #27
 #--------------------------
 
 # Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
+def test_Trie_insert():
     trie = Trie()
-    config_file = "/home/user/project/.ruff.toml"
-    config_data = {"line_length": 100}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["home"].nodes["user"].nodes["project"].config_info == (config_file, config_data)
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/config2.json", {"key2": "value2"})
+    trie.insert("/another/path/config3.json", {"key3": "value3"})
 
+    # Verify the configs were inserted correctly
+    node = trie.root
+    for part in ["path", "to"]:
+        assert part in node.nodes
+        node = node.nodes[part]
+    assert node.config_info == ("/path/to/config1.json", {"key1": "value1"})
+
+    node = trie.root
+    for part in ["another", "path"]:
+        assert part in node.nodes
+        node = node.nodes[part]
+    assert node.config_info == ("/another/path/config3.json", {"key3": "value3"})
 
 
 # LLM-generated content at query #28
 #--------------------------
 
 # Unit test for constructor of class TrieNode
-def test_TrieNode():  # noqa: N802
+def test_TrieNode():
+    config_file = "test_config.json"
+    config_data = {"key": "value"}
+    node = TrieNode(config_file, config_data)
+    assert node.config_info == (config_file, config_data)
+    assert node.nodes == {}
+
+
+# LLM-generated content at query #29
+#--------------------------
+
+# Unit test for method insert of class Trie
+def test_Trie_insert():
+    trie = Trie()
+    config_file = "/path/to/config/file.json"
+    config_data = {"key": "value"}
+    trie.insert(config_file, config_data)
+
+    resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+    current_node = trie.root
+
+    for path in resolved_config_path_as_tuple:
+        assert path in current_node.nodes
+        current_node = current_node.nodes[path]
+
+    assert current_node.config_info == (config_file, config_data)
+
+
+
+# LLM-generated content at query #30
+#--------------------------
+
+# Unit test for method search of class Trie
+def test_Trie_search():
+    trie = Trie()
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/subdir/config2.json", {"key2": "value2"})
+    trie.insert("/another/path/config3.json", {"key3": "value3"})
+
+    # Test exact match
+    assert trie.search("/path/to/subdir/file.txt") == ("/path/to/subdir/config2.json", {"key2": "value2"})
+
+    # Test parent directory config
+    assert trie.search("/path/to/otherfile.txt") == ("/path/to/config1.json", {"key1": "value1"})
+
+    # Test no config in path
+    assert trie.search("/nonexistent/path/file.txt") == ("", {})
+
+    # Test root config
+    trie.insert("/rootconfig.json", {"root": "value"})
+    assert trie.search("/any/file.txt") == ("/rootconfig.json", {"root": "value"})
+
+    # Test case sensitivity (if applicable)
+    if sys.platform.startswith("win") or sys.platform == "darwin":
+        assert trie.search("/PATH/TO/file.txt") == ("/path/to/config1.json", {"key1": "value1"})
+
+
+# LLM-generated content at query #31
+#--------------------------
+
+# Unit test for constructor of class TrieNode
+def test_TrieNode():
+    config_file = "test_config.json"
+    config_data = {"key": "value"}
+    node = TrieNode(config_file, config_data)
+    assert node.config_info == (config_file, config_data)
+    assert node.nodes == {}
+
+
+# LLM-generated content at query #32
+#--------------------------
+
+# Unit test for constructor of class TrieNode
+def test_TrieNode():
+    config_file = "test_config_file"
+    config_data = {"key": "value"}
+    node = TrieNode(config_file, config_data)
+    assert node.config_info == (config_file, config_data)
+    assert node.nodes == {}
+
+
+
+# LLM-generated content at query #33
+#--------------------------
+
+# Unit test for method insert of class Trie
+def test_Trie_insert():
+    trie = Trie()
+    config_file = "/path/to/config"
+    config_data = {"key": "value"}
+    trie.insert(config_file, config_data)
+    
+    temp = trie.root
+    parts = Path(config_file).parent.resolve().parts
+    for part in parts:
+        assert part in temp.nodes
+        temp = temp.nodes[part]
+    assert temp.config_info == (config_file, config_data)
+
+
+
+# LLM-generated content at query #34
+#--------------------------
+
+# Unit test for method insert of class Trie
+def test_Trie_insert():
+    trie = Trie()
+    config_file = "/path/to/config.json"
+    config_data = {"key": "value"}
+    trie.insert(config_file, config_data)
+    
+    # Check if the path was inserted correctly
+    node = trie.root
+    for part in Path(config_file).parent.resolve().parts:
+        assert part in node.nodes
+        node = node.nodes[part]
+    assert node.config_info == (config_file, config_data)
+
+
+# LLM-generated content at query #35
+#--------------------------
+
+# Unit test for constructor of class TrieNode
+def test_TrieNode():
     config_file = "config.json"
     config_data = {"key": "value"}
     node = TrieNode(config_file, config_data)
@@ -1113,236 +603,8 @@ def test_TrieNode():  # noqa: N802
 
 
 
-# LLM-generated content at query #29
-#--------------------------
-
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # pragma: no cover
-    # Test case 1: Insert a config file with empty config data
-    trie = Trie()
-    config_file = "/path/to/config.json"
-    config_data = {}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to"].config_info == (config_file, config_data)
-
-    # Test case 2: Insert a config file with non-empty config data
-    trie = Trie()
-    config_file = "/path/to/config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to"].config_info == (config_file, config_data)
-
-    # Test case 3: Insert multiple config files with different paths
-    trie = Trie()
-    config_file1 = "/path/to/config1.json"
-    config_data1 = {"key1": "value1"}
-    config_file2 = "/path/to/config2.json"
-    config_data2 = {"key2": "value2"}
-    trie.insert(config_file1, config_data1)
-    trie.insert(config_file2, config_data2)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config1.json"].config_info == (config_file1, config_data1)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config2.json"].config_info == (config_file2, config_data2)
-
-    # Test case 4: Insert a config file with nested directories
-    trie = Trie()
-    config_file = "/path/to/nested/config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to"].nodes["nested"].config_info == (config_file, config_data)
-
-    # Test case 5: Insert a config file with a relative path
-    trie = Trie()
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["config.json"].config_info == (config_file, config_data)
-
-    # Test case 6: Insert a config file with a Windows path
-    trie = Trie()
-    config_file = "C:\\path\\to\\config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["C:"].nodes["path"].nodes["to"].config_info == (config_file, config_data)
-
-    # Test case 7: Insert a config file with a trailing slash
-    trie = Trie()
-    config_file = "/path/to/config.json/"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config.json"].config_info == (config_file, config_data)
-
-    # Test case 8: Insert a config file with a leading slash
-    trie = Trie()
-    config_file = "/path/to/config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to"].config_info == (config_file, config_data)
-
-    # Test case 9: Insert a config file with a dot in the directory name
-    trie = Trie()
-    config_file = "/path/to.dir/config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to.dir"].config_info == (config_file, config_data)
-
-    # Test case 10: Insert a config file with a space in the directory name
-    trie = Trie()
-    config_file = "/path/to dir/config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to dir"].config_info == (config_file, config_data)
-
-    # Test case 11: Insert a config file with a special character in the directory name
-    trie = Trie()
-    config_file = "/path/to@dir/config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to@dir"].config_info == (config_file, config_data)
-
-    # Test case 12: Insert a config file with a Unicode character in the directory name
-    trie = Trie()
-    config_file = "/path/to\u00E9dir/config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to\u00E9dir"].config_info == (config_file, config_data)
-
-    # Test case 13: Insert a config file with a long path
-    trie = Trie()
-    config_file = "/" + "/".join(["dir" + str(i) for i in range(100)]) + "/config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    node = trie.root
-    for i in range(100):
-        node = node.nodes["dir" + str(i)]
-    assert node.config_info == (config_file, config_data)
-
-    # Test case 14: Insert a config file with a path that is a prefix of another config file
-    trie = Trie()
-    config_file1 = "/path/to/config.json"
-    config_data1 = {"key1": "value1"}
-    config_file2 = "/path/to/config.json/subconfig.json"
-    config_data2 = {"key2": "value2"}
-    trie.insert(config_file1, config_data1)
-    trie.insert(config_file2, config_data2)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config.json"].config_info == (config_file1, config_data1)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config.json"].nodes["subconfig.json"].config_info == (config_file2, config_data2)
-
-    # Test case 15: Insert a config file with a path that is a suffix of another config file
-    trie = Trie()
-    config_file1 = "/path/to/config.json/subconfig.json"
-    config_data1 = {"key1": "value1"}
-    config_file2 = "/path/to/config.json"
-    config_data2 = {"key2": "value2"}
-    trie.insert(config_file1, config_data1)
-    trie.insert(config_file2, config_data2)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config.json"].nodes["subconfig.json"].config_info == (config_file1, config_data1)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config.json"].config_info == (config_file2, config_data2)
-
-    # Test case 16: Insert a config file with a path that is a sibling of another config file
-    trie = Trie()
-    config_file1 = "/path/to/config1.json"
-    config_data1 = {"key1": "value1"}
-    config_file2 = "/path/to/config2.json"
-    config_data2 = {"key2": "value2"}
-    trie.insert(config_file1, config_data1)
-    trie.insert(config_file2, config_data2)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config1.json"].config_info == (config_file1, config_data1)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config2.json"].config_info == (config_file2, config_data2)
-
-    # Test case 17: Insert a config file with a path that is a parent of another config file
-    trie = Trie()
-    config_file1 = "/path/to/config.json"
-    config_data1 = {"key1": "value1"}
-    config_file2 = "/path/to/config.json/subconfig.json"
-    config_data2 = {"key2": "value2"}
-    trie.insert(config_file1, config_data1)
-    trie.insert(config_file2, config_data2)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config.json"].config_info == (config_file1, config_data1)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config.json"].nodes["subconfig.json"].config_info == (config_file2, config_data2)
-
-    # Test case 18: Insert a config file with a path that is a child of another config file
-    trie = Trie()
-    config_file1 = "/path/to/config.json/subconfig.json"
-    config_data1 = {"key1": "value1"}
-    config_file2 = "/path/to/config.json"
-    config_data2 = {"key2": "value2"}
-    trie.insert(config_file1, config_data1)
-    trie.insert(config_file2, config_data2)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config.json"].nodes["subconfig.json"].config_info == (config_file1, config_data1)
-    assert trie.root.nodes["path"].nodes["to"].nodes["config.json"].config_info == (config_file2, config_data2)
-
-    # Test case 19: Insert a config file with a path that is a grandparent of another config file
-    trie = Trie()
-    config_file1 = "/path/to/config.json"
-    config_data1 = {"key1": "value1"}
-    config_file2
-
-
-# LLM-generated content at query #30
-#--------------------------
-
-# Unit test for method search of class Trie
-def test_Trie_search():  # noqa: N802
-    # Create a Trie instance
-    trie = Trie()
-
-    # Insert some config files into the Trie
-    config1 = {"key1": "value1"}
-    config2 = {"key2": "value2"}
-    config3 = {"key3": "value3"}
-    trie.insert("/path/to/config1.json", config1)
-    trie.insert("/path/to/config2.json", config2)
-    trie.insert("/path/to/another/config3.json", config3)
-
-    # Test case 1: Search for a file in the same directory as config1
-    result = trie.search("/path/to/file1.txt")
-    assert result == ("/path/to/config1.json", config1)
-
-    # Test case 2: Search for a file in the same directory as config2
-    result = trie.search("/path/to/file2.txt")
-    assert result == ("/path/to/config2.json", config2)
-
-    # Test case 3: Search for a file in a subdirectory of config2
-    result = trie.search("/path/to/subdir/file3.txt")
-    assert result == ("/path/to/config2.json", config2)
-
-    # Test case 4: Search for a file in the same directory as config3
-    result = trie.search("/path/to/another/file4.txt")
-    assert result == ("/path/to/another/config3.json", config3)
-
-    # Test case 5: Search for a file in a subdirectory of config3
-    result = trie.search("/path/to/another/subdir/file5.txt")
-    assert result == ("/path/to/another/config3.json", config3)
-
-    # Test case 6: Search for a file that doesn't match any config path
-    result = trie.search("/other/path/file6.txt")
-    assert result == ("", {})
-
-    # Test case 7: Search for a file with an empty path
-    result = trie.search("")
-    assert result == ("", {})
-
-    # Test case 8: Search for a file with a path that is a prefix of a config path
-    result = trie.search("/path")
-    assert result == ("", {})
-
-    # Test case 9: Search for a file with a path that is a suffix of a config path
-    result = trie.search("/path/to/config1.json")
-    assert result == ("/path/to/config1.json", config1)
-
-    # Test case 10: Search for a file with a path that matches a config path exactly
-    result = trie.search("/path/to/config2.json")
-    assert result == ("/path/to/config2.json", config2)
-
-    print("All test cases passed!")
-
-
-# Run the unit test
-test_Trie_search()
-
-
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -1350,390 +612,230 @@ test_Trie_search()
 #--------------------------
 
 # Unit test for constructor of class TrieNode
-def test_TrieNode(): # noqa
-    # Test with default parameters
-    node = TrieNode()
+def test_TrieNode():
+    node = TrieNode("config_file", {"key": "value"})
+    assert node.config_info == ("config_file", {"key": "value"})
     assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test with custom parameters
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for method insert of class Trie
-def test_Trie_insert():  # pragma: no cover
-    # Test case 1: Insert a config file with empty config data
+def test_Trie_insert():
     trie = Trie()
-    trie.insert("config1.json", {})
-    assert trie.root.config_info == ("", {})
-    assert "config1" not in trie.root.nodes
-
-    # Test case 2: Insert a config file with non-empty config data
-    trie = Trie()
-    trie.insert("config2.json", {"key": "value"})
-    assert trie.root.config_info == ("", {})
-    assert "config2" not in trie.root.nodes
-
-    # Test case 3: Insert multiple config files with different paths
-    trie = Trie()
-    trie.insert("/path/to/config3.json", {"key1": "value1"})
-    trie.insert("/path/to/another/config4.json", {"key2": "value2"})
-    assert trie.root.config_info == ("", {})
-    assert "path" in trie.root.nodes
-    assert "to" in trie.root.nodes["path"].nodes
-    assert "config3.json" not in trie.root.nodes["path"].nodes["to"].nodes
-    assert "another" in trie.root.nodes["path"].nodes["to"].nodes
-    assert "config4.json" not in trie.root.nodes["path"].nodes["to"].nodes["another"].nodes
-
-    # Test case 4: Insert a config file with nested directories
-    trie = Trie()
-    trie.insert("/root/dir1/dir2/config5.json", {"key": "value"})
-    assert trie.root.config_info == ("", {})
-    assert "root" in trie.root.nodes
-    assert "dir1" in trie.root.nodes["root"].nodes
-    assert "dir2" in trie.root.nodes["root"].nodes["dir1"].nodes
-    assert "config5.json" not in trie.root.nodes["root"].nodes["dir1"].nodes["dir2"].nodes
-
-    # Test case 5: Insert a config file with the same path multiple times
-    trie = Trie()
-    trie.insert("/path/to/config6.json", {"key1": "value1"})
-    trie.insert("/path/to/config6.json", {"key2": "value2"})
-    assert trie.root.config_info == ("", {})
-    assert "path" in trie.root.nodes
-    assert "to" in trie.root.nodes["path"].nodes
-    assert "config6.json" not in trie.root.nodes["path"].nodes["to"].nodes
-
-    # Test case 6: Insert a config file with a relative path
-    trie = Trie()
-    trie.insert("relative/path/config7.json", {"key": "value"})
-    assert trie.root.config_info == ("", {})
-    assert "relative" in trie.root.nodes
-    assert "path" in trie.root.nodes["relative"].nodes
-    assert "config7.json" not in trie.root.nodes["relative"].nodes["path"].nodes
-
-    # Test case 7: Insert a config file with a path that includes special characters
-    trie = Trie()
-    trie.insert("/path/with spaces/config8.json", {"key": "value"})
-    assert trie.root.config_info == ("", {})
-    assert "path" in trie.root.nodes
-    assert "with spaces" in trie.root.nodes["path"].nodes
-    assert "config8.json" not in trie.root.nodes["path"].nodes["with spaces"].nodes
-
-    # Test case 8: Insert a config file with a path that includes Unicode characters
-    trie = Trie()
-    trie.insert("/path/with-unicode/©onfig9.json", {"key": "value"})
-    assert trie.root.config_info == ("", {})
-    assert "path" in trie.root.nodes
-    assert "with-unicode" in trie.root.nodes["path"].nodes
-    assert "©onfig9.json" not in trie.root.nodes["path"].nodes["with-unicode"].nodes
-
-    # Test case 9: Insert a config file with a path that is a symlink
-    trie = Trie()
-    trie.insert("/path/to/symlink/config10.json", {"key": "value"})
-    assert trie.root.config_info == ("", {})
-    assert "path" in trie.root.nodes
-    assert "to" in trie.root.nodes["path"].nodes
-    assert "symlink" in trie.root.nodes["path"].nodes["to"].nodes
-    assert "config10.json" not in trie.root.nodes["path"].nodes["to"].nodes["symlink"].nodes
-
-    # Test case 10: Insert a config file with a path that is a Windows drive letter
-    if sys.platform.startswith("win"):  # pragma: no cover
-        trie = Trie()
-        trie.insert("C:/path/to/config11.json", {"key": "value"})
-        assert trie.root.config_info == ("", {})
-        assert "C:" in trie.root.nodes
-        assert "path" in trie.root.nodes["C:"].nodes
-        assert "to" in trie.root.nodes["C:"].nodes["path"].nodes
-        assert "config11.json" not in trie.root.nodes["C:"].nodes["path"].nodes["to"].nodes
-
-    print("All test cases passed!")
-
-
+    config_file = "/path/to/config.json"
+    config_data = {"key": "value"}
+    trie.insert(config_file, config_data)
+    
+    # Check if the path was inserted correctly
+    node = trie.root
+    for part in Path(config_file).parent.resolve().parts:
+        assert part in node.nodes
+        node = node.nodes[part]
+    assert node.config_info == (config_file, config_data)
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for constructor of class TrieNode
-def test_TrieNode(): # type: ignore
-    node = TrieNode()
+def test_TrieNode():
+    config_file = "test_config.json"
+    config_data = {"key": "value"}
+    node = TrieNode(config_file, config_data)
+    assert node.config_info == (config_file, config_data)
     assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    node = TrieNode("config.json", {"key": "value"})
-    assert node.nodes == {}
-    assert node.config_info == ("config.json", {"key": "value"})
-
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for method search of class Trie
-def test_Trie_search():  # pragma: no cover
-    # Create a Trie instance
+def test_Trie_search():
     trie = Trie()
+    trie.insert("/path/to/config1", {"key1": "value1"})
+    trie.insert("/path/to/config2", {"key2": "value2"})
+    trie.insert("/path/to/another/config3", {"key3": "value3"})
 
-    # Insert some config files
-    config1 = {"key1": "value1"}
-    config2 = {"key2": "value2"}
-    config3 = {"key3": "value3"}
-    trie.insert("/home/user/project/config1.json", config1)
-    trie.insert("/home/user/project/subdir/config2.json", config2)
-    trie.insert("/home/user/config3.json", config3)
+    assert trie.search("/path/to/file") == ("/path/to/config2", {"key2": "value2"})
+    assert trie.search("/path/to/another/file") == ("/path/to/another/config3", {"key3": "value3"})
+    assert trie.search("/path/to/another/directory/file") == ("/path/to/another/config3", {"key3": "value3"})
+    assert trie.search("/path/to/config1") == ("/path/to/config1", {"key1": "value1"})
+    assert trie.search("/path/to/config2") == ("/path/to/config2", {"key2": "value2"})
+    assert trie.search("/path/to/another/config3") == ("/path/to/another/config3", {"key3": "value3"})
+    assert trie.search("/root/file") == ("", {})
+    assert trie.search("/path/to/another") == ("/path/to/config2", {"key2": "value2"})
+    assert trie.search("/path/to/another/directory") == ("/path/to/another/config3", {"key3": "value3"})
 
-    # Test search for a file in the same directory as config1
-    result = trie.search("/home/user/project/file.txt")
-    assert result == ("/home/user/project/config1.json", config1)
-
-    # Test search for a file in a subdirectory with config2
-    result = trie.search("/home/user/project/subdir/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config2)
-
-    # Test search for a file in a directory without a config file
-    result = trie.search("/home/user/other/file.txt")
-    assert result == ("/home/user/config3.json", config3)
-
-    # Test search for a file in the root directory
-    result = trie.search("/home/file.txt")
-    assert result == ("", {})
-
-    # Test search for a file with an empty path
-    result = trie.search("")
-    assert result == ("", {})
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_Trie_search()
+test_Trie_search()
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for constructor of class Trie
-def test_Trie():  # noqa: N802
+def test_Trie():
     trie = Trie()
+    assert isinstance(trie.root, TrieNode)
     assert trie.root.config_info == ("", {})
-    assert trie.root.nodes == {}
-    trie = Trie("config_file", {"key": "value"})
-    assert trie.root.config_info == ("config_file", {"key": "value"})
-    assert trie.root.nodes == {}
-
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for constructor of class Trie
-def test_Trie(): # noqa
+# Unit test for method search of class Trie
+def test_Trie_search(): 
     trie = Trie()
-    assert trie.root.config_info == ("", {})
-    assert trie.root.nodes == {}
+    trie.insert("/path/to/config1", {"key1": "value1"})
+    trie.insert("/path/to/config2", {"key2": "value2"})
+    trie.insert("/path/to/another/config3", {"key3": "value3"})
+    
+    assert trie.search("/path/to/file1") == ("/path/to/config1", {"key1": "value1"})
+    assert trie.search("/path/to/another/file2") == ("/path/to/another/config3", {"key3": "value3"})
+    assert trie.search("/path/to/nonexistent/file3") == ("/path/to/config1", {"key1": "value1"})
+    assert trie.search("/another/path/file4") == ("", {})
 
 
 
 # LLM-generated content at query #7
 #--------------------------
 
-# Unit test for constructor of class TrieNode
-def test_TrieNode():  # noqa: N802
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
+# Unit test for method search of class Trie
+def test_Trie_search():
+    trie = Trie()
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/subdir/config2.json", {"key2": "value2"})
+    trie.insert("/another/path/config3.json", {"key3": "value3"})
 
-    node = TrieNode("config.json", {"key": "value"})
-    assert node.nodes == {}
-    assert node.config_info == ("config.json", {"key": "value"})
-
+    # Test exact match
+    assert trie.search("/path/to/subdir/file.txt") == ("/path/to/subdir/config2.json", {"key2": "value2"})
+    # Test parent directory config
+    assert trie.search("/path/to/otherfile.txt") == ("/path/to/config1.json", {"key1": "value1"})
+    # Test root config
+    assert trie.search("/path/file.txt") == ("", {})
+    # Test different path
+    assert trie.search("/another/path/file.txt") == ("/another/path/config3.json", {"key3": "value3"})
+    # Test non-existent path
+    assert trie.search("/nonexistent/path/file.txt") == ("", {})
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
-    trie = Trie()
-    trie.insert('/home/user/.config.json', {'key': 'value'})
-    assert trie.root.nodes['home'].nodes['user'].config_info == ('/home/user/.config.json', {'key': 'value'})
+# Unit test for constructor of class TrieNode
+def test_TrieNode():
+    config_file = "dummy_file"
+    config_data = {"key": "value"}
+    node = TrieNode(config_file, config_data)
+    assert node.config_info == (config_file, config_data)
+    assert node.nodes == {}
 
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for method search of class Trie
-def test_Trie_search():  # pragma: no cover
-    # Create a Trie instance
+# Unit test for method insert of class Trie
+def test_Trie_insert():
     trie = Trie()
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/config2.json", {"key2": "value2"})
 
-    # Insert some config files
-    config1 = {"key1": "value1"}
-    config2 = {"key2": "value2"}
-    config3 = {"key3": "value3"}
+    assert trie.root.nodes["path"].nodes["to"].nodes["config1.json"].config_info == ("/path/to/config1.json", {"key1": "value1"})
+    assert trie.root.nodes["path"].nodes["to"].nodes["config2.json"].config_info == ("/path/to/config2.json", {"key2": "value2"})
 
-    trie.insert("/home/user/project/config1.json", config1)
-    trie.insert("/home/user/project/subdir/config2.json", config2)
-    trie.insert("/home/user/config3.json", config3)
-
-    # Test search for a file in the same directory as config1
-    result = trie.search("/home/user/project/file.txt")
-    assert result == ("/home/user/project/config1.json", config1), f"Expected config1, got {result}"
-
-    # Test search for a file in subdir (should return config2)
-    result = trie.search("/home/user/project/subdir/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config2), f"Expected config2, got {result}"
-
-    # Test search for a file in a directory without a config (should return config1)
-    result = trie.search("/home/user/project/otherdir/file.txt")
-    assert result == ("/home/user/project/config1.json", config1), f"Expected config1, got {result}"
-
-    # Test search for a file in the root (should return empty config)
-    result = trie.search("/home/file.txt")
-    assert result == ("", {}), f"Expected empty config, got {result}"
-
-    # Test search for a file in a nested directory (should return config2)
-    result = trie.search("/home/user/project/subdir/nested/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config2), f"Expected config2, got {result}"
-
-    # Test search for a file in a directory with no config (should return config3)
-    result = trie.search("/home/user/otherproject/file.txt")
-    assert result == ("/home/user/config3.json", config3), f"Expected config3, got {result}"
-
-    print("All tests passed!")
-
-if __name__ == "__main__":  # pragma: no cover
-    test_Trie_search()
 
 
 # LLM-generated content at query #10
 #--------------------------
 
 # Unit test for method search of class Trie
-def test_Trie_search():  # noqa: N802
-    """Test the search method of the Trie class."""
-    # Create a Trie instance
+def test_Trie_search():
+    # Initialize Trie and insert config files
     trie = Trie()
+    trie.insert("/project/config.json", {"option1": "value1"})
+    trie.insert("/project/subdir/config.json", {"option2": "value2"})
+    trie.insert("/project/subdir/subsubdir/config.json", {"option3": "value3"})
+    trie.insert("/otherproject/config.json", {"option4": "value4"})
 
-    # Insert some config files into the trie
-    config1 = {"key1": "value1"}
-    config2 = {"key2": "value2"}
-    config3 = {"key3": "value3"}
-    trie.insert("/home/user/project/config1.json", config1)
-    trie.insert("/home/user/project/subdir/config2.json", config2)
-    trie.insert("/home/user/otherproject/config3.json", config3)
+    # Test searching for a file in the root project directory
+    config_file, config_data = trie.search("/project/file.txt")
+    assert config_file == "/project/config.json"
+    assert config_data == {"option1": "value1"}
 
-    # Test searching for a file in the same directory as config1
-    result = trie.search("/home/user/project/file.txt")
-    assert result == ("/home/user/project/config1.json", config1), f"Expected config1, got {result}"
+    # Test searching for a file in a subdirectory
+    config_file, config_data = trie.search("/project/subdir/file.txt")
+    assert config_file == "/project/subdir/config.json"
+    assert config_data == {"option2": "value2"}
 
-    # Test searching for a file in a subdirectory with config2
-    result = trie.search("/home/user/project/subdir/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config2), f"Expected config2, got {result}"
+    # Test searching for a file in a subsubdirectory
+    config_file, config_data = trie.search("/project/subdir/subsubdir/file.txt")
+    assert config_file == "/project/subdir/subsubdir/config.json"
+    assert config_data == {"option3": "value3"}
 
-    # Test searching for a file in a directory without a config (should return root config)
-    result = trie.search("/home/user/file.txt")
-    assert result == ("", {}), f"Expected empty config, got {result}"
+    # Test searching for a file in a different project
+    config_file, config_data = trie.search("/otherproject/file.txt")
+    assert config_file == "/otherproject/config.json"
+    assert config_data == {"option4": "value4"}
 
-    # Test searching for a file in a completely different path
-    result = trie.search("/home/user/otherproject/subdir/file.txt")
-    assert result == ("/home/user/otherproject/config3.json", config3), f"Expected config3, got {result}"
-
-    # Test searching for a file in a nested subdirectory without its own config
-    result = trie.search("/home/user/project/subdir/nested/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config2), f"Expected config2, got {result}"
-
-    print("All tests passed!")
-
-# Run the unit test
-if __name__ == "__main__":
-    test_Trie_search()
+    # Test searching for a file with no config in the path
+    config_file, config_data = trie.search("/unknown/file.txt")
+    assert config_file == ""
+    assert config_data == {}
 
 
 # LLM-generated content at query #11
 #--------------------------
 
 # Unit test for method search of class Trie
-def test_Trie_search():  # noqa: N802
-    # Create a Trie instance
+def test_Trie_search():
     trie = Trie()
+    trie.insert("/root/project/config.py", {"setting1": "value1"})
+    trie.insert("/root/project/subdir/config.py", {"setting2": "value2"})
 
-    # Insert some config files into the trie
-    trie.insert("/home/user/configs/config1.json", {"key1": "value1"})
-    trie.insert("/home/user/configs/subdir/config2.json", {"key2": "value2"})
-    trie.insert("/home/user/other_configs/config3.json", {"key3": "value3"})
+    # Test searching for a file in the same directory as a config
+    assert trie.search("/root/project/file.py") == ("/root/project/config.py", {"setting1": "value1"})
 
-    # Test case 1: Search for a file in the same directory as config1.json
-    result = trie.search("/home/user/configs/file.txt")
-    assert result == ("/home/user/configs/config1.json", {"key1": "value1"})
+    # Test searching for a file in a subdirectory with its own config
+    assert trie.search("/root/project/subdir/file.py") == ("/root/project/subdir/config.py", {"setting2": "value2"})
 
-    # Test case 2: Search for a file in a subdirectory of config1.json
-    result = trie.search("/home/user/configs/subdir/file.txt")
-    assert result == ("/home/user/configs/subdir/config2.json", {"key2": "value2"})
+    # Test searching for a file in a subdirectory without a config
+    assert trie.search("/root/project/subdir/subsubdir/file.py") == ("/root/project/subdir/config.py", {"setting2": "value2"})
 
-    # Test case 3: Search for a file in a directory without a config file
-    result = trie.search("/home/user/other_configs/subdir/file.txt")
-    assert result == ("/home/user/other_configs/config3.json", {"key3": "value3"})
+    # Test searching for a file in a directory without a config
+    assert trie.search("/root/other/file.py") == ("", {})
 
-    # Test case 4: Search for a file in a directory outside of any config file
-    result = trie.search("/home/user/unknown/file.txt")
-    assert result == ("", {})
+    # Test searching for a file in the root directory
+    assert trie.search("/root/file.py") == ("", {})
 
-    # Test case 5: Search for a file in the root directory
-    result = trie.search("/file.txt")
-    assert result == ("", {})
-
-    # Test case 6: Search for a file with an empty path
-    result = trie.search("")
-    assert result == ("", {})
-
-    # Test case 7: Search for a file with a path that is a prefix of a config file path
-    result = trie.search("/home/user/configs/subdir")
-    assert result == ("/home/user/configs/subdir/config2.json", {"key2": "value2"})
-
-    # Test case 8: Search for a file with a path that is a suffix of a config file path
-    result = trie.search("/home/user/configs/subdir/config2.json")
-    assert result == ("/home/user/configs/subdir/config2.json", {"key2": "value2"})
-
-    # Test case 9: Search for a file with a path that matches exactly a config file path
-    result = trie.search("/home/user/configs/config1.json")
-    assert result == ("/home/user/configs/config1.json", {"key1": "value1"})
-
-    # Test case 10: Search for a file with a path that is a subdirectory of a config file path
-    result = trie.search("/home/user/configs/subdir/deep/file.txt")
-    assert result == ("/home/user/configs/subdir/config2.json", {"key2": "value2"})
-
-    print("All test cases passed!")
-
-
-if __name__ == "__main__":
-    test_Trie_search()
+    # Test searching for a file in a directory with no configs
+    assert trie.search("/other/file.py") == ("", {})
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for constructor of class Trie
-def test_Trie(): # noqa: N802
-    # Test with default parameters
+# Unit test for method search of class Trie
+def test_Trie_search():
     trie = Trie()
-    assert trie.root.config_info == ("", {})
-    assert trie.root.nodes == {}
+    trie.insert("C:\\Users\\user\\project\\config.json", {"key": "value"})
+    trie.insert("C:\\Users\\user\\project\\subfolder\\config.json", {"key": "subvalue"})
 
-    # Test with custom parameters
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    trie = Trie(config_file, config_data)
-    assert trie.root.config_info == (config_file, config_data)
-    assert trie.root.nodes == {}
+    # Test searching for a file in the root directory
+    assert trie.search("C:\\Users\\user\\project\\file.txt") == ("C:\\Users\\user\\project\\config.json", {"key": "value"})
+
+    # Test searching for a file in a subdirectory
+    assert trie.search("C:\\Users\\user\\project\\subfolder\\file.txt") == ("C:\\Users\\user\\project\\subfolder\\config.json", {"key": "subvalue"})
+
+    # Test searching for a file in a directory without a specific config
+    assert trie.search("C:\\Users\\user\\project\\anotherfolder\\file.txt") == ("C:\\Users\\user\\project\\config.json", {"key": "value"})
+
+    # Test searching for a file in a directory that doesn't exist
+    assert trie.search("C:\\Users\\user\\nonexistent\\file.txt") == ("", {})
+
+    # Test searching for a file in the root of the filesystem
+    assert trie.search("C:\\file.txt") == ("", {})
 
 
 
@@ -1741,808 +843,558 @@ def test_Trie(): # noqa: N802
 #--------------------------
 
 # Unit test for constructor of class TrieNode
-def test_TrieNode(): 
-    # Test case 1: config_file is empty string and config_data is None
+def test_TrieNode():
     node = TrieNode()
+    assert isinstance(node.nodes, dict)
     assert node.config_info == ("", {})
-    assert node.nodes == {}
-    
-    # Test case 2: config_file is not empty and config_data is provided
+
     config_file = "config.json"
     config_data = {"key": "value"}
     node = TrieNode(config_file, config_data)
     assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 3: config_file is not empty and config_data is empty dict
-    config_file = "config.json"
-    config_data = {}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 4: config_file is empty string and config_data is empty dict
-    node = TrieNode("", {})
-    assert node.config_info == ("", {})
-    assert node.nodes == {}
-    
-    # Test case 5: config_file is not empty and config_data is None
-    config_file = "config.json"
-    node = TrieNode(config_file)
-    assert node.config_info == (config_file, {})
-    assert node.nodes == {}
-    
-    # Test case 6: config_file is not empty and config_data is provided with nested dict
-    config_file = "config.json"
-    config_data = {"key": {"nested_key": "nested_value"}}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 7: config_file is not empty and config_data is provided with list
-    config_file = "config.json"
-    config_data = {"key": ["value1", "value2"]}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 8: config_file is not empty and config_data is provided with integer
-    config_file = "config.json"
-    config_data = {"key": 123}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 9: config_file is not empty and config_data is provided with boolean
-    config_file = "config.json"
-    config_data = {"key": True}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 10: config_file is not empty and config_data is provided with None
-    config_file = "config.json"
-    config_data = {"key": None}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 11: config_file is not empty and config_data is provided with multiple keys
-    config_file = "config.json"
-    config_data = {"key1": "value1", "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 12: config_file is not empty and config_data is provided with empty dict
-    config_file = "config.json"
-    config_data = {}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 13: config_file is not empty and config_data is provided with dict containing empty dict
-    config_file = "config.json"
-    config_data = {"key": {}}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 14: config_file is not empty and config_data is provided with dict containing empty list
-    config_file = "config.json"
-    config_data = {"key": []}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 15: config_file is not empty and config_data is provided with dict containing empty string
-    config_file = "config.json"
-    config_data = {"key": ""}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 16: config_file is not empty and config_data is provided with dict containing zero
-    config_file = "config.json"
-    config_data = {"key": 0}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 17: config_file is not empty and config_data is provided with dict containing False
-    config_file = "config.json"
-    config_data = {"key": False}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 18: config_file is not empty and config_data is provided with dict containing None
-    config_file = "config.json"
-    config_data = {"key": None}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 19: config_file is not empty and config_data is provided with dict containing multiple nested dicts
-    config_file = "config.json"
-    config_data = {"key1": {"nested_key1": "nested_value1"}, "key2": {"nested_key2": "nested_value2"}}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 20: config_file is not empty and config_data is provided with dict containing multiple nested lists
-    config_file = "config.json"
-    config_data = {"key1": ["value1", "value2"], "key2": ["value3", "value4"]}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 21: config_file is not empty and config_data is provided with dict containing multiple nested strings
-    config_file = "config.json"
-    config_data = {"key1": "value1", "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 22: config_file is not empty and config_data is provided with dict containing multiple nested integers
-    config_file = "config.json"
-    config_data = {"key1": 123, "key2": 456}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 23: config_file is not empty and config_data is provided with dict containing multiple nested booleans
-    config_file = "config.json"
-    config_data = {"key1": True, "key2": False}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 24: config_file is not empty and config_data is provided with dict containing multiple nested None values
-    config_file = "config.json"
-    config_data = {"key1": None, "key2": None}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 25: config_file is not empty and config_data is provided with dict containing mixed types
-    config_file = "config.json"
-    config_data = {"key1": "value1", "key2": 123, "key3": True, "key4": None, "key5": {"nested_key": "nested_value"}, "key6": ["value2", "value3"]}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 26: config_file is not empty and config_data is provided with dict containing empty dict and empty list
-    config_file = "config.json"
-    config_data = {"key1": {}, "key2": []}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 27: config_file is not empty and config_data is provided with dict containing empty string and zero
-    config_file = "config.json"
-    config_data = {"key1": "", "key2": 0}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-    
-    # Test case 28: config_file is not empty and config_data is provided with dict containing False and None
-    config_file = "config.json"
-    config_data = {"key1": False, "key2": None}
-    node = TrieNode
+
 
 
 # LLM-generated content at query #14
 #--------------------------
 
-# Unit test for constructor of class Trie
-def test_Trie(): # type: ignore
+# Unit test for method search of class Trie
+def test_Trie_search():
     trie = Trie()
-    assert trie.root.config_info == ("", {})
-    assert trie.root.nodes == {}
-
+    trie.insert('/root/config1.json', {'key1': 'value1'})
+    trie.insert('/root/project/config2.json', {'key2': 'value2'})
+    trie.insert('/root/project/subdir/config3.json', {'key3': 'value3'})
+    
+    # Test searching for a file in a directory with a config file
+    assert trie.search('/root/project/file1.txt') == ('/root/project/config2.json', {'key2': 'value2'})
+    
+    # Test searching for a file in a subdirectory with a config file
+    assert trie.search('/root/project/subdir/file2.txt') == ('/root/project/subdir/config3.json', {'key3': 'value3'})
+    
+    # Test searching for a file in a directory without a config file
+    assert trie.search('/root/otherdir/file3.txt') == ('/root/config1.json', {'key1': 'value1'})
+    
+    # Test searching for a file in the root directory
+    assert trie.search('/root/file4.txt') == ('/root/config1.json', {'key1': 'value1'})
 
 
 # LLM-generated content at query #15
 #--------------------------
 
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
-    """Test the insert method of the Trie class."""
+# Unit test for constructor of class Trie
+def test_Trie():
     trie = Trie()
-    config_file = "/path/to/config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to"].config_info == (config_file, config_data)
-
+    assert isinstance(trie.root, TrieNode)
+    assert trie.root.config_info == ("", {})
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for method search of class Trie
-def test_Trie_search():  # noqa: N802
-    """Test the search method of the Trie class."""
-    # Create a Trie instance
+def test_Trie_search():
     trie = Trie()
+    trie.insert("/root/project/config.json", {"key": "value"})
+    trie.insert("/root/project/subdir/config.json", {"key": "subvalue"})
+    trie.insert("/root/project/subdir/subsubdir/config.json", {"key": "subsubvalue"})
 
-    # Insert some config files into the trie
-    config_data_1 = {"key1": "value1"}
-    config_data_2 = {"key2": "value2"}
-    config_data_3 = {"key3": "value3"}
+    # Test searching for a file in the root directory
+    assert trie.search("/root/project/file.txt") == ("/root/project/config.json", {"key": "value"})
 
-    trie.insert("/home/user/project/config1.json", config_data_1)
-    trie.insert("/home/user/project/subdir/config2.json", config_data_2)
-    trie.insert("/home/user/another_project/config3.json", config_data_3)
+    # Test searching for a file in a subdirectory
+    assert trie.search("/root/project/subdir/file.txt") == ("/root/project/subdir/config.json", {"key": "subvalue"})
 
-    # Test searching for a file in the same directory as config1.json
-    result = trie.search("/home/user/project/file.txt")
-    assert result == ("/home/user/project/config1.json", config_data_1), f"Expected config1.json, got {result}"
+    # Test searching for a file in a subsubdirectory
+    assert trie.search("/root/project/subdir/subsubdir/file.txt") == ("/root/project/subdir/subsubdir/config.json", {"key": "subsubvalue"})
 
-    # Test searching for a file in a subdirectory with config2.json
-    result = trie.search("/home/user/project/subdir/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config_data_2), f"Expected config2.json, got {result}"
+    # Test searching for a file in a directory without a config file
+    assert trie.search("/root/project/otherdir/file.txt") == ("/root/project/config.json", {"key": "value"})
 
-    # Test searching for a file in a directory without a config, should return the nearest config
-    result = trie.search("/home/user/project/subdir/deeper/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config_data_2), f"Expected config2.json, got {result}"
-
-    # Test searching for a file in another project
-    result = trie.search("/home/user/another_project/file.txt")
-    assert result == ("/home/user/another_project/config3.json", config_data_3), f"Expected config3.json, got {result}"
-
-    # Test searching for a file outside any config directory, should return root config if exists
-    trie.root.config_info = ("/root_config.json", {"root": "config"})
-    result = trie.search("/home/user/file.txt")
-    assert result == ("/root_config.json", {"root": "config"}), f"Expected root_config.json, got {result}"
-
-    # Test with empty trie (only root)
-    empty_trie = Trie()
-    empty_trie.root.config_info = ("/default_config.json", {"default": "config"})
-    result = empty_trie.search("/any/path/file.txt")
-    assert result == ("/default_config.json", {"default": "config"}), f"Expected default_config.json, got {result}"
-
-    print("All tests passed!")
-
-# Run the unit test
-if __name__ == "__main__":
-    test_Trie_search()
+    # Test searching for a file in a directory with no config files at all
+    assert trie.search("/root/otherproject/file.txt") == ("", {})
 
 
 # LLM-generated content at query #17
 #--------------------------
 
-# Unit test for constructor of class TrieNode
-def test_TrieNode(): # noqa
-    # Test case 1: config_file and config_data are provided
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
+# Unit test for method insert of class Trie
+def test_Trie_insert():
+    trie = Trie()
+    trie.insert('/home/user/project/config.json', {'key': 'value'})
+    assert trie.root.nodes['home'].nodes['user'].nodes['project'].config_info == ('/home/user/project/config.json', {'key': 'value'})
 
-    # Test case 2: config_file is provided, config_data is None
-    config_file = "config.json"
-    node = TrieNode(config_file)
-    assert node.config_info == (config_file, {})
-    assert node.nodes == {}
-
-    # Test case 3: config_file is empty string, config_data is provided
-    config_file = ""
-    config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 4: config_file is empty string, config_data is None
-    config_file = ""
-    node = TrieNode(config_file)
-    assert node.config_info == (config_file, {})
-    assert node.nodes == {}
-
-    # Test case 5: config_file is provided, config_data is empty dict
-    config_file = "config.json"
-    config_data = {}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 6: config_file is provided, config_data is not empty dict
-    config_file = "config.json"
-    config_data = {"key1": "value1", "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 7: config_file is provided, config_data is a nested dict
-    config_file = "config.json"
-    config_data = {"key1": {"nested_key": "nested_value"}, "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 8: config_file is provided, config_data is a list
-    config_file = "config.json"
-    config_data = ["value1", "value2"]
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 9: config_file is provided, config_data is a string
-    config_file = "config.json"
-    config_data = "value"
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 10: config_file is provided, config_data is a number
-    config_file = "config.json"
-    config_data = 123
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 11: config_file is provided, config_data is a boolean
-    config_file = "config.json"
-    config_data = True
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 12: config_file is provided, config_data is None
-    config_file = "config.json"
-    config_data = None
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, {})
-    assert node.nodes == {}
-
-    # Test case 13: config_file is provided, config_data is a dict with multiple levels
-    config_file = "config.json"
-    config_data = {"key1": {"nested_key1": {"double_nested_key": "value"}}, "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 14: config_file is provided, config_data is a dict with empty dict as value
-    config_file = "config.json"
-    config_data = {"key1": {}, "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 15: config_file is provided, config_data is a dict with empty list as value
-    config_file = "config.json"
-    config_data = {"key1": [], "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 16: config_file is provided, config_data is a dict with None as value
-    config_file = "config.json"
-    config_data = {"key1": None, "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 17: config_file is provided, config_data is a dict with boolean as value
-    config_file = "config.json"
-    config_data = {"key1": True, "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 18: config_file is provided, config_data is a dict with number as value
-    config_file = "config.json"
-    config_data = {"key1": 123, "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 19: config_file is provided, config_data is a dict with string as value
-    config_file = "config.json"
-    config_data = {"key1": "value1", "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 20: config_file is provided, config_data is a dict with dict as value
-    config_file = "config.json"
-    config_data = {"key1": {"nested_key": "nested_value"}, "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 21: config_file is provided, config_data is a dict with list as value
-    config_file = "config.json"
-    config_data = {"key1": ["value1", "value2"], "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 22: config_file is provided, config_data is a dict with tuple as value
-    config_file = "config.json"
-    config_data = {"key1": ("value1", "value2"), "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 23: config_file is provided, config_data is a dict with set as value
-    config_file = "config.json"
-    config_data = {"key1": {"value1", "value2"}, "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 24: config_file is provided, config_data is a dict with frozenset as value
-    config_file = "config.json"
-    config_data = {"key1": frozenset(["value1", "value2"]), "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 25: config_file is provided, config_data is a dict with bytes as value
-    config_file = "config.json"
-    config_data = {"key1": b"value1", "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 26: config_file is provided, config_data is a dict with bytearray as value
-    config_file = "config.json"
-    config_data = {"key1": bytearray(b"value1"), "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 27: config_file is provided, config_data is a dict with memoryview as value
-    config_file = "config.json"
-    config_data = {"key1": memoryview(b"value1"), "key2": "value2"}
-    node = TrieNode(config_file, config_data)
-    assert node.config_info == (config_file, config_data)
-    assert node.nodes == {}
-
-    # Test case 28: config_file is provided, config_data is a dict with complex as value
-    config_file = "config.json"
-    config_data = {"key1": complex(1,
 
 
 # LLM-generated content at query #18
 #--------------------------
 
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
+# Unit test for method search of class Trie
+def test_Trie_search():
     trie = Trie()
-    config_file = "/home/user/project/.isort.cfg"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["home"].nodes["user"].nodes["project"].config_info == (config_file, config_data)
-
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/subdir/config2.json", {"key2": "value2"})
+    
+    # Test searching for a file in a subdirectory
+    config_file, config_data = trie.search("/path/to/subdir/file.txt")
+    assert config_file == "/path/to/subdir/config2.json"
+    assert config_data == {"key2": "value2"}
+    
+    # Test searching for a file in the root directory
+    config_file, config_data = trie.search("/path/to/anotherfile.txt")
+    assert config_file == "/path/to/config1.json"
+    assert config_data == {"key1": "value1"}
+    
+    # Test searching for a file outside any config directory
+    config_file, config_data = trie.search("/otherpath/file.txt")
+    assert config_file == ""
+    assert config_data == {}
+    
+    # Test searching for a file in the same directory as a config file
+    trie.insert("/another/config3.json", {"key3": "value3"})
+    config_file, config_data = trie.search("/another/file.txt")
+    assert config_file == "/another/config3.json"
+    assert config_data == {"key3": "value3"}
+    
+    # Test searching for a file in a nested directory
+    trie.insert("/path/to/subdir/nested/config4.json", {"key4": "value4"})
+    config_file, config_data = trie.search("/path/to/subdir/nested/file.txt")
+    assert config_file == "/path/to/subdir/nested/config4.json"
+    assert config_data == {"key4": "value4"}
+    
+    # Test searching for a file in a directory with multiple config files
+    trie.insert("/path/to/subdir/config5.json", {"key5": "value5"})
+    config_file, config_data = trie.search("/path/to/subdir/file.txt")
+    assert config_file == "/path/to/subdir/config2.json"
+    assert config_data == {"key2": "value2"}
 
 
 # LLM-generated content at query #19
 #--------------------------
 
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
+# Unit test for constructor of class Trie
+def test_Trie():
     trie = Trie()
-    config_file = "/home/user/project/.isort.cfg"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["home"].nodes["user"].nodes["project"].config_info == (config_file, config_data)
-
+    assert isinstance(trie.root, TrieNode)
+    assert trie.root.config_info == ("", {})
+    assert trie.root.nodes == {}
 
 
 # LLM-generated content at query #20
 #--------------------------
 
 # Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
+def test_Trie_insert(): 
     trie = Trie()
-    config_file = "/path/to/config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to"].config_info == (config_file, config_data)
-
+    trie.insert("config1.json", {"key1": "value1"})
+    trie.insert("config2.json", {"key2": "value2"})
+    assert trie.root.nodes["config1.json"].config_info == ("config1.json", {"key1": "value1"})
+    assert trie.root.nodes["config2.json"].config_info == ("config2.json", {"key2": "value2"})
 
 
 # LLM-generated content at query #21
 #--------------------------
 
 # Unit test for constructor of class TrieNode
-def test_TrieNode():  # noqa: N802
-    config_file = "config.json"
+def test_TrieNode():
+    config_file = "test_config.json"
     config_data = {"key": "value"}
     node = TrieNode(config_file, config_data)
     assert node.config_info == (config_file, config_data)
     assert node.nodes == {}
-
 
 
 # LLM-generated content at query #22
 #--------------------------
 
-# Unit test for method search of class Trie
-def test_Trie_search():  # pragma: no cover
-    # Create a Trie instance
+# Unit test for method insert of class Trie
+def test_Trie_insert():
     trie = Trie()
-    
-    # Insert some config files
-    config1 = {"key1": "value1"}
-    config2 = {"key2": "value2"}
-    config3 = {"key3": "value3"}
-    
-    trie.insert("/home/user/project/config1.json", config1)
-    trie.insert("/home/user/project/subdir/config2.json", config2)
-    trie.insert("/home/user/config3.json", config3)
-    
-    # Test search for a file in the same directory as config1
-    result = trie.search("/home/user/project/file.txt")
-    assert result == ("/home/user/project/config1.json", config1), f"Expected config1, got {result}"
-    
-    # Test search for a file in subdir (should return config2)
-    result = trie.search("/home/user/project/subdir/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config2), f"Expected config2, got {result}"
-    
-    # Test search for a file in a deeper subdirectory (should still return config2)
-    result = trie.search("/home/user/project/subdir/deeper/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config2), f"Expected config2, got {result}"
-    
-    # Test search for a file in a sibling directory (should return config1)
-    result = trie.search("/home/user/project/otherdir/file.txt")
-    assert result == ("/home/user/project/config1.json", config1), f"Expected config1, got {result}"
-    
-    # Test search for a file in parent directory (should return config3)
-    result = trie.search("/home/user/another_project/file.txt")
-    assert result == ("/home/user/config3.json", config3), f"Expected config3, got {result}"
-    
-    # Test search for a file in root (should return empty config)
-    result = trie.search("/root/file.txt")
-    assert result == ("", {}), f"Expected empty config, got {result}"
-    
-    print("All tests passed!")
+    config_file = "/path/to/config"
+    config_data = {"key": "value"}
+    trie.insert(config_file, config_data)
+    assert trie.root.nodes["path"].nodes["to"].nodes["config"].config_info == (config_file, config_data)
 
-if __name__ == "__main__":  # pragma: no cover
-    test_Trie_search()
 
 
 # LLM-generated content at query #23
 #--------------------------
 
-# Unit test for constructor of class TrieNode
-def test_TrieNode(): # type: ignore
-    # Test with default parameters
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    # Test with custom parameters
-    config_file = "config.json"
+# Unit test for method insert of class Trie
+def test_Trie_insert():
+    trie = Trie()
+    config_file = "/path/to/config"
     config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
+    trie.insert(config_file, config_data)
+    assert trie.root.nodes["path"].nodes["to"].nodes["config"].config_info == (config_file, config_data)
 
 
 # LLM-generated content at query #24
 #--------------------------
 
 # Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
+def test_Trie_insert():
     trie = Trie()
-    config_file = "/home/user/project/.isort.cfg"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["home"].nodes["user"].nodes["project"].config_info == (config_file, config_data)
-
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/config2.json", {"key2": "value2"})
+    trie.insert("/another/path/config3.json", {"key3": "value3"})
+    
+    # Check root nodes
+    assert "path" in trie.root.nodes
+    assert "another" in trie.root.nodes
+    
+    # Check nested nodes
+    path_node = trie.root.nodes["path"]
+    assert "to" in path_node.nodes
+    
+    to_node = path_node.nodes["to"]
+    assert to_node.config_info[0] == ""  # Intermediate node shouldn't have config
+    
+    # Check leaf nodes
+    config1_node = to_node.nodes.get("config1.json", None)
+    assert config1_node is None  # File names aren't part of the path parts
+    
+    # Check another branch
+    another_node = trie.root.nodes["another"]
+    assert "path" in another_node.nodes
+    
+    path_node2 = another_node.nodes["path"]
+    assert path_node2.config_info[0] == ""  # Intermediate node
+    
+    config3_node = path_node2.nodes.get("config3.json", None)
+    assert config3_node is None  # File names aren't part of the path parts
 
 
 # LLM-generated content at query #25
 #--------------------------
 
 # Unit test for method insert of class Trie
-def test_Trie_insert():  # pragma: no cover
+def test_Trie_insert():
     trie = Trie()
-    config_file = "/home/user/project/.flake8"
-    config_data = {"max_line_length": 100}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["home"].nodes["user"].nodes["project"].config_info == (config_file, config_data)
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/config2.json", {"key2": "value2"})
+    trie.insert("/another/path/config3.json", {"key3": "value3"})
 
+    # Verify the root node has the expected children
+    assert "path" in trie.root.nodes
+    assert "another" in trie.root.nodes
+
+    # Verify the path node has the expected children
+    path_node = trie.root.nodes["path"]
+    assert "to" in path_node.nodes
+
+    # Verify the to node has the expected children
+    to_node = path_node.nodes["to"]
+    assert "config1.json" in to_node.nodes
+    assert "config2.json" in to_node.nodes
+
+    # Verify the config1.json node has the correct config_info
+    config1_node = to_node.nodes["config1.json"]
+    assert config1_node.config_info == ("/path/to/config1.json", {"key1": "value1"})
+
+    # Verify the config2.json node has the correct config_info
+    config2_node = to_node.nodes["config2.json"]
+    assert config2_node.config_info == ("/path/to/config2.json", {"key2": "value2"})
+
+    # Verify the another node has the expected children
+    another_node = trie.root.nodes["another"]
+    assert "path" in another_node.nodes
+
+    # Verify the path node under another has the expected children
+    another_path_node = another_node.nodes["path"]
+    assert "config3.json" in another_path_node.nodes
+
+    # Verify the config3.json node has the correct config_info
+    config3_node = another_path_node.nodes["config3.json"]
+    assert config3_node.config_info == ("/another/path/config3.json", {"key3": "value3"})
 
 
 # LLM-generated content at query #26
 #--------------------------
 
-# Unit test for constructor of class Trie
-def test_Trie(): # Unit test for constructor of class Trie
+# Unit test for method insert of class Trie
+def test_Trie_insert():
     trie = Trie()
-    assert trie.root.config_info == ("", {})
-    assert trie.root.nodes == {}
+    trie.insert("/path/to/config1", {"key1": "value1"})
+    trie.insert("/path/to/config2", {"key2": "value2"})
+    trie.insert("/path/to/another/config3", {"key3": "value3"})
 
+    # Check root node
+    assert trie.root.config_info == ("", {})
+
+    # Check intermediate nodes
+    path_node = trie.root.nodes.get("path")
+    assert path_node is not None
+    assert path_node.config_info == ("", {})
+
+    to_node = path_node.nodes.get("to")
+    assert to_node is not None
+    assert to_node.config_info == ("", {})
+
+    # Check leaf nodes
+    config1_node = to_node.nodes.get("config1")
+    assert config1_node is None  # Because we insert parent directories, not the config file itself
+
+    config2_node = to_node.nodes.get("config2")
+    assert config2_node is None
+
+    another_node = to_node.nodes.get("another")
+    assert another_node is not None
+    assert another_node.config_info == ("", {})
+
+    config3_node = another_node.nodes.get("config3")
+    assert config3_node is None
+
+    # Check config info is stored in the correct nodes
+    assert to_node.nodes["config1"].config_info == ("/path/to/config1", {"key1": "value1"})
+    assert to_node.nodes["config2"].config_info == ("/path/to/config2", {"key2": "value2"})
+    assert another_node.nodes["config3"].config_info == ("/path/to/another/config3", {"key3": "value3"})
 
 
 # LLM-generated content at query #27
 #--------------------------
 
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # pragma: no cover
+# Unit test for constructor of class Trie
+def test_Trie():
     trie = Trie()
-    config_file = "/home/user/project/.flake8"
-    config_data = {"max_line_length": 100}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["home"].nodes["user"].nodes["project"].config_info == (config_file, config_data)
-
+    assert isinstance(trie.root, TrieNode)
+    assert trie.root.config_info == ("", {})
+    assert trie.root.nodes == {}
 
 
 # LLM-generated content at query #28
 #--------------------------
 
-# Unit test for method search of class Trie
-def test_Trie_search():  # noqa: N802
-    # Create a Trie instance
+# Unit test for constructor of class Trie
+def test_Trie():
     trie = Trie()
-
-    # Insert some config files
-    config1 = {"key1": "value1"}
-    config2 = {"key2": "value2"}
-    config3 = {"key3": "value3"}
-
-    trie.insert("/home/user/project/config1.json", config1)
-    trie.insert("/home/user/project/subdir/config2.json", config2)
-    trie.insert("/home/user/config3.json", config3)
-
-    # Test search for a file in the same directory as config1
-    result = trie.search("/home/user/project/file.txt")
-    assert result == ("/home/user/project/config1.json", config1)
-
-    # Test search for a file in a subdirectory with config2
-    result = trie.search("/home/user/project/subdir/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config2)
-
-    # Test search for a file in a directory without a config, should return the nearest parent config
-    result = trie.search("/home/user/project/subdir/deep/file.txt")
-    assert result == ("/home/user/project/subdir/config2.json", config2)
-
-    # Test search for a file in a directory with no config in the path, should return root config
-    result = trie.search("/home/other/file.txt")
-    assert result == ("", {})
-
-    # Test search for a file in the root directory, should return root config
-    result = trie.search("/file.txt")
-    assert result == ("", {})
-
-    # Test search for a file in a directory with config3
-    result = trie.search("/home/user/other/file.txt")
-    assert result == ("/home/user/config3.json", config3)
-
-    print("All tests passed!")
-
-# Run the unit test
-test_Trie_search()
+    assert isinstance(trie.root, TrieNode)
+    assert trie.root.config_info == ("", {})
 
 
 # LLM-generated content at query #29
 #--------------------------
 
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
-    trie = Trie()
-    config_file = "/home/user/project/.isort.cfg"
+# Unit test for constructor of class TrieNode
+def test_TrieNode():
+    config_file = "test_config.json"
     config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["home"].nodes["user"].nodes["project"].config_info == (config_file, config_data)
-
+    node = TrieNode(config_file, config_data)
+    assert node.config_info == (config_file, config_data)
+    assert node.nodes == {}
 
 
 # LLM-generated content at query #30
 #--------------------------
 
-# Unit test for constructor of class TrieNode
-def test_TrieNode(): # noqa
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
-
-    node = TrieNode("config.json", {"key": "value"})
-    assert node.nodes == {}
-    assert node.config_info == ("config.json", {"key": "value"})
-
+# Unit test for constructor of class Trie
+def test_Trie():
+    trie = Trie("root_config", {"key": "value"})
+    assert trie.root.config_info == ("root_config", {"key": "value"})
+    assert trie.root.nodes == {}
 
 
 # LLM-generated content at query #31
 #--------------------------
 
-# Unit test for constructor of class Trie
-def test_Trie():  # noqa: N802
-    # Test with default parameters
+# Unit test for method search of class Trie
+def test_Trie_search():
     trie = Trie()
-    assert trie.root.config_info == ("", {})
-    assert trie.root.nodes == {}
-
-    # Test with custom parameters
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    trie = Trie(config_file, config_data)
-    assert trie.root.config_info == (config_file, config_data)
-    assert trie.root.nodes == {}
-
+    trie.insert("/root/project/config.json", {"key": "value"})
+    trie.insert("/root/project/subdir/config.json", {"key": "subvalue"})
+    
+    # Test exact match
+    assert trie.search("/root/project/subdir/file.txt") == ("/root/project/subdir/config.json", {"key": "subvalue"})
+    
+    # Test parent directory config
+    assert trie.search("/root/project/anotherdir/file.txt") == ("/root/project/config.json", {"key": "value"})
+    
+    # Test root directory config
+    assert trie.search("/root/anotherproject/file.txt") == ("", {})
+    
+    # Test non-existent path
+    assert trie.search("/nonexistent/path/file.txt") == ("", {})
+    
+    # Test with empty Trie
+    empty_trie = Trie()
+    assert empty_trie.search("/any/path/file.txt") == ("", {})
 
 
 # LLM-generated content at query #32
 #--------------------------
 
-# Unit test for constructor of class TrieNode
-def test_TrieNode(): # noqa
-    # Test with default parameters
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
+# Unit test for method insert of class Trie
+def test_Trie_insert():
+    trie = Trie()
+    trie.insert("/path/to/config1", {"key1": "value1"})
+    trie.insert("/path/to/config2", {"key2": "value2"})
+    trie.insert("/another/path/config3", {"key3": "value3"})
 
-    # Test with custom parameters
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
-    # Test with empty config_data
-    node = TrieNode(config_file, {})
-    assert node.nodes == {}
-    assert node.config_info == (config_file, {})
-
-    # Test with None config_data (should be converted to empty dict)
-    node = TrieNode(config_file, None)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, {})
-
-    print("All tests passed for TrieNode constructor.")
+    assert trie.root.nodes["path"].nodes["to"].nodes["config1"].config_info == ("/path/to/config1", {"key1": "value1"})
+    assert trie.root.nodes["path"].nodes["to"].nodes["config2"].config_info == ("/path/to/config2", {"key2": "value2"})
+    assert trie.root.nodes["another"].nodes["path"].nodes["config3"].config_info == ("/another/path/config3", {"key3": "value3"})
 
 
 
 # LLM-generated content at query #33
 #--------------------------
 
-# Unit test for constructor of class Trie
-def test_Trie():  # noqa: N802
+# Unit test for method search of class Trie
+def test_Trie_search():
     trie = Trie()
-    assert trie.root.config_info == ("", {})
-    assert trie.root.nodes == {}
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/config2.json", {"key2": "value2"})
+    trie.insert("/another/path/config3.json", {"key3": "value3"})
 
-    trie = Trie("config_file", {"key": "value"})
-    assert trie.root.config_info == ("config_file", {"key": "value"})
-    assert trie.root.nodes == {}
+    # Test exact match
+    assert trie.search("/path/to/config1.json") == ("/path/to/config1.json", {"key1": "value1"})
+    assert trie.search("/path/to/config2.json") == ("/path/to/config2.json", {"key2": "value2"})
 
+    # Test closest parent config
+    assert trie.search("/path/to/child/file.txt") == ("/path/to/config2.json", {"key2": "value2"})
+    assert trie.search("/path/to/") == ("", {})
+
+    # Test non-existent path
+    assert trie.search("/nonexistent/path") == ("", {})
+
+    # Test different path
+    assert trie.search("/another/path/config3.json") == ("/another/path/config3.json", {"key3": "value3"})
+    assert trie.search("/another/path/child/file.txt") == ("/another/path/config3.json", {"key3": "value3"})
+
+    print("All test cases passed!")
+
+test_Trie_search()
 
 
 # LLM-generated content at query #34
 #--------------------------
 
-# Unit test for constructor of class TrieNode
-def test_TrieNode():  # noqa: N802
-    # Test with default parameters
-    node = TrieNode()
-    assert node.nodes == {}
-    assert node.config_info == ("", {})
+# Unit test for method search of class Trie
+def test_Trie_search():
+    trie = Trie()
+    trie.insert("/root/project/config.json", {"key": "value"})
+    trie.insert("/root/project/src/config.json", {"key": "src_value"})
+    trie.insert("/root/other_project/config.json", {"key": "other_value"})
 
-    # Test with custom parameters
-    config_file = "config.json"
-    config_data = {"key": "value"}
-    node = TrieNode(config_file, config_data)
-    assert node.nodes == {}
-    assert node.config_info == (config_file, config_data)
-
+    # Test exact match
+    assert trie.search("/root/project/src/file.py") == ("/root/project/src/config.json", {"key": "src_value"})
+    # Test parent directory config
+    assert trie.search("/root/project/file.py") == ("/root/project/config.json", {"key": "value"})
+    # Test no config in path
+    assert trie.search("/root/file.py") == ("", {})
+    # Test different project
+    assert trie.search("/root/other_project/file.py") == ("/root/other_project/config.json", {"key": "other_value"})
+    # Test non-existent path
+    assert trie.search("/nonexistent/path/file.py") == ("", {})
 
 
 # LLM-generated content at query #35
 #--------------------------
 
-# Unit test for method insert of class Trie
-def test_Trie_insert():  # noqa: N802
+# Unit test for method search of class Trie
+def test_Trie_search():
     trie = Trie()
-    config_file = "/path/to/config.json"
-    config_data = {"key": "value"}
-    trie.insert(config_file, config_data)
-    assert trie.root.nodes["path"].nodes["to"].config_info == (config_file, config_data)
+    trie.insert("/path/to/config1.json", {"key1": "value1"})
+    trie.insert("/path/to/config2.json", {"key2": "value2"})
+    trie.insert("/another/path/config3.json", {"key3": "value3"})
 
+    # Test exact match
+    assert trie.search("/path/to/config1.json") == ("/path/to/config1.json", {"key1": "value1"})
+    assert trie.search("/path/to/config2.json") == ("/path/to/config2.json", {"key2": "value2"})
+
+    # Test parent directory match
+    assert trie.search("/path/to/other/file.txt") == ("/path/to/config2.json", {"key2": "value2"})
+    assert trie.search("/path/to/") == ("", {})
+
+    # Test no match
+    assert trie.search("/nonexistent/path/file.txt") == ("", {})
+
+    # Test partial path match
+    assert trie.search("/another/path/config3.json") == ("/another/path/config3.json", {"key3": "value3"})
+    assert trie.search("/another/path/subdir/file.txt") == ("/another/path/config3.json", {"key3": "value3"})
+
+    print("All tests passed!")
+
+test_Trie_search()
+
+
+# LLM-generated content at query #36
+#--------------------------
+
+# Unit test for constructor of class Trie
+def test_Trie():
+    trie = Trie()
+    assert trie.root.config_info == ("", {})
+
+
+# LLM-generated content at query #37
+#--------------------------
+
+# Unit test for constructor of class TrieNode
+def test_TrieNode():
+    config_file = "test_file"
+    config_data = {"key": "value"}
+    node = TrieNode(config_file, config_data)
+    assert node.config_info == (config_file, config_data)
+    assert node.nodes == {}
+
+
+
+# LLM-generated content at query #38
+#--------------------------
+
+# Unit test for constructor of class Trie
+def test_Trie():
+    t: Trie = Trie()
+    assert t.root.config_info == ("", {})
+
+
+
+# LLM-generated content at query #39
+#--------------------------
+
+# Unit test for constructor of class Trie
+def test_Trie():
+    # Test if Trie can be initialized without parameters
+    trie = Trie()
+    assert trie.root.config_info == ("", {})
+
+    # Test if Trie can be initialized with parameters
+    config_file = "example.conf"
+    config_data = {"key": "value"}
+    trie_with_params = Trie(config_file, config_data)
+    assert trie_with_params.root.config_info == (config_file, config_data)
+
+
+
+# LLM-generated content at query #40
+#--------------------------
+
+# Unit test for method search of class Trie
+def test_Trie_search():
+    trie = Trie()
+    trie.insert("/root/config1.json", {"key1": "value1"})
+    trie.insert("/root/dir1/config2.json", {"key2": "value2"})
+    trie.insert("/root/dir1/dir2/config3.json", {"key3": "value3"})
+
+    # Test exact match
+    assert trie.search("/root/dir1/dir2/config3.json") == ("/root/dir1/dir2/config3.json", {"key3": "value3"})
+
+    # Test file in subdirectory
+    assert trie.search("/root/dir1/dir2/file.txt") == ("/root/dir1/dir2/config3.json", {"key3": "value3"})
+
+    # Test file in parent directory
+    assert trie.search("/root/file.txt") == ("/root/config1.json", {"key1": "value1"})
+
+    # Test file in sibling directory
+    assert trie.search("/root/dir1/file.txt") == ("/root/dir1/config2.json", {"key2": "value2"})
+
+    # Test file with no config in path
+    empty_trie = Trie()
+    assert empty_trie.search("/nonexistent/file.txt") == ("", {})
+
+    # Test root config
+    root_trie = Trie("/root/config.json", {"root": True})
+    assert root_trie.search("/root/file.txt") == ("/root/config.json", {"root": True})
+    assert root_trie.search("/root/subdir/file.txt") == ("/root/config.json", {"root": True})
 
 

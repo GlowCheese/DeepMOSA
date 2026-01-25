@@ -1,0 +1,1187 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + anthropic/claude-haiku-4.5 t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def sign(x: Numeric) -> int:
+    """
+    Defines a sign predicate for numeric values (ints, floats and Decimals).
+
+    :param number: A number.
+    :return: The sign of the given number.
+
+    >>> sign(1)
+    1
+    >>> sign(0)
+    0
+    >>> sign(-0)
+    0
+    >>> sign(-1)
+    -1
+    >>> sign(Decimal("1"))
+    1
+    >>> sign(Decimal("0"))
+    0
+    >>> sign(-Decimal("0"))
+    0
+    >>> sign(Decimal("-1"))
+    -1
+    """
+    return 1 if x > 0 else -1 if x < 0 else 0
+
+```
+Write unit test for function sign
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def normalize(value: Decimal) -> Decimal:
+    """
+    Normalizes a given decimal value.
+
+    :param value: The decimal value to be normalized.
+    :return: The normalized decimal value.
+
+    >>> normalize(Decimal("0.00"))
+    Decimal('0')
+    """
+    return value.quantize(ONE) if value == value.to_integral() else value.normalize()
+
+```
+Write unit test for function normalize
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def weirdiv(dividend: Optional[Decimal], divisor: Optional[Decimal]) -> Decimal:
+    """
+    Provides a division for weirdos.
+
+    Essentially, we are using this function at such call-sites where we don't have control over the incoming data, and
+    lazy enough to bother doing it there.
+
+    :param dividend: An optional dividend.
+    :param divisor: An optional divisor.
+    :return: A Decimal whether dividend and/or divisor are missing (0 in that case)
+
+    >>> weirdiv(None, None)
+    Decimal('0')
+    >>> weirdiv(None, Decimal(0))
+    Decimal('0')
+    >>> weirdiv(None, Decimal(1))
+    Decimal('0')
+    >>> weirdiv(Decimal(0), None)
+    Decimal('0')
+    >>> weirdiv(Decimal(1), None) > 10 ** 10
+    True
+    >>> weirdiv(Decimal(9), Decimal(3))
+    Decimal('3')
+    """
+    ## Check the dividend:
+    if dividend is None or dividend.is_zero():
+        return ZERO
+
+    ## Check the divisor:
+    if divisor is None or divisor.is_zero():
+        ## Wish I could return infinity!
+        return Decimal(sys.float_info.max).copy_sign(dividend)
+
+    ## Normal division:
+    return dividend / divisor
+
+```
+Write unit test for function weirdiv
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test for method __new__ of class NaturalNumber
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+class PositiveInteger(int):
+    """
+    Provides a *newtype* for positive integers ``[1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "PositiveInteger":
+        """
+        Attempts to create a new instance.
+
+        :param value: A positive integer.
+        :raises AssertionError: If ``value`` is not a positive integer.
+        """
+        assert value > 0
+        return int(value)  # type: ignore
+
+```
+Write unit test for method __new__ of class PositiveInteger
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+def normalize(value: Decimal) -> Decimal:
+    """
+    Normalizes a given decimal value.
+
+    :param value: The decimal value to be normalized.
+    :return: The normalized decimal value.
+
+    >>> normalize(Decimal("0.00"))
+    Decimal('0')
+    """
+    return value.quantize(ONE) if value == value.to_integral() else value.normalize()
+
+```
+Write unit test for function normalize
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def normalize(value: Decimal) -> Decimal:
+ 2 |     """
+ 3 |     Normalizes a given decimal value.
+ 4 | 
+ 5 |     :param value: The decimal value to be normalized.
+ 6 |     :return: The normalized decimal value.
+ 7 | 
+ 8 |     >>> normalize(Decimal("0.00"))
+ 9 |     Decimal('0')
+10 |     """
+11 |     return value.quantize(ONE) if value == value.to_integral() else value.normalize()
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to False.
+```
+ 1 | def weirdiv(dividend: Optional[Decimal], divisor: Optional[Decimal]) -> Decimal:
+ 2 |     """
+ 3 |     Provides a division for weirdos.
+ 4 | 
+ 5 |     Essentially, we are using this function at such call-sites where we don't have control over the incoming data, and
+ 6 |     lazy enough to bother doing it there.
+ 7 | 
+ 8 |     :param dividend: An optional dividend.
+ 9 |     :param divisor: An optional divisor.
+10 |     :return: A Decimal whether dividend and/or divisor are missing (0 in that case)
+11 | 
+12 |     >>> weirdiv(None, None)
+13 |     Decimal('0')
+14 |     >>> weirdiv(None, Decimal(0))
+15 |     Decimal('0')
+16 |     >>> weirdiv(None, Decimal(1))
+17 |     Decimal('0')
+18 |     >>> weirdiv(Decimal(0), None)
+19 |     Decimal('0')
+20 |     >>> weirdiv(Decimal(1), None) > 10 ** 10
+21 |     True
+22 |     >>> weirdiv(Decimal(9), Decimal(3))
+23 |     Decimal('3')
+24 |     """
+25 |     ## Check the dividend:
+26 |     if dividend is None or dividend.is_zero():
+27 |         return ZERO
+28 | 
+29 |     ## Check the divisor:
+30 |     if divisor is None or divisor.is_zero():
+31 |         ## Wish I could return infinity!
+32 |         return Decimal(sys.float_info.max).copy_sign(dividend)
+33 | 
+34 |     ## Normal division:
+35 |     return dividend / divisor
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def normalize(value: Decimal) -> Decimal:
+ 2 |     """
+ 3 |     Normalizes a given decimal value.
+ 4 | 
+ 5 |     :param value: The decimal value to be normalized.
+ 6 |     :return: The normalized decimal value.
+ 7 | 
+ 8 |     >>> normalize(Decimal("0.00"))
+ 9 |     Decimal('0')
+10 |     """
+11 |     return value.quantize(ONE) if value == value.to_integral() else value.normalize()
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+1 |     def __new__(cls, value: int) -> "NaturalNumber":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A non-negative integer.
+6 |         :raises AssertionError: If ``value`` is not a non-negative integer.
+7 |         """
+8 |         assert value >= 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+1 |     def __new__(cls, value: int) -> "NaturalNumber":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A non-negative integer.
+6 |         :raises AssertionError: If ``value`` is not a non-negative integer.
+7 |         """
+8 |         assert value >= 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to False.
+```
+ 1 | def weirdiv(dividend: Optional[Decimal], divisor: Optional[Decimal]) -> Decimal:
+ 2 |     """
+ 3 |     Provides a division for weirdos.
+ 4 | 
+ 5 |     Essentially, we are using this function at such call-sites where we don't have control over the incoming data, and
+ 6 |     lazy enough to bother doing it there.
+ 7 | 
+ 8 |     :param dividend: An optional dividend.
+ 9 |     :param divisor: An optional divisor.
+10 |     :return: A Decimal whether dividend and/or divisor are missing (0 in that case)
+11 | 
+12 |     >>> weirdiv(None, None)
+13 |     Decimal('0')
+14 |     >>> weirdiv(None, Decimal(0))
+15 |     Decimal('0')
+16 |     >>> weirdiv(None, Decimal(1))
+17 |     Decimal('0')
+18 |     >>> weirdiv(Decimal(0), None)
+19 |     Decimal('0')
+20 |     >>> weirdiv(Decimal(1), None) > 10 ** 10
+21 |     True
+22 |     >>> weirdiv(Decimal(9), Decimal(3))
+23 |     Decimal('3')
+24 |     """
+25 |     ## Check the dividend:
+26 |     if dividend is None or dividend.is_zero():
+27 |         return ZERO
+28 | 
+29 |     ## Check the divisor:
+30 |     if divisor is None or divisor.is_zero():
+31 |         ## Wish I could return infinity!
+32 |         return Decimal(sys.float_info.max).copy_sign(dividend)
+33 | 
+34 |     ## Normal division:
+35 |     return dividend / divisor
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+1 |     def __new__(cls, value: int) -> "NaturalNumber":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A non-negative integer.
+6 |         :raises AssertionError: If ``value`` is not a non-negative integer.
+7 |         """
+8 |         assert value >= 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+1 |     def __new__(cls, value: int) -> "NaturalNumber":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A non-negative integer.
+6 |         :raises AssertionError: If ``value`` is not a non-negative integer.
+7 |         """
+8 |         assert value >= 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test for method __new__ of class NaturalNumber
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+1 |     def __new__(cls, value: int) -> "NaturalNumber":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A non-negative integer.
+6 |         :raises AssertionError: If ``value`` is not a non-negative integer.
+7 |         """
+8 |         assert value >= 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+1 |     def __new__(cls, value: int) -> "NaturalNumber":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A non-negative integer.
+6 |         :raises AssertionError: If ``value`` is not a non-negative integer.
+7 |         """
+8 |         assert value >= 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + anthropic/claude-haiku-4.5 t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+class PositiveInteger(int):
+    """
+    Provides a *newtype* for positive integers ``[1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "PositiveInteger":
+        """
+        Attempts to create a new instance.
+
+        :param value: A positive integer.
+        :raises AssertionError: If ``value`` is not a positive integer.
+        """
+        assert value > 0
+        return int(value)  # type: ignore
+
+```
+Write unit test for method __new__ of class PositiveInteger
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test for method __new__ of class NaturalNumber
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def normalize(value: Decimal) -> Decimal:
+    """
+    Normalizes a given decimal value.
+
+    :param value: The decimal value to be normalized.
+    :return: The normalized decimal value.
+
+    >>> normalize(Decimal("0.00"))
+    Decimal('0')
+    """
+    return value.quantize(ONE) if value == value.to_integral() else value.normalize()
+
+```
+Write unit test for function normalize
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+class PositiveInteger(int):
+    """
+    Provides a *newtype* for positive integers ``[1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "PositiveInteger":
+        """
+        Attempts to create a new instance.
+
+        :param value: A positive integer.
+        :raises AssertionError: If ``value`` is not a positive integer.
+        """
+        assert value > 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+1 |     def __new__(cls, value: int) -> "PositiveInteger":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A positive integer.
+6 |         :raises AssertionError: If ``value`` is not a positive integer.
+7 |         """
+8 |         assert value > 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+class PositiveInteger(int):
+    """
+    Provides a *newtype* for positive integers ``[1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "PositiveInteger":
+        """
+        Attempts to create a new instance.
+
+        :param value: A positive integer.
+        :raises AssertionError: If ``value`` is not a positive integer.
+        """
+        assert value > 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+1 |     def __new__(cls, value: int) -> "PositiveInteger":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A positive integer.
+6 |         :raises AssertionError: If ``value`` is not a positive integer.
+7 |         """
+8 |         assert value > 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+class PositiveInteger(int):
+    """
+    Provides a *newtype* for positive integers ``[1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "PositiveInteger":
+        """
+        Attempts to create a new instance.
+
+        :param value: A positive integer.
+        :raises AssertionError: If ``value`` is not a positive integer.
+        """
+        assert value > 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+1 |     def __new__(cls, value: int) -> "PositiveInteger":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A positive integer.
+6 |         :raises AssertionError: If ``value`` is not a positive integer.
+7 |         """
+8 |         assert value > 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+1 |     def __new__(cls, value: int) -> "NaturalNumber":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A non-negative integer.
+6 |         :raises AssertionError: If ``value`` is not a non-negative integer.
+7 |         """
+8 |         assert value >= 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test for method __new__ of class NaturalNumber
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+1 |     def __new__(cls, value: int) -> "NaturalNumber":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A non-negative integer.
+6 |         :raises AssertionError: If ``value`` is not a non-negative integer.
+7 |         """
+8 |         assert value >= 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+1 |     def __new__(cls, value: int) -> "NaturalNumber":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A non-negative integer.
+6 |         :raises AssertionError: If ``value`` is not a non-negative integer.
+7 |         """
+8 |         assert value >= 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+1 |     def __new__(cls, value: int) -> "NaturalNumber":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A non-negative integer.
+6 |         :raises AssertionError: If ``value`` is not a non-negative integer.
+7 |         """
+8 |         assert value >= 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test for method __new__ of class NaturalNumber
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+class NaturalNumber(int):
+    """
+    Provides a *newtype* for natural numbers ``[0, 1, ...)``.
+
+    Call-site should ensure that the constructor does not throw assertion errors.
+    """
+
+    def __new__(cls, value: int) -> "NaturalNumber":
+        """
+        Attempts to create a new instance.
+
+        :param value: A non-negative integer.
+        :raises AssertionError: If ``value`` is not a non-negative integer.
+        """
+        assert value >= 0
+        return int(value)  # type: ignore
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+1 |     def __new__(cls, value: int) -> "NaturalNumber":
+2 |         """
+3 |         Attempts to create a new instance.
+4 | 
+5 |         :param value: A non-negative integer.
+6 |         :raises AssertionError: If ``value`` is not a non-negative integer.
+7 |         """
+8 |         assert value >= 0
+9 |         return int(value)  # type: ignore
+```
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+def make_quantize_func(quantizer: Decimal) -> Callable[[Decimal], Decimal]:
+    """
+    Creates a quantize function with the given quantizer.
+    """
+    return lambda x: x.quantize(quantizer)
+
+```
+Write unit test for function make_quantize_func
+
+

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.8571428571428571" lines-covered="0" lines-valid="0" branches-covered="6" branches-valid="7" complexity="0.0" version="pynguin-0.40.0" timestamp="1767753936">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.8571428571428571" lines-covered="0" lines-valid="0" branches-covered="6" branches-valid="7" complexity="0.0" version="pynguin-0.40.0" timestamp="1768473116">
   <sources>
     <source>mimesis.locales</source>
   </sources>

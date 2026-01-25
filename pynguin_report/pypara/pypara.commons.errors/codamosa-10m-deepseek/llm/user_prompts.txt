@@ -1,0 +1,3410 @@
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #36
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #37
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #38
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #39
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #40
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #41
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #42
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #43
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #44
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #45
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #36
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #37
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #38
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #39
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+
+# Prompt used at query #40
+#--------------------------
+
+"""
+This module provides common error definitions and routines for :py:mod:`pypara`.
+"""
+
+__all__ = ["ProgrammingError"]
+
+from typing import Optional
+
+
+class ProgrammingError(Exception):
+    """
+    Provides a programming error exception.
+
+    The rationale for this exception is to raise them whenever we rely on meta-programming and the programmer has
+    introduced a statement which breaks the coherence of the domain logic.
+    """
+
+    @classmethod
+    def passert(cls, condition: bool, message: Optional[str] = None) -> None:
+        """
+        Raises a :py:class:`ProgrammingError` if the condition is ``False``.
+
+        :param condition: Indicates if the expectation is fulfilled.
+        :param message: Message of the error to be raised in case that the condition is not met.
+        :raises ProgrammingError: In case that the condition is ``False``.
+
+        >>> ProgrammingError.passert(1 == 0)
+        Traceback (most recent call last):
+        ...
+        pypara.commons.errors.ProgrammingError: Broken coherence. Check your code against domain logic to fix it.
+        """
+        if not condition:
+            raise cls(message or "Broken coherence. Check your code against domain logic to fix it.")
+
+Write unit test with pytest for constructor of class ProgrammingError with the following signature: `def test_ProgrammingError():`
+
+

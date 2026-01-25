@@ -1,0 +1,1592 @@
+####################################################################
+#    TEST GENERATION BEGINS (DEEPMOSA + claude-haiku-4-5 t=0.8)    #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test for method validate of class Schema
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test for method serialize of class Schema
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 |     def serialize(
+ 2 |         self, obj: typing.Any
+ 3 |     ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+ 4 |         if obj is None:
+ 5 |             return None
+ 6 | 
+ 7 |         is_mapping = isinstance(obj, dict)
+ 8 | 
+ 9 |         ret = {}
+10 |         for key, field in self.fields.items():
+11 |             try:
+12 |                 value = obj[key] if is_mapping else getattr(obj, key)
+13 |             except (KeyError, AttributeError):
+14 |                 continue
+15 |             ret[key] = field.serialize(value)
+16 |         return ret
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test for method serialize of class Schema
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 |     def serialize(
+ 2 |         self, obj: typing.Any
+ 3 |     ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+ 4 |         if obj is None:
+ 5 |             return None
+ 6 | 
+ 7 |         is_mapping = isinstance(obj, dict)
+ 8 | 
+ 9 |         ret = {}
+10 |         for key, field in self.fields.items():
+11 |             try:
+12 |                 value = obj[key] if is_mapping else getattr(obj, key)
+13 |             except (KeyError, AttributeError):
+14 |                 continue
+15 |             ret[key] = field.serialize(value)
+16 |         return ret
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+class Reference(Field):
+    errors = {"null": "May not be null."}
+
+    def __init__(
+        self,
+        to: str,
+        definitions: Definitions,
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.to = to
+        self.definitions = definitions
+
+    @property
+    def target(self) -> typing.Any:
+        return self.definitions[self.to]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+
+        return self.target.validate(value)
+
+    def serialize(self, obj: typing.Any) -> typing.Any:
+        if obj is None:
+            return None
+        return dict(obj)
+
+```
+Write unit test for method validate of class Reference
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 |     def serialize(
+ 2 |         self, obj: typing.Any
+ 3 |     ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+ 4 |         if obj is None:
+ 5 |             return None
+ 6 | 
+ 7 |         is_mapping = isinstance(obj, dict)
+ 8 | 
+ 9 |         ret = {}
+10 |         for key, field in self.fields.items():
+11 |             try:
+12 |                 value = obj[key] if is_mapping else getattr(obj, key)
+13 |             except (KeyError, AttributeError):
+14 |                 continue
+15 |             ret[key] = field.serialize(value)
+16 |         return ret
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test for method serialize of class Schema
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test for method serialize of class Schema
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 |     def serialize(
+ 2 |         self, obj: typing.Any
+ 3 |     ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+ 4 |         if obj is None:
+ 5 |             return None
+ 6 | 
+ 7 |         is_mapping = isinstance(obj, dict)
+ 8 | 
+ 9 |         ret = {}
+10 |         for key, field in self.fields.items():
+11 |             try:
+12 |                 value = obj[key] if is_mapping else getattr(obj, key)
+13 |             except (KeyError, AttributeError):
+14 |                 continue
+15 |             ret[key] = field.serialize(value)
+16 |         return ret
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 |     def serialize(
+ 2 |         self, obj: typing.Any
+ 3 |     ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+ 4 |         if obj is None:
+ 5 |             return None
+ 6 | 
+ 7 |         is_mapping = isinstance(obj, dict)
+ 8 | 
+ 9 |         ret = {}
+10 |         for key, field in self.fields.items():
+11 |             try:
+12 |                 value = obj[key] if is_mapping else getattr(obj, key)
+13 |             except (KeyError, AttributeError):
+14 |                 continue
+15 |             ret[key] = field.serialize(value)
+16 |         return ret
+```
+
+
+####################################################################
+#    TEST GENERATION BEGINS (DEEPMOSA + claude-haiku-4-5 t=0.8)    #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test for method validate of class Schema
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test for method validate of class Schema
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+class Reference(Field):
+    errors = {"null": "May not be null."}
+
+    def __init__(
+        self,
+        to: str,
+        definitions: Definitions,
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.to = to
+        self.definitions = definitions
+
+    @property
+    def target(self) -> typing.Any:
+        return self.definitions[self.to]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+
+        return self.target.validate(value)
+
+    def serialize(self, obj: typing.Any) -> typing.Any:
+        if obj is None:
+            return None
+        return dict(obj)
+
+```
+Write unit test for method validate of class Reference
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test for method serialize of class Schema
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 |     def serialize(
+ 2 |         self, obj: typing.Any
+ 3 |     ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+ 4 |         if obj is None:
+ 5 |             return None
+ 6 | 
+ 7 |         is_mapping = isinstance(obj, dict)
+ 8 | 
+ 9 |         ret = {}
+10 |         for key, field in self.fields.items():
+11 |             try:
+12 |                 value = obj[key] if is_mapping else getattr(obj, key)
+13 |             except (KeyError, AttributeError):
+14 |                 continue
+15 |             ret[key] = field.serialize(value)
+16 |         return ret
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+class Schema(Field):
+    errors = {
+        "type": "Must be an object.",
+        "null": "May not be null.",
+        "invalid_key": "All object keys must be strings.",
+        "required": "This field is required.",
+    }
+
+    def __init__(
+        self,
+        fields: typing.Dict[str, Field],
+        **kwargs: typing.Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.fields = fields
+        self.required = [
+            key
+            for key, field in fields.items()
+            if not (field.read_only or field.has_default())
+        ]
+
+    def validate(self, value: typing.Any) -> typing.Any:
+        if value is None and self.allow_null:
+            return None
+        elif value is None:
+            raise self.validation_error("null")
+        elif not isinstance(value, (dict, typing.Mapping)):
+            raise self.validation_error("type")
+
+        validated = {}
+        error_messages = []
+
+        # Ensure all property keys are strings.
+        for key in value.keys():
+            if not isinstance(key, str):
+                text = self.get_error_text("invalid_key")
+                message = Message(text=text, code="invalid_key", index=[key])
+                error_messages.append(message)
+
+        # Required properties
+        for key in self.required:
+            if key not in value:
+                text = self.get_error_text("required")
+                message = Message(text=text, code="required", index=[key])
+                error_messages.append(message)
+
+        # Properties
+        for key, child_schema in self.fields.items():
+            if child_schema.read_only:
+                continue
+
+            if key not in value:
+                if child_schema.has_default():
+                    validated[key] = child_schema.get_default_value()
+                continue
+            item = value[key]
+            child_value, error = child_schema.validate_or_error(item)
+            if not error:
+                validated[key] = child_value
+            else:
+                error_messages += error.messages(add_prefix=key)
+
+        if error_messages:
+            raise ValidationError(messages=error_messages)
+
+        return validated
+
+    def serialize(
+        self, obj: typing.Any
+    ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+        if obj is None:
+            return None
+
+        is_mapping = isinstance(obj, dict)
+
+        ret = {}
+        for key, field in self.fields.items():
+            try:
+                value = obj[key] if is_mapping else getattr(obj, key)
+            except (KeyError, AttributeError):
+                continue
+            ret[key] = field.serialize(value)
+        return ret
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 |     def serialize(
+ 2 |         self, obj: typing.Any
+ 3 |     ) -> typing.Optional[typing.Dict[str, typing.Any]]:
+ 4 |         if obj is None:
+ 5 |             return None
+ 6 | 
+ 7 |         is_mapping = isinstance(obj, dict)
+ 8 | 
+ 9 |         ret = {}
+10 |         for key, field in self.fields.items():
+11 |             try:
+12 |                 value = obj[key] if is_mapping else getattr(obj, key)
+13 |             except (KeyError, AttributeError):
+14 |                 continue
+15 |             ret[key] = field.serialize(value)
+16 |         return ret
+```
+
+

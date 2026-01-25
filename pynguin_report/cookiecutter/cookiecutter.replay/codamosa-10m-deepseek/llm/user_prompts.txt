@@ -1,0 +1,4730 @@
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function get_file_name
+def test_get_file_name():
+
+
+# Prompt used at query #2
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function get_file_name
+def test_get_file_name():
+
+
+# Prompt used at query #3
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function get_file_name
+def test_get_file_name():
+
+
+# Prompt used at query #4
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function get_file_name
+def test_get_file_name():
+
+
+# Prompt used at query #5
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function get_file_name
+def test_get_file_name():
+
+
+# Prompt used at query #6
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #7
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #8
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #9
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #10
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #11
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #12
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #13
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #14
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #15
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #16
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #17
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #18
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #19
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #20
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #21
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #22
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #23
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #24
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #25
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #26
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #27
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #28
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #29
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #30
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #31
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #32
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #33
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #34
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #35
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #36
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #37
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #38
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #39
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #40
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #41
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #42
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #43
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #44
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #45
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #2
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #3
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #4
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #5
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #6
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #7
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #8
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #9
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #10
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #11
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #12
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #13
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #14
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #15
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #16
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #17
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #18
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #19
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #20
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #21
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #22
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #23
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #24
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #25
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #26
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #27
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #28
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #29
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #30
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #31
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #32
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #33
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+
+# Prompt used at query #34
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function load
+def test_load():
+
+
+# Prompt used at query #35
+#--------------------------
+
+"""
+cookiecutter.replay.
+
+-------------------
+"""
+
+from __future__ import annotations
+
+import json
+import os
+from typing import TYPE_CHECKING, Any
+
+from cookiecutter.utils import make_sure_path_exists
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+
+def get_file_name(replay_dir: Path | str, template_name: str) -> str:
+    """Get the name of file."""
+    suffix = '.json' if not template_name.endswith('.json') else ''
+    file_name = f'{template_name}{suffix}'
+    return os.path.join(replay_dir, file_name)
+
+
+def dump(replay_dir: Path | str, template_name: str, context: dict[str, Any]) -> None:
+    """Write json data to file."""
+    make_sure_path_exists(replay_dir)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, 'w', encoding="utf-8") as outfile:
+        json.dump(context, outfile, indent=2)
+
+
+def load(replay_dir: Path | str, template_name: str) -> dict[str, Any]:
+    """Read json data from file."""
+    replay_file = get_file_name(replay_dir, template_name)
+
+    with open(replay_file, encoding="utf-8") as infile:
+        context: dict[str, Any] = json.load(infile)
+
+    if 'cookiecutter' not in context:
+        msg = 'Context is required to contain a cookiecutter key'
+        raise ValueError(msg)
+
+    return context
+
+# Unit test for function dump
+def test_dump():
+
+

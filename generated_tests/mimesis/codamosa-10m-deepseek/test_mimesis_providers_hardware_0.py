@@ -1,8 +1,7 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import mimesis.providers.base as module_1
-import mimesis.providers.hardware as module_0
 import pytest
-
+import mimesis.providers.hardware as module_0
+import mimesis.providers.base as module_1
 
 @pytest.mark.xfail(strict=True)
 def test_case_0():
@@ -43,7 +42,6 @@ def test_case_1():
     assert module_0.SCREEN_SIZES == ['14″', '12.1″', '12″', '14.4″', '15″', '15.7″', '13.3″', '13″', '17″', '15.4″', '14.1″', '16″', '27″', '29″', '34″', '32″', '40″']
     var_1 = var_0.graphics()
     var_2 = var_0.ram_type()
-    assert var_2 == 'DDR5'
     var_3 = var_0.ssd_or_hdd()
     var_4 = var_0.ssd_or_hdd()
     var_5 = var_0.resolution()
@@ -80,7 +78,6 @@ def test_case_2():
     assert module_0.SCREEN_SIZES == ['14″', '12.1″', '12″', '14.4″', '15″', '15.7″', '13.3″', '13″', '17″', '15.4″', '14.1″', '16″', '27″', '29″', '34″', '32″', '40″']
     var_4 = var_3.screen_size()
     var_5 = var_3.manufacturer()
-    assert var_5 == 'Acer'
     var_2.validate_enum(var_0, var_1)
 
 def test_case_3():
@@ -152,6 +149,7 @@ def test_case_4():
     assert f'{type(var_4.random).__module__}.{type(var_4.random).__qualname__}' == 'mimesis.random.Random'
     assert f'{type(var_4.seed).__module__}.{type(var_4.seed).__qualname__}' == 'mimesis.types._MissingSeed'
     var_5 = var_4.graphics()
+    assert var_5 == 'Nvidia RTX 3070'
     var_4.validate_enum(var_2, var_2)
 
 @pytest.mark.xfail(strict=True)
@@ -178,6 +176,7 @@ def test_case_5():
     assert f'{type(var_3.random).__module__}.{type(var_3.random).__qualname__}' == 'mimesis.random.Random'
     assert f'{type(var_3.seed).__module__}.{type(var_3.seed).__qualname__}' == 'mimesis.types._MissingSeed'
     var_4 = var_3.cpu_codename()
+    assert var_4 == 'Bear Ridge'
     var_5 = module_1.BaseProvider()
     assert f'{type(var_5).__module__}.{type(var_5).__qualname__}' == 'mimesis.providers.base.BaseProvider'
     assert f'{type(var_5.random).__module__}.{type(var_5.random).__qualname__}' == 'mimesis.random.Random'

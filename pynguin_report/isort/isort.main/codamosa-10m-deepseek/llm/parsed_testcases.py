@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,189 +7,26 @@
 #--------------------------
 
 
-import builtins as module_1
-
 import isort.main as module_0
-
 
 def test_case_0():
     var_0 = module_0.identify_imports_main()
-    var_1 = 'file1.py'
-    var_2 = 'file2.py'
-    var_3 = [var_1, var_2]
-    var_4 = module_0.identify_imports_main(var_3)
-    var_5 = [var_1, var_2]
-    var_6 = '--top-only'
-    var_7 = [var_6, var_1]
-    var_8 = module_0.identify_imports_main(var_7)
-    var_9 = '--follow-links'
-    var_10 = [var_9, var_1]
-    var_11 = module_0.identify_imports_main(var_10)
-    var_12 = '--unique'
-    var_13 = [var_12, var_1]
-    var_14 = module_0.identify_imports_main(var_13)
-    var_15 = '--packages'
-    var_16 = [var_15, var_1]
-    var_17 = module_0.identify_imports_main(var_16)
-    var_18 = '--modules'
-    var_19 = [var_18, var_1]
-    var_20 = module_0.identify_imports_main(var_19)
-    var_21 = '--attributes'
-    var_22 = [var_21, var_1]
-    var_23 = module_0.identify_imports_main(var_22)
-    var_24 = [var_6, var_9, var_12, var_1]
-    var_25 = module_0.identify_imports_main(var_24)
-    var_26 = '--invalid-flag'
-    var_27 = [var_26, var_1]
-    var_28 = module_0.identify_imports_main(var_27)
-    var_29 = []
-    var_30 = module_0.identify_imports_main(var_29)
-    var_31 = ''
-    var_32 = [var_31]
-    var_33 = module_0.identify_imports_main(var_32)
-    var_34 = 'file@name.py'
-    var_35 = [var_34]
-    var_36 = module_0.identify_imports_main(var_35)
-    var_37 = 'file name.py'
-    var_38 = [var_37]
-    var_39 = module_0.identify_imports_main(var_38)
-    var_40 = 'file.txt'
-    var_41 = [var_40]
-    var_42 = module_0.identify_imports_main(var_41)
-    var_43 = 'file'
-    var_44 = [var_43]
-    var_45 = module_0.identify_imports_main(var_44)
-    var_46 = 'file.py.txt'
-    var_47 = [var_46]
-    var_48 = module_0.identify_imports_main(var_47)
-    var_49 = '  file.py  '
-    var_50 = [var_49]
-    var_51 = module_0.identify_imports_main(var_50)
-    var_52 = '/path/to/file.py'
-    var_53 = [var_52]
-    var_54 = module_0.identify_imports_main(var_53)
-    var_55 = './file.py'
-    var_56 = [var_55]
-    var_57 = module_0.identify_imports_main(var_56)
-    var_58 = '../file.py'
-    var_59 = [var_58]
-    var_60 = module_0.identify_imports_main(var_59)
-    var_61 = 'file*.py'
-    var_62 = [var_61]
-    var_63 = module_0.identify_imports_main(var_62)
-    var_64 = '$HOME/file.py'
-    var_65 = [var_64]
-    var_66 = module_0.identify_imports_main(var_65)
-    var_67 = '~/file.py'
-    var_68 = [var_67]
-    var_69 = module_0.identify_imports_main(var_68)
-    var_70 = 'C:\\path\\to\\file.py'
-    var_71 = [var_70]
-    var_72 = module_0.identify_imports_main(var_71)
-    var_73 = [var_52]
-    var_74 = module_0.identify_imports_main(var_73)
-    var_75 = 'C:/path/to/file.py'
-    var_76 = [var_75]
-    var_77 = module_0.identify_imports_main(var_76)
-    var_78 = 'file_αβγ.py'
-    var_79 = [var_78]
-    var_80 = module_0.identify_imports_main(var_79)
-    var_81 = 'file😀.py'
-    var_82 = [var_81]
-    var_83 = module_0.identify_imports_main(var_82)
-    var_84 = 'file\n.py'
-    var_85 = [var_84]
-    var_86 = module_0.identify_imports_main(var_85)
-    var_87 = 'file\t.py'
-    var_88 = [var_87]
-    var_89 = module_0.identify_imports_main(var_88)
-    var_90 = 'file\r.py'
-    var_91 = [var_90]
-    var_92 = module_0.identify_imports_main(var_91)
-    var_93 = 'file\x00.py'
-    var_94 = [var_93]
-    var_95 = module_0.identify_imports_main(var_94)
-    var_96 = 'file\x08.py'
-    var_97 = [var_96]
-    var_98 = module_0.identify_imports_main(var_97)
-    var_99 = 'file\x0c.py'
-    var_100 = [var_99]
-    var_101 = module_0.identify_imports_main(var_100)
-    var_102 = 'file\x0b.py'
-    var_103 = [var_102]
-    var_104 = module_0.identify_imports_main(var_103)
-    var_105 = 'file\\n.py'
-    var_106 = [var_105]
-    var_107 = module_0.identify_imports_main(var_106)
-    var_108 = 'file\\u03B1.py'
-    var_109 = [var_108]
-    var_110 = module_0.identify_imports_main(var_109)
-    var_111 = 'file\\x41.py'
-    var_112 = [var_111]
-    var_113 = module_0.identify_imports_main(var_112)
-    var_114 = 'file\\101.py'
-    var_115 = [var_114]
-    var_116 = module_0.identify_imports_main(var_115)
-    var_117 = [var_105]
-    var_118 = module_0.identify_imports_main(var_117)
-    var_119 = b'file.py'
-    var_120 = [var_119]
-    var_121 = module_0.identify_imports_main(var_120)
-    var_122 = 123
-    var_123 = [var_122]
-    var_124 = module_0.identify_imports_main(var_123)
-    var_125 = 3.14
-    var_126 = [var_125]
-    var_127 = module_0.identify_imports_main(var_126)
-    var_128 = True
-    var_129 = [var_128]
-    var_130 = module_0.identify_imports_main(var_129)
-    var_131 = None
-    var_132 = [var_131]
-    var_133 = module_0.identify_imports_main(var_132)
-    var_134 = [var_1, var_2]
-    var_135 = [var_134]
-    var_136 = module_0.identify_imports_main(var_135)
-    var_137 = (var_1, var_2)
-    var_138 = [var_137]
-    var_139 = module_0.identify_imports_main(var_138)
-    var_140 = 'file.py'
-    var_141 = {var_43: var_140}
-    var_142 = [var_141]
-    var_143 = module_0.identify_imports_main(var_142)
-    var_144 = {var_140}
-    var_145 = [var_144]
-    var_146 = module_0.identify_imports_main(var_145)
-    var_147 = [var_140]
-    var_148 = frozenset(var_147)
-    var_149 = [var_148]
-    var_150 = module_0.identify_imports_main(var_149)
-    var_151 = 5
-    var_152 = range(var_151)
-    var_153 = [var_152]
-    var_154 = module_0.identify_imports_main(var_153)
-    var_155 = 2
-    var_156 = complex(var_128, var_155)
-    var_157 = [var_156]
-    var_158 = module_0.identify_imports_main(var_157)
-    var_159 = [var_119]
-    var_160 = module_0.identify_imports_main(var_159)
-    var_161 = bytearray(var_119)
-    var_162 = [var_161]
-    var_163 = module_0.identify_imports_main(var_162)
-    var_164 = memoryview(var_119)
-    var_165 = [var_164]
-    var_166 = module_0.identify_imports_main(var_165)
-    var_167 = 0
-    var_168 = 10
-    var_169 = module_0.identify_imports_main(var_165)
-    var_170 = module_0.identify_imports_main(var_165)
-    var_171 = module_0.identify_imports_main(var_165)
-    var_172 = module_1.object()
-    var_173 = [var_172]
-    var_174 = module_0.identify_imports_main(var_173)
-    var_175 = lambda x: x
-    var_176 = [var_175]
+    var_1 = module_0.identify_imports_main()
+    var_2 = 'test_file.py'
+    var_3 = [var_2]
+    var_4 = False
+    var_5 = 'os.path'
+    var_6 = 'join'
+    var_7 = module_0.identify_imports_main()
+    var_8 = 'os'
+    var_9 = 'os.path'
+    var_10 = 'join'
+    var_11 = module_0.identify_imports_main()
+    var_12 = 'os.path'
+    var_13 = 'os.path'
+    var_14 = 'join'
+    var_15 = module_0.identify_imports_main()
+    var_16 = 'os.path.join'
 
 
 
@@ -197,56 +34,8 @@ def test_case_0():
 #--------------------------
 
 
-
 def test_case_0():
-    var_0 = []
-    var_1 = module_0.identify_imports_main(var_0)
-    var_2 = 'os'
-    var_3 = 'path'
-    var_4 = 'test.py'
-    var_5 = [var_4]
-    var_6 = module_0.identify_imports_main(var_5)
-    var_7 = 'sys'
-    var_8 = 'stdin'
-    var_9 = '-'
-    var_10 = [var_9]
-    var_11 = module_0.identify_imports_main(var_10)
-    var_12 = 'test.py'
-    var_13 = '--unique'
-    var_14 = [var_12, var_13]
-    var_15 = module_0.identify_imports_main(var_14)
-    var_16 = 'os.path'
-    var_17 = 'join'
-    var_18 = 'test.py'
-    var_19 = '--packages'
-    var_20 = [var_18, var_19]
-    var_21 = module_0.identify_imports_main(var_20)
-    var_22 = 'split'
-    var_23 = 'test.py'
-    var_24 = '--modules'
-    var_25 = [var_23, var_24]
-    var_26 = module_0.identify_imports_main(var_25)
-    var_27 = 'test.py'
-    var_28 = '--attributes'
-    var_29 = [var_27, var_28]
-    var_30 = module_0.identify_imports_main(var_29)
-    var_31 = 'test.py'
-    var_32 = '--top-only'
-    var_33 = [var_31, var_32]
-    var_34 = module_0.identify_imports_main(var_33)
-    var_35 = 'test.py'
-    var_36 = '--follow-links'
-    var_37 = [var_35, var_36]
-    var_38 = module_0.identify_imports_main(var_37)
-    var_39 = 'test1.py'
-    var_40 = 'test2.py'
-    var_41 = [var_39, var_40]
-    var_42 = module_0.identify_imports_main(var_41)
-    var_43 = '--invalid-arg'
-    var_44 = [var_43]
-    var_45 = module_0.identify_imports_main(var_44)
-    var_46 = 'All tests passed!'
-    var_47 = print(var_46)
+    pass
 
 
 
@@ -254,11 +43,51 @@ def test_case_0():
 #--------------------------
 
 
+import isort.settings as module_0
+import isort.main as module_1
+
+def test_case_0():
+    var_0 = module_0.Config()
+    var_1 = 'test_file.py'
+    var_2 = True
+    var_3 = module_1.sort_imports(var_1, var_0, var_2)
+    var_4 = module_1.sort_imports(var_1, var_0)
+    var_5 = module_1.sort_imports(var_1, var_0, write_to_stdout=var_2)
+    var_6 = module_1.sort_imports(var_1, var_0, ask_to_apply=var_2)
+    var_7 = 'All sort_imports tests passed!'
+    var_8 = print(var_7)
+
 
 
 # Parsed testcases at query #4
 #--------------------------
 
+
+import isort.settings as module_0
+import isort.main as module_1
+
+def test_case_0():
+    var_0 = module_0.Config()
+    var_1 = 'correctly_sorted.py'
+    var_2 = True
+    var_3 = module_1.sort_imports(var_1, var_0, var_2)
+    var_4 = 'incorrectly_sorted.py'
+    var_5 = module_1.sort_imports(var_4, var_0, var_2)
+    var_6 = 'skipped.py'
+    var_7 = module_1.sort_imports(var_6, var_0, var_2)
+    var_8 = 'unsupported_encoding.py'
+    var_9 = module_1.sort_imports(var_8, var_0, var_2)
+    var_10 = module_1.sort_imports(var_1, var_0)
+    var_11 = module_1.sort_imports(var_4, var_0)
+    var_12 = module_1.sort_imports(var_6, var_0)
+    var_13 = module_1.sort_imports(var_8, var_0)
+    var_14 = 'invalid_file.py'
+    var_15 = module_1.sort_imports(var_14, var_0)
+    assert var_15 is None
+    var_16 = 'isort_error.py'
+    var_17 = module_1.sort_imports(var_16, var_0)
+    var_18 = 'All test cases passed!'
+    var_19 = print(var_18)
 
 
 
@@ -266,60 +95,50 @@ def test_case_0():
 #--------------------------
 
 
-import _io as module_0
-import re as module_2
-
-import isort.main as module_1
-
+import isort.main as module_0
 
 def test_case_0():
-    var_0 = 'import os\nimport sys\nfrom collections import defaultdict\n'
-    var_1 = module_0.StringIO()
-    var_2 = module_1.identify_imports_main(var_0)
-    var_3 = '\n'
-    var_4 = module_2.split(var_3)
-    var_5 = 'os'
-    var_6 = 'sys'
-    var_7 = 'collections.defaultdict'
-    var_8 = [var_5, var_6, var_7]
-    var_9 = set(var_4)
-    var_10 = set(var_8)
-    var_11 = 'import math\nimport json\n'
-    var_12 = module_0.StringIO()
-    var_13 = '-'
-    var_14 = [var_13]
-    var_15 = '\n'
-    var_16 = module_2.split(var_15)
-    var_17 = 'math'
-    var_18 = 'json'
-    var_19 = [var_17, var_18]
-    var_20 = set(var_16)
-    var_21 = set(var_19)
-    var_22 = 'import os\nimport sys\nimport os\nimport sys\n'
-    var_23 = module_0.StringIO()
-    var_24 = '--unique'
-    var_25 = module_1.identify_imports_main(var_14)
-    var_26 = '\n'
-    var_27 = module_2.split(var_26)
-    var_28 = 'os'
-    var_29 = 'sys'
-    var_30 = [var_28, var_29]
-    var_31 = set(var_27)
-    var_32 = set(var_30)
-    var_33 = len(var_27)
-    assert var_33 == 2
-    var_34 = 'import os.path\nimport os\nfrom os import makedirs\n'
-    var_35 = module_0.StringIO()
-    var_36 = '--packages'
-    var_37 = module_1.identify_imports_main(var_14)
-    var_38 = '\n'
-    var_39 = module_2.split(var_38)
-    var_40 = 'os'
-    var_41 = [var_40]
-    var_42 = set(var_39)
-    var_43 = set(var_41)
-    var_44 = 'All tests passed!'
-    var_45 = print(var_44)
+    var_0 = '-'
+    var_1 = [var_0]
+    var_2 = module_0.identify_imports_main(var_1)
+    var_3 = 'import os'
+    var_4 = 'import sys'
+    var_5 = 'test.py'
+    var_6 = [var_5]
+    var_7 = module_0.identify_imports_main(var_6)
+    var_8 = 'import os'
+    var_9 = 'import sys'
+    var_10 = 'test.py'
+    var_11 = '--unique'
+    var_12 = [var_10, var_11]
+    var_13 = module_0.identify_imports_main(var_12)
+    var_14 = 'import os.path'
+    var_15 = 'import sys'
+    var_16 = 'test.py'
+    var_17 = '--packages'
+    var_18 = [var_16, var_17]
+    var_19 = module_0.identify_imports_main(var_18)
+    var_20 = 'import os.path'
+    var_21 = 'import sys'
+    var_22 = 'test.py'
+    var_23 = '--modules'
+    var_24 = [var_22, var_23]
+    var_25 = module_0.identify_imports_main(var_24)
+    var_26 = 'from os import path'
+    var_27 = 'test.py'
+    var_28 = '--attributes'
+    var_29 = [var_27, var_28]
+    var_30 = module_0.identify_imports_main(var_29)
+    var_31 = 'import os'
+    var_32 = 'test.py'
+    var_33 = '--top-only'
+    var_34 = [var_32, var_33]
+    var_35 = module_0.identify_imports_main(var_34)
+    var_36 = 'import os'
+    var_37 = 'test.py'
+    var_38 = '--follow-links'
+    var_39 = [var_37, var_38]
+    var_40 = module_0.identify_imports_main(var_39)
 
 
 
@@ -327,38 +146,257 @@ def test_case_0():
 #--------------------------
 
 
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = '--line-length'
+    var_1 = '120'
+    var_2 = [var_0, var_1]
+    var_3 = module_0.parse_args(var_2)
+    var_4 = '--force-grid-wrap'
+    var_5 = '3'
+    var_6 = [var_4, var_5]
+    var_7 = module_0.parse_args(var_6)
+    var_8 = '--indent'
+    var_9 = '  '
+    var_10 = [var_8, var_9]
+    var_11 = module_0.parse_args(var_10)
+    var_12 = '--lbi'
+    var_13 = '2'
+    var_14 = [var_12, var_13]
+    var_15 = module_0.parse_args(var_14)
+    var_16 = '--lai'
+    var_17 = [var_16, var_13]
+    var_18 = module_0.parse_args(var_17)
+    var_19 = '--lbt'
+    var_20 = [var_19, var_13]
+    var_21 = module_0.parse_args(var_20)
+    var_22 = '--le'
+    var_23 = 'LF'
+    var_24 = [var_22, var_23]
+    var_25 = module_0.parse_args(var_24)
+    var_26 = '--ls'
+    var_27 = [var_26]
+    var_28 = module_0.parse_args(var_27)
+    var_29 = '--lss'
+    var_30 = [var_29]
+    var_31 = module_0.parse_args(var_30)
+    var_32 = '-m'
+    var_33 = '1'
+    var_34 = [var_32, var_33]
+    var_35 = module_0.parse_args(var_34)
+    var_36 = '-n'
+    var_37 = [var_36]
+    var_38 = module_0.parse_args(var_37)
+    var_39 = '--nis'
+    var_40 = [var_39]
+    var_41 = module_0.parse_args(var_40)
+    var_42 = '--ot'
+    var_43 = [var_42]
+    var_44 = module_0.parse_args(var_43)
+    var_45 = '--dt'
+    var_46 = [var_45]
+    var_47 = module_0.parse_args(var_46)
+    var_48 = '--rr'
+    var_49 = [var_48]
+    var_50 = module_0.parse_args(var_49)
+    var_51 = '--reverse-sort'
+    var_52 = [var_51]
+    var_53 = module_0.parse_args(var_52)
+    var_54 = '--sort-order'
+    var_55 = 'natural'
+    var_56 = [var_54, var_55]
+    var_57 = module_0.parse_args(var_56)
+    var_58 = '--sl'
+    var_59 = [var_58]
+    var_60 = module_0.parse_args(var_59)
+    var_61 = '--nsl'
+    var_62 = 'os'
+    var_63 = [var_61, var_62]
+    var_64 = module_0.parse_args(var_63)
+    var_65 = '--tc'
+    var_66 = [var_65]
+    var_67 = module_0.parse_args(var_66)
+    var_68 = '--up'
+    var_69 = [var_68]
+    var_70 = module_0.parse_args(var_69)
+    var_71 = '-l'
+    var_72 = [var_71, var_1]
+    var_73 = module_0.parse_args(var_72)
+    var_74 = '--wl'
+    var_75 = '100'
+    var_76 = [var_74, var_75]
+    var_77 = module_0.parse_args(var_76)
+    var_78 = '--case-sensitive'
+    var_79 = [var_78]
+    var_80 = module_0.parse_args(var_79)
+    var_81 = '--remove-redundant-aliases'
+    var_82 = [var_81]
+    var_83 = module_0.parse_args(var_82)
+    var_84 = '--honor-noqa'
+    var_85 = [var_84]
+    var_86 = module_0.parse_args(var_85)
+    var_87 = '--treat-comment-as-code'
+    var_88 = '# noqa'
+    var_89 = [var_87, var_88]
+    var_90 = module_0.parse_args(var_89)
+    var_91 = '--treat-all-comment-as-code'
+    var_92 = [var_91]
+    var_93 = module_0.parse_args(var_92)
+    var_94 = '--formatter'
+    var_95 = 'black'
+    var_96 = [var_94, var_95]
+    var_97 = module_0.parse_args(var_96)
+    var_98 = '--color'
+    var_99 = [var_98]
+    var_100 = module_0.parse_args(var_99)
+    var_101 = '--ext-format'
+    var_102 = 'py'
+    var_103 = [var_101, var_102]
+    var_104 = module_0.parse_args(var_103)
+    var_105 = '--star-first'
+    var_106 = [var_105]
+    var_107 = module_0.parse_args(var_106)
+    var_108 = '--split-on-trailing-comma'
+    var_109 = [var_108]
+    var_110 = module_0.parse_args(var_109)
+    var_111 = '--sd'
+    var_112 = 'STDLIB'
+    var_113 = [var_111, var_112]
+    var_114 = module_0.parse_args(var_113)
+    var_115 = '--only-sections'
+    var_116 = [var_115]
+    var_117 = module_0.parse_args(var_116)
+    var_118 = '--ds'
+    var_119 = [var_118]
+    var_120 = module_0.parse_args(var_119)
+    var_121 = '--fas'
+    var_122 = [var_121]
+    var_123 = module_0.parse_args(var_122)
+    var_124 = '--fss'
+    var_125 = [var_124]
+    var_126 = module_0.parse_args(var_125)
+    var_127 = '--hcss'
+    var_128 = [var_127]
+    var_129 = module_0.parse_args(var_128)
+    var_130 = '--srss'
+    var_131 = [var_130]
+    var_132 = module_0.parse_args(var_131)
+    var_133 = '--fass'
+    var_134 = [var_133]
+    var_135 = module_0.parse_args(var_134)
+    var_136 = '-t'
+    var_137 = [var_136, var_62]
+    var_138 = module_0.parse_args(var_137)
+    var_139 = '--csi'
+    var_140 = [var_139]
+    var_141 = module_0.parse_args(var_140)
+    var_142 = '--nlb'
+    var_143 = 'THIRDPARTY'
+    var_144 = [var_142, var_143]
+    var_145 = module_0.parse_args(var_144)
+    var_146 = '--src'
+    var_147 = 'src'
+    var_148 = [var_146, var_147]
+    var_149 = module_0.parse_args(var_148)
+    var_150 = '-b'
+    var_151 = [var_150, var_62]
+    var_152 = module_0.parse_args(var_151)
+    var_153 = '--extra-builtin'
+    var_154 = [var_153, var_62]
+    var_155 = module_0.parse_args(var_154)
+    var_156 = '-f'
+    var_157 = 'future'
+    var_158 = [var_156, var_157]
+    var_159 = module_0.parse_args(var_158)
+    var_160 = '-o'
+    var_161 = 'requests'
+    var_162 = [var_160, var_161]
+    var_163 = module_0.parse_args(var_162)
+    var_164 = '-p'
+    var_165 = 'project'
+    var_166 = [var_164, var_165]
+    var_167 = module_0.parse_args(var_166)
+    var_168 = '--known-local-folder'
+    var_169 = 'local'
+    var_170 = [var_168, var_169]
+    var_171 = module_0.parse_args(var_170)
+    var_172 = '--virtual-env'
+    var_173 = 'venv'
+    var_174 = [var_172, var_173]
+    var_175 = module_0.parse_args(var_174)
+    var_176 = '--conda-env'
+    var_177 = 'conda'
+    var_178 = [var_176, var_177]
+    var_179 = module_0.parse_args(var_178)
+    var_180 = '--py'
+    var_181 = '3.8'
+    var_182 = [var_180, var_181]
+    var_183 = module_0.parse_args(var_182)
+    var_184 = '--recursive'
+    var_185 = [var_184]
+    var_186 = module_0.parse_args(var_185)
+    var_187 = '-rc'
+    var_188 = [var_187]
+    var_189 = module_0.parse_args(var_188)
+    var_190 = '--dont-skip'
+    var_191 = [var_190]
+    var_192 = module_0.parse_args(var_191)
+    var_193 = '-ns'
+    var_194 = [var_193]
+    var_195 = module_0.parse_args(var_194)
+    var_196 = '--apply'
+    var_197 = [var_196]
+    var_198 = module_0.parse_args(var_197)
+    var_199 = '-k'
+    var_200 = [var_199]
+    var_201 = module_0.parse_args(var_200)
+    var_202 = '--keep-direct-and-as'
+    var_203 = [var_202]
+    var_204 = module_0.parse_args(var_203)
+
 
 
 # Parsed testcases at query #7
 #--------------------------
 
 
+import isort.main as module_0
 
 def test_case_0():
-    var_0 = 'import os\nimport sys\nfrom collections import defaultdict\n'
-    var_1 = module_0.StringIO()
-    var_2 = module_1.identify_imports_main(var_0)
-    var_3 = '\n'
-    var_4 = module_2.split(var_3)
-    var_5 = 'import json\nimport math\n'
-    var_6 = module_0.StringIO()
-    var_7 = '-'
-    var_8 = [var_7]
-    var_9 = '\n'
-    var_10 = module_2.split(var_9)
-    var_11 = 'import os\nimport sys\nimport os\n'
-    var_12 = var_6.name
-    var_13 = module_0.StringIO()
-    var_14 = '--unique'
-    var_15 = [var_12, var_14]
-    var_16 = module_1.identify_imports_main(var_15)
-    var_17 = '\n'
-    var_18 = module_2.split(var_17)
-    var_19 = len(var_18)
-    assert var_19 == 2
-    var_20 = 'import os'
-    var_21 = 'All tests passed!'
-    var_22 = print(var_21)
+    var_0 = []
+    var_1 = module_0.parse_args(var_0)
+    var_2 = '--check-only'
+    var_3 = [var_2]
+    var_4 = module_0.parse_args(var_3)
+    var_5 = '--line-length'
+    var_6 = '80'
+    var_7 = [var_2, var_5, var_6]
+    var_8 = module_0.parse_args(var_7)
+    var_9 = '--recursive'
+    var_10 = [var_9]
+    var_11 = module_0.parse_args(var_10)
+    var_12 = '-rc'
+    var_13 = [var_12]
+    var_14 = module_0.parse_args(var_13)
+    var_15 = '--dont-order-by-type'
+    var_16 = [var_15]
+    var_17 = module_0.parse_args(var_16)
+    var_18 = '--dont-follow-links'
+    var_19 = [var_18]
+    var_20 = module_0.parse_args(var_19)
+    var_21 = '--dont-float-to-top'
+    var_22 = [var_21]
+    var_23 = module_0.parse_args(var_22)
+    var_24 = '--multi-line'
+    var_25 = '5'
+    var_26 = [var_24, var_25]
+    var_27 = module_0.parse_args(var_26)
+    var_28 = 'multi_line_output'
+    var_29 = 5
+    var_30 = 'VERTICAL_HANGING_INDENT'
+    var_31 = [var_24, var_30]
+    var_32 = module_0.parse_args(var_31)
 
 
 
@@ -368,179 +406,226 @@ def test_case_0():
 
 import isort.main as module_0
 
-
 def test_case_0():
-    var_0 = []
-    var_1 = module_0.parse_args(var_0)
-    var_2 = '--check-only'
-    var_3 = [var_2]
-    var_4 = module_0.parse_args(var_3)
-    var_5 = '--diff'
-    var_6 = [var_2, var_5]
+    var_0 = '--line-length'
+    var_1 = '79'
+    var_2 = [var_0, var_1]
+    var_3 = module_0.parse_args(var_2)
+    var_4 = '-l'
+    var_5 = '80'
+    var_6 = [var_4, var_5]
     var_7 = module_0.parse_args(var_6)
-    var_8 = '--line-length'
-    var_9 = '100'
+    var_8 = '--multi-line'
+    var_9 = '1'
     var_10 = [var_8, var_9]
     var_11 = module_0.parse_args(var_10)
-    var_12 = '--recursive'
-    var_13 = [var_12]
+    var_12 = 'VERTICAL'
+    var_13 = [var_8, var_12]
     var_14 = module_0.parse_args(var_13)
-    var_15 = '-rc'
+    var_15 = '--order-by-type'
     var_16 = [var_15]
     var_17 = module_0.parse_args(var_16)
-    var_18 = '--known-thirdparty'
-    var_19 = 'module1'
-    var_20 = 'module2'
-    var_21 = [var_18, var_19, var_20]
-    var_22 = module_0.parse_args(var_21)
-    var_23 = '--py'
-    var_24 = 'auto'
-    var_25 = [var_23, var_24]
+    var_18 = '--dont-order-by-type'
+    var_19 = [var_18]
+    var_20 = module_0.parse_args(var_19)
+    var_21 = '--float-to-top'
+    var_22 = [var_21]
+    var_23 = module_0.parse_args(var_22)
+    var_24 = '--dont-float-to-top'
+    var_25 = [var_24]
     var_26 = module_0.parse_args(var_25)
-    var_27 = '--py'
-    var_28 = 'invalid'
-    var_29 = [var_27, var_28]
-    var_30 = module_0.parse_args(var_29)
-    var_31 = '--float-to-top'
-    var_32 = '--dont-float-to-top'
-    var_33 = [var_31, var_32]
-    var_34 = module_0.parse_args(var_33)
-    var_35 = '--section-default'
-    var_36 = 'STDLIB'
-    var_37 = [var_35, var_36]
-    var_38 = module_0.parse_args(var_37)
-    var_39 = '--multi-line'
-    var_40 = '5'
-    var_41 = [var_39, var_40]
-    var_42 = module_0.parse_args(var_41)
-    var_43 = 'VERTICAL_GRID_GROUPED'
-    var_44 = [var_39, var_43]
-    var_45 = module_0.parse_args(var_44)
-    var_46 = '--multi-line'
-    var_47 = 'invalid'
-    var_48 = [var_46, var_47]
+    var_27 = '--dont-follow-links'
+    var_28 = [var_27]
+    var_29 = module_0.parse_args(var_28)
+    var_30 = '--follow-links'
+    var_31 = [var_30]
+    var_32 = module_0.parse_args(var_31)
+    var_33 = '--force-grid-wrap'
+    var_34 = '2'
+    var_35 = [var_33, var_34]
+    var_36 = module_0.parse_args(var_35)
+    var_37 = '--indent'
+    var_38 = '    '
+    var_39 = [var_37, var_38]
+    var_40 = module_0.parse_args(var_39)
+    var_41 = '--lbi'
+    var_42 = [var_41, var_9]
+    var_43 = module_0.parse_args(var_42)
+    var_44 = '--lai'
+    var_45 = [var_44, var_9]
+    var_46 = module_0.parse_args(var_45)
+    var_47 = '--lbt'
+    var_48 = [var_47, var_9]
     var_49 = module_0.parse_args(var_48)
-    var_50 = '--sort-order'
-    var_51 = 'natural'
+    var_50 = '--le'
+    var_51 = 'unix'
     var_52 = [var_50, var_51]
     var_53 = module_0.parse_args(var_52)
-    var_54 = '--formatter'
-    var_55 = 'custom'
-    var_56 = [var_54, var_55]
-    var_57 = module_0.parse_args(var_56)
-    var_58 = '--line-ending'
-    var_59 = 'lf'
-    var_60 = [var_58, var_59]
-    var_61 = module_0.parse_args(var_60)
-    var_62 = '--indent'
-    var_63 = '  '
-    var_64 = [var_62, var_63]
+    var_54 = '--ls'
+    var_55 = [var_54]
+    var_56 = module_0.parse_args(var_55)
+    var_57 = '--lss'
+    var_58 = [var_57]
+    var_59 = module_0.parse_args(var_58)
+    var_60 = '--nis'
+    var_61 = [var_60]
+    var_62 = module_0.parse_args(var_61)
+    var_63 = '--ot'
+    var_64 = [var_63]
     var_65 = module_0.parse_args(var_64)
-    var_66 = '--lines-before-imports'
-    var_67 = '2'
-    var_68 = [var_66, var_67]
-    var_69 = module_0.parse_args(var_68)
-    var_70 = '--lines-after-imports'
-    var_71 = [var_70, var_67]
-    var_72 = module_0.parse_args(var_71)
-    var_73 = '--lines-between-types'
-    var_74 = [var_73, var_67]
+    var_66 = '--rr'
+    var_67 = [var_66]
+    var_68 = module_0.parse_args(var_67)
+    var_69 = '--reverse-sort'
+    var_70 = [var_69]
+    var_71 = module_0.parse_args(var_70)
+    var_72 = '--sort-order'
+    var_73 = 'natural'
+    var_74 = [var_72, var_73]
     var_75 = module_0.parse_args(var_74)
-    var_76 = '--force-grid-wrap'
-    var_77 = [var_76, var_67]
+    var_76 = '--sl'
+    var_77 = [var_76]
     var_78 = module_0.parse_args(var_77)
-    var_79 = '--force-sort-within-sections'
-    var_80 = [var_79]
-    var_81 = module_0.parse_args(var_80)
-    var_82 = '--force-alphabetical-sort'
-    var_83 = [var_82]
-    var_84 = module_0.parse_args(var_83)
-    var_85 = '--force-alphabetical-sort-within-sections'
-    var_86 = [var_85]
-    var_87 = module_0.parse_args(var_86)
-    var_88 = '--honor-case-in-force-sorted-sections'
-    var_89 = [var_88]
-    var_90 = module_0.parse_args(var_89)
-    var_91 = '--sort-relative-in-force-sorted-sections'
-    var_92 = [var_91]
-    var_93 = module_0.parse_args(var_92)
-    var_94 = '--combine-straight-imports'
-    var_95 = [var_94]
-    var_96 = module_0.parse_args(var_95)
-    var_97 = '--no-lines-before'
-    var_98 = [var_97, var_36]
-    var_99 = module_0.parse_args(var_98)
-    var_100 = '--src-path'
-    var_101 = '/path/to/src'
-    var_102 = [var_100, var_101]
-    var_103 = module_0.parse_args(var_102)
-    var_104 = '--builtin'
-    var_105 = 'module'
-    var_106 = [var_104, var_105]
+    var_79 = '--nsl'
+    var_80 = 'os'
+    var_81 = [var_79, var_80]
+    var_82 = module_0.parse_args(var_81)
+    var_83 = '--tc'
+    var_84 = [var_83]
+    var_85 = module_0.parse_args(var_84)
+    var_86 = '--up'
+    var_87 = [var_86]
+    var_88 = module_0.parse_args(var_87)
+    var_89 = '--wl'
+    var_90 = [var_89, var_1]
+    var_91 = module_0.parse_args(var_90)
+    var_92 = '--case-sensitive'
+    var_93 = [var_92]
+    var_94 = module_0.parse_args(var_93)
+    var_95 = '--remove-redundant-aliases'
+    var_96 = [var_95]
+    var_97 = module_0.parse_args(var_96)
+    var_98 = '--honor-noqa'
+    var_99 = [var_98]
+    var_100 = module_0.parse_args(var_99)
+    var_101 = '--treat-comment-as-code'
+    var_102 = '# noqa'
+    var_103 = [var_101, var_102]
+    var_104 = module_0.parse_args(var_103)
+    var_105 = '--treat-all-comment-as-code'
+    var_106 = [var_105]
     var_107 = module_0.parse_args(var_106)
-    var_108 = '--extra-builtin'
-    var_109 = [var_108, var_105]
-    var_110 = module_0.parse_args(var_109)
-    var_111 = '--future'
-    var_112 = [var_111, var_105]
-    var_113 = module_0.parse_args(var_112)
-    var_114 = '--thirdparty'
-    var_115 = [var_114, var_105]
-    var_116 = module_0.parse_args(var_115)
-    var_117 = '--project'
-    var_118 = [var_117, var_105]
-    var_119 = module_0.parse_args(var_118)
-    var_120 = '--known-local-folder'
-    var_121 = [var_120, var_105]
-    var_122 = module_0.parse_args(var_121)
-    var_123 = '--virtual-env'
-    var_124 = '/path/to/venv'
-    var_125 = [var_123, var_124]
-    var_126 = module_0.parse_args(var_125)
-    var_127 = '--conda-env'
-    var_128 = '/path/to/conda'
-    var_129 = [var_127, var_128]
-    var_130 = module_0.parse_args(var_129)
-    var_131 = '--python-version'
-    var_132 = '3.8'
-    var_133 = [var_131, var_132]
+    var_108 = '--formatter'
+    var_109 = 'black'
+    var_110 = [var_108, var_109]
+    var_111 = module_0.parse_args(var_110)
+    var_112 = '--color'
+    var_113 = [var_112]
+    var_114 = module_0.parse_args(var_113)
+    var_115 = '--ext-format'
+    var_116 = 'py'
+    var_117 = [var_115, var_116]
+    var_118 = module_0.parse_args(var_117)
+    var_119 = '--star-first'
+    var_120 = [var_119]
+    var_121 = module_0.parse_args(var_120)
+    var_122 = '--split-on-trailing-comma'
+    var_123 = [var_122]
+    var_124 = module_0.parse_args(var_123)
+    var_125 = '--sd'
+    var_126 = 'STDLIB'
+    var_127 = [var_125, var_126]
+    var_128 = module_0.parse_args(var_127)
+    var_129 = '--only-sections'
+    var_130 = [var_129]
+    var_131 = module_0.parse_args(var_130)
+    var_132 = '--ds'
+    var_133 = [var_132]
     var_134 = module_0.parse_args(var_133)
-    var_135 = [var_131, var_24]
-    var_136 = module_0.parse_args(var_135)
-    var_137 = '--python-version'
-    var_138 = 'invalid'
-    var_139 = [var_137, var_138]
+    var_135 = '--fas'
+    var_136 = [var_135]
+    var_137 = module_0.parse_args(var_136)
+    var_138 = '--fss'
+    var_139 = [var_138]
     var_140 = module_0.parse_args(var_139)
-    var_141 = '--python-version'
-    var_142 = ''
-    var_143 = [var_141, var_142]
-    var_144 = module_0.parse_args(var_143)
-    var_145 = '--python-version'
-    var_146 = [var_145]
-    var_147 = module_0.parse_args(var_146)
-    var_148 = '--python-version'
-    var_149 = '3.8'
-    var_150 = 'extra'
-    var_151 = [var_148, var_149, var_150]
+    var_141 = '--hcss'
+    var_142 = [var_141]
+    var_143 = module_0.parse_args(var_142)
+    var_144 = '--srss'
+    var_145 = [var_144]
+    var_146 = module_0.parse_args(var_145)
+    var_147 = '--fass'
+    var_148 = [var_147]
+    var_149 = module_0.parse_args(var_148)
+    var_150 = '--t'
+    var_151 = [var_150, var_80]
     var_152 = module_0.parse_args(var_151)
-    var_153 = '--python-version'
-    var_154 = '3.8'
-    var_155 = '--extra'
-    var_156 = [var_153, var_154, var_155]
-    var_157 = module_0.parse_args(var_156)
-    var_158 = '--python-version'
-    var_159 = '3.8'
-    var_160 = '--extra'
-    var_161 = 'value'
-    var_162 = [var_158, var_159, var_160, var_161]
-    var_163 = module_0.parse_args(var_162)
-    var_164 = '--python-version'
-    var_165 = '3.8'
-    var_166 = '--extra'
-    var_167 = 'value'
-    var_168 = 'extra'
-    var_169 = [var_164, var_165, var_166, var_167, var_168]
-    var_170 = module_0.parse_args(var_169)
+    var_153 = '--csi'
+    var_154 = [var_153]
+    var_155 = module_0.parse_args(var_154)
+    var_156 = '--nlb'
+    var_157 = [var_156, var_126]
+    var_158 = module_0.parse_args(var_157)
+    var_159 = '--src'
+    var_160 = 'src'
+    var_161 = [var_159, var_160]
+    var_162 = module_0.parse_args(var_161)
+    var_163 = '--b'
+    var_164 = [var_163, var_80]
+    var_165 = module_0.parse_args(var_164)
+    var_166 = '--extra-builtin'
+    var_167 = 'sys'
+    var_168 = [var_166, var_167]
+    var_169 = module_0.parse_args(var_168)
+    var_170 = '--f'
+    var_171 = 'future'
+    var_172 = [var_170, var_171]
+    var_173 = module_0.parse_args(var_172)
+    var_174 = '--o'
+    var_175 = 'requests'
+    var_176 = [var_174, var_175]
+    var_177 = module_0.parse_args(var_176)
+    var_178 = '--p'
+    var_179 = 'my_project'
+    var_180 = [var_178, var_179]
+    var_181 = module_0.parse_args(var_180)
+    var_182 = '--known-local-folder'
+    var_183 = 'local'
+    var_184 = [var_182, var_183]
+    var_185 = module_0.parse_args(var_184)
+    var_186 = '--virtual-env'
+    var_187 = 'venv'
+    var_188 = [var_186, var_187]
+    var_189 = module_0.parse_args(var_188)
+    var_190 = '--conda-env'
+    var_191 = 'conda'
+    var_192 = [var_190, var_191]
+    var_193 = module_0.parse_args(var_192)
+    var_194 = '--py'
+    var_195 = '3.8'
+    var_196 = [var_194, var_195]
+    var_197 = module_0.parse_args(var_196)
+    var_198 = '--recursive'
+    var_199 = [var_198]
+    var_200 = module_0.parse_args(var_199)
+    var_201 = '-rc'
+    var_202 = [var_201]
+    var_203 = module_0.parse_args(var_202)
+    var_204 = '--dont-skip'
+    var_205 = [var_204]
+    var_206 = module_0.parse_args(var_205)
+    var_207 = '-ns'
+    var_208 = [var_207]
+    var_209 = module_0.parse_args(var_208)
+    var_210 = '--apply'
+    var_211 = [var_210]
+    var_212 = module_0.parse_args(var_211)
+    var_213 = '-k'
+    var_214 = [var_213]
+    var_215 = module_0.parse_args(var_214)
+    var_216 = '--keep-direct-and-as'
+    var_217 = [var_216]
+    var_218 = module_0.parse_args(var_217)
 
 
 
@@ -548,8 +633,37 @@ def test_case_0():
 #--------------------------
 
 
+import isort.main as module_0
+
 def test_case_0():
-    pass
+    var_0 = module_0.identify_imports_main()
+    var_1 = module_0.identify_imports_main()
+    var_2 = module_0.identify_imports_main()
+    var_3 = 'test_file.py'
+    var_4 = [var_3]
+    var_5 = False
+    var_6 = module_0.identify_imports_main()
+    var_7 = 'test_file.py'
+    var_8 = [var_7]
+    var_9 = False
+    var_10 = module_0.identify_imports_main()
+    var_11 = 'test_file.py'
+    var_12 = [var_11]
+    var_13 = False
+    var_14 = module_0.identify_imports_main()
+    var_15 = 'test_file.py'
+    var_16 = [var_15]
+    var_17 = False
+    var_18 = module_0.identify_imports_main()
+    var_19 = 'test_file.py'
+    var_20 = [var_19]
+    var_21 = False
+    var_22 = True
+    var_23 = module_0.identify_imports_main()
+    var_24 = 'test_file.py'
+    var_25 = [var_24]
+    var_26 = False
+    var_27 = True
 
 
 
@@ -557,69 +671,47 @@ def test_case_0():
 #--------------------------
 
 
+import isort.main as module_0
 
 def test_case_0():
     var_0 = []
     var_1 = module_0.parse_args(var_0)
-    var_2 = '--check-only'
+    var_2 = '--force-single-line'
     var_3 = [var_2]
     var_4 = module_0.parse_args(var_3)
-    var_5 = '--diff'
-    var_6 = [var_2, var_5]
-    var_7 = module_0.parse_args(var_6)
-    var_8 = '--line-length'
-    var_9 = '100'
-    var_10 = [var_8, var_9]
-    var_11 = module_0.parse_args(var_10)
-    var_12 = '--recursive'
-    var_13 = [var_12]
-    var_14 = module_0.parse_args(var_13)
-    var_15 = '-rc'
-    var_16 = [var_15]
-    var_17 = module_0.parse_args(var_16)
-    var_18 = [var_15, var_2]
-    var_19 = module_0.parse_args(var_18)
-    var_20 = [var_15, var_8, var_9]
-    var_21 = module_0.parse_args(var_20)
-    var_22 = '--dont-skip'
-    var_23 = [var_15, var_22]
-    var_24 = module_0.parse_args(var_23)
-    var_25 = '-ns'
-    var_26 = [var_15, var_25]
-    var_27 = module_0.parse_args(var_26)
-    var_28 = [var_15, var_25, var_8, var_9]
-    var_29 = module_0.parse_args(var_28)
-    var_30 = [var_15, var_25, var_2]
+    var_5 = '--line-length'
+    var_6 = '80'
+    var_7 = [var_2, var_5, var_6]
+    var_8 = module_0.parse_args(var_7)
+    var_9 = '--recursive'
+    var_10 = '-rc'
+    var_11 = [var_9, var_10]
+    var_12 = module_0.parse_args(var_11)
+    var_13 = '--order-by-type'
+    var_14 = [var_13]
+    var_15 = module_0.parse_args(var_14)
+    var_16 = '--dont-order-by-type'
+    var_17 = [var_16]
+    var_18 = module_0.parse_args(var_17)
+    var_19 = '--multi-line'
+    var_20 = 'VERTICAL_HANGING_INDENT'
+    var_21 = [var_19, var_20]
+    var_22 = module_0.parse_args(var_21)
+    var_23 = '5'
+    var_24 = [var_19, var_23]
+    var_25 = module_0.parse_args(var_24)
+    var_26 = '--float-to-top'
+    var_27 = [var_26]
+    var_28 = module_0.parse_args(var_27)
+    var_29 = '--dont-float-to-top'
+    var_30 = [var_29]
     var_31 = module_0.parse_args(var_30)
-    var_32 = [var_15, var_25, var_2, var_8, var_9]
-    var_33 = module_0.parse_args(var_32)
-    var_34 = [var_15, var_25, var_2, var_8, var_9, var_5]
-    var_35 = module_0.parse_args(var_34)
-    var_36 = '--force-sort-within-sections'
-    var_37 = [var_15, var_25, var_2, var_8, var_9, var_5, var_36]
-    var_38 = module_0.parse_args(var_37)
-    var_39 = '--honor-case-in-force-sorted-sections'
-    var_40 = [var_15, var_25, var_2, var_8, var_9, var_5, var_36, var_39]
-    var_41 = module_0.parse_args(var_40)
-    var_42 = '--sort-relative-in-force-sorted-sections'
-    var_43 = [var_15, var_25, var_2, var_8, var_9, var_5, var_36, var_39, var_42]
-    var_44 = module_0.parse_args(var_43)
-    var_45 = '--force-alphabetical-sort-within-sections'
-    var_46 = [var_15, var_25, var_2, var_8, var_9, var_5, var_36, var_39, var_42, var_45]
-    var_47 = module_0.parse_args(var_46)
-    var_48 = '--top'
-    var_49 = 'module1'
-    var_50 = 'module2'
-    var_51 = [var_15, var_25, var_2, var_8, var_9, var_5, var_36, var_39, var_42, var_45, var_48, var_49, var_50]
-    var_52 = module_0.parse_args(var_51)
-    var_53 = '--combine-straight-imports'
-    var_54 = [var_15, var_25, var_2, var_8, var_9, var_5, var_36, var_39, var_42, var_45, var_48, var_49, var_50, var_53]
-    var_55 = module_0.parse_args(var_54)
-    var_56 = '--no-lines-before'
-    var_57 = 'section1'
-    var_58 = 'section2'
-    var_59 = [var_15, var_25, var_2, var_8, var_9, var_5, var_36, var_39, var_42, var_45, var_48, var_49, var_50, var_53, var_56, var_57, var_58]
-    var_60 = module_0.parse_args(var_59)
+    var_32 = '--follow-links'
+    var_33 = [var_32]
+    var_34 = module_0.parse_args(var_33)
+    var_35 = '--dont-follow-links'
+    var_36 = [var_35]
+    var_37 = module_0.parse_args(var_36)
 
 
 
@@ -627,67 +719,192 @@ def test_case_0():
 #--------------------------
 
 
+import isort.main as module_0
 
 def test_case_0():
     var_0 = []
-    var_1 = module_0.identify_imports_main(var_0)
-    var_2 = 'test_file.py'
-    var_3 = [var_2]
-    var_4 = module_0.identify_imports_main(var_3)
-    var_5 = '-'
-    var_6 = [var_5]
-    var_7 = 'import os\nimport sys'
-    var_8 = '--top-only'
-    var_9 = [var_2, var_8]
-    var_10 = module_0.identify_imports_main(var_9)
-    var_11 = '--unique'
-    var_12 = [var_2, var_11]
-    var_13 = module_0.identify_imports_main(var_12)
-    var_14 = '--packages'
-    var_15 = [var_2, var_14]
-    var_16 = module_0.identify_imports_main(var_15)
-    var_17 = '--modules'
-    var_18 = [var_2, var_17]
-    var_19 = module_0.identify_imports_main(var_18)
-    var_20 = '--attributes'
-    var_21 = [var_2, var_20]
-    var_22 = module_0.identify_imports_main(var_21)
-    var_23 = '--follow-links'
-    var_24 = [var_2, var_23]
-    var_25 = module_0.identify_imports_main(var_24)
-    var_26 = 'file1.py'
-    var_27 = 'file2.py'
+    var_1 = module_0.parse_args(var_0)
+    var_2 = '--line-length'
+    var_3 = '80'
+    var_4 = [var_2, var_3]
+    var_5 = module_0.parse_args(var_4)
+    var_6 = '--recursive'
+    var_7 = [var_6]
+    var_8 = module_0.parse_args(var_7)
+    var_9 = '--star-first'
+    var_10 = [var_2, var_3, var_9]
+    var_11 = module_0.parse_args(var_10)
+    var_12 = '--multi-line'
+    var_13 = '1'
+    var_14 = [var_12, var_13]
+    var_15 = module_0.parse_args(var_14)
+    var_16 = '--multi-line'
+    var_17 = 'invalid'
+    var_18 = [var_16, var_17]
+    var_19 = module_0.parse_args(var_18)
+    var_20 = 'vertical'
+    var_21 = [var_12, var_20]
+    var_22 = module_0.parse_args(var_21)
+    var_23 = 'VERTICAL'
+    var_24 = [var_12, var_23]
+    var_25 = module_0.parse_args(var_24)
+    var_26 = '--multi-line'
+    var_27 = 'invalid'
     var_28 = [var_26, var_27]
-    var_29 = module_0.identify_imports_main(var_28)
-    var_30 = '--invalid-flag'
-    var_31 = [var_2, var_30]
-    var_32 = module_0.identify_imports_main(var_31)
-    var_33 = []
-    var_34 = module_0.identify_imports_main(var_33)
-    var_35 = 'empty_file.py'
-    var_36 = [var_35]
-    var_37 = module_0.identify_imports_main(var_36)
-    var_38 = 'multi_import_file.py'
-    var_39 = [var_38]
-    var_40 = module_0.identify_imports_main(var_39)
-    var_41 = 'duplicate_import_file.py'
-    var_42 = [var_41]
-    var_43 = module_0.identify_imports_main(var_42)
-    var_44 = 'relative_import_file.py'
-    var_45 = [var_44]
-    var_46 = module_0.identify_imports_main(var_45)
-    var_47 = 'wildcard_import_file.py'
-    var_48 = [var_47]
-    var_49 = module_0.identify_imports_main(var_48)
-    var_50 = 'conditional_import_file.py'
-    var_51 = [var_50]
-    var_52 = module_0.identify_imports_main(var_51)
-    var_53 = 'try_except_import_file.py'
-    var_54 = [var_53]
-    var_55 = module_0.identify_imports_main(var_54)
-    var_56 = 'function_level_import_file.py'
-    var_57 = [var_56]
-    var_58 = module_0.identify_imports_main(var_57)
+    var_29 = module_0.parse_args(var_28)
+    var_30 = [var_12, var_13]
+    var_31 = module_0.parse_args(var_30)
+    var_32 = '--multi-line'
+    var_33 = '100'
+    var_34 = [var_32, var_33]
+    var_35 = module_0.parse_args(var_34)
+    var_36 = '6'
+    var_37 = [var_12, var_36]
+    var_38 = module_0.parse_args(var_37)
+    var_39 = '--multi-line'
+    var_40 = '10'
+    var_41 = [var_39, var_40]
+    var_42 = module_0.parse_args(var_41)
+    var_43 = '--multi-line'
+    var_44 = '11'
+    var_45 = [var_43, var_44]
+    var_46 = module_0.parse_args(var_45)
+    var_47 = '--multi-line'
+    var_48 = '12'
+    var_49 = [var_47, var_48]
+    var_50 = module_0.parse_args(var_49)
+    var_51 = '--multi-line'
+    var_52 = '13'
+    var_53 = [var_51, var_52]
+    var_54 = module_0.parse_args(var_53)
+    var_55 = '--multi-line'
+    var_56 = '14'
+    var_57 = [var_55, var_56]
+    var_58 = module_0.parse_args(var_57)
+    var_59 = '--multi-line'
+    var_60 = '15'
+    var_61 = [var_59, var_60]
+    var_62 = module_0.parse_args(var_61)
+    var_63 = '--multi-line'
+    var_64 = '16'
+    var_65 = [var_63, var_64]
+    var_66 = module_0.parse_args(var_65)
+    var_67 = '--multi-line'
+    var_68 = '17'
+    var_69 = [var_67, var_68]
+    var_70 = module_0.parse_args(var_69)
+    var_71 = '--multi-line'
+    var_72 = '18'
+    var_73 = [var_71, var_72]
+    var_74 = module_0.parse_args(var_73)
+    var_75 = '--multi-line'
+    var_76 = '19'
+    var_77 = [var_75, var_76]
+    var_78 = module_0.parse_args(var_77)
+    var_79 = '--multi-line'
+    var_80 = '20'
+    var_81 = [var_79, var_80]
+    var_82 = module_0.parse_args(var_81)
+    var_83 = '--multi-line'
+    var_84 = '21'
+    var_85 = [var_83, var_84]
+    var_86 = module_0.parse_args(var_85)
+    var_87 = '--multi-line'
+    var_88 = '22'
+    var_89 = [var_87, var_88]
+    var_90 = module_0.parse_args(var_89)
+    var_91 = '--multi-line'
+    var_92 = '23'
+    var_93 = [var_91, var_92]
+    var_94 = module_0.parse_args(var_93)
+    var_95 = '--multi-line'
+    var_96 = '24'
+    var_97 = [var_95, var_96]
+    var_98 = module_0.parse_args(var_97)
+    var_99 = '--multi-line'
+    var_100 = '25'
+    var_101 = [var_99, var_100]
+    var_102 = module_0.parse_args(var_101)
+    var_103 = '--multi-line'
+    var_104 = '26'
+    var_105 = [var_103, var_104]
+    var_106 = module_0.parse_args(var_105)
+    var_107 = '--multi-line'
+    var_108 = '27'
+    var_109 = [var_107, var_108]
+    var_110 = module_0.parse_args(var_109)
+    var_111 = '--multi-line'
+    var_112 = '28'
+    var_113 = [var_111, var_112]
+    var_114 = module_0.parse_args(var_113)
+    var_115 = '--multi-line'
+    var_116 = '29'
+    var_117 = [var_115, var_116]
+    var_118 = module_0.parse_args(var_117)
+    var_119 = '--multi-line'
+    var_120 = '30'
+    var_121 = [var_119, var_120]
+    var_122 = module_0.parse_args(var_121)
+    var_123 = '--multi-line'
+    var_124 = '31'
+    var_125 = [var_123, var_124]
+    var_126 = module_0.parse_args(var_125)
+    var_127 = '--multi-line'
+    var_128 = '32'
+    var_129 = [var_127, var_128]
+    var_130 = module_0.parse_args(var_129)
+    var_131 = '--multi-line'
+    var_132 = '33'
+    var_133 = [var_131, var_132]
+    var_134 = module_0.parse_args(var_133)
+    var_135 = '--multi-line'
+    var_136 = '34'
+    var_137 = [var_135, var_136]
+    var_138 = module_0.parse_args(var_137)
+    var_139 = '--multi-line'
+    var_140 = '35'
+    var_141 = [var_139, var_140]
+    var_142 = module_0.parse_args(var_141)
+    var_143 = '--multi-line'
+    var_144 = '36'
+    var_145 = [var_143, var_144]
+    var_146 = module_0.parse_args(var_145)
+    var_147 = '--multi-line'
+    var_148 = '37'
+    var_149 = [var_147, var_148]
+    var_150 = module_0.parse_args(var_149)
+    var_151 = '--multi-line'
+    var_152 = '38'
+    var_153 = [var_151, var_152]
+    var_154 = module_0.parse_args(var_153)
+    var_155 = '--multi-line'
+    var_156 = '39'
+    var_157 = [var_155, var_156]
+    var_158 = module_0.parse_args(var_157)
+    var_159 = '--multi-line'
+    var_160 = '40'
+    var_161 = [var_159, var_160]
+    var_162 = module_0.parse_args(var_161)
+    var_163 = '--multi-line'
+    var_164 = '41'
+    var_165 = [var_163, var_164]
+    var_166 = module_0.parse_args(var_165)
+    var_167 = '--multi-line'
+    var_168 = '42'
+    var_169 = [var_167, var_168]
+    var_170 = module_0.parse_args(var_169)
+    var_171 = '--multi-line'
+    var_172 = '43'
+    var_173 = [var_171, var_172]
+    var_174 = module_0.parse_args(var_173)
+    var_175 = '--multi-line'
+    var_176 = '44'
+    var_177 = [var_175, var_176]
+    var_178 = module_0.parse_args(var_177)
+    var_179 = '--multi-line'
+    var_180 = '45'
+    var_181 = [var_179, var_180]
+    var_182 = module_0.parse_args(var_181)
 
 
 
@@ -695,123 +912,33 @@ def test_case_0():
 #--------------------------
 
 
+import isort.main as module_0
+
 def test_case_0():
-    var_0 = []
-    var_1 = 'test.py'
+    var_0 = 'import os\nimport sys\n'
+    var_1 = '-'
     var_2 = [var_1]
-    var_3 = '-'
+    var_3 = 'test.py'
     var_4 = [var_3]
-    var_5 = '--unique'
-    var_6 = [var_1, var_5]
-    var_7 = '--packages'
-    var_8 = [var_1, var_7]
-    var_9 = '--modules'
-    var_10 = [var_1, var_9]
-    var_11 = '--attributes'
-    var_12 = [var_1, var_11]
-    var_13 = '--top-only'
-    var_14 = [var_1, var_13]
-    var_15 = '--follow-links'
-    var_16 = [var_1, var_15]
-    var_17 = 'test1.py'
-    var_18 = 'test2.py'
-    var_19 = [var_17, var_18]
-    var_20 = '--invalid'
-    var_21 = [var_1, var_20]
-    var_22 = []
-    var_23 = []
-    var_24 = 'nonexistent.py'
-    var_25 = [var_24]
-    var_26 = 'test.txt'
-    var_27 = [var_26]
-    var_28 = '.'
-    var_29 = [var_28]
-    var_30 = 'symlink.py'
-    var_31 = [var_30]
-    var_32 = 'broken_symlink.py'
-    var_33 = [var_32]
-    var_34 = '.hidden.py'
-    var_35 = [var_34]
-    var_36 = '.hidden'
-    var_37 = [var_36]
-    var_38 = '.hidden_symlink.py'
-    var_39 = [var_38]
-    var_40 = '.hidden_broken_symlink.py'
-    var_41 = [var_40]
-    var_42 = '.hidden_dir_symlink'
-    var_43 = [var_42]
-    var_44 = '.hidden_dir_broken_symlink'
-    var_45 = [var_44]
-    var_46 = '.hidden_file_symlink.py'
-    var_47 = [var_46]
-    var_48 = '.hidden_file_broken_symlink.py'
-    var_49 = [var_48]
-    var_50 = '.hidden_file_dir_symlink'
-    var_51 = [var_50]
-    var_52 = '.hidden_file_dir_broken_symlink'
-    var_53 = [var_52]
-    var_54 = '.hidden_file_file_symlink.py'
-    var_55 = [var_54]
-    var_56 = '.hidden_file_file_broken_symlink.py'
-    var_57 = [var_56]
-    var_58 = '.hidden_file_file_dir_symlink'
-    var_59 = [var_58]
-    var_60 = '.hidden_file_file_dir_broken_symlink'
-    var_61 = [var_60]
-    var_62 = '.hidden_file_file_file_symlink.py'
-    var_63 = [var_62]
-    var_64 = '.hidden_file_file_file_broken_symlink.py'
-    var_65 = [var_64]
-    var_66 = '.hidden_file_file_file_dir_symlink'
-    var_67 = [var_66]
-    var_68 = '.hidden_file_file_file_dir_broken_symlink'
-    var_69 = [var_68]
-    var_70 = '.hidden_file_file_file_file_symlink.py'
-    var_71 = [var_70]
-    var_72 = '.hidden_file_file_file_file_broken_symlink.py'
-    var_73 = [var_72]
-    var_74 = '.hidden_file_file_file_file_dir_symlink'
-    var_75 = [var_74]
-    var_76 = '.hidden_file_file_file_file_dir_broken_symlink'
-    var_77 = [var_76]
-    var_78 = '.hidden_file_file_file_file_file_symlink.py'
-    var_79 = [var_78]
-    var_80 = '.hidden_file_file_file_file_file_broken_symlink.py'
-    var_81 = [var_80]
-    var_82 = '.hidden_file_file_file_file_file_dir_symlink'
-    var_83 = [var_82]
-    var_84 = '.hidden_file_file_file_file_file_dir_broken_symlink'
-    var_85 = [var_84]
-    var_86 = '.hidden_file_file_file_file_file_file_symlink.py'
-    var_87 = [var_86]
-    var_88 = '.hidden_file_file_file_file_file_file_broken_symlink.py'
-    var_89 = [var_88]
-    var_90 = '.hidden_file_file_file_file_file_file_dir_symlink'
-    var_91 = [var_90]
-    var_92 = '.hidden_file_file_file_file_file_file_dir_broken_symlink'
-    var_93 = [var_92]
-    var_94 = '.hidden_file_file_file_file_file_file_file_symlink.py'
-    var_95 = [var_94]
-    var_96 = '.hidden_file_file_file_file_file_file_file_broken_symlink.py'
-    var_97 = [var_96]
-    var_98 = '.hidden_file_file_file_file_file_file_file_dir_symlink'
-    var_99 = [var_98]
-    var_100 = '.hidden_file_file_file_file_file_file_file_dir_broken_symlink'
-    var_101 = [var_100]
-    var_102 = '.hidden_file_file_file_file_file_file_file_file_symlink.py'
-    var_103 = [var_102]
-    var_104 = '.hidden_file_file_file_file_file_file_file_file_broken_symlink.py'
-    var_105 = [var_104]
-    var_106 = '.hidden_file_file_file_file_file_file_file_file_dir_symlink'
-    var_107 = [var_106]
-    var_108 = '.hidden_file_file_file_file_file_file_file_file_dir_broken_symlink'
-    var_109 = [var_108]
-    var_110 = '.hidden_file_file_file_file_file_file_file_file_file_symlink.py'
-    var_111 = [var_110]
-    var_112 = '.hidden_file_file_file_file_file_file_file_file_file_broken_symlink.py'
-    var_113 = [var_112]
-    var_114 = '.hidden_file_file_file_file_file_file_file_file_file_dir_symlink'
-    var_115 = [var_114]
+    var_5 = module_0.identify_imports_main(var_4)
+    var_6 = '--top-only'
+    var_7 = [var_3, var_6]
+    var_8 = module_0.identify_imports_main(var_7)
+    var_9 = '--unique'
+    var_10 = [var_3, var_9]
+    var_11 = module_0.identify_imports_main(var_10)
+    var_12 = '--packages'
+    var_13 = [var_3, var_12]
+    var_14 = module_0.identify_imports_main(var_13)
+    var_15 = '--modules'
+    var_16 = [var_3, var_15]
+    var_17 = module_0.identify_imports_main(var_16)
+    var_18 = '--attributes'
+    var_19 = [var_3, var_18]
+    var_20 = module_0.identify_imports_main(var_19)
+    var_21 = '--follow-links'
+    var_22 = [var_3, var_21]
+    var_23 = module_0.identify_imports_main(var_22)
 
 
 
@@ -819,749 +946,356 @@ def test_case_0():
 #--------------------------
 
 
+import isort.main as module_0
 
 def test_case_0():
-    var_0 = []
-    var_1 = module_0.parse_args(var_0)
-    var_2 = '--check-only'
+    var_0 = module_0.identify_imports_main()
+    var_1 = module_0.identify_imports_main()
+    var_2 = 'test_file.py'
     var_3 = [var_2]
-    var_4 = module_0.parse_args(var_3)
-    var_5 = '--diff'
-    var_6 = [var_2, var_5]
-    var_7 = module_0.parse_args(var_6)
-    var_8 = '--line-length'
-    var_9 = '100'
-    var_10 = [var_8, var_9]
-    var_11 = module_0.parse_args(var_10)
-    var_12 = '--recursive'
-    var_13 = [var_12]
-    var_14 = module_0.parse_args(var_13)
-    var_15 = '-rc'
-    var_16 = [var_15]
-    var_17 = module_0.parse_args(var_16)
-    var_18 = '--known-thirdparty'
-    var_19 = 'requests'
-    var_20 = 'numpy'
-    var_21 = [var_18, var_19, var_18, var_20]
-    var_22 = module_0.parse_args(var_21)
-    var_23 = '--py'
-    var_24 = 'auto'
-    var_25 = [var_23, var_24]
-    var_26 = module_0.parse_args(var_25)
-    var_27 = '--py'
-    var_28 = 'invalid'
-    var_29 = [var_27, var_28]
-    var_30 = module_0.parse_args(var_29)
-    var_31 = '--float-to-top'
-    var_32 = '--dont-float-to-top'
-    var_33 = [var_31, var_32]
-    var_34 = module_0.parse_args(var_33)
-    var_35 = '-k'
-    var_36 = [var_35]
-    var_37 = module_0.parse_args(var_36)
-    var_38 = [var_35, var_32]
-    var_39 = module_0.parse_args(var_38)
-    var_40 = [var_35, var_8, var_9]
-    var_41 = module_0.parse_args(var_40)
-    var_42 = [var_35, var_18, var_19, var_18, var_20]
-    var_43 = module_0.parse_args(var_42)
-    var_44 = [var_35, var_23, var_24]
-    var_45 = module_0.parse_args(var_44)
-    var_46 = '-k'
-    var_47 = '--py'
-    var_48 = 'invalid'
-    var_49 = [var_46, var_47, var_48]
-    var_50 = module_0.parse_args(var_49)
-    var_51 = '-k'
-    var_52 = '--float-to-top'
-    var_53 = '--dont-float-to-top'
-    var_54 = [var_51, var_52, var_53]
-    var_55 = module_0.parse_args(var_54)
-    var_56 = [var_35, var_12]
-    var_57 = module_0.parse_args(var_56)
-    var_58 = [var_35, var_15]
-    var_59 = module_0.parse_args(var_58)
-    var_60 = [var_35, var_15, var_52]
-    var_61 = module_0.parse_args(var_60)
-    var_62 = [var_35, var_15, var_8, var_9]
-    var_63 = module_0.parse_args(var_62)
-    var_64 = [var_35, var_15, var_18, var_19, var_18, var_20]
-    var_65 = module_0.parse_args(var_64)
-    var_66 = [var_35, var_15, var_23, var_24]
-    var_67 = module_0.parse_args(var_66)
-    var_68 = '-k'
-    var_69 = '-rc'
-    var_70 = '--py'
-    var_71 = 'invalid'
-    var_72 = [var_68, var_69, var_70, var_71]
-    var_73 = module_0.parse_args(var_72)
-    var_74 = '-k'
-    var_75 = '-rc'
-    var_76 = '--float-to-top'
-    var_77 = '--dont-float-to-top'
-    var_78 = [var_74, var_75, var_76, var_77]
-    var_79 = module_0.parse_args(var_78)
-    var_80 = [var_35, var_15, var_12]
-    var_81 = module_0.parse_args(var_80)
-    var_82 = '-ns'
-    var_83 = [var_35, var_15, var_82]
-    var_84 = module_0.parse_args(var_83)
-    var_85 = [var_35, var_15, var_82, var_75]
-    var_86 = module_0.parse_args(var_85)
-    var_87 = [var_35, var_15, var_82, var_8, var_9]
-    var_88 = module_0.parse_args(var_87)
-    var_89 = [var_35, var_15, var_82, var_18, var_19, var_18, var_20]
-    var_90 = module_0.parse_args(var_89)
-    var_91 = [var_35, var_15, var_82, var_23, var_24]
-    var_92 = module_0.parse_args(var_91)
-    var_93 = '-k'
-    var_94 = '-rc'
-    var_95 = '-ns'
-    var_96 = '--py'
-    var_97 = 'invalid'
-    var_98 = [var_93, var_94, var_95, var_96, var_97]
-    var_99 = module_0.parse_args(var_98)
-    var_100 = '-k'
-    var_101 = '-rc'
-    var_102 = '-ns'
-    var_103 = '--float-to-top'
-    var_104 = '--dont-float-to-top'
-    var_105 = [var_100, var_101, var_102, var_103, var_104]
-    var_106 = module_0.parse_args(var_105)
-    var_107 = [var_35, var_15, var_82, var_12]
-    var_108 = module_0.parse_args(var_107)
-
-
-
-####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
-####################################################################
-
-
-# Parsed testcases at query #1
-#--------------------------
-
-
-
-
-# Parsed testcases at query #2
-#--------------------------
-
-
-
-
-# Parsed testcases at query #3
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = []
-    var_1 = module_0.parse_args(var_0)
-    var_2 = '--check-only'
-    var_3 = [var_2]
-    var_4 = module_0.parse_args(var_3)
-    var_5 = '--diff'
-    var_6 = [var_2, var_5]
-    var_7 = module_0.parse_args(var_6)
-    var_8 = '--line-length'
-    var_9 = '100'
-    var_10 = [var_8, var_9]
-    var_11 = module_0.parse_args(var_10)
-    var_12 = '--recursive'
-    var_13 = [var_12]
-    var_14 = module_0.parse_args(var_13)
-    var_15 = '-rc'
-    var_16 = [var_15]
-    var_17 = module_0.parse_args(var_16)
-    var_18 = [var_8, var_9, var_12]
-    var_19 = module_0.parse_args(var_18)
-    var_20 = [var_8, var_9, var_15]
-    var_21 = module_0.parse_args(var_20)
-    var_22 = [var_8, var_9, var_12, var_15]
-    var_23 = module_0.parse_args(var_22)
-    var_24 = '-ns'
-    var_25 = [var_8, var_9, var_15, var_24]
-    var_26 = module_0.parse_args(var_25)
-    var_27 = [var_8, var_9, var_12, var_15]
-    var_28 = module_0.parse_args(var_27)
-    var_29 = [var_8, var_9, var_12, var_15, var_2]
-    var_30 = module_0.parse_args(var_29)
-    var_31 = '--dont-skip'
-    var_32 = [var_8, var_9, var_12, var_15, var_2, var_31]
-    var_33 = module_0.parse_args(var_32)
-    var_34 = '--dont-order-by-type'
-    var_35 = [var_8, var_9, var_12, var_15, var_2, var_31, var_34]
-    var_36 = module_0.parse_args(var_35)
-    var_37 = '--dont-follow-links'
-    var_38 = [var_8, var_9, var_12, var_15, var_2, var_31, var_37]
-    var_39 = module_0.parse_args(var_38)
-    var_40 = '--dont-float-to-top'
-    var_41 = [var_8, var_9, var_12, var_15, var_2, var_31, var_40]
-    var_42 = module_0.parse_args(var_41)
-    var_43 = '--line-length'
-    var_44 = '100'
-    var_45 = '--recursive'
-    var_46 = '-rc'
-    var_47 = '--check-only'
-    var_48 = '--dont-skip'
-    var_49 = '--dont-float-to-top'
-    var_50 = '--float-to-top'
-    var_51 = [var_43, var_44, var_45, var_46, var_47, var_48, var_49, var_50]
-    var_52 = module_0.parse_args(var_51)
-    var_53 = '--multi-line'
-    var_54 = '0'
-    var_55 = [var_48, var_49, var_51, var_15, var_44, var_31, var_53, var_54]
-    var_56 = module_0.parse_args(var_55)
-    var_57 = 'line_length'
-    var_58 = 'deprecated_flags'
-    var_59 = 'check_only'
-    var_60 = 'multi_line_output'
-    var_61 = 100
-    var_62 = [var_51, var_15, var_31]
-    var_63 = True
-    var_64 = 0
-    var_65 = 'GRID'
-    var_66 = [var_48, var_49, var_51, var_15, var_44, var_31, var_53, var_65]
-    var_67 = module_0.parse_args(var_66)
-    var_68 = 'VERTICAL_HANGING_INDENT'
-    var_69 = [var_48, var_49, var_51, var_15, var_44, var_31, var_53, var_68]
-    var_70 = module_0.parse_args(var_69)
-    var_71 = 'VERTICAL_HANGING_INDENT_BRACKET'
-    var_72 = [var_48, var_49, var_51, var_15, var_44, var_31, var_53, var_71]
-    var_73 = module_0.parse_args(var_72)
-    var_74 = [var_48, var_49, var_51, var_15, var_44, var_31, var_53, var_71]
-    var_75 = module_0.parse_args(var_74)
-    var_76 = [var_48, var_49, var_51, var_15, var_44, var_31, var_53, var_71]
-    var_77 = module_0.parse_args(var_76)
-
-
-
-# Parsed testcases at query #4
-#--------------------------
-
-
-def test_case_0():
-    pass
-
-
-
-# Parsed testcases at query #5
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = []
-    var_1 = module_0.parse_args(var_0)
-    var_2 = '--check-only'
-    var_3 = [var_2]
-    var_4 = module_0.parse_args(var_3)
-    var_5 = '--diff'
-    var_6 = [var_2, var_5]
-    var_7 = module_0.parse_args(var_6)
-    var_8 = '--line-length'
-    var_9 = '80'
-    var_10 = [var_8, var_9]
-    var_11 = module_0.parse_args(var_10)
-    var_12 = '--recursive'
-    var_13 = [var_12]
-    var_14 = module_0.parse_args(var_13)
-    var_15 = '-rc'
-    var_16 = [var_15]
-    var_17 = module_0.parse_args(var_16)
-    var_18 = '--known-thirdparty'
-    var_19 = 'requests'
-    var_20 = 'numpy'
-    var_21 = [var_18, var_19, var_18, var_20]
-    var_22 = module_0.parse_args(var_21)
-    var_23 = '--py'
-    var_24 = 'auto'
-    var_25 = [var_23, var_24]
-    var_26 = module_0.parse_args(var_25)
-    var_27 = '--py'
-    var_28 = 'invalid'
-    var_29 = [var_27, var_28]
-    var_30 = module_0.parse_args(var_29)
-    var_31 = '--float-to-top'
-    var_32 = '--dont-float-to-top'
-    var_33 = [var_31, var_32]
-    var_34 = module_0.parse_args(var_33)
-    var_35 = 'All test cases passed!'
-    var_36 = print(var_35)
-
-
-
-####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
-####################################################################
-
-
-# Parsed testcases at query #1
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = []
-    var_1 = module_0.identify_imports_main(var_0)
-    var_2 = 'os'
-    var_3 = 'path'
-    var_4 = 'test.py'
-    var_5 = [var_4]
-    var_6 = module_0.identify_imports_main(var_5)
-    var_7 = 'sys'
-    var_8 = 'stdout'
-    var_9 = '-'
-    var_10 = [var_9]
-    var_11 = module_0.identify_imports_main(var_10)
-    var_12 = 'os.path'
-    var_13 = 'join'
-    var_14 = 'test.py'
-    var_15 = '--packages'
-    var_16 = [var_14, var_15]
-    var_17 = module_0.identify_imports_main(var_16)
-    var_18 = 'os.path'
-    var_19 = 'join'
-    var_20 = 'test.py'
-    var_21 = '--modules'
-    var_22 = [var_20, var_21]
-    var_23 = module_0.identify_imports_main(var_22)
-    var_24 = 'os.path'
-    var_25 = 'join'
-    var_26 = 'test.py'
-    var_27 = '--attributes'
-    var_28 = [var_26, var_27]
-    var_29 = module_0.identify_imports_main(var_28)
-    var_30 = 'sys'
-    var_31 = 'stdout'
-    var_32 = 'test.py'
-    var_33 = '--top-only'
-    var_34 = [var_32, var_33]
-    var_35 = module_0.identify_imports_main(var_34)
-    var_36 = 'os'
-    var_37 = 'path'
-    var_38 = 'test.py'
-    var_39 = '--follow-links'
-    var_40 = [var_38, var_39]
-    var_41 = module_0.identify_imports_main(var_40)
-    var_42 = 'All tests passed!'
-    var_43 = print(var_42)
-
-
-
-# Parsed testcases at query #2
-#--------------------------
-
-
-
-
-# Parsed testcases at query #3
-#--------------------------
-
-
-import builtins as module_1
-
-
-def test_case_0():
-    var_0 = []
-    var_1 = module_0.parse_args(var_0)
-    var_2 = '--check-only'
-    var_3 = [var_2]
-    var_4 = module_0.parse_args(var_3)
-    var_5 = '--diff'
-    var_6 = [var_2, var_5]
-    var_7 = module_0.parse_args(var_6)
-    var_8 = '--line-length'
-    var_9 = '100'
-    var_10 = [var_8, var_9]
-    var_11 = module_0.parse_args(var_10)
-    var_12 = '--recursive'
-    var_13 = [var_12]
-    var_14 = module_0.parse_args(var_13)
-    var_15 = '-rc'
-    var_16 = [var_15]
-    var_17 = module_0.parse_args(var_16)
-    var_18 = '--known-thirdparty'
-    var_19 = 'module1'
-    var_20 = 'module2'
-    var_21 = [var_18, var_19, var_20]
-    var_22 = module_0.parse_args(var_21)
-    var_23 = '--py'
-    var_24 = 'auto'
-    var_25 = [var_23, var_24]
-    var_26 = module_0.parse_args(var_25)
-    var_27 = '--py'
-    var_28 = 'invalid'
-    var_29 = [var_27, var_28]
-    var_30 = module_0.parse_args(var_29)
-    var_31 = '--float-to-top'
-    var_32 = '--dont-float-to-top'
-    var_33 = [var_31, var_32]
-    var_34 = module_0.parse_args(var_33)
-    var_35 = '--section-default'
-    var_36 = 'STDLIB'
-    var_37 = [var_35, var_36]
-    var_38 = module_0.parse_args(var_37)
-    var_39 = '--sort-order'
-    var_40 = 'natural'
-    var_41 = [var_39, var_40]
-    var_42 = module_0.parse_args(var_41)
-    var_43 = '--formatter'
-    var_44 = 'custom'
-    var_45 = [var_43, var_44]
-    var_46 = module_0.parse_args(var_45)
-    var_47 = '--line-ending'
-    var_48 = 'lf'
-    var_49 = [var_47, var_48]
-    var_50 = module_0.parse_args(var_49)
-    var_51 = '--indent'
-    var_52 = '  '
-    var_53 = [var_51, var_52]
-    var_54 = module_0.parse_args(var_53)
-    var_55 = '--multi-line'
-    var_56 = '3'
-    var_57 = [var_55, var_56]
-    var_58 = module_0.parse_args(var_57)
-    var_59 = 'multi_line_output'
-    var_60 = 3
-    var_61 = 'VERTICAL_HANGING_INDENT'
-    var_62 = [var_55, var_61]
-    var_63 = module_0.parse_args(var_62)
-    var_64 = '--multi-line'
-    var_65 = 'invalid'
-    var_66 = [var_64, var_65]
-    var_67 = module_0.parse_args(var_66)
-    var_68 = '--multi-line'
-    var_69 = '99'
-    var_70 = [var_68, var_69]
-    var_71 = module_0.parse_args(var_70)
-    var_72 = '--multi-line'
-    var_73 = 'INVALID'
-    var_74 = [var_72, var_73]
-    var_75 = module_0.parse_args(var_74)
-    var_76 = '--multi-line'
-    var_77 = '3.14'
-    var_78 = [var_76, var_77]
-    var_79 = module_0.parse_args(var_78)
-    var_80 = '--multi-line'
-    var_81 = 'three'
-    var_82 = [var_80, var_81]
-    var_83 = module_0.parse_args(var_82)
-    var_84 = '--multi-line'
-    var_85 = ''
-    var_86 = [var_84, var_85]
-    var_87 = module_0.parse_args(var_86)
-    var_88 = '--multi-line'
-    var_89 = ' '
-    var_90 = [var_88, var_89]
-    var_91 = module_0.parse_args(var_90)
-    var_92 = '--multi-line'
-    var_93 = '!'
-    var_94 = [var_92, var_93]
-    var_95 = module_0.parse_args(var_94)
-    var_96 = '--multi-line'
-    var_97 = '😀'
-    var_98 = [var_96, var_97]
-    var_99 = module_0.parse_args(var_98)
-    var_100 = '--multi-line'
-    var_101 = '\n'
-    var_102 = [var_100, var_101]
-    var_103 = module_0.parse_args(var_102)
-    var_104 = '--multi-line'
-    var_105 = '\x00'
-    var_106 = [var_104, var_105]
-    var_107 = module_0.parse_args(var_106)
-    var_108 = '--multi-line'
-    var_109 = b'\x00'
-    var_110 = [var_108, var_109]
-    var_111 = module_0.parse_args(var_110)
-    var_112 = '--multi-line'
-    var_113 = module_1.object()
-    var_114 = [var_112, var_113]
-    var_115 = module_0.parse_args(var_114)
-    var_116 = '--multi-line'
-    var_117 = None
-    var_118 = [var_116, var_117]
-    var_119 = module_0.parse_args(var_118)
-    var_120 = '--multi-line'
-    var_121 = True
-    var_122 = [var_120, var_121]
-    var_123 = module_0.parse_args(var_122)
-    var_124 = '--multi-line'
-    var_125 = False
-    var_126 = [var_124, var_125]
-    var_127 = module_0.parse_args(var_126)
-    var_128 = '--multi-line'
-    var_129 = []
-    var_130 = [var_128, var_129]
-    var_131 = module_0.parse_args(var_130)
-    var_132 = '--multi-line'
-    var_133 = ()
-    var_134 = [var_132, var_133]
-    var_135 = module_0.parse_args(var_134)
-    var_136 = '--multi-line'
-    var_137 = {}
-    var_138 = [var_136, var_137]
-    var_139 = module_0.parse_args(var_138)
-    var_140 = '--multi-line'
-    var_141 = set()
-    var_142 = [var_140, var_141]
-    var_143 = module_0.parse_args(var_142)
-    var_144 = '--multi-line'
-    var_145 = frozenset()
-    var_146 = [var_144, var_145]
-    var_147 = module_0.parse_args(var_146)
-    var_148 = '--multi-line'
-    var_149 = b''
-    var_150 = [var_148, var_149]
-    var_151 = module_0.parse_args(var_150)
-    var_152 = '--multi-line'
-    var_153 = bytearray()
-    var_154 = [var_152, var_153]
-    var_155 = module_0.parse_args(var_154)
-    var_156 = '--multi-line'
-    var_157 = b''
-    var_158 = memoryview(var_157)
-    var_159 = [var_156, var_158]
-    var_160 = module_0.parse_args(var_159)
-    var_161 = '--multi-line'
-    var_162 = 0
-    var_163 = range(var_162)
-    var_164 = [var_161, var_163]
-    var_165 = module_0.parse_args(var_164)
-    var_166 = '--multi-line'
-    var_167 = 0
-    var_168 = [var_166, var_163]
-    var_169 = module_0.parse_args(var_168)
-    var_170 = '--multi-line'
-    var_171 = [var_170, var_167]
-    var_172 = module_0.parse_args(var_171)
-    var_173 = '--multi-line'
-    var_174 = module_0.parse_args(var_167)
-    var_175 = '--multi-line'
-    var_176 = 0
-    var_177 = complex(var_176, var_176)
-    var_178 = [var_175, var_177]
-    var_179 = module_0.parse_args(var_178)
-    var_180 = '--multi-line'
-    var_181 = 3.14
-    var_182 = [var_180, var_181]
-    var_183 = module_0.parse_args(var_182)
-    var_184 = '--multi-line'
-    var_185 = 42
-    var_186 = [var_184, var_185]
-    var_187 = module_0.parse_args(var_186)
-
-
-
-# Parsed testcases at query #4
-#--------------------------
-
-
-
-
-# Parsed testcases at query #5
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = []
-    var_1 = module_0.parse_args(var_0)
-    var_2 = '--help'
-    var_3 = [var_2]
-    var_4 = module_0.parse_args(var_3)
-    var_5 = '--version'
-    var_6 = [var_5]
-    var_7 = module_0.parse_args(var_6)
-    var_8 = '--check'
-    var_9 = [var_8]
-    var_10 = module_0.parse_args(var_9)
-    var_11 = '--diff'
+    var_4 = False
+    var_5 = module_0.identify_imports_main()
+    var_6 = 'test_file.py'
+    var_7 = [var_6]
+    var_8 = True
+    var_9 = False
+    var_10 = module_0.identify_imports_main()
+    var_11 = 'test_file.py'
     var_12 = [var_11]
-    var_13 = module_0.parse_args(var_12)
-    var_14 = '--quiet'
-    var_15 = [var_14]
-    var_16 = module_0.parse_args(var_15)
-    var_17 = '--verbose'
-    var_18 = [var_17]
-    var_19 = module_0.parse_args(var_18)
-    var_20 = '--fss'
-    var_21 = [var_20]
+    var_13 = False
+    var_14 = module_0.identify_imports_main()
+    var_15 = 'test_file.py'
+    var_16 = [var_15]
+    var_17 = False
+    var_18 = module_0.identify_imports_main()
+    var_19 = 'test_file.py'
+    var_20 = [var_19]
+    var_21 = False
+    var_22 = module_0.identify_imports_main()
+    var_23 = 'test_file.py'
+    var_24 = [var_23]
+    var_25 = False
+    var_26 = True
+    var_27 = module_0.identify_imports_main()
+    var_28 = 'test_file.py'
+    var_29 = [var_28]
+    var_30 = False
+    var_31 = True
+
+
+
+# Parsed testcases at query #14
+#--------------------------
+
+
+import _io as module_0
+import isort.main as module_1
+
+def test_case_0():
+    var_0 = 'import os\nimport sys\nfrom os import path\n'
+    var_1 = '-'
+    var_2 = [var_1]
+    var_3 = module_0.StringIO()
+    var_4 = 'test_file.py'
+    var_5 = [var_4]
+    var_6 = module_0.StringIO()
+    var_7 = module_1.identify_imports_main(var_5)
+    var_8 = '--packages'
+    var_9 = [var_4, var_8]
+    var_10 = module_0.StringIO()
+    var_11 = module_1.identify_imports_main(var_9)
+    var_12 = '--modules'
+    var_13 = [var_4, var_12]
+    var_14 = module_0.StringIO()
+    var_15 = module_1.identify_imports_main(var_13)
+    var_16 = '--attributes'
+    var_17 = [var_4, var_16]
+    var_18 = module_0.StringIO()
+    var_19 = module_1.identify_imports_main(var_17)
+    var_20 = '--top-only'
+    var_21 = [var_4, var_20]
+    var_22 = module_0.StringIO()
+    var_23 = module_1.identify_imports_main(var_21)
+
+
+
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = '\n    Test function for `identify_imports_main`.\n    '
+    var_1 = 'test_file.py'
+    var_2 = '--unique'
+    var_3 = [var_1, var_2]
+    var_4 = None
+    var_5 = module_0.identify_imports_main(var_3, var_4)
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+
+import isort.settings as module_0
+import isort.main as module_1
+
+def test_case_0():
+    var_0 = 'test_file.txt'
+    var_1 = module_0.Config()
+    var_2 = True
+    var_3 = module_1.sort_imports(var_0, var_1, var_2)
+    assert var_3 is None
+    var_4 = module_0.Config()
+    var_5 = module_1.sort_imports(var_0, var_4, var_2)
+    var_6 = False
+    var_7 = module_1.SortAttempt(var_2, var_6, var_2)
+    var_8 = module_0.Config()
+    var_9 = module_1.sort_imports(var_0, var_8, var_2)
+    var_10 = module_1.SortAttempt(var_6, var_2, var_2)
+    var_11 = module_0.Config()
+    var_12 = module_1.sort_imports(var_0, var_11, var_2)
+    var_13 = module_1.SortAttempt(var_6, var_6, var_6)
+    var_14 = 'test_file.txt'
+    var_15 = module_0.Config()
+    var_16 = True
+    var_17 = module_1.sort_imports(var_14, var_15, var_16)
+    var_18 = 'test_file.txt'
+    var_19 = module_0.Config()
+    var_20 = True
+    var_21 = module_1.sort_imports(var_18, var_19, var_20)
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = []
+    var_1 = module_0.parse_args(var_0)
+    var_2 = '--line-length'
+    var_3 = '80'
+    var_4 = [var_2, var_3]
+    var_5 = module_0.parse_args(var_4)
+    var_6 = '--multi-line'
+    var_7 = '5'
+    var_8 = [var_2, var_3, var_6, var_7]
+    var_9 = module_0.parse_args(var_8)
+    var_10 = '-rc'
+    var_11 = [var_10]
+    var_12 = module_0.parse_args(var_11)
+    var_13 = 'recursive'
+    var_14 = [var_13]
+    var_15 = module_0.parse_args(var_14)
+    var_16 = '--dont-order-by-type'
+    var_17 = [var_16]
+    var_18 = module_0.parse_args(var_17)
+    var_19 = '--float-to-top'
+    var_20 = '--dont-float-to-top'
+    var_21 = [var_19, var_20]
     var_22 = module_0.parse_args(var_21)
-    var_23 = '--ot'
+    var_23 = 'VERT_GRID_GROUPED'
+    var_24 = [var_6, var_23]
+    var_25 = module_0.parse_args(var_24)
+    var_26 = '--multi-line'
+    var_27 = 'INVALID'
+    var_28 = [var_26, var_27]
+    var_29 = module_0.parse_args(var_28)
+    var_30 = '--section-default'
+    var_31 = 'CUSTOM'
+    var_32 = [var_30, var_31]
+    var_33 = module_0.parse_args(var_32)
+    var_34 = 'CUSTOM1'
+    var_35 = 'CUSTOM2'
+    var_36 = [var_30, var_34, var_30, var_35]
+    var_37 = module_0.parse_args(var_36)
+    var_38 = '--known-thirdparty'
+    var_39 = 'module1'
+    var_40 = 'module2'
+    var_41 = [var_38, var_39, var_38, var_40]
+    var_42 = module_0.parse_args(var_41)
+    var_43 = '--reverse-sort'
+    var_44 = [var_43]
+    var_45 = module_0.parse_args(var_44)
+    var_46 = [var_16]
+    var_47 = module_0.parse_args(var_46)
+    var_48 = '--recursive'
+    var_49 = '--dont-skip'
+    var_50 = [var_48, var_49]
+    var_51 = module_0.parse_args(var_50)
+    var_52 = '--indent'
+    var_53 = '    '
+    var_54 = [var_52, var_53]
+    var_55 = module_0.parse_args(var_54)
+    var_56 = '--lai'
+    var_57 = '1'
+    var_58 = '--lbi'
+    var_59 = '2'
+    var_60 = [var_56, var_57, var_58, var_59]
+    var_61 = module_0.parse_args(var_60)
+    var_62 = '--float-to-top'
+    var_63 = '--dont-float-to-top'
+    var_64 = [var_62, var_63]
+    var_65 = module_0.parse_args(var_64)
+    var_66 = '--line-length'
+    var_67 = 'invalid'
+    var_68 = [var_66, var_67]
+    var_69 = module_0.parse_args(var_68)
+    var_70 = '--line-length'
+    var_71 = [var_70]
+    var_72 = module_0.parse_args(var_71)
+    var_73 = '--multi-line'
+    var_74 = 'invalid'
+    var_75 = [var_73, var_74]
+    var_76 = module_0.parse_args(var_75)
+    var_77 = '--lss'
+    var_78 = [var_77]
+    var_79 = module_0.parse_args(var_78)
+    var_80 = 'True'
+    var_81 = [var_77, var_80]
+    var_82 = module_0.parse_args(var_81)
+    var_83 = '--lss'
+    var_84 = 'invalid'
+    var_85 = [var_83, var_84]
+    var_86 = module_0.parse_args(var_85)
+    var_87 = '--lss'
+    var_88 = [var_87]
+    var_89 = module_0.parse_args(var_88)
+    var_90 = '--lss'
+    var_91 = 'True'
+    var_92 = 'False'
+    var_93 = [var_90, var_91, var_90, var_92]
+    var_94 = module_0.parse_args(var_93)
+    var_95 = '--lss'
+    var_96 = 'True'
+    var_97 = '--length-sort-straight'
+    var_98 = 'False'
+    var_99 = [var_95, var_96, var_97, var_98]
+    var_100 = module_0.parse_args(var_99)
+    var_101 = '--lss'
+    var_102 = 'True'
+    var_103 = '--length-sort-straight'
+    var_104 = 'False'
+    var_105 = [var_101, var_102, var_103, var_104]
+    var_106 = module_0.parse_args(var_105)
+    var_107 = '--lss'
+    var_108 = 'True'
+    var_109 = '--length-sort-straight'
+    var_110 = 'False'
+    var_111 = [var_107, var_108, var_109, var_110]
+    var_112 = module_0.parse_args(var_111)
+    var_113 = '--lss'
+    var_114 = 'True'
+    var_115 = '--length-sort-straight'
+    var_116 = 'False'
+    var_117 = [var_113, var_114, var_115, var_116]
+    var_118 = module_0.parse_args(var_117)
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = module_0.identify_imports_main()
+    var_1 = module_0.identify_imports_main()
+    var_2 = 'test_file.py'
+    var_3 = [var_2]
+    var_4 = False
+    var_5 = module_0.identify_imports_main()
+    var_6 = 'test_file.py'
+    var_7 = [var_6]
+    var_8 = False
+    var_9 = module_0.identify_imports_main()
+    var_10 = 'test_file.py'
+    var_11 = [var_10]
+    var_12 = False
+    var_13 = True
+    var_14 = module_0.identify_imports_main()
+    var_15 = 'test_file.py'
+    var_16 = [var_15]
+    var_17 = False
+    var_18 = True
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = []
+    var_1 = module_0.parse_args(var_0)
+    var_2 = '--line-length'
+    var_3 = '80'
+    var_4 = [var_2, var_3]
+    var_5 = module_0.parse_args(var_4)
+    var_6 = '--recursive'
+    var_7 = [var_6]
+    var_8 = module_0.parse_args(var_7)
+    var_9 = '-rc'
+    var_10 = [var_9]
+    var_11 = module_0.parse_args(var_10)
+    var_12 = [var_2, var_3, var_6, var_9]
+    var_13 = module_0.parse_args(var_12)
+    var_14 = '--multi-line'
+    var_15 = '1'
+    var_16 = [var_14, var_15]
+    var_17 = module_0.parse_args(var_16)
+    var_18 = 'multi_line_output'
+    var_19 = 1
+    var_20 = 'vertical'
+    var_21 = [var_14, var_20]
+    var_22 = module_0.parse_args(var_21)
+    var_23 = '--dont-order-by-type'
     var_24 = [var_23]
     var_25 = module_0.parse_args(var_24)
-    var_26 = '--dt'
+    var_26 = '--dont-follow-links'
     var_27 = [var_26]
     var_28 = module_0.parse_args(var_27)
-    var_29 = '--reverse-sort'
+    var_29 = '--dont-float-to-top'
     var_30 = [var_29]
     var_31 = module_0.parse_args(var_30)
-    var_32 = '--fas'
-    var_33 = [var_32]
+    var_32 = '--float-to-top'
+    var_33 = [var_29, var_32]
     var_34 = module_0.parse_args(var_33)
-    var_35 = '--fass'
-    var_36 = [var_35]
-    var_37 = module_0.parse_args(var_36)
-    var_38 = '--only-sections'
-    var_39 = [var_38]
+    var_35 = '--dont-float-to-top'
+    var_36 = '--float-to-top'
+    var_37 = [var_35, var_36]
+    var_38 = module_0.parse_args(var_37)
+    var_39 = [var_36, var_37, var_6, var_9, var_14, var_15, var_23, var_26, var_29]
     var_40 = module_0.parse_args(var_39)
-    var_41 = '--ds'
-    var_42 = [var_41]
-    var_43 = module_0.parse_args(var_42)
-    var_44 = '--csi'
-    var_45 = [var_44]
-    var_46 = module_0.parse_args(var_45)
-    var_47 = '--float-to-top'
-    var_48 = [var_47]
-    var_49 = module_0.parse_args(var_48)
-    var_50 = '--dont-float-to-top'
-    var_51 = [var_50]
-    var_52 = module_0.parse_args(var_51)
-    var_53 = '--ca'
-    var_54 = [var_53]
-    var_55 = module_0.parse_args(var_54)
-    var_56 = '--remove-redundant-aliases'
-    var_57 = [var_56]
-    var_58 = module_0.parse_args(var_57)
-    var_59 = '--sl'
-    var_60 = [var_59]
-    var_61 = module_0.parse_args(var_60)
-    var_62 = '--nsl'
-    var_63 = 'module1'
-    var_64 = 'module2'
-    var_65 = [var_62, var_63, var_64]
-    var_66 = module_0.parse_args(var_65)
-    var_67 = '--sd'
-    var_68 = 'THIRDPARTY'
-    var_69 = [var_67, var_68]
-    var_70 = module_0.parse_args(var_69)
-    var_71 = '--src'
-    var_72 = '/path/to/src'
-    var_73 = [var_71, var_72]
-    var_74 = module_0.parse_args(var_73)
-    var_75 = '--builtin'
-    var_76 = [var_75, var_63, var_64]
-    var_77 = module_0.parse_args(var_76)
-    var_78 = '--extra-builtin'
-    var_79 = [var_78, var_63, var_64]
-    var_80 = module_0.parse_args(var_79)
-    var_81 = '--future'
-    var_82 = [var_81, var_63, var_64]
-    var_83 = module_0.parse_args(var_82)
-    var_84 = '--thirdparty'
-    var_85 = [var_84, var_63, var_64]
-    var_86 = module_0.parse_args(var_85)
-    var_87 = '--project'
-    var_88 = [var_87, var_63, var_64]
-    var_89 = module_0.parse_args(var_88)
-    var_90 = '--known-local-folder'
-    var_91 = 'folder1'
-    var_92 = 'folder2'
-    var_93 = [var_90, var_91, var_92]
-    var_94 = module_0.parse_args(var_93)
-    var_95 = '--virtual-env'
-    var_96 = '/path/to/venv'
-    var_97 = [var_95, var_96]
-    var_98 = module_0.parse_args(var_97)
-    var_99 = '--conda-env'
-    var_100 = '/path/to/conda/env'
-    var_101 = [var_99, var_100]
-    var_102 = module_0.parse_args(var_101)
-    var_103 = '--py'
-    var_104 = '3.8'
-    var_105 = [var_103, var_104]
-    var_106 = module_0.parse_args(var_105)
-    var_107 = '--line-length'
-    var_108 = '100'
-    var_109 = [var_107, var_108]
-    var_110 = module_0.parse_args(var_109)
-    var_111 = '--wrap-length'
-    var_112 = '80'
-    var_113 = [var_111, var_112]
-    var_114 = module_0.parse_args(var_113)
-    var_115 = '--indent'
-    var_116 = '    '
-    var_117 = [var_115, var_116]
-    var_118 = module_0.parse_args(var_117)
-    var_119 = '--tab-width'
-    var_120 = '4'
-    var_121 = [var_119, var_120]
-    var_122 = module_0.parse_args(var_121)
-    var_123 = '--lbi'
-    var_124 = '2'
-    var_125 = [var_123, var_124]
-    var_126 = module_0.parse_args(var_125)
-    var_127 = '--lai'
-    var_128 = [var_127, var_124]
-    var_129 = module_0.parse_args(var_128)
-    var_130 = '--lbt'
-    var_131 = [var_130, var_124]
-    var_132 = module_0.parse_args(var_131)
-    var_133 = '--tc'
-    var_134 = [var_133]
-    var_135 = module_0.parse_args(var_134)
-    var_136 = '--up'
-    var_137 = [var_136]
-    var_138 = module_0.parse_args(var_137)
-    var_139 = '--fgw'
-    var_140 = [var_139, var_124]
-    var_141 = module_0.parse_args(var_140)
-    var_142 = '--multi-line'
-    var_143 = '3'
-    var_144 = [var_142, var_143]
-    var_145 = module_0.parse_args(var_144)
-    var_146 = '--ensure-newline-before-comments'
-    var_147 = [var_146]
-    var_148 = module_0.parse_args(var_147)
-    var_149 = '--case-sensitive'
-    var_150 = [var_149]
-    var_151 = module_0.parse_args(var_150)
-    var_152 = '--honor-noqa'
-    var_153 = [var_152]
-    var_154 = module_0.parse_args(var_153)
-    var_155 = '--treat-comment-as-code'
-    var_156 = '# noqa'
-    var_157 = '# isort: skip'
-    var_158 = [var_155, var_156, var_157]
-    var_159 = module_0.parse_args(var_158)
-    var_160 = '--treat-all-comment-as-code'
-    var_161 = [var_160]
-    var_162 = module_0.parse_args(var_161)
-    var_163 = '--formatter'
-    var_164 = 'my_formatter'
-    var_165 = [var_163, var_164]
-    var_166 = module_0.parse_args(var_165)
-    var_167 = '--color'
-    var_168 = [var_167]
-    var_169 = module_0.parse_args(var_168)
-    var_170 = '--ext-format'
-    var_171 = '.py'
-    var_172 = [var_170, var_171]
-    var_173 = module_0.parse_args(var_172)
-    var_174 = '--star-first'
-    var_175 = [var_174]
-    var_176 = module_0.parse_args(var_175)
-    var_177 = '--split-on-trailing-comma'
-    var_178 = [var_177]
-    var_179 = module_0.parse_args(var_178)
-    var_180 = '--nis'
-    var_181 = [var_180]
-    var_182 = module_0.parse_args(var_181)
-    var_183 = '--ls'
-    var_184 = [var_183]
-    var_185 = module_0.parse_args(var_184)
-    var_186 = '--lss'
-    var_187 = [var_186]
-    var_188 = module_0.parse_args(var_187)
-    var_189 = '--rr'
-    var_190 = [var_189]
-    var_191 = module_0.parse_args(var_190)
-    var_192 = '--top'
-    var_193 = [var_192, var_63, var_64]
-    var_194 = module_0.parse_args(var_193)
+    var_41 = 'line_length'
+    var_42 = 'deprecated_flags'
+    var_43 = 'remapped_deprecated_args'
+    var_44 = 'order_by_type'
+    var_45 = 'follow_links'
+    var_46 = 'float_to_top'
+    var_47 = 80
+    var_48 = [var_6, var_9]
+    var_49 = 'rc'
+    var_50 = [var_49]
+    var_51 = False
+    var_52 = [var_36, var_37, var_6, var_9, var_14, var_15, var_23, var_26, var_32]
+    var_53 = module_0.parse_args(var_52)
+    var_54 = [var_6, var_9]
+    var_55 = [var_49]
+    var_56 = True
 
 
 
@@ -1569,14 +1303,82 @@ def test_case_0():
 #--------------------------
 
 
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = module_0.identify_imports_main()
+    var_1 = module_0.identify_imports_main()
+    var_2 = 'test_file.py'
+    var_3 = [var_2]
+    var_4 = False
+    var_5 = module_0.identify_imports_main()
+    var_6 = 'test_file.py'
+    var_7 = [var_6]
+    var_8 = True
+    var_9 = False
+    var_10 = module_0.identify_imports_main()
+    var_11 = 'test_file.py'
+    var_12 = [var_11]
+    var_13 = False
+    var_14 = module_0.identify_imports_main()
+    var_15 = 'test_file.py'
+    var_16 = [var_15]
+    var_17 = False
+    var_18 = module_0.identify_imports_main()
+    var_19 = 'test_file.py'
+    var_20 = [var_19]
+    var_21 = False
+    var_22 = module_0.identify_imports_main()
+    var_23 = 'test_file.py'
+    var_24 = [var_23]
+    var_25 = False
+    var_26 = True
+    var_27 = module_0.identify_imports_main()
+    var_28 = 'test_file.py'
+    var_29 = [var_28]
+    var_30 = False
+    var_31 = True
+
 
 
 # Parsed testcases at query #7
 #--------------------------
 
 
+import isort.main as module_0
+
 def test_case_0():
-    pass
+    var_0 = []
+    var_1 = module_0.parse_args(var_0)
+    var_2 = '--line-length'
+    var_3 = '80'
+    var_4 = [var_2, var_3]
+    var_5 = module_0.parse_args(var_4)
+    var_6 = '--force-single-line-imports'
+    var_7 = [var_2, var_3, var_6]
+    var_8 = module_0.parse_args(var_7)
+    var_9 = '-rc'
+    var_10 = [var_9]
+    var_11 = module_0.parse_args(var_10)
+    var_12 = '--multi-line-output'
+    var_13 = '1'
+    var_14 = [var_12, var_13]
+    var_15 = module_0.parse_args(var_14)
+    var_16 = 'VERTICAL'
+    var_17 = [var_12, var_16]
+    var_18 = module_0.parse_args(var_17)
+    var_19 = '--dont-order-by-type'
+    var_20 = [var_19]
+    var_21 = module_0.parse_args(var_20)
+    var_22 = '--float-to-top'
+    var_23 = '--dont-float-to-top'
+    var_24 = [var_22, var_23]
+    var_25 = module_0.parse_args(var_24)
+    var_26 = '-k'
+    var_27 = [var_26]
+    var_28 = module_0.parse_args(var_27)
+    var_29 = [var_9]
+    var_30 = module_0.parse_args(var_29)
 
 
 
@@ -1584,8 +1386,28 @@ def test_case_0():
 #--------------------------
 
 
+import isort.settings as module_0
+import isort.main as module_1
+
 def test_case_0():
-    pass
+    var_0 = module_0.Config()
+    var_1 = 'valid_file.py'
+    var_2 = module_1.sort_imports(var_1, var_0)
+    var_3 = 'skipped_file.py'
+    var_4 = True
+    var_5 = module_1.sort_imports(var_3, var_0, var_4)
+    var_6 = 'unsupported_encoding_file.py'
+    var_7 = module_1.sort_imports(var_6, var_0)
+    var_8 = 'os_error_file.py'
+    var_9 = module_1.sort_imports(var_8, var_0)
+    assert var_9 is None
+    var_10 = 'value_error_file.py'
+    var_11 = module_1.sort_imports(var_10, var_0)
+    assert var_11 is None
+    var_12 = 'isort_error_file.py'
+    var_13 = module_1.sort_imports(var_12, var_0)
+    var_14 = 'general_error_file.py'
+    var_15 = module_1.sort_imports(var_14, var_0)
 
 
 
@@ -1593,86 +1415,511 @@ def test_case_0():
 #--------------------------
 
 
+import isort.main as module_0
 
 def test_case_0():
     var_0 = []
     var_1 = module_0.parse_args(var_0)
-    var_2 = '--check-only'
+    var_2 = '-h'
     var_3 = [var_2]
     var_4 = module_0.parse_args(var_3)
-    var_5 = '--diff'
-    var_6 = [var_2, var_5]
-    var_7 = module_0.parse_args(var_6)
-    var_8 = '--line-length'
-    var_9 = '80'
-    var_10 = [var_8, var_9]
+    var_5 = '--line-length'
+    var_6 = '80'
+    var_7 = [var_5, var_6]
+    var_8 = module_0.parse_args(var_7)
+    var_9 = '-rc'
+    var_10 = [var_9]
     var_11 = module_0.parse_args(var_10)
-    var_12 = '--recursive'
-    var_13 = [var_12]
-    var_14 = module_0.parse_args(var_13)
-    var_15 = '-rc'
-    var_16 = [var_15]
-    var_17 = module_0.parse_args(var_16)
-    var_18 = '--known-thirdparty'
-    var_19 = 'requests'
-    var_20 = 'numpy'
-    var_21 = [var_18, var_19, var_18, var_20]
-    var_22 = module_0.parse_args(var_21)
-    var_23 = '--py'
-    var_24 = 'invalid'
-    var_25 = [var_23, var_24]
-    var_26 = module_0.parse_args(var_25)
-    var_27 = '--py'
-    var_28 = '3.8'
-    var_29 = [var_27, var_28]
+    var_12 = '--multi-line'
+    var_13 = '1'
+    var_14 = [var_12, var_13]
+    var_15 = module_0.parse_args(var_14)
+    var_16 = '--order-by-type'
+    var_17 = [var_16]
+    var_18 = module_0.parse_args(var_17)
+    var_19 = '--dont-order-by-type'
+    var_20 = [var_19]
+    var_21 = module_0.parse_args(var_20)
+    var_22 = '--float-to-top'
+    var_23 = [var_22]
+    var_24 = module_0.parse_args(var_23)
+    var_25 = '--dont-float-to-top'
+    var_26 = [var_25]
+    var_27 = module_0.parse_args(var_26)
+    var_28 = '--follow-links'
+    var_29 = [var_28]
     var_30 = module_0.parse_args(var_29)
-    var_31 = 'auto'
-    var_32 = [var_27, var_31]
+    var_31 = '--dont-follow-links'
+    var_32 = [var_31]
     var_33 = module_0.parse_args(var_32)
-    var_34 = '--multi-line'
-    var_35 = '5'
+    var_34 = '--force-grid-wrap'
+    var_35 = '3'
     var_36 = [var_34, var_35]
     var_37 = module_0.parse_args(var_36)
-    var_38 = 'VERTICAL_GRID_GROUPED'
-    var_39 = [var_34, var_38]
-    var_40 = module_0.parse_args(var_39)
-    var_41 = '--float-to-top'
-    var_42 = '--dont-float-to-top'
-    var_43 = [var_41, var_42]
-    var_44 = module_0.parse_args(var_43)
-    var_45 = '--dont-float-to-top'
-    var_46 = [var_45]
-    var_47 = module_0.parse_args(var_46)
-    var_48 = '--dont-order-by-type'
-    var_49 = [var_48]
-    var_50 = module_0.parse_args(var_49)
-    var_51 = '--dont-follow-links'
-    var_52 = [var_51]
-    var_53 = module_0.parse_args(var_52)
-    var_54 = [var_42, var_5]
+    var_38 = '--indent'
+    var_39 = '    '
+    var_40 = [var_38, var_39]
+    var_41 = module_0.parse_args(var_40)
+    var_42 = '--lines-before-imports'
+    var_43 = '2'
+    var_44 = [var_42, var_43]
+    var_45 = module_0.parse_args(var_44)
+    var_46 = '--lines-after-imports'
+    var_47 = [var_46, var_43]
+    var_48 = module_0.parse_args(var_47)
+    var_49 = '--lines-between-types'
+    var_50 = [var_49, var_43]
+    var_51 = module_0.parse_args(var_50)
+    var_52 = '--line-ending'
+    var_53 = 'lf'
+    var_54 = [var_52, var_53]
     var_55 = module_0.parse_args(var_54)
-    var_56 = [var_42, var_5, var_8, var_9]
-    var_57 = module_0.parse_args(var_56)
-    var_58 = [var_42, var_5, var_8, var_9, var_18, var_19]
-    var_59 = module_0.parse_args(var_58)
-    var_60 = [var_42, var_5, var_8, var_9, var_18, var_19, var_27, var_28]
+    var_56 = '--length-sort'
+    var_57 = [var_56]
+    var_58 = module_0.parse_args(var_57)
+    var_59 = '--length-sort-straight'
+    var_60 = [var_59]
     var_61 = module_0.parse_args(var_60)
-    var_62 = [var_42, var_5, var_8, var_9, var_18, var_19, var_27, var_28, var_34, var_35]
-    var_63 = module_0.parse_args(var_62)
-    var_64 = [var_42, var_5, var_8, var_9, var_18, var_19, var_27, var_28, var_34, var_35, var_45]
-    var_65 = module_0.parse_args(var_64)
-    var_66 = [var_42, var_5, var_8, var_9, var_18, var_19, var_27, var_28, var_34, var_35, var_45, var_48]
+    var_62 = '--ensure-newline-before-comments'
+    var_63 = [var_62]
+    var_64 = module_0.parse_args(var_63)
+    var_65 = '--no-inline-sort'
+    var_66 = [var_65]
     var_67 = module_0.parse_args(var_66)
-    var_68 = [var_42, var_5, var_8, var_9, var_18, var_19, var_27, var_28, var_34, var_35, var_45, var_48, var_51]
-    var_69 = module_0.parse_args(var_68)
-    var_70 = [var_42, var_5, var_8, var_9, var_18, var_19, var_27, var_28, var_34, var_35, var_45, var_48, var_51, var_15]
-    var_71 = module_0.parse_args(var_70)
+    var_68 = '--reverse-sort'
+    var_69 = [var_68]
+    var_70 = module_0.parse_args(var_69)
+    var_71 = '--sort-order'
+    var_72 = 'natural'
+    var_73 = [var_71, var_72]
+    var_74 = module_0.parse_args(var_73)
+    var_75 = '--force-single-line-imports'
+    var_76 = [var_75]
+    var_77 = module_0.parse_args(var_76)
+    var_78 = '--single-line-exclusions'
+    var_79 = 'os'
+    var_80 = [var_78, var_79]
+    var_81 = module_0.parse_args(var_80)
+    var_82 = '--trailing-comma'
+    var_83 = [var_82]
+    var_84 = module_0.parse_args(var_83)
+    var_85 = '--use-parentheses'
+    var_86 = [var_85]
+    var_87 = module_0.parse_args(var_86)
+    var_88 = '--wrap-length'
+    var_89 = [var_88, var_6]
+    var_90 = module_0.parse_args(var_89)
+    var_91 = '--case-sensitive'
+    var_92 = [var_91]
+    var_93 = module_0.parse_args(var_92)
+    var_94 = '--remove-redundant-aliases'
+    var_95 = [var_94]
+    var_96 = module_0.parse_args(var_95)
+    var_97 = '--honor-noqa'
+    var_98 = [var_97]
+    var_99 = module_0.parse_args(var_98)
 
 
 
 # Parsed testcases at query #10
 #--------------------------
 
+
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = '--line-length'
+    var_1 = '88'
+    var_2 = [var_0, var_1]
+    var_3 = module_0.parse_args(var_2)
+    var_4 = '--force-single-line-imports'
+    var_5 = [var_4]
+    var_6 = module_0.parse_args(var_5)
+    var_7 = '--dont-order-by-type'
+    var_8 = [var_7]
+    var_9 = module_0.parse_args(var_8)
+    var_10 = '--recursive'
+    var_11 = [var_10]
+    var_12 = module_0.parse_args(var_11)
+    var_13 = '--multi-line'
+    var_14 = 'VERTICAL_HANGING_INDENT'
+    var_15 = [var_13, var_14]
+    var_16 = module_0.parse_args(var_15)
+
+
+
+# Parsed testcases at query #11
+#--------------------------
+
+
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = module_0.identify_imports_main()
+    var_1 = '--top-only'
+    var_2 = [var_1]
+    var_3 = module_0.identify_imports_main(var_2)
+    var_4 = '--follow-links'
+    var_5 = [var_4]
+    var_6 = module_0.identify_imports_main(var_5)
+    var_7 = '--unique'
+    var_8 = [var_7]
+    var_9 = module_0.identify_imports_main(var_8)
+    var_10 = '--packages'
+    var_11 = [var_10]
+    var_12 = module_0.identify_imports_main(var_11)
+    var_13 = '--modules'
+    var_14 = [var_13]
+    var_15 = module_0.identify_imports_main(var_14)
+    var_16 = '--attributes'
+    var_17 = [var_16]
+    var_18 = module_0.identify_imports_main(var_17)
+    var_19 = [var_1, var_7]
+    var_20 = module_0.identify_imports_main(var_19)
+    var_21 = [var_1, var_10]
+    var_22 = module_0.identify_imports_main(var_21)
+    var_23 = [var_1, var_13]
+    var_24 = module_0.identify_imports_main(var_23)
+    var_25 = [var_1, var_16]
+    var_26 = module_0.identify_imports_main(var_25)
+    var_27 = [var_4, var_7]
+    var_28 = module_0.identify_imports_main(var_27)
+    var_29 = [var_4, var_10]
+    var_30 = module_0.identify_imports_main(var_29)
+    var_31 = [var_4, var_13]
+    var_32 = module_0.identify_imports_main(var_31)
+    var_33 = [var_4, var_16]
+    var_34 = module_0.identify_imports_main(var_33)
+    var_35 = [var_4, var_1, var_7]
+    var_36 = module_0.identify_imports_main(var_35)
+    var_37 = [var_4, var_1, var_10]
+    var_38 = module_0.identify_imports_main(var_37)
+    var_39 = [var_4, var_1, var_13]
+    var_40 = module_0.identify_imports_main(var_39)
+    var_41 = [var_4, var_1, var_16]
+    var_42 = module_0.identify_imports_main(var_41)
+
+
+
+# Parsed testcases at query #12
+#--------------------------
+
+
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = []
+    var_1 = module_0.parse_args(var_0)
+    var_2 = '-l'
+    var_3 = '80'
+    var_4 = [var_2, var_3]
+    var_5 = module_0.parse_args(var_4)
+    var_6 = '--force-single-line'
+    var_7 = [var_2, var_3, var_6]
+    var_8 = module_0.parse_args(var_7)
+    var_9 = '--recursive'
+    var_10 = [var_9]
+    var_11 = module_0.parse_args(var_10)
+    var_12 = '--keep-direct-and-as'
+    var_13 = [var_12]
+    var_14 = module_0.parse_args(var_13)
+    var_15 = '--dont-order-by-type'
+    var_16 = [var_15]
+    var_17 = module_0.parse_args(var_16)
+    var_18 = '--dont-follow-links'
+    var_19 = [var_18]
+    var_20 = module_0.parse_args(var_19)
+    var_21 = '--dont-float-to-top'
+    var_22 = [var_21]
+    var_23 = module_0.parse_args(var_22)
+    var_24 = '--multi-line'
+    var_25 = '1'
+    var_26 = [var_24, var_25]
+    var_27 = module_0.parse_args(var_26)
+    var_28 = 'multi_line_output'
+    var_29 = 1
+    var_30 = 'VERTICAL'
+    var_31 = [var_24, var_30]
+    var_32 = module_0.parse_args(var_31)
+
+
+
+# Parsed testcases at query #13
+#--------------------------
+
+
+import isort.settings as module_0
+import isort.main as module_1
+
+def test_case_0():
+    var_0 = module_0.Config()
+    var_1 = 'test_file.py'
+    var_2 = True
+    var_3 = module_1.sort_imports(var_1, var_0, var_2)
+    var_4 = 'incorrect_file.py'
+    var_5 = module_1.sort_imports(var_4, var_0, var_2)
+    var_6 = 'skipped_file.py'
+    var_7 = module_1.sort_imports(var_6, var_0, var_2)
+    var_8 = 'unsupported_encoding.py'
+    var_9 = module_1.sort_imports(var_8, var_0, var_2)
+    assert var_9 is None
+    var_10 = module_1.sort_imports(var_1, var_0, write_to_stdout=var_2)
+    var_11 = 'error_file.py'
+    var_12 = module_1.sort_imports(var_11, var_0)
+    var_13 = 'All test cases passed!'
+    var_14 = print(var_13)
+
+
+
+# Parsed testcases at query #14
+#--------------------------
+
+
+import isort.settings as module_0
+import isort.main as module_1
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.Config()
+    var_2 = 'correctly_sorted.py'
+    var_3 = module_1.sort_imports(var_2, var_1)
+    var_4 = 'incorrectly_sorted.py'
+    var_5 = module_1.sort_imports(var_4, var_1)
+    var_6 = 'skipped.py'
+    var_7 = module_1.sort_imports(var_6, var_1)
+    var_8 = 'unsupported_encoding.py'
+    var_9 = module_1.sort_imports(var_8, var_1)
+    var_10 = False
+    var_11 = module_0.Config()
+    var_12 = module_1.sort_imports(var_2, var_11)
+    var_13 = module_1.sort_imports(var_4, var_11)
+    var_14 = module_1.sort_imports(var_6, var_11)
+    var_15 = module_1.sort_imports(var_8, var_11)
+    var_16 = 'os_error.py'
+    var_17 = module_1.sort_imports(var_16, var_11)
+    assert var_17 is None
+    var_18 = 'isort_error.py'
+    var_19 = module_1.sort_imports(var_18, var_11)
+
+
+
+# Parsed testcases at query #15
+#--------------------------
+
+
+def test_case_0():
+    pass
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = module_0.identify_imports_main()
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = '--force-grid-wrap'
+    var_1 = '4'
+    var_2 = '--indent'
+    var_3 = '    '
+    var_4 = '--line-length'
+    var_5 = '88'
+    var_6 = [var_0, var_1, var_2, var_3, var_4, var_5]
+    var_7 = module_0.parse_args(var_6)
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = module_0.identify_imports_main()
+    var_1 = module_0.identify_imports_main()
+    var_2 = 'test.py'
+    var_3 = [var_2]
+    var_4 = False
+    var_5 = module_0.identify_imports_main()
+    var_6 = 'test.py'
+    var_7 = [var_6]
+    var_8 = True
+    var_9 = False
+    var_10 = module_0.identify_imports_main()
+    var_11 = 'test.py'
+    var_12 = [var_11]
+    var_13 = False
+    var_14 = True
+    var_15 = module_0.identify_imports_main()
+    var_16 = 'test.py'
+    var_17 = [var_16]
+    var_18 = False
+    var_19 = True
+    var_20 = module_0.identify_imports_main()
+    var_21 = 'test.py'
+    var_22 = [var_21]
+    var_23 = False
+    var_24 = module_0.identify_imports_main()
+    var_25 = 'test.py'
+    var_26 = [var_25]
+    var_27 = False
+    var_28 = module_0.identify_imports_main()
+    var_29 = 'test.py'
+    var_30 = [var_29]
+    var_31 = False
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+
+import isort.main as module_0
+import re as module_1
+
+def test_case_0():
+    var_0 = '-'
+    var_1 = [var_0]
+    var_2 = 'import os\n'
+    var_3 = 'import sys\n'
+    var_4 = [var_2, var_3]
+    var_5 = [var_2, var_3]
+    var_6 = (var_1, var_4, var_5)
+    var_7 = 'test.py'
+    var_8 = [var_7]
+    var_9 = [var_2, var_3]
+    var_10 = [var_2, var_3]
+    var_11 = (var_8, var_9, var_10)
+    var_12 = '--unique'
+    var_13 = [var_0, var_12]
+    var_14 = [var_2, var_2]
+    var_15 = [var_2]
+    var_16 = (var_13, var_14, var_15)
+    var_17 = '--packages'
+    var_18 = [var_7, var_17]
+    var_19 = 'import os.path\n'
+    var_20 = [var_19, var_3]
+    var_21 = 'os'
+    var_22 = 'sys'
+    var_23 = [var_21, var_22]
+    var_24 = (var_18, var_20, var_23)
+    var_25 = '--modules'
+    var_26 = [var_7, var_25]
+    var_27 = [var_19, var_3]
+    var_28 = 'os.path'
+    var_29 = [var_28, var_22]
+    var_30 = (var_26, var_27, var_29)
+    var_31 = '--attributes'
+    var_32 = [var_7, var_31]
+    var_33 = 'from os import path\n'
+    var_34 = 'from sys import exit\n'
+    var_35 = [var_33, var_34]
+    var_36 = 'sys.exit'
+    var_37 = [var_28, var_36]
+    var_38 = (var_32, var_35, var_37)
+    var_39 = [var_6, var_11, var_16, var_24, var_30, var_38]
+    var_40 = module_0.identify_imports_main()
+    var_41 = '\n'
+    var_42 = module_1.split(var_41)
+    var_43 = module_0.identify_imports_main()
+    var_44 = '\n'
+    var_45 = module_1.split(var_44)
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+
+import isort.settings as module_0
+
+def test_case_0():
+    var_0 = 'import os\nimport sys\n'
+    var_1 = True
+    var_2 = module_0.Config()
+    var_3 = 'import sys\nimport os\n'
+    var_4 = module_0.Config()
+    var_5 = True
+    var_6 = module_0.Config()
+    var_7 = True
+    var_8 = module_0.Config()
+    var_9 = True
+    var_10 = module_0.Config()
+    var_11 = True
+    var_12 = module_0.Config()
+
+
+
+# Parsed testcases at query #21
+#--------------------------
+
+
+import isort.main as module_0
+
+def test_case_0():
+    var_0 = module_0.identify_imports_main()
+    var_1 = 'os'
+    var_2 = 'sys.path'
+    var_3 = 'math'
+    var_4 = 'os.path.join'
+    var_5 = module_0.identify_imports_main()
+    var_6 = False
+    var_7 = 'os'
+    var_8 = 'sys'
+    var_9 = 'math'
+    var_10 = module_0.identify_imports_main()
+    var_11 = 'file.py'
+    var_12 = [var_11]
+    var_13 = 'package'
+    var_14 = False
+    var_15 = 'os'
+    var_16 = 'sys.path'
+    var_17 = 'math'
+    var_18 = 'os.path.join'
+    var_19 = module_0.identify_imports_main()
+    var_20 = 'file.py'
+    var_21 = [var_20]
+    var_22 = 'module'
+    var_23 = False
+    var_24 = 'os.path.join'
+    var_25 = 'sys.path'
+    var_26 = 'math.sqrt'
+    var_27 = module_0.identify_imports_main()
+    var_28 = 'file.py'
+    var_29 = [var_28]
+    var_30 = 'attribute'
+    var_31 = False
+    var_32 = 'os'
+    var_33 = 'sys.path'
+    var_34 = 'math'
+    var_35 = 'os.path.join'
+    var_36 = module_0.identify_imports_main()
+    var_37 = 'file.py'
+    var_38 = [var_37]
+    var_39 = False
+    var_40 = True
+    var_41 = 'os'
+    var_42 = 'sys.path'
+    var_43 = 'math'
+    var_44 = 'os.path.join'
+    var_45 = module_0.identify_imports_main()
+    var_46 = 'file.py'
+    var_47 = [var_46]
+    var_48 = False
+    var_49 = True
 
 
 

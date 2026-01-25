@@ -4,26 +4,26 @@ import pytest
 
 
 def test_case_0():
-    var_0 = 'setting1'
+    var_0 = 'settz\nig1'
     var_1 = 'setting2'
     var_2 = 'value'
     var_3 = 'source'
     var_4 = 'value1'
     var_5 = 'source1'
     var_6 = {var_2: var_4, var_3: var_5}
-    var_7 = 'value2'
-    var_8 = 'source2'
-    var_9 = {var_2: var_7, var_3: var_8}
-    var_10 = {var_0: var_6, var_1: var_9}
-    var_11 = module_0.UnsupportedSettings(var_10)
-    assert f'{type(var_11).__module__}.{type(var_11).__qualname__}' == 'isort.exceptions.UnsupportedSettings'
-    assert var_11.unsupported_settings == {'setting1': {'value': 'value1', 'source': 'source1'}, 'setting2': {'value': 'value2', 'source': 'source2'}}
+    var_7 = {var_0: var_6, var_1: var_6}
+    var_8 = module_0.UnsupportedSettings(var_7)
+    assert f'{type(var_8).__module__}.{type(var_8).__qualname__}' == 'isort.exceptions.UnsupportedSettings'
+    assert var_8.unsupported_settings == {'settz\nig1': {'value': 'value1', 'source': 'source1'}, 'setting2': {'value': 'value1', 'source': 'source1'}}
     assert module_0.profiles == {'black': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88}, 'django': {'combine_as_imports': True, 'include_trailing_comma': True, 'multi_line_output': 5, 'line_length': 79}, 'pycharm': {'multi_line_output': 3, 'force_grid_wrap': 2, 'lines_after_imports': 2}, 'google': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True, 'line_length': 1000, 'single_line_exclusions': ('collections.abc', 'six.moves', 'typing', 'typing_extensions'), 'order_by_type': False, 'group_by_package': True}, 'open_stack': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True}, 'plone': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_alphabetical_sort': True, 'force_single_line': True, 'lines_after_imports': 2}, 'attrs': {'atomic': True, 'force_grid_wrap': 0, 'include_trailing_comma': True, 'lines_after_imports': 2, 'lines_between_types': 1, 'multi_line_output': 3, 'use_parentheses': True}, 'hug': {'multi_line_output': 3, 'include_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'line_length': 100}, 'wemake': {'multi_line_output': 3, 'include_trailing_comma': True, 'use_parentheses': True, 'line_length': 80}, 'appnexus': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_sort_within_sections': True, 'order_by_type': False, 'case_sensitive': False, 'reverse_relative': True, 'sort_relative_in_force_sorted_sections': True, 'sections': ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'APPLICATION', 'LOCALFOLDER'], 'no_lines_before': 'LOCALFOLDER'}}
-    var_12 = str(var_11)
+    var_9 = str(var_8)
 
 def test_case_1():
-    var_0 = module_0.ISortError()
-    assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'isort.exceptions.ISortError'
+    var_0 = 'hVsRx'
+    var_1 = module_0.FileSkipSetting(var_0)
+    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'isort.exceptions.FileSkipSetting'
+    assert var_1.message == "hVsRx was skipped as it's listed in 'skip' setting or matches a glob in 'skip_glob' setting"
+    assert var_1.file_path == 'hVsRx'
     assert module_0.profiles == {'black': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88}, 'django': {'combine_as_imports': True, 'include_trailing_comma': True, 'multi_line_output': 5, 'line_length': 79}, 'pycharm': {'multi_line_output': 3, 'force_grid_wrap': 2, 'lines_after_imports': 2}, 'google': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True, 'line_length': 1000, 'single_line_exclusions': ('collections.abc', 'six.moves', 'typing', 'typing_extensions'), 'order_by_type': False, 'group_by_package': True}, 'open_stack': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True}, 'plone': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_alphabetical_sort': True, 'force_single_line': True, 'lines_after_imports': 2}, 'attrs': {'atomic': True, 'force_grid_wrap': 0, 'include_trailing_comma': True, 'lines_after_imports': 2, 'lines_between_types': 1, 'multi_line_output': 3, 'use_parentheses': True}, 'hug': {'multi_line_output': 3, 'include_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'line_length': 100}, 'wemake': {'multi_line_output': 3, 'include_trailing_comma': True, 'use_parentheses': True, 'line_length': 80}, 'appnexus': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_sort_within_sections': True, 'order_by_type': False, 'case_sensitive': False, 'reverse_relative': True, 'sort_relative_in_force_sorted_sections': True, 'sections': ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'APPLICATION', 'LOCALFOLDER'], 'no_lines_before': 'LOCALFOLDER'}}
 
 @pytest.mark.xfail(strict=True)
@@ -89,16 +89,8 @@ def test_case_5():
     assert var_1.file_path == '?'
     assert module_0.profiles == {'black': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88}, 'django': {'combine_as_imports': True, 'include_trailing_comma': True, 'multi_line_output': 5, 'line_length': 79}, 'pycharm': {'multi_line_output': 3, 'force_grid_wrap': 2, 'lines_after_imports': 2}, 'google': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True, 'line_length': 1000, 'single_line_exclusions': ('collections.abc', 'six.moves', 'typing', 'typing_extensions'), 'order_by_type': False, 'group_by_package': True}, 'open_stack': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True}, 'plone': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_alphabetical_sort': True, 'force_single_line': True, 'lines_after_imports': 2}, 'attrs': {'atomic': True, 'force_grid_wrap': 0, 'include_trailing_comma': True, 'lines_after_imports': 2, 'lines_between_types': 1, 'multi_line_output': 3, 'use_parentheses': True}, 'hug': {'multi_line_output': 3, 'include_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'line_length': 100}, 'wemake': {'multi_line_output': 3, 'include_trailing_comma': True, 'use_parentheses': True, 'line_length': 80}, 'appnexus': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_sort_within_sections': True, 'order_by_type': False, 'case_sensitive': False, 'reverse_relative': True, 'sort_relative_in_force_sorted_sections': True, 'sections': ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'APPLICATION', 'LOCALFOLDER'], 'no_lines_before': 'LOCALFOLDER'}}
 
-def test_case_6():
-    var_0 = 'hVsRx'
-    var_1 = module_0.FileSkipSetting(var_0)
-    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'isort.exceptions.FileSkipSetting'
-    assert var_1.message == "hVsRx was skipped as it's listed in 'skip' setting or matches a glob in 'skip_glob' setting"
-    assert var_1.file_path == 'hVsRx'
-    assert module_0.profiles == {'black': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88}, 'django': {'combine_as_imports': True, 'include_trailing_comma': True, 'multi_line_output': 5, 'line_length': 79}, 'pycharm': {'multi_line_output': 3, 'force_grid_wrap': 2, 'lines_after_imports': 2}, 'google': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True, 'line_length': 1000, 'single_line_exclusions': ('collections.abc', 'six.moves', 'typing', 'typing_extensions'), 'order_by_type': False, 'group_by_package': True}, 'open_stack': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True}, 'plone': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_alphabetical_sort': True, 'force_single_line': True, 'lines_after_imports': 2}, 'attrs': {'atomic': True, 'force_grid_wrap': 0, 'include_trailing_comma': True, 'lines_after_imports': 2, 'lines_between_types': 1, 'multi_line_output': 3, 'use_parentheses': True}, 'hug': {'multi_line_output': 3, 'include_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'line_length': 100}, 'wemake': {'multi_line_output': 3, 'include_trailing_comma': True, 'use_parentheses': True, 'line_length': 80}, 'appnexus': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_sort_within_sections': True, 'order_by_type': False, 'case_sensitive': False, 'reverse_relative': True, 'sort_relative_in_force_sorted_sections': True, 'sections': ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'APPLICATION', 'LOCALFOLDER'], 'no_lines_before': 'LOCALFOLDER'}}
-
 @pytest.mark.xfail(strict=True)
-def test_case_7():
+def test_case_6():
     var_0 = 'p&'
     var_1 = module_0.IntroducedSyntaxErrors(var_0)
     assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'isort.exceptions.IntroducedSyntaxErrors'
@@ -118,28 +110,35 @@ def test_case_7():
     module_0.UnsupportedSettings(var_3)
 
 @pytest.mark.xfail(strict=True)
-def test_case_8():
+def test_case_7():
     var_0 = None
     module_0.SortingFunctionDoesNotExist(var_0, var_0)
 
-@pytest.mark.xfail(strict=True)
-def test_case_9():
-    var_0 = module_0.LiteralParsingFailure
-    var_1 = None
-    var_2 = module_0.LiteralSortTypeMismatch(var_0, var_1)
-    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'isort.exceptions.LiteralSortTypeMismatch'
-    assert var_2.expected_kind is None
+def test_case_8():
+    var_0 = 'setting1'
+    var_1 = module_0.LiteralSortTypeMismatch
+    var_2 = None
+    var_3 = module_0.LiteralSortTypeMismatch(var_1, var_2)
+    assert f'{type(var_3).__module__}.{type(var_3).__qualname__}' == 'isort.exceptions.LiteralSortTypeMismatch'
+    assert var_3.expected_kind is None
     assert module_0.profiles == {'black': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88}, 'django': {'combine_as_imports': True, 'include_trailing_comma': True, 'multi_line_output': 5, 'line_length': 79}, 'pycharm': {'multi_line_output': 3, 'force_grid_wrap': 2, 'lines_after_imports': 2}, 'google': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True, 'line_length': 1000, 'single_line_exclusions': ('collections.abc', 'six.moves', 'typing', 'typing_extensions'), 'order_by_type': False, 'group_by_package': True}, 'open_stack': {'force_single_line': True, 'force_sort_within_sections': True, 'lexicographical': True}, 'plone': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_alphabetical_sort': True, 'force_single_line': True, 'lines_after_imports': 2}, 'attrs': {'atomic': True, 'force_grid_wrap': 0, 'include_trailing_comma': True, 'lines_after_imports': 2, 'lines_between_types': 1, 'multi_line_output': 3, 'use_parentheses': True}, 'hug': {'multi_line_output': 3, 'include_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'line_length': 100}, 'wemake': {'multi_line_output': 3, 'include_trailing_comma': True, 'use_parentheses': True, 'line_length': 80}, 'appnexus': {'multi_line_output': 3, 'include_trailing_comma': True, 'split_on_trailing_comma': True, 'force_grid_wrap': 0, 'use_parentheses': True, 'ensure_newline_before_comments': True, 'line_length': 88, 'force_sort_within_sections': True, 'order_by_type': False, 'case_sensitive': False, 'reverse_relative': True, 'sort_relative_in_force_sorted_sections': True, 'sections': ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'APPLICATION', 'LOCALFOLDER'], 'no_lines_before': 'LOCALFOLDER'}}
-    var_3 = module_0.ISortError()
-    assert f'{type(var_3).__module__}.{type(var_3).__qualname__}' == 'isort.exceptions.ISortError'
-    var_4 = None
-    var_5 = module_0.FileSkipSetting(var_4)
-    assert f'{type(var_5).__module__}.{type(var_5).__qualname__}' == 'isort.exceptions.FileSkipSetting'
-    assert var_5.message == "None was skipped as it's listed in 'skip' setting or matches a glob in 'skip_glob' setting"
-    assert var_5.file_path is None
-    module_0.SortingFunctionDoesNotExist(var_4, var_4)
+    var_4 = 'setting2'
+    var_5 = 'value'
+    var_6 = 'source'
+    var_7 = 'value1'
+    var_8 = 'source1'
+    var_9 = {var_5: var_7, var_6: var_8}
+    var_10 = 'value2'
+    var_11 = 'source2'
+    var_12 = {var_5: var_10, var_6: var_11}
+    var_13 = {var_0: var_9, var_4: var_12}
+    var_14 = module_0.UnsupportedSettings(var_13)
+    assert f'{type(var_14).__module__}.{type(var_14).__qualname__}' == 'isort.exceptions.UnsupportedSettings'
+    assert var_14.unsupported_settings == {'setting1': {'value': 'value1', 'source': 'source1'}, 'setting2': {'value': 'value2', 'source': 'source2'}}
+    var_15 = str(var_14)
+    assert var_15 == "isort was provided settings that it doesn't support:\n\n\t- setting1 = value1  (source: 'source1')\n\t- setting2 = value2  (source: 'source2')\n\nFor a complete and up-to-date listing of supported settings see: https://pycqa.github.io/isort/docs/configuration/options.\n"
 
-def test_case_10():
+def test_case_9():
     var_0 = None
     var_1 = 'R.Oz07hAH-L>G\x0cF'
     var_2 = module_0.FileSkipped(var_1, var_0)
@@ -152,7 +151,7 @@ def test_case_10():
     assert var_3.code is None
 
 @pytest.mark.xfail(strict=True)
-def test_case_11():
+def test_case_10():
     var_0 = "|/41J\x0c'\\,(@p8"
     var_1 = module_0.UnsupportedEncoding(var_0)
     assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'isort.exceptions.UnsupportedEncoding'
@@ -167,7 +166,7 @@ def test_case_11():
     module_0.ISortError(**var_4)
 
 @pytest.mark.xfail(strict=True)
-def test_case_12():
+def test_case_11():
     var_0 = '#Mv]j#VSZ2'
     var_1 = 'u6&ox+\no;?\n`5}G'
     var_2 = None

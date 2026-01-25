@@ -1474,3 +1474,340 @@ def test_getattr_with_non_callable_attribute():
     assert result is None
 
 
+# LLM-generated content at query #33
+#--------------------------
+
+def test_generic_constructor_default_locale_and_seed():
+    generic = Generic()
+    assert generic.locale == Locale.DEFAULT
+    assert generic.seed == MissingSeed
+    assert isinstance(generic.random, _random.Random)
+
+def test_generic_constructor_custom_locale():
+    generic = Generic(locale=Locale.EN)
+    assert generic.locale == Locale.EN
+
+def test_generic_constructor_custom_seed():
+    generic = Generic(seed=12345)
+    assert generic.seed == 12345
+
+def test_generic_constructor_providers_initialized():
+    generic = Generic()
+    assert "address" in dir(generic)
+    assert "person" in dir(generic)
+
+def test_generic_constructor_data_providers_lazy_loaded():
+    generic = Generic()
+    assert hasattr(generic, "_address")
+    assert callable(generic._address)
+    assert not hasattr(generic, "address")
+    address_provider = generic.address
+    assert hasattr(generic, "address")
+    assert isinstance(address_provider, BaseDataProvider)
+
+def test_generic_constructor_base_providers_instantiated():
+    generic = Generic()
+    assert hasattr(generic, "cryptographic")
+    assert isinstance(generic.cryptographic, BaseProvider)
+
+def test_generic_constructor_excludes_generic_from_registry():
+    generic = Generic()
+    assert "generic" not in dir(generic)
+
+def test_generic_constructor_seed_propagation_to_base_providers():
+    generic = Generic(seed=999)
+    assert generic.cryptographic.seed == 999
+
+def test_generic_constructor_dir_excludes_base_attributes():
+    generic = Generic()
+    attributes = dir(generic)
+    assert "locale" not in attributes
+    assert "seed" not in attributes
+    assert "random" not in attributes
+    assert "reseed" not in attributes
+    assert "validate_enum" not in attributes
+
+def test_generic_constructor_dir_includes_providers():
+    generic = Generic()
+    attributes = dir(generic)
+    assert "address" in attributes
+    assert "person" in attributes
+    assert "cryptographic" in attributes
+
+
+# LLM-generated content at query #34
+#--------------------------
+
+def test_add_provider_with_meta_name_attribute():
+    from mimesis.providers.base import BaseProvider
+    from mimesis.providers.generic import Generic
+    import mimesis.random as _random
+    import mimesis.enums as enums
+    class CustomProvider(BaseProvider):
+        class Meta:
+            name = "custom"
+    generic = Generic()
+    generic.add_provider(CustomProvider)
+    assert hasattr(generic, "custom")
+    assert isinstance(generic.custom, CustomProvider)
+
+
+# LLM-generated content at query #35
+#--------------------------
+
+def test_generic_constructor_default_locale_and_seed():
+    generic = Generic()
+    assert generic.locale == Locale.DEFAULT
+    assert generic.seed is MissingSeed
+    assert isinstance(generic.random, _random.Random)
+
+def test_generic_constructor_custom_locale():
+    generic = Generic(locale=Locale.EN)
+    assert generic.locale == Locale.EN
+
+def test_generic_constructor_custom_seed():
+    seed = 12345
+    generic = Generic(seed=seed)
+    assert generic.seed == seed
+
+def test_generic_constructor_initializes_providers():
+    generic = Generic()
+    assert hasattr(generic, "person")
+    assert hasattr(generic, "address")
+
+def test_generic_constructor_skips_generic_in_registry():
+    generic = Generic()
+    assert not hasattr(generic, "generic")
+
+def test_generic_constructor_lazy_initialization():
+    generic = Generic()
+    assert "_person" in generic.__dict__
+    assert "person" not in generic.__dict__
+    person_provider = generic.person
+    assert "person" in generic.__dict__
+    assert isinstance(person_provider, BaseDataProvider)
+
+def test_generic_constructor_seed_propagation():
+    seed = 999
+    generic = Generic(seed=seed)
+    person = generic.person
+    assert person.seed == seed
+
+
+# LLM-generated content at query #36
+#--------------------------
+
+def test___getattr___returns_none_for_non_existing_attribute():
+    generic = Generic()
+    result = generic.__getattr__("non_existent")
+    assert result is None
+
+def test___getattr___returns_callable_attribute():
+    class MockProvider(BaseDataProvider):
+        def __init__(self, locale, seed):
+            pass
+        def __call__(self):
+            return "mocked"
+    ProviderRegistry.register("mock", MockProvider)
+    generic = Generic()
+    result = generic.__getattr__("mock")
+    assert callable(result)
+    assert result() == "mocked"
+
+def test___getattr___caches_attribute_after_first_access():
+    class MockProvider(BaseDataProvider):
+        call_count = 0
+        def __init__(self, locale, seed):
+            pass
+        def __call__(self):
+            MockProvider.call_count += 1
+            return MockProvider.call_count
+    ProviderRegistry.register("mock", MockProvider)
+    generic = Generic()
+    first_call = generic.__getattr__("mock")
+    second_call = generic.__getattr__("mock")
+    assert first_call is second_call
+    assert first_call() == 1
+    assert second_call() == 1
+
+def test___getattr___handles_attribute_without_leading_underscore():
+    generic = Generic()
+    generic._test_attr = "value"
+    result = generic.__getattr__("test_attr")
+    assert result == "value"
+
+def test___getattr___returns_none_for_non_callable_attribute():
+    generic = Generic()
+    generic._non_callable = 123
+    result = generic.__getattr__("non_callable")
+    assert result is None
+
+
+# LLM-generated content at query #37
+#--------------------------
+
+def test_issubclass_of_baseprovider_but_not_basedataprovider():
+    from mimesis.providers.generic import Generic
+    from mimesis.providers.base import BaseProvider
+    from mimesis.providers.base import BaseDataProvider
+    from mimesis.providers import ProviderRegistry
+    from mimesis.enums import Locale
+    from mimesis.random import MissingSeed
+    class CustomProvider(BaseProvider):
+        class Meta:
+            name = "custom"
+    ProviderRegistry.register("custom", CustomProvider)
+    generic = Generic(locale=Locale.EN, seed=MissingSeed)
+    assert hasattr(generic, "custom")
+    assert isinstance(getattr(generic, "custom"), CustomProvider)
+
+
+# LLM-generated content at query #38
+#--------------------------
+
+```python
+def test_add_provider_with_meta_name_does_not_raise_attribute_error():
+    class CustomProvider(BaseProvider):
+        class Meta:
+            name = "custom"
+    generic = Generic()
+    generic.add_provider(CustomProvider)
+    assert hasattr(generic, "custom")
+
+
+# LLM-generated content at query #39
+#--------------------------
+
+def test_provider_registry_does_not_contain_generic():
+    from mimesis.providers.generic import Generic
+    from mimesis.providers.registry import ProviderRegistry
+    all_providers = ProviderRegistry.get_all()
+    has_generic = any(provider_cls is Generic for provider_cls in all_providers.values())
+    assert not has_generic
+
+
+# LLM-generated content at query #40
+#--------------------------
+
+def test_generic_constructor_default_locale_and_seed():
+    generic = Generic()
+    assert generic.locale == Locale.DEFAULT
+    assert generic.seed == MissingSeed
+
+def test_generic_constructor_custom_locale():
+    generic = Generic(locale=Locale.EN)
+    assert generic.locale == Locale.EN
+
+def test_generic_constructor_custom_seed():
+    generic = Generic(seed=12345)
+    assert generic.seed == 12345
+
+def test_generic_constructor_locale_and_seed():
+    generic = Generic(locale=Locale.RU, seed=98765)
+    assert generic.locale == Locale.RU
+    assert generic.seed == 98765
+
+def test_generic_constructor_providers_registered():
+    generic = Generic()
+    assert hasattr(generic, "person")
+    assert hasattr(generic, "address")
+
+def test_generic_constructor_base_provider_attributes():
+    generic = Generic()
+    assert hasattr(generic, "random")
+    assert hasattr(generic, "seed")
+
+def test_generic_constructor_meta_attributes():
+    assert Generic.Meta.name == "generic"
+    assert Generic.Meta.auto_register == False
+
+
+# LLM-generated content at query #41
+#--------------------------
+
+```python
+def test_add_provider_with_meta_name_attribute_does_not_raise_attribute_error():
+    class CustomProvider(BaseProvider):
+        class Meta:
+            name = "custom"
+    generic = Generic()
+    generic.add_provider(CustomProvider)
+    assert hasattr(generic, "custom")
+
+
+# LLM-generated content at query #42
+#--------------------------
+
+def test___getattr__predicate_false():
+    generic = Generic()
+    generic._test_provider = None
+    result = generic.__getattr__("test_provider")
+    assert result is None
+
+
+# LLM-generated content at query #43
+#--------------------------
+
+def test_generic_constructor_default_locale_and_seed():
+    generic = Generic()
+    assert generic.locale == Locale.DEFAULT
+    assert generic.seed == MissingSeed
+    assert isinstance(generic.random, _random.Random)
+
+def test_generic_constructor_custom_locale():
+    generic = Generic(locale=Locale.EN)
+    assert generic.locale == Locale.EN
+    assert generic.seed == MissingSeed
+
+def test_generic_constructor_custom_seed():
+    generic = Generic(seed=12345)
+    assert generic.locale == Locale.DEFAULT
+    assert generic.seed == 12345
+
+def test_generic_constructor_custom_locale_and_seed():
+    generic = Generic(locale=Locale.RU, seed=98765)
+    assert generic.locale == Locale.RU
+    assert generic.seed == 98765
+
+def test_generic_constructor_provider_registry_initialization():
+    generic = Generic()
+    assert hasattr(generic, "person")
+    assert hasattr(generic, "address")
+    assert hasattr(generic, "datetime")
+
+def test_generic_constructor_excludes_generic_from_registry():
+    generic = Generic()
+    assert not hasattr(generic, "generic")
+
+def test_generic_constructor_base_data_providers_lazy_loaded():
+    generic = Generic()
+    assert callable(getattr(generic, "_person", None))
+    assert callable(getattr(generic, "_address", None))
+
+def test_generic_constructor_base_providers_instantiated():
+    generic = Generic()
+    assert isinstance(generic.cryptographic, BaseProvider)
+    assert isinstance(generic.development, BaseProvider)
+
+def test_generic_constructor_providers_share_seed():
+    generic = Generic(seed=42)
+    assert generic.cryptographic.seed == 42
+    assert generic.development.seed == 42
+
+def test_generic_constructor_dir_includes_providers():
+    generic = Generic()
+    attributes = generic.__dir__()
+    assert "person" in attributes
+    assert "address" in attributes
+    assert "cryptographic" in attributes
+    assert "locale" not in attributes
+
+def test_generic_constructor_base_provider_attributes_excluded():
+    generic = Generic()
+    exclude = list(BaseProvider().__dict__.keys())
+    exclude.append("locale")
+    attributes = generic.__dir__()
+    for attr in exclude:
+        assert attr not in attributes
+
+

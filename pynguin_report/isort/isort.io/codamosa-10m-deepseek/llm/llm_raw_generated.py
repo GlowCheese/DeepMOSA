@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,4081 +7,2874 @@
 #--------------------------
 
 # Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with valid encoding
-    with File.read('test_file.txt') as file:
-        assert file.path == Path('test_file.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'test content'
+def test_File_read():
+    # Create a temporary file to test reading
+    with open("test_file.txt", "w", encoding="utf-8") as temp_file:
+        temp_file.write("Test content")
 
-    # Test reading a file with unsupported encoding
-    try:
-        with File.read('invalid_encoding.txt') as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, 'Expected UnsupportedEncoding exception'
+    # Test reading the file
+    with File.read("test_file.txt") as file:
+        assert file.path.name == "test_file.txt"
+        assert file.encoding == "utf-8"
+        assert file.stream.read() == "Test content"
 
-    # Test reading a file with empty content
-    with File.read('empty_file.txt') as file:
-        assert file.path == Path('empty_file.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == ''
+    # Clean up the temporary file
+    Path("test_file.txt").unlink()
 
-    # Test reading a file with special characters
-    with File.read('special_chars.txt') as file:
-        assert file.path == Path('special_chars.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'é, ü, ñ'
-
-    # Test reading a file with different line endings
-    with File.read('line_endings.txt') as file:
-        assert file.path == Path('line_endings.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'line1\nline2\r\nline3'
-
-    # Test reading a file with BOM (Byte Order Mark)
-    with File.read('bom_file.txt') as file:
-        assert file.path == Path('bom_file.txt').resolve()
-        assert file.encoding == 'utf-8-sig'
-        assert file.stream.read() == 'content with BOM'
-
-    # Test reading a file with mixed encoding
-    try:
-        with File.read('mixed_encoding.txt') as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, 'Expected UnsupportedEncoding exception'
-
-    # Test reading a file with non-ASCII characters in path
-    with File.read('path_with_非ASCII.txt') as file:
-        assert file.path == Path('path_with_非ASCII.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'content'
-
-    # Test reading a file with large content
-    with File.read('large_file.txt') as file:
-        assert file.path == Path('large_file.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert len(file.stream.read()) == 1000000
-
-    # Test reading a file with no extension
-    with File.read('file_without_extension') as file:
-        assert file.path == Path('file_without_extension').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'content'
-
-    # Test reading a file with multiple extensions
-    with File.read('file.tar.gz') as file:
-        assert file.path == Path('file.tar.gz').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'compressed content'
-
-    # Test reading a file with spaces in name
-    with File.read('file with spaces.txt') as file:
-        assert file.path == Path('file with spaces.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'content with spaces'
-
-    # Test reading a file with special characters in name
-    with File.read('file@with#special$chars.txt') as file:
-        assert file.path == Path('file@with#special$chars.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'content'
-
-    # Test reading a file with very long name
-    long_name = 'a' * 255 + '.txt'
-    with File.read(long_name) as file:
-        assert file.path == Path(long_name).resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'content'
-
-    # Test reading a file from a subdirectory
-    with File.read('subdir/file.txt') as file:
-        assert file.path == Path('subdir/file.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'subdirectory content'
-
-    # Test reading a file with CR line endings only
-    with File.read('cr_line_endings.txt') as file:
-        assert file.path == Path('cr_line_endings.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'line1\rline2\rline3'
-
-    # Test reading a file with mixed line endings
-    with File.read('mixed_line_endings.txt') as file:
-        assert file.path == Path('mixed_line_endings.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'line1\nline2\r\nline3\rline4'
-
-    # Test reading a file with UTF-16 encoding
-    with File.read('utf16_file.txt') as file:
-        assert file.path == Path('utf16_file.txt').resolve()
-        assert file.encoding == 'utf-16'
-        assert file.stream.read() == 'UTF-16 content'
-
-    # Test reading a file with ISO-8859-1 encoding
-    with File.read('iso8859_file.txt') as file:
-        assert file.path == Path('iso8859_file.txt').resolve()
-        assert file.encoding == 'iso-8859-1'
-        assert file.stream.read() == 'ISO-8859-1 content'
-
-    # Test reading a file with no newline at end
-    with File.read('no_newline.txt') as file:
-        assert file.path == Path('no_newline.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == 'content without newline'
-
-    # Test reading a file with only newlines
-    with File.read('only_newlines.txt') as file:
-        assert file.path == Path('only_newlines.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == '\n\n\n'
-
-    # Test reading a file with tab characters
-    with File.read('tabs.txt') as file:
-        assert file.path == Path('tabs.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == '\t\t\t'
-
-    # Test reading a file with null bytes
-    try:
-        with File.read('null_bytes.txt') as file:
-            pass
-    except UnicodeDecodeError:
-        pass
-    else:
-        assert False, 'Expected UnicodeDecodeError exception'
-
-    # Test reading a file that does not exist
-    try:
-        with File.read('nonexistent.txt') as file:
-            pass
-    except FileNotFoundError:
-        pass
-    else:
-        assert False, 'Expected FileNotFoundError exception'
-
-    # Test reading a file with permission error
-    try:
-        with File.read('/root/protected.txt') as file:
-            pass
-    except PermissionError:
-        pass
-    else:
-        assert False, 'Expected PermissionError exception'
-
-    # Test reading a file with binary content (non-text)
-    try:
-        with File.read('binary_file.bin') as file:
-            pass
-    except UnicodeDecodeError:
-        pass
-    else:
-        assert False, 'Expected UnicodeDecodeError exception'
-
-    # Test reading a file with shebang but no encoding
-    with File.read('script.py') as file:
-        assert file.path == Path('script.py').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == '#!/usr/bin/env python\nprint("Hello")'
-
-    # Test reading a file with encoding in second line
-    with File.read('encoding_line2.txt') as file:
-        assert file.path == Path('encoding_line2.txt').resolve()
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == '#!/usr/bin/env python\n# -*- coding: utf-8 -*-\ncontent'
-
-    # Test reading a file with uppercase encoding declaration
-    with File.read('uppercase_encoding.txt') as file:
-        assert file.path == Path('uppercase_encoding.txt').resolve()
-        assert file.encoding == 'UTF-8'
-        assert file.stream.read() == '# coding: UTF-8\ncontent'
-
-    # Test reading a file with latin-1 encoding declaration
-    with File.read('latin1_encoding.txt') as file:
-        assert file.path == Path('latin1_encoding.txt').resolve()
-        assert file.encoding == 'iso-8859-1'
-        assert file.stream.read() == '# -*- coding: latin-1 -*-\né'
-
-    # Test reading a file with windows-1252 encoding
-    with File.read('windows_encoding.txt') as file:
-        assert file.path == Path('windows_encoding.txt').resolve()
-        assert file.encoding == 'cp1252'
-        assert file.stream.read() == '# coding: windows-1252\ncontent'
-
-    # Test reading a file with multiple encoding declarations
-    with File.read('multiple_encoding.txt') as file:
-        assert file.path == Path('multiple_encoding.txt').resolve()
-        # Should use first valid encoding declaration
-        assert file.encoding == 'utf-8'
-        assert file.stream.read() == '# coding: utf-8\n# coding: latin-1\ncontent'
-
-    # Test reading a file with invalid encoding declaration
-    try:
-        with File.read('invalid_declaration.txt
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test case 1: Valid encoding declaration
-    content = b'# coding: utf-8\nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"
-    
-    # Test case 2: No encoding declaration
-    content = b'print("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"  # Default encoding
-    
-    # Test case 3: Invalid encoding declaration
-    content = b'# coding: invalid-encoding\nprint("Hello, World!")'
+def test_File_detect_encoding():
+    # Test with a file containing UTF-8 encoding declaration
+    test_content = b'# coding: utf-8\nprint("Hello, World!")'
+    test_file = BytesIO(test_content)
+    assert File.detect_encoding("test.py", test_file.readline) == "utf-8"
+
+    # Test with a file containing no encoding declaration (should default to UTF-8)
+    test_content = b'print("Hello, World!")'
+    test_file = BytesIO(test_content)
+    assert File.detect_encoding("test.py", test_file.readline) == "utf-8"
+
+    # Test with a file containing an invalid encoding declaration
+    test_content = b'# coding: invalid-encoding\nprint("Hello, World!")'
+    test_file = BytesIO(test_content)
     try:
-        File.detect_encoding("test.py", BytesIO(content).readline)
+        File.detect_encoding("test.py", test_file.readline)
         assert False, "Expected UnsupportedEncoding exception"
     except UnsupportedEncoding:
         pass
-    
-    # Test case 4: Empty file
-    content = b''
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"  # Default encoding
-    
-    # Test case 5: Encoding declaration with spaces
-    content = b'  #   coding   :   latin-1  \nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "latin-1"
-    
-    # Test case 6: Encoding declaration with equals sign
-    content = b'# coding=iso-8859-1\nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "iso-8859-1"
-    
-    # Test case 7: Multiple encoding declarations (first one wins)
-    content = b'# coding: utf-8\n# coding: latin-1\nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"
-    
-    # Test case 8: Encoding declaration in second line (first line is shebang)
-    content = b'#!/usr/bin/env python\n# coding: utf-8\nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"
-    
-    # Test case 9: Shebang only, no encoding declaration
-    content = b'#!/usr/bin/env python\nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"  # Default encoding
-    
-    # Test case 10: BOM (Byte Order Mark) for UTF-8
-    content = b'\xef\xbb\xbf# coding: utf-8\nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8-sig"  # BOM changes encoding to utf-8-sig
-    
-    # Test case 11: BOM without encoding declaration
-    content = b'\xef\xbb\xbfprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8-sig"  # BOM changes encoding to utf-8-sig
-    
-    # Test case 12: Invalid BOM (not at start)
-    content = b'# coding: utf-8\n\xef\xbb\xbfprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"  # BOM not at start, so ignored
-    
-    # Test case 13: Empty content with BOM
-    content = b'\xef\xbb\xbf'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8-sig"  # BOM only
-    
-    # Test case 14: Encoding declaration with dash
-    content = b'# coding: iso-8859-1\nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "iso-8859-1"
-    
-    # Test case 15: Encoding declaration with underscore
-    content = b'# coding: iso_8859_1\nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "iso_8859_1"
-    
-    # Test case 16: Mixed case encoding declaration
-    content = b'# coding: UTF-8\nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"  # Normalized to lowercase
-    
-    # Test case 17: Encoding declaration with extra characters
-    content = b'# coding: utf-8; extra info\nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"  # Should parse correctly
-    
-    # Test case 18: Multiple lines before encoding declaration
-    content = b'\n\n\n# coding: utf-8\nprint("Hello, World!")'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"
-    
-    # Test case 19: Encoding declaration after code (should be ignored)
-    content = b'print("Hello, World!")\n# coding: utf-8'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"  # Default encoding since declaration is too late
-    
-    # Test case 20: Very long first line without encoding
-    content = b'x' * 1000 + b'\n# coding: utf-8'
-    result = File.detect_encoding("test.py", BytesIO(content).readline)
-    assert result == "utf-8"  # Default encoding since declaration is on second line
-    
-    print("All tests passed!")
 
-# Run the tests
-if __name__ == "__main__":
-    test_File_detect_encoding()
+    print("All tests passed for method detect_encoding of class File")
+
+test_File_detect_encoding()
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test with a file that has a valid encoding declaration
-    contents = b'# -*- coding: utf-8 -*-\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test with a file that has no encoding declaration (should default to utf-8)
-    contents = b'print("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test with a file that has an invalid encoding declaration (should raise UnsupportedEncoding)
-    contents = b'# -*- coding: invalid-encoding -*-\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
+def test_File_detect_encoding():
+    # Test case 1: Detect encoding in a file with UTF-8 encoding
+    filename = "test_utf8.py"
+    contents = "# coding: utf-8\nprint('Hello, World!')"
+    encoding = File.detect_encoding(filename, BytesIO(contents.encode("utf-8")).readline)
+    assert encoding == "utf-8"
+
+    # Test case 2: Detect encoding in a file with ISO-8859-1 encoding
+    filename = "test_iso8859_1.py"
+    contents = "# coding: iso-8859-1\nprint('Hello, World!')"
+    encoding = File.detect_encoding(filename, BytesIO(contents.encode("iso-8859-1")).readline)
+    assert encoding == "iso-8859-1"
+
+    # Test case 3: Detect encoding in a file with unspecified encoding (should default to utf-8)
+    filename = "test_default.py"
+    contents = "print('Hello, World!')"
+    encoding = File.detect_encoding(filename, BytesIO(contents.encode("utf-8")).readline)
+    assert encoding == "utf-8"
+
+    # Test case 4: Detect encoding in a file with invalid encoding
+    filename = "test_invalid.py"
+    contents = "# coding: invalid\nprint('Hello, World!')"
     try:
-        File.detect_encoding("test.py", readline)
+        File.detect_encoding(filename, BytesIO(contents.encode("utf-8")).readline)
         assert False, "Expected UnsupportedEncoding exception"
     except UnsupportedEncoding:
         pass
-    
-    # Test with a file that has a valid encoding declaration with spaces and equals sign
-    contents = b'# coding = iso-8859-1\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with colon and spaces
-    contents = b'# : coding: latin-1\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "latin-1"
-    
-    # Test with a file that has a valid encoding declaration with no spaces
-    contents = b'# coding=utf-8\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test with a file that has a valid encoding declaration with mixed case
-    contents = b'# -*- CODING: UTF-8 -*-\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test with a file that has a valid encoding declaration with dash
-    contents = b'# -*- coding: iso-8859-15 -*-\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-15"
-    
-    # Test with a file that has a valid encoding declaration with underscore
-    contents = b'# -*- coding: iso_8859_15 -*-\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso_8859_15"
-    
-    # Test with a file that has a valid encoding declaration with dot
-    contents = b'# -*- coding: iso.8859.15 -*-\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso.8859.15"
-    
-    # Test with a file that has a valid encoding declaration with multiple lines
-    contents = b'#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test with a file that has a valid encoding declaration after shebang
-    contents = b'#!/usr/bin/env python\n# coding: utf-8\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test with a file that has a valid encoding declaration with BOM (Byte Order Mark)
-    contents = b'\xef\xbb\xbf# -*- coding: utf-8 -*-\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test with a file that has a valid encoding declaration with BOM and no encoding declaration
-    contents = b'\xef\xbb\xbfprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test with a file that has a valid encoding declaration with BOM and invalid encoding declaration
-    contents = b'\xef\xbb\xbf# -*- coding: invalid-encoding -*-\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding("test.py", readline)
-        assert False, "Expected UnsupportedEncoding exception"
-    except UnsupportedEncoding:
-        pass
-    
-    # Test with a file that has a valid encoding declaration with BOM and multiple lines
-    contents = b'\xef\xbb\xbf#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test with a file that has a valid encoding declaration with BOM and shebang
-    contents = b'\xef\xbb\xbf#!/usr/bin/env python\n# coding: utf-8\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test with a file that has a valid encoding declaration with BOM and no shebang
+
+    # Test case 5: Detect encoding in a file with BOM (Byte Order Mark)
+    filename = "test_bom.py"
     contents = b'\xef\xbb\xbf# coding: utf-8\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test with a file that has a valid encoding declaration with BOM and no encoding declaration after BOM
-    contents = b'\xef\xbb\xbfprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test with a file that has a valid encoding declaration with BOM and invalid encoding declaration after BOM
-    contents = b'\xef\xbb\xbf# -*- coding: invalid-encoding -*-\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding("test.py", readline)
-        assert False, "Expected UnsupportedEncoding exception"
-    except UnsupportedEncoding:
-        pass
-    
-    # Test with a file that has a valid encoding declaration with BOM and multiple encoding declarations
-    contents = b'\xef\xbb\xbf# -*- coding: utf-8 -*-\n# coding: latin-1\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test with a file that has a valid encoding declaration with BOM and multiple encoding declarations after BOM
-    contents = b'\xef\xbb\xbf# -*- coding: utf-8 -*-\n# coding: latin-1\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test with a file that has a valid encoding declaration with BOM and multiple encoding declarations before BOM
-    contents = b'# -*- coding: utf-8 -*-\n\xef\xbb\xbf# coding: latin-1\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test with a file that has a valid encoding declaration with BOM and multiple encoding declarations before and after BOM
-    contents = b'# -*- coding: utf-8 -*-\n\xef\xbb\xbf# coding: latin-1\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test with a file that has a valid encoding declaration with BOM and multiple encoding declarations before and after BOM with shebang
-    contents = b'#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n\xef\xbb\xbf# coding: latin-1\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.d
+    encoding = File.detect_encoding(filename, BytesIO(contents).readline)
+    assert encoding == "utf-8-sig"
+
+    # Test case 6: Detect encoding in a file with mixed encodings in the comments
+    filename = "test_mixed.py"
+    contents = "# -*- coding: ascii -*-\n# coding: utf-8\nprint('Hello, World!')"
+    encoding = File.detect_encoding(filename, BytesIO(contents.encode("ascii")).readline)
+    assert encoding == "ascii"
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with valid encoding
-    with File.read('test_file.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('test_file.txt').resolve()
-        assert file.stream.readable()
-    
-    # Test reading a file with unsupported encoding
+def test_File_read():
+    # Create a temporary file with known content
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w+', delete=False) as tmp_file:
+        tmp_file.write("test content")
+        tmp_file_name = tmp_file.name
+
     try:
-        with File.read('invalid_encoding.txt') as file:
-            pass
+        # Use the File.read context manager to read the file
+        with File.read(tmp_file_name) as file:
+            content = file.stream.read()
+            assert content == "test content", f"Expected 'test content', got {content}"
+            assert file.path == Path(tmp_file_name).resolve(), f"Expected {Path(tmp_file_name).resolve()}, got {file.path}"
+            assert file.encoding == "utf-8", f"Expected 'utf-8', got {file.encoding}"
+    finally:
+        # Clean up the temporary file
+        import os
+        os.remove(tmp_file_name)
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a simple Python file with UTF-8 encoding
+    file_content = b'# coding: utf-8\nprint("Hello, World!")'
+    readline = BytesIO(file_content).readline
+    assert File.detect_encoding("test.py", readline) == "utf-8"
+
+    # Test with a file with no encoding specified (should default to UTF-8)
+    file_content = b'print("Hello, World!")'
+    readline = BytesIO(file_content).readline
+    assert File.detect_encoding("test.py", readline) == "utf-8"
+
+    # Test with an unsupported encoding (should raise UnsupportedEncoding)
+    file_content = b'# coding: invalid-encoding\nprint("Hello, World!")'
+    readline = BytesIO(file_content).readline
+    try:
+        File.detect_encoding("test.py", readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with ISO-8859-1 encoding
+    file_content = b'# coding: iso-8859-1\nprint("Hello, World!")'
+    readline = BytesIO(file_content).readline
+    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
+
+    # Test with a file with UTF-8 BOM
+    file_content = b'\xef\xbb\xbf# coding: utf-8\nprint("Hello, World!")'
+    readline = BytesIO(file_content).readline
+    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Create a BytesIO object with a known encoding
+    content = b'# coding=utf-8\nprint("Hello, World!")'
+    readline = BytesIO(content).readline
+
+    # Test detect_encoding method with a known encoding
+    detected_encoding = File.detect_encoding("test_file.py", readline)
+    assert detected_encoding == "utf-8"
+
+    # Create a BytesIO object with an invalid encoding
+    invalid_content = b'# coding=invalid_encoding\nprint("Hello, World!")'
+    invalid_readline = BytesIO(invalid_content).readline
+
+    # Test detect_encoding method with an invalid encoding
+    try:
+        File.detect_encoding("invalid_file.py", invalid_readline)
     except UnsupportedEncoding:
         assert True
     else:
-        assert False, "Expected UnsupportedEncoding exception"
-    
-    # Test reading a file with empty content
-    with File.read('empty_file.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('empty_file.txt').resolve()
-        assert file.stream.read() == ''
-    
-    # Test reading a file with special characters
-    with File.read('special_chars.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('special_chars.txt').resolve()
-        assert file.stream.read() == 'Hello, 世界!'
-    
-    # Test reading a file with different line endings
-    with File.read('line_endings.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('line_endings.txt').resolve()
-        assert file.stream.read() == 'Line 1\nLine 2\r\nLine 3'
-    
-    # Test reading a file with BOM (Byte Order Mark)
-    with File.read('bom_file.txt') as file:
-        assert file.encoding == 'utf-8-sig'
-        assert file.path == Path('bom_file.txt').resolve()
-        assert file.stream.read() == 'Content with BOM'
-    
-    # Test reading a file with non-ASCII characters in path
-    with File.read('path_with_非ASCII.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('path_with_非ASCII.txt').resolve()
-        assert file.stream.read() == 'File content'
-    
-    # Test reading a file with large content
-    with File.read('large_file.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('large_file.txt').resolve()
-        assert len(file.stream.read()) == 1000000
-    
-    # Test reading a file with mixed encoding declaration
-    with File.read('mixed_encoding.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('mixed_encoding.txt').resolve()
-        assert file.stream.read() == 'Content with mixed encoding'
-    
-    # Test reading a file with no encoding declaration
-    with File.read('no_encoding.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('no_encoding.txt').resolve()
-        assert file.stream.read() == 'Content without encoding declaration'
+        assert False
 
-
-# LLM-generated content at query #5
-#--------------------------
-
-# Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test case 1: Valid encoding declaration
-    contents = b"# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 2: No encoding declaration
-    contents = b"print('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 3: Invalid encoding declaration
-    contents = b"# coding: invalid-encoding\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 4: Empty file
-    contents = b""
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 5: Encoding declaration with spaces
-    contents = b"  #  coding  :  utf-8  \nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 6: Encoding declaration with equals sign
-    contents = b"# coding=utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 7: Encoding declaration with hyphen
-    contents = b"# coding: iso-8859-1\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-
-    # Test case 8: Encoding declaration with underscore
-    contents = b"# coding: iso_8859_1\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso_8859_1"
-
-    # Test case 9: Encoding declaration with period
-    contents = b"# coding: iso.8859-1\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso.8859-1"
-
-    # Test case 10: Encoding declaration with uppercase letters
-    contents = b"# coding: UTF-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 11: Encoding declaration with mixed case letters
-    contents = b"# coding: Utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 12: Encoding declaration with numbers
-    contents = b"# coding: iso88591\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso88591"
-
-    # Test case 13: Encoding declaration with multiple spaces
-    contents = b"#   coding   :   utf-8   \nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 14: Encoding declaration with tabs
-    contents = b"#\tcoding\t:\tutf-8\t\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 15: Encoding declaration with form feed
-    contents = b"#\fcoding\f:\futf-8\f\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 16: Encoding declaration with multiple lines
-    contents = b"# coding: utf-8\n# another comment\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 17: Encoding declaration with shebang
-    contents = b"#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 18: Encoding declaration with shebang and spaces
-    contents = b"#!/usr/bin/env python  \n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 19: Encoding declaration with shebang and tabs
-    contents = b"#!/usr/bin/env python\t\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 20: Encoding declaration with shebang and form feed
-    contents = b"#!/usr/bin/env python\f\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 21: Encoding declaration with shebang and multiple spaces
-    contents = b"#!/usr/bin/env python   \n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 22: Encoding declaration with shebang and multiple tabs
-    contents = b"#!/usr/bin/env python\t\t\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 23: Encoding declaration with shebang and multiple form feeds
-    contents = b"#!/usr/bin/env python\f\f\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 24: Encoding declaration with shebang and mixed whitespace
-    contents = b"#!/usr/bin/env python \t\f\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 25: Encoding declaration with shebang and leading whitespace
-    contents = b"  #!/usr/bin/env python\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 26: Encoding declaration with shebang and trailing whitespace
-    contents = b"#!/usr/bin/env python  \n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 27: Encoding declaration with shebang and leading/trailing whitespace
-    contents = b"  #!/usr/bin/env python  \n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 28: Encoding declaration with shebang and multiple leading/trailing whitespace
-    contents = b"  \t\f#!/usr/bin/env python  \t\f\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 29: Encoding declaration with shebang and multiple lines of whitespace
-    contents = b"  \n#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, World!')
-
-
-# LLM-generated content at query #6
-#--------------------------
-
-# Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test case 1: Valid encoding declaration
-    content = b"# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 2: No encoding declaration
-    content = b"print('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 3: Invalid encoding declaration
-    content = b"# coding: invalid-encoding\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 4: Empty file
-    content = b""
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 5: Encoding declaration with spaces
-    content = b"  #  coding  :  utf-8  \nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 6: Encoding declaration with equals sign
-    content = b"# coding=utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 7: Multiple encoding declarations
-    content = b"# coding: utf-8\n# coding: latin-1\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 8: Encoding declaration in second line
-    content = b"#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 9: Encoding declaration with dash
-    content = b"# coding: iso-8859-1\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-
-    # Test case 10: Encoding declaration with underscore
-    content = b"# coding: iso_8859_1\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "iso_8859_1"
-
-    # Test case 11: Encoding declaration with period
-    content = b"# coding: iso.8859-1\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "iso.8859-1"
-
-    # Test case 12: Encoding declaration with uppercase letters
-    content = b"# coding: UTF-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 13: Encoding declaration with mixed case letters
-    content = b"# coding: UtF-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 14: Encoding declaration with numbers
-    content = b"# coding: iso88591\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "iso88591"
-
-    # Test case 15: Encoding declaration with leading/trailing spaces
-    content = b"   # coding: utf-8   \nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 16: Encoding declaration with tabs
-    content = b"\t#\tcoding:\tutf-8\t\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 17: Encoding declaration with form feed
-    content = b"\f#\fcoding:\futf-8\f\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 18: Encoding declaration with multiple spaces and tabs
-    content = b" \t # \t coding: \t utf-8 \t \nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 19: Encoding declaration with multiple lines
-    content = b"# coding: utf-8\n# some comment\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 20: Encoding declaration with shebang
-    content = b"#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 21: Encoding declaration with shebang and spaces
-    content = b"#!/usr/bin/env python  \n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 22: Encoding declaration with shebang and tabs
-    content = b"#!/usr/bin/env python\t\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 23: Encoding declaration with shebang and form feed
-    content = b"#!/usr/bin/env python\f\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 24: Encoding declaration with shebang and multiple spaces/tabs
-    content = b"#!/usr/bin/env python \t \f \n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 25: Encoding declaration with shebang and comment
-    content = b"#!/usr/bin/env python # some comment\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 26: Encoding declaration with shebang and comment and spaces
-    content = b"#!/usr/bin/env python  # some comment  \n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 27: Encoding declaration with shebang and comment and tabs
-    content = b"#!/usr/bin/env python\t#\tsome comment\t\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 28: Encoding declaration with shebang and comment and form feed
-    content = b"#!/usr/bin/env python\f#\fsome comment\f\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 29: Encoding declaration with shebang and comment and multiple spaces/tabs
-    content = b"#!/usr/bin/env python \t \f # \t \f some comment \t \f \n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(content).readline
-    assert File.detect_encoding("test.py", readline) ==
 
 
 # LLM-generated content at query #7
 #--------------------------
 
 # Unit test for method read of class File
-def test_File_read():  
-    # Create a temporary file with some content
+def test_File_read():
+    """Test the read method of the File class."""
     import tempfile
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write('print("Hello, World!")')
-        temp_path = f.name
-
-    # Use the read method to get a File object
-    with File.read(temp_path) as file_obj:
-        # Check that the stream is readable
-        content = file_obj.stream.read()
-        assert content == 'print("Hello, World!")'
-        # Check that the path is correct
-        assert file_obj.path == Path(temp_path).resolve()
-        # Check that encoding is detected
-        assert file_obj.encoding == 'utf-8'
-
-    # Clean up the temporary file
     import os
-    os.unlink(temp_path)
 
+    # Create a temporary file with known content
+    test_content = "test content"
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_file:
+        temp_file.write(test_content)
+        temp_file_path = temp_file.name
+
+    try:
+        # Test reading the file
+        with File.read(temp_file_path) as file:
+            assert file.stream.read() == test_content
+            assert file.path == Path(temp_file_path).resolve()
+            assert file.encoding == "utf-8"
+    finally:
+        # Clean up
+        os.unlink(temp_file_path)
+
+    # Test with a non-existent file
+    try:
+        with File.read("non_existent_file.txt"):
+            assert False, "Expected FileNotFoundError"
+    except FileNotFoundError:
+        pass
+
+    # Test with a file with different encoding
+    test_content = "test content with encoding"
+    with tempfile.NamedTemporaryFile(mode="wb", delete=False) as temp_file:
+        temp_file.write(test_content.encode("utf-16"))
+        temp_file_path = temp_file.name
+
+    try:
+        with File.read(temp_file_path) as file:
+            assert file.stream.read() == test_content
+            assert file.path == Path(temp_file_path).resolve()
+            assert file.encoding == "utf-16"
+    finally:
+        os.unlink(temp_file_path)
 
 
 # LLM-generated content at query #8
 #--------------------------
 
 # Unit test for method read of class File
-def test_File_read():  
-    # Test with a file that exists and is readable
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write('test content')
-        f.flush()
-        with File.read(f.name) as file:
-            assert file.stream.read() == 'test content'
-            assert file.path == Path(f.name).resolve()
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file with some content
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+        tmp.write("import os\nimport sys\n")
+        tmp_path = tmp.name
+
+    try:
+        # Test reading the file
+        with File.read(tmp_path) as file:
+            assert file.path == Path(tmp_path).resolve()
             assert file.encoding == 'utf-8'
-    os.unlink(f.name)
-    
-    # Test with a file that does not exist
-    with pytest.raises(FileNotFoundError):
-        with File.read('non_existent_file.txt') as file:
+            content = file.stream.read()
+            assert content == "import os\nimport sys\n"
+    finally:
+        # Clean up
+        os.unlink(tmp_path)
+
+    # Test with a non-existent file (should raise FileNotFoundError)
+    try:
+        with File.read("non_existent_file.py"):
+            assert False, "Expected FileNotFoundError"
+    except FileNotFoundError:
+        pass
+
+    # Test with a file with unsupported encoding
+    # (This test might need adjustment based on actual unsupported encodings)
+    try:
+        with tempfile.NamedTemporaryFile(mode='wb', delete=False) as tmp:
+            tmp.write(b'# coding=invalid_encoding\ncontent')
+            tmp_path = tmp.name
+
+        try:
+            with File.read(tmp_path):
+                assert False, "Expected UnsupportedEncoding"
+        except UnsupportedEncoding:
             pass
-    
-    # Test with a file that is not readable
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write('test content')
-        f.flush()
-        os.chmod(f.name, 0o000)
-        with pytest.raises(PermissionError):
-            with File.read(f.name) as file:
-                pass
-        os.chmod(f.name, 0o644)
-        os.unlink(f.name)
-    
-    # Test with a file that has a different encoding
-    with tempfile.NamedTemporaryFile(mode='wb', delete=False) as f:
-        f.write(b'\xef\xbb\xbftest content')
-        f.flush()
-        with File.read(f.name) as file:
-            assert file.stream.read() == 'test content'
-            assert file.path == Path(f.name).resolve()
-            assert file.encoding == 'utf-8-sig'
-    os.unlink(f.name)
+    finally:
+        if os.path.exists(tmp_path):
+            os.unlink(tmp_path)
 
 
 # LLM-generated content at query #9
 #--------------------------
 
 # Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with valid encoding
-    with File.read("test_file.txt") as file:
-        assert file.path == Path("test_file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with unsupported encoding
-    try:
-        with File.read("invalid_encoding.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test reading a file with empty contents
-    with File.read("empty_file.txt") as file:
-        assert file.path == Path("empty_file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == ""
-
-    # Test reading a file with special characters
-    with File.read("special_characters.txt") as file:
-        assert file.path == Path("special_characters.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "© 2022"
-
-    # Test reading a file with different encoding
-    with File.read("latin1_file.txt") as file:
-        assert file.path == Path("latin1_file.txt").resolve()
-        assert file.encoding == "latin-1"
-        assert file.stream.read() == "Héllo, Wörld!"
-
-    # Test reading a file with BOM (Byte Order Mark)
-    with File.read("bom_file.txt") as file:
-        assert file.path == Path("bom_file.txt").resolve()
-        assert file.encoding == "utf-8-sig"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with mixed line endings
-    with File.read("mixed_line_endings.txt") as file:
-        assert file.path == Path("mixed_line_endings.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Line 1\r\nLine 2\nLine 3\r\n"
-
-    # Test reading a file with large size
-    with File.read("large_file.txt") as file:
-        assert file.path == Path("large_file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert len(file.stream.read()) == 1000000
-
-    # Test reading a file with non-ASCII characters in filename
-    with File.read("file_with_非ASCII.txt") as file:
-        assert file.path == Path("file_with_非ASCII.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, 世界!"
-
-    # Test reading a file with empty filename
-    try:
-        with File.read("") as file:
-            pass
-    except FileNotFoundError:
-        pass
-    else:
-        assert False, "Expected FileNotFoundError exception"
-
-    # Test reading a file with None filename
-    try:
-        with File.read(None) as file:
-            pass
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError exception"
-
-    # Test reading a file with invalid filename type
-    try:
-        with File.read(123) as file:
-            pass
-    except AttributeError:
-        pass
-    else:
-        assert False, "Expected AttributeError exception"
-
-    # Test reading a file with non-existent file
-    try:
-        with File.read("non_existent_file.txt") as file:
-            pass
-    except FileNotFoundError:
-        pass
-    else:
-        assert False, "Expected FileNotFoundError exception"
-
-    # Test reading a file with directory path
-    try:
-        with File.read("/tmp") as file:
-            pass
-    except IsADirectoryError:
-        pass
-    else:
-        assert False, "Expected IsADirectoryError exception"
-
-    # Test reading a file with permission denied
-    try:
-        with File.read("/root/file.txt") as file:
-            pass
-    except PermissionError:
-        pass
-    else:
-        assert False, "Expected PermissionError exception"
-
-    # Test reading a file with broken symlink
-    try:
-        with File.read("broken_symlink.txt") as file:
-            pass
-    except FileNotFoundError:
-        pass
-    else:
-        assert False, "Expected FileNotFoundError exception"
-
-    # Test reading a file with circular symlink
-    try:
-        with File.read("circular_symlink.txt") as file:
-            pass
-    except RecursionError:
-        pass
-    else:
-        assert False, "Expected RecursionError exception"
-
-    # Test reading a file with invalid encoding in file
-    try:
-        with File.read("invalid_encoding_in_file.txt") as file:
-            pass
-    except UnicodeDecodeError:
-        pass
-    else:
-        assert False, "Expected UnicodeDecodeError exception"
-
-    # Test reading a file with empty encoding in file
-    try:
-        with File.read("empty_encoding_in_file.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test reading a file with missing encoding in file
-    try:
-        with File.read("missing_encoding_in_file.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test reading a file with multiple encoding declarations
-    with File.read("multiple_encoding_declarations.txt") as file:
-        assert file.path == Path("multiple_encoding_declarations.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with encoding declaration in second line
-    with File.read("encoding_in_second_line.txt") as file:
-        assert file.path == Path("encoding_in_second_line.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with encoding declaration in comment
-    with File.read("encoding_in_comment.txt") as file:
-        assert file.path == Path("encoding_in_comment.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with encoding declaration in multiline comment
-    with File.read("encoding_in_multiline_comment.txt") as file:
-        assert file.path == Path("encoding_in_multiline_comment.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with encoding declaration in shebang
-    with File.read("encoding_in_shebang.txt") as file:
-        assert file.path == Path("encoding_in_shebang.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with encoding declaration in shebang and comment
-    with File.read("encoding_in_shebang_and_comment.txt") as file:
-        assert file.path == Path("encoding_in_shebang_and_comment.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with encoding declaration in shebang and multiline comment
-    with File.read("encoding_in_shebang_and_multiline_comment.txt") as file:
-        assert file.path == Path("encoding_in_shebang_and_multiline_comment.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with encoding declaration in shebang and second line
-    with File.read("encoding_in_shebang_and_second_line.txt") as file:
-        assert file.path == Path("encoding_in_shebang_and_second_line.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with encoding declaration in shebang and second line comment
-    with File.read("encoding_in_shebang_and_second_line_comment.txt") as file:
-        assert file.path == Path("encoding_in_shebang_and_second_line_comment.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with encoding declaration in shebang and second line multiline comment
-    with File.read("encoding_in_shebang_and_second_line_multiline_comment.txt") as file:
-        assert file.path == Path("encoding_in_shebang_and_second_line_multiline_comment.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with encoding declaration in shebang and second line shebang
-    with File.read("encoding_in_shebang_and_second_line_shebang.txt") as file:
-        assert file.path == Path("encoding_in_shebang_and_second_line_shebang.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with encoding declaration in shebang and second line shebang comment
-    with File.read("encoding_in_shebang_and_second_line_shebang_comment.txt") as file:
-        assert file.path == Path("encoding_in_shebang_and_second_line_shebang_comment.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read
+def test_File_read():
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp_file:
+        tmp_file.write("import os\n")
+        tmp_file_path = tmp_file.name
+    with File.read(tmp_file_path) as file:
+        assert file.path == Path(tmp_file_path).resolve()
+        assert file.encoding == 'utf-8'
+        assert file.stream.read() == "import os\n"
+    Path(tmp_file_path).unlink()
 
 
 # LLM-generated content at query #10
 #--------------------------
 
 # Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with valid encoding
+def test_File_read():
     with File.read("test_file.txt") as file:
+        assert isinstance(file.stream, TextIOWrapper)
         assert file.path == Path("test_file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with unsupported encoding
-    try:
-        with File.read("invalid_encoding.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test reading a file with empty content
-    with File.read("empty_file.txt") as file:
-        assert file.path == Path("empty_file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == ""
-
-    # Test reading a file with special characters
-    with File.read("special_chars.txt") as file:
-        assert file.path == Path("special_chars.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "áéíóú"
-
-    # Test reading a file with different encoding
-    with File.read("latin1_file.txt") as file:
-        assert file.path == Path("latin1_file.txt").resolve()
-        assert file.encoding == "latin-1"
-        assert file.stream.read() == "ñÑ"
-
-    # Test reading a file with BOM (Byte Order Mark)
-    with File.read("bom_file.txt") as file:
-        assert file.path == Path("bom_file.txt").resolve()
-        assert file.encoding == "utf-8-sig"
-        assert file.stream.read() == "Hello, BOM!"
-
-    # Test reading a file with mixed line endings
-    with File.read("mixed_line_endings.txt") as file:
-        assert file.path == Path("mixed_line_endings.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Line 1\nLine 2\r\nLine 3"
-
-    # Test reading a file with long lines
-    with File.read("long_lines.txt") as file:
-        assert file.path == Path("long_lines.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "A" * 1000
-
-    # Test reading a file with non-ASCII characters in filename
-    with File.read("file_with_ñ.txt") as file:
-        assert file.path == Path("file_with_ñ.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with spaces in filename
-    with File.read("file with spaces.txt") as file:
-        assert file.path == Path("file with spaces.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with special characters in filename
-    with File.read("file!@#$%^&*().txt") as file:
-        assert file.path == Path("file!@#$%^&*().txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with Unicode characters in filename
-    with File.read("file_🐍.txt") as file:
-        assert file.path == Path("file_🐍.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with leading/trailing spaces in filename
-    with File.read("  file.txt  ") as file:
-        assert file.path == Path("  file.txt  ").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with absolute path
-    absolute_path = Path("/absolute/path/to/file.txt")
-    with File.read(absolute_path) as file:
-        assert file.path == absolute_path.resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with relative path
-    relative_path = Path("../relative/path/to/file.txt")
-    with File.read(relative_path) as file:
-        assert file.path == relative_path.resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with symlink
-    with File.read("symlink.txt") as file:
-        assert file.path == Path("symlink.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with hard link
-    with File.read("hardlink.txt") as file:
-        assert file.path == Path("hardlink.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with no extension
-    with File.read("file") as file:
-        assert file.path == Path("file").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with multiple extensions
-    with File.read("file.tar.gz") as file:
-        assert file.path == Path("file.tar.gz").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with hidden extension
-    with File.read(".hidden") as file:
-        assert file.path == Path(".hidden").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with uppercase extension
-    with File.read("file.TXT") as file:
-        assert file.path == Path("file.TXT").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with mixed case extension
-    with File.read("file.TxT") as file:
-        assert file.path == Path("file.TxT").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Content"
-
-    # Test reading a file with no content
-    with File.read("no_content.txt") as file:
-        assert file.path == Path("no_content.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == ""
-
-    # Test reading a file with only whitespace
-    with File.read("whitespace.txt") as file:
-        assert file.path == Path("whitespace.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "   \n\t"
-
-    # Test reading a file with only newlines
-    with File.read("newlines.txt") as file:
-        assert file.path == Path("newlines.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "\n\n\n"
-
-    # Test reading a file with only carriage returns
-    with File.read("carriage_returns.txt") as file:
-        assert file.path == Path("carriage_returns.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "\r\r\r"
-
-    # Test reading a file with only tabs
-    with File.read("tabs.txt") as file:
-        assert file.path == Path("tabs.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "\t\t\t"
-
-    # Test reading a file with only spaces
-    with File.read("spaces.txt") as file:
-        assert file.path == Path("spaces.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "   "
-
-    # Test reading a file with only form feeds
-    with File.read("form_feeds.txt") as file:
-        assert file.path == Path("form_feeds.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "\f\f\f"
-
-    # Test reading a file with only vertical tabs
-    with File.read("vertical_tabs.txt") as file:
-        assert file.path == Path("vertical_tabs.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "\v\v\v"
-
-    # Test reading a file with only backspaces
-    with File.read("backspaces.txt") as file:
-        assert file.path == Path("backspaces.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "\b\b\b"
-
-    # Test reading a file with only null characters
-    with File.read("null_characters.txt") as file:
-        assert file.path == Path("null_characters.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "\0\0\0"
-
-    # Test reading a file with only escape characters
-    with File.read("escape_characters.txt") as file:
-        assert file.path == Path("escape_characters.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "\x1b\x1b\x1b"
-
-    # Test reading a file with only delete characters
-    with File.read("delete_characters.txt") as file:
-        assert file.path == Path("delete_characters.txt").resolve()
-        assert file.encoding == "utf
+        assert isinstance(file.encoding, str)
 
 
 # LLM-generated content at query #11
 #--------------------------
 
 # Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with valid encoding
-    with File.read("test_file.txt") as file:
-        assert file.path == Path("test_file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "test content"
+def test_File_read():
+    import tempfile
+    import os
 
-    # Test reading a file with unsupported encoding
+    # Create a temporary file
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        tmp_file.write(b"# coding: utf-8\nimport os\n")
+        tmp_file_name = tmp_file.name
+
     try:
-        with File.read("invalid_encoding.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-
-    # Test reading a file with empty content
-    with File.read("empty_file.txt") as file:
-        assert file.path == Path("empty_file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == ""
-
-    # Test reading a file with special characters
-    with File.read("special_chars.txt") as file:
-        assert file.path == Path("special_chars.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "é, ñ, ü"
-
-    # Test reading a file with different line endings
-    with File.read("line_endings.txt") as file:
-        assert file.path == Path("line_endings.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "line1\nline2\r\nline3"
-
-    # Test reading a file with BOM (Byte Order Mark)
-    with File.read("bom_file.txt") as file:
-        assert file.path == Path("bom_file.txt").resolve()
-        assert file.encoding == "utf-8-sig"
-        assert file.stream.read() == "content"
-
-    # Test reading a file with mixed encodings
-    try:
-        with File.read("mixed_encodings.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-
-    # Test reading a file with non-ASCII characters
-    with File.read("non_ascii.txt") as file:
-        assert file.path == Path("non_ascii.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "αβγδε"
-
-    # Test reading a file with large content
-    with File.read("large_file.txt") as file:
-        assert file.path == Path("large_file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert len(file.stream.read()) == 1000000
-
-    # Test reading a file with no extension
-    with File.read("no_extension") as file:
-        assert file.path == Path("no_extension").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "content"
-
-    # Test reading a file with multiple extensions
-    with File.read("file.tar.gz") as file:
-        assert file.path == Path("file.tar.gz").resolve()
-        assert file.extension == "gz"
-        assert file.stream.read() == "compressed content"
-
-    # Test reading a file with spaces in the filename
-    with File.read("file with spaces.txt") as file:
-        assert file.path == Path("file with spaces.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "content with spaces"
-
-    # Test reading a file with special characters in the filename
-    with File.read("file_with_special_#_chars.txt") as file:
-        assert file.path == Path("file_with_special_#_chars.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "special content"
-
-    # Test reading a file with non-existent path
-    try:
-        with File.read("non_existent.txt") as file:
-            pass
-    except FileNotFoundError:
-        pass
-
-    # Test reading a file with directory path
-    try:
-        with File.read("/tmp") as file:
-            pass
-    except IsADirectoryError:
-        pass
-
-    # Test reading a file with symlink
-    with File.read("symlink.txt") as file:
-        assert file.path == Path("symlink.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "symlink content"
-
-    # Test reading a file with relative path
-    with File.read("../parent_file.txt") as file:
-        assert file.path == Path("../parent_file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "parent content"
-
-    # Test reading a file with absolute path
-    with File.read("/absolute/path/file.txt") as file:
-        assert file.path == Path("/absolute/path/file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "absolute content"
-
-    # Test reading a file with Windows path
-    with File.read("C:\\Windows\\file.txt") as file:
-        assert file.path == Path("C:\\Windows\\file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "windows content"
-
-    # Test reading a file with URL as path
-    try:
-        with File.read("https://example.com/file.txt") as file:
-            pass
-    except (FileNotFoundError, OSError):
-        pass
-
-    # Test reading a file with empty filename
-    try:
-        with File.read("") as file:
-            pass
-    except FileNotFoundError:
-        pass
-
-    # Test reading a file with None as filename
-    try:
-        with File.read(None) as file:
-            pass
-    except TypeError:
-        pass
-
-    # Test reading a file with integer as filename
-    try:
-        with File.read(123) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with boolean as filename
-    try:
-        with File.read(True) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with list as filename
-    try:
-        with File.read(["file1.txt", "file2.txt"]) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with tuple as filename
-    try:
-        with File.read(("file1.txt", "file2.txt")) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with dictionary as filename
-    try:
-        with File.read({"filename": "file.txt"}) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with set as filename
-    try:
-        with File.read({"file.txt"}) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with frozenset as filename
-    try:
-        with File.read(frozenset({"file.txt"})) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with bytes as filename
-    try:
-        with File.read(b"file.txt") as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with bytearray as filename
-    try:
-        with File.read(bytearray(b"file.txt")) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with memoryview as filename
-    try:
-        with File.read(memoryview(b"file.txt")) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with complex number as filename
-    try:
-        with File.read(complex(1, 2)) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with range as filename
-    try:
-        with File.read(range(10)) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with slice as filename
-    try:
-        with File.read(slice(0, 10, 2)) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with Ellipsis as filename
-    try:
-        with File.read(...) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with NotImplemented as filename
-    try:
-        with File.read(NotImplemented) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with object as filename
-    try:
-        with File.read(object()) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with class as filename
-    try:
-        with File.read(File) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with instance method as filename
-    try:
-        with File.read(File.read) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with static method as filename
-    try:
-        with File.read(File.detect_encoding) as file:
-            pass
-    except (TypeError, FileNotFoundError):
-        pass
-
-    # Test reading a file with class method as filename
-    try:
-        with File.read(File.from_contents) as file:
-            pass
-    except (TypeError,
+        # Use the File.read context manager
+        with File.read(tmp_file_name) as file:
+            assert file.path == Path(tmp_file_name).resolve()
+            assert file.encoding == "utf-8"
+            assert file.stream.read() == "# coding: utf-8\nimport os\n"
+    finally:
+        # Clean up the temporary file
+        os.unlink(tmp_file_name)
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test case 1: Valid encoding declaration
-    filename = "test.py"
-    contents = b"# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 2: No encoding declaration
-    filename = "test.py"
-    contents = b"print('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 3: Invalid encoding declaration
-    filename = "test.py"
-    contents = b"# coding: invalid\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding(filename, readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 4: Empty file
-    filename = "test.py"
-    contents = b""
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 5: Multiple encoding declarations
-    filename = "test.py"
-    contents = b"# coding: utf-8\n# coding: latin-1\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 6: Encoding declaration with spaces
-    filename = "test.py"
-    contents = b"# coding : utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 7: Encoding declaration with tabs
-    filename = "test.py"
-    contents = b"#\tcoding:\tutf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 8: Encoding declaration with mixed spaces and tabs
-    filename = "test.py"
-    contents = b"# \t coding \t : \t utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 9: Encoding declaration with different case
-    filename = "test.py"
-    contents = b"# CODING: UTF-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 10: Encoding declaration with underscore
-    filename = "test.py"
-    contents = b"# coding: utf_8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf_8"
-
-    # Test case 11: Encoding declaration with dash
-    filename = "test.py"
-    contents = b"# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 12: Encoding declaration with dot
-    filename = "test.py"
-    contents = b"# coding: utf.8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf.8"
-
-    # Test case 13: Encoding declaration with numbers
-    filename = "test.py"
-    contents = b"# coding: utf8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf8"
-
-    # Test case 14: Encoding declaration with invalid characters
-    filename = "test.py"
-    contents = b"# coding: utf-8!\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding(filename, readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 15: Encoding declaration with multiple lines
-    filename = "test.py"
-    contents = b"# coding: utf-8\n# coding: latin-1\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 16: Encoding declaration with shebang
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 17: Encoding declaration with shebang and spaces
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 18: Encoding declaration with shebang and tabs
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n#\tcoding:\tutf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 19: Encoding declaration with shebang and mixed spaces and tabs
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# \t coding \t : \t utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 20: Encoding declaration with shebang and different case
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# CODING: UTF-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 21: Encoding declaration with shebang and underscore
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf_8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf_8"
-
-    # Test case 22: Encoding declaration with shebang and dash
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 23: Encoding declaration with shebang and dot
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf.8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf.8"
-
-    # Test case 24: Encoding declaration with shebang and numbers
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf8"
-
-    # Test case 25: Encoding declaration with shebang and invalid characters
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf-8!\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding(filename, readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 26: Encoding declaration with shebang and multiple lines
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf-8\n# coding: latin-1\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_
-
-
-# LLM-generated content at query #13
-#--------------------------
-
-# Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  # Test case 1: Valid encoding in the first line
-    filename = "test.py"
-    contents = b"# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 2: Valid encoding with spaces and equals sign
-    filename = "test.py"
-    contents = b"# -*- coding: latin-1 -*-\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "iso-8859-1"
-
-    # Test case 3: No encoding specified
-    filename = "test.py"
-    contents = b"print('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 4: Unsupported encoding
-    filename = "test.py"
-    contents = b"# coding: unsupported\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding(filename, readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 5: Empty file
-    filename = "test.py"
-    contents = b""
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 6: Encoding with BOM
-    filename = "test.py"
-    contents = b"\xef\xbb\xbf# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8-sig"
-
-    # Test case 7: Encoding with shebang
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 8: Encoding with multiple comments
-    filename = "test.py"
-    contents = b"# comment 1\n# coding: latin-1\n# comment 2\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "iso-8859-1"
-
-    # Test case 9: Encoding with uppercase letters
-    filename = "test.py"
-    contents = b"# CODING: UTF-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 10: Encoding with dash and underscore
-    filename = "test.py"
-    contents = b"# coding: iso-8859-1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "iso-8859-1"
-
-    # Test case 11: Encoding with dot
-    filename = "test.py"
-    contents = b"# coding: cp1252\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "cp1252"
-
-    # Test case 12: Encoding with numbers
-    filename = "test.py"
-    contents = b"# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 13: Encoding with invalid characters
-    filename = "test.py"
-    contents = b"# coding: invalid!encoding\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding(filename, readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 14: Encoding with missing colon
-    filename = "test.py"
-    contents = b"# coding utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 15: Encoding with missing equals sign
-    filename = "test.py"
-    contents = b"# coding=utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 16: Encoding with extra spaces
-    filename = "test.py"
-    contents = b"#   coding   :   utf-8   \nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 17: Encoding with tab character
-    filename = "test.py"
-    contents = b"#\tcoding:\tutf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 18: Encoding with form feed character
-    filename = "test.py"
-    contents = b"#\fcoding:\futf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 19: Encoding with multiple lines
-    filename = "test.py"
-    contents = b"# coding: utf-8\n# another comment\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 20: Encoding with BOM and shebang
-    filename = "test.py"
-    contents = b"\xef\xbb\xbf#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8-sig"
-
-    # Test case 21: Encoding with BOM and no shebang
-    filename = "test.py"
-    contents = b"\xef\xbb\xbf# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8-sig"
-
-    # Test case 22: Encoding with BOM and invalid encoding
-    filename = "test.py"
-    contents = b"\xef\xbb\xbf# coding: unsupported\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding(filename, readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 23: Encoding with BOM and missing colon
-    filename = "test.py"
-    contents = b"\xef\xbb\xbf# coding utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8-sig"
-
-    # Test case 24: Encoding with BOM and missing equals sign
-    filename = "test.py"
-    contents = b"\xef\xbb\xbf# coding=utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8-sig"
-
-    # Test case 25: Encoding with BOM and extra spaces
-    filename = "test.py"
-    contents = b"\xef\xbb\xbf#   coding   :   utf-8   \nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8-sig"
-
-    # Test case 26: Encoding with BOM and tab character
-    filename = "test.py"
-    contents = b"\xef\xbb\xbf#\tcoding:\tutf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding
-
-
-####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
-####################################################################
-
-
-# LLM-generated content at query #1
-#--------------------------
-
 # Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with UTF-8 encoding
-    with File.read("test_utf8.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path.name == "test_utf8.txt"
-        assert file.stream.readable()
-    
-    # Test reading a file with ISO-8859-1 encoding
-    with File.read("test_iso8859.txt") as file:
-        assert file.encoding == "iso-8859-1"
-        assert file.path.name == "test_iso8859.txt"
-        assert file.stream.readable()
-    
-    # Test reading a non-existent file (should raise FileNotFoundError)
-    try:
-        with File.read("non_existent.txt") as file:
-            pass
-    except FileNotFoundError:
-        pass  # Expected behavior
-    
-    # Test reading a file with unsupported encoding (should raise UnsupportedEncoding)
-    try:
-        with File.read("test_unsupported.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass  # Expected behavior
+def test_File_read():
+    # Test reading a file with known encoding
+    test_content = "print('Hello, world!')"
+    test_file = File.from_contents(test_content, "test.py")
+    assert test_file.stream.read() == test_content
+    assert test_file.encoding == "utf-8"
+    assert test_file.path.name == "test.py"
 
-
-
-# LLM-generated content at query #2
-#--------------------------
-
-# Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test case 1: Valid encoding declaration
-    filename = "test.py"
-    contents = b"# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 2: No encoding declaration
-    filename = "test.py"
-    contents = b"print('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 3: Invalid encoding declaration
-    filename = "test.py"
-    contents = b"# coding: invalid-encoding\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding(filename, readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 4: Empty file
-    filename = "test.py"
-    contents = b""
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 5: Multiple encoding declarations
-    filename = "test.py"
-    contents = b"# coding: utf-8\n# coding: latin-1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 6: Encoding declaration with spaces
-    filename = "test.py"
-    contents = b"# coding : utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 7: Encoding declaration with tabs
-    filename = "test.py"
-    contents = b"#\tcoding:\tutf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 8: Encoding declaration with mixed spaces and tabs
-    filename = "test.py"
-    contents = b"# \t coding \t : \t utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 9: Encoding declaration with different case
-    filename = "test.py"
-    contents = b"# CODING: UTF-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 10: Encoding declaration with hyphen
-    filename = "test.py"
-    contents = b"# coding: iso-8859-1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "iso-8859-1"
-
-    # Test case 11: Encoding declaration with underscore
-    filename = "test.py"
-    contents = b"# coding: iso_8859_1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "iso_8859_1"
-
-    # Test case 12: Encoding declaration with dot
-    filename = "test.py"
-    contents = b"# coding: iso.8859.1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "iso.8859.1"
-
-    # Test case 13: Encoding declaration with numbers
-    filename = "test.py"
-    contents = b"# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 14: Encoding declaration with invalid characters
-    filename = "test.py"
-    contents = b"# coding: utf-8!\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding(filename, readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 15: Encoding declaration with missing colon
-    filename = "test.py"
-    contents = b"# coding utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding(filename, readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 16: Encoding declaration with missing coding keyword
-    filename = "test.py"
-    contents = b"# : utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding(filename, readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 17: Encoding declaration with multiple lines
-    filename = "test.py"
-    contents = b"# coding: utf-8\n# coding: latin-1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 18: Encoding declaration with shebang
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 19: Encoding declaration with shebang and spaces
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 20: Encoding declaration with shebang and tabs
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n#\tcoding:\tutf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 21: Encoding declaration with shebang and mixed spaces and tabs
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# \t coding \t : \t utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 22: Encoding declaration with shebang and different case
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# CODING: UTF-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 23: Encoding declaration with shebang and hyphen
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: iso-8859-1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "iso-8859-1"
-
-    # Test case 24: Encoding declaration with shebang and underscore
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: iso_8859_1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "iso_8859_1"
-
-    # Test case 25: Encoding declaration with shebang and dot
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: iso.8859.1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "iso.8859.1"
-
-    # Test case 26: Encoding declaration with shebang and numbers
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding(filename, readline) == "utf-8"
-
-    # Test case 27: Encoding declaration with shebang and invalid characters
-    filename = "test.py"
-    contents = b"#!/usr/bin/env python\n# coding: utf-8!\nprint
-
-
-# LLM-generated content at query #3
-#--------------------------
-
-# Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with UTF-8 encoding
-    with File.read("test_file.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("test_file.txt").resolve()
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with a different encoding
-    with File.read("test_file_latin1.txt") as file:
-        assert file.encoding == "iso-8859-1"
-        assert file.path == Path("test_file_latin1.txt").resolve()
-        assert file.stream.read() == "¡Hola, Mundo!"
+    # Test reading a file with different encoding
+    test_content_latin1 = "# coding: latin-1\nprint('¡Hola, mundo!')"
+    test_file_latin1 = File.from_contents(test_content_latin1, "test_latin1.py")
+    assert test_file_latin1.encoding == "iso-8859-1"
 
     # Test reading a non-existent file
     try:
-        with File.read("non_existent_file.txt") as file:
+        with File.read("non_existent.py") as file:
             pass
-    except FileNotFoundError:
-        pass
+    except Exception as e:
+        assert isinstance(e, FileNotFoundError)
 
-    # Test reading a file with unsupported encoding
-    try:
-        with File.read("test_file_unsupported.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
+    print("All tests passed!")
 
-
-
-# LLM-generated content at query #4
-#--------------------------
-
-# Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test case 1: Valid encoding in the first line
-    readline = BytesIO(b"# coding: utf-8\nprint('Hello, World!')").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 2: Valid encoding with spaces and tabs
-    readline = BytesIO(b"  # coding = utf-8  \nprint('Hello, World!')").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 3: Valid encoding with different format
-    readline = BytesIO(b"# -*- coding: latin-1 -*-\nprint('Hello, World!')").readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-
-    # Test case 4: No encoding specified, default to utf-8
-    readline = BytesIO(b"print('Hello, World!')").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 5: Invalid encoding, should raise UnsupportedEncoding
-    readline = BytesIO(b"# coding: invalid-encoding\nprint('Hello, World!')").readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass  # Expected
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 6: Empty file, default to utf-8
-    readline = BytesIO(b"").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 7: Encoding in second line, first line is a comment
-    readline = BytesIO(b"# This is a comment\n# coding: utf-8\nprint('Hello, World!')").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 8: Multiple encoding declarations, first one is used
-    readline = BytesIO(b"# coding: utf-8\n# coding: latin-1\nprint('Hello, World!')").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-    # Test case 9: Encoding with BOM (Byte Order Mark)
-    readline = BytesIO(b"\xef\xbb\xbf# coding: utf-8\nprint('Hello, World!')").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 10: Encoding with BOM and no explicit encoding declaration
-    readline = BytesIO(b"\xef\xbb\xbfprint('Hello, World!')").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 11: Encoding with BOM and invalid encoding declaration
-    readline = BytesIO(b"\xef\xbb\xbf# coding: invalid-encoding\nprint('Hello, World!')").readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass  # Expected
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 12: Encoding with BOM and multiple encoding declarations
-    readline = BytesIO(b"\xef\xbb\xbf# coding: utf-8\n# coding: latin-1\nprint('Hello, World!')").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 13: Encoding with BOM and no newline after encoding declaration
-    readline = BytesIO(b"\xef\xbb\xbf# coding: utf-8").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 14: Encoding with BOM and empty file
-    readline = BytesIO(b"\xef\xbb\xbf").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 15: Encoding with BOM and only whitespace
-    readline = BytesIO(b"\xef\xbb\xbf   \n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 16: Encoding with BOM and only comment
-    readline = BytesIO(b"\xef\xbb\xbf# This is a comment\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 17: Encoding with BOM and only comment with encoding
-    readline = BytesIO(b"\xef\xbb\xbf# coding: utf-8\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 18: Encoding with BOM and only comment with invalid encoding
-    readline = BytesIO(b"\xef\xbb\xbf# coding: invalid-encoding\n").readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass  # Expected
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 19: Encoding with BOM and only comment with multiple encoding declarations
-    readline = BytesIO(b"\xef\xbb\xbf# coding: utf-8\n# coding: latin-1\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 20: Encoding with BOM and only comment with BOM
-    readline = BytesIO(b"\xef\xbb\xbf# coding: utf-8-sig\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 21: Encoding with BOM and only comment with BOM and invalid encoding
-    readline = BytesIO(b"\xef\xbb\xbf# coding: invalid-encoding-sig\n").readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass  # Expected
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 22: Encoding with BOM and only comment with BOM and multiple encoding declarations
-    readline = BytesIO(b"\xef\xbb\xbf# coding: utf-8-sig\n# coding: latin-1-sig\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 23: Encoding with BOM and only comment with BOM and no encoding declaration
-    readline = BytesIO(b"\xef\xbb\xbf# This is a comment\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-
-    # Test case 24: Encoding with BOM and only comment with BOM and empty encoding declaration
-    readline = BytesIO(b"\xef\xbb\xbf# coding:\n").readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass  # Expected
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 25: Encoding with BOM and only comment with BOM and whitespace encoding declaration
-    readline = BytesIO(b"\xef\xbb\xbf# coding:   \n").readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass  # Expected
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 26: Encoding with BOM and only comment with BOM and tab encoding declaration
-    readline = BytesIO(b"\xef\xbb\xbf# coding:\t\n").readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass  # Expected
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 27: Encoding with BOM and only comment with BOM and newline encoding declaration
-    readline = BytesIO(b"\xef\xbb\xbf# coding:\n\n").readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass  # Expected
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 28: Encoding with BOM and only comment with BOM and carriage return encoding declaration
-    readline = BytesIO(b"\xef\xbb\xbf# coding:\r\n").readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass  # Expected
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 29: Encoding with BOM and only comment with BOM and carriage return line feed encoding declaration
-   
-
-
-# LLM-generated content at query #5
-#--------------------------
-
-# Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with valid encoding
-    with File.read("test_file.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("test_file.txt").resolve()
-        assert file.stream.read() == "test content"
-
-    # Test reading a file with unsupported encoding
-    try:
-        with File.read("unsupported_encoding.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-
-    # Test reading a file with empty content
-    with File.read("empty_file.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("empty_file.txt").resolve()
-        assert file.stream.read() == ""
-
-    # Test reading a file with special characters
-    with File.read("special_characters.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("special_characters.txt").resolve()
-        assert file.stream.read() == "áéíóú"
-
-    # Test reading a file with different line endings
-    with File.read("line_endings.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("line_endings.txt").resolve()
-        assert file.stream.read() == "line1\nline2\r\nline3"
-
-    # Test reading a file with BOM (Byte Order Mark)
-    with File.read("bom_file.txt") as file:
-        assert file.encoding == "utf-8-sig"
-        assert file.path == Path("bom_file.txt").resolve()
-        assert file.stream.read() == "content"
-
-    # Test reading a file with invalid encoding declaration
-    try:
-        with File.read("invalid_encoding.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-
-    # Test reading a file with mixed line endings
-    with File.read("mixed_line_endings.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("mixed_line_endings.txt").resolve()
-        assert file.stream.read() == "line1\nline2\r\nline3\n"
-
-    # Test reading a file with no newline at the end
-    with File.read("no_newline.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("no_newline.txt").resolve()
-        assert file.stream.read() == "no newline"
-
-    # Test reading a file with only newline
-    with File.read("only_newline.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("only_newline.txt").resolve()
-        assert file.stream.read() == "\n"
-
-    # Test reading a file with multiple lines
-    with File.read("multiple_lines.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("multiple_lines.txt").resolve()
-        assert file.stream.read() == "line1\nline2\nline3"
-
-    # Test reading a file with trailing spaces
-    with File.read("trailing_spaces.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("trailing_spaces.txt").resolve()
-        assert file.stream.read() == "line1   \nline2\t\n"
-
-    # Test reading a file with leading spaces
-    with File.read("leading_spaces.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("leading_spaces.txt").resolve()
-        assert file.stream.read() == "   line1\n\tline2\n"
-
-    # Test reading a file with mixed spaces and tabs
-    with File.read("mixed_spaces_tabs.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("mixed_spaces_tabs.txt").resolve()
-        assert file.stream.read() == "  \tline1\n\t  line2\n"
-
-    # Test reading a file with only spaces
-    with File.read("only_spaces.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("only_spaces.txt").resolve()
-        assert file.stream.read() == "   \n"
-
-    # Test reading a file with only tabs
-    with File.read("only_tabs.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("only_tabs.txt").resolve()
-        assert file.stream.read() == "\t\n"
-
-    # Test reading a file with empty lines
-    with File.read("empty_lines.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("empty_lines.txt").resolve()
-        assert file.stream.read() == "\n\n\n"
-
-    # Test reading a file with single character
-    with File.read("single_char.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("single_char.txt").resolve()
-        assert file.stream.read() == "a"
-
-    # Test reading a file with very long line
-    with File.read("long_line.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("long_line.txt").resolve()
-        assert file.stream.read() == "a" * 10000
-
-    # Test reading a file with very many lines
-    with File.read("many_lines.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("many_lines.txt").resolve()
-        content = file.stream.read()
-        assert content == "\n".join([f"line{i}" for i in range(10000)])
-
-    # Test reading a file with binary data (should raise UnsupportedEncoding)
-    try:
-        with File.read("binary_data.bin") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-
-    # Test reading a file that does not exist
-    try:
-        with File.read("non_existent.txt") as file:
-            pass
-    except FileNotFoundError:
-        pass
-
-    # Test reading a file with a shebang
-    with File.read("shebang.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("shebang.txt").resolve()
-        assert file.stream.read() == "#!/usr/bin/env python\nprint('hello')"
-
-    # Test reading a file with encoding declaration in second line
-    with File.read("encoding_second_line.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_second_line.txt").resolve()
-        assert file.stream.read() == "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\ncontent"
-
-    # Test reading a file with windows-1252 encoding
-    with File.read("windows_1252.txt") as file:
-        assert file.encoding == "windows-1252"
-        assert file.path == Path("windows_1252.txt").resolve()
-        assert file.stream.read() == "café"
-
-    # Test reading a file with iso-8859-1 encoding
-    with File.read("iso_8859_1.txt") as file:
-        assert file.encoding == "iso-8859-1"
-        assert file.path == Path("iso_8859_1.txt").resolve()
-        assert file.stream.read() == "café"
-
-    # Test reading a file with utf-16 encoding
-    with File.read("utf16.txt") as file:
-        assert file.encoding == "utf-16"
-        assert file.path == Path("utf16.txt").resolve()
-        assert file.stream.read() == "utf16 content"
-
-    # Test reading a file with utf-32 encoding
-    with File.read("utf32.txt") as file:
-        assert file.encoding == "utf-32"
-        assert file.path == Path("utf32.txt").resolve()
-        assert file.stream.read() == "utf32 content"
-
-    # Test reading a file with ascii encoding
-    with File.read("ascii.txt") as file:
-        assert file.encoding == "ascii"
-        assert file.path == Path("ascii.txt").resolve()
-        assert file.stream.read() == "ascii content"
-
-    # Test reading a file with latin-1 encoding
-    with File.read("latin1.txt") as file:
-        assert file.encoding == "latin-1"
-        assert file.path == Path("latin1.txt").resolve()
-        assert file.stream.read() == "latin1 content"
-
-    # Test reading a file with cp1252 encoding
-    with File.read("cp1252.txt") as file:
-        assert file.encoding == "cp1252"
-        assert file.path == Path("cp1252.txt").resolve()
-        assert file.stream.read() == "cp1252 content"
-
-    # Test reading a file with big5 encoding
-    with File.read("big5.txt") as file:
-        assert file.encoding == "big5"
-        assert file.path == Path("big5.txt").resolve()
-        assert file.stream.read() == "big5 content"
-
-    # Test reading a file with gb2312 encoding
-    with File.read("gb2312.txt") as file:
-        assert file.encoding == "gb2312"
-        assert file.path == Path("gb2312.txt").resolve()
-        assert file.stream.read() == "gb2312 content"
-
-    # Test reading a file with euc-kr encoding
-    with File.read("euc_kr.txt") as file:
-        assert file.encoding ==
-
-
-# LLM-generated content at query #6
-#--------------------------
-
-# Unit test for method read of class File
-def test_File_read():  
-    # Create a temporary file with known content
-    import tempfile
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write("import os\nimport sys\n")
-        temp_path = f.name
-    
-    # Use the context manager to read the file
-    with File.read(temp_path) as file:
-        content = file.stream.read()
-        assert content == "import os\nimport sys\n"
-        assert file.path == Path(temp_path).resolve()
-        assert file.encoding == 'utf-8'
-    
-    # Clean up the temporary file
-    import os
-    os.unlink(temp_path)
-
-
-
-# LLM-generated content at query #7
-#--------------------------
-
-# Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with valid encoding
-    with File.read('test_file.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('test_file.txt').resolve()
-        assert file.stream.readable()
-        assert file.stream.writable() == False
-        assert file.extension == 'txt'
-    
-    # Test reading a file with unsupported encoding
-    try:
-        with File.read('invalid_encoding.txt') as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-    
-    # Test reading a file with empty content
-    with File.read('empty_file.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('empty_file.txt').resolve()
-        assert file.stream.readable()
-        assert file.stream.writable() == False
-        assert file.extension == 'txt'
-        assert file.stream.read() == ''
-    
-    # Test reading a file with non-ASCII characters
-    with File.read('non_ascii.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('non_ascii.txt').resolve()
-        assert file.stream.readable()
-        assert file.stream.writable() == False
-        assert file.extension == 'txt'
-        assert file.stream.read() == 'café'
-    
-    # Test reading a file with different extension
-    with File.read('script.py') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('script.py').resolve()
-        assert file.stream.readable()
-        assert file.stream.writable() == False
-        assert file.extension == 'py'
-        assert file.stream.read() == 'print("Hello, World!")'
-
-
-# LLM-generated content at query #8
-#--------------------------
-
-# Unit test for method read of class File
-def test_File_read():  
-    # Create a temporary file with some content
-    import tempfile
-    with tempfile.NamedTemporaryFile(mode='w', delete=False) as f:
-        f.write('print("Hello, World!")')
-        temp_path = f.name
-
-    # Use the read method to read the file
-    with File.read(temp_path) as file:
-        assert file.path == Path(temp_path).resolve()
-        assert file.encoding == 'utf-8'
-        content = file.stream.read()
-        assert content == 'print("Hello, World!")'
-
-    # Clean up the temporary file
-    import os
-    os.unlink(temp_path)
-
-
-
-# LLM-generated content at query #9
-#--------------------------
-
-# Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test case 1: Valid encoding in the first line
-    readline = BytesIO(b"# coding: utf-8\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 2: Valid encoding with spaces and equals sign
-    readline = BytesIO(b"# -*- coding: latin-1 -*-\n").readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test case 3: No encoding specified
-    readline = BytesIO(b"print('Hello, world!')\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 4: Invalid encoding
-    readline = BytesIO(b"# coding: invalid-encoding\n").readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-    
-    # Test case 5: Empty file
-    readline = BytesIO(b"").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 6: Encoding in the second line (first line is a shebang)
-    readline = BytesIO(b"#!/usr/bin/env python\n# coding: utf-8\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 7: Encoding with uppercase letters
-    readline = BytesIO(b"# CODING: UTF-8\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 8: Encoding with dash and underscore
-    readline = BytesIO(b"# -*- coding: utf-8 -*-\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 9: Encoding with equals sign and no spaces
-    readline = BytesIO(b"# coding=utf-8\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 10: Encoding with multiple spaces
-    readline = BytesIO(b"#   coding   :   utf-8   \n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-
-
-
-# LLM-generated content at query #10
-#--------------------------
-
-# Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test case 1: Valid encoding declaration
-    contents = b"# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 2: Invalid encoding declaration
-    contents = b"# coding: invalid-encoding\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding(filename, readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test case 3: No encoding declaration
-    contents = b"print('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 4: Empty file
-    contents = b""
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 5: Multiple encoding declarations
-    contents = b"# coding: utf-8\n# coding: latin-1\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 6: Encoding declaration with spaces
-    contents = b"# coding : utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 7: Encoding declaration with tabs
-    contents = b"#\tcoding\t:\tutf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 8: Encoding declaration with uppercase letters
-    contents = b"# CODING: UTF-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 9: Encoding declaration with hyphen
-    contents = b"# coding: iso-8859-1\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "iso-8859-1"
-
-    # Test case 10: Encoding declaration with underscore
-    contents = b"# coding: utf_8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf_8"
-
-    # Test case 11: Encoding declaration with dot
-    contents = b"# coding: utf.8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf.8"
-
-    # Test case 12: Encoding declaration with numbers
-    contents = b"# coding: utf8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf8"
-
-    # Test case 13: Encoding declaration with mixed case
-    contents = b"# coding: UtF-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 14: Encoding declaration with leading spaces
-    contents = b"   # coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 15: Encoding declaration with leading tabs
-    contents = b"\t\t# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 16: Encoding declaration with leading form feed
-    contents = b"\f# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 17: Encoding declaration with leading carriage return
-    contents = b"\r# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 18: Encoding declaration with leading newline
-    contents = b"\n# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 19: Encoding declaration with leading carriage return and newline
-    contents = b"\r\n# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 20: Encoding declaration with leading space and tab
-    contents = b" \t# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 21: Encoding declaration with leading tab and space
-    contents = b"\t # coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 22: Encoding declaration with leading form feed and space
-    contents = b"\f # coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 23: Encoding declaration with leading space and form feed
-    contents = b" \f# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 24: Encoding declaration with leading tab and form feed
-    contents = b"\t\f# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 25: Encoding declaration with leading form feed and tab
-    contents = b"\f\t# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 26: Encoding declaration with leading space, tab, and form feed
-    contents = b" \t\f# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding == "utf-8"
-
-    # Test case 27: Encoding declaration with leading tab, space, and form feed
-    contents = b"\t \f# coding: utf-8\nprint('Hello, World!')"
-    filename = "test.py"
-    readline = BytesIO(contents).readline
-    encoding = File.detect_encoding(filename, readline)
-    assert encoding
-
-
-# LLM-generated content at query #11
-#--------------------------
-
-# Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with valid encoding
-    with File.read("test_file.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("test_file.txt").resolve()
-        assert file.stream.read() == "test content"
-    
-    # Test reading a file with unsupported encoding
-    try:
-        with File.read("invalid_encoding.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-    
-    # Test reading a file with empty content
-    with File.read("empty_file.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("empty_file.txt").resolve()
-        assert file.stream.read() == ""
-    
-    # Test reading a file with non-ASCII characters
-    with File.read("non_ascii_file.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("non_ascii_file.txt").resolve()
-        assert file.stream.read() == "café"
-    
-    # Test reading a file with different encoding
-    with File.read("latin1_file.txt") as file:
-        assert file.encoding == "iso-8859-1"
-        assert file.path == Path("latin1_file.txt").resolve()
-        assert file.stream.read() == "café"
-
-
-# LLM-generated content at query #12
-#--------------------------
-
-# Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with valid encoding
-    with File.read("test_file.txt") as file:
-        assert file.path == Path("test_file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Hello, World!"
-
-    # Test reading a file with unsupported encoding
-    try:
-        with File.read("invalid_encoding.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test reading a file with empty content
-    with File.read("empty_file.txt") as file:
-        assert file.path == Path("empty_file.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == ""
-
-    # Test reading a file with special characters
-    with File.read("special_characters.txt") as file:
-        assert file.path == Path("special_characters.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "é, ñ, ü"
-
-    # Test reading a file with different line endings
-    with File.read("line_endings.txt") as file:
-        assert file.path == Path("line_endings.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Line 1\nLine 2\r\nLine 3"
-
-    # Test reading a file with BOM (Byte Order Mark)
-    with File.read("bom_file.txt") as file:
-        assert file.path == Path("bom_file.txt").resolve()
-        assert file.encoding == "utf-8-sig"
-        assert file.stream.read() == "Hello, BOM!"
-
-    # Test reading a file with non-ASCII characters in the path
-    with File.read("path_with_非ASCII.txt") as file:
-        assert file.path == Path("path_with_非ASCII.txt").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "Non-ASCII path"
-
-    # Test reading a file with a shebang line
-    with File.read("script.py") as file:
-        assert file.path == Path("script.py").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "#!/usr/bin/env python\nprint('Hello')"
-
-    # Test reading a file with a coding declaration
-    with File.read("coding_declaration.py") as file:
-        assert file.path == Path("coding_declaration.py").resolve()
-        assert file.encoding == "iso-8859-1"
-        assert file.stream.read() == "# -*- coding: iso-8859-1 -*-\nprint('Hello')"
-
-    # Test reading a file with a mix of shebang and coding declaration
-    with File.read("mixed_declaration.py") as file:
-        assert file.path == Path("mixed_declaration.py").resolve()
-        assert file.encoding == "utf-8"
-        assert file.stream.read() == "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nprint('Hello')"
+test_File_read()
 
 
 # LLM-generated content at query #13
 #--------------------------
 
 # Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test with a file that has a valid encoding declaration
-    contents = b"# coding: utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test with a file that has no encoding declaration (should default to utf-8)
-    contents = b"print('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test with a file that has an invalid encoding declaration (should raise UnsupportedEncoding)
-    contents = b"# coding: invalid-encoding\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
+def test_File_detect_encoding():
+    # Test with a file containing a valid encoding declaration
+    test_content = b"# coding: utf-8\nprint('Hello, world!')"
+    test_file = BytesIO(test_content)
+    assert File.detect_encoding("test.py", test_file.readline) == "utf-8"
+
+    # Test with a file containing no encoding declaration (should default to utf-8)
+    test_content = b"print('Hello, world!')"
+    test_file = BytesIO(test_content)
+    assert File.detect_encoding("test.py", test_file.readline) == "utf-8"
+
+    # Test with an invalid encoding declaration
+    test_content = b"# coding: invalid-encoding\nprint('Hello, world!')"
+    test_file = BytesIO(test_content)
     try:
-        File.detect_encoding("test.py", readline)
+        File.detect_encoding("test.py", test_file.readline)
+        assert False, "Expected UnsupportedEncoding exception"
     except UnsupportedEncoding:
         pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-    
-    # Test with a file that has a valid encoding declaration with spaces
-    contents = b"# coding = utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test with a file that has a valid encoding declaration with tabs
-    contents = b"#\tcoding\t=\tutf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test with a file that has a valid encoding declaration with mixed spaces and tabs
-    contents = b"# \t coding \t = \t utf-8\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding
-    contents = b"# coding: latin-1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and spaces
-    contents = b"# coding = latin-1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and tabs
-    contents = b"#\tcoding\t=\tlatin-1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and mixed spaces and tabs
-    contents = b"# \t coding \t = \t latin-1\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending
-    contents = b"# coding: latin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and spaces
-    contents = b"# coding = latin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and tabs
-    contents = b"#\tcoding\t=\tlatin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and mixed spaces and tabs
-    contents = b"# \t coding \t = \t latin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and a different encoding
-    contents = b"# coding: latin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and a different encoding and spaces
-    contents = b"# coding = latin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and a different encoding and tabs
-    contents = b"#\tcoding\t=\tlatin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and a different encoding and mixed spaces and tabs
-    contents = b"# \t coding \t = \t latin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and a different encoding and a different line ending
-    contents = b"# coding: latin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and a different encoding and a different line ending and spaces
-    contents = b"# coding = latin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and a different encoding and a different line ending and tabs
-    contents = b"#\tcoding\t=\tlatin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and a different encoding and a different line ending and mixed spaces and tabs
-    contents = b"# \t coding \t = \t latin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and a different encoding and a different line ending and a different encoding
-    contents = b"# coding: latin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and a different encoding and a different line ending and a different encoding and spaces
-    contents = b"# coding = latin-1\r\nprint('Hello, world!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test with a file that has a valid encoding declaration with a different encoding and a different line ending and a different encoding and a different line ending and a different encoding and tabs
-    contents = b"#\tcoding\t=\tlatin-1\r\n
+
+    print("All tests passed for File.detect_encoding")
+
+test_File_detect_encoding()
 
 
 # LLM-generated content at query #14
 #--------------------------
 
-# Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test case 1: Valid encoding in the first line
-    readline = BytesIO(b"# coding: utf-8\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 2: Valid encoding with equals sign
-    readline = BytesIO(b"# -*- coding: latin-1 -*-\n").readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test case 3: No encoding specified
-    readline = BytesIO(b"print('Hello, world!')\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 4: Invalid encoding
-    readline = BytesIO(b"# coding: invalid-encoding\n").readline
-    try:
-        File.detect_encoding("test.py", readline)
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-    
-    # Test case 5: Empty file
-    readline = BytesIO(b"").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 6: Encoding in second line (should still be detected)
-    readline = BytesIO(b"#!/usr/bin/env python\n# coding: ascii\n").readline
-    assert File.detect_encoding("test.py", readline) == "ascii"
-    
-    # Test case 7: UTF-8 BOM
-    readline = BytesIO(b"\xef\xbb\xbf# coding: utf-8\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test case 8: UTF-16 BOM (little endian)
-    readline = BytesIO(b"\xff\xfe# coding: utf-16\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-16"
-    
-    # Test case 9: UTF-16 BOM (big endian)
-    readline = BytesIO(b"\xfe\xff# coding: utf-16\n").readline
-    assert File.detect_encoding("test.py", readline) == "utf-16"
-    
-    # Test case 10: Multiple encoding declarations (first one should win)
-    readline = BytesIO(b"# coding: latin-1\n# coding: utf-8\n").readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    print("All tests passed!")
+# Unit test for method read of class File
+def test_File_read():
+    # Assuming there's a file named 'test_file.txt' in the same directory
+    test_filename = 'test_file.txt'
+    test_content = 'Hello, world!'
 
-# Run the unit tests
-if __name__ == "__main__":
-    test_File_detect_encoding()
+    # Write test content to the file
+    with open(test_filename, 'w', encoding='utf-8') as f:
+        f.write(test_content)
+
+    # Use the File.read context manager to read the file
+    with File.read(test_filename) as file:
+        assert file.path.name == test_filename
+        assert file.stream.read() == test_content
+        assert file.encoding == 'utf-8'
+
+    # Clean up the test file
+    import os
+    os.remove(test_filename)
 
 
 # LLM-generated content at query #15
 #--------------------------
 
 # Unit test for method detect_encoding of class File
-def test_File_detect_encoding():  
-    # Test case 1: Valid encoding declaration
-    contents = b"# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 2: No encoding declaration
-    contents = b"print('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 3: Invalid encoding declaration
-    contents = b"# coding: invalid-encoding\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
+def test_File_detect_encoding():
+    # Test case 1: Detect encoding of a file with UTF-8 encoding
+    def readline_utf8():
+        return b'# coding: utf-8\n'
+
+    filename = 'test_file.py'
+    assert File.detect_encoding(filename, readline_utf8) == 'utf-8'
+
+    # Test case 2: Detect encoding of a file with ISO-8859-1 encoding
+    def readline_iso8859():
+        return b'# coding: iso-8859-1\n'
+
+    assert File.detect_encoding(filename, readline_iso8859) == 'iso-8859-1'
+
+    # Test case 3: Detect encoding of a file with unsupported encoding
+    def readline_unsupported():
+        return b'# coding: unsupported\n'
+
     try:
-        File.detect_encoding("test.py", readline)
-        assert False, "Expected UnsupportedEncoding exception"
+        File.detect_encoding(filename, readline_unsupported)
     except UnsupportedEncoding:
         pass
-    
-    # Test case 4: Empty file
-    contents = b""
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 5: Encoding declaration with spaces
-    contents = b"  #   coding   :   utf-8   \nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 6: Encoding declaration with equals sign
-    contents = b"# coding=utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 7: Multiple encoding declarations (first one wins)
-    contents = b"# coding: latin-1\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test case 8: Encoding declaration in second line (first line is shebang)
-    contents = b"#!/usr/bin/env python\n# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 9: Shebang only, no encoding declaration
-    contents = b"#!/usr/bin/env python\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 10: BOM (Byte Order Mark) for UTF-8
-    contents = b"\xef\xbb\xbf# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
-    
-    # Test case 11: BOM for UTF-16
-    contents = b"\xff\xfe# coding: utf-16\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-16"
-    
-    # Test case 12: Invalid BOM
-    contents = b"\xff\xff# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding("test.py", readline)
+    else:
         assert False, "Expected UnsupportedEncoding exception"
-    except UnsupportedEncoding:
-        pass
-    
-    # Test case 13: Encoding declaration with hyphen
-    contents = b"# coding: iso-8859-1\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test case 14: Encoding declaration with underscore
-    contents = b"# coding: iso_8859_1\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "iso-8859-1"
-    
-    # Test case 15: Encoding declaration with period
-    contents = b"# coding: iso.8859.1\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding("test.py", readline)
-        assert False, "Expected UnsupportedEncoding exception"
-    except UnsupportedEncoding:
-        pass
-    
-    # Test case 16: Empty encoding declaration
-    contents = b"# coding:\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    try:
-        File.detect_encoding("test.py", readline)
-        assert False, "Expected UnsupportedEncoding exception"
-    except UnsupportedEncoding:
-        pass
-    
-    # Test case 17: Encoding declaration with extra characters
-    contents = b"# coding: utf-8 extra\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 18: Encoding declaration in single quotes
-    contents = b"# coding: 'utf-8'\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 19: Encoding declaration in double quotes
-    contents = b'# coding: "utf-8"\nprint("Hello, World!")'
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 20: Encoding declaration with mixed case
-    contents = b"# coding: UTF-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 21: Encoding declaration with spaces and equals
-    contents = b"# coding = utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 22: Encoding declaration with tab
-    contents = b"#\tcoding:\tutf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 23: Encoding declaration with form feed
-    contents = b"#\fcoding:\futf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 24: Encoding declaration with multiple spaces
-    contents = b"#   coding   :   utf-8   \nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 25: Encoding declaration with comment after
-    contents = b"# coding: utf-8  # comment\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 26: Encoding declaration with multiple comments
-    contents = b"# coding: utf-8  # comment1  # comment2\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 27: Encoding declaration with special characters
-    contents = b"# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 28: Encoding declaration with backslash
-    contents = b"# coding: utf-8\\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 29: Encoding declaration with unicode characters
-    contents = b"# coding: utf-8\nprint('Hello, World!')"
-    readline = BytesIO(contents).readline
-    assert File.detect_encoding("test.py", readline) == "utf-8"
-    
-    # Test case 30: Encoding declaration with binary data
-    contents = b"#
+
+    # Test case 4: Detect encoding of a file with no encoding specified
+    def readline_no_encoding():
+        return b'print("Hello, World!")\n'
+
+    assert File.detect_encoding(filename, readline_no_encoding) == 'utf-8'
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for method read of class File
-def test_File_read():  
-    # Test reading a file with valid encoding
-    with File.read('test_file.txt') as file:
+def test_File_read():
+    """Unit test for method read of class File."""
+    test_filename = "test_file.txt"
+    test_content = "test content"
+    
+    # Create a test file
+    with open(test_filename, 'w', encoding='utf-8') as f:
+        f.write(test_content)
+    
+    # Test the read method
+    with File.read(test_filename) as file:
+        assert file.stream.read() == test_content
+        assert file.path == Path(test_filename).resolve()
         assert file.encoding == 'utf-8'
-        assert file.path == Path('test_file.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with unsupported encoding
-    try:
-        with File.read('invalid_encoding.txt') as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test reading a file with empty content
-    with File.read('empty_file.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('empty_file.txt').resolve()
-        assert file.stream.read() == ''
-
-    # Test reading a file with special characters
-    with File.read('special_characters.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('special_characters.txt').resolve()
-        assert file.stream.read() == 'Hello, 世界!'
-
-    # Test reading a file with different line endings
-    with File.read('line_endings.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('line_endings.txt').resolve()
-        assert file.stream.read() == 'Line 1\nLine 2\r\nLine 3'
-
-    # Test reading a file with large content
-    with File.read('large_file.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('large_file.txt').resolve()
-        assert len(file.stream.read()) == 1000000
-
-    # Test reading a file with non-ASCII characters in filename
-    with File.read('文件.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('文件.txt').resolve()
-        assert file.stream.read() == 'Content'
-
-    # Test reading a file with multiple lines and encoding detection
-    with File.read('multiline_encoding.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('multiline_encoding.txt').resolve()
-        assert file.stream.read() == 'Line 1\nLine 2\nLine 3'
-
-    # Test reading a file with BOM (Byte Order Mark)
-    with File.read('bom_file.txt') as file:
-        assert file.encoding == 'utf-8-sig'
-        assert file.path == Path('bom_file.txt').resolve()
-        assert file.stream.read() == 'Content'
-
-    # Test reading a file with mixed line endings and encoding detection
-    with File.read('mixed_line_endings.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('mixed_line_endings.txt').resolve()
-        assert file.stream.read() == 'Line 1\nLine 2\r\nLine 3\rLine 4'
-
-    # Test reading a file with invalid characters
-    try:
-        with File.read('invalid_characters.txt') as file:
-            pass
-    except UnicodeDecodeError:
-        pass
-    else:
-        assert False, "Expected UnicodeDecodeError"
-
-    # Test reading a file with empty filename
-    try:
-        with File.read('') as file:
-            pass
-    except FileNotFoundError:
-        pass
-    else:
-        assert False, "Expected FileNotFoundError"
-
-    # Test reading a file with None filename
-    try:
-        with File.read(None) as file:
-            pass
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError"
-
-    # Test reading a file with Path object as filename
-    with File.read(Path('test_file.txt')) as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('test_file.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with relative path
-    with File.read('../test_file.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('../test_file.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with absolute path
-    with File.read('/absolute/path/test_file.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('/absolute/path/test_file.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with special characters in path
-    with File.read('path/with/special/characters/文件.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('path/with/special/characters/文件.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with spaces in filename
-    with File.read('file with spaces.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('file with spaces.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with leading/trailing spaces in filename
-    with File.read('  file.txt  ') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('  file.txt  ').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with non-existent file
-    try:
-        with File.read('non_existent_file.txt') as file:
-            pass
-    except FileNotFoundError:
-        pass
-    else:
-        assert False, "Expected FileNotFoundError"
-
-    # Test reading a file with directory instead of file
-    try:
-        with File.read('directory') as file:
-            pass
-    except IsADirectoryError:
-        pass
-    else:
-        assert False, "Expected IsADirectoryError"
-
-    # Test reading a file with permission denied
-    try:
-        with File.read('permission_denied.txt') as file:
-            pass
-    except PermissionError:
-        pass
-    else:
-        assert False, "Expected PermissionError"
-
-    # Test reading a file with broken symlink
-    try:
-        with File.read('broken_symlink.txt') as file:
-            pass
-    except FileNotFoundError:
-        pass
-    else:
-        assert False, "Expected FileNotFoundError"
-
-    # Test reading a file with circular symlink
-    try:
-        with File.read('circular_symlink.txt') as file:
-            pass
-    except RecursionError:
-        pass
-    else:
-        assert False, "Expected RecursionError"
-
-    # Test reading a file with invalid encoding in file content
-    try:
-        with File.read('invalid_encoding_content.txt') as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test reading a file with multiple encoding declarations
-    with File.read('multiple_encoding_declarations.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('multiple_encoding_declarations.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with encoding declaration in second line
-    with File.read('encoding_in_second_line.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('encoding_in_second_line.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with encoding declaration in comment
-    with File.read('encoding_in_comment.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('encoding_in_comment.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with encoding declaration in multiline comment
-    with File.read('encoding_in_multiline_comment.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('encoding_in_multiline_comment.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with encoding declaration in shebang line
-    with File.read('encoding_in_shebang.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('encoding_in_shebang.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with encoding declaration in mixed content
-    with File.read('encoding_in_mixed_content.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('encoding_in_mixed_content.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with encoding declaration in non-ASCII content
-    with File.read('encoding_in_non_ascii_content.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('encoding_in_non_ascii_content.txt').resolve()
-        assert file.stream.readable()
-
-    # Test reading a file with encoding declaration in binary content
-    try:
-        with File.read('encoding_in_binary_content.txt') as file:
-            pass
-    except UnsupportedEncoding:
-        pass
-    else:
-        assert False, "Expected UnsupportedEncoding exception"
-
-    # Test reading a file with encoding declaration in empty file
-    with File.read('encoding_in_empty_file.txt') as file:
-        assert file.encoding == 'utf-8'
-        assert file.path == Path('encoding_in_empty_file.txt').resolve()
-        assert file.stream.read() == ''
-
-    # Test reading a file with encoding declaration in file with only newlines
-    with File.read('encoding_in_newlines_only.txt') as file:
-        assert file.encoding == 'utf-8
+    
+    # Clean up
+    Path(test_filename).unlink()
 
 
 # LLM-generated content at query #17
 #--------------------------
 
 # Unit test for method read of class File
-def test_File_read():  
-    # Test case 1: Read a file with valid encoding
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file with some content
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp_file:
+        tmp_file.write("import os\nimport sys\n")
+        tmp_file_name = tmp_file.name
+
+    # Use the File.read method to read the temporary file
+    with File.read(tmp_file_name) as file:
+        # Assert that the file path matches
+        assert file.path.name == os.path.basename(tmp_file_name)
+        # Assert that the file content is read correctly
+        assert file.stream.read() == "import os\nimport sys\n"
+
+    # Clean up the temporary file
+    os.unlink(tmp_file_name)
+
+    # Test with a non-existent file
+    try:
+        with File.read("non_existent_file.py"):
+            assert False, "Expected an error when reading a non-existent file"
+    except Exception:
+        pass
+
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a file containing a valid encoding declaration
+    test_content = b'# coding: utf-8\nprint("Hello, World!")'
+    test_file = BytesIO(test_content)
+    assert File.detect_encoding("test.py", test_file.readline) == "utf-8"
+
+    # Test with a file containing no encoding declaration (should default to utf-8)
+    test_content = b'print("Hello, World!")'
+    test_file = BytesIO(test_content)
+    assert File.detect_encoding("test.py", test_file.readline) == "utf-8"
+
+    # Test with an invalid encoding declaration (should raise UnsupportedEncoding)
+    test_content = b'# coding: invalid-encoding\nprint("Hello, World!")'
+    test_file = BytesIO(test_content)
+    try:
+        File.detect_encoding("test.py", test_file.readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    print("All tests for File.detect_encoding passed!")
+
+test_File_detect_encoding()
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    """Test the read method of the File class."""
+    import tempfile
+    import os
+
+    # Create a temporary file with known content
+    content = "test content"
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as tmp_file:
+        tmp_file.write(content)
+        tmp_file_path = tmp_file.name
+
+    try:
+        # Test reading the file
+        with File.read(tmp_file_path) as file:
+            assert file.stream.read() == content
+            assert file.path == Path(tmp_file_path).resolve()
+            assert file.encoding == "utf-8"  # Assuming default encoding is utf-8
+    finally:
+        # Clean up
+        os.unlink(tmp_file_path)
+
+    # Test with a non-existent file (should raise an exception)
+    try:
+        with File.read("non_existent_file.txt") as file:
+            pass
+    except Exception as e:
+        assert isinstance(e, (FileNotFoundError, UnsupportedEncoding))
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a file containing UTF-8 encoding declaration
+    utf8_content = b'# coding: utf-8\nprint("Hello, World!")'
+    assert File.detect_encoding("test.py", BytesIO(utf8_content).readline) == "utf-8"
+
+    # Test with a file containing no encoding declaration (default to UTF-8)
+    no_encoding_content = b'print("Hello, World!")'
+    assert File.detect_encoding("test.py", BytesIO(no_encoding_content).readline) == "utf-8"
+
+    # Test with a file containing an invalid encoding declaration
+    invalid_encoding_content = b'# coding: invalid\nprint("Hello, World!")'
+    try:
+        File.detect_encoding("test.py", BytesIO(invalid_encoding_content).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    print("All tests passed for File.detect_encoding")
+
+test_File_detect_encoding()
+
+
+# LLM-generated content at query #21
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Create a temporary file with known content
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp:
+        temp.write("test content")
+        temp_name = temp.name
+
+    # Test reading the file using File.read
+    with File.read(temp_name) as file:
+        assert file.stream.read() == "test content"
+        assert file.path == Path(temp_name).resolve()
+        assert file.encoding == 'utf-8'
+
+    # Clean up the temporary file
+    import os
+    os.unlink(temp_name)
+
+
+# LLM-generated content at query #22
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
     with File.read("test_file.txt") as file:
+        assert file.path.name == "test_file.txt"
+        assert file.stream.mode == "r"
+        assert isinstance(file.encoding, str)
+
+
+# LLM-generated content at query #23
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file with some content
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+        tmp.write("import os\nimport sys\n")
+        tmp_name = tmp.name
+
+    try:
+        # Test reading the file
+        with File.read(tmp_name) as file:
+            assert file.path == Path(tmp_name).resolve()
+            assert file.encoding == 'utf-8'
+            content = file.stream.read()
+            assert content == "import os\nimport sys\n"
+    finally:
+        # Clean up
+        os.unlink(tmp_name)
+
+
+# LLM-generated content at query #24
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    from tempfile import NamedTemporaryFile
+    import unittest
+
+    class TestFileRead(unittest.TestCase):
+        def test_file_read(self):
+            with NamedTemporaryFile(mode="w", delete=False) as tmp_file:
+                tmp_file.write("test content")
+                tmp_file_path = tmp_file.name
+
+            with File.read(tmp_file_path) as file:
+                self.assertEqual(file.stream.read(), "test content")
+                self.assertEqual(file.path, Path(tmp_file_path).resolve())
+                self.assertEqual(file.encoding, "utf-8")
+
+            Path(tmp_file_path).unlink()
+
+        def test_file_read_nonexistent(self):
+            with self.assertRaises(FileNotFoundError):
+                with File.read("nonexistent_file.txt"):
+                    pass
+
+    unittest.main()
+
+
+# LLM-generated content at query #25
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a simple file containing a coding declaration
+    test_content = b"# coding: utf-8\nprint('Hello, world!')"
+    test_file = BytesIO(test_content)
+    assert File.detect_encoding("test.py", test_file.readline) == "utf-8"
+
+    # Test with a file containing no coding declaration (should default to utf-8)
+    test_content = b"print('Hello, world!')"
+    test_file = BytesIO(test_content)
+    assert File.detect_encoding("test.py", test_file.readline) == "utf-8"
+
+    # Test with an invalid coding declaration
+    test_content = b"# coding: invalid-encoding\nprint('Hello, world!')"
+    test_file = BytesIO(test_content)
+    try:
+        File.detect_encoding("test.py", test_file.readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    print("All tests passed for File.detect_encoding")
+
+test_File_detect_encoding()
+
+
+# LLM-generated content at query #26
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file
+    with tempfile.NamedTemporaryFile(delete=False, mode='w', encoding='utf-8') as tmp_file:
+        tmp_file.write("test content")
+        tmp_file_name = tmp_file.name
+
+    # Test reading the temporary file
+    with File.read(tmp_file_name) as file:
+        assert file.path.name == os.path.basename(tmp_file_name)
+        assert file.stream.read() == "test content"
+
+    # Clean up the temporary file
+    os.unlink(tmp_file_name)
+
+
+# LLM-generated content at query #27
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a file containing a correct coding declaration
+    content = b"# coding=utf-8\nprint('Hello, World!')"
+    readline = BytesIO(content).readline
+    assert File.detect_encoding("test.py", readline) == "utf-8"
+
+    # Test with a file containing a incorrect coding declaration
+    content = b"# coding=unknown_encoding\nprint('Hello, World!')"
+    readline = BytesIO(content).readline
+    try:
+        File.detect_encoding("test.py", readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file without any coding declaration
+    content = b"print('Hello, World!')"
+    readline = BytesIO(content).readline
+    assert File.detect_encoding("test.py", readline) == "utf-8"
+
+
+
+# LLM-generated content at query #28
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file with known content
+    content = "test content"
+    encoding = "utf-8"
+    with tempfile.NamedTemporaryFile(mode="w", encoding=encoding, delete=False) as tmp:
+        tmp.write(content)
+        tmp_path = tmp.name
+
+    try:
+        # Test reading the file
+        with File.read(tmp_path) as file:
+            assert file.path == Path(tmp_path).resolve()
+            assert file.encoding == encoding
+            assert file.stream.read() == content
+    finally:
+        # Clean up
+        os.unlink(tmp_path)
+
+    # Test with a non-existent file (should raise an exception)
+    non_existent_path = "/path/to/nonexistent/file"
+    try:
+        with File.read(non_existent_path) as file:
+            pass
+    except Exception as e:
+        assert isinstance(e, (FileNotFoundError, UnsupportedEncoding))
+
+
+# LLM-generated content at query #29
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Test reading a file successfully
+    with File.read("example.txt") as file:
+        assert file.path.name == "example.txt"
         assert file.encoding == "utf-8"
+
+    # Test reading a non-existent file
+    try:
+        with File.read("non_existent.txt"):
+            pass
+        assert False, "Expected exception"
+    except FileNotFoundError:
+        pass
+
+    # Test reading a file with an unsupported encoding
+    try:
+        with File.read("unsupported_encoding.txt"):
+            pass
+        assert False, "Expected exception"
+    except UnsupportedEncoding:
+        pass
+
+
+# LLM-generated content at query #30
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Create a temporary file with known contents
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        temp_file.write("def foo():\n    pass\n")
+        temp_file_path = temp_file.name
+
+    # Use the File.read method to read the file
+    with File.read(temp_file_path) as file:
+        assert file.path == Path(temp_file_path).resolve()
+        assert file.encoding == 'utf-8'
+        assert file.stream.read() == "def foo():\n    pass\n"
+
+    # Clean up the temporary file
+    import os
+    os.unlink(temp_file_path)
+
+
+# LLM-generated content at query #31
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a file containing UTF-8 encoding declaration
+    test_content = b'# coding: utf-8\nprint("Hello, World!")'
+    test_file = BytesIO(test_content)
+    encoding = File.detect_encoding("test.py", test_file.readline)
+    assert encoding == "utf-8"
+
+    # Test with a file containing no encoding declaration (default should be UTF-8)
+    test_content = b'print("Hello, World!")'
+    test_file = BytesIO(test_content)
+    encoding = File.detect_encoding("test.py", test_file.readline)
+    assert encoding == "utf-8"
+
+    # Test with an invalid encoding declaration
+    test_content = b'# coding: invalid-encoding\nprint("Hello, World!")'
+    test_file = BytesIO(test_content)
+    try:
+        File.detect_encoding("test.py", test_file.readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    print("All tests passed for File.detect_encoding")
+
+test_File_detect_encoding()
+
+
+# LLM-generated content at query #32
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Test case 1: Reading a file with valid encoding
+    test_file = Path("test_file.txt")
+    test_file.write_text("test content", encoding="utf-8")
+    with File.read(test_file) as file:
+        assert file.stream.read() == "test content"
+        assert file.path == test_file.resolve()
+        assert file.encoding == "utf-8"
+    test_file.unlink()
+
+    # Test case 2: Reading a file with invalid encoding (should raise UnsupportedEncoding)
+    test_file.write_bytes(b"# coding=invalid\ncontent")
+    try:
+        with File.read(test_file) as file:
+            pass
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+    test_file.unlink()
+
+    # Test case 3: Reading a non-existent file (should raise FileNotFoundError)
+    non_existent_file = Path("non_existent_file.txt")
+    try:
+        with File.read(non_existent_file) as file:
+            pass
+        assert False, "Expected FileNotFoundError"
+    except FileNotFoundError:
+        pass
+
+    print("All test cases passed!")
+
+test_File_read()
+
+
+# LLM-generated content at query #33
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test case 1: Valid encoding detection
+    filename = "test_file.py"
+    contents = b"# coding: utf-8\nprint('Hello, World!')"
+    readline = BytesIO(contents).readline
+    assert File.detect_encoding(filename, readline) == "utf-8"
+
+    # Test case 2: Invalid encoding detection
+    filename = "test_file.py"
+    contents = b"# coding: invalid_encoding\nprint('Hello, World!')"
+    readline = BytesIO(contents).readline
+    try:
+        File.detect_encoding(filename, readline)
+    except UnsupportedEncoding as e:
+        assert str(e) == filename
+
+    # Test case 3: No encoding specified
+    filename = "test_file.py"
+    contents = b"print('Hello, World!')"
+    readline = BytesIO(contents).readline
+    assert File.detect_encoding(filename, readline) == "utf-8"
+
+
+# LLM-generated content at query #34
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test valid encoding detection
+    contents = "# coding=utf-8\nprint('Hello, World!')"
+    assert File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline) == "utf-8"
+
+    # Test invalid encoding detection
+    contents = "# coding=invalid_encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+    except Exception as e:
+        assert isinstance(e, UnsupportedEncoding)
+
+
+
+# LLM-generated content at query #35
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Test case 1: File exists and can be opened
+    test_file_path = Path("test_file.txt")
+    test_file_path.write_text("test", encoding="utf-8")
+    with File.read(test_file_path) as file:
+        assert file.stream.read() == "test"
+    test_file_path.unlink()
+
+    # Test case 2: File does not exist
+    non_existent_file_path = Path("non_existent_file.txt")
+    try:
+        with File.read(non_existent_file_path) as file:
+            pass
+        assert False, "Expected FileNotFoundError"
+    except FileNotFoundError:
+        assert True
+
+    # Test case 3: File encoding is unsupported
+    unsupported_encoding_file_path = Path("unsupported_encoding_file.txt")
+    unsupported_encoding_file_path.write_text("test", encoding="utf-8")
+    unsupported_encoding_file_path.write_bytes(b"\xff\xfe\xfd")
+    try:
+        with File.read(unsupported_encoding_file_path) as file:
+            pass
+        assert False, "Expected UnsupportedEncoding"
+    except UnsupportedEncoding:
+        assert True
+    unsupported_encoding_file_path.unlink()
+
+
+# LLM-generated content at query #36
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a simple file containing a correct encoding declaration
+    test_content = b"# coding: utf-8\nprint('Hello, world!')"
+    test_file = "test_file.py"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with a file containing no encoding declaration (should default to utf-8)
+    test_content = b"print('Hello, world!')"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with a file containing an invalid encoding declaration
+    test_content = b"# coding: invalid-encoding\nprint('Hello, world!')"
+    try:
+        File.detect_encoding(test_file, BytesIO(test_content).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with an empty file
+    test_content = b""
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+
+# LLM-generated content at query #37
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    with File.read("test_file.txt") as file:
+        assert file.stream is not None
+        assert file.path.name == "test_file.txt"
+        assert file.encoding == "utf-8"  # Assuming the file is encoded in UTF-8
+
+
+# LLM-generated content at query #38
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test case 1: Valid encoding declaration
+    filename = "test.py"
+    readline = BytesIO(b"# coding: utf-8\nprint('Hello, World!')").readline
+    assert File.detect_encoding(filename, readline) == "utf-8"
+
+    # Test case 2: No encoding declaration
+    readline = BytesIO(b"print('Hello, World!')").readline
+    assert File.detect_encoding(filename, readline) == "utf-8"
+
+    # Test case 3: Invalid encoding declaration
+    readline = BytesIO(b"# coding: invalid\nprint('Hello, World!')").readline
+    try:
+        File.detect_encoding(filename, readline)
+    except UnsupportedEncoding:
+        pass
+    else:
+        assert False, "Expected UnsupportedEncoding exception"
+
+    # Test case 4: Empty file
+    readline = BytesIO(b"").readline
+    assert File.detect_encoding(filename, readline) == "utf-8"
+
+    # Test case 5: Different encoding declaration
+    readline = BytesIO(b"# -*- coding: latin-1 -*-\nprint('Hello, World!')").readline
+    assert File.detect_encoding(filename, readline) == "iso-8859-1"
+
+
+
+# LLM-generated content at query #39
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with valid encoding
+    contents = b"# coding: utf-8\nprint('Hello, World!')"
+    filename = "test.py"
+    encoding = File.detect_encoding(filename, BytesIO(contents).readline)
+    assert encoding == "utf-8"
+
+    # Test with invalid encoding
+    contents = b"# coding: invalid\nprint('Hello, World!')"
+    try:
+        File.detect_encoding(filename, BytesIO(contents).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+
+
+# LLM-generated content at query #40
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    with File.read("test_file.txt") as file:
+        assert isinstance(file.stream, TextIOWrapper)
         assert file.path == Path("test_file.txt").resolve()
-        assert file.stream.read() == "Hello, World!"
+        assert isinstance(file.encoding, str)
 
-    # Test case 2: Read a file with unsupported encoding
-    try:
-        with File.read("unsupported_encoding.txt") as file:
+
+
+# LLM-generated content at query #41
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Test reading from an empty file
+    with tempfile.NamedTemporaryFile(mode="w+b", delete=False) as tmp_file:
+        tmp_file_name = tmp_file.name
+        with File.read(tmp_file_name) as file:
+            assert file.encoding == "utf-8"
+            assert file.path == Path(tmp_file_name).resolve()
+            assert file.stream.read() == ""
+
+    # Test reading from a file with content
+    with tempfile.NamedTemporaryFile(mode="w+b", delete=False) as tmp_file:
+        tmp_file_name = tmp_file.name
+        tmp_file.write(b"# coding: utf-8\nprint('Hello, World!')")
+        tmp_file.flush()
+        with File.read(tmp_file_name) as file:
+            assert file.encoding == "utf-8"
+            assert file.path == Path(tmp_file_name).resolve()
+            assert file.stream.read() == "# coding: utf-8\nprint('Hello, World!')"
+
+    # Test reading from a file with non-existent encoding
+    with tempfile.NamedTemporaryFile(mode="w+b", delete=False) as tmp_file:
+        tmp_file_name = tmp_file.name
+        tmp_file.write(b"# coding: non-existent-encoding\nprint('Hello, World!')")
+        tmp_file.flush()
+        try:
+            with File.read(tmp_file_name) as file:
+                pass
+            assert False, "Expected UnsupportedEncoding exception"
+        except UnsupportedEncoding:
             pass
-    except UnsupportedEncoding:
-        assert True
-    else:
-        assert False
 
-    # Test case 3: Read a file with empty contents
-    with File.read("empty_file.txt") as file:
+    # Clean up
+    os.unlink(tmp_file_name)
+
+
+# LLM-generated content at query #42
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import os
+    import tempfile
+    from contextlib import contextmanager
+
+    @contextmanager
+    def create_temp_file(content, encoding):
+        with tempfile.NamedTemporaryFile(delete=False, mode="wb") as temp_file:
+            temp_file.write(content.encode(encoding))
+            temp_file_name = temp_file.name
+        try:
+            yield temp_file_name
+        finally:
+            os.unlink(temp_file_name)
+
+    # Test case 1: File with UTF-8 encoding
+    content = "test content"
+    encoding = "utf-8"
+    with create_temp_file(content, encoding) as temp_file_name:
+        with File.read(temp_file_name) as file:
+            assert file.stream.read() == content
+            assert file.encoding == encoding
+            assert file.path == Path(temp_file_name).resolve()
+
+    # Test case 2: File with non-UTF-8 encoding (e.g., ISO-8859-1)
+    content = "test content"
+    encoding = "iso-8859-1"
+    with create_temp_file(content, encoding) as temp_file_name:
+        with File.read(temp_file_name) as file:
+            assert file.stream.read() == content
+            assert file.encoding == encoding
+            assert file.path == Path(temp_file_name).resolve()
+
+    # Test case 3: File with BOM (Byte Order Mark)
+    content = "\ufefftest content"
+    encoding = "utf-8-sig"
+    with create_temp_file(content, encoding) as temp_file_name:
+        with File.read(temp_file_name) as file:
+            assert file.stream.read() == content
+            assert file.encoding == encoding
+            assert file.path == Path(temp_file_name).resolve()
+
+
+# LLM-generated content at query #43
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    with File.read("test_file.txt") as file:
+        assert file.path == Path("test_file.txt").resolve()
+        assert isinstance(file.stream, TextIOWrapper)
         assert file.encoding == "utf-8"
-        assert file.path == Path("empty_file.txt").resolve()
-        assert file.stream.read() == ""
 
-    # Test case 4: Read a file with special characters
-    with File.read("special_characters.txt") as file:
+    with File.read("non_existent_file.txt") as file:
+        pass  # Expecting an exception to be raised
+
+
+
+# LLM-generated content at query #44
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Creating a temporary file with content and encoding
+    temp_file_path = Path("test_file.txt")
+    temp_file_content = "# coding: utf-8\nprint('Hello, World!')"
+    temp_file_path.write_text(temp_file_content, encoding="utf-8")
+
+    # Using the context manager to read the file
+    with File.read(temp_file_path) as file:
+        assert file.path == temp_file_path.resolve()
         assert file.encoding == "utf-8"
-        assert file.path == Path("special_characters.txt").resolve()
-        assert file.stream.read() == "© 2022"
+        assert file.stream.read() == temp_file_content
 
-    # Test case 5: Read a file with different extension
-    with File.read("file.py") as file:
-        assert file.extension == "py"
-        assert file.path == Path("file.py").resolve()
-        assert file.stream.read() == "print('Hello, World!')"
+    # Clean up the temporary file
+    temp_file_path.unlink()
 
-    # Test case 6: Read a file using from_contents method
-    file = File.from_contents("Test contents", "test.txt")
-    assert file.encoding == "utf-8"
-    assert file.path == Path("test.txt").resolve()
-    assert file.stream.read() == "Test contents"
 
-    # Test case 7: Read a file with empty encoding
+# LLM-generated content at query #45
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a file containing UTF-8 encoding declaration
+    utf8_content = b'# coding: utf-8\nprint("Hello, World!")'
+    assert File.detect_encoding("test.py", BytesIO(utf8_content).readline) == "utf-8"
+
+    # Test with a file containing no encoding declaration (default to UTF-8)
+    no_declaration_content = b'print("Hello, World!")'
+    assert File.detect_encoding("test.py", BytesIO(no_declaration_content).readline) == "utf-8"
+
+    # Test with a file containing an invalid encoding declaration
+    invalid_content = b'# coding: invalid-encoding\nprint("Hello, World!")'
     try:
-        with File.read("empty_encoding.txt") as file:
-            pass
+        File.detect_encoding("test.py", BytesIO(invalid_content).readline)
+        assert False, "Expected UnsupportedEncoding exception"
     except UnsupportedEncoding:
-        assert True
-    else:
-        assert False
+        pass
 
-    # Test case 8: Read a file with invalid encoding
+    print("All tests for detect_encoding passed successfully!")
+
+# Run the unit test
+test_File_detect_encoding()
+
+
+# LLM-generated content at query #46
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Create a temporary file with known contents
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        temp_file.write("import os\nimport sys\n")
+        temp_file_path = temp_file.name
+
+    # Use the File.read method to read the contents
+    with File.read(temp_file_path) as file:
+        assert file.path == Path(temp_file_path).resolve()
+        assert file.encoding == 'utf-8'
+        contents = file.stream.read()
+        assert contents == "import os\nimport sys\n"
+
+    # Clean up the temporary file
+    import os
+    os.remove(temp_file_path)
+
+test_File_read()
+
+
+# LLM-generated content at query #47
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file with some content
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp_file:
+        tmp_file.write("import os\nimport sys\n")
+        tmp_file_path = tmp_file.name
+
     try:
-        with File.read("invalid_encoding.txt") as file:
-            pass
-    except UnsupportedEncoding:
-        assert True
-    else:
-        assert False
+        # Test reading the file
+        with File.read(tmp_file_path) as file:
+            assert file.path == Path(tmp_file_path).resolve()
+            assert file.encoding == 'utf-8'
+            content = file.stream.read()
+            assert content == "import os\nimport sys\n"
 
-    # Test case 9: Read a file with missing encoding declaration
+    finally:
+        # Clean up
+        os.unlink(tmp_file_path)
+
+
+# LLM-generated content at query #48
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        temp_file.write("Hello, World!")
+        temp_file_path = temp_file.name
+
+    # Use the File.read method to read the temporary file
+    with File.read(temp_file_path) as file:
+        assert file.path == Path(temp_file_path).resolve()
+        assert file.encoding == 'utf-8'
+        content = file.stream.read()
+        assert content == "Hello, World!"
+
+    # Clean up the temporary file
+    os.unlink(temp_file_path)
+
+
+# LLM-generated content at query #49
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    with File.read("test_file.txt") as file:
+        assert file.stream is not None
+        assert file.path == Path("test_file.txt").resolve()
+        assert file.encoding == "utf-8"
+
+
+# LLM-generated content at query #50
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    test_filename = "test_file.txt"
+    test_content = "test content"
+
+    # Create a test file with some content
+    with open(test_filename, "w", encoding="utf-8") as file:
+        file.write(test_content)
+
+    # Test reading the file using the File.read method
+    with File.read(test_filename) as file:
+        assert file.stream.read() == test_content
+        assert file.path == Path(test_filename).resolve()
+        assert file.encoding == "utf-8"
+
+    # Clean up the test file
+    Path(test_filename).unlink()
+
+
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# LLM-generated content at query #1
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Setup
+    test_filename = "test_file.txt"
+    test_contents = "test contents"
+    with open(test_filename, "w", encoding="utf-8") as f:
+        f.write(test_contents)
+    
+    # Execution
+    with File.read(test_filename) as file:
+        read_contents = file.stream.read()
+    
+    # Verification
+    assert read_contents == test_contents
+    
+    # Cleanup
+    Path(test_filename).unlink()
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a simple Python file with UTF-8 encoding
+    test_content = b"# coding: utf-8\nprint('Hello, World!')"
+    test_file = "test_file.py"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with a file without encoding specified (should default to utf-8)
+    test_content = b"print('Hello, World!')"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with a file with ISO-8859-1 encoding
+    test_content = b"# -*- coding: iso-8859-1 -*-\nprint('Hello, World!')"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "iso-8859-1"
+
+    # Test with an invalid encoding (should raise UnsupportedEncoding)
+    test_content = b"# coding: invalid-encoding\nprint('Hello, World!')"
     try:
-        with File.read("no_encoding.txt") as file:
-            pass
+        File.detect_encoding(test_file, BytesIO(test_content).readline)
+        assert False, "Expected UnsupportedEncoding exception"
     except UnsupportedEncoding:
-        assert True
-    else:
-        assert False
+        pass
 
-    # Test case 10: Read a file with multiple encoding declarations
+    # Test with an empty file (should default to utf-8)
+    test_content = b""
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+
+# LLM-generated content at query #3
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read(): 
+    import tempfile
+
+    # Create a temporary file
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_file:
+        temp_file.write("import os\nimport sys\n")
+        temp_file_path = temp_file.name
+
+    # Use the read method of File class
+    with File.read(temp_file_path) as file:
+        contents = file.stream.read()
+        assert contents == "import os\nimport sys\n"
+        assert isinstance(file.path, Path)
+        assert file.encoding == "utf-8"
+
+    # Clean up the temporary file
+    import os
+    os.unlink(temp_file_path)
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a simple Python file with UTF-8 encoding
+    test_content = b'# coding: utf-8\nprint("Hello, World!")'
+    test_filename = "test.py"
+    readline = BytesIO(test_content).readline
+    assert File.detect_encoding(test_filename, readline) == "utf-8"
+
+    # Test with a Python file with ISO-8859-1 encoding
+    test_content = b'# -*- coding: iso-8859-1 -*-\nprint("Hello, World!")'
+    readline = BytesIO(test_content).readline
+    assert File.detect_encoding(test_filename, readline) == "iso-8859-1"
+
+    # Test with a Python file with no encoding specified (should default to UTF-8)
+    test_content = b'print("Hello, World!")'
+    readline = BytesIO(test_content).readline
+    assert File.detect_encoding(test_filename, readline) == "utf-8"
+
+    # Test with invalid encoding (should raise UnsupportedEncoding)
+    test_content = b'# coding: invalid-encoding\nprint("Hello, World!")'
+    readline = BytesIO(test_content).readline
     try:
-        with File.read("multiple_encodings.txt") as file:
-            pass
+        File.detect_encoding(test_filename, readline)
+        assert False, "Expected UnsupportedEncoding exception"
     except UnsupportedEncoding:
-        assert True
-    else:
-        assert False
+        pass
 
-    # Test case 11: Read a file with BOM (Byte Order Mark)
-    with File.read("bom.txt") as file:
-        assert file.encoding == "utf-8-sig"
-        assert file.path == Path("bom.txt").resolve()
-        assert file.stream.read() == "Hello, World!"
 
-    # Test case 12: Read a file with non-ASCII characters in encoding declaration
+# LLM-generated content at query #5
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import unittest
+
+    class TestFileRead(unittest.TestCase):
+        def setUp(self):
+            self.temp_file = tempfile.NamedTemporaryFile(delete=False, mode='w', encoding='utf-8')
+            self.temp_file_path = Path(self.temp_file.name)
+            self.temp_file.write("Test content")
+            self.temp_file.close()
+
+        def tearDown(self):
+            self.temp_file_path.unlink()
+
+        def test_read(self):
+            with File.read(self.temp_file_path) as file:
+                self.assertEqual(file.path, self.temp_file_path)
+                self.assertEqual(file.encoding, 'utf-8')
+                content = file.stream.read()
+                self.assertEqual(content, "Test content")
+
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestFileRead)
+    unittest.TextTestRunner().run(suite)
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Setup: Create a temporary file with known content
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        temp_file.write("import os\nimport sys\n")
+        temp_file_path = temp_file.name
+
+    # Test: Use the read method of File to read the temporary file
+    with File.read(temp_file_path) as file:
+        contents = file.stream.read()
+        assert contents == "import os\nimport sys\n"
+
+    # Cleanup: Remove the temporary file
+    import os
+    os.remove(temp_file_path)
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a valid encoding declaration
+    contents = b"# coding: utf-8\nprint('Hello, World!')"
+    filename = "test.py"
+    assert File.detect_encoding(filename, BytesIO(contents).readline) == "utf-8"
+
+    # Test with a different encoding declaration
+    contents = b"# -*- coding: latin-1 -*-\nprint('Hello, World!')"
+    assert File.detect_encoding(filename, BytesIO(contents).readline) == "iso-8859-1"
+
+    # Test with no encoding declaration
+    contents = b"print('Hello, World!')"
+    assert File.detect_encoding(filename, BytesIO(contents).readline) == "utf-8"
+
+    # Test with an invalid encoding declaration
+    contents = b"# coding: invalid\nprint('Hello, World!')"
     try:
-        with File.read("non_ascii_encoding.txt") as file:
-            pass
+        File.detect_encoding(filename, BytesIO(contents).readline)
+        assert False, "Expected UnsupportedEncoding exception"
     except UnsupportedEncoding:
-        assert True
-    else:
-        assert False
+        pass
 
-    # Test case 13: Read a file with invalid encoding declaration format
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with valid encoding
+    def mock_readline_valid():
+        return b"# coding: utf-8\n"
+
+    assert File.detect_encoding("test.py", mock_readline_valid) == "utf-8"
+
+    # Test with invalid encoding
+    def mock_readline_invalid():
+        return b"# coding: unknown_encoding\n"
+
     try:
-        with File.read("invalid_format.txt") as file:
-            pass
+        File.detect_encoding("test.py", mock_readline_invalid)
     except UnsupportedEncoding:
-        assert True
+        pass
     else:
-        assert False
+        assert False, "Expected UnsupportedEncoding exception"
 
-    # Test case 14: Read a file with encoding declaration in comment
-    with File.read("encoding_in_comment.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_comment.txt").resolve()
-        assert file.stream.read() == "# coding: utf-8\nHello, World!"
 
-    # Test case 15: Read a file with encoding declaration in shebang
-    with File.read("encoding_in_shebang.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_shebang.txt").resolve()
-        assert file.stream.read() == "#!/usr/bin/env python\n# coding: utf-8\nHello, World!"
 
-    # Test case 16: Read a file with encoding declaration in docstring
-    with File.read("encoding_in_docstring.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_docstring.txt").resolve()
-        assert file.stream.read() == '"""\n# coding: utf-8\n"""\nHello, World!'
+# LLM-generated content at query #9
+#--------------------------
 
-    # Test case 17: Read a file with encoding declaration in multiline comment
-    with File.read("encoding_in_multiline_comment.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_multiline_comment.txt").resolve()
-        assert file.stream.read() == "/*\n# coding: utf-8\n*/\nHello, World!"
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a simple Python file with utf-8 encoding
+    contents = "# coding: utf-8\nprint('Hello, World!')"
+    encoding = File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+    assert encoding == "utf-8"
 
-    # Test case 18: Read a file with encoding declaration in conditional comment
-    with File.read("encoding_in_conditional_comment.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_conditional_comment.txt").resolve()
-        assert file.stream.read() == "<!--\n# coding: utf-8\n-->\nHello, World!"
+    # Test with a file with no encoding specified (default should be utf-8)
+    contents = "print('Hello, World!')"
+    encoding = File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+    assert encoding == "utf-8"
 
-    # Test case 19: Read a file with encoding declaration in XML processing instruction
-    with File.read("encoding_in_xml_processing_instruction.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_xml_processing_instruction.txt").resolve()
-        assert file.stream.read() == '<?xml version="1.0" encoding="utf-8"?>\nHello, World!'
+    # Test with an unsupported encoding
+    contents = "# coding: unsupported_encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
 
-    # Test case 20: Read a file with encoding declaration in HTML meta tag
-    with File.read("encoding_in_html_meta_tag.txt") as file:
+
+# LLM-generated content at query #10
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    test_filename = "test_file.txt"
+    test_content = "test content"
+    with open(test_filename, "w") as f:
+        f.write(test_content)
+    try:
+        with File.read(test_filename) as file:
+            assert file.stream.read() == test_content
+            assert file.path == Path(test_filename).resolve()
+            assert file.encoding == "utf-8"
+    finally:
+        Path(test_filename).unlink()
+
+
+# LLM-generated content at query #11
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    """Test the read method of the File class."""
+    import tempfile
+    import os
+
+    # Create a temporary file with some content
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_file:
+        temp_file.write("test content")
+        temp_file_path = temp_file.name
+
+    # Test reading the file
+    with File.read(temp_file_path) as file:
+        assert file.path == Path(temp_file_path).resolve()
         assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_html_meta_tag.txt").resolve()
-        assert file.stream.read() == '<meta charset="utf-8">\nHello, World!'
+        assert file.stream.read() == "test content"
+
+    # Clean up
+    os.unlink(temp_file_path)
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    test_content = "test content"
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        temp_file.write(test_content)
+        temp_file_path = temp_file.name
+    with File.read(temp_file_path) as file:
+        assert file.stream.read() == test_content
+        assert file.path == Path(temp_file_path).resolve()
+    import os
+    os.unlink(temp_file_path)
+
+
+# LLM-generated content at query #13
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    with File.read("test_file.txt") as file:
+        assert file.stream is not None
+        assert file.path == Path("test_file.txt").resolve()
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file with some content
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        temp_file.write("import os\nimport sys\n")
+        temp_file_path = temp_file.name
+
+    try:
+        # Test reading the file
+        with File.read(temp_file_path) as file:
+            assert file.path == Path(temp_file_path).resolve()
+            assert file.encoding == 'utf-8'
+            assert file.stream.read() == "import os\nimport sys\n"
+    finally:
+        # Clean up
+        os.unlink(temp_file_path)
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    with File.read("test_file.txt") as file:
+        assert file.path == Path("test_file.txt").resolve()
+        assert file.encoding == "utf-8"
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    with File.read("test_file.txt") as file:
+        assert file.path == Path("test_file.txt").resolve()
+        assert isinstance(file.stream, TextIOWrapper)
+        assert file.encoding == "utf-8"
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file with some content
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+        tmp.write("test content")
+        tmp_path = tmp.name
+
+    # Test reading the file
+    with File.read(tmp_path) as file:
+        assert file.stream.read() == "test content"
+        assert file.path == Path(tmp_path).resolve()
+        assert isinstance(file.encoding, str)
+
+    # Clean up
+    os.unlink(tmp_path)
 
 
 # LLM-generated content at query #18
 #--------------------------
 
 # Unit test for method read of class File
-def test_File_read():  
-    # Test case 1: Reading a file with valid encoding
+def test_File_read():
+    """Test the read method of the File class."""
+    import tempfile
+    import os
+
+    # Create a temporary file with known content
+    content = "test content"
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_file:
+        temp_file.write(content)
+        temp_file_path = temp_file.name
+
+    try:
+        # Test reading the file
+        with File.read(temp_file_path) as file:
+            assert file.stream.read() == content
+            assert file.path == Path(temp_file_path).resolve()
+            assert file.encoding == "utf-8"  # Assuming default encoding is utf-8
+    finally:
+        # Clean up
+        os.unlink(temp_file_path)
+
+    # Test with a non-existent file (should raise an exception)
+    try:
+        with File.read("non_existent_file.txt") as file:
+            pass
+        assert False, "Expected an exception when reading a non-existent file"
+    except Exception:
+        pass
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test case with valid encoding
+    def mock_readline_valid():
+        return b"# coding: utf-8\n"
+
+    assert File.detect_encoding("test.py", mock_readline_valid) == "utf-8"
+
+    # Test case with invalid encoding
+    def mock_readline_invalid():
+        return b"# coding: invalid\n"
+
+    try:
+        File.detect_encoding("test.py", mock_readline_invalid)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test case with no encoding specified
+    def mock_readline_no_encoding():
+        return b"print('Hello, World!')\n"
+
+    assert File.detect_encoding("test.py", mock_readline_no_encoding) == "utf-8"
+
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
     with File.read("test_file.txt") as file:
-        assert file.encoding == "utf-8"
         assert file.path == Path("test_file.txt").resolve()
-        assert file.stream.read() == "Hello, World!"
+        assert isinstance(file.stream, TextIOWrapper)
+        assert file.stream.mode == "r"
+    assert file.stream.closed
 
-    # Test case 2: Reading a file with unsupported encoding
+
+# LLM-generated content at query #21
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    test_filename = "test_file.txt"
+    test_content = "test_content"
+
+    # Write some content to the test file
+    with open(test_filename, "w", encoding="utf-8") as f:
+        f.write(test_content)
+
+    # Test reading from the file
+    with File.read(test_filename) as file:
+        assert file.path.name == test_filename
+        assert file.stream.read() == test_content
+        assert isinstance(file.stream, TextIOWrapper)
+
+    # Clean up
+    Path(test_filename).unlink()
+
+# Run the unit test
+test_File_read()
+
+
+# LLM-generated content at query #22
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test case for detecting encoding
+    def readline():
+        return b'# -*- coding: utf-8 -*-\n'
+
+    assert File.detect_encoding('test.py', readline) == 'utf-8'
+
+    # Test case for unsupported encoding
+    def readline_invalid():
+        return b'# -*- coding: invalid-encoding -*-\n'
+
     try:
-        with File.read("invalid_encoding.txt") as file:
+        File.detect_encoding('test.py', readline_invalid)
+    except UnsupportedEncoding:
+        pass
+    else:
+        raise AssertionError("Expected UnsupportedEncoding exception")
+
+
+# LLM-generated content at query #23
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test case 1: Normal encoding detection
+    readline = BytesIO(b"# coding: utf-8\n").readline
+    assert File.detect_encoding("test.py", readline) == "utf-8"
+
+    # Test case 2: Encoding detection with BOM
+    readline = BytesIO(b"\xef\xbb\xbf# coding: utf-8\n").readline
+    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
+
+    # Test case 3: Encoding detection with invalid encoding
+    readline = BytesIO(b"# coding: invalid\n").readline
+    try:
+        File.detect_encoding("test.py", readline)
+    except UnsupportedEncoding:
+        pass
+    else:
+        assert False, "Expected UnsupportedEncoding exception"
+
+    # Test case 4: Encoding detection with no encoding specified
+    readline = BytesIO(b"# no encoding\n").readline
+    assert File.detect_encoding("test.py", readline) == "utf-8"
+
+    # Test case 5: Encoding detection with empty file
+    readline = BytesIO(b"").readline
+    assert File.detect_encoding("test.py", readline) == "utf-8"
+
+    # Test case 6: Encoding detection with multi-line comment before encoding
+    readline = BytesIO(b"# comment\n# coding: utf-8\n").readline
+    assert File.detect_encoding("test.py", readline) == "utf-8"
+
+    # Test case 7: Encoding detection with multi-line comment after encoding
+    readline = BytesIO(b"# coding: utf-8\n# comment\n").readline
+    assert File.detect_encoding("test.py", readline) == "utf-8"
+
+    # Test case 8: Encoding detection with multi-line comment and BOM
+    readline = BytesIO(b"\xef\xbb\xbf# comment\n# coding: utf-8\n").readline
+    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
+
+    # Test case 9: Encoding detection with multi-line comment and invalid encoding
+    readline = BytesIO(b"\xef\xbb\xbf# comment\n# coding: invalid\n").readline
+    try:
+        File.detect_encoding("test.py", readline)
+    except UnsupportedEncoding:
+        pass
+    else:
+        assert False, "Expected UnsupportedEncoding exception"
+
+    # Test case 10: Encoding detection with multi-line comment and no encoding specified
+    readline = BytesIO(b"\xef\xbb\xbf# comment\n").readline
+    assert File.detect_encoding("test.py", readline) == "utf-8-sig"
+
+
+# LLM-generated content at query #24
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    """Test the read method of the File class."""
+    import tempfile
+    import os
+
+    # Create a temporary file with some content
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+        tmp.write("import os\nimport sys\n")
+        tmp_path = tmp.name
+
+    try:
+        # Test reading the file
+        with File.read(tmp_path) as file:
+            assert file.path == Path(tmp_path).resolve()
+            assert file.encoding == 'utf-8'
+            assert file.stream.read() == "import os\nimport sys\n"
+    finally:
+        # Clean up
+        os.unlink(tmp_path)
+
+    # Test with a non-existent file (should raise an exception)
+    try:
+        with File.read("non_existent_file.txt"):
+            assert False, "Expected an exception when reading a non-existent file"
+    except Exception:
+        pass
+
+
+# LLM-generated content at query #25
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file
+    with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+        tmp_file.write(b"# coding: utf-8\nimport os\n")
+        tmp_file_path = tmp_file.name
+
+    try:
+        # Test reading the file
+        with File.read(tmp_file_path) as file:
+            assert file.path == Path(tmp_file_path).resolve()
+            assert file.encoding == "utf-8"
+            assert file.stream.read() == "# coding: utf-8\nimport os\n"
+    finally:
+        # Clean up the temporary file
+        os.unlink(tmp_file_path)
+
+
+
+# LLM-generated content at query #26
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a simple file containing a correct encoding declaration
+    test_content = b"# coding: utf-8\nprint('Hello, world!')"
+    test_file = "test_file.py"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with a file containing no encoding declaration (should default to utf-8)
+    test_content = b"print('Hello, world!')"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with an invalid encoding declaration
+    test_content = b"# coding: invalid-encoding\nprint('Hello, world!')"
+    try:
+        File.detect_encoding(test_file, BytesIO(test_content).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file containing a different encoding declaration
+    test_content = b"# -*- coding: latin-1 -*-\nprint('Hello, world!')"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "iso-8859-1"
+
+
+# LLM-generated content at query #27
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    with File.read("test_file.txt") as file:
+        assert file.path == Path("test_file.txt").resolve()
+        assert isinstance(file.stream, TextIOWrapper)
+        assert file.encoding == "utf-8"  # Assuming the file is encoded in UTF-8
+        assert file.extension == "txt"
+
+
+# LLM-generated content at query #28
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a simple file containing a correct encoding declaration
+    test_content = b"# coding: utf-8\nprint('Hello, world!')"
+    test_file = "test_file.py"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with a file containing no encoding declaration (should default to utf-8)
+    test_content = b"print('Hello, world!')"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with a file containing an invalid encoding declaration
+    test_content = b"# coding: invalid-encoding\nprint('Hello, world!')"
+    try:
+        File.detect_encoding(test_file, BytesIO(test_content).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with an empty file
+    test_content = b""
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+
+# LLM-generated content at query #29
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Example usage
+    with File.read("example.txt") as file:
+        assert file.path.name == "example.txt"
+        assert isinstance(file.stream, TextIOWrapper)
+        assert file.encoding in ["utf-8", "ascii"]  # Common encodings for text files
+
+    # Test with a non-existent file
+    try:
+        with File.read("non_existent_file.txt") as file:
+            pass
+    except FileNotFoundError:
+        pass
+    else:
+        assert False, "Expected FileNotFoundError"
+
+    # Test with an unsupported encoding
+    try:
+        with File.read("unsupported_encoding.txt") as file:
             pass
     except UnsupportedEncoding:
-        assert True
+        pass
     else:
-        assert False
+        assert False, "Expected UnsupportedEncoding"
 
-    # Test case 3: Reading a file with empty content
-    with File.read("empty_file.txt") as file:
+
+# LLM-generated content at query #30
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a valid encoding
+    filename = "test_file.py"
+    contents = b"# coding: utf-8\nprint('Hello, World!')"
+    assert File.detect_encoding(filename, BytesIO(contents).readline) == "utf-8"
+
+    # Test with an invalid encoding
+    filename = "test_file.py"
+    contents = b"# coding: invalid_encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding(filename, BytesIO(contents).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+
+
+# LLM-generated content at query #31
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test case 1: Valid encoding
+    def readline_valid():
+        return b"# coding: utf-8\n"
+
+    assert File.detect_encoding("test.py", readline_valid) == "utf-8"
+
+    # Test case 2: Invalid encoding
+    def readline_invalid():
+        return b"# coding: invalid\n"
+
+    try:
+        File.detect_encoding("test.py", readline_invalid)
+    except UnsupportedEncoding:
+        pass
+    else:
+        assert False, "Expected UnsupportedEncoding exception"
+
+    # Test case 3: No encoding specified
+    def readline_no_encoding():
+        return b"print('Hello, world!')\n"
+
+    assert File.detect_encoding("test.py", readline_no_encoding) == "utf-8"
+
+
+# LLM-generated content at query #32
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a simple file containing a correct encoding declaration
+    test_content = b"# coding: utf-8\nprint('hello')"
+    test_file = "test_file.py"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with a file containing no encoding declaration (should default to utf-8)
+    test_content = b"print('hello')"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with an invalid encoding declaration
+    test_content = b"# coding: invalid_encoding\nprint('hello')"
+    try:
+        File.detect_encoding(test_file, BytesIO(test_content).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a different encoding declaration (e.g., latin-1)
+    test_content = b"# -*- coding: latin-1 -*-\nprint('hello')"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "iso-8859-1"
+
+
+# LLM-generated content at query #33
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with valid encoding
+    valid_encoding = "utf-8"
+    filename = "test_file.py"
+    contents = f"# coding={valid_encoding}\nprint('Hello, World!')"
+    readline = BytesIO(contents.encode("utf-8")).readline
+    assert File.detect_encoding(filename, readline) == valid_encoding
+
+    # Test with invalid encoding
+    invalid_encoding = "invalid-encoding"
+    contents = f"# coding={invalid_encoding}\nprint('Hello, World!')"
+    readline = BytesIO(contents.encode("utf-8")).readline
+    try:
+        File.detect_encoding(filename, readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with no encoding specified
+    contents = "print('Hello, World!')"
+    readline = BytesIO(contents.encode("utf-8")).readline
+    assert File.detect_encoding(filename, readline) == "utf-8"
+
+
+
+# LLM-generated content at query #34
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Create a temporary file with known content and encoding
+    temp_file = Path("test_file.txt")
+    content = "test content"
+    encoding = "utf-8"
+    with open(temp_file, "w", encoding=encoding) as f:
+        f.write(content)
+    
+    # Use File.read to read the file
+    with File.read(temp_file) as file:
+        assert file.stream.read() == content
+        assert file.encoding == encoding
+        assert file.path == temp_file.resolve()
+    
+    # Clean up the temporary file
+    temp_file.unlink()
+
+
+# LLM-generated content at query #35
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import os
+    import tempfile
+
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp_file:
+        tmp_file.write("test content")
+        tmp_file_path = tmp_file.name
+
+    try:
+        with File.read(tmp_file_path) as file:
+            assert file.path == Path(tmp_file_path).resolve()
+            assert file.encoding == 'utf-8'
+            assert file.stream.read() == "test content"
+    finally:
+        os.remove(tmp_file_path)
+
+
+# LLM-generated content at query #36
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    with open("test_file.txt", "w") as f:
+        f.write("test content")
+    with File.read("test_file.txt") as file:
+        assert file.stream.read() == "test content"
+    Path("test_file.txt").unlink()
+
+
+# LLM-generated content at query #37
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    from tempfile import NamedTemporaryFile
+    import os
+
+    # Create a temporary file with some content
+    with NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        temp_file.write("import os\nimport sys\n")
+        temp_file_path = temp_file.name
+
+    # Use the read method to read the file
+    with File.read(temp_file_path) as file:
+        assert file.path == Path(temp_file_path).resolve()
+        assert file.encoding == 'utf-8'
+        assert file.stream.read() == "import os\nimport sys\n"
+
+    # Clean up the temporary file
+    os.remove(temp_file_path)
+
+
+
+# LLM-generated content at query #38
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file with known content
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+        tmp.write("import os\nimport sys\n")
+        tmp_path = tmp.name
+
+    try:
+        # Test reading the file
+        with File.read(tmp_path) as file:
+            assert file.path == Path(tmp_path).resolve()
+            assert file.encoding == 'utf-8'
+            assert file.stream.read() == "import os\nimport sys\n"
+    finally:
+        # Clean up
+        os.unlink(tmp_path)
+
+
+# LLM-generated content at query #39
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a simple file containing a correct encoding declaration
+    test_content = b"# coding: utf-8\nprint('Hello, world!')"
+    test_file = "test_file.py"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with a file containing no encoding declaration (should default to utf-8)
+    test_content = b"print('Hello, world!')"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+    # Test with an invalid encoding declaration
+    test_content = b"# coding: invalid-encoding\nprint('Hello, world!')"
+    try:
+        File.detect_encoding(test_file, BytesIO(test_content).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file containing a different encoding declaration
+    test_content = b"# -*- coding: latin-1 -*-\nprint('Hello, world!')"
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "iso-8859-1"
+
+    # Test with an empty file
+    test_content = b""
+    assert File.detect_encoding(test_file, BytesIO(test_content).readline) == "utf-8"
+
+
+# LLM-generated content at query #40
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    test_file = Path("test_file.py")
+    test_file.write_text("# coding: utf-8\nprint('Hello, World!')")
+    assert File.detect_encoding(test_file, BytesIO(test_file.read_bytes()).readline) == "utf-8"
+    test_file.unlink()
+
+    test_file.write_text("# -*- coding: iso-8859-1 -*-\nprint('Hello, World!')")
+    assert File.detect_encoding(test_file, BytesIO(test_file.read_bytes()).readline) == "iso-8859-1"
+    test_file.unlink()
+
+    test_file.write_text("print('Hello, World!')")
+    assert File.detect_encoding(test_file, BytesIO(test_file.read_bytes()).readline) == "utf-8"
+    test_file.unlink()
+
+
+# LLM-generated content at query #41
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file
+    with tempfile.NamedTemporaryFile(delete=False) as tmp:
+        tmp.write(b"# coding: utf-8\nimport os")
+        tmp_name = tmp.name
+
+    # Use the File.read context manager to read the file
+    with File.read(tmp_name) as file:
+        assert file.path == Path(tmp_name).resolve()
         assert file.encoding == "utf-8"
-        assert file.path == Path("empty_file.txt").resolve()
-        assert file.stream.read() == ""
+        assert file.stream.read() == "# coding: utf-8\nimport os"
 
-    # Test case 4: Reading a file with special characters
-    with File.read("special_characters.txt") as file:
+    # Clean up the temporary file
+    os.unlink(tmp_name)
+
+
+# LLM-generated content at query #42
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Create a temporary file with known content
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+        tmp.write("example content")
+        tmp_filename = tmp.name
+    
+    # Use the read method to open and read the file
+    with File.read(tmp_filename) as file:
+        assert file.path.name == Path(tmp_filename).name
+        assert file.stream.read() == "example content"
         assert file.encoding == "utf-8"
-        assert file.path == Path("special_characters.txt").resolve()
-        assert file.stream.read() == "áéíóú"
+    
+    # Clean up the temporary file
+    import os
+    os.unlink(tmp_filename)
 
-    # Test case 5: Reading a file with different encoding
-    with File.read("latin1_file.txt") as file:
+
+# LLM-generated content at query #43
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Test reading from a file
+    filename = "test_file.txt"
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write("test content")
+
+    with File.read(filename) as file:
+        assert file.stream.read() == "test content"
+        assert file.path == Path(filename).resolve()
+        assert file.encoding == "utf-8"
+
+    # Test reading from a file with a different encoding
+    filename = "test_file_iso8859.txt"
+    with open(filename, "w", encoding="iso-8859-1") as f:
+        f.write("test content")
+
+    with File.read(filename) as file:
+        assert file.stream.read() == "test content"
+        assert file.path == Path(filename).resolve()
         assert file.encoding == "iso-8859-1"
-        assert file.path == Path("latin1_file.txt").resolve()
-        assert file.stream.read() == "Hello, World!"
 
-    # Test case 6: Reading a file with BOM (Byte Order Mark)
-    with File.read("bom_file.txt") as file:
-        assert file.encoding == "utf-8-sig"
-        assert file.path == Path("bom_file.txt").resolve()
-        assert file.stream.read() == "Hello, World!"
+    # Test reading from a file with an unsupported encoding
+    filename = "test_file_invalid.txt"
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write("test content")
 
-    # Test case 7: Reading a file with mixed line endings
-    with File.read("mixed_line_endings.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("mixed_line_endings.txt").resolve()
-        assert file.stream.read() == "Line 1\nLine 2\r\nLine 3"
+    # Simulate an unsupported encoding by modifying the file to have an invalid encoding declaration
+    with open(filename, "wb") as f:
+        f.write(b"# coding: invalid\n")
+        f.write("test content".encode("utf-8"))
 
-    # Test case 8: Reading a file with large content
-    with File.read("large_file.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("large_file.txt").resolve()
-        assert len(file.stream.read()) == 1000000
-
-    # Test case 9: Reading a file with non-ASCII characters in filename
-    with File.read("file_with_非ASCII_characters.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("file_with_非ASCII_characters.txt").resolve()
-        assert file.stream.read() == "Hello, World!"
-
-    # Test case 10: Reading a file with multiple lines
-    with File.read("multi_line_file.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("multi_line_file.txt").resolve()
-        assert file.stream.read() == "Line 1\nLine 2\nLine 3"
-
-    # Test case 11: Reading a file with trailing newline
-    with File.read("trailing_newline.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("trailing_newline.txt").resolve()
-        assert file.stream.read() == "Hello, World!\n"
-
-    # Test case 12: Reading a file without trailing newline
-    with File.read("no_trailing_newline.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("no_trailing_newline.txt").resolve()
-        assert file.stream.read() == "Hello, World!"
-
-    # Test case 13: Reading a file with empty lines
-    with File.read("empty_lines.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("empty_lines.txt").resolve()
-        assert file.stream.read() == "\n\n\n"
-
-    # Test case 14: Reading a file with only whitespace
-    with File.read("whitespace_only.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("whitespace_only.txt").resolve()
-        assert file.stream.read() == "   \t   \n"
-
-    # Test case 15: Reading a file with binary content
     try:
-        with File.read("binary_file.bin") as file:
-            pass
-    except UnicodeDecodeError:
-        assert True
-    else:
-        assert False
-
-    # Test case 16: Reading a file with invalid encoding declaration
-    try:
-        with File.read("invalid_encoding_declaration.txt") as file:
-            pass
+        with File.read(filename) as file:
+            file.stream.read()
+        assert False, "Expected UnsupportedEncoding exception"
     except UnsupportedEncoding:
-        assert True
+        pass
+
+    # Clean up test files
+    Path("test_file.txt").unlink()
+    Path("test_file_iso8859.txt").unlink()
+    Path("test_file_invalid.txt").unlink()
+
+
+# LLM-generated content at query #44
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a file containing encoding declaration
+    contents = "# coding: utf-8\nprint('Hello, World!')"
+    encoding = File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+    assert encoding == "utf-8"
+
+    # Test with a file containing encoding declaration with spaces
+    contents = "# coding = utf-8\nprint('Hello, World!')"
+    encoding = File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+    assert encoding == "utf-8"
+
+    # Test with a file containing encoding declaration with tabs
+    contents = "# coding\t=\tutf-8\nprint('Hello, World!')"
+    encoding = File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+    assert encoding == "utf-8"
+
+    # Test with a file containing encoding declaration with mixed spaces and tabs
+    contents = "# coding \t= utf-8\nprint('Hello, World!')"
+    encoding = File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+    assert encoding == "utf-8"
+
+    # Test with a file containing encoding declaration with a different encoding
+    contents = "# coding: iso-8859-1\nprint('Hello, World!')"
+    encoding = File.detect_encoding("test.py", BytesIO(contents.encode("iso-8859-1")).readline)
+    assert encoding == "iso-8859-1"
+
+    # Test with a file without encoding declaration
+    contents = "print('Hello, World!')"
+    encoding = File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+    assert encoding == "utf-8"
+
+    # Test with a file with invalid encoding declaration
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and no fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding: invalid-encoding\nprint('Hello, World!')"
+    try:
+        File.detect_encoding("test.py", BytesIO(contents.encode("utf-8")).readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    # Test with a file with invalid encoding declaration and fallback
+    contents = "# coding
+
+
+# LLM-generated content at query #45
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    # Create a temporary file with known content
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w+', suffix='.py', delete=False) as tmp:
+        tmp.write("# coding: utf-8\nimport os\n")
+        tmp_path = tmp.name
+
+    # Test reading the file
+    with File.read(tmp_path) as file:
+        assert file.path == Path(tmp_path).resolve()
+        assert file.encoding == 'utf-8'
+        assert file.stream.read().startswith("# coding: utf-8\nimport os\n")
+
+    # Clean up
+    import os
+    os.unlink(tmp_path)
+
+
+# LLM-generated content at query #46
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with valid encoding
+    def valid_readline():
+        return b"# coding: utf-8\n"
+
+    assert File.detect_encoding("test.py", valid_readline) == "utf-8"
+
+    # Test with invalid encoding
+    def invalid_readline():
+        return b"# coding: invalid_encoding\n"
+
+    try:
+        File.detect_encoding("test.py", invalid_readline)
+    except UnsupportedEncoding:
+        pass
     else:
-        assert False
+        assert False, "Expected UnsupportedEncoding exception"
 
-    # Test case 17: Reading a file with encoding declaration in second line
-    with File.read("encoding_in_second_line.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_second_line.txt").resolve()
-        assert file.stream.read() == "# -*- coding: utf-8 -*-\nHello, World!"
 
-    # Test case 18: Reading a file with encoding declaration in third line
-    with File.read("encoding_in_third_line.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_third_line.txt").resolve()
-        assert file.stream.read() == "\n# -*- coding: utf-8 -*-\nHello, World!"
 
-    # Test case 19: Reading a file with encoding declaration in comment
-    with File.read("encoding_in_comment.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_comment.txt").resolve()
-        assert file.stream.read() == "# coding: utf-8\nHello, World!"
+# LLM-generated content at query #47
+#--------------------------
 
-    # Test case 20: Reading a file with encoding declaration in shebang
-    with File.read("encoding_in_shebang.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_shebang.txt").resolve()
-        assert file.stream.read() == "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nHello, World!"
+# Unit test for method read of class File
+def test_File_read():
+    with File.read("tests/test_file.py") as file:
+        assert isinstance(file.stream, TextIOWrapper)
+        assert isinstance(file.path, Path)
+        assert isinstance(file.encoding, str)
 
-    # Test case 21: Reading a file with encoding declaration in shebang and comment
-    with File.read("encoding_in_shebang_and_comment.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_shebang_and_comment.txt").resolve()
-        assert file.stream.read() == "#!/usr/bin/env python\n# coding: utf-8\nHello, World!"
 
-    # Test case 22: Reading a file with encoding declaration in shebang and second line
-    with File.read("encoding_in_shebang_and_second_line.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_shebang_and_second_line.txt").resolve()
-        assert file.stream.read() == "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nHello, World!"
+# LLM-generated content at query #48
+#--------------------------
 
-    # Test case 23: Reading a file with encoding declaration in shebang and third line
-    with File.read("encoding_in_shebang_and_third_line.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_shebang_and_third_line.txt").resolve()
-        assert file.stream.read() == "#!/usr/bin/env python\n\n# -*- coding: utf-8 -*-\nHello, World!"
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
 
-    # Test case 24: Reading a file with encoding declaration in shebang and comment in second line
-    with File.read("encoding_in_shebang_and_comment_in_second_line.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_shebang_and_comment_in_second_line.txt").resolve()
-        assert file.stream.read() == "#!/usr/bin/env python\n# coding: utf-8\nHello, World!"
+    # Create a temporary file with known content
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp_file:
+        tmp_file.write("test content")
+        tmp_file_name = tmp_file.name
 
-    # Test case 25: Reading a file with encoding declaration in shebang and comment in third line
-    with File.read("encoding_in_shebang_and_comment_in_third_line.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_shebang_and_comment_in_third_line.txt").resolve()
-        assert file.stream.read() == "#!/usr/bin/env python\n\n# coding: utf-8\nHello, World!"
+    # Use File.read context manager
+    with File.read(tmp_file_name) as file:
+        assert file.stream.read() == "test content"
+        assert file.path == Path(tmp_file_name).resolve()
+        assert file.encoding == 'utf-8'
 
-    # Test case 26: Reading a file with encoding declaration in shebang and comment in fourth line
-    with File.read("encoding_in_shebang_and_comment_in_fourth_line.txt") as file:
-        assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_shebang_and_comment_in_fourth_line.txt").resolve()
-        assert file.stream.read() == "#!/usr/bin/env python\n\n\n# coding: utf-8\nHello, World!"
+    # Clean up the temporary file
+    os.remove(tmp_file_name)
 
-    # Test case 27: Reading a file with encoding declaration in shebang and comment in fifth line
-    with File.read("encoding_in_shebang_and_comment_in_fifth_line.txt") as file:
+
+
+# LLM-generated content at query #49
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    with File.read("test.txt") as file:
+        assert isinstance(file.stream, TextIOWrapper)
+        assert file.path == Path("test.txt").resolve()
+        assert isinstance(file.encoding, str)
+
+
+# LLM-generated content at query #50
+#--------------------------
+
+# Unit test for method detect_encoding of class File
+def test_File_detect_encoding():
+    # Test with a file containing a valid encoding declaration
+    test_content = b"# coding: utf-8\nprint('Hello, world!')"
+    test_file = BytesIO(test_content)
+    encoding = File.detect_encoding("test.py", test_file.readline)
+    assert encoding == "utf-8"
+
+    # Test with a file containing no encoding declaration (should default to utf-8)
+    test_content = b"print('Hello, world!')"
+    test_file = BytesIO(test_content)
+    encoding = File.detect_encoding("test.py", test_file.readline)
+    assert encoding == "utf-8"
+
+    # Test with an invalid encoding declaration
+    test_content = b"# coding: invalid-encoding\nprint('Hello, world!')"
+    test_file = BytesIO(test_content)
+    try:
+        File.detect_encoding("test.py", test_file.readline)
+        assert False, "Expected UnsupportedEncoding exception"
+    except UnsupportedEncoding:
+        pass
+
+    print("All tests passed for detect_encoding method")
+
+test_File_detect_encoding()
+
+
+# LLM-generated content at query #51
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    with File.read("test_file.txt") as file:
+        assert file.path.name == "test_file.txt"
+        assert isinstance(file.stream, TextIOWrapper)
         assert file.encoding == "utf-8"
-        assert file.path == Path("encoding_in_shebang_and_comment_in_fifth_line.txt").resolve()
-        assert
+
+
+# LLM-generated content at query #52
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file with some content
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+        tmp.write("import os\nimport sys\n")
+        tmp_path = tmp.name
+
+    # Test reading the file
+    with File.read(tmp_path) as file:
+        assert file.path == Path(tmp_path).resolve()
+        assert file.encoding == 'utf-8'
+        assert file.stream.read() == "import os\nimport sys\n"
+
+    # Clean up
+    os.unlink(tmp_path)
+
+
+# LLM-generated content at query #53
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    import tempfile
+    import os
+
+    # Create a temporary file with some content
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+        tmp.write("import os\nimport sys\n")
+        tmp_path = tmp.name
+
+    try:
+        # Test reading the file
+        with File.read(tmp_path) as file:
+            assert file.path == Path(tmp_path).resolve()
+            assert file.encoding == 'utf-8'
+            assert file.stream.read() == "import os\nimport sys\n"
+    finally:
+        # Clean up
+        os.unlink(tmp_path)
+
+
+# LLM-generated content at query #54
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    """Test the File.read method."""
+    import tempfile
+    import os
+
+    # Create a temporary file with known content
+    content = "test content"
+    encoding = "utf-8"
+    with tempfile.NamedTemporaryFile(mode="w", encoding=encoding, delete=False) as temp_file:
+        temp_file.write(content)
+        temp_file_path = temp_file.name
+
+    try:
+        # Test reading the file
+        with File.read(temp_file_path) as file:
+            assert file.stream.read() == content
+            assert file.path == Path(temp_file_path).resolve()
+            assert file.encoding == encoding
+    finally:
+        # Clean up
+        os.unlink(temp_file_path)
+
+    # Test reading a non-existent file (should raise an exception)
+    non_existent_file = "non_existent_file.txt"
+    try:
+        with File.read(non_existent_file) as file:
+            pass
+    except Exception as e:
+        assert isinstance(e, (FileNotFoundError, UnsupportedEncoding))
+
+
+# LLM-generated content at query #55
+#--------------------------
+
+# Unit test for method read of class File
+def test_File_read():
+    """Test the File.read method."""
+    import tempfile
+    import os
+
+    # Create a temporary file with known content
+    test_content = "test content"
+    with tempfile.NamedTemporaryFile(mode="w", delete=False) as temp_file:
+        temp_file.write(test_content)
+        temp_file_path = temp_file.name
+
+    try:
+        # Test reading the file
+        with File.read(temp_file_path) as file:
+            assert file.stream.read() == test_content
+            assert file.path == Path(temp_file_path).resolve()
+            assert file.encoding == "utf-8"  # Default encoding for tempfile
+    finally:
+        # Clean up
+        os.unlink(temp_file_path)
+
+    # Test with a non-existent file
+    non_existent_path = "non_existent_file.txt"
+    try:
+        with File.read(non_existent_path) as file:
+            assert False, "Should raise FileNotFoundError"
+    except FileNotFoundError:
+        pass
+
+    # Test with a file with different encoding
+    test_content_utf16 = "test content".encode("utf-16")
+    with tempfile.NamedTemporaryFile(mode="wb", delete=False) as temp_file:
+        temp_file.write(test_content_utf16)
+        temp_file_path = temp_file.name
+
+    try:
+        with File.read(temp_file_path) as file:
+            assert file.stream.read() == "test content"
+            assert file.encoding == "utf-16"
+    finally:
+        os.unlink(temp_file_path)
 
 

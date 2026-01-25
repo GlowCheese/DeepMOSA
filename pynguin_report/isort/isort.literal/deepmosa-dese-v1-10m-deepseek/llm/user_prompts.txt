@@ -1,0 +1,2259 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+@register_type("list", list)
+def _list(value: list[Any], printer: ISortPrettyPrinter) -> str:
+    return printer.pformat(sorted(value))
+
+```
+Write unit test for function _list
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+@register_type("set", set)
+def _set(value: set[Any], printer: ISortPrettyPrinter) -> str:
+    return "{" + printer.pformat(tuple(sorted(value)))[1:-1] + "}"
+
+```
+Write unit test for function _set
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+```
+Write unit test for function assignments
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+    """Sorts the literal present within the provided code against the provided sort type,
+    returning the sorted representation of the source code.
+    """
+    if sort_type == "assignments":
+        return assignments(code)
+    if sort_type not in type_mapping:
+        raise ValueError(
+            "Trying to sort using an undefined sort_type. "
+            f"Defined sort types are {', '.join(type_mapping.keys())}."
+        )
+
+    variable_name, literal = code.split("=")
+    variable_name = variable_name.strip()
+    literal = literal.lstrip()
+    try:
+        value = ast.literal_eval(literal)
+    except Exception as error:
+        raise LiteralParsingFailure(code, error)
+
+    expected_type, sort_function = type_mapping[sort_type]
+    if type(value) is not expected_type:
+        raise LiteralSortTypeMismatch(type(value), expected_type)
+
+    printer = ISortPrettyPrinter(config)
+    sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+    if config.formatting_function:
+        sorted_value_code = config.formatting_function(
+            sorted_value_code, extension, config
+        ).rstrip()
+
+    sorted_value_code += code[len(code.rstrip()) :]
+    return sorted_value_code
+
+```
+Write unit test for function assignment
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+@register_type("dict", dict)
+def _dict(value: dict[Any, Any], printer: ISortPrettyPrinter) -> str:
+    return printer.pformat(dict(sorted(value.items(), key=lambda item: item[1])))
+
+```
+Write unit test for function _dict
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+@register_type("tuple", tuple)
+def _tuple(value: tuple[Any, ...], printer: ISortPrettyPrinter) -> str:
+    return printer.pformat(tuple(sorted(value)))
+
+```
+Write unit test for function _tuple
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to True.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+@register_type("unique-list", list)
+def _unique_list(value: list[Any], printer: ISortPrettyPrinter) -> str:
+    return printer.pformat(sorted(set(value)))
+
+```
+Write unit test for function _unique_list
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+@register_type("unique-tuple", tuple)
+def _unique_tuple(value: tuple[Any, ...], printer: ISortPrettyPrinter) -> str:
+    return printer.pformat(tuple(sorted(set(value))))
+
+```
+Write unit test for function _unique_tuple
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+    """Sorts the literal present within the provided code against the provided sort type,
+    returning the sorted representation of the source code.
+    """
+    if sort_type == "assignments":
+        return assignments(code)
+    if sort_type not in type_mapping:
+        raise ValueError(
+            "Trying to sort using an undefined sort_type. "
+            f"Defined sort types are {', '.join(type_mapping.keys())}."
+        )
+
+    variable_name, literal = code.split("=")
+    variable_name = variable_name.strip()
+    literal = literal.lstrip()
+    try:
+        value = ast.literal_eval(literal)
+    except Exception as error:
+        raise LiteralParsingFailure(code, error)
+
+    expected_type, sort_function = type_mapping[sort_type]
+    if type(value) is not expected_type:
+        raise LiteralSortTypeMismatch(type(value), expected_type)
+
+    printer = ISortPrettyPrinter(config)
+    sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+    if config.formatting_function:
+        sorted_value_code = config.formatting_function(
+            sorted_value_code, extension, config
+        ).rstrip()
+
+    sorted_value_code += code[len(code.rstrip()) :]
+    return sorted_value_code
+
+```
+Write unit test for function assignment
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to True.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to True.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to True.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to True.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+
+def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+    """Sorts the literal present within the provided code against the provided sort type,
+    returning the sorted representation of the source code.
+    """
+    if sort_type == "assignments":
+        return assignments(code)
+    if sort_type not in type_mapping:
+        raise ValueError(
+            "Trying to sort using an undefined sort_type. "
+            f"Defined sort types are {', '.join(type_mapping.keys())}."
+        )
+
+    variable_name, literal = code.split("=")
+    variable_name = variable_name.strip()
+    literal = literal.lstrip()
+    try:
+        value = ast.literal_eval(literal)
+    except Exception as error:
+        raise LiteralParsingFailure(code, error)
+
+    expected_type, sort_function = type_mapping[sort_type]
+    if type(value) is not expected_type:
+        raise LiteralSortTypeMismatch(type(value), expected_type)
+
+    printer = ISortPrettyPrinter(config)
+    sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+    if config.formatting_function:
+        sorted_value_code = config.formatting_function(
+            sorted_value_code, extension, config
+        ).rstrip()
+
+    sorted_value_code += code[len(code.rstrip()) :]
+    return sorted_value_code
+
+```
+Write unit test for function assignment
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to True.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+
+def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+    """Sorts the literal present within the provided code against the provided sort type,
+    returning the sorted representation of the source code.
+    """
+    if sort_type == "assignments":
+        return assignments(code)
+    if sort_type not in type_mapping:
+        raise ValueError(
+            "Trying to sort using an undefined sort_type. "
+            f"Defined sort types are {', '.join(type_mapping.keys())}."
+        )
+
+    variable_name, literal = code.split("=")
+    variable_name = variable_name.strip()
+    literal = literal.lstrip()
+    try:
+        value = ast.literal_eval(literal)
+    except Exception as error:
+        raise LiteralParsingFailure(code, error)
+
+    expected_type, sort_function = type_mapping[sort_type]
+    if type(value) is not expected_type:
+        raise LiteralSortTypeMismatch(type(value), expected_type)
+
+    printer = ISortPrettyPrinter(config)
+    sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+    if config.formatting_function:
+        sorted_value_code = config.formatting_function(
+            sorted_value_code, extension, config
+        ).rstrip()
+
+    sorted_value_code += code[len(code.rstrip()) :]
+    return sorted_value_code
+
+```
+Write unit test for function assignment
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+    """Sorts the literal present within the provided code against the provided sort type,
+    returning the sorted representation of the source code.
+    """
+    if sort_type == "assignments":
+        return assignments(code)
+    if sort_type not in type_mapping:
+        raise ValueError(
+            "Trying to sort using an undefined sort_type. "
+            f"Defined sort types are {', '.join(type_mapping.keys())}."
+        )
+
+    variable_name, literal = code.split("=")
+    variable_name = variable_name.strip()
+    literal = literal.lstrip()
+    try:
+        value = ast.literal_eval(literal)
+    except Exception as error:
+        raise LiteralParsingFailure(code, error)
+
+    expected_type, sort_function = type_mapping[sort_type]
+    if type(value) is not expected_type:
+        raise LiteralSortTypeMismatch(type(value), expected_type)
+
+    printer = ISortPrettyPrinter(config)
+    sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+    if config.formatting_function:
+        sorted_value_code = config.formatting_function(
+            sorted_value_code, extension, config
+        ).rstrip()
+
+    sorted_value_code += code[len(code.rstrip()) :]
+    return sorted_value_code
+
+```
+Write unit test for function assignment
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+@register_type("dict", dict)
+def _dict(value: dict[Any, Any], printer: ISortPrettyPrinter) -> str:
+    return printer.pformat(dict(sorted(value.items(), key=lambda item: item[1])))
+
+```
+Write unit test for function _dict
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+@register_type("unique-tuple", tuple)
+def _unique_tuple(value: tuple[Any, ...], printer: ISortPrettyPrinter) -> str:
+    return printer.pformat(tuple(sorted(set(value))))
+
+```
+Write unit test for function _unique_tuple
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+@register_type("unique-list", list)
+def _unique_list(value: list[Any], printer: ISortPrettyPrinter) -> str:
+    return printer.pformat(sorted(set(value)))
+
+```
+Write unit test for function _unique_list
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+@register_type("set", set)
+def _set(value: set[Any], printer: ISortPrettyPrinter) -> str:
+    return "{" + printer.pformat(tuple(sorted(value)))[1:-1] + "}"
+
+```
+Write unit test for function _set
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to True.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+@register_type("tuple", tuple)
+def _tuple(value: tuple[Any, ...], printer: ISortPrettyPrinter) -> str:
+    return printer.pformat(tuple(sorted(value)))
+
+```
+Write unit test for function _tuple
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+    """Sorts the literal present within the provided code against the provided sort type,
+    returning the sorted representation of the source code.
+    """
+    if sort_type == "assignments":
+        return assignments(code)
+    if sort_type not in type_mapping:
+        raise ValueError(
+            "Trying to sort using an undefined sort_type. "
+            f"Defined sort types are {', '.join(type_mapping.keys())}."
+        )
+
+    variable_name, literal = code.split("=")
+    variable_name = variable_name.strip()
+    literal = literal.lstrip()
+    try:
+        value = ast.literal_eval(literal)
+    except Exception as error:
+        raise LiteralParsingFailure(code, error)
+
+    expected_type, sort_function = type_mapping[sort_type]
+    if type(value) is not expected_type:
+        raise LiteralSortTypeMismatch(type(value), expected_type)
+
+    printer = ISortPrettyPrinter(config)
+    sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+    if config.formatting_function:
+        sorted_value_code = config.formatting_function(
+            sorted_value_code, extension, config
+        ).rstrip()
+
+    sorted_value_code += code[len(code.rstrip()) :]
+    return sorted_value_code
+
+```
+Write unit test for function assignment
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def register_type(
+    name: str, kind: type
+) -> Callable[[Callable[[Any, ISortPrettyPrinter], str]], Callable[[Any, ISortPrettyPrinter], str]]:
+    """Registers a new literal sort type."""
+
+    def wrap(
+        function: Callable[[Any, ISortPrettyPrinter], str],
+    ) -> Callable[[Any, ISortPrettyPrinter], str]:
+        type_mapping[name] = (kind, function)
+        return function
+
+    return wrap
+
+
+@register_type("tuple", tuple)
+def _tuple(value: tuple[Any, ...], printer: ISortPrettyPrinter) -> str:
+    return printer.pformat(tuple(sorted(value)))
+
+```
+Write unit test for function _tuple
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+
+def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+    """Sorts the literal present within the provided code against the provided sort type,
+    returning the sorted representation of the source code.
+    """
+    if sort_type == "assignments":
+        return assignments(code)
+    if sort_type not in type_mapping:
+        raise ValueError(
+            "Trying to sort using an undefined sort_type. "
+            f"Defined sort types are {', '.join(type_mapping.keys())}."
+        )
+
+    variable_name, literal = code.split("=")
+    variable_name = variable_name.strip()
+    literal = literal.lstrip()
+    try:
+        value = ast.literal_eval(literal)
+    except Exception as error:
+        raise LiteralParsingFailure(code, error)
+
+    expected_type, sort_function = type_mapping[sort_type]
+    if type(value) is not expected_type:
+        raise LiteralSortTypeMismatch(type(value), expected_type)
+
+    printer = ISortPrettyPrinter(config)
+    sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+    if config.formatting_function:
+        sorted_value_code = config.formatting_function(
+            sorted_value_code, extension, config
+        ).rstrip()
+
+    sorted_value_code += code[len(code.rstrip()) :]
+    return sorted_value_code
+
+```
+Write unit test for function assignment
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to True.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+
+def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+    """Sorts the literal present within the provided code against the provided sort type,
+    returning the sorted representation of the source code.
+    """
+    if sort_type == "assignments":
+        return assignments(code)
+    if sort_type not in type_mapping:
+        raise ValueError(
+            "Trying to sort using an undefined sort_type. "
+            f"Defined sort types are {', '.join(type_mapping.keys())}."
+        )
+
+    variable_name, literal = code.split("=")
+    variable_name = variable_name.strip()
+    literal = literal.lstrip()
+    try:
+        value = ast.literal_eval(literal)
+    except Exception as error:
+        raise LiteralParsingFailure(code, error)
+
+    expected_type, sort_function = type_mapping[sort_type]
+    if type(value) is not expected_type:
+        raise LiteralSortTypeMismatch(type(value), expected_type)
+
+    printer = ISortPrettyPrinter(config)
+    sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+    if config.formatting_function:
+        sorted_value_code = config.formatting_function(
+            sorted_value_code, extension, config
+        ).rstrip()
+
+    sorted_value_code += code[len(code.rstrip()) :]
+    return sorted_value_code
+
+```
+Write unit test for function assignment
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+    """Sorts the literal present within the provided code against the provided sort type,
+    returning the sorted representation of the source code.
+    """
+    if sort_type == "assignments":
+        return assignments(code)
+    if sort_type not in type_mapping:
+        raise ValueError(
+            "Trying to sort using an undefined sort_type. "
+            f"Defined sort types are {', '.join(type_mapping.keys())}."
+        )
+
+    variable_name, literal = code.split("=")
+    variable_name = variable_name.strip()
+    literal = literal.lstrip()
+    try:
+        value = ast.literal_eval(literal)
+    except Exception as error:
+        raise LiteralParsingFailure(code, error)
+
+    expected_type, sort_function = type_mapping[sort_type]
+    if type(value) is not expected_type:
+        raise LiteralSortTypeMismatch(type(value), expected_type)
+
+    printer = ISortPrettyPrinter(config)
+    sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+    if config.formatting_function:
+        sorted_value_code = config.formatting_function(
+            sorted_value_code, extension, config
+        ).rstrip()
+
+    sorted_value_code += code[len(code.rstrip()) :]
+    return sorted_value_code
+
+```
+Write unit test for function assignment
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to True.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+
+def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+    """Sorts the literal present within the provided code against the provided sort type,
+    returning the sorted representation of the source code.
+    """
+    if sort_type == "assignments":
+        return assignments(code)
+    if sort_type not in type_mapping:
+        raise ValueError(
+            "Trying to sort using an undefined sort_type. "
+            f"Defined sort types are {', '.join(type_mapping.keys())}."
+        )
+
+    variable_name, literal = code.split("=")
+    variable_name = variable_name.strip()
+    literal = literal.lstrip()
+    try:
+        value = ast.literal_eval(literal)
+    except Exception as error:
+        raise LiteralParsingFailure(code, error)
+
+    expected_type, sort_function = type_mapping[sort_type]
+    if type(value) is not expected_type:
+        raise LiteralSortTypeMismatch(type(value), expected_type)
+
+    printer = ISortPrettyPrinter(config)
+    sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+    if config.formatting_function:
+        sorted_value_code = config.formatting_function(
+            sorted_value_code, extension, config
+        ).rstrip()
+
+    sorted_value_code += code[len(code.rstrip()) :]
+    return sorted_value_code
+
+```
+Write unit test for function assignment
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to False.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to True.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+
+def assignments(code: str) -> str:
+    values = {}
+    for line in code.splitlines(keepends=True):
+        if not line.strip():
+            continue
+        if " = " not in line:
+            raise AssignmentsFormatMismatch(code)
+        variable_name, value = line.split(" = ", 1)
+        values[variable_name] = value
+
+    return "".join(
+        f"{variable_name} = {values[variable_name]}" for variable_name in sorted(values.keys())
+    )
+
+
+def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+    """Sorts the literal present within the provided code against the provided sort type,
+    returning the sorted representation of the source code.
+    """
+    if sort_type == "assignments":
+        return assignments(code)
+    if sort_type not in type_mapping:
+        raise ValueError(
+            "Trying to sort using an undefined sort_type. "
+            f"Defined sort types are {', '.join(type_mapping.keys())}."
+        )
+
+    variable_name, literal = code.split("=")
+    variable_name = variable_name.strip()
+    literal = literal.lstrip()
+    try:
+        value = ast.literal_eval(literal)
+    except Exception as error:
+        raise LiteralParsingFailure(code, error)
+
+    expected_type, sort_function = type_mapping[sort_type]
+    if type(value) is not expected_type:
+        raise LiteralSortTypeMismatch(type(value), expected_type)
+
+    printer = ISortPrettyPrinter(config)
+    sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+    if config.formatting_function:
+        sorted_value_code = config.formatting_function(
+            sorted_value_code, extension, config
+        ).rstrip()
+
+    sorted_value_code += code[len(code.rstrip()) :]
+    return sorted_value_code
+
+```
+Write unit test for function assignment
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+class ISortPrettyPrinter(PrettyPrinter):
+    """an isort customized pretty printer for sorted literals"""
+
+    def __init__(self, config: Config):
+        super().__init__(width=config.line_length, compact=True)
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to True.
+```
+ 1 | def assignment(code: str, sort_type: str, extension: str, config: Config = DEFAULT_CONFIG) -> str:
+ 2 |     """Sorts the literal present within the provided code against the provided sort type,
+ 3 |     returning the sorted representation of the source code.
+ 4 |     """
+ 5 |     if sort_type == "assignments":
+ 6 |         return assignments(code)
+ 7 |     if sort_type not in type_mapping:
+ 8 |         raise ValueError(
+ 9 |             "Trying to sort using an undefined sort_type. "
+10 |             f"Defined sort types are {', '.join(type_mapping.keys())}."
+11 |         )
+12 | 
+13 |     variable_name, literal = code.split("=")
+14 |     variable_name = variable_name.strip()
+15 |     literal = literal.lstrip()
+16 |     try:
+17 |         value = ast.literal_eval(literal)
+18 |     except Exception as error:
+19 |         raise LiteralParsingFailure(code, error)
+20 | 
+21 |     expected_type, sort_function = type_mapping[sort_type]
+22 |     if type(value) is not expected_type:
+23 |         raise LiteralSortTypeMismatch(type(value), expected_type)
+24 | 
+25 |     printer = ISortPrettyPrinter(config)
+26 |     sorted_value_code = f"{variable_name} = {sort_function(value, printer)}"
+27 |     if config.formatting_function:
+28 |         sorted_value_code = config.formatting_function(
+29 |             sorted_value_code, extension, config
+30 |         ).rstrip()
+31 | 
+32 |     sorted_value_code += code[len(code.rstrip()) :]
+33 |     return sorted_value_code
+```
+
+

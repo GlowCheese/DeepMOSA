@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.2543352601156069" lines-covered="0" lines-valid="0" branches-covered="44" branches-valid="173" complexity="0.0" version="pynguin-0.40.0" timestamp="1767260998">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.2543352601156069" lines-covered="0" lines-valid="0" branches-covered="44" branches-valid="173" complexity="0.0" version="pynguin-0.40.0" timestamp="1768418003">
   <sources>
     <source>isort.api</source>
   </sources>
@@ -15,8 +15,8 @@
             <line number="162" hits="1" branch="true" condition-coverage="67% (4/6)" />
             <line number="163" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="182" hits="1" branch="true" condition-coverage="100% (2/2)" />
-            <line number="188" hits="1" branch="true" condition-coverage="50% (1/2)" />
-            <line number="189" hits="1" branch="true" condition-coverage="50% (3/6)" />
+            <line number="188" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="189" hits="1" branch="true" condition-coverage="67% (4/6)" />
             <line number="194" hits="1" branch="true" condition-coverage="50% (1/2)" />
             <line number="198" hits="0" branch="true" condition-coverage="0% (0/2)" />
             <line number="199" hits="0" branch="true" condition-coverage="0% (0/2)" />
@@ -29,11 +29,11 @@
             <line number="230" hits="0" branch="true" condition-coverage="0% (0/2)" />
             <line number="235" hits="0" branch="true" condition-coverage="0% (0/2)" />
             <line number="264" hits="1" branch="true" condition-coverage="100% (2/2)" />
-            <line number="278" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="278" hits="1" branch="true" condition-coverage="50% (1/2)" />
             <line number="279" hits="1" branch="true" condition-coverage="25% (1/4)" />
             <line number="280" hits="0" branch="true" condition-coverage="0% (0/2)" />
-            <line number="283" hits="1" branch="true" condition-coverage="50% (1/2)" />
-            <line number="284" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="283" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="284" hits="0" branch="true" condition-coverage="0% (0/2)" />
             <line number="302" hits="0" branch="true" condition-coverage="0% (0/2)" />
             <line number="331" hits="1" branch="true" condition-coverage="50% (1/2)" />
             <line number="333" hits="0" branch="true" condition-coverage="0% (0/2)" />
@@ -67,7 +67,7 @@
             <line number="499" hits="0" branch="true" condition-coverage="0% (0/2)" />
             <line number="501" hits="0" branch="true" condition-coverage="0% (0/2)" />
             <line number="510" hits="1" branch="true" condition-coverage="100% (1/1)" />
-            <line number="560" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="560" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="563" hits="1" branch="true" condition-coverage="50% (1/2)" />
             <line number="564" hits="1" branch="true" condition-coverage="50% (1/2)" />
             <line number="565" hits="0" branch="true" condition-coverage="0% (0/2)" />

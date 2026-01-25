@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.2857142857142857" lines-covered="0" lines-valid="0" branches-covered="6" branches-valid="21" complexity="0.0" version="pynguin-0.40.0" timestamp="1769165831">
+  <sources>
+    <source>isort.files</source>
+  </sources>
+  <packages>
+    <package name="" line-rate="None" branch-rate="0.2857142857142857" complexity="0.0">
+      <classes>
+        <class name="" filename="isort.files" line-rate="None" branch-rate="0.2857142857142857" complexity="0.0">
+          <methods />
+          <lines>
+            <line number="1" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="14" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="15" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="16" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="20" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="23" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="27" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="31" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="33" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="34" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="38" hits="1" branch="true" condition-coverage="50% (1/2)" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

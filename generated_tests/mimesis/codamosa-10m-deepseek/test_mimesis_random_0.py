@@ -1,7 +1,6 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import mimesis.random as module_0
 import pytest
-
+import mimesis.random as module_0
 
 @pytest.mark.xfail(strict=True)
 def test_case_0():
@@ -162,33 +161,6 @@ def test_case_9():
     assert f'{type(module_0.global_seed).__module__}.{type(module_0.global_seed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_0.random).__module__}.{type(module_0.random).__qualname__}' == 'mimesis.random.Random'
     assert module_0.random.gauss_next is None
-    var_1 = '@###'
-    var_2 = '@'
-    var_3 = '#'
-    var_4 = var_0.generate_string_by_mask(var_1, var_2, var_3)
-    var_5 = len(var_4)
-    assert var_5 == 4
-    var_6 = 0
-    var_7 = var_4[var_6]
-    var_8 = var_4[var_6]
-    var_9 = 1
-    var_10 = var_4[var_9:]
-    var_11 = '@@##'
-    var_12 = var_0.generate_string_by_mask(var_11, var_2, var_3)
-    var_13 = len(var_12)
-    assert var_13 == 4
-    var_14 = 2
-    var_15 = var_12[:var_14]
-    var_16 = var_12[var_14:]
-    var_17 = 'A@B#C'
-    var_18 = var_0.generate_string_by_mask(var_17, var_2, var_3)
-    var_19 = len(var_18)
-    assert var_19 == 5
-    var_20 = var_18[var_9]
-    var_21 = var_18[var_9]
-    var_22 = 3
-    var_23 = var_18[var_22]
-    var_24 = '@###'
-    var_25 = '@'
+    var_1 = '#'
     with pytest.raises(ValueError):
-        var_0.generate_string_by_mask(var_24, var_25, var_25)
+        var_0.generate_string_by_mask(var_1, var_1, var_1)

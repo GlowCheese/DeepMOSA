@@ -1,0 +1,1960 @@
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #36
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #37
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #38
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #39
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #40
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+"""This module provides constants for locale-dependent providers."""
+
+from mimesis.enums import Locale
+from mimesis.exceptions import LocaleError
+
+__all__ = ["Locale", "validate_locale"]
+
+
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+Write unit test with pytest for function validate_locale with the following signature: `def test_validate_locale():`
+
+

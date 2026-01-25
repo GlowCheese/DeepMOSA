@@ -434,17 +434,23 @@ def test_case_3():
     assert f'{type(module_0.Import.alias).__module__}.{type(module_0.Import.alias).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_0.Import.cimport).__module__}.{type(module_0.Import.cimport).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_0.Import.file_path).__module__}.{type(module_0.Import.file_path).__qualname__}' == '_collections._tuplegetter'
-    var_3 = var_2.statement()
-    assert var_3 == 'import None'
-    var_4 = var_2.statement()
-    assert var_4 == 'import None'
-    var_5 = [var_2, var_2, var_0, var_2, var_2]
-    var_6 = module_0.Import(*var_5)
+    var_3 = var_2.__str__()
+    assert var_3 == ':None import None'
+    var_4 = [var_3, var_2, var_1, var_2, var_0, var_0, var_2]
+    var_5 = module_0.Import(*var_4)
+    assert f'{type(var_5).__module__}.{type(var_5).__qualname__}' == 'isort.identify.Import'
+    assert len(var_5) == 7
+    var_6 = module_0.Import(*var_4)
     assert f'{type(var_6).__module__}.{type(var_6).__qualname__}' == 'isort.identify.Import'
     assert len(var_6) == 7
-    var_7 = module_0.imports(var_0, var_0, var_0)
-    var_8 = var_6.__str__()
-    assert var_8 == '::None import None indented from None import :None import None as :None import None'
+    var_7 = -38
+    var_8 = {var_3: var_7}
+    var_9 = False
+    var_10 = module_0.imports(var_8, top_only=var_9)
+    var_11 = var_5.__str__()
+    assert var_11 == ':None import None::None import None indented from [None, None, None, None, None] import :None import None'
+    var_12 = var_5.statement()
+    assert var_12 == 'from [None, None, None, None, None] import :None import None'
 
 def test_case_4():
     var_0 = None
@@ -586,17 +592,23 @@ def test_case_4():
     assert f'{type(module_0.Import.alias).__module__}.{type(module_0.Import.alias).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_0.Import.cimport).__module__}.{type(module_0.Import.cimport).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_0.Import.file_path).__module__}.{type(module_0.Import.file_path).__qualname__}' == '_collections._tuplegetter'
-    var_3 = var_2.statement()
-    assert var_3 == 'import None'
-    var_4 = var_2.statement()
-    assert var_4 == 'import None'
-    var_5 = [var_2, var_3, var_0, var_2, var_4, var_4, var_0]
-    var_6 = module_0.Import(*var_5)
+    var_3 = var_2.__str__()
+    assert var_3 == ':None import None'
+    var_4 = [var_2, var_2, var_0, var_0, var_2]
+    var_5 = module_0.Import(*var_4)
+    assert f'{type(var_5).__module__}.{type(var_5).__qualname__}' == 'isort.identify.Import'
+    assert len(var_5) == 7
+    var_6 = module_0.Import(*var_4)
     assert f'{type(var_6).__module__}.{type(var_6).__qualname__}' == 'isort.identify.Import'
     assert len(var_6) == 7
-    var_7 = module_0.imports(var_0, var_0, var_0)
-    var_8 = var_6.statement()
-    assert var_8 == 'from None cimport :None import None as import None'
+    var_7 = -38
+    var_8 = {var_3: var_7}
+    var_9 = False
+    var_10 = module_0.imports(var_8, top_only=var_9)
+    var_11 = var_5.__str__()
+    assert var_11 == '::None import None indented import None as :None import None'
+    var_12 = var_5.statement()
+    assert var_12 == 'import None as :None import None'
 
 def test_case_5():
     var_0 = None
@@ -738,16 +750,20 @@ def test_case_5():
     assert f'{type(module_0.Import.alias).__module__}.{type(module_0.Import.alias).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_0.Import.cimport).__module__}.{type(module_0.Import.cimport).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_0.Import.file_path).__module__}.{type(module_0.Import.file_path).__qualname__}' == '_collections._tuplegetter'
-    var_3 = var_2.statement()
-    assert var_3 == 'import None'
-    var_4 = var_2.statement()
-    assert var_4 == 'import None'
-    var_5 = var_2.statement()
-    assert var_5 == 'import None'
-    var_6 = [var_2, var_2, var_2, var_0, var_1, var_2, var_2]
-    var_7 = module_0.Import(*var_6)
-    assert f'{type(var_7).__module__}.{type(var_7).__qualname__}' == 'isort.identify.Import'
-    assert len(var_7) == 7
-    var_8 = module_0.imports(var_0, var_0, var_0)
-    var_9 = var_7.__str__()
-    assert var_9 == ':None import None::None import None indented cimport :None import None as [None, None, None, None, None]'
+    var_3 = var_2.__str__()
+    assert var_3 == ':None import None'
+    var_4 = [var_2, var_3, var_0, var_0, var_0, var_2]
+    var_5 = module_0.Import(*var_4)
+    assert f'{type(var_5).__module__}.{type(var_5).__qualname__}' == 'isort.identify.Import'
+    assert len(var_5) == 7
+    var_6 = module_0.Import(*var_4)
+    assert f'{type(var_6).__module__}.{type(var_6).__qualname__}' == 'isort.identify.Import'
+    assert len(var_6) == 7
+    var_7 = -38
+    var_8 = {var_3: var_7}
+    var_9 = False
+    var_10 = module_0.imports(var_8, top_only=var_9)
+    var_11 = var_5.__str__()
+    assert var_11 == '::None import None indented cimport None'
+    var_12 = var_5.statement()
+    assert var_12 == 'cimport None'

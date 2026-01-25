@@ -1,170 +1,1165 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
 # LLM-generated content at query #1
 #--------------------------
 
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():<｜end▁of▁thinking｜>```python
-import pytest
-from typesystem.fields import Reference
-from typesystem.schemas import Definitions
-
+# Unit test for function one_of_from_json_schema
+def test_one_of_from_json_schema():
+    definitions = Definitions()
+    data = {
+        "oneOf": [
+            {"type": "string"},
+            {"type": "integer"}
+        ]
+    }
+    field = one_of_from_json_schema(data, definitions)
+    assert isinstance(field, OneOf)
+    assert len(field.one_of) == 2
+    assert isinstance(field.one_of[0], String)
+    assert isinstance(field.one_of[1], Integer)
 
 
 # LLM-generated content at query #2
 #--------------------------
 
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+    definitions = Definitions()
+    data = {
+        "if": {"type": "string"},
+        "then": {"type": "number"},
+        "else": {"type": "boolean"},
+    }
+    field = if_then_else_from_json_schema(data, definitions)
+    assert isinstance(field, IfThenElse)
+    assert isinstance(field.if_clause, String)
+    assert isinstance(field.then_clause, Float)
+    assert isinstance(field.else_clause, Boolean)
+
+    data = {
+        "if": {"type": "string"},
+        "then": {"type": "number"},
+    }
+    field = if_then_else_from_json_schema(data, definitions)
+    assert isinstance(field, IfThenElse)
+    assert isinstance(field.if_clause, String)
+    assert isinstance(field.then_clause, Float)
+    assert field.else_clause is None
+
+    data = {
+        "if": {"type": "string"},
+        "else": {"type": "boolean"},
+    }
+    field = if_then_else_from_json_schema(data, definitions)
+    assert isinstance(field, IfThenElse)
+    assert isinstance(field.if_clause, String)
+    assert field.then_clause is None
+    assert isinstance(field.else_clause, Boolean)
 
 
 # LLM-generated content at query #3
 #--------------------------
 
-# Unit test for function any_of_from_json_schema
-def test_any_of_from_json_schema(): 
-    # Test case 1: Basic functionality
-    data = {"anyOf": [{"type": "string"}, {"type": "integer"}]}
+# Unit test for function one_of_from_json_schema
+def test_one_of_from_json_schema():
+    from typesystem.fields import Integer, String
+    from typesystem.composites import OneOf
+
+    # Test case 1: Valid input with multiple items
+    data = {"oneOf": [{"type": "integer"}, {"type": "string"}]}
     definitions = Definitions()
-    result = any_of_from_json_schema(data, definitions)
-    assert isinstance(result, Union)
-    assert len(result.any_of) == 2
-    assert isinstance(result.any_of[0], String)
-    assert isinstance(result.any_of[1], Integer)
+    result = one_of_from_json_schema(data, definitions)
+    assert isinstance(result, OneOf)
+    assert len(result.one_of) == 2
+    assert isinstance(result.one_of[0], Integer)
+    assert isinstance(result.one_of[1], String)
 
-    # Test case 2: With default value
-    data = {"anyOf": [{"type": "string"}, {"type": "integer"}], "default": "test"}
-    result = any_of_from_json_schema(data, definitions)
-    assert result.default == "test"
+    # Test case 2: Valid input with default value
+    data = {"oneOf": [{"type": "integer"}, {"type": "string"}], "default": 42}
+    definitions = Definitions()
+    result = one_of_from_json_schema(data, definitions)
+    assert isinstance(result, OneOf)
+    assert result.default == 42
 
-    # Test case 3: Nested anyOf
-    data = {"anyOf": [{"anyOf": [{"type": "string"}]}, {"type": "integer"}]}
-    result = any_of_from_json_schema(data, definitions)
-    assert isinstance(result, Union)
-    assert len(result.any_of) == 2
-    assert isinstance(result.any_of[0], Union)
-    assert isinstance(result.any_of[1], Integer)
+    # Test case 3: Empty oneOf list
+    data = {"oneOf": []}
+    definitions = Definitions()
+    try:
+        one_of_from_json_schema(data, definitions)
+        assert False, "Expected ValueError for empty oneOf list"
+    except ValueError:
+        pass
 
-    # Test case 4: Complex anyOf with multiple types
-    data = {"anyOf": [{"type": "string"}, {"type": "number"}, {"type": "boolean"}]}
-    result = any_of_from_json_schema(data, definitions)
-    assert len(result.any_of) == 3
-    assert isinstance(result.any_of[0], String)
-    assert isinstance(result.any_of[1], Float)
-    assert isinstance(result.any_of[2], Boolean)
-
-    # Test case 5: anyOf with constraints
-    data = {"anyOf": [{"type": "string", "minLength": 5}, {"type": "integer", "minimum": 0}]}
-    result = any_of_from_json_schema(data, definitions)
-    assert isinstance(result.any_of[0], String)
-    assert result.any_of[0].min_length == 5
-    assert isinstance(result.any_of[1], Integer)
-    assert result.any_of[1].minimum == 0
-
-    print("All tests passed!")
-
-# Run the test
-test_any_of_from_json_schema()
+    # Test case 4: Invalid input (non-dict)
+    data = "invalid"
+    definitions = Definitions()
+    try:
+        one_of_from_json_schema(data, definitions)
+        assert False, "Expected TypeError for non-dict input"
+    except TypeError:
+        pass
 
 
 
 # LLM-generated content at query #4
 #--------------------------
 
-# Unit test for function any_of_from_json_schema
-def test_any_of_from_json_schema():
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    definitions = Definitions()
+    data = {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 10,
+        "format": "email",
+        "pattern": "^[A-Za-z0-9]+$",
+        "default": "example@example.com"
+    }
+    field = from_json_schema_type(data, "string", False, definitions)
+    assert isinstance(field, String)
+    assert field.min_length == 5
+    assert field.max_length == 10
+    assert field.format == "email"
+    assert field.pattern == "^[A-Za-z0-9]+$"
+    assert field.default == "example@example.com"
+
+    data = {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 101,
+        "multipleOf": 2,
+        "default": 2
+    }
+    field = from_json_schema_type(data, "integer", False, definitions)
+    assert isinstance(field, Integer)
+    assert field.minimum == 1
+    assert field.maximum == 100
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 101
+    assert field.multiple_of == 2
+    assert field.default == 2
+
+    data = {
+        "type": "number",
+        "minimum": 1.0,
+        "maximum": 100.0,
+        "exclusiveMinimum": 0.0,
+        "exclusiveMaximum": 101.0,
+        "multipleOf": 2.0,
+        "default": 2.0
+    }
+    field = from_json_schema_type(data, "number", False, definitions)
+    assert isinstance(field, Float)
+    assert field.minimum == 1.0
+    assert field.maximum == 100.0
+    assert field.exclusive_minimum == 0.0
+    assert field.exclusive_maximum == 101.0
+    assert field.multiple_of == 2.0
+    assert field.default == 2.0
+
+    data = {
+        "type": "boolean",
+        "default": True
+    }
+    field = from_json_schema_type(data, "boolean", False, definitions)
+    assert isinstance(field, Boolean)
+    assert field.default == True
+
+    data = {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1,
+        "maxItems": 10,
+        "uniqueItems": True,
+        "default": ["example"]
+    }
+    field = from_json_schema_type(data, "array", False, definitions)
+    assert isinstance(field, Array)
+    assert isinstance(field.items, String)
+    assert field.min_items == 1
+    assert field.max_items == 10
+    assert field.unique_items == True
+    assert field.default == ["example"]
+
+    data = {
+        "type": "object",
+        "properties": {
+            "name": {"type": "string"}
+        },
+        "minProperties": 1,
+        "maxProperties": 2,
+        "required": ["name"],
+        "default": {"name": "example"}
+    }
+    field = from_json_schema_type(data, "object", False, definitions)
+    assert isinstance(field, Object)
+    assert isinstance(field.properties["name"], String)
+    assert field.min_properties == 1
+    assert field.max_properties == 2
+    assert field.required == ["name"]
+    assert field.default == {"name": "example"}
 
 
 # LLM-generated content at query #5
 #--------------------------
 
-# Unit test for function one_of_from_json_schema
-def test_one_of_from_json_schema():<｜end▁of▁thinking｜>```python
+# Unit test for function all_of_from_json_schema
+def test_all_of_from_json_schema():
+    definitions = Definitions()
+    data = {
+        "allOf": [
+            {"type": "string", "minLength": 5},
+            {"type": "string", "maxLength": 10}
+        ]
+    }
+    field = all_of_from_json_schema(data, definitions)
+    assert isinstance(field, AllOf)
+    assert len(field.all_of) == 2
+    assert isinstance(field.all_of[0], String)
+    assert isinstance(field.all_of[1], String)
+    assert field.all_of[0].min_length == 5
+    assert field.all_of[1].max_length == 10
+
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for function to_json_schema
-def test_to_json_schema():<｜end▁of▁thinking｜>We need to write unit tests for the `to_json_schema` function. Let's start by understanding what the function does and then write tests for various field types.
+# Unit test for function from_json_schema
+def test_from_json_schema():
+    # Test with boolean input
+    assert isinstance(from_json_schema(True), Any)
+    assert isinstance(from_json_schema(False), NeverMatch)
 
-The `to_json_schema` function converts a Field or Definitions object into a JSON schema representation. It handles various field types like String, Integer, Float, Boolean, Array, Object, etc.
+    # Test with dictionary input
+    schema = {"type": "string"}
+    assert isinstance(from_json_schema(schema), String)
 
-We'll write tests for each field type to ensure they are correctly converted to JSON schema.
+    schema = {"type": "integer"}
+    assert isinstance(from_json_schema(schema), Integer)
 
-First, let's create a test file and import necessary modules.
+    schema = {"type": "number"}
+    assert isinstance(from_json_schema(schema), Number)
 
-```python
-import pytest
-import re
-from typing import Dict, Any
-from coreapi.compat import json
-from coreapi import fields
-from coreapi.codecs.jsonschema import to_json_schema, from_json_schema, Definitions
+    schema = {"type": "boolean"}
+    assert isinstance(from_json_schema(schema), Boolean)
 
-# We'll write tests for each field type
-```
+    schema = {"type": "array", "items": {"type": "string"}}
+    assert isinstance(from_json_schema(schema), Array)
 
-Now, let's write tests for each field type.
+    schema = {"type": "object", "properties": {"name": {"type": "string"}}}
+    assert isinstance(from_json_schema(schema), Object)
 
-### Test 1: String field
-```python
+    schema = {"enum": ["red", "green", "blue"]}
+    assert isinstance(from_json_schema(schema), Choice)
+
+    schema = {"const": "constant_value"}
+    assert isinstance(from_json_schema(schema), Const)
+
+    schema = {"allOf": [{"type": "string"}, {"minLength": 5}]}
+    assert isinstance(from_json_schema(schema), AllOf)
+
+    schema = {"anyOf": [{"type": "string"}, {"type": "number"}]}
+    assert isinstance(from_json_schema(schema), OneOf)
+
+    schema = {"oneOf": [{"type": "string"}, {"type": "number"}]}
+    assert isinstance(from_json_schema(schema), OneOf)
+
+    schema = {"not": {"type": "string"}}
+    assert isinstance(from_json_schema(schema), Not)
+
+    schema = {"if": {"type": "string"}, "then": {"minLength": 5}}
+    assert isinstance(from_json_schema(schema), IfThenElse)
+
+    # Test with $ref
+    definitions = Definitions()
+    definitions["#/components/schemas/Example"] = String()
+    schema = {"$ref": "#/components/schemas/Example"}
+    assert isinstance(from_json_schema(schema, definitions=definitions), Reference)
+
+    # Test with nested definitions
+    schema = {"type": "object", "properties": {"name": {"$ref": "#/components/schemas/Example"}}}
+    assert isinstance(from_json_schema(schema, definitions=definitions), Object)
+
+    # Test with complex schema
+    schema = {
+        "type": "object",
+        "properties": {
+            "name": {"type": "string"},
+            "age": {"type": "integer", "minimum": 0}
+        },
+        "required": ["name"]
+    }
+    assert isinstance(from_json_schema(schema), Object)
+
+    # Test with additional properties
+    schema = {"type": "object", "additionalProperties": {"type": "string"}}
+    assert isinstance(from_json_schema(schema), Object)
+
+    # Test with pattern properties
+    schema = {"type": "object", "patternProperties": {"^[a-z]+$": {"type": "string"}}}
+    assert isinstance(from_json_schema(schema), Object)
+
+    # Test with array items
+    schema = {"type": "array", "items": {"type": "string"}, "minItems": 1}
+    assert isinstance(from_json_schema(schema), Array)
+
+    # Test with unique items
+    schema = {"type": "array", "items": {"type": "string"}, "uniqueItems": True}
+    assert isinstance(from_json_schema(schema), Array)
+
+    # Test with format
+    schema = {"type": "string", "format": "email"}
+    assert isinstance(from_json_schema(schema), String)
+
+    # Test with multiple constraints
+    schema = {"type": "string", "minLength": 5, "maxLength": 10}
+    assert isinstance(from_json_schema(schema), String)
+
+    # Test with multiple types
+    schema = {"type": ["string", "number"]}
+    assert isinstance(from_json_schema(schema), Union)
+
+    # Test with default definitions
+    schema = {"type": "string"}
+    assert isinstance(from_json_schema(schema), String)
+
+    # Test with custom definitions
+    custom_definitions = Definitions()
+    custom_definitions["#/components/schemas/Example"] = String()
+    schema = {"$ref": "#/components/schemas/Example"}
+    assert isinstance(from_json_schema(schema, definitions=custom_definitions), Reference)
+
+    # Test with no constraints
+    schema = {}
+    assert isinstance(from_json_schema(schema), Any)
 
 
 # LLM-generated content at query #7
 #--------------------------
 
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():<｜end▁of▁thinking｜>```python
-import pytest
-from typesystem import Reference, Definitions
+# Unit test for function get_standard_properties
+def test_get_standard_properties():
+    # Test case 1: Field with default value
+    field_with_default = Field(default="test_default")
+    assert get_standard_properties(field_with_default) == {"default": "test_default"}
 
+    # Test case 2: Field without default value
+    field_without_default = Field()
+    assert get_standard_properties(field_without_default) == {}
+
+    # Test case 3: Field with None as default value
+    field_with_none_default = Field(default=None)
+    assert get_standard_properties(field_with_none_default) == {"default": None}
+
+    # Test case 4: Field with a complex default value
+    complex_default = {"key": "value"}
+    field_with_complex_default = Field(default=complex_default)
+    assert get_standard_properties(field_with_complex_default) == {"default": complex_default}
+
+    # Test case 5: Field with default value and other properties
+    field_with_properties = Field(default="test_default", description="Test Field")
+    assert get_standard_properties(field_with_properties) == {"default": "test_default"}
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for function if_then_else_from_json_schema
-def test_if_then_else_from_json_schema():<｜end▁of▁thinking｜>```python
-import pytest
-from typesystem.fields import Field, Integer, String
-from typesystem.composites import IfThenElse
-from typesystem.definitions import Definitions
+# Unit test for function enum_from_json_schema
+def test_enum_from_json_schema():
+    # Test with simple enum values
+    data = {"enum": ["a", "b", "c"]}
+    field = enum_from_json_schema(data, definitions=Definitions())
+    assert isinstance(field, Choice)
+    assert field.choices == [("a", "a"), ("b", "b"), ("c", "c")]
 
+    # Test with enum values and default
+    data = {"enum": [1, 2, 3], "default": 2}
+    field = enum_from_json_schema(data, definitions=Definitions())
+    assert isinstance(field, Choice)
+    assert field.choices == [(1, 1), (2, 2), (3, 3)]
+    assert field.default == 2
+
+    # Test with empty enum (should raise an error)
+    data = {"enum": []}
+    try:
+        field = enum_from_json_schema(data, definitions=Definitions())
+        assert False, "Expected ValueError for empty enum"
+    except ValueError:
+        pass
+
+    # Test with enum containing None
+    data = {"enum": [None, "a", "b"]}
+    field = enum_from_json_schema(data, definitions=Definitions())
+    assert isinstance(field, Choice)
+    assert field.choices == [(None, None), ("a", "a"), ("b", "b")]
+
+    # Test with enum containing mixed types
+    data = {"enum": [1, "a", True]}
+    field = enum_from_json_schema(data, definitions=Definitions())
+    assert isinstance(field, Choice)
+    assert field.choices == [(1, 1), ("a", "a"), (True, True)]
 
 
 # LLM-generated content at query #9
 #--------------------------
 
+# Unit test for function to_json_schema
+def test_to_json_schema():
+    # Test with Any field
+    any_field = Any()
+    assert to_json_schema(any_field) == True
+
+    # Test with NeverMatch field
+    never_match_field = NeverMatch()
+    assert to_json_schema(never_match_field) == False
+
+    # Test with String field
+    string_field = String(allow_null=True, min_length=1, max_length=10, pattern="^[a-z]+$", format="email")
+    expected_string_schema = {
+        "type": ["string", "null"],
+        "minLength": 1,
+        "maxLength": 10,
+        "pattern": "^[a-z]+$",
+        "format": "email"
+    }
+    assert to_json_schema(string_field) == expected_string_schema
+
+    # Test with Integer field
+    integer_field = Integer(allow_null=True, minimum=0, maximum=100, multiple_of=5)
+    expected_integer_schema = {
+        "type": ["integer", "null"],
+        "minimum": 0,
+        "maximum": 100,
+        "multipleOf": 5
+    }
+    assert to_json_schema(integer_field) == expected_integer_schema
+
+    # Test with Boolean field
+    boolean_field = Boolean(allow_null=True)
+    expected_boolean_schema = {
+        "type": ["boolean", "null"]
+    }
+    assert to_json_schema(boolean_field) == expected_boolean_schema
+
+    # Test with Array field
+    item_field = String()
+    array_field = Array(allow_null=True, min_items=1, max_items=10, items=item_field, unique_items=True)
+    expected_array_schema = {
+        "type": ["array", "null"],
+        "minItems": 1,
+        "maxItems": 10,
+        "items": {"type": "string"},
+        "uniqueItems": True
+    }
+    assert to_json_schema(array_field) == expected_array_schema
+
+    # Test with Object field
+    properties = {"name": String()}
+    object_field = Object(allow_null=True, properties=properties, required=["name"])
+    expected_object_schema = {
+        "type": ["object", "null"],
+        "properties": {"name": {"type": "string"}},
+        "required": ["name"]
+    }
+    assert to_json_schema(object_field) == expected_object_schema
+
+    # Test with Reference field
+    definitions = {"Person": Object(properties={"name": String()})}
+    reference_field = Reference(to="Person", definitions=definitions)
+    expected_reference_schema = {
+        "$ref": "#/components/schemas/Person",
+        "components": {
+            "schemas": {
+                "Person": {
+                    "type": "object",
+                    "properties": {"name": {"type": "string"}}
+                }
+            }
+        }
+    }
+    assert to_json_schema(reference_field) == expected_reference_schema
+
+    # Test with Union field
+    string_or_int = Union(any_of=[String(), Integer()])
+    expected_union_schema = {
+        "anyOf": [
+            {"type": "string"},
+            {"type": "integer"}
+        ]
+    }
+    assert to_json_schema(string_or_int) == expected_union_schema
+
+    # Test with AllOf field
+    all_of_field = AllOf(all_of=[String(min_length=1), String(max_length=10)])
+    expected_all_of_schema = {
+        "allOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "string", "maxLength": 10}
+        ]
+    }
+    assert to_json_schema(all_of_field) == expected_all_of_schema
+
+    # Test with IfThenElse field
+    if_then_else_field = IfThenElse(
+        if_clause=String(min_length=5),
+        then_clause=String(max_length=10),
+        else_clause=Integer()
+    )
+    expected_if_then_else_schema = {
+        "if": {"type": "string", "minLength": 5},
+        "then": {"type": "string", "maxLength": 10},
+        "else": {"type": "integer"}
+    }
+    assert to_json_schema(if_then_else_field) == expected_if_then_else_schema
+
+    print("All tests passed!")
+
+test_to_json_schema()
+
+
+# LLM-generated content at query #10
+#--------------------------
+
+# Unit test for function from_json_schema
+def test_from_json_schema():
+    # Test with a boolean schema
+    assert isinstance(from_json_schema(True), Field)
+    assert isinstance(from_json_schema(False), Field)
+    
+    # Test with a valid JSON schema dictionary
+    schema = {"type": "string", "minLength": 5}
+    assert isinstance(from_json_schema(schema), Field)
+    
+    # Test with a schema containing a reference
+    schema = {"$ref": "#/definitions/Example"}
+    assert isinstance(from_json_schema(schema), Field)
+    
+    # Test with a schema containing enum
+    schema = {"enum": ["value1", "value2"]}
+    assert isinstance(from_json_schema(schema), Field)
+    
+    # Test with a schema containing const
+    schema = {"const": "value"}
+    assert isinstance(from_json_schema(schema), Field)
+    
+    # Test with a schema containing allOf
+    schema = {"allOf": [{"type": "string"}, {"minLength": 5}]}
+    assert isinstance(from_json_schema(schema), Field)
+    
+    # Test with a schema containing anyOf
+    schema = {"anyOf": [{"type": "string"}, {"type": "number"}]}
+    assert isinstance(from_json_schema(schema), Field)
+    
+    # Test with a schema containing oneOf
+    schema = {"oneOf": [{"type": "string"}, {"type": "number"}]}
+    assert isinstance(from_json_schema(schema), Field)
+    
+    # Test with a schema containing not
+    schema = {"not": {"type": "string"}}
+    assert isinstance(from_json_schema(schema), Field)
+    
+    # Test with a schema containing if/then/else
+    schema = {"if": {"type": "string"}, "then": {"minLength": 5}, "else": {"type": "number"}}
+    assert isinstance(from_json_schema(schema), Field)
+    
+    # Test with a schema containing multiple constraints
+    schema = {"type": "string", "minLength": 5, "maxLength": 10}
+    assert isinstance(from_json_schema(schema), Field)
+
+
+# LLM-generated content at query #11
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+    definitions = {
+        "#/components/schemas/MySchema": String(min_length=1)
+    }
+    data = {"$ref": "#/components/schemas/MySchema"}
+    result = ref_from_json_schema(data, definitions)
+    assert isinstance(result, Reference)
+    assert result.to == "#/components/schemas/MySchema"
+    assert result.definitions == definitions
+
+
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+    definitions = Definitions()
+    data = {"$ref": "#/components/schemas/User"}
+    field = ref_from_json_schema(data, definitions=definitions)
+    assert isinstance(field, Reference)
+    assert field.to == "#/components/schemas/User"
+    assert field.definitions is definitions
+
+    try:
+        ref_from_json_schema({"$ref": "http://example.com"}, definitions=definitions)
+    except AssertionError:
+        pass
+    else:
+        assert False, "Expected AssertionError for unsupported $ref style"
+
+
+# LLM-generated content at query #13
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+    # Test case 1: Any field
+    assert to_json_schema(Any()) == True
+
+    # Test case 2: NeverMatch field
+    assert to_json_schema(NeverMatch()) == False
+
+    # Test case 3: String field
+    string_field = String(allow_null=True, min_length=1, max_length=10, pattern="^[a-z]+$", format="email", default="test@example.com")
+    expected_string_schema = {
+        "type": ["string", "null"],
+        "minLength": 1,
+        "maxLength": 10,
+        "pattern": "^[a-z]+$",
+        "format": "email",
+        "default": "test@example.com"
+    }
+    assert to_json_schema(string_field) == expected_string_schema
+
+    # Test case 4: Integer field
+    integer_field = Integer(allow_null=True, minimum=1, maximum=100, exclusive_minimum=0, exclusive_maximum=101, multiple_of=5, default=50)
+    expected_integer_schema = {
+        "type": ["integer", "null"],
+        "minimum": 1,
+        "maximum": 100,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 101,
+        "multipleOf": 5,
+        "default": 50
+    }
+    assert to_json_schema(integer_field) == expected_integer_schema
+
+    # Test case 5: Boolean field
+    boolean_field = Boolean(allow_null=True, default=True)
+    expected_boolean_schema = {
+        "type": ["boolean", "null"],
+        "default": True
+    }
+    assert to_json_schema(boolean_field) == expected_boolean_schema
+
+    # Test case 6: Array field
+    array_field = Array(allow_null=True, min_items=1, max_items=10, items=Integer(), additional_items=True, unique_items=True, default=[1, 2, 3])
+    expected_array_schema = {
+        "type": ["array", "null"],
+        "minItems": 1,
+        "maxItems": 10,
+        "items": {"type": "integer"},
+        "additionalItems": True,
+        "uniqueItems": True,
+        "default": [1, 2, 3]
+    }
+    assert to_json_schema(array_field) == expected_array_schema
+
+    # Test case 7: Object field
+    object_field = Object(allow_null=True, properties={"name": String()}, pattern_properties={"^[a-z]+$": Integer()}, additional_properties=True, property_names=String(), min_properties=1, max_properties=10, required=["name"], default={"name": "John"})
+    expected_object_schema = {
+        "type": ["object", "null"],
+        "properties": {"name": {"type": "string"}},
+        "patternProperties": {"^[a-z]+$": {"type": "integer"}},
+        "additionalProperties": True,
+        "propertyNames": {"type": "string"},
+        "minProperties": 1,
+        "maxProperties": 10,
+        "required": ["name"],
+        "default": {"name": "John"}
+    }
+    assert to_json_schema(object_field) == expected_object_schema
+
+    # Test case 8: Schema field
+    schema_field = Schema(allow_null=True, fields={"name": String(), "age": Integer()}, required=["name"], default={"name": "John", "age": 30})
+    expected_schema_schema = {
+        "type": ["object", "null"],
+        "properties": {"name": {"type": "string"}, "age": {"type": "integer"}},
+        "required": ["name"],
+        "default": {"name": "John", "age": 30}
+    }
+    assert to_json_schema(schema_field) == expected_schema_schema
+
+    # Test case 9: Choice field
+    choice_field = Choice(choices=[("male", "Male"), ("female", "Female")], default="male")
+    expected_choice_schema = {
+        "enum": ["male", "female"],
+        "default": "male"
+    }
+    assert to_json_schema(choice_field) == expected_choice_schema
+
+    # Test case 10: Const field
+    const_field = Const(const=42, default=42)
+    expected_const_schema = {
+        "const": 42,
+        "default": 42
+    }
+    assert to_json_schema(const_field) == expected_const_schema
+
+    # Test case 11: Union field
+    union_field = Union(any_of=[Integer(), String()], default=10)
+    expected_union_schema = {
+        "anyOf": [{"type": "integer"}, {"type": "string"}],
+        "default": 10
+    }
+    assert to_json_schema(union_field) == expected_union_schema
+
+    # Test case 12: OneOf field
+    one_of_field = OneOf(one_of=[Integer(), String()], default=10)
+    expected_one_of_schema = {
+        "oneOf": [{"type": "integer"}, {"type": "string"}],
+        "default": 10
+    }
+    assert to_json_schema(one_of_field) == expected_one_of_schema
+
+    # Test case 13: AllOf field
+    all_of_field = AllOf(all_of=[Integer(), Integer(minimum=10)], default=10)
+    expected_all_of_schema = {
+        "allOf": [{"type": "integer"}, {"type": "integer", "minimum": 10}],
+        "default": 10
+    }
+    assert to_json_schema(all_of_field) == expected_all_of_schema
+
+    # Test case 14: IfThenElse field
+    if_then_else_field = IfThenElse(if_clause=Integer(minimum=10), then_clause=String(), else_clause=Integer(), default=10)
+    expected_if_then_else_schema = {
+        "if": {"type": "integer", "minimum": 10},
+        "then": {"type": "string"},
+        "else": {"type": "integer"},
+        "default": 10
+    }
+    assert to_json_schema(if_then_else_field) == expected_if_then_else_schema
+
+    # Test case 15: Not field
+    not_field = Not(negated=Integer(minimum=10), default=10)
+    expected_not_schema = {
+        "not": {"type": "integer", "minimum": 10},
+        "default": 10
+    }
+    assert to_json_schema(not_field) == expected_not_schema
+
+    # Test case 16: Definitions
+    definitions = Definitions({"Person": Schema(fields={"name": String(), "age": Integer()})})
+    expected_definitions_schema = {
+        "components": {
+            "schemas": {
+                "Person": {
+                    "type": "object",
+                    "properties": {"name": {"type": "string"}, "age": {"type": "integer"}}
+                }
+            }
+        }
+    }
+    assert to_json_schema(definitions) == expected_definitions_schema
+
+    # Test case 17: Reference field
+    reference_field = Reference(to="Person", definitions=Definitions({"Person": Schema(fields={"name": String()})}))
+    expected_reference_schema = {"$ref": "#/components/schemas/Person"}
+    assert to_json_schema(reference_field) == expected_reference_schema
+
+    # Test case 18: Invalid field type
+    try:
+        to_json_schema("invalid_field")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+    assert to_json_schema(Any()) == True
+    assert to_json_schema(NeverMatch()) == False
+    assert to_json_schema(String()) == {"type": "string"}
+    assert to_json_schema(Integer()) == {"type": "integer"}
+    assert to_json_schema(Float()) == {"type": "number"}
+    assert to_json_schema(Boolean()) == {"type": "boolean"}
+    assert to_json_schema(Array()) == {"type": "array"}
+    assert to_json_schema(Object()) == {"type": "object"}
+    assert to_json_schema(Schema()) == {"type": "object"}
+    assert to_json_schema(Choice(choices=[("a", "A")])) == {"enum": ["a"]}
+    assert to_json_schema(Const(const=True)) == {"const": True}
+    assert to_json_schema(Union(any_of=[String(), Integer()])) == {"anyOf": [{"type": "string"}, {"type": "integer"}]}
+    assert to_json_schema(OneOf(one_of=[String(), Integer()])) == {"oneOf": [{"type": "string"}, {"type": "integer"}]}
+    assert to_json_schema(AllOf(all_of=[String(), Integer()])) == {"allOf": [{"type": "string"}, {"type": "integer"}]}
+    assert to_json_schema(IfThenElse(if_clause=String(), then_clause=Integer(), else_clause=Boolean())) == {"if": {"type": "string"}, "then": {"type": "integer"}, "else": {"type": "boolean"}}
+    assert to_json_schema(Not(negated=String())) == {"not": {"type": "string"}}
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+    definitions = Definitions()
+    ref_data = {"$ref": "#/definitions/Example"}
+    field = ref_from_json_schema(ref_data, definitions)
+    assert isinstance(field, Reference)
+    assert field.to == "#/definitions/Example"
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+# Unit test for function type_from_json_schema
+def test_type_from_json_schema():
+    # Test with single type string
+    data = {"type": "string"}
+    definitions = Definitions()
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, String)
+    assert field.allow_null is False
+
+    # Test with multiple type strings
+    data = {"type": ["string", "number"]}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, Union)
+    assert len(field.any_of) == 2
+    assert isinstance(field.any_of[0], String)
+    assert isinstance(field.any_of[1], Number)
+    assert field.allow_null is False
+
+    # Test with allow null
+    data = {"type": "string", "nullable": True}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, String)
+    assert field.allow_null is True
+
+    # Test with no type strings
+    data = {"nullable": True}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, Const)
+    assert field.const is None
+
+    # Test with no type strings and not nullable
+    data = {}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, NeverMatch)
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+# Unit test for function type_from_json_schema
+def test_type_from_json_schema():
+    definitions = Definitions()
+    data = {"type": "string", "minLength": 1}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, String)
+    assert field.min_length == 1
+
+    data = {"type": "number", "minimum": 0}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, Number)
+    assert field.minimum == 0
+
+    data = {"type": "integer", "multipleOf": 2}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, Integer)
+    assert field.multiple_of == 2
+
+    data = {"type": "boolean"}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, Boolean)
+
+    data = {"type": "null"}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, Const)
+    assert field.const is None
+
+    data = {"type": ["string", "null"]}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, String)
+    assert field.allow_null
+
+    data = {"type": ["string", "number"]}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, Union)
+    assert len(field.any_of) == 2
+    assert isinstance(field.any_of[0], String)
+    assert isinstance(field.any_of[1], Number)
+
+    data = {"type": []}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, NeverMatch)
+
+    data = {"type": "null", "allow_null": True}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, Const)
+    assert field.const is None
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+# Unit test for function type_from_json_schema
+def test_type_from_json_schema():
+    # Test with a single type string
+    data = {"type": "string"}
+    field = type_from_json_schema(data, definitions=Definitions())
+    assert isinstance(field, String)
+    assert not field.allow_null
+
+    # Test with multiple type strings
+    data = {"type": ["string", "number"]}
+    field = type_from_json_schema(data, definitions=Definitions())
+    assert isinstance(field, Union)
+    assert len(field.any_of) == 2
+    assert isinstance(field.any_of[0], String)
+    assert isinstance(field.any_of[1], Number)
+    assert not field.allow_null
+
+    # Test with null type
+    data = {"type": "null"}
+    field = type_from_json_schema(data, definitions=Definitions())
+    assert isinstance(field, Const)
+    assert field.const is None
+    assert not field.allow_null
+
+    # Test with allow_null
+    data = {"type": ["string", "null"]}
+    field = type_from_json_schema(data, definitions=Definitions())
+    assert isinstance(field, String)
+    assert field.allow_null
+
+    # Test with no type strings (only null)
+    data = {}
+    field = type_from_json_schema(data, definitions=Definitions())
+    assert isinstance(field, Any)
+    assert not field.allow_null
+
+    # Test with additional constraints
+    data = {"type": "string", "minLength": 5}
+    field = type_from_json_schema(data, definitions=Definitions())
+    assert isinstance(field, String)
+    assert field.min_length == 5
+    assert not field.allow_null
+
+
+# LLM-generated content at query #19
+#--------------------------
+
 # Unit test for function from_json_schema_type
-def test_from_json_schema_type(): 
-    # Test for number type
-    data = {"type": "number", "minimum": 0, "maximum": 10, "exclusiveMinimum": 0, "exclusiveMaximum": 10, "multipleOf": 2, "default": 5}
+def test_from_json_schema_type():
+    # Test number field
+    data = {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 11,
+        "multipleOf": 2,
+        "default": 5.5
+    }
     field = from_json_schema_type(data, "number", False, Definitions())
     assert isinstance(field, Float)
-    assert field.minimum == 0
+    assert field.minimum == 1
     assert field.maximum == 10
     assert field.exclusive_minimum == 0
-    assert field.exclusive_maximum == 10
+    assert field.exclusive_maximum == 11
     assert field.multiple_of == 2
-    assert field.default == 5
+    assert field.default == 5.5
 
-    # Test for integer type
-    data = {"type": "integer", "minimum": 0, "maximum": 10, "exclusiveMinimum": 0, "exclusiveMaximum": 10, "multipleOf": 2, "default": 5}
+    # Test integer field
+    data = {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 11,
+        "multipleOf": 2,
+        "default": 5
+    }
     field = from_json_schema_type(data, "integer", False, Definitions())
     assert isinstance(field, Integer)
-    assert field.minimum == 0
+    assert field.minimum == 1
     assert field.maximum == 10
     assert field.exclusive_minimum == 0
-    assert field.exclusive_maximum == 10
+    assert field.exclusive_maximum == 11
     assert field.multiple_of == 2
     assert field.default == 5
 
-    # Test for string type
-    data = {"type": "string", "minLength": 1, "maxLength": 10, "format": "email", "pattern": "^[a-z]+$", "default": "test"}
+    # Test string field
+    data = {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "format": "email",
+        "pattern": "^[a-zA-Z0-9]+$",
+        "default": "test"
+    }
+    field = from_json_schema_type(data, "string", False, Definitions())
+    assert isinstance(field, String)
+    assert field.min_length == 1
+    assert field.max_length == 10
+    assert field.format == "email"
+    assert field.pattern == "^[a-zA-Z0-9]+$"
+    assert field.default == "test"
+
+    # Test boolean field
+    data = {
+        "type": "boolean",
+        "default": True
+    }
+    field = from_json_schema_type(data, "boolean", False, Definitions())
+    assert isinstance(field, Boolean)
+    assert field.default == True
+
+    # Test array field
+    data = {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1,
+        "maxItems": 10,
+        "uniqueItems": True,
+        "default": ["test"]
+    }
+    field = from_json_schema_type(data, "array", False, Definitions())
+    assert isinstance(field, Array)
+    assert field.min_items == 1
+    assert field.max_items == 10
+    assert field.unique_items == True
+    assert field.default == ["test"]
+
+    # Test object field
+    data = {
+        "type": "object",
+        "properties": {"test": {"type": "string"}},
+        "minProperties": 1,
+        "maxProperties": 10,
+        "required": ["test"],
+        "default": {"test": "value"}
+    }
+    field = from_json_schema_type(data, "object", False, Definitions())
+    assert isinstance(field, Object)
+    assert field.min_properties == 1
+    assert field.max_properties == 10
+    assert field.required == ["test"]
+    assert field.default == {"test": "value"}
+
+    # Test invalid type string
+    try:
+        from_json_schema_type({}, "invalid", False, Definitions())
+        assert False, "Expected assertion error"
+    except AssertionError:
+        pass
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+# Unit test for function type_from_json_schema
+def test_type_from_json_schema():
+    definitions = Definitions()
+
+    # Test case: Single type string, no null
+    data = {"type": "string"}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, String)
+    assert not field.allow_null
+
+    # Test case: Single type string, allow null
+    data = {"type": ["string", "null"]}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, String)
+    assert field.allow_null
+
+    # Test case: Multiple type strings, no null
+    data = {"type": ["string", "integer"]}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, Union)
+    assert len(field.any_of) == 2
+    assert isinstance(field.any_of[0], String)
+    assert isinstance(field.any_of[1], Integer)
+    assert not field.allow_null
+
+    # Test case: Multiple type strings, allow null
+    data = {"type": ["string", "integer", "null"]}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, Union)
+    assert len(field.any_of) == 2
+    assert isinstance(field.any_of[0], String)
+    assert isinstance(field.any_of[1], Integer)
+    assert field.allow_null
+
+    # Test case: No type strings, allow null
+    data = {"type": ["null"]}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, Const)
+    assert field.value is None
+
+    # Test case: No type strings, no null
+    data = {"type": []}
+    field = type_from_json_schema(data, definitions)
+    assert isinstance(field, NeverMatch)
+
+
+# LLM-generated content at query #21
+#--------------------------
+
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    # Test with type "number"
+    data = {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 11,
+        "multipleOf": 2,
+        "default": 5.0
+    }
+    field = from_json_schema_type(data, "number", False, Definitions())
+    assert isinstance(field, Float)
+    assert field.minimum == 1
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 11
+    assert field.multiple_of == 2
+    assert field.default == 5.0
+
+    # Test with type "integer"
+    data = {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 11,
+        "multipleOf": 2,
+        "default": 5
+    }
+    field = from_json_schema_type(data, "integer", False, Definitions())
+    assert isinstance(field, Integer)
+    assert field.minimum == 1
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 11
+    assert field.multiple_of == 2
+    assert field.default == 5
+
+    # Test with type "string"
+    data = {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "format": "email",
+        "pattern": "^[a-z]+$",
+        "default": "test"
+    }
     field = from_json_schema_type(data, "string", False, Definitions())
     assert isinstance(field, String)
     assert field.min_length == 1
@@ -173,308 +1168,773 @@ def test_from_json_schema_type():
     assert field.pattern == re.compile("^[a-z]+$")
     assert field.default == "test"
 
-    # Test for boolean type
-    data = {"type": "boolean", "default": True}
+    # Test with type "boolean"
+    data = {
+        "type": "boolean",
+        "default": True
+    }
     field = from_json_schema_type(data, "boolean", False, Definitions())
     assert isinstance(field, Boolean)
     assert field.default == True
 
-    # Test for array type
-    data = {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 10, "uniqueItems": True, "default": ["test"]}
+    # Test with type "array"
+    data = {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1,
+        "maxItems": 10,
+        "uniqueItems": True,
+        "default": ["test"]
+    }
     field = from_json_schema_type(data, "array", False, Definitions())
     assert isinstance(field, Array)
+    assert isinstance(field.items, String)
     assert field.min_items == 1
     assert field.max_items == 10
     assert field.unique_items == True
     assert field.default == ["test"]
 
-    # Test for object type
-    data = {"type": "object", "properties": {"name": {"type": "string"}}, "minProperties": 1, "maxProperties": 10, "required": ["name"], "default": {"name": "test"}}
+    # Test with type "object"
+    data = {
+        "type": "object",
+        "properties": {
+            "name": {"type": "string"}
+        },
+        "minProperties": 1,
+        "maxProperties": 2,
+        "required": ["name"],
+        "default": {"name": "test"}
+    }
     field = from_json_schema_type(data, "object", False, Definitions())
     assert isinstance(field, Object)
-    assert field.min_properties == 1
-    assert field.max_properties == 10
-    assert field.required == ["name"]
-    assert field.default == {"name": "test"}
-
-    # Test for null type
-    data = {"type": "null"}
-    field = from_json_schema_type(data, "null", True, Definitions())
-    assert isinstance(field, Const)
-    assert field.const == None
-
-    # Test for invalid type
-    try:
-        from_json_schema_type({}, "invalid", False, Definitions())
-        assert False, "Should have raised an assertion error"
-    except AssertionError as e:
-        assert str(e) == "Invalid argument type_string='invalid'"
-
-    print("All tests passed.")
-
-test_from_json_schema_type()
-
-
-# LLM-generated content at query #10
-#--------------------------
-
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():
-
-
-# LLM-generated content at query #11
-#--------------------------
-
-# Unit test for function one_of_from_json_schema
-def test_one_of_from_json_schema():<｜end▁of▁thinking｜>Here's a unit test for the `one_of_from_json_schema` function:
-
-```python
-import pytest
-from typesystem.fields import String, Integer, Boolean
-from typesystem.composites import OneOf
-from typesystem.definitions import Definitions
-
-
-
-# LLM-generated content at query #12
-#--------------------------
-
-# Unit test for function one_of_from_json_schema
-def test_one_of_from_json_schema():<｜end▁of▁thinking｜>```python
-import pytest
-from typesystem.fields import String, Integer, Boolean, Array
-from typesystem.composites import OneOf
-from typesystem.schemas import Definitions
-
-
-
-# LLM-generated content at query #13
-#--------------------------
-
-# Unit test for function all_of_from_json_schema
-def test_all_of_from_json_schema():<｜end▁of▁thinking｜>```python
-import pytest
-from typesystem.fields import String, Integer, Object
-from typesystem.composites import AllOf
-from typesystem.definitions import Definitions
-
-
-
-# LLM-generated content at query #14
-#--------------------------
-
-# Unit test for function if_then_else_from_json_schema
-def test_if_then_else_from_json_schema():
-
-
-# LLM-generated content at query #15
-#--------------------------
-
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():<｜end▁of▁thinking｜>```python
-
-
-# LLM-generated content at query #16
-#--------------------------
-
-# Unit test for function from_json_schema_type
-def test_from_json_schema_type(): 
-    # Test case 1: type_string is "number"
-    data = {"minimum": 0, "maximum": 10, "exclusiveMinimum": 0, "exclusiveMaximum": 10, "multipleOf": 2, "default": 5}
-    field = from_json_schema_type(data, "number", False, definitions)
-    assert isinstance(field, Float)
-    assert field.minimum == 0
-    assert field.maximum == 10
-    assert field.exclusive_minimum == 0
-    assert field.exclusive_maximum == 10
-    assert field.multiple_of == 2
-    assert field.default == 5
-
-    # Test case 2: type_string is "integer"
-    data = {"minimum": 0, "maximum": 10, "exclusiveMinimum": 0, "exclusiveMaximum": 10, "multipleOf": 2, "default": 5}
-    field = from_json_schema_type(data, "integer", False, definitions)
-    assert isinstance(field, Integer)
-    assert field.minimum == 0
-    assert field.maximum == 10
-    assert field.exclusive_minimum == 0
-    assert field.exclusive_maximum == 10
-    assert field.multiple_of == 2
-    assert field.default == 5
-
-    # Test case 3: type_string is "string"
-    data = {"minLength": 1, "maxLength": 10, "format": "email", "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$", "default": "test@example.com"}
-    field = from_json_schema_type(data, "string", False, definitions)
-    assert isinstance(field, String)
-    assert field.min_length == 1
-    assert field.max_length == 10
-    assert field.format == "email"
-    assert field.pattern == "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
-    assert field.default == "test@example.com"
-
-    # Test case 4: type_string is "boolean"
-    data = {"default": True}
-    field = from_json_schema_type(data, "boolean", False, definitions)
-    assert isinstance(field, Boolean)
-    assert field.default == True
-
-    # Test case 5: type_string is "array"
-    data = {"items": {"type": "string"}, "minItems": 1, "maxItems": 10, "uniqueItems": True, "default": ["item1", "item2"]}
-    field = from_json_schema_type(data, "array", False, definitions)
-    assert isinstance(field, Array)
-    assert field.min_items == 1
-    assert field.max_items == 10
-    assert field.unique_items == True
-    assert field.default == ["item1", "item2"]
-
-    # Test case 6: type_string is "object"
-    data = {"properties": {"name": {"type": "string"}, "age": {"type": "integer"}}, "minProperties": 1, "maxProperties": 2, "required": ["name"], "default": {"name": "John", "age": 30}}
-    field = from_json_schema_type(data, "object", False, definitions)
-    assert isinstance(field, Object)
-    assert field.properties["name"].__class__.__name__ == "String"
-    assert field.properties["age"].__class__.__name__ == "Integer"
+    assert "name" in field.properties
+    assert isinstance(field.properties["name"], String)
     assert field.min_properties == 1
     assert field.max_properties == 2
     assert field.required == ["name"]
-    assert field.default == {"name": "John", "age": 30}
+    assert field.default == {"name": "test"}
 
-    # Test case 7: type_string is "null"
-    data = {}
-    field = from_json_schema_type(data, "null", True, definitions)
-    assert isinstance(field, Const)
-    assert field.const is None
+    # Test with allow_null=True
+    data = {
+        "type": "string",
+        "default": None
+    }
+    field = from_json_schema_type(data, "string", True, Definitions())
+    assert field.allow_null == True
+    assert field.default == None
 
-    # Test case 8: type_string is not recognized
+    # Test with invalid type_string
     try:
-        from_json_schema_type({}, "unknown", False, definitions)
-        assert False, "Expected an assertion error"
+        from_json_schema_type({}, "invalid", False, Definitions())
+        assert False, "Expected assertion error"
     except AssertionError as e:
-        assert str(e) == "Invalid argument type_string='unknown'"
-
-    print("All test cases pass")
-
-test_from_json_schema_type()
-
-
-# LLM-generated content at query #17
-#--------------------------
-
-# Unit test for function if_then_else_from_json_schema
-def test_if_then_else_from_json_schema():<｜end▁of▁thinking｜>```python
-import pytest
-from typesystem.fields import Integer, String
-from typesystem.composites import IfThenElse
-from typesystem.json_schema import if_then_else_from_json_schema
-
-
-
-# LLM-generated content at query #18
-#--------------------------
-
-# Unit test for function to_json_schema
-def test_to_json_schema():<｜end▁of▁thinking｜>We are going to write unit tests for the `to_json_schema` function. We'll test various field types and their JSON schema representations.
-
-Let's start by importing necessary modules and defining the test function.
-
-```python
-import json
-import re
-from typing import Union
-
-from typesystem.fields import (
-    Any, NeverMatch, Reference, String, Integer, Float, Decimal, Boolean, Array,
-    Object, Schema, Choice, Const, Union as UnionField, OneOf, AllOf, IfThenElse, Not
-)
-from typesystem.definitions import Definitions
-from typesystem.json_schema import to_json_schema
-
-
-
-# LLM-generated content at query #19
-#--------------------------
-
-# Unit test for function one_of_from_json_schema
-def test_one_of_from_json_schema():
-
-
-# LLM-generated content at query #20
-#--------------------------
-
-# Unit test for function one_of_from_json_schema
-def test_one_of_from_json_schema():
-
-
-# LLM-generated content at query #21
-#--------------------------
-
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():<｜end▁of▁thinking｜>```python
+        assert str(e) == "Invalid argument type_string='invalid'"
 
 
 # LLM-generated content at query #22
 #--------------------------
 
-# Unit test for function if_then_else_from_json_schema
-def test_if_then_else_from_json_schema():<｜end▁of▁thinking｜>We need to write a unit test for the `if_then_else_from_json_schema` function. Let's first understand what this function does:
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    definitions = Definitions()
+    data = {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "pattern": "^[a-z]+$",
+        "format": "email",
+        "default": "test@example.com"
+    }
+    field = from_json_schema_type(data, "string", False, definitions)
+    assert isinstance(field, String)
+    assert field.min_length == 1
+    assert field.max_length == 10
+    assert field.pattern == re.compile("^[a-z]+$")
+    assert field.format == "email"
+    assert field.default == "test@example.com"
 
-It takes a JSON schema object with "if", "then", and optionally "else" keys, and converts it into an `IfThenElse` field from the typesystem.
+    data = {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 11,
+        "multipleOf": 2,
+        "default": 2
+    }
+    field = from_json_schema_type(data, "integer", False, definitions)
+    assert isinstance(field, Integer)
+    assert field.minimum == 1
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 11
+    assert field.multiple_of == 2
+    assert field.default == 2
 
-Looking at the code:
-- It extracts "if", "then", and "else" from the data dictionary.
-- It converts each using `from_json_schema` with the given definitions.
-- It creates an `IfThenElse` field with these clauses.
+    data = {
+        "type": "number",
+        "minimum": 1.0,
+        "maximum": 10.0,
+        "exclusiveMinimum": 0.0,
+        "exclusiveMaximum": 11.0,
+        "multipleOf": 2.0,
+        "default": 2.0
+    }
+    field = from_json_schema_type(data, "number", False, definitions)
+    assert isinstance(field, Float)
+    assert field.minimum == 1.0
+    assert field.maximum == 10.0
+    assert field.exclusive_minimum == 0.0
+    assert field.exclusive_maximum == 11.0
+    assert field.multiple_of == 2.0
+    assert field.default == 2.0
 
-We should test:
-1. Basic if-then-else conversion.
-2. If-then without else.
-3. With nested schemas.
-4. With references in definitions.
+    data = {
+        "type": "boolean",
+        "default": True
+    }
+    field = from_json_schema_type(data, "boolean", False, definitions)
+    assert isinstance(field, Boolean)
+    assert field.default is True
 
-Let's write the test:
+    data = {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1,
+        "maxItems": 10,
+        "uniqueItems": True,
+        "default": ["test"]
+    }
+    field = from_json_schema_type(data, "array", False, definitions)
+    assert isinstance(field, Array)
+    assert isinstance(field.items, String)
+    assert field.min_items == 1
+    assert field.max_items == 10
+    assert field.unique_items is True
+    assert field.default == ["test"]
 
-```python
-import pytest
-from typesystem.fields import IfThenElse, String, Integer, Object, Boolean
-from typesystem.schemas import Definitions
-from typesystem.json_schema import if_then_else_from_json_schema, from_json_schema
-
+    data = {
+        "type": "object",
+        "properties": {
+            "name": {"type": "string"}
+        },
+        "required": ["name"],
+        "minProperties": 1,
+        "maxProperties": 2,
+        "default": {"name": "test"}
+    }
+    field = from_json_schema_type(data, "object", False, definitions)
+    assert isinstance(field, Object)
+    assert "name" in field.properties
+    assert isinstance(field.properties["name"], String)
+    assert field.required == ["name"]
+    assert field.min_properties == 1
+    assert field.max_properties == 2
+    assert field.default == {"name": "test"}
 
 
 # LLM-generated content at query #23
 #--------------------------
 
-# Unit test for function one_of_from_json_schema
-def test_one_of_from_json_schema():<｜end▁of▁thinking｜>```python
-import pytest
-from typesystem.fields import String, Integer, Array
-from typesystem.composites import OneOf
-from typesystem.schemas import Definitions
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    # Test with number type
+    data = {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 100,
+        "multipleOf": 2,
+        "default": 10,
+    }
+    field = from_json_schema_type(data, "number", False, Definitions())
+    assert isinstance(field, Float)
+    assert field.minimum == 0
+    assert field.maximum == 100
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 100
+    assert field.multiple_of == 2
+    assert field.default == 10
 
+    # Test with integer type
+    data = {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 100,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 100,
+        "multipleOf": 2,
+        "default": 10,
+    }
+    field = from_json_schema_type(data, "integer", False, Definitions())
+    assert isinstance(field, Integer)
+    assert field.minimum == 0
+    assert field.maximum == 100
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 100
+    assert field.multiple_of == 2
+    assert field.default == 10
+
+    # Test with string type
+    data = {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "format": "email",
+        "pattern": "^[a-z]+$",
+        "default": "test",
+    }
+    field = from_json_schema_type(data, "string", False, Definitions())
+    assert isinstance(field, String)
+    assert field.min_length == 1
+    assert field.max_length == 10
+    assert field.format == "email"
+    assert field.pattern == re.compile("^[a-z]+$")
+    assert field.default == "test"
+
+    # Test with boolean type
+    data = {"type": "boolean", "default": True}
+    field = from_json_schema_type(data, "boolean", False, Definitions())
+    assert isinstance(field, Boolean)
+    assert field.default == True
+
+    # Test with array type
+    data = {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1,
+        "maxItems": 10,
+        "uniqueItems": True,
+        "default": ["test"],
+    }
+    field = from_json_schema_type(data, "array", False, Definitions())
+    assert isinstance(field, Array)
+    assert isinstance(field.items, String)
+    assert field.min_items == 1
+    assert field.max_items == 10
+    assert field.unique_items == True
+    assert field.default == ["test"]
+
+    # Test with object type
+    data = {
+        "type": "object",
+        "properties": {"name": {"type": "string"}},
+        "minProperties": 1,
+        "maxProperties": 10,
+        "required": ["name"],
+        "default": {"name": "test"},
+    }
+    field = from_json_schema_type(data, "object", False, Definitions())
+    assert isinstance(field, Object)
+    assert "name" in field.properties
+    assert isinstance(field.properties["name"], String)
+    assert field.min_properties == 1
+    assert field.max_properties == 10
+    assert field.required == ["name"]
+    assert field.default == {"name": "test"}
 
 
 # LLM-generated content at query #24
 #--------------------------
 
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():<｜end▁of▁thinking｜>```python
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    # Test case for 'number' type
+    data = {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 11,
+        "multipleOf": 2,
+        "default": 3,
+    }
+    field = from_json_schema_type(data, "number", False, Definitions())
+    assert isinstance(field, Float)
+    assert field.minimum == 1
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 11
+    assert field.multiple_of == 2
+    assert field.default == 3
+
+    # Test case for 'integer' type
+    data = {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 11,
+        "multipleOf": 2,
+        "default": 3,
+    }
+    field = from_json_schema_type(data, "integer", False, Definitions())
+    assert isinstance(field, Integer)
+    assert field.minimum == 1
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 11
+    assert field.multiple_of == 2
+    assert field.default == 3
+
+    # Test case for 'string' type
+    data = {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "format": "email",
+        "pattern": "^[a-z]+$",
+        "default": "test",
+    }
+    field = from_json_schema_type(data, "string", False, Definitions())
+    assert isinstance(field, String)
+    assert field.min_length == 1
+    assert field.max_length == 10
+    assert field.format == "email"
+    assert field.pattern == "^[a-z]+$"
+    assert field.default == "test"
+
+    # Test case for 'boolean' type
+    data = {"type": "boolean", "default": True}
+    field = from_json_schema_type(data, "boolean", False, Definitions())
+    assert isinstance(field, Boolean)
+    assert field.default == True
+
+    # Test case for 'array' type
+    data = {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1,
+        "maxItems": 10,
+        "uniqueItems": True,
+        "default": ["test"],
+    }
+    field = from_json_schema_type(data, "array", False, Definitions())
+    assert isinstance(field, Array)
+    assert isinstance(field.items, String)
+    assert field.min_items == 1
+    assert field.max_items == 10
+    assert field.unique_items == True
+    assert field.default == ["test"]
+
+    # Test case for 'object' type
+    data = {
+        "type": "object",
+        "properties": {"name": {"type": "string"}},
+        "minProperties": 1,
+        "maxProperties": 10,
+        "required": ["name"],
+        "default": {"name": "test"},
+    }
+    field = from_json_schema_type(data, "object", False, Definitions())
+    assert isinstance(field, Object)
+    assert isinstance(field.properties["name"], String)
+    assert field.min_properties == 1
+    assert field.max_properties == 10
+    assert field.required == ["name"]
+    assert field.default == {"name": "test"}
 
 
 # LLM-generated content at query #25
 #--------------------------
 
-# Unit test for function enum_from_json_schema
-def test_enum_from_json_schema():
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    definitions = Definitions()
+    data = {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "pattern": "^[a-z]+$",
+        "default": "test"
+    }
+    field = from_json_schema_type(data, "string", False, definitions)
+    assert isinstance(field, String)
+    assert field.min_length == 1
+    assert field.max_length == 10
+    assert field.pattern == re.compile("^[a-z]+$")
+    assert field.default == "test"
+
+    data = {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 11,
+        "multipleOf": 2,
+        "default": 4
+    }
+    field = from_json_schema_type(data, "number", False, definitions)
+    assert isinstance(field, Float)
+    assert field.minimum == 1
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 11
+    assert field.multiple_of == 2
+    assert field.default == 4
+
+    data = {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 11,
+        "multipleOf": 2,
+        "default": 4
+    }
+    field = from_json_schema_type(data, "integer", False, definitions)
+    assert isinstance(field, Integer)
+    assert field.minimum == 1
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 11
+    assert field.multiple_of == 2
+    assert field.default == 4
+
+    data = {
+        "type": "boolean",
+        "default": True
+    }
+    field = from_json_schema_type(data, "boolean", False, definitions)
+    assert isinstance(field, Boolean)
+    assert field.default == True
+
+    data = {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1,
+        "maxItems": 10,
+        "uniqueItems": True,
+        "default": ["test"]
+    }
+    field = from_json_schema_type(data, "array", False, definitions)
+    assert isinstance(field, Array)
+    assert isinstance(field.items, String)
+    assert field.min_items == 1
+    assert field.max_items == 10
+    assert field.unique_items == True
+    assert field.default == ["test"]
+
+    data = {
+        "type": "object",
+        "properties": {"name": {"type": "string"}},
+        "required": ["name"],
+        "default": {"name": "test"}
+    }
+    field = from_json_schema_type(data, "object", False, definitions)
+    assert isinstance(field, Object)
+    assert "name" in field.properties
+    assert isinstance(field.properties["name"], String)
+    assert field.required == ["name"]
+    assert field.default == {"name": "test"}
+
+
+# LLM-generated content at query #26
+#--------------------------
+
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    definitions = Definitions()
+    
+    # Test number type
+    data = {"type": "number", "minimum": 1, "maximum": 10, "exclusiveMinimum": 0.5, "exclusiveMaximum": 10.5, "multipleOf": 2, "default": 5}
+    field = from_json_schema_type(data, "number", False, definitions)
+    assert isinstance(field, Float)
+    assert field.minimum == 1
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0.5
+    assert field.exclusive_maximum == 10.5
+    assert field.multiple_of == 2
+    assert field.default == 5
+    
+    # Test integer type
+    data = {"type": "integer", "minimum": 1, "maximum": 10, "exclusiveMinimum": 0, "exclusiveMaximum": 11, "multipleOf": 2, "default": 5}
+    field = from_json_schema_type(data, "integer", False, definitions)
+    assert isinstance(field, Integer)
+    assert field.minimum == 1
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 11
+    assert field.multiple_of == 2
+    assert field.default == 5
+    
+    # Test string type
+    data = {"type": "string", "minLength": 1, "maxLength": 10, "format": "email", "pattern": "^[a-z]+$", "default": "test"}
+    field = from_json_schema_type(data, "string", False, definitions)
+    assert isinstance(field, String)
+    assert field.min_length == 1
+    assert field.max_length == 10
+    assert field.format == "email"
+    assert field.pattern == re.compile("^[a-z]+$")
+    assert field.default == "test"
+    
+    # Test boolean type
+    data = {"type": "boolean", "default": True}
+    field = from_json_schema_type(data, "boolean", False, definitions)
+    assert isinstance(field, Boolean)
+    assert field.default == True
+    
+    # Test array type
+    data = {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 10, "uniqueItems": True, "default": ["test"]}
+    field = from_json_schema_type(data, "array", False, definitions)
+    assert isinstance(field, Array)
+    assert isinstance(field.items, String)
+    assert field.min_items == 1
+    assert field.max_items == 10
+    assert field.unique_items == True
+    assert field.default == ["test"]
+    
+    # Test object type
+    data = {"type": "object", "properties": {"name": {"type": "string"}}, "minProperties": 1, "maxProperties": 10, "required": ["name"], "default": {"name": "test"}}
+    field = from_json_schema_type(data, "object", False, definitions)
+    assert isinstance(field, Object)
+    assert "name" in field.properties
+    assert isinstance(field.properties["name"], String)
+    assert field.min_properties == 1
+    assert field.max_properties == 10
+    assert field.required == ["name"]
+    assert field.default == {"name": "test"}
+
+
+# LLM-generated content at query #27
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+    from typesystem.fields import String, Integer, Boolean, Array, Object, Reference, Schema, Choice, Const, Union, OneOf, AllOf, IfThenElse, Not, Any, NeverMatch
+    from typesystem.schemas import Definitions
+
+    # Test Any
+    assert to_json_schema(Any()) == True
+
+    # Test NeverMatch
+    assert to_json_schema(NeverMatch()) == False
+
+    # Test String
+    string_field = String(allow_null=True, min_length=1, max_length=10, pattern="^[a-zA-Z]+$", format="email")
+    assert to_json_schema(string_field) == {
+        "type": ["string", "null"],
+        "minLength": 1,
+        "maxLength": 10,
+        "pattern": "^[a-zA-Z]+$",
+        "format": "email"
+    }
+
+    # Test Integer
+    integer_field = Integer(allow_null=True, minimum=1, maximum=10, exclusive_minimum=0, exclusive_maximum=11, multiple_of=2)
+    assert to_json_schema(integer_field) == {
+        "type": ["integer", "null"],
+        "minimum": 1,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 11,
+        "multipleOf": 2
+    }
+
+    # Test Boolean
+    boolean_field = Boolean(allow_null=True)
+    assert to_json_schema(boolean_field) == {
+        "type": ["boolean", "null"]
+    }
+
+    # Test Array
+    array_field = Array(allow_null=True, min_items=1, max_items=10, items=String(), additional_items=True, unique_items=True)
+    assert to_json_schema(array_field) == {
+        "type": ["array", "null"],
+        "minItems": 1,
+        "maxItems": 10,
+        "items": {
+            "type": "string"
+        },
+        "additionalItems": True,
+        "uniqueItems": True
+    }
+
+    # Test Object
+    object_field = Object(allow_null=True, properties={"name": String()}, pattern_properties={"^[a-z]+$": Integer()}, additional_properties=True, property_names=String(), min_properties=1, max_properties=10, required=["name"])
+    assert to_json_schema(object_field) == {
+        "type": ["object", "null"],
+        "properties": {
+            "name": {
+                "type": "string"
+            }
+        },
+        "patternProperties": {
+            "^[a-z]+$": {
+                "type": "integer"
+            }
+        },
+        "additionalProperties": True,
+        "propertyNames": {
+            "type": "string"
+        },
+        "minProperties": 1,
+        "maxProperties": 10,
+        "required": ["name"]
+    }
+
+    # Test Schema
+    schema_field = Schema(allow_null=True, fields={"name": String()}, required=["name"])
+    assert to_json_schema(schema_field) == {
+        "type": ["object", "null"],
+        "properties": {
+            "name": {
+                "type": "string"
+            }
+        },
+        "required": ["name"]
+    }
+
+    # Test Choice
+    choice_field = Choice(choices=[("a", "A"), ("b", "B")])
+    assert to_json_schema(choice_field) == {
+        "enum": ["a", "b"]
+    }
+
+    # Test Const
+    const_field = Const(const="constant")
+    assert to_json_schema(const_field) == {
+        "const": "constant"
+    }
+
+    # Test Union
+    union_field = Union(any_of=[String(), Integer()])
+    assert to_json_schema(union_field) == {
+        "anyOf": [
+            {"type": "string"},
+            {"type": "integer"}
+        ]
+    }
+
+    # Test OneOf
+    one_of_field = OneOf(one_of=[String(), Integer()])
+    assert to_json_schema(one_of_field) == {
+        "oneOf": [
+            {"type": "string"},
+            {"type": "integer"}
+        ]
+    }
+
+    # Test AllOf
+    all_of_field = AllOf(all_of=[String(), Integer()])
+    assert to_json_schema(all_of_field) == {
+        "allOf": [
+            {"type": "string"},
+            {"type": "integer"}
+        ]
+    }
+
+    # Test IfThenElse
+    if_then_else_field = IfThenElse(if_clause=String(), then_clause=Integer(), else_clause=Boolean())
+    assert to_json_schema(if_then_else_field) == {
+        "if": {"type": "string"},
+        "then": {"type": "integer"},
+        "else": {"type": "boolean"}
+    }
+
+    # Test Not
+    not_field = Not(negated=String())
+    assert to_json_schema(not_field) == {
+        "not": {"type": "string"}
+    }
+
+    # Test Reference
+    definitions = Definitions({"MySchema": Schema(fields={"name": String()})})
+    reference_field = Reference(to="MySchema", definitions=definitions)
+    assert to_json_schema(reference_field) == {
+        "$ref": "#/components/schemas/MySchema",
+        "components": {
+            "schemas": {
+                "MySchema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
 # LLM-generated content at query #1
 #--------------------------
 
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():
+# Unit test for function to_json_schema
+def test_to_json_schema():
+    assert to_json_schema(Any()) is True
+    assert to_json_schema(NeverMatch()) is False
+    assert to_json_schema(String(allow_null=True)) == {
+        "type": ["string", "null"],
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(Integer(allow_null=True)) == {
+        "type": ["integer", "null"],
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(Float(allow_null=True)) == {
+        "type": ["number", "null"],
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(Boolean(allow_null=True)) == {
+        "type": ["boolean", "null"],
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(Array(allow_null=True)) == {
+        "type": ["array", "null"],
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(Object(allow_null=True)) == {
+        "type": ["object", "null"],
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(Schema(allow_null=True)) == {
+        "type": ["object", "null"],
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(Choice(choices=[("a", "a")])) == {
+        "enum": ["a"],
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(Const(const="a")) == {
+        "const": "a",
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(Union(any_of=[String(), Integer()])) == {
+        "anyOf": [{"type": "string", "default": NO_DEFAULT}, {"type": "integer", "default": NO_DEFAULT}],
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(OneOf(one_of=[String(), Integer()])) == {
+        "oneOf": [{"type": "string", "default": NO_DEFAULT}, {"type": "integer", "default": NO_DEFAULT}],
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(AllOf(all_of=[String(), Integer()])) == {
+        "allOf": [{"type": "string", "default": NO_DEFAULT}, {"type": "integer", "default": NO_DEFAULT}],
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(IfThenElse(if_clause=String(), then_clause=Integer())) == {
+        "if": {"type": "string", "default": NO_DEFAULT},
+        "then": {"type": "integer", "default": NO_DEFAULT},
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(Not(negated=String())) == {
+        "not": {"type": "string", "default": NO_DEFAULT},
+        "default": NO_DEFAULT,
+    }
+    assert to_json_schema(Reference(to="a", definitions={"a": String()})) == {
+        "$ref": "#/components/schemas/a",
+        "components": {"schemas": {"a": {"type": "string", "default": NO_DEFAULT}}},
+    }
+    assert to_json_schema(Definitions({"a": String()})) == {
+        "components": {"schemas": {"a": {"type": "string", "default": NO_DEFAULT}}},
+    }
 
 
 # LLM-generated content at query #2
@@ -482,562 +1942,1352 @@ def test_ref_from_json_schema():
 
 # Unit test for function ref_from_json_schema
 def test_ref_from_json_schema():
+    definitions = Definitions()
+    data = {"$ref": "#/components/schemas/User"}
+    field = ref_from_json_schema(data, definitions=definitions)
+    assert isinstance(field, Reference)
+    assert field.to == "#/components/schemas/User"
+    assert field.definitions is definitions
 
 
 # LLM-generated content at query #3
 #--------------------------
 
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():
+# Unit test for function one_of_from_json_schema
+def test_one_of_from_json_schema():
+    definitions = Definitions()
+    data = {
+        "oneOf": [
+            {"type": "string"},
+            {"type": "number"}
+        ]
+    }
+    field = one_of_from_json_schema(data, definitions)
+    assert isinstance(field, OneOf)
+    assert len(field.one_of) == 2
+    assert isinstance(field.one_of[0], String)
+    assert isinstance(field.one_of[1], Float)
 
 
 # LLM-generated content at query #4
 #--------------------------
 
-# Unit test for function if_then_else_from_json_schema
-def test_if_then_else_from_json_schema():<｜end▁of▁thinking｜>We need to write a unit test for the `if_then_else_from_json_schema` function. Let's first understand what this function does.
+# Unit test for function type_from_json_schema
+def test_type_from_json_schema():
+    definitions = Definitions()
+    data_single_type = {"type": "string"}
+    field = type_from_json_schema(data_single_type, definitions=definitions)
+    assert isinstance(field, String)
+    assert not field.allow_null
 
-Looking at the code, `if_then_else_from_json_schema` takes a JSON schema dictionary that contains "if", optionally "then", and optionally "else" keys. It converts these into an `IfThenElse` field from the typesystem.
+    data_multiple_types = {"type": ["string", "null"]}
+    field = type_from_json_schema(data_multiple_types, definitions=definitions)
+    assert isinstance(field, String)
+    assert field.allow_null
 
-The `IfThenElse` constructor takes `if_clause`, `then_clause`, `else_clause`, and `default` arguments. The function extracts these from the data dictionary.
+    data_empty_type = {"type": []}
+    field = type_from_json_schema(data_empty_type, definitions=definitions)
+    assert isinstance(field, NeverMatch)
 
-We should test:
-1. Basic if-then-else conversion.
-2. Missing "then" clause (should be None).
-3. Missing "else" clause (should be None).
-4. With default value.
+    data_null_type = {"type": ["null"]}
+    field = type_from_json_schema(data_null_type, definitions=definitions)
+    assert isinstance(field, Const)
+    assert field.const is None
 
-We'll need to mock the `from_json_schema` function since it's called recursively. However, note that the function is defined in the same module. We can import it and patch it.
-
-But actually, we are writing a unit test for this specific function, so we should mock the calls to `from_json_schema` to return dummy fields.
-
-Let's write the test:
-
-```python
-import pytest
-from unittest.mock import patch, MagicMock
-from typesystem.fields import Field
-from typesystem.composites import IfThenElse
-
-# Assuming the function is in module `json_schema`
-from typesystem.json_schema import if_then_else_from_json_schema
-
+    data_invalid_type = {"type": "invalid"}
+    try:
+        type_from_json_schema(data_invalid_type, definitions=definitions)
+        assert False, "Expected a ValueError"
+    except ValueError:
+        pass
 
 
 # LLM-generated content at query #5
 #--------------------------
 
-# Unit test for function to_json_schema
-def test_to_json_schema():<｜end▁of▁thinking｜>We are going to write unit tests for the `to_json_schema` function. Since the function is complex and handles many field types, we will write a test for each field type.
+# Unit test for function from_json_schema
+def test_from_json_schema():
+    # Test with boolean input
+    assert isinstance(from_json_schema(True), Any)
+    assert isinstance(from_json_schema(False), NeverMatch)
 
-We'll start by importing the necessary modules and then define a test function for each field type.
+    # Test with dictionary input
+    schema = {"type": "string"}
+    assert isinstance(from_json_schema(schema), String)
 
-We'll also need to handle the `Definitions` type, but note that the function can also take a `Field` as input.
+    schema = {"type": "integer"}
+    assert isinstance(from_json_schema(schema), Integer)
 
-Let's write the tests step by step.
+    schema = {"type": "number"}
+    assert isinstance(from_json_schema(schema), Number)
 
-First, we need to import the required modules and the function we are testing.
+    schema = {"type": "boolean"}
+    assert isinstance(from_json_schema(schema), Boolean)
 
-```python
-import json
-import re
-from typing import Union
+    schema = {"type": "array", "items": {"type": "string"}}
+    assert isinstance(from_json_schema(schema), Array)
 
-from typesystem.fields import (
-    Any, NeverMatch, String, Integer, Float, Decimal, Boolean, Array, Object, Schema,
-    Choice, Const, Union as UnionField, OneOf, AllOf, IfThenElse, Not, Reference
-)
-from typesystem.definitions import Definitions
-from typesystem.json_schema import to_json_schema
-```
+    schema = {"type": "object", "properties": {"name": {"type": "string"}}}
+    assert isinstance(from_json_schema(schema), Object)
 
-Now, let's write a test for the `Any` field.
+    # Test with $ref
+    schema = {"$ref": "#/components/schemas/Person"}
+    assert isinstance(from_json_schema(schema), Reference)
 
-```python
+    # Test with enum
+    schema = {"enum": ["red", "green", "blue"]}
+    assert isinstance(from_json_schema(schema), Choice)
+
+    # Test with const
+    schema = {"const": "red"}
+    assert isinstance(from_json_schema(schema), Const)
+
+    # Test with allOf
+    schema = {"allOf": [{"type": "string"}, {"minLength": 5}]}
+    assert isinstance(from_json_schema(schema), AllOf)
+
+    # Test with anyOf
+    schema = {"anyOf": [{"type": "string"}, {"type": "number"}]}
+    assert isinstance(from_json_schema(schema), OneOf)
+
+    # Test with oneOf
+    schema = {"oneOf": [{"type": "string"}, {"type": "number"}]}
+    assert isinstance(from_json_schema(schema), OneOf)
+
+    # Test with not
+    schema = {"not": {"type": "string"}}
+    assert isinstance(from_json_schema(schema), Not)
+
+    # Test with if-then-else
+    schema = {"if": {"type": "string"}, "then": {"minLength": 5}, "else": {"type": "number"}}
+    assert isinstance(from_json_schema(schema), IfThenElse)
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for function if_then_else_from_json_schema
-def test_if_then_else_from_json_schema():
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+    definitions = Definitions()
+    reference_string = "#/components/schemas/test_schema"
+    data = {"$ref": reference_string}
+    result = ref_from_json_schema(data, definitions)
+    assert isinstance(result, Reference)
+    assert result.to == reference_string
+    assert result.definitions == definitions
 
 
 # LLM-generated content at query #7
 #--------------------------
 
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():<｜end▁of▁thinking｜>```python
-import pytest
-from typesystem import Reference, Definitions
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+    data = {
+        "if": {"type": "string"},
+        "then": {"type": "number"},
+        "else": {"type": "boolean"},
+    }
+    definitions = Definitions()
+    result = if_then_else_from_json_schema(data, definitions)
+    assert isinstance(result, IfThenElse)
+    assert isinstance(result.if_clause, Field)
+    assert isinstance(result.then_clause, Field)
+    assert isinstance(result.else_clause, Field)
+    assert result.default == NO_DEFAULT
 
+    data = {
+        "if": {"type": "string"},
+        "then": {"type": "number"},
+    }
+    definitions = Definitions()
+    result = if_then_else_from_json_schema(data, definitions)
+    assert isinstance(result, IfThenElse)
+    assert isinstance(result.if_clause, Field)
+    assert isinstance(result.then_clause, Field)
+    assert result.else_clause is None
+    assert result.default == NO_DEFAULT
+
+    data = {
+        "if": {"type": "string"},
+        "else": {"type": "boolean"},
+    }
+    definitions = Definitions()
+    result = if_then_else_from_json_schema(data, definitions)
+    assert isinstance(result, IfThenElse)
+    assert isinstance(result.if_clause, Field)
+    assert result.then_clause is None
+    assert isinstance(result.else_clause, Field)
+    assert result.default == NO_DEFAULT
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():<｜end▁of▁thinking｜>```python
-import pytest
-from typesystem import Reference, Definitions
-
+# Unit test for function if_then_else_from_json_schema
+def test_if_then_else_from_json_schema():
+    definitions = Definitions()
+    data = {
+        "if": {"type": "string"},
+        "then": {"type": "number"},
+        "else": {"type": "boolean"},
+    }
+    field = if_then_else_from_json_schema(data, definitions)
+    assert isinstance(field, IfThenElse)
+    assert isinstance(field.if_clause, String)
+    assert isinstance(field.then_clause, Float)
+    assert isinstance(field.else_clause, Boolean)
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for function if_then_else_from_json_schema
-def test_if_then_else_from_json_schema():<｜end▁of▁thinking｜>```python
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+    definitions = Definitions()
+    data = {"$ref": "#/components/schemas/User"}
+    field = ref_from_json_schema(data, definitions=definitions)
+    assert isinstance(field, Reference)
+    assert field.to == "#/components/schemas/User"
+    assert field.definitions is definitions
+
+    # Test with a different reference path
+    data = {"$ref": "#/definitions/User"}
+    field = ref_from_json_schema(data, definitions=definitions)
+    assert isinstance(field, Reference)
+    assert field.to == "#/definitions/User"
+    assert field.definitions is definitions
+
+    # Test with an invalid reference path (should still work but may not resolve properly)
+    data = {"$ref": "#/invalid/path"}
+    field = ref_from_json_schema(data, definitions=definitions)
+    assert isinstance(field, Reference)
+    assert field.to == "#/invalid/path"
+    assert field.definitions is definitions
 
 
 # LLM-generated content at query #10
 #--------------------------
 
 # Unit test for function to_json_schema
-def test_to_json_schema():<｜end▁of▁thinking｜>We are going to write unit tests for the `to_json_schema` function. We'll test various field types and their conversion to JSON schema.
+def test_to_json_schema():
+    # Test with Any field
+    any_field = Any()
+    assert to_json_schema(any_field) == True
 
-We'll create a test function that uses `pytest` and covers the following:
+    # Test with NeverMatch field
+    never_match_field = NeverMatch()
+    assert to_json_schema(never_match_field) == False
 
-1. **Any** field -> should return `True`
-2. **NeverMatch** field -> should return `False`
-3. **Reference** field -> should return a `$ref` and add the target to definitions
-4. **String** field -> should return a string type with possible constraints (minLength, maxLength, pattern, format, allow_null)
-5. **Integer** and **Float** fields -> should return number types with constraints (minimum, maximum, exclusiveMinimum, exclusiveMaximum, multipleOf, allow_null)
-6. **Boolean** field -> should return boolean type with allow_null
-7. **Array** field -> should return array type with constraints (minItems, maxItems, items, additionalItems, uniqueItems, allow_null)
-8. **Object** field -> should return object type with constraints (properties, patternProperties, additionalProperties, propertyNames, minProperties, maxProperties, required, allow_null)
-9. **Schema** field -> similar to Object but with fields and required
-10. **Choice** field -> should return an enum
-11. **Const** field -> should return a const
-12. **Union** field -> should return an anyOf
-13. **OneOf** field -> should return a oneOf
-14. **AllOf** field -> should return an allOf
-15. **IfThenElse** field -> should return if, then, else
-16. **Not** field -> should return a not
+    # Test with String field
+    string_field = String(allow_null=True, min_length=1, max_length=10, pattern="^[a-z]+$", format="email")
+    expected_string_schema = {
+        "type": ["string", "null"],
+        "minLength": 1,
+        "maxLength": 10,
+        "pattern": "^[a-z]+$",
+        "format": "email"
+    }
+    assert to_json_schema(string_field) == expected_string_schema
 
-We'll also test that the definitions are built correctly when there are references.
+    # Test with Integer field
+    integer_field = Integer(allow_null=True, minimum=0, maximum=100, multiple_of=5)
+    expected_integer_schema = {
+        "type": ["integer", "null"],
+        "minimum": 0,
+        "maximum": 100,
+        "multipleOf": 5
+    }
+    assert to_json_schema(integer_field) == expected_integer_schema
 
-Let's write the tests step by step.
+    # Test with Boolean field
+    boolean_field = Boolean(allow_null=True)
+    expected_boolean_schema = {
+        "type": ["boolean", "null"]
+    }
+    assert to_json_schema(boolean_field) == expected_boolean_schema
 
-Note: We are not testing the `from_json_schema` function in this unit test, but we might use it to verify round-trip conversion in some cases.
+    # Test with Array field
+    array_field = Array(
+        allow_null=True,
+        min_items=1,
+        max_items=10,
+        items=String(),
+        additional_items=False,
+        unique_items=True
+    )
+    expected_array_schema = {
+        "type": ["array", "null"],
+        "minItems": 1,
+        "maxItems": 10,
+        "items": {"type": "string"},
+        "additionalItems": False,
+        "uniqueItems": True
+    }
+    assert to_json_schema(array_field) == expected_array_schema
 
-We'll structure the tests as a class `TestToJsonSchema` with multiple test methods.
+    # Test with Object field
+    object_field = Object(
+        allow_null=True,
+        properties={"name": String()},
+        required=["name"],
+        additional_properties=False
+    )
+    expected_object_schema = {
+        "type": ["object", "null"],
+        "properties": {"name": {"type": "string"}},
+        "required": ["name"],
+        "additionalProperties": False
+    }
+    assert to_json_schema(object_field) == expected_object_schema
 
-We'll use `pytest` and `assert` statements.
+    # Test with Reference field
+    definitions = Definitions()
+    definitions["Person"] = Object(properties={"name": String()})
+    reference_field = Reference(to="Person", definitions=definitions)
+    expected_reference_schema = {
+        "$ref": "#/components/schemas/Person",
+        "components": {
+            "schemas": {
+                "Person": {
+                    "type": "object",
+                    "properties": {"name": {"type": "string"}}
+                }
+            }
+        }
+    }
+    assert to_json_schema(reference_field) == expected_reference_schema
 
-Let's start by importing the necessary modules and defining the test class.<｜end▁of▁thinking｜>We are going to write unit tests for the `to_json_schema` function. We'll test various field types and their conversion to JSON schema.
+    print("All tests passed!")
 
-We'll create a test function that uses `pytest` and covers the following:
-
-1. **Any** field -> should return `True`
-2. **NeverMatch** field -> should return `False`
-3. **Reference** field -> should return a `$ref` and add the target to definitions
-4. **String** field -> should return a string type with possible constraints (minLength, maxLength, pattern, format, allow_null)
-5. **Integer** and **Float** fields -> should return number types with constraints (minimum, maximum, exclusiveMinimum, exclusiveMaximum, multipleOf, allow_null)
-6. **Boolean** field -> should return boolean type with allow_null
-7. **Array** field -> should return array type with constraints (minItems, maxItems, items, additionalItems, uniqueItems, allow_null)
-8. **Object** field -> should return object type with constraints (properties, patternProperties, additionalProperties, propertyNames, minProperties, maxProperties, required, allow_null)
-9. **Schema** field -> similar to Object but with fields and required
-10. **Choice** field -> should return an enum
-11. **Const** field -> should return a const
-12. **Union** field -> should return an anyOf
-13. **OneOf** field -> should return a oneOf
-14. **AllOf** field -> should return an allOf
-15. **IfThenElse** field -> should return if, then, else
-16. **Not** field -> should return a not
-
-We'll also test that the definitions are built correctly when there are references.
-
-Let's write the tests step by step.
-
-Note: We are not testing the `from_json_schema` function in this unit test, but we might use it to verify round-trip conversion in some cases.
-
-We'll structure the tests as a class `TestToJsonSchema` with multiple test methods.
-
-We'll use `pytest` and `assert` statements.
-
-Let's start by importing the necessary modules and defining the test class.
+test_to_json_schema()
 
 
 # LLM-generated content at query #11
 #--------------------------
 
-# Unit test for function to_json_schema
-def test_to_json_schema():<｜end▁of▁thinking｜>We need to write unit tests for the `to_json_schema` function. The function converts a `Field` or `Definitions` object into a JSON schema dictionary.
-
-Let's start by importing necessary modules and defining the test function.
-
-We'll test various field types to ensure they are correctly converted.
-
-We'll structure the tests as follows:
-
-1. Test `Any` field -> should return `True`
-2. Test `NeverMatch` field -> should return `False`
-3. Test `String` field with various properties
-4. Test `Integer` field
-5. Test `Float` field
-6. Test `Boolean` field
-7. Test `Array` field
-8. Test `Object` field
-9. Test `Schema` field
-10. Test `Choice` field
-11. Test `Const` field
-12. Test `Union` field (anyOf)
-13. Test `OneOf` field
-14. Test `AllOf` field
-15. Test `IfThenElse` field
-16. Test `Not` field
-17. Test `Reference` field
-18. Test with `Definitions` (root level with definitions)
-
-We'll also test edge cases and default values.
-
-Let's write the test function.
-
-Note: We'll use the `pytest` framework for testing.
-
-We'll create a function `test_to_json_schema` that contains multiple test cases.
-
-We'll also need to import the necessary classes from `apistar.typesystem`.
-
-Let's write the code.<｜end▁of▁thinking｜>```python
-import re
-import pytest
-from apistar.typesystem import (
-    Any, NeverMatch, String, Integer, Float, Boolean, Array, Object, Schema,
-    Choice, Const, Union, OneOf, AllOf, IfThenElse, Not, Reference, Definitions
-)
-from apistar.typesystem.json_schema import to_json_schema
-
-
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+    definitions = Definitions()
+    data = {"$ref": "#/components/schemas/User"}
+    field = ref_from_json_schema(data, definitions=definitions)
+    assert isinstance(field, Reference)
+    assert field.to == "#/components/schemas/User"
+    assert field.definitions is definitions
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for function if_then_else_from_json_schema
-def test_if_then_else_from_json_schema():  
-    # Test case 1: Basic if-then-else schema  
-    data = {  
-        "if": {"type": "string"},  
-        "then": {"type": "string", "minLength": 5},  
-        "else": {"type": "number"}  
-    }  
-    definitions = Definitions()  
-    result = if_then_else_from_json_schema(data, definitions)  
-    assert isinstance(result, IfThenElse)  
-    assert isinstance(result.if_clause, String)  
-    assert isinstance(result.then_clause, String)  
-    assert result.then_clause.min_length == 5  
-    assert isinstance(result.else_clause, Float)  
-  
-    # Test case 2: Missing 'then' clause  
-    data = {  
-        "if": {"type": "boolean"},  
-        "else": {"type": "null"}  
-    }  
-    result = if_then_else_from_json_schema(data, definitions)  
-    assert isinstance(result, IfThenElse)  
-    assert isinstance(result.if_clause, Boolean)  
-    assert result.then_clause is None  
-    assert isinstance(result.else_clause, Const)  
-    assert result.else_clause.const is None  
-  
-    # Test case 3: Missing 'else' clause  
-    data = {  
-        "if": {"type": "integer"},  
-        "then": {"type": "integer", "minimum": 0}  
-    }  
-    result = if_then_else_from_json_schema(data, definitions)  
-    assert isinstance(result, IfThenElse)  
-    assert isinstance(result.if_clause, Integer)  
-    assert isinstance(result.then_clause, Integer)  
-    assert result.then_clause.minimum == 0  
-    assert result.else_clause is None  
-  
-    # Test case 4: Nested if-then-else  
-    data = {  
-        "if": {"type": "object"},  
-        "then": {  
-            "if": {"type": "array"},  
-            "then": {"type": "array", "minItems": 2},  
-            "else": {"type": "string"}  
-        },  
-        "else": {"type": "boolean"}  
-    }  
-    result = if_then_else_from_json_schema(data, definitions)  
-    assert isinstance(result, IfThenElse)  
-    assert isinstance(result.if_clause, Object)  
-    assert isinstance(result.then_clause, IfThenElse)  
-    assert isinstance(result.then_clause.if_clause, Array)  
-    assert isinstance(result.then_clause.then_clause, Array)  
-    assert result.then_clause.then_clause.min_items == 2  
-    assert isinstance(result.then_clause.else_clause, String)  
-    assert isinstance(result.else_clause, Boolean)  
-  
-    # Test case 5: Default value  
-    data = {  
-        "if": {"type": "string"},  
-        "then": {"type": "string", "default": "default_then"},  
-        "else": {"type": "number", "default": 42}  
-    }  
-    result = if_then_else_from_json_schema(data, definitions)  
-    assert result.default == NO_DEFAULT  # Default is not propagated to IfThenElse  
-  
-    # Test case 6: Complex conditions  
-    data = {  
-        "if": {"allOf": [{"type": "string"}, {"minLength": 3}]},  
-        "then": {"type": "string", "pattern": "^[A-Z]+$"},  
-        "else": {"type": "string", "pattern": "^[a-z]+$"}  
-    }  
-    result = if_then_else_from_json_schema(data, definitions)  
-    assert isinstance(result, IfThenElse)  
-    assert isinstance(result.if_clause, AllOf)  
-    assert len(result.if_clause.all_of) == 2  
-    assert isinstance(result.then_clause, String)  
-    assert result.then_clause.pattern == "^[A-Z]+$"  
-    assert isinstance(result.else_clause, String)  
-    assert result.else_clause.pattern == "^[a-z]+$"  
-  
-    print("All tests passed!")  
-  
-# Run the unit test  
-test_if_then_else_from_json_schema()
-
-
-# LLM-generated content at query #13
-#--------------------------
-
-# Unit test for function ref_from_json_schema
-def test_ref_from_json_schema():<｜end▁of▁thinking｜>```python
-import pytest
-from typesystem import Reference, Definitions
-
-
-
-# LLM-generated content at query #14
-#--------------------------
-
-# Unit test for function if_then_else_from_json_schema
-def test_if_then_else_from_json_schema():  
-    definitions = Definitions()  
-    data = {  
-        "if": {"type": "string"},  
-        "then": {"type": "string", "minLength": 5},  
-        "else": {"type": "integer"}  
-    }  
-    result = if_then_else_from_json_schema(data, definitions)  
-    assert isinstance(result, IfThenElse)  
-    assert isinstance(result.if_clause, String)  
-    assert isinstance(result.then_clause, String)  
-    assert result.then_clause.min_length == 5  
-    assert isinstance(result.else_clause, Integer)  
-
-
-
-# LLM-generated content at query #15
-#--------------------------
-
-# Unit test for function one_of_from_json_schema
-def test_one_of_from_json_schema():<｜end▁of▁thinking｜>```python
-
-
-# LLM-generated content at query #16
-#--------------------------
-
 # Unit test for function from_json_schema_type
-def test_from_json_schema_type(): 
+def test_from_json_schema_type():
     definitions = Definitions()
     data = {"type": "string", "minLength": 5, "maxLength": 10}
     field = from_json_schema_type(data, "string", False, definitions)
     assert isinstance(field, String)
     assert field.min_length == 5
     assert field.max_length == 10
+    assert not field.allow_null
 
-    data = {"type": "integer", "minimum": 0, "maximum": 100}
+    data = {"type": "integer", "minimum": 1, "maximum": 100}
     field = from_json_schema_type(data, "integer", False, definitions)
     assert isinstance(field, Integer)
-    assert field.minimum == 0
+    assert field.minimum == 1
     assert field.maximum == 100
+    assert not field.allow_null
 
-    data = {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 100}
+    data = {"type": "number", "minimum": 1.0, "maximum": 100.0}
     field = from_json_schema_type(data, "number", False, definitions)
     assert isinstance(field, Float)
-    assert field.exclusive_minimum == 0
-    assert field.exclusive_maximum == 100
+    assert field.minimum == 1.0
+    assert field.maximum == 100.0
+    assert not field.allow_null
 
-    data = {"type": "boolean", "default": True}
+    data = {"type": "boolean"}
     field = from_json_schema_type(data, "boolean", False, definitions)
     assert isinstance(field, Boolean)
-    assert field.default is True
+    assert not field.allow_null
 
-    data = {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 5}
+    data = {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 10}
     field = from_json_schema_type(data, "array", False, definitions)
     assert isinstance(field, Array)
     assert isinstance(field.items, String)
     assert field.min_items == 1
-    assert field.max_items == 5
+    assert field.max_items == 10
+    assert not field.allow_null
 
-    data = {"type": "object", "properties": {"name": {"type": "string"}}, "required": ["name"]}
+    data = {"type": "object", "properties": {"name": {"type": "string"}}}
     field = from_json_schema_type(data, "object", False, definitions)
     assert isinstance(field, Object)
-    assert "name" in field.properties
     assert isinstance(field.properties["name"], String)
-    assert field.required == ["name"]
+    assert not field.allow_null
 
-    data = {"type": "string", "allow_null": True}
-    field = from_json_schema_type(data, "string", True, definitions)
-    assert field.allow_null is True
 
-    data = {"type": "string", "pattern": "^[a-z]+$"}
+# LLM-generated content at query #13
+#--------------------------
+
+# Unit test for function ref_from_json_schema
+def test_ref_from_json_schema():
+    definitions = Definitions()
+    definitions["#/components/schemas/User"] = String()
+    
+    # Test with a valid reference
+    data = {"$ref": "#/components/schemas/User"}
+    field = ref_from_json_schema(data, definitions)
+    assert isinstance(field, Reference)
+    assert field.to == "#/components/schemas/User"
+    
+    # Test with an unsupported reference format (should raise an assertion error)
+    try:
+        data = {"$ref": "http://example.com/schema#/User"}
+        ref_from_json_schema(data, definitions)
+        assert False, "Expected assertion error for unsupported $ref style"
+    except AssertionError as e:
+        assert str(e) == "Unsupported $ref style in document."
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+    # Test case 1: Test with Any field
+    field = Any()
+    result = to_json_schema(field)
+    assert result == True
+
+    # Test case 2: Test with NeverMatch field
+    field = NeverMatch()
+    result = to_json_schema(field)
+    assert result == False
+
+    # Test case 3: Test with String field
+    field = String()
+    result = to_json_schema(field)
+    assert result == {'type': 'string'}
+
+    # Test case 4: Test with Integer field
+    field = Integer()
+    result = to_json_schema(field)
+    assert result == {'type': 'integer'}
+
+    # Test case 5: Test with Float field
+    field = Float()
+    result = to_json_schema(field)
+    assert result == {'type': 'number'}
+
+    # Test case 6: Test with Boolean field
+    field = Boolean()
+    result = to_json_schema(field)
+    assert result == {'type': 'boolean'}
+
+    # Test case 7: Test with Array field
+    field = Array(items=String())
+    result = to_json_schema(field)
+    assert result == {'type': 'array', 'items': {'type': 'string'}}
+
+    # Test case 8: Test with Object field
+    field = Object(properties={'name': String()})
+    result = to_json_schema(field)
+    assert result == {'type': 'object', 'properties': {'name': {'type': 'string'}}}
+
+    # Test case 9: Test with Choice field
+    field = Choice(choices=[('a', 'a')])
+    result = to_json_schema(field)
+    assert result == {'enum': ['a']}
+
+    # Test case 10: Test with Const field
+    field = Const(const='a')
+    result = to_json_schema(field)
+    assert result == {'const': 'a'}
+
+    # Test case 11: Test with Union field
+    field = Union(any_of=[String(), Integer()])
+    result = to_json_schema(field)
+    assert result == {'anyOf': [{'type': 'string'}, {'type': 'integer'}]}
+
+    # Test case 12: Test with OneOf field
+    field = OneOf(one_of=[String(), Integer()])
+    result = to_json_schema(field)
+    assert result == {'oneOf': [{'type': 'string'}, {'type': 'integer'}]}
+
+    # Test case 13: Test with AllOf field
+    field = AllOf(all_of=[String(), Integer()])
+    result = to_json_schema(field)
+    assert result == {'allOf': [{'type': 'string'}, {'type': 'integer'}]}
+
+    # Test case 14: Test with IfThenElse field
+    field = IfThenElse(if_clause=String(), then_clause=Integer())
+    result = to_json_schema(field)
+    assert result == {'if': {'type': 'string'}, 'then': {'type': 'integer'}}
+
+    # Test case 15: Test with Not field
+    field = Not(negated=String())
+    result = to_json_schema(field)
+    assert result == {'not': {'type': 'string'}}
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+# Unit test for function from_json_schema
+def test_from_json_schema():
+    # Test case 1: Boolean input (True)
+    result = from_json_schema(True)
+    assert isinstance(result, Any)
+
+    # Test case 2: Boolean input (False)
+    result = from_json_schema(False)
+    assert isinstance(result, NeverMatch)
+
+    # Test case 3: Dictionary input with $ref
+    schema = {"$ref": "#/components/schemas/Example"}
+    result = from_json_schema(schema)
+    assert isinstance(result, Reference)
+
+    # Test case 4: Dictionary input with type constraints
+    schema = {"type": "string", "minLength": 5}
+    result = from_json_schema(schema)
+    assert isinstance(result, String)
+    assert result.min_length == 5
+
+    # Test case 5: Dictionary input with enum
+    schema = {"enum": ["red", "green", "blue"]}
+    result = from_json_schema(schema)
+    assert isinstance(result, Choice)
+    assert result.choices == [("red", "red"), ("green", "green"), ("blue", "blue")]
+
+    # Test case 6: Dictionary input with const
+    schema = {"const": "example"}
+    result = from_json_schema(schema)
+    assert isinstance(result, Const)
+    assert result.const == "example"
+
+    # Test case 7: Dictionary input with allOf
+    schema = {"allOf": [{"type": "string"}, {"minLength": 3}]}
+    result = from_json_schema(schema)
+    assert isinstance(result, AllOf)
+
+    # Test case 8: Dictionary input with anyOf
+    schema = {"anyOf": [{"type": "string"}, {"type": "number"}]}
+    result = from_json_schema(schema)
+    assert isinstance(result, OneOf)
+
+    # Test case 9: Dictionary input with oneOf
+    schema = {"oneOf": [{"type": "string"}, {"type": "number"}]}
+    result = from_json_schema(schema)
+    assert isinstance(result, OneOf)
+
+    # Test case 10: Dictionary input with not
+    schema = {"not": {"type": "string"}}
+    result = from_json_schema(schema)
+    assert isinstance(result, Not)
+
+    # Test case 11: Dictionary input with if-then-else
+    schema = {"if": {"type": "string"}, "then": {"minLength": 5}, "else": {"type": "number"}}
+    result = from_json_schema(schema)
+    assert isinstance(result, IfThenElse)
+
+    # Test case 12: Dictionary input with multiple constraints
+    schema = {"type": "string", "minLength": 5, "enum": ["hello", "world"]}
+    result = from_json_schema(schema)
+    assert isinstance(result, AllOf)
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+    def assert_json_schema_equal(expected, actual):
+        assert json.dumps(expected, sort_keys=True) == json.dumps(
+            actual, sort_keys=True
+        )
+
+    assert_json_schema_equal(True, to_json_schema(Any()))
+    assert_json_schema_equal(False, to_json_schema(NeverMatch()))
+
+    assert_json_schema_equal(
+        {"type": "string", "minLength": 1},
+        to_json_schema(String(min_length=1)),
+    )
+
+    assert_json_schema_equal(
+        {"type": "number", "minimum": 0, "maximum": 100},
+        to_json_schema(Float(minimum=0, maximum=100)),
+    )
+
+    assert_json_schema_equal(
+        {"type": "integer", "minimum": 0, "maximum": 100},
+        to_json_schema(Integer(minimum=0, maximum=100)),
+    )
+
+    assert_json_schema_equal(
+        {"type": "boolean"}, to_json_schema(Boolean())
+    )
+
+    assert_json_schema_equal(
+        {"type": "array", "items": {"type": "string"}},
+        to_json_schema(Array(items=String())),
+    )
+
+    assert_json_schema_equal(
+        {"type": "object", "properties": {"name": {"type": "string"}}},
+        to_json_schema(Object(properties={"name": String()})),
+    )
+
+    assert_json_schema_equal(
+        {"enum": ["red", "green", "blue"]},
+        to_json_schema(Choice(choices=[("red", "red"), ("green", "green"), ("blue", "blue")])),
+    )
+
+    assert_json_schema_equal(
+        {"const": "red"},
+        to_json_schema(Const(const="red")),
+    )
+
+    assert_json_schema_equal(
+        {"anyOf": [{"type": "string"}, {"type": "number"}]},
+        to_json_schema(Union(any_of=[String(), Float()])),
+    )
+
+    assert_json_schema_equal(
+        {"oneOf": [{"type": "string"}, {"type": "number"}]},
+        to_json_schema(OneOf(one_of=[String(), Float()])),
+    )
+
+    assert_json_schema_equal(
+        {"allOf": [{"type": "string"}, {"type": "number"}]},
+        to_json_schema(AllOf(all_of=[String(), Float()])),
+    )
+
+    assert_json_schema_equal(
+        {"if": {"type": "string"}, "then": {"type": "number"}},
+        to_json_schema(IfThenElse(if_clause=String(), then_clause=Float())),
+    )
+
+    assert_json_schema_equal(
+        {"not": {"type": "string"}},
+        to_json_schema(Not(negated=String())),
+    )
+
+    assert_json_schema_equal(
+        {"components": {"schemas": {"Person": {"type": "object", "properties": {"name": {"type": "string"}}}}}},
+        to_json_schema(Definitions({"Person": Object(properties={"name": String()})})),
+    )
+
+    assert_json_schema_equal(
+        {"$ref": "#/components/schemas/Person", "components": {"schemas": {"Person": {"type": "object", "properties": {"name": {"type": "string"}}}}}},
+        to_json_schema(Reference(to="Person", target=Object(properties={"name": String()}))),
+    )
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+    # Test with Any field
+    any_field = Any()
+    assert to_json_schema(any_field) == True
+
+    # Test with NeverMatch field
+    never_match_field = NeverMatch()
+    assert to_json_schema(never_match_field) == False
+
+    # Test with String field
+    string_field = String(allow_null=True, min_length=1, max_length=10, pattern="^[a-z]*$", format="email")
+    expected_string_schema = {
+        "type": ["string", "null"],
+        "minLength": 1,
+        "maxLength": 10,
+        "pattern": "^[a-z]*$",
+        "format": "email"
+    }
+    assert to_json_schema(string_field) == expected_string_schema
+
+    # Test with Integer field
+    integer_field = Integer(allow_null=True, minimum=1, maximum=100, multiple_of=2)
+    expected_integer_schema = {
+        "type": ["integer", "null"],
+        "minimum": 1,
+        "maximum": 100,
+        "multipleOf": 2
+    }
+    assert to_json_schema(integer_field) == expected_integer_schema
+
+    # Test with Boolean field
+    boolean_field = Boolean(allow_null=True)
+    expected_boolean_schema = {
+        "type": ["boolean", "null"]
+    }
+    assert to_json_schema(boolean_field) == expected_boolean_schema
+
+    # Test with Array field
+    array_field = Array(
+        allow_null=True,
+        min_items=1,
+        max_items=10,
+        items=String(),
+        additional_items=False,
+        unique_items=True
+    )
+    expected_array_schema = {
+        "type": ["array", "null"],
+        "minItems": 1,
+        "maxItems": 10,
+        "items": {"type": "string"},
+        "additionalItems": False,
+        "uniqueItems": True
+    }
+    assert to_json_schema(array_field) == expected_array_schema
+
+    # Test with Object field
+    object_field = Object(
+        allow_null=True,
+        properties={"name": String()},
+        required=["name"],
+        min_properties=1,
+        max_properties=2
+    )
+    expected_object_schema = {
+        "type": ["object", "null"],
+        "properties": {"name": {"type": "string"}},
+        "required": ["name"],
+        "minProperties": 1,
+        "maxProperties": 2
+    }
+    assert to_json_schema(object_field) == expected_object_schema
+
+    # Test with Choice field
+    choice_field = Choice(choices=[("a", "A"), ("b", "B")])
+    expected_choice_schema = {
+        "enum": ["a", "b"]
+    }
+    assert to_json_schema(choice_field) == expected_choice_schema
+
+    # Test with Const field
+    const_field = Const(const="test")
+    expected_const_schema = {
+        "const": "test"
+    }
+    assert to_json_schema(const_field) == expected_const_schema
+
+    # Test with Union field
+    union_field = Union(any_of=[String(), Integer()])
+    expected_union_schema = {
+        "anyOf": [{"type": "string"}, {"type": "integer"}]
+    }
+    assert to_json_schema(union_field) == expected_union_schema
+
+    # Test with AllOf field
+    all_of_field = AllOf(all_of=[String(min_length=1), String(max_length=10)])
+    expected_all_of_schema = {
+        "allOf": [{"type": "string", "minLength": 1}, {"type": "string", "maxLength": 10}]
+    }
+    assert to_json_schema(all_of_field) == expected_all_of_schema
+
+    # Test with IfThenElse field
+    if_then_else_field = IfThenElse(
+        if_clause=String(),
+        then_clause=Integer(),
+        else_clause=Boolean()
+    )
+    expected_if_then_else_schema = {
+        "if": {"type": "string"},
+        "then": {"type": "integer"},
+        "else": {"type": "boolean"}
+    }
+    assert to_json_schema(if_then_else_field) == expected_if_then_else_schema
+
+    # Test with Not field
+    not_field = Not(negated=String())
+    expected_not_schema = {
+        "not": {"type": "string"}
+    }
+    assert to_json_schema(not_field) == expected_not_schema
+
+    # Test with Reference field
+    definitions = {"Test": String()}
+    reference_field = Reference(to="Test", definitions=definitions)
+    expected_reference_schema = {
+        "$ref": "#/components/schemas/Test",
+        "components": {
+            "schemas": {
+                "Test": {"type": "string"}
+            }
+        }
+    }
+    assert to_json_schema(reference_field, _definitions=definitions) == expected_reference_schema
+
+    print("All tests passed!")
+
+test_to_json_schema()
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    definitions = Definitions()
+    data = {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 10,
+        "pattern": "^[a-zA-Z]+$",
+        "format": "email",
+        "default": "example@example.com"
+    }
     field = from_json_schema_type(data, "string", False, definitions)
-    assert field.pattern == "^[a-z]+$"
-
-    data = {"type": "array", "items": [{"type": "string"}, {"type": "integer"}], "additionalItems": False}
-    field = from_json_schema_type(data, "array", False, definitions)
-    assert isinstance(field.items, list)
-    assert len(field.items) == 2
-    assert isinstance(field.items[0], String)
-    assert isinstance(field.items[1], Integer)
-    assert field.additional_items is False
-
-    data = {"type": "object", "patternProperties": {"^[a-z]+$": {"type": "string"}}}
-    field = from_json_schema_type(data, "object", False, definitions)
-    assert "^[a-z]+$" in field.pattern_properties
-    assert isinstance(field.pattern_properties["^[a-z]+$"], String)
-
-    data = {"type": "object", "propertyNames": {"pattern": "^[a-z]+$"}}
-    field = from_json_schema_type(data, "object", False, definitions)
-    assert isinstance(field.property_names, String)
-    assert field.property_names.pattern == "^[a-z]+$"
-
-    data = {"type": "object", "additionalProperties": False}
-    field = from_json_schema_type(data, "object", False, definitions)
-    assert field.additional_properties is False
-
-    data = {"type": "object", "additionalProperties": {"type": "string"}}
-    field = from_json_schema_type(data, "object", False, definitions)
-    assert isinstance(field.additional_properties, String)
-
-    data = {"type": "array", "uniqueItems": True}
-    field = from_json_schema_type(data, "array", False, definitions)
-    assert field.unique_items is True
-
-    data = {"type": "string", "format": "email"}
-    field = from_json_schema_type(data, "string", False, definitions)
+    assert isinstance(field, String)
+    assert field.min_length == 5
+    assert field.max_length == 10
+    assert field.pattern == "^[a-zA-Z]+$"
     assert field.format == "email"
+    assert field.default == "example@example.com"
 
-    data = {"type": "integer", "multipleOf": 2}
+    data = {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 101,
+        "multipleOf": 2,
+        "default": 50
+    }
     field = from_json_schema_type(data, "integer", False, definitions)
+    assert isinstance(field, Integer)
+    assert field.minimum == 1
+    assert field.maximum == 100
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 101
     assert field.multiple_of == 2
+    assert field.default == 50
 
-    data = {"type": "number", "multipleOf": 0.5}
-    field = from_json_schema_type(data, "number", False, definitions)
-    assert field.multiple_of == 0.5
-
-    data = {"type": "string", "default": "hello"}
-    field = from_json_schema_type(data, "string", False, definitions)
-    assert field.default == "hello"
-
-    data = {"type": "integer", "default": 42}
-    field = from_json_schema_type(data, "integer", False, definitions)
-    assert field.default == 42
-
-    data = {"type": "boolean", "default": False}
+    data = {
+        "type": "boolean",
+        "default": True
+    }
     field = from_json_schema_type(data, "boolean", False, definitions)
-    assert field.default is False
+    assert isinstance(field, Boolean)
+    assert field.default == True
 
-    data = {"type": "array", "default": []}
+    data = {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1,
+        "maxItems": 5,
+        "uniqueItems": True,
+        "default": ["item1"]
+    }
     field = from_json_schema_type(data, "array", False, definitions)
-    assert field.default == []
+    assert isinstance(field, Array)
+    assert field.min_items == 1
+    assert field.max_items == 5
+    assert field.unique_items == True
+    assert field.default == ["item1"]
 
-    data = {"type": "object", "default": {}}
+    data = {
+        "type": "object",
+        "properties": {
+            "name": {"type": "string"},
+            "age": {"type": "integer"}
+        },
+        "minProperties": 1,
+        "maxProperties": 2,
+        "required": ["name"],
+        "default": {"name": "John", "age": 30}
+    }
     field = from_json_schema_type(data, "object", False, definitions)
-    assert field.default == {}
+    assert isinstance(field, Object)
+    assert field.min_properties == 1
+    assert field.max_properties == 2
+    assert field.required == ["name"]
+    assert field.default == {"name": "John", "age": 30}
 
-    data = {"type": "string", "allow_blank": True}
-    field = from_json_schema_type(data, "string", False, definitions)
-    assert field.allow_blank is True
 
-    data = {"type": "string", "allow_blank": False}
-    field = from_json_schema_type(data, "string", False, definitions)
-    assert field.allow_blank is False
+# LLM-generated content at query #19
+#--------------------------
 
-    data = {"type": "string", "min_length": 0}
-    field = from_json_schema_type(data, "string", False, definitions)
-    assert field.allow_blank is True
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    # Test with type "number"
+    data = {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 10,
+        "multipleOf": 2,
+        "default": 4,
+    }
+    field = from_json_schema_type(data, "number", False, Definitions())
+    assert isinstance(field, Float)
+    assert field.minimum == 0
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 10
+    assert field.multiple_of == 2
+    assert field.default == 4
 
-    data = {"type": "string", "min_length": 1}
-    field = from_json_schema_type(data, "string", False, definitions)
-    assert field.allow_blank is False
+    # Test with type "integer"
+    data = {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 10,
+        "multipleOf": 2,
+        "default": 4,
+    }
+    field = from_json_schema_type(data, "integer", False, Definitions())
+    assert isinstance(field, Integer)
+    assert field.minimum == 0
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 10
+    assert field.multiple_of == 2
+    assert field.default == 4
 
-    data = {"type": "string", "coerce_types": False}
-    field = from_json_schema_type(data, "string", False, definitions)
-    assert field.coerce_types is False
+    # Test with type "string"
+    data = {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "format": "email",
+        "pattern": "^[a-z]+$",
+        "default": "test",
+    }
+    field = from_json_schema_type(data, "string", False, Definitions())
+    assert isinstance(field, String)
+    assert field.min_length == 1
+    assert field.max_length == 10
+    assert field.format == "email"
+    assert field.pattern == re.compile("^[a-z]+$")
+    assert field.default == "test"
 
-    data = {"type": "integer", "coerce_types": False}
-    field = from_json_schema_type(data, "integer", False, definitions)
-    assert field.coerce_types is False
+    # Test with type "boolean"
+    data = {"type": "boolean", "default": True}
+    field = from_json_schema_type(data, "boolean", False, Definitions())
+    assert isinstance(field, Boolean)
+    assert field.default == True
 
-    data = {"type": "number", "coerce_types": False}
+    # Test with type "array"
+    data = {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1,
+        "maxItems": 10,
+        "uniqueItems": True,
+        "default": ["test"],
+    }
+    field = from_json_schema_type(data, "array", False, Definitions())
+    assert isinstance(field, Array)
+    assert isinstance(field.items, String)
+    assert field.min_items == 1
+    assert field.max_items == 10
+    assert field.unique_items == True
+    assert field.default == ["test"]
+
+    # Test with type "object"
+    data = {
+        "type": "object",
+        "properties": {"name": {"type": "string"}},
+        "minProperties": 1,
+        "maxProperties": 10,
+        "required": ["name"],
+        "default": {"name": "test"},
+    }
+    field = from_json_schema_type(data, "object", False, Definitions())
+    assert isinstance(field, Object)
+    assert isinstance(field.properties["name"], String)
+    assert field.min_properties == 1
+    assert field.max_properties == 10
+    assert field.required == ["name"]
+    assert field.default == {"name": "test"}
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+# Unit test for function to_json_schema
+def test_to_json_schema():
+    field = String(allow_null=True)
+    schema = to_json_schema(field)
+    assert schema == {"type": ["string", "null"]}
+
+
+# LLM-generated content at query #21
+#--------------------------
+
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    definitions = Definitions()
+    data = {"type": "number", "minimum": 0, "maximum": 10, "exclusiveMinimum": 0, "exclusiveMaximum": 10, "multipleOf": 2, "default": 5}
     field = from_json_schema_type(data, "number", False, definitions)
-    assert field.coerce_types is False
+    assert isinstance(field, Float)
+    assert field.minimum == 0
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 10
+    assert field.multiple_of == 2
+    assert field.default == 5
 
-    data = {"type": "boolean", "coerce_types": False}
+    data = {"type": "integer", "minimum": 0, "maximum": 10, "exclusiveMinimum": 0, "exclusiveMaximum": 10, "multipleOf": 2, "default": 5}
+    field = from_json_schema_type(data, "integer", False, definitions)
+    assert isinstance(field, Integer)
+    assert field.minimum == 0
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 10
+    assert field.multiple_of == 2
+    assert field.default == 5
+
+    data = {"type": "string", "minLength": 1, "maxLength": 10, "format": "email", "pattern": "^[a-zA-Z0-9]+$", "default": "test"}
+    field = from_json_schema_type(data, "string", False, definitions)
+    assert isinstance(field, String)
+    assert field.min_length == 1
+    assert field.max_length == 10
+    assert field.format == "email"
+    assert field.pattern == "^[a-zA-Z0-9]+$"
+    assert field.default == "test"
+
+    data = {"type": "boolean", "default": True}
     field = from_json_schema_type(data, "boolean", False, definitions)
-    assert field.coerce_types is False
+    assert isinstance(field, Boolean)
+    assert field.default == True
 
-    data = {"type": "array", "coerce_types": False}
+    data = {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 10, "uniqueItems": True, "default": ["test"]}
     field = from_json_schema_type(data, "array", False, definitions)
-    # Note: Array does not have coerce_types attribute, so we skip this test
+    assert isinstance(field, Array)
+    assert isinstance(field.items, Field)
+    assert field.min_items == 1
+    assert field.max_items == 10
+    assert field.unique_items == True
+    assert field.default == ["test"]
 
-    data = {"type": "object", "coerce_types": False}
+    data = {"type": "object", "properties": {"name": {"type": "string"}}, "minProperties": 1, "maxProperties": 10, "required": ["name"], "default": {"name": "test"}}
     field = from_json_schema_type(data, "object", False, definitions)
-    # Note: Object does not have coerce_types attribute, so we skip this test
+    assert isinstance(field, Object)
+    assert field.properties is not None
+    assert field.min_properties == 1
+    assert field.max_properties == 10
+    assert field.required == ["name"]
+    assert field.default == {"name": "test"}
 
-    # Test with null type
-    data = {"type": "null"}
-    field = from_json_schema_type(data, "null", True, definitions)
-    assert isinstance(field, Const)
-    assert field.const is None
 
-    # Test with multiple types
-    data = {"type": ["string", "integer"]}
-    field = from_json_schema(data, definitions)
-    assert isinstance(field, Union)
-    assert len(field.any_of) == 2
-    assert isinstance(field.any_of[0], String)
-    assert isinstance(field.any_of[1], Integer)
+# LLM-generated content at query #22
+#--------------------------
 
-    # Test with no type (all types allowed)
-    data = {}
-    field = from_json_schema(data, definitions)
-    assert isinstance(field, Any)
+# Unit test for function to_json_schema
+def test_to_json_schema():
+    # Test with a simple string field
+    field = String()
+    schema = to_json_schema(field)
+    assert schema == {"type": "string"}
 
-    # Test with enum
-    data = {"enum": ["red", "green", "blue"]}
-    field = from_json_schema(data, definitions)
-    assert isinstance(field, Choice)
-    assert field.choices == [("red", "red"), ("green", "green"), ("blue", "blue")]
+    # Test with a string field with null allowed
+    field = String(allow_null=True)
+    schema = to_json_schema(field)
+    assert schema == {"type": ["string", "null"]}
 
-    # Test with const
-    data = {"const": "fixed"}
-    field = from_json_schema(data, definitions)
-    assert isinstance(field, Const)
-    assert field.const == "fixed"
+    # Test with an integer field
+    field = Integer()
+    schema = to_json_schema(field)
+    assert schema == {"type": "integer"}
 
-    # Test with allOf
-    data = {"allOf": [{"type": "string"}, {"minLength": 5}]}
-    field = from_json_schema(data, definitions)
-    assert isinstance(field, AllOf)
-    assert len(field.all_of) == 2
+    # Test with a float field
+    field = Float()
+    schema = to_json_schema(field)
+    assert schema == {"type": "number"}
 
-    # Test with anyOf
-    data = {"anyOf": [{"type": "string"}, {"type": "integer"}]}
-    field = from_json_schema(data, definitions)
-    assert isinstance(field, Union)
-    assert len(field.any_of) == 2
+    # Test with a boolean field
+    field = Boolean()
+    schema = to_json_schema(field)
+    assert schema == {"type": "boolean"}
 
-   
+    # Test with an array field
+    field = Array(items=String())
+    schema = to_json_schema(field)
+    assert schema == {"type": "array", "items": {"type": "string"}}
+
+    # Test with an object field
+    field = Object(properties={"name": String()})
+    schema = to_json_schema(field)
+    assert schema == {"type": "object", "properties": {"name": {"type": "string"}}}
+
+    # Test with a choice field
+    field = Choice(choices=[("a", "A"), ("b", "B")])
+    schema = to_json_schema(field)
+    assert schema == {"enum": ["a", "b"]}
+
+    # Test with a const field
+    field = Const(const="test")
+    schema = to_json_schema(field)
+    assert schema == {"const": "test"}
+
+    # Test with a union field
+    field = Union(any_of=[String(), Integer()])
+    schema = to_json_schema(field)
+    assert schema == {"anyOf": [{"type": "string"}, {"type": "integer"}]}
+
+    # Test with a oneOf field
+    field = OneOf(one_of=[String(), Integer()])
+    schema = to_json_schema(field)
+    assert schema == {"oneOf": [{"type": "string"}, {"type": "integer"}]}
+
+    # Test with an allOf field
+    field = AllOf(all_of=[String(), Integer()])
+    schema = to_json_schema(field)
+    assert schema == {"allOf": [{"type": "string"}, {"type": "integer"}]}
+
+    # Test with an if-then-else field
+    field = IfThenElse(if_clause=String(), then_clause=Integer())
+    schema = to_json_schema(field)
+    assert schema == {
+        "if": {"type": "string"},
+        "then": {"type": "integer"},
+    }
+
+    # Test with a not field
+    field = Not(negated=String())
+    schema = to_json_schema(field)
+    assert schema == {"not": {"type": "string"}}
+
+    # Test with a reference field
+    definitions = {"Person": Object(properties={"name": String()})}
+    field = Reference(to="Person", definitions=definitions)
+    schema = to_json_schema(field)
+    assert schema == {
+        "$ref": "#/components/schemas/Person",
+        "components": {
+            "schemas": {
+                "Person": {
+                    "type": "object",
+                    "properties": {"name": {"type": "string"}},
+                }
+            }
+        },
+    }
+
+    # Test with a schema field
+    field = Schema(fields={"name": String()}, required=["name"])
+    schema = to_json_schema(field)
+    assert schema == {
+        "type": "object",
+        "properties": {"name": {"type": "string"}},
+        "required": ["name"],
+    }
+
+    # Test with a never match field
+    field = NeverMatch()
+    schema = to_json_schema(field)
+    assert schema is False
+
+    # Test with an any field
+    field = Any()
+    schema = to_json_schema(field)
+    assert schema is True
+
+
+# LLM-generated content at query #23
+#--------------------------
+
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    data = {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "pattern": "^[a-zA-Z0-9_]+$",
+        "format": "email",
+        "default": "test@example.com"
+    }
+    expected = String(
+        allow_null=False,
+        allow_blank=False,
+        min_length=1,
+        max_length=10,
+        pattern="^[a-zA-Z0-9_]+$",
+        format="email",
+        default="test@example.com",
+        coerce_types=False
+    )
+    assert from_json_schema_type(data, "string", False, Definitions()) == expected
+
+    data = {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 100,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 101,
+        "multipleOf": 2,
+        "default": 50
+    }
+    expected = Integer(
+        allow_null=False,
+        minimum=1,
+        maximum=100,
+        exclusive_minimum=0,
+        exclusive_maximum=101,
+        multiple_of=2,
+        default=50,
+        coerce_types=False
+    )
+    assert from_json_schema_type(data, "integer", False, Definitions()) == expected
+
+    data = {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1,
+        "maxItems": 10,
+        "additionalItems": True,
+        "uniqueItems": True,
+        "default": ["item1"]
+    }
+    expected = Array(
+        allow_null=False,
+        min_items=1,
+        max_items=10,
+        additional_items=True,
+        items=String(allow_null=False, coerce_types=False),
+        unique_items=True,
+        default=["item1"]
+    )
+    assert from_json_schema_type(data, "array", False, Definitions()) == expected
+
+    data = {
+        "type": "object",
+        "properties": {
+            "name": {"type": "string"},
+            "age": {"type": "integer"}
+        },
+        "minProperties": 1,
+        "maxProperties": 2,
+        "additionalProperties": False,
+        "required": ["name"],
+        "default": {"name": "John", "age": 30}
+    }
+    expected = Object(
+        allow_null=False,
+        properties={
+            "name": String(allow_null=False, coerce_types=False),
+            "age": Integer(allow_null=False, coerce_types=False)
+        },
+        min_properties=1,
+        max_properties=2,
+        additional_properties=False,
+        required=["name"],
+        default={"name": "John", "age": 30}
+    )
+    assert from_json_schema_type(data, "object", False, Definitions()) == expected
+
+
+# LLM-generated content at query #24
+#--------------------------
+
+# Unit test for function from_json_schema_type
+def test_from_json_schema_type():
+    definitions = Definitions()
+    # Test with type "number"
+    data = {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 10,
+        "multipleOf": 2,
+        "default": 4,
+    }
+    field = from_json_schema_type(data, "number", False, definitions)
+    assert isinstance(field, Float)
+    assert field.minimum == 0
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 10
+    assert field.multiple_of == 2
+    assert field.default == 4
+
+    # Test with type "integer"
+    data = {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 10,
+        "exclusiveMinimum": 0,
+        "exclusiveMaximum": 10,
+        "multipleOf": 2,
+        "default": 4,
+    }
+    field = from_json_schema_type(data, "integer", False, definitions)
+    assert isinstance(field, Integer)
+    assert field.minimum == 0
+    assert field.maximum == 10
+    assert field.exclusive_minimum == 0
+    assert field.exclusive_maximum == 10
+    assert field.multiple_of == 2
+    assert field.default == 4
+
+    # Test with type "string"
+    data = {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 10,
+        "pattern": "^[a-z]+$",
+        "format": "email",
+        "default": "test",
+    }
+    field = from_json_schema_type(data, "string", False, definitions)
+    assert isinstance(field, String)
+    assert field.min_length == 1
+    assert field.max_length == 10
+    assert field.pattern == re.compile("^[a-z]+$")
+    assert field.format == "email"
+    assert field.default == "test"
+
+    # Test with type "boolean"
+    data = {"type": "boolean", "default": True}
+    field = from_json_schema_type(data, "boolean", False, definitions)
+    assert isinstance(field, Boolean)
+    assert field.default == True
+
+    # Test with type "array"
+    data = {
+        "type": "array",
+        "items": {"type": "string"},
+        "minItems": 1,
+        "maxItems": 10,
+        "uniqueItems": True,
+        "default": ["test"],
+    }
+    field = from_json_schema_type(data, "array", False, definitions)
+    assert isinstance(field, Array)
+    assert isinstance(field.items, String)
+    assert field.min_items == 1
+    assert field.max_items == 10
+    assert field.unique_items == True
+    assert field.default == ["test"]
+
+    # Test with type "object"
+    data = {
+        "type": "object",
+        "properties": {"name": {"type": "string"}},
+        "minProperties": 1,
+        "maxProperties": 10,
+        "required": ["name"],
+        "default": {"name": "test"},
+    }
+    field = from_json_schema_type(data, "object", False, definitions)
+    assert isinstance(field, Object)
+    assert isinstance(field.properties["name"], String)
+    assert field.min_properties == 1
+    assert field.max_properties == 10
+    assert field.required == ["name"]
+    assert field.default == {"name": "test"}
+
+    # Test with allow_null=True
+    data = {"type": "string"}
+    field = from_json_schema_type(data, "string", True, definitions)
+    assert isinstance(field, String)
+    assert field.allow_null == True
 
 

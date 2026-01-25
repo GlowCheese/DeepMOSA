@@ -1,0 +1,5680 @@
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + anthropic/claude-haiku-4.5 t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + anthropic/claude-haiku-4.5 t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method search of class Trie with the following signature: `def test_Trie_search():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class TrieNode with the following signature: `def test_TrieNode():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for constructor of class Trie with the following signature: `def test_Trie():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+import os
+import sys
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+
+class TrieNode:
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        if not config_data:
+            config_data = {}
+
+        self.nodes: dict[str, TrieNode] = {}
+        self.config_info: tuple[str, dict[str, Any]] = (config_file, config_data)
+
+
+class Trie:
+    """
+    A prefix tree to store the paths of all config files and to search the nearest config
+    associated with each file
+    """
+
+    def __init__(self, config_file: str = "", config_data: dict[str, Any] | None = None) -> None:
+        self.root: TrieNode = TrieNode(config_file, config_data)
+
+    def insert(self, config_file: str, config_data: dict[str, Any]) -> None:
+        resolved_config_path_as_tuple = Path(config_file).parent.resolve().parts
+
+        temp = self.root
+
+        for path in resolved_config_path_as_tuple:
+            if path not in temp.nodes:
+                temp.nodes[path] = TrieNode()
+
+            temp = temp.nodes[path]
+
+        temp.config_info = (config_file, config_data)
+
+    def search(self, filename: str) -> tuple[str, dict[str, Any]]:
+        """
+        Returns the closest config relative to filename by doing a depth
+        first search on the prefix tree.
+        """
+        resolved_file_path_as_tuple = Path(filename).resolve().parts
+
+        temp = self.root
+
+        last_stored_config: tuple[str, dict[str, Any]] = ("", {})
+
+        for path in resolved_file_path_as_tuple:
+            if temp.config_info[0]:
+                last_stored_config = temp.config_info
+
+            if path not in temp.nodes:
+                break
+
+            temp = temp.nodes[path]
+
+        return last_stored_config
+
+
+@lru_cache(maxsize=1000)
+def exists_case_sensitive(path: str) -> bool:
+    """Returns if the given path exists and also matches the case on Windows.
+
+    When finding files that can be imported, it is important for the cases to match because while
+    file os.path.exists("module.py") and os.path.exists("MODULE.py") both return True on Windows,
+    Python can only import using the case of the real file.
+    """
+    result = os.path.exists(path)
+    if result and (sys.platform.startswith("win") or sys.platform == "darwin"):  # pragma: no cover
+        directory, basename = os.path.split(path)
+        result = basename in os.listdir(directory)
+    return result
+
+Write unit test with pytest for method insert of class Trie with the following signature: `def test_Trie_insert():`
+
+

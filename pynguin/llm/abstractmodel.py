@@ -1,20 +1,19 @@
-from pathlib import Path
 import time
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Any, Dict, List, Literal
 
 from openai import AsyncOpenAI, OpenAI
 from openai.types.chat import ChatCompletion
 
 import pynguin.utils.statistics.stats as stat
+from libs.custom_logger import getLogger
 from pynguin import environ
 from pynguin.configuration import config
-from libs.custom_logger import getLogger
 from pynguin.utils.deepseek import tokenizer
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
-from pynguin.utils.deepseek import tokenizer
 
-from .api_errors import APIContentFilterError, APILengthError, APIRefusalError
+from .api_errors import APIContentFilterError, APIRefusalError
 
 _logger = getLogger(__name__)
 
@@ -42,7 +41,7 @@ class AbstractLanguageModel(ABC):
         num_tokens = sum(len(tokenizer.encode(m["content"])) for m in messages)
         _logger.info("Query size: %s characters (~%s tokens)", num_chars, num_tokens)
 
-    def __handle_llm_query(self, query: ChatCompletion, query_at: float):
+    def __handle_llm_query(self, query: ChatCompletion, query_at: float, track_query_usage: bool):
         response = query.choices[0]
         if response.finish_reason == "content_filter":
             raise APIContentFilterError()
@@ -54,24 +53,27 @@ class AbstractLanguageModel(ABC):
         else:
             assert response.finish_reason == "stop"
 
-        assert query.usage is not None
+        if track_query_usage:
+            assert query.usage is not None
 
-        self._num_llm_calls += 1
-        self._time_calling_llm += time.time() - query_at
-        self._input_tokens_cnt += query.usage.prompt_tokens
-        self._output_tokens_cnt += query.usage.completion_tokens
+            self._num_llm_calls += 1
+            self._time_calling_llm += time.time() - query_at
+            self._input_tokens_cnt += query.usage.prompt_tokens
+            self._output_tokens_cnt += query.usage.completion_tokens
 
-        _logger.info("Output size: %s tokens", query.usage.completion_tokens)
+            _logger.info("Output size: %s tokens", query.usage.completion_tokens)
 
-        stat.track_output_variable(RuntimeVariable.LLMCalls, self._num_llm_calls)
-        stat.track_output_variable(RuntimeVariable.LLMQueryTime, self._time_calling_llm)
-        stat.track_output_variable(RuntimeVariable.LLMInputTokens, self._input_tokens_cnt)
-        stat.track_output_variable(RuntimeVariable.LLMOutputTokens, self._output_tokens_cnt)
+            stat.track_output_variable(RuntimeVariable.LLMCalls, self._num_llm_calls)
+            stat.track_output_variable(RuntimeVariable.LLMQueryTime, self._time_calling_llm)
+            stat.track_output_variable(RuntimeVariable.LLMInputTokens, self._input_tokens_cnt)
+            stat.track_output_variable(RuntimeVariable.LLMOutputTokens, self._output_tokens_cnt)
 
         assert response.message.content is not None
         return response.message.content
 
-    def send_llm_request(self, messages: Messages, *, stop: str | List[str]):
+    def send_llm_request(
+        self, messages: Messages, *, stop: str | List[str], track_query_usage=True
+    ):
         client = OpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
         query_at = time.time()
         self.__log_messages_stats(messages)
@@ -83,9 +85,11 @@ class AbstractLanguageModel(ABC):
             stop=stop,
             max_tokens=config.llm.max_tokens,
         )
-        return self.__handle_llm_query(query, query_at)
+        return self.__handle_llm_query(query, query_at, track_query_usage)
 
-    async def send_llm_request_async(self, messages: Messages, *, stop: str | List[str]):
+    async def send_llm_request_async(
+        self, messages: Messages, *, stop: str | List[str], track_query_usage=True
+    ):
         client = AsyncOpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
         query_at = time.time()
         self.__log_messages_stats(messages)
@@ -97,7 +101,7 @@ class AbstractLanguageModel(ABC):
             stop=stop,
             max_tokens=config.llm.max_tokens,
         )
-        return self.__handle_llm_query(query, query_at)
+        return self.__handle_llm_query(query, query_at, track_query_usage)
 
     @abstractmethod
     def target_test_case(self, *args, **kwargs):

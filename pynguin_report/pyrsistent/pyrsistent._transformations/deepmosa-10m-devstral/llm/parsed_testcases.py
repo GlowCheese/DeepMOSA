@@ -1,0 +1,4857 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+# Partially parsed test__do_to_path_with_non_empty_path_and_discard_command. Retrieved 8/9 statements.
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = 3
+    var_7 = lambda x: {var_5: x}
+    var_8 = []
+    var_9 = module_0._do_to_path(var_4, var_8, var_7)
+    var_10 = bool(var_9 == {'a': 1, 'b': 2, 'c': 3})
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = 3
+    var_7 = {var_5: var_6}
+    var_8 = []
+    var_9 = module_0._do_to_path(var_4, var_8, var_7)
+    var_10 = bool(var_9 == {'c': 3})
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_0: var_4, var_1: var_5}
+    var_7 = lambda x: x * var_5
+    var_8 = [var_0, var_2]
+    var_9 = module_0._do_to_path(var_6, var_8, var_7)
+    var_10 = bool(var_9 == {'a': {'b': 2}, 'c': 2})
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_0: var_4, var_1: var_5}
+    var_7 = 5
+    var_8 = [var_0, var_2]
+    var_9 = module_0._do_to_path(var_6, var_8, var_7)
+    var_10 = bool(var_9 == {'a': {'b': 5}, 'c': 2})
+    assert var_10 is True
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_0: var_4, var_1: var_5}
+    var_7 = [var_0, var_2]
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_0: var_4, var_1: var_5}
+    var_7 = 5
+    var_8 = 'd'
+    var_9 = [var_0, var_8]
+    var_10 = module_0._do_to_path(var_6, var_9, var_7)
+    var_11 = bool(var_10 == {'a': {'b': 1, 'd': 5}, 'c': 2})
+    assert var_11 is True
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k: k == var_0
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'a'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = True
+    var_8 = lambda x, y, z: var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(False)
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = lambda k: k == var_4
+    var_6 = module_0._get_keys_and_values(var_3, var_5)
+    var_7 = bool(var_6 == [(1, 20)])
+    assert var_7 is True
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k: k.startswith(var_0)
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = True
+    var_8 = lambda k, v, x: var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'b'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'd'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_2]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('c', 3)])
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'b'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'd'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = True
+    var_8 = lambda k, v, x: var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(False)
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+# Failed to parse test_get_arity_with_no_args.
+# Failed to parse test_get_arity_with_one_arg.
+# Failed to parse test_get_arity_with_two_args.
+# Failed to parse test_get_arity_with_default_args.
+# Failed to parse test_get_arity_with_keyword_only_args.
+# Failed to parse test_get_arity_with_positional_only_args.
+
+
+
+
+# Parsed testcases at query #6
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = module_0._items(var_4)
+    var_6 = list(var_5)
+    var_7 = bool(var_6 == [('a', 1), ('b', 2)])
+    assert var_7 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'x'
+    var_1 = 'y'
+    var_2 = 'z'
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = list(var_4)
+    var_6 = bool(var_5 == [(0, 'x'), (1, 'y'), (2, 'z')])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'p'
+    var_1 = 'q'
+    var_2 = 'r'
+    var_3 = (var_0, var_1, var_2)
+    var_4 = module_0._items(var_3)
+    var_5 = list(var_4)
+    var_6 = bool(var_5 == [(0, 'p'), (1, 'q'), (2, 'r')])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = {}
+    var_1 = module_0._items(var_0)
+    var_2 = list(var_1)
+    var_3 = bool(var_2 == [])
+    assert var_3 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = []
+    var_1 = module_0._items(var_0)
+    var_2 = list(var_1)
+    var_3 = bool(var_2 == [])
+    assert var_3 is True
+
+
+
+# Parsed testcases at query #7
+#--------------------------
+
+# Failed to parse test_get_arity_with_no_args.
+# Failed to parse test_get_arity_with_one_arg.
+# Failed to parse test_get_arity_with_multiple_args.
+# Failed to parse test_get_arity_with_default_args.
+# Failed to parse test_get_arity_with_keyword_only_args.
+# Failed to parse test_get_arity_with_positional_only_args.
+
+
+
+
+# Parsed testcases at query #8
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = module_0._items(var_4)
+    var_6 = bool(var_5 == [('a', 1), ('b', 2)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'x'
+    var_1 = 'y'
+    var_2 = 'z'
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = bool(var_4 == [(0, 'x'), (1, 'y'), (2, 'z')])
+    assert var_5 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'p'
+    var_1 = 'q'
+    var_2 = 'r'
+    var_3 = (var_0, var_1, var_2)
+    var_4 = module_0._items(var_3)
+    var_5 = bool(var_4 == [(0, 'p'), (1, 'q'), (2, 'r')])
+    assert var_5 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'abc'
+    var_1 = module_0._items(var_0)
+    var_2 = bool(var_1 == [(0, 'a'), (1, 'b'), (2, 'c')])
+    assert var_2 is True
+
+
+
+# Parsed testcases at query #9
+#--------------------------
+
+# Partially parsed test__do_to_path_with_discard_command. Retrieved 8/10 statements.
+# Partially parsed test__do_to_path_with_nested_structure_and_discard. Retrieved 10/12 statements.
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = 3
+    var_7 = {var_5: var_6}
+    var_8 = lambda x: var_7
+    var_9 = []
+    var_10 = module_0._do_to_path(var_4, var_9, var_8)
+    var_11 = bool(var_10 == {'c': 3})
+    assert var_11 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = 3
+    var_7 = {var_5: var_6}
+    var_8 = []
+    var_9 = module_0._do_to_path(var_4, var_8, var_7)
+    var_10 = bool(var_9 == {'c': 3})
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 'd'
+    var_6 = 2
+    var_7 = {var_5: var_6}
+    var_8 = {var_0: var_4, var_1: var_7}
+    var_9 = lambda k: k == var_0
+    var_10 = [var_9, var_2]
+    var_11 = lambda x: x * var_6
+    var_12 = module_0._do_to_path(var_8, var_10, var_11)
+    var_13 = bool(var_12 == {'a': {'b': 2}, 'c': {'d': 2}})
+    assert var_13 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 'd'
+    var_6 = 2
+    var_7 = {var_5: var_6}
+    var_8 = {var_0: var_4, var_1: var_7}
+    var_9 = [var_0, var_2]
+    var_10 = lambda x: x * var_6
+    var_11 = module_0._do_to_path(var_8, var_9, var_10)
+    var_12 = bool(var_11 == {'a': {'b': 2}, 'c': {'d': 2}})
+    assert var_12 is True
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_1]
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = [var_5]
+    var_7 = lambda x: x * var_3
+    var_8 = module_0._do_to_path(var_4, var_6, var_7)
+    var_9 = bool(var_8 == {'a': 1, 'b': 2})
+    assert var_9 is True
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'd'
+    var_2 = 'b'
+    var_3 = 'c'
+    var_4 = 1
+    var_5 = 2
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = 3
+    var_8 = {var_0: var_6, var_1: var_7}
+    var_9 = [var_0, var_2]
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = None
+    var_9 = [var_7, var_8]
+    var_10 = lambda x: x * var_4
+    var_11 = module_0._do_to_path(var_6, var_9, var_10)
+    var_12 = bool(var_11 == {'a': 1, 'b': 4, 'c': 6})
+    assert var_12 is True
+
+
+
+# Parsed testcases at query #10
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = module_0._items(var_4)
+    var_6 = list(var_5)
+    var_7 = bool(var_6 == [('a', 1), ('b', 2)])
+    assert var_7 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'x'
+    var_1 = 'y'
+    var_2 = 'z'
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = list(var_4)
+    var_6 = bool(var_5 == [(0, 'x'), (1, 'y'), (2, 'z')])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'p'
+    var_1 = 'q'
+    var_2 = 'r'
+    var_3 = (var_0, var_1, var_2)
+    var_4 = module_0._items(var_3)
+    var_5 = list(var_4)
+    var_6 = bool(var_5 == [(0, 'p'), (1, 'q'), (2, 'r')])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = {}
+    var_1 = module_0._items(var_0)
+    var_2 = list(var_1)
+    var_3 = bool(var_2 == [])
+    assert var_3 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = []
+    var_1 = module_0._items(var_0)
+    var_2 = list(var_1)
+    var_3 = bool(var_2 == [])
+    assert var_3 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'abc'
+    var_1 = module_0._items(var_0)
+    var_2 = list(var_1)
+    var_3 = bool(var_2 == [(0, 'a'), (1, 'b'), (2, 'c')])
+    assert var_3 is True
+
+
+
+# Parsed testcases at query #11
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_2]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('c', 3)])
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'a'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'd'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = True
+    var_8 = lambda x, y, z: var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(False)
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #12
+#--------------------------
+
+# Failed to parse test_get_arity_with_default_parameter.
+
+
+
+
+# Parsed testcases at query #13
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = lambda k: k == var_0
+    var_6 = module_0._get_keys_and_values(var_4, var_5)
+    var_7 = bool(var_6 == [('a', 1)])
+    assert var_7 is True
+
+
+
+# Parsed testcases at query #14
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'test'
+    var_1 = module_0.rex(var_0)
+    var_2 = callable(var_1)
+    var_3 = bool(var_2)
+    assert var_3 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = '^test_\\d+$'
+    var_1 = module_0.rex(var_0)
+    var_2 = 'test_123'
+    var_3 = var_1(var_2)
+    var_4 = bool(var_3)
+    assert var_4 is True
+    var_5 = 'test_abc'
+    var_6 = var_1(var_5)
+    var_7 = bool(not var_6)
+    assert var_7 is True
+    var_8 = '123_test'
+    var_9 = var_1(var_8)
+    var_10 = bool(not var_9)
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'test'
+    var_1 = module_0.rex(var_0)
+    var_2 = 123
+    var_3 = var_1(var_2)
+    var_4 = bool(not var_3)
+    assert var_4 is True
+    var_5 = None
+    var_6 = var_1(var_5)
+    var_7 = bool(not var_6)
+    assert var_7 is True
+    var_8 = [var_0]
+    var_9 = var_1(var_8)
+    var_10 = bool(not var_9)
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'test'
+    var_1 = module_0.rex(var_0)
+    var_2 = var_1(var_0)
+    var_3 = bool(var_2)
+    assert var_3 is True
+    var_4 = 'test123'
+    var_5 = var_1(var_4)
+    var_6 = bool(not var_5)
+    assert var_6 is True
+    var_7 = '123test'
+    var_8 = var_1(var_7)
+    var_9 = bool(not var_8)
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'test\\.txt$'
+    var_1 = module_0.rex(var_0)
+    var_2 = 'test.txt'
+    var_3 = var_1(var_2)
+    var_4 = bool(var_3)
+    assert var_4 is True
+    var_5 = 'testxt'
+    var_6 = var_1(var_5)
+    var_7 = bool(not var_6)
+    assert var_7 is True
+    var_8 = 'test-txt'
+    var_9 = var_1(var_8)
+    var_10 = bool(not var_9)
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #15
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_false. Retrieved 1/5 statements.
+
+
+def test_case_0():
+    var_0 = 1
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = lambda k: k == var_0
+    var_6 = module_0._get_keys_and_values(var_4, var_5)
+    var_7 = bool(var_6 == [('a', 1)])
+    assert var_7 is True
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_2]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('c', 3)])
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'b'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'd'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = True
+    var_6 = lambda x, y, z: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(False)
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+
+
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 'items'
+    var_5 = hasattr(var_3, var_4)
+    var_6 = bool(not var_5)
+    assert var_6 is True
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'valid_key'
+    var_1 = lambda k: k == var_0
+    var_2 = 'value'
+    var_3 = {var_0: var_2}
+    var_4 = module_0._get_keys_and_values(var_3, var_1)
+    var_5 = bool(var_4 == [('valid_key', 'value')])
+    assert var_5 is True
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #21
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #22
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #23
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #24
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #25
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #26
+#--------------------------
+
+# Partially parsed test__update_structure_with_empty_path_and_discard_command. Retrieved 10/12 statements.
+# Partially parsed test__update_structure_with_empty_sentinal_and_non_discard_command. Retrieved 7/11 statements.
+# Partially parsed test__update_structure_with_empty_sentinal_and_discard_command. Retrieved 6/10 statements.
+# Partially parsed test__update_structure_with_pmap_leaf_node. Retrieved 6/14 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+    var_9 = {var_1: var_3}
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 2
+    var_3 = {var_1: var_2}
+    var_4 = {var_0: var_3}
+    var_5 = {var_1: var_2}
+    var_6 = (var_0, var_5)
+    var_7 = [var_6]
+    var_8 = [var_1]
+    var_9 = lambda x: x * var_2
+    var_10 = 4
+    var_11 = {var_1: var_10}
+    var_12 = {var_0: var_11}
+    var_13 = module_0._update_structure(var_4, var_7, var_8, var_9)
+    var_14 = bool(var_13 == var_12)
+    assert var_14 is True
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = 'b'
+    var_4 = []
+    var_5 = 0
+    var_6 = {var_0: var_1, var_3: var_5}
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = 'b'
+    var_4 = []
+    var_5 = {var_0: var_1}
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = []
+    var_2 = 'b'
+    var_3 = 2
+    var_4 = lambda x: x.set(var_2, var_3)
+    var_5 = {var_2: var_3}
+
+
+
+# Parsed testcases at query #27
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #28
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #29
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_true. Retrieved 3/5 statements.
+
+
+def test_case_0():
+    var_0 = None
+    var_1 = []
+    var_2 = []
+
+
+
+# Parsed testcases at query #30
+#--------------------------
+
+
+
+
+def test_case_0():
+    var_0 = None
+    var_1 = 'key'
+    var_2 = 'value'
+    var_3 = (var_1, var_2)
+    var_4 = [var_3]
+    var_5 = 'some'
+    var_6 = 'path'
+    var_7 = [var_5, var_6]
+    var_8 = 'some_command'
+
+
+
+# Parsed testcases at query #31
+#--------------------------
+
+# Partially parsed test_update_structure_with_empty_path_and_discard_command. Retrieved 9/11 statements.
+# Partially parsed test_update_structure_with_empty_sentinal_and_non_discard_command. Retrieved 6/10 statements.
+# Partially parsed test_update_structure_with_empty_sentinal_and_discard_command. Retrieved 5/9 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_0: var_4, var_1: var_5}
+    var_7 = {var_2: var_3}
+    var_8 = (var_0, var_7)
+    var_9 = [var_8]
+    var_10 = [var_2]
+    var_11 = lambda x: x * var_5
+    var_12 = module_0._update_structure(var_6, var_9, var_10, var_11)
+    var_13 = bool(var_12 == {'a': {'b': 2}, 'c': 2})
+    assert var_13 is True
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = 'b'
+    var_4 = []
+    var_5 = 0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = 'b'
+    var_4 = []
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = (var_0, var_1)
+    var_4 = [var_3]
+    var_5 = []
+    var_6 = lambda x: x
+    var_7 = module_0._update_structure(var_2, var_4, var_5, var_6)
+    var_8 = bool(var_7 == {'a': 1})
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #32
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_false. Retrieved 17/23 statements.
+
+
+def test_case_0():
+    var_0 = 'MockStructure'
+    var_1 = ()
+    var_2 = 'evolver'
+    var_3 = 'MockEvolver'
+    var_4 = ()
+    var_5 = 'persistent'
+    var_6 = None
+    var_7 = lambda : var_6
+    var_8 = {var_5: var_7}
+    var_9 = [var_3, var_4, var_8]
+    var_10 = 'key'
+    var_11 = 'value'
+    var_12 = (var_10, var_11)
+    var_13 = [var_12]
+    var_14 = 'some'
+    var_15 = 'path'
+    var_16 = [var_14, var_15]
+    var_17 = 'some_command'
+
+
+
+# Parsed testcases at query #33
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_true. Retrieved 3/4 statements.
+
+
+def test_case_0():
+    var_0 = None
+    var_1 = []
+    var_2 = []
+
+
+
+# Parsed testcases at query #34
+#--------------------------
+
+
+
+
+def test_case_0():
+    pass
+
+
+
+# Parsed testcases at query #35
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_false. Retrieved 6/13 statements.
+
+
+def test_case_0():
+    var_0 = 'obj'
+    var_1 = 'evolver'
+    var_2 = {}
+    var_3 = []
+    var_4 = []
+    var_5 = 'not_discard'
+    var_6 = bool(not (not var_4 and var_5 is 'discard'))
+    assert var_6 is True
+
+
+
+# Parsed testcases at query #36
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_2]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('c', 3)])
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = True
+    var_8 = lambda k, v, x: var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(False)
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'a'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'd'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+
+
+
+# Parsed testcases at query #37
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_2]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('c', 3)])
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v % var_4 == var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'b'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = True
+    var_4 = lambda x, y, z: var_3
+    var_5 = module_0._get_keys_and_values(var_2, var_4)
+    var_6 = bool(False)
+    assert var_6 is True
+
+
+
+# Parsed testcases at query #38
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #39
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = 'a'
+    var_6 = (var_5, var_0)
+    var_7 = 'b'
+    var_8 = (var_7, var_1)
+    var_9 = 'c'
+    var_10 = (var_9, var_2)
+    var_11 = [var_6, var_8, var_10]
+    var_12 = var_4 == var_11
+    var_13 = bool(not var_12)
+    assert var_13 is True
+
+
+
+# Parsed testcases at query #40
+#--------------------------
+
+# Partially parsed test__update_structure_with_empty_path_and_discard_command. Retrieved 9/11 statements.
+# Partially parsed test__update_structure_with_non_empty_path_and_discard_command. Retrieved 13/15 statements.
+# Partially parsed test__update_structure_with_empty_sentinel_and_discard_command. Retrieved 7/11 statements.
+# Partially parsed test__update_structure_with_empty_sentinel_and_non_discard_command. Retrieved 8/12 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 1
+    var_5 = 2
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = 3
+    var_8 = {var_0: var_6, var_1: var_7}
+    var_9 = {var_2: var_4, var_3: var_5}
+    var_10 = (var_0, var_9)
+    var_11 = [var_10]
+    var_12 = [var_2]
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+    var_9 = lambda x: x * var_3
+    var_10 = module_0._update_structure(var_4, var_7, var_8, var_9)
+    var_11 = bool(var_10 == {'a': 2, 'b': 4})
+    assert var_11 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 1
+    var_5 = 2
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = 3
+    var_8 = {var_0: var_6, var_1: var_7}
+    var_9 = {var_2: var_4, var_3: var_5}
+    var_10 = (var_0, var_9)
+    var_11 = [var_10]
+    var_12 = [var_2]
+    var_13 = lambda x: x * var_5
+    var_14 = module_0._update_structure(var_8, var_11, var_12, var_13)
+    var_15 = bool(var_14 == {'a': {'x': 2, 'y': 2}, 'b': 3})
+    assert var_15 is True
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+    var_7 = lambda x: x + var_2
+    var_8 = 'c'
+
+
+
+# Parsed testcases at query #41
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_true. Retrieved 3/4 statements.
+
+
+def test_case_0():
+    var_0 = None
+    var_1 = []
+    var_2 = []
+
+
+
+# Parsed testcases at query #42
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #43
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = (var_0, var_2)
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('c', 3)])
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = True
+    var_6 = lambda k, v, x: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'a'
+    var_6 = module_0._get_keys_and_values(var_4, var_5)
+    var_7 = bool(var_6 == [('a', 1)])
+    assert var_7 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = module_0._get_keys_and_values(var_4, var_5)
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 2
+    var_5 = 1
+    var_6 = lambda k: k % var_4 == var_5
+    var_7 = module_0._get_keys_and_values(var_3, var_6)
+    var_8 = bool(var_7 == [(1, 20)])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #44
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = bool(var_4 == [(0, 1), (1, 2), (2, 3)])
+    assert var_5 is True
+
+
+
+# Parsed testcases at query #45
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = len(var_9)
+    assert var_10 == 2
+    var_11 = 'a'
+    var_12 = 1
+    var_13 = (var_11, var_12)
+    var_14 = bool(('a', 1) in var_9)
+    assert var_14 is True
+    var_15 = 'b'
+    var_16 = 2
+    var_17 = (var_15, var_16)
+    var_18 = bool(('b', 2) in var_9)
+    assert var_18 is True
+
+
+
+# Parsed testcases at query #46
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_true. Retrieved 6/16 statements.
+
+
+def test_case_0():
+    var_0 = 'obj'
+    var_1 = 'evolver'
+    var_2 = {}
+    var_3 = []
+    var_4 = []
+    var_5 = {}
+
+
+
+# Parsed testcases at query #47
+#--------------------------
+
+# Partially parsed test__update_structure_with_empty_path_and_discard_command. Retrieved 9/11 statements.
+# Partially parsed test__update_structure_with_non_empty_path_and_discard_command. Retrieved 11/13 statements.
+# Partially parsed test__update_structure_with_empty_sentinal_and_non_discard_command. Retrieved 8/11 statements.
+# Partially parsed test__update_structure_with_empty_sentinal_and_discard_command. Retrieved 7/11 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_0: var_4, var_1: var_5}
+    var_7 = {var_2: var_3}
+    var_8 = (var_0, var_7)
+    var_9 = [var_8]
+    var_10 = [var_2]
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+    var_9 = lambda x: x * var_3
+    var_10 = module_0._update_structure(var_4, var_7, var_8, var_9)
+    var_11 = bool(var_10 == {'a': 2, 'b': 4})
+    assert var_11 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_0: var_4, var_1: var_5}
+    var_7 = {var_2: var_3}
+    var_8 = (var_0, var_7)
+    var_9 = [var_8]
+    var_10 = [var_2]
+    var_11 = lambda x: x * var_5
+    var_12 = module_0._update_structure(var_6, var_9, var_10, var_11)
+    var_13 = bool(var_12 == {'a': {'b': 2}, 'c': 2})
+    assert var_13 is True
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+    var_7 = lambda x: x + var_2
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+
+
+
+# Parsed testcases at query #48
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_2]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('c', 3)])
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = True
+    var_4 = lambda k, v, x: var_3
+    var_5 = module_0._get_keys_and_values(var_2, var_4)
+    var_6 = bool(False)
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'a'
+    var_6 = module_0._get_keys_and_values(var_4, var_5)
+    var_7 = bool(var_6 == [('a', 1)])
+    assert var_7 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = 'b'
+    var_4 = module_0._get_keys_and_values(var_2, var_3)
+
+
+
+# Parsed testcases at query #49
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = bool(var_4 == [(0, 1), (1, 2), (2, 3)])
+    assert var_5 is True
+
+
+
+# Parsed testcases at query #50
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #51
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k: k == var_0
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+
+
+# Parsed testcases at query #52
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_true. Retrieved 3/4 statements.
+
+
+def test_case_0():
+    var_0 = None
+    var_1 = []
+    var_2 = []
+
+
+
+# Parsed testcases at query #53
+#--------------------------
+
+
+
+
+def test_case_0():
+    var_0 = None
+    var_1 = []
+    var_2 = 'some'
+    var_3 = 'path'
+    var_4 = [var_2, var_3]
+    var_5 = 'some_command'
+
+
+
+# Parsed testcases at query #54
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = bool(var_4 == [(0, 10), (1, 20), (2, 30)])
+    assert var_5 is True
+
+
+
+# Parsed testcases at query #55
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k: k == var_0
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = True
+    var_8 = lambda k, v, x: var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(False)
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'a'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'd'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+
+
+# Parsed testcases at query #56
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #57
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #58
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_false. Retrieved 7/8 statements.
+
+
+def test_case_0():
+    var_0 = 'key'
+    var_1 = 'value'
+    var_2 = (var_0, var_1)
+    var_3 = [var_2]
+    var_4 = 'path'
+    var_5 = [var_4]
+    var_6 = 'some_command'
+
+
+
+# Parsed testcases at query #59
+#--------------------------
+
+# Partially parsed test__update_structure_with_empty_path_and_discard_command. Retrieved 9/12 statements.
+# Partially parsed test__update_structure_with_non_empty_path_and_discard_command. Retrieved 11/16 statements.
+# Partially parsed test__update_structure_with_empty_sentinal_and_non_discard_command. Retrieved 5/12 statements.
+# Partially parsed test__update_structure_with_non_empty_path_and_non_discard_command. Retrieved 11/16 statements.
+# Partially parsed test__update_structure_with_no_changes. Retrieved 9/10 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_0: var_4, var_1: var_5}
+    var_7 = {var_2: var_3}
+    var_8 = (var_0, var_7)
+    var_9 = [var_8]
+    var_10 = [var_2]
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = 'b'
+    var_4 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = {var_1: var_2}
+    var_4 = {var_0: var_3}
+    var_5 = {var_1: var_2}
+    var_6 = (var_0, var_5)
+    var_7 = [var_6]
+    var_8 = [var_1]
+    var_9 = 2
+    var_10 = {var_1: var_9}
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = (var_0, var_1)
+    var_4 = [var_3]
+    var_5 = []
+    var_6 = lambda x: x
+    var_7 = module_0._update_structure(var_2, var_4, var_5, var_6)
+    var_8 = {var_0: var_1}
+
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+# Failed to parse test_get_arity_with_no_args.
+# Failed to parse test_get_arity_with_one_arg.
+# Failed to parse test_get_arity_with_multiple_args.
+# Failed to parse test_get_arity_with_default_args.
+# Failed to parse test_get_arity_with_keyword_only_args.
+# Failed to parse test_get_arity_with_positional_only_args.
+# Failed to parse test_get_arity_with_mixed_args.
+
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+# Partially parsed test__do_to_path_with_empty_path_and_callable_command. Retrieved 6/8 statements.
+# Partially parsed test__do_to_path_with_discard_command. Retrieved 8/10 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = []
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = 3
+    var_7 = {var_5: var_6}
+    var_8 = []
+    var_9 = module_0._do_to_path(var_4, var_8, var_7)
+    var_10 = bool(var_9 == {'c': 3})
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = [var_0]
+    var_6 = lambda x: x * var_3
+    var_7 = module_0._do_to_path(var_4, var_5, var_6)
+    var_8 = bool(var_7 == {'a': 2, 'b': 2})
+    assert var_8 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_0: var_4, var_1: var_5}
+    var_7 = [var_0, var_2]
+    var_8 = 10
+    var_9 = lambda x: x + var_8
+    var_10 = module_0._do_to_path(var_6, var_7, var_9)
+    var_11 = bool(var_10 == {'a': {'b': 11}, 'c': 2})
+    assert var_11 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = [var_8]
+    var_10 = 10
+    var_11 = lambda x: x * var_10
+    var_12 = module_0._do_to_path(var_6, var_9, var_11)
+    var_13 = bool(var_12 == {'a': 10, 'b': 20, 'c': 3})
+    assert var_13 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 0
+    var_8 = lambda k, v: v % var_4 == var_7
+    var_9 = [var_8]
+    var_10 = 100
+    var_11 = lambda x: x * var_10
+    var_12 = module_0._do_to_path(var_6, var_9, var_11)
+    var_13 = bool(var_12 == {'a': 1, 'b': 200, 'c': 3})
+    assert var_13 is True
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0]
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = [var_5]
+    var_7 = lambda x: x
+    var_8 = module_0._do_to_path(var_4, var_6, var_7)
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = True
+    var_6 = lambda k, v, x: var_5
+    var_7 = [var_6]
+    var_8 = lambda x: x
+    var_9 = module_0._do_to_path(var_4, var_7, var_8)
+    var_10 = bool(False)
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_2]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('c', 3)])
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'b'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = True
+    var_4 = lambda x, y, z: var_3
+    var_5 = module_0._get_keys_and_values(var_2, var_4)
+    var_6 = bool(False)
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = 'b'
+    var_4 = module_0._get_keys_and_values(var_2, var_3)
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = module_0._items(var_4)
+    var_6 = bool(var_5 == [('a', 1), ('b', 2)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'x'
+    var_1 = 'y'
+    var_2 = 'z'
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = bool(var_4 == [(0, 'x'), (1, 'y'), (2, 'z')])
+    assert var_5 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'p'
+    var_1 = 'q'
+    var_2 = (var_0, var_1)
+    var_3 = module_0._items(var_2)
+    var_4 = bool(var_3 == [(0, 'p'), (1, 'q')])
+    assert var_4 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = {}
+    var_1 = module_0._items(var_0)
+    var_2 = bool(var_1 == [])
+    assert var_2 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = []
+    var_1 = module_0._items(var_0)
+    var_2 = bool(var_1 == [])
+    assert var_2 is True
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+
+
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 'items'
+    var_5 = hasattr(var_3, var_4)
+    var_6 = bool(not var_5)
+    assert var_6 is True
+
+
+
+# Parsed testcases at query #6
+#--------------------------
+
+# Failed to parse test_get_arity_with_default_parameters.
+
+
+
+
+# Parsed testcases at query #7
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #8
+#--------------------------
+
+# Failed to parse test_get_arity_with_default_parameters.
+
+
+
+
+# Parsed testcases at query #9
+#--------------------------
+
+# Partially parsed test_callable_with_arity_greater_than_2. Retrieved 5/10 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = bool(False)
+    assert var_5 is True
+
+
+
+# Parsed testcases at query #10
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #11
+#--------------------------
+
+# Failed to parse test_get_arity_with_no_args.
+# Failed to parse test_get_arity_with_one_arg.
+# Failed to parse test_get_arity_with_multiple_args.
+# Failed to parse test_get_arity_with_default_args.
+# Failed to parse test_get_arity_with_keyword_only_args.
+# Failed to parse test_get_arity_with_positional_only_args.
+
+
+
+
+# Parsed testcases at query #12
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k: k == var_0
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+
+
+# Parsed testcases at query #13
+#--------------------------
+
+# Failed to parse test__get_arity_with_default_parameters.
+
+
+
+
+# Parsed testcases at query #14
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #15
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_2]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('c', 3)])
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'b'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = 'd'
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = True
+    var_8 = lambda k, v, x: var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(False)
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = module_0._items(var_4)
+    var_6 = bool(var_5 == [('a', 1), ('b', 2)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = bool(var_4 == [(0, 'a'), (1, 'b'), (2, 'c')])
+    assert var_5 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'x'
+    var_1 = 'y'
+    var_2 = 'z'
+    var_3 = (var_0, var_1, var_2)
+    var_4 = module_0._items(var_3)
+    var_5 = bool(var_4 == [(0, 'x'), (1, 'y'), (2, 'z')])
+    assert var_5 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = {}
+    var_1 = module_0._items(var_0)
+    var_2 = bool(var_1 == [])
+    assert var_2 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = []
+    var_1 = module_0._items(var_0)
+    var_2 = bool(var_1 == [])
+    assert var_2 is True
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = '^test_\\w+'
+    var_1 = module_0.rex(var_0)
+    var_2 = 'test_abc'
+    var_3 = var_1(var_2)
+    assert var_3 is True
+    var_4 = 'test_123'
+    var_5 = var_1(var_4)
+    assert var_5 is True
+    var_6 = 'test'
+    var_7 = var_1(var_6)
+    assert var_7 is False
+    var_8 = 'not_test'
+    var_9 = var_1(var_8)
+    assert var_9 is False
+    var_10 = 123
+    var_11 = var_1(var_10)
+    assert var_11 is False
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+# Failed to parse test_get_arity_with_default_parameters.
+
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+# Partially parsed test_arity_predicate_false. Retrieved 1/11 statements.
+
+
+def test_case_0():
+    var_0 = 0
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k: k == var_0
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = module_0._get_keys_and_values(var_6, var_1)
+    var_8 = bool(var_7 == [('b', 2)])
+    assert var_8 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = True
+    var_6 = lambda x, y, z: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(False)
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #21
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = True
+    var_6 = lambda k, v, x: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(False)
+    assert var_8 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'a'
+    var_6 = module_0._get_keys_and_values(var_4, var_5)
+    var_7 = bool(var_6 == [('a', 1)])
+    assert var_7 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = module_0._get_keys_and_values(var_4, var_5)
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 5
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+
+
+
+# Parsed testcases at query #22
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k: k == var_0
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+
+
+# Parsed testcases at query #23
+#--------------------------
+
+# Failed to parse test_get_arity_with_no_args.
+# Failed to parse test_get_arity_with_one_arg.
+# Failed to parse test_get_arity_with_multiple_args.
+# Failed to parse test_get_arity_with_default_args.
+# Failed to parse test_get_arity_with_keyword_only_args.
+# Failed to parse test_get_arity_with_positional_only_args.
+
+
+
+
+# Parsed testcases at query #24
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = module_0._items(var_4)
+    var_6 = bool(var_5 == [('a', 1), ('b', 2)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'x'
+    var_1 = 'y'
+    var_2 = 'z'
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = bool(var_4 == [(0, 'x'), (1, 'y'), (2, 'z')])
+    assert var_5 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'p'
+    var_1 = 'q'
+    var_2 = (var_0, var_1)
+    var_3 = module_0._items(var_2)
+    var_4 = bool(var_3 == [(0, 'p'), (1, 'q')])
+    assert var_4 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'hello'
+    var_1 = module_0._items(var_0)
+    var_2 = bool(var_1 == [(0, 'h'), (1, 'e'), (2, 'l'), (3, 'l'), (4, 'o')])
+    assert var_2 is True
+
+
+
+# Parsed testcases at query #25
+#--------------------------
+
+# Failed to parse test_get_arity_with_no_args.
+# Failed to parse test_get_arity_with_one_arg.
+# Failed to parse test_get_arity_with_multiple_args.
+# Failed to parse test_get_arity_with_default_args.
+# Failed to parse test_get_arity_with_keyword_only_args.
+# Failed to parse test_get_arity_with_positional_only_args.
+
+
+
+
+# Parsed testcases at query #26
+#--------------------------
+
+# Partially parsed test__update_structure_with_empty_path_and_discard_command. Retrieved 9/11 statements.
+# Partially parsed test__update_structure_with_non_empty_path_and_discard_command. Retrieved 13/15 statements.
+# Partially parsed test__update_structure_with_empty_sentinel_and_discard_command. Retrieved 7/11 statements.
+# Partially parsed test__update_structure_with_empty_sentinel_and_non_discard_command. Retrieved 8/12 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 1
+    var_5 = 2
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = 3
+    var_8 = {var_0: var_6, var_1: var_7}
+    var_9 = {var_2: var_4, var_3: var_5}
+    var_10 = (var_0, var_9)
+    var_11 = [var_10]
+    var_12 = [var_2]
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+    var_9 = lambda x: x * var_3
+    var_10 = module_0._update_structure(var_4, var_7, var_8, var_9)
+    var_11 = bool(var_10 == {'a': 2, 'b': 4})
+    assert var_11 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 1
+    var_5 = 2
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = 3
+    var_8 = {var_0: var_6, var_1: var_7}
+    var_9 = {var_2: var_4, var_3: var_5}
+    var_10 = (var_0, var_9)
+    var_11 = [var_10]
+    var_12 = [var_2]
+    var_13 = lambda x: x * var_5
+    var_14 = module_0._update_structure(var_8, var_11, var_12, var_13)
+    var_15 = bool(var_14 == {'a': {'x': 2, 'y': 2}, 'b': 3})
+    assert var_15 is True
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+    var_7 = 0
+    var_8 = 'c'
+
+
+
+# Parsed testcases at query #27
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #28
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #29
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #30
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #31
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k: k == var_0
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('a', 1)])
+    assert var_9 is True
+
+
+
+# Parsed testcases at query #32
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_false. Retrieved 9/14 statements.
+
+
+def test_case_0():
+    var_0 = 'MockStructure'
+    var_1 = ()
+    var_2 = 'evolver'
+    var_3 = 'MockEvolver'
+    var_4 = ()
+    var_5 = {}
+    var_6 = [var_3, var_4, var_5]
+    var_7 = []
+    var_8 = []
+    var_9 = 'discard'
+    var_10 = bool(not (not var_8 and var_9 is var_9))
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #33
+#--------------------------
+
+# Partially parsed test_path_empty_and_command_is_discard. Retrieved 1/2 statements.
+
+
+def test_case_0():
+    var_0 = []
+
+
+
+# Parsed testcases at query #34
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_false. Retrieved 8/9 statements.
+
+
+def test_case_0():
+    var_0 = []
+    var_1 = 'key'
+    var_2 = 'value'
+    var_3 = (var_1, var_2)
+    var_4 = [var_3]
+    var_5 = 'some'
+    var_6 = 'path'
+    var_7 = [var_5, var_6]
+    var_8 = 'some_command'
+
+
+
+# Parsed testcases at query #35
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_true. Retrieved 3/4 statements.
+
+
+def test_case_0():
+    var_0 = None
+    var_1 = []
+    var_2 = []
+
+
+
+# Parsed testcases at query #36
+#--------------------------
+
+# Partially parsed test__update_structure_with_empty_path_and_discard_command. Retrieved 9/11 statements.
+# Partially parsed test__update_structure_with_non_empty_path_and_discard_command. Retrieved 13/15 statements.
+# Partially parsed test__update_structure_with_empty_sentinel_and_discard_command. Retrieved 7/11 statements.
+# Partially parsed test__update_structure_with_empty_sentinel_and_non_discard_command. Retrieved 8/12 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 1
+    var_5 = 2
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = 3
+    var_8 = {var_0: var_6, var_1: var_7}
+    var_9 = {var_2: var_4, var_3: var_5}
+    var_10 = (var_0, var_9)
+    var_11 = [var_10]
+    var_12 = [var_2]
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+    var_9 = lambda x: x * var_3
+    var_10 = module_0._update_structure(var_4, var_7, var_8, var_9)
+    var_11 = bool(var_10 == {'a': 2, 'b': 4})
+    assert var_11 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 1
+    var_5 = 2
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = 3
+    var_8 = {var_0: var_6, var_1: var_7}
+    var_9 = {var_2: var_4, var_3: var_5}
+    var_10 = (var_0, var_9)
+    var_11 = [var_10]
+    var_12 = [var_2]
+    var_13 = lambda x: x * var_5
+    var_14 = module_0._update_structure(var_8, var_11, var_12, var_13)
+    var_15 = bool(var_14 == {'a': {'x': 2, 'y': 2}, 'b': 3})
+    assert var_15 is True
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+    var_7 = lambda x: x + var_2
+    var_8 = 'c'
+
+
+
+# Parsed testcases at query #37
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_false. Retrieved 14/22 statements.
+
+
+def test_case_0():
+    var_0 = 'MockStructure'
+    var_1 = ()
+    var_2 = 'evolver'
+    var_3 = 'MockEvolver'
+    var_4 = ()
+    var_5 = {}
+    var_6 = [var_3, var_4, var_5]
+    var_7 = 'key'
+    var_8 = 'value'
+    var_9 = (var_7, var_8)
+    var_10 = [var_9]
+    var_11 = 'some'
+    var_12 = 'path'
+    var_13 = [var_11, var_12]
+    var_14 = 'some_command'
+
+
+
+# Parsed testcases at query #38
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_false. Retrieved 6/8 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = (var_0, var_1)
+    var_3 = [var_2]
+    var_4 = [var_0]
+    var_5 = 'set'
+
+
+
+# Parsed testcases at query #39
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #40
+#--------------------------
+
+# Failed to parse test__get_arity_returns_zero_for_function_with_all_defaults.
+
+
+
+
+# Parsed testcases at query #41
+#--------------------------
+
+# Partially parsed test_items_with_non_dict_structure. Retrieved 8/9 statements.
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = [var_0, var_1, var_2]
+    var_6 = enumerate(var_5)
+    var_7 = list(var_6)
+
+
+
+# Parsed testcases at query #42
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #43
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_true. Retrieved 6/11 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = len(var_4)
+
+
+
+# Parsed testcases at query #44
+#--------------------------
+
+# Failed to parse test_get_arity_with_all_defaults.
+
+
+
+
+# Parsed testcases at query #45
+#--------------------------
+
+# Partially parsed test__update_structure_empty_path_discard_command. Retrieved 9/13 statements.
+# Partially parsed test__update_structure_non_empty_path_discard_command. Retrieved 8/19 statements.
+# Partially parsed test__update_structure_empty_path_non_discard_command. Retrieved 12/15 statements.
+# Partially parsed test__update_structure_non_empty_path_non_discard_command. Retrieved 10/20 statements.
+# Partially parsed test__update_structure_empty_sentinal_value. Retrieved 8/15 statements.
+# Partially parsed test__update_structure_empty_sentinal_value_discard_command. Retrieved 8/14 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_2: var_3}
+    var_7 = [var_2]
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+    var_9 = lambda x: x * var_3
+    var_10 = 4
+    var_11 = {var_0: var_3, var_1: var_10}
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_2: var_3}
+    var_7 = [var_2]
+    var_8 = lambda x: x * var_5
+    var_9 = {var_2: var_5}
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+    var_7 = lambda x: x * var_3
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+    var_7 = {var_0: var_2, var_1: var_3}
+
+
+
+# Parsed testcases at query #46
+#--------------------------
+
+# Partially parsed test__update_structure_with_empty_path_and_discard_command. Retrieved 9/12 statements.
+# Partially parsed test__update_structure_with_non_empty_path_and_non_discard_command. Retrieved 14/17 statements.
+# Partially parsed test__update_structure_with_empty_sentinel_and_non_discard_command. Retrieved 7/12 statements.
+# Partially parsed test__update_structure_with_empty_sentinel_and_discard_command. Retrieved 6/11 statements.
+# Partially parsed test__update_structure_with_non_empty_path_and_discard_command. Retrieved 14/19 statements.
+# Partially parsed test__update_structure_with_no_changes. Retrieved 12/13 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'c'
+    var_2 = 'b'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_0: var_4, var_1: var_5}
+    var_7 = {var_2: var_3}
+    var_8 = (var_0, var_7)
+    var_9 = [var_8]
+    var_10 = [var_2]
+    var_11 = lambda x: x * var_5
+    var_12 = module_0._update_structure(var_6, var_9, var_10, var_11)
+    var_13 = {var_2: var_5}
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = 'b'
+    var_4 = []
+    var_5 = 0
+    var_6 = {var_0: var_1, var_3: var_5}
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 1
+    var_2 = {var_0: var_1}
+    var_3 = 'b'
+    var_4 = []
+    var_5 = {var_0: var_1}
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'd'
+    var_2 = 'b'
+    var_3 = 'c'
+    var_4 = 1
+    var_5 = 2
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = 3
+    var_8 = {var_0: var_6, var_1: var_7}
+    var_9 = {var_2: var_4, var_3: var_5}
+    var_10 = (var_0, var_9)
+    var_11 = [var_10]
+    var_12 = [var_2]
+    var_13 = {var_3: var_5}
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+    var_9 = lambda x: x
+    var_10 = module_0._update_structure(var_4, var_7, var_8, var_9)
+    var_11 = {var_0: var_2, var_1: var_3}
+
+
+
+# Parsed testcases at query #47
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_1]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #48
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = False
+    var_8 = lambda k: var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #49
+#--------------------------
+
+# Failed to parse test_get_arity_with_no_args.
+# Failed to parse test_get_arity_with_one_arg.
+# Failed to parse test_get_arity_with_two_args.
+# Failed to parse test_get_arity_with_default_args.
+# Failed to parse test_get_arity_with_keyword_only_args.
+# Failed to parse test_get_arity_with_positional_only_args.
+# Failed to parse test_get_arity_with_var_args.
+# Failed to parse test_get_arity_with_var_kwargs.
+
+
+
+
+# Parsed testcases at query #50
+#--------------------------
+
+# Failed to parse test_get_arity_with_no_args.
+# Failed to parse test_get_arity_with_one_arg.
+# Failed to parse test_get_arity_with_multiple_args.
+# Failed to parse test_get_arity_with_default_args.
+# Failed to parse test_get_arity_with_keyword_only_args.
+# Failed to parse test_get_arity_with_positional_only_args.
+# Failed to parse test_get_arity_with_mixed_args.
+
+
+
+
+# Parsed testcases at query #51
+#--------------------------
+
+# Partially parsed test_items_with_non_dict_structure. Retrieved 5/6 statements.
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+
+
+
+# Parsed testcases at query #52
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = lambda k: k == var_0
+    var_6 = module_0._get_keys_and_values(var_4, var_5)
+    var_7 = len(var_6)
+    var_8 = var_7 == var_2
+    var_9 = bool(var_8 and var_6[0] == ('a', 1))
+    assert var_9 is True
+
+
+
+# Parsed testcases at query #53
+#--------------------------
+
+
+
+
+def test_case_0():
+    var_0 = None
+    var_1 = []
+    var_2 = []
+    var_3 = None
+
+
+
+# Parsed testcases at query #54
+#--------------------------
+
+# Partially parsed test__update_structure_with_empty_path_and_discard_command. Retrieved 12/13 statements.
+# Partially parsed test__update_structure_with_non_empty_path_and_discard_command. Retrieved 17/18 statements.
+# Partially parsed test__update_structure_with_empty_sentinal_and_non_discard_command. Retrieved 9/12 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = (var_0, var_3)
+    var_8 = (var_1, var_4)
+    var_9 = (var_2, var_5)
+    var_10 = [var_7, var_8, var_9]
+    var_11 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 1
+    var_5 = 2
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = 3
+    var_8 = 4
+    var_9 = {var_2: var_7, var_3: var_8}
+    var_10 = {var_0: var_6, var_1: var_9}
+    var_11 = {var_2: var_4, var_3: var_5}
+    var_12 = (var_0, var_11)
+    var_13 = {var_2: var_7, var_3: var_8}
+    var_14 = (var_1, var_13)
+    var_15 = [var_12, var_14]
+    var_16 = [var_2]
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+    var_7 = 3
+    var_8 = lambda x: var_7
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'x'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 2
+    var_6 = {var_2: var_5}
+    var_7 = {var_0: var_4, var_1: var_6}
+    var_8 = {var_2: var_3}
+    var_9 = (var_0, var_8)
+    var_10 = {var_2: var_5}
+    var_11 = (var_1, var_10)
+    var_12 = [var_9, var_11]
+    var_13 = [var_2]
+    var_14 = lambda x: x + var_3
+    var_15 = module_0._update_structure(var_7, var_12, var_13, var_14)
+    var_16 = bool(var_15 == {'a': {'x': 2}, 'b': {'x': 3}})
+    assert var_16 is True
+
+
+
+# Parsed testcases at query #55
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0._items(var_3)
+    var_5 = bool(var_4 == [(0, 10), (1, 20), (2, 30)])
+    assert var_5 is True
+
+
+
+# Parsed testcases at query #56
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = lambda k: k == var_0
+    var_6 = module_0._get_keys_and_values(var_4, var_5)
+    var_7 = bool(var_6 == [('a', 1)])
+    assert var_7 is True
+
+
+
+# Parsed testcases at query #57
+#--------------------------
+
+# Failed to parse test_get_arity_with_no_args.
+# Failed to parse test_get_arity_with_one_arg.
+# Failed to parse test_get_arity_with_multiple_args.
+# Failed to parse test_get_arity_with_default_args.
+# Failed to parse test_get_arity_with_keyword_only_args.
+# Failed to parse test_get_arity_with_positional_only_args.
+
+
+
+
+# Parsed testcases at query #58
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #59
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k: k == var_1
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2)])
+    assert var_9 is True
+
+
+
+# Parsed testcases at query #60
+#--------------------------
+
+# Failed to parse test_get_arity_with_no_args.
+# Failed to parse test_get_arity_with_one_arg.
+# Failed to parse test_get_arity_with_two_args.
+# Failed to parse test_get_arity_with_default_args.
+# Failed to parse test_get_arity_with_keyword_only_args.
+# Failed to parse test_get_arity_with_varargs.
+# Failed to parse test_get_arity_with_kwargs.
+# Failed to parse test_get_arity_with_positional_only_args.
+
+
+
+
+# Parsed testcases at query #61
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_false. Retrieved 9/15 statements.
+
+
+def test_case_0():
+    var_0 = 'MockStructure'
+    var_1 = ()
+    var_2 = 'evolver'
+    var_3 = 'MockEvolver'
+    var_4 = ()
+    var_5 = {}
+    var_6 = [var_3, var_4, var_5]
+    var_7 = []
+    var_8 = []
+    var_9 = 'discard'
+    var_10 = bool(not (not var_8 and var_9 is var_9))
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #62
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_true. Retrieved 3/4 statements.
+
+
+def test_case_0():
+    var_0 = None
+    var_1 = []
+    var_2 = []
+
+
+
+# Parsed testcases at query #63
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = [var_0, var_2]
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('c', 3)])
+    assert var_10 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = lambda k, v: v > var_3
+    var_8 = module_0._get_keys_and_values(var_6, var_7)
+    var_9 = bool(var_8 == [('b', 2), ('c', 3)])
+    assert var_9 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = True
+    var_6 = lambda k, v, x: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(False)
+    assert var_8 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'a'
+    var_6 = module_0._get_keys_and_values(var_4, var_5)
+    var_7 = bool(var_6 == [('a', 1)])
+    assert var_7 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = module_0._get_keys_and_values(var_4, var_5)
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 1
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+    var_6 = bool(var_5 == [(1, 20)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = 20
+    var_2 = 30
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 5
+    var_5 = module_0._get_keys_and_values(var_3, var_4)
+
+
+
+# Parsed testcases at query #64
+#--------------------------
+
+# Failed to parse test_get_arity_with_no_args.
+# Failed to parse test_get_arity_with_one_arg.
+# Failed to parse test_get_arity_with_multiple_args.
+# Failed to parse test_get_arity_with_default_args.
+# Failed to parse test_get_arity_with_keyword_only_args.
+# Failed to parse test_get_arity_with_positional_only_args.
+# Failed to parse test_get_arity_with_mixed_args.
+
+
+
+
+# Parsed testcases at query #65
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = False
+    var_6 = lambda k: var_5
+    var_7 = module_0._get_keys_and_values(var_4, var_6)
+    var_8 = bool(var_7 == [])
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #66
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = module_0._items(var_4)
+    var_6 = bool(var_5 == [('a', 1), ('b', 2)])
+    assert var_6 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = [var_0, var_1]
+    var_3 = module_0._items(var_2)
+    var_4 = bool(var_3 == [(0, 'a'), (1, 'b')])
+    assert var_4 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = (var_0, var_1)
+    var_3 = module_0._items(var_2)
+    var_4 = bool(var_3 == [(0, 'a'), (1, 'b')])
+    assert var_4 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = {}
+    var_1 = module_0._items(var_0)
+    var_2 = bool(var_1 == [])
+    assert var_2 is True
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = []
+    var_1 = module_0._items(var_0)
+    var_2 = bool(var_1 == [])
+    assert var_2 is True
+
+
+
+# Parsed testcases at query #67
+#--------------------------
+
+# Failed to parse test_get_arity_no_args.
+# Failed to parse test_get_arity_one_arg.
+# Failed to parse test_get_arity_multiple_args.
+# Failed to parse test_get_arity_with_defaults.
+# Failed to parse test_get_arity_keyword_only.
+# Failed to parse test_get_arity_positional_only.
+
+
+
+
+# Parsed testcases at query #68
+#--------------------------
+
+
+
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'c'
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = {var_0: var_3, var_1: var_4, var_2: var_5}
+    var_7 = {var_0, var_1}
+    var_8 = lambda k: k in var_7
+    var_9 = module_0._get_keys_and_values(var_6, var_8)
+    var_10 = bool(var_9 == [('a', 1), ('b', 2)])
+    assert var_10 is True
+
+
+
+# Parsed testcases at query #69
+#--------------------------
+
+# Partially parsed test_predicate_evaluates_to_true. Retrieved 12/20 statements.
+
+
+def test_case_0():
+    var_0 = None
+    var_1 = []
+    var_2 = []
+    var_3 = 'MockEvolver'
+    var_4 = ()
+    var_5 = 'persistent'
+    var_6 = None
+    var_7 = lambda self: var_6
+    var_8 = {var_5: var_7}
+    var_9 = [var_3, var_4, var_8]
+    var_10 = 'MockStructure'
+    var_11 = ()
+    var_12 = 'evolver'
+
+
+
+# Parsed testcases at query #70
+#--------------------------
+
+# Partially parsed test__update_structure_with_empty_path_and_discard_command. Retrieved 9/12 statements.
+# Partially parsed test__update_structure_with_non_empty_path_and_discard_command. Retrieved 16/22 statements.
+# Partially parsed test__update_structure_with_empty_path_and_non_discard_command. Retrieved 13/14 statements.
+# Partially parsed test__update_structure_with_empty_sentinel_and_non_discard_command. Retrieved 8/14 statements.
+# Partially parsed test__update_structure_with_empty_sentinel_and_discard_command. Retrieved 8/13 statements.
+# Partially parsed test__update_structure_with_non_empty_path_and_non_discard_command. Retrieved 19/23 statements.
+
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'x'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 'y'
+    var_6 = 2
+    var_7 = {var_5: var_6}
+    var_8 = {var_0: var_4, var_1: var_7}
+    var_9 = {var_2: var_3}
+    var_10 = (var_0, var_9)
+    var_11 = {var_5: var_6}
+    var_12 = (var_1, var_11)
+    var_13 = [var_10, var_12]
+    var_14 = [var_2]
+    var_15 = {var_5: var_6}
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = (var_0, var_2)
+    var_6 = (var_1, var_3)
+    var_7 = [var_5, var_6]
+    var_8 = []
+    var_9 = lambda x: x * var_3
+    var_10 = module_0._update_structure(var_4, var_7, var_8, var_9)
+    var_11 = 4
+    var_12 = {var_0: var_3, var_1: var_11}
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+    var_7 = lambda x: x + var_2
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 1
+    var_3 = 2
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'c'
+    var_6 = []
+    var_7 = {var_0: var_2, var_1: var_3}
+
+import pyrsistent._transformations as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'b'
+    var_2 = 'x'
+    var_3 = 1
+    var_4 = {var_2: var_3}
+    var_5 = 'y'
+    var_6 = 2
+    var_7 = {var_5: var_6}
+    var_8 = {var_0: var_4, var_1: var_7}
+    var_9 = {var_2: var_3}
+    var_10 = (var_0, var_9)
+    var_11 = {var_5: var_6}
+    var_12 = (var_1, var_11)
+    var_13 = [var_10, var_12]
+    var_14 = [var_2]
+    var_15 = lambda x: x * var_6
+    var_16 = module_0._update_structure(var_8, var_13, var_14, var_15)
+    var_17 = {var_2: var_6}
+    var_18 = {var_5: var_6}
+
+
+

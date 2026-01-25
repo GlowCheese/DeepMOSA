@@ -72,5 +72,5 @@
  'deepmosa=DeepMosaConfiguration(async_enabled=True, max_plateau_len=25, '
  "num_seeds_to_inject=5, test_case_context=<TestCaseContext.NONE: 'NONE'>, "
  'reseed_probability=0.3333333333333333, '
- 'recreate_conversation_probability=0.6, tau=1.3), ignore_modules=[], '
- 'ignore_methods=[])')
+ 'recreate_conversation_probability=0.6, tau=1.3, deserializer_version=2), '
+ 'ignore_modules=[], ignore_methods=[])')

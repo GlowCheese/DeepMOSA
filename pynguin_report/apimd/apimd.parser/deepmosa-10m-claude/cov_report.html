@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'apimd.parser'</h1>
+<p>Achieved 81.02% branch coverage:
+15/16 branchless code objects covered.
+254/316 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="fullyCovered" title="1/1 branchless code objects covered">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="notRelevant">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="notRelevant">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="fullyCovered" title="4/4 branches covered">33</span>
+                  <span class="notRelevant">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="notRelevant">38</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="fullyCovered" title="4/4 branches covered">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notRelevant">50</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notRelevant">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="fullyCovered" title="2/2 branches covered">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="notRelevant">63</span>
+                  <span class="fullyCovered" title="2/2 branches covered">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="fullyCovered" title="2/2 branches covered">66</span>
+                  <span class="notRelevant">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="fullyCovered" title="2/2 branches covered">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="fullyCovered" title="2/2 branches covered">76</span>
+                  <span class="fullyCovered" title="2/2 branches covered">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="notRelevant">79</span>
+                  <span class="fullyCovered" title="2/2 branches covered">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="fullyCovered" title="2/2 branches covered">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="notRelevant">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="notRelevant">88</span>
+                  <span class="notRelevant">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notRelevant">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="fullyCovered" title="2/2 branches covered">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="fullyCovered" title="2/2 branches covered">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="notRelevant">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="fullyCovered" title="2/2 branches covered">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="notRelevant">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="fullyCovered" title="2/2 branches covered">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="fullyCovered" title="2/2 branches covered">116</span>
+                  <span class="fullyCovered" title="2/2 branches covered">117</span>
+                  <span class="notRelevant">118</span>
+                  <span class="notRelevant">119</span>
+                  <span class="fullyCovered" title="2/2 branches covered">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notRelevant">122</span>
+                  <span class="notRelevant">123</span>
+                  <span class="fullyCovered" title="4/4 branches covered">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="notRelevant">129</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="fullyCovered" title="2/2 branches covered">132</span>
+                  <span class="notRelevant">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="fullyCovered" title="4/4 branches covered">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notRelevant">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="notRelevant">143</span>
+                  <span class="notRelevant">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="notRelevant">147</span>
+                  <span class="notRelevant">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="fullyCovered" title="4/4 branches covered">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  <span class="notRelevant">161</span>
+                  <span class="notRelevant">162</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">163</span>
+                  <span class="notRelevant">164</span>
+                  <span class="notRelevant">165</span>
+                  <span class="fullyCovered" title="2/2 branches covered">166</span>
+                  <span class="fullyCovered" title="2/2 branches covered">167</span>
+                  <span class="notRelevant">168</span>
+                  <span class="notRelevant">169</span>
+                  <span class="fullyCovered" title="2/2 branches covered">170</span>
+                  <span class="fullyCovered" title="2/2 branches covered">171</span>
+                  <span class="notRelevant">172</span>
+                  <span class="notRelevant">173</span>
+                  <span class="fullyCovered" title="4/4 branches covered">174</span>
+                  <span class="notRelevant">175</span>
+                  <span class="notRelevant">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notRelevant">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="notRelevant">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notRelevant">182</span>
+                  <span class="notRelevant">183</span>
+                  <span class="fullyCovered" title="2/2 branches covered">184</span>
+                  <span class="notRelevant">185</span>
+                  <span class="fullyCovered" title="2/2 branches covered">186</span>
+                  <span class="notRelevant">187</span>
+                  <span class="fullyCovered" title="2/2 branches covered">188</span>
+                  <span class="notRelevant">189</span>
+                  <span class="fullyCovered" title="4/4 branches covered">190</span>
+                  <span class="notRelevant">191</span>
+                  <span class="notCovered" title="0/2 branches covered">192</span>
+                  <span class="notRelevant">193</span>
+                  <span class="notRelevant">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="notRelevant">196</span>
+                  <span class="notRelevant">197</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">198</span>
+                  <span class="notRelevant">199</span>
+                  <span class="notRelevant">200</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notRelevant">206</span>
+                  <span class="notRelevant">207</span>
+                  <span class="notRelevant">208</span>
+                  <span class="notRelevant">209</span>
+                  <span class="fullyCovered" title="2/2 branches covered">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="notRelevant">213</span>
+                  <span class="fullyCovered" title="2/2 branches covered">214</span>
+                  <span class="notRelevant">215</span>
+                  <span class="notRelevant">216</span>
+                  <span class="notRelevant">217</span>
+                  <span class="notRelevant">218</span>
+                  <span class="notRelevant">219</span>
+                  <span class="notRelevant">220</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">221</span>
+                  <span class="notRelevant">222</span>
+                  <span class="notRelevant">223</span>
+                  <span class="partiallyCovered" title="1/4 branches covered">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="notRelevant">226</span>
+                  <span class="notCovered" title="0/4 branches covered">227</span>
+                  <span class="notRelevant">228</span>
+                  <span class="notRelevant">229</span>
+                  <span class="notCovered" title="0/2 branches covered">230</span>
+                  <span class="notRelevant">231</span>
+                  <span class="notRelevant">232</span>
+                  <span class="notRelevant">233</span>
+                  <span class="notRelevant">234</span>
+                  <span class="notRelevant">235</span>
+                  <span class="notRelevant">236</span>
+                  <span class="notRelevant">237</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">238</span>
+                  <span class="notRelevant">239</span>
+                  <span class="notRelevant">240</span>
+                  <span class="notRelevant">241</span>
+                  <span class="notCovered" title="0/2 branches covered">242</span>
+                  <span class="notCovered" title="0/2 branches covered">243</span>
+                  <span class="notRelevant">244</span>
+                  <span class="notRelevant">245</span>
+                  <span class="notCovered" title="0/2 branches covered">246</span>
+                  <span class="notRelevant">247</span>
+                  <span class="notRelevant">248</span>
+                  <span class="notCovered" title="0/2 branches covered">249</span>
+                  <span class="notRelevant">250</span>
+                  <span class="notCovered" title="0/2 branches covered">251</span>
+                  <span class="notRelevant">252</span>
+                  <span class="notRelevant">253</span>
+                  <span class="notRelevant">254</span>
+                  <span class="notRelevant">255</span>
+                  <span class="notRelevant">256</span>
+                  <span class="notRelevant">257</span>
+                  <span class="notRelevant">258</span>
+                  <span class="notRelevant">259</span>
+                  <span class="notRelevant">260</span>
+                  <span class="fullyCovered" title="2/2 branches covered">261</span>
+                  <span class="notRelevant">262</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">263</span>
+                  <span class="notRelevant">264</span>
+                  <span class="notRelevant">265</span>
+                  <span class="notRelevant">266</span>
+                  <span class="notRelevant">267</span>
+                  <span class="notRelevant">268</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">269</span>
+                  <span class="notRelevant">270</span>
+                  <span class="notRelevant">271</span>
+                  <span class="notRelevant">272</span>
+                  <span class="notRelevant">273</span>
+                  <span class="notRelevant">274</span>
+                  <span class="notRelevant">275</span>
+                  <span class="notRelevant">276</span>
+                  <span class="notRelevant">277</span>
+                  <span class="notRelevant">278</span>
+                  <span class="notRelevant">279</span>
+                  <span class="notRelevant">280</span>
+                  <span class="notRelevant">281</span>
+                  <span class="notRelevant">282</span>
+                  <span class="notRelevant">283</span>
+                  <span class="notRelevant">284</span>
+                  <span class="notRelevant">285</span>
+                  <span class="notRelevant">286</span>
+                  <span class="notRelevant">287</span>
+                  <span class="notRelevant">288</span>
+                  <span class="notRelevant">289</span>
+                  <span class="notRelevant">290</span>
+                  <span class="notRelevant">291</span>
+                  <span class="notRelevant">292</span>
+                  <span class="notRelevant">293</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">294</span>
+                  <span class="notRelevant">295</span>
+                  <span class="notRelevant">296</span>
+                  <span class="notRelevant">297</span>
+                  <span class="notRelevant">298</span>
+                  <span class="notRelevant">299</span>
+                  <span class="fullyCovered" title="2/2 branches covered">300</span>
+                  <span class="notRelevant">301</span>
+                  <span class="notRelevant">302</span>
+                  <span class="notRelevant">303</span>
+                  <span class="notRelevant">304</span>
+                  <span class="notRelevant">305</span>
+                  <span class="fullyCovered" title="2/2 branches covered">306</span>
+                  <span class="notRelevant">307</span>
+                  <span class="notRelevant">308</span>
+                  <span class="notRelevant">309</span>
+                  <span class="notRelevant">310</span>
+                  <span class="notRelevant">311</span>
+                  <span class="notRelevant">312</span>
+                  <span class="fullyCovered" title="2/2 branches covered">313</span>
+                  <span class="notRelevant">314</span>
+                  <span class="fullyCovered" title="2/2 branches covered">315</span>
+                  <span class="notRelevant">316</span>
+                  <span class="fullyCovered" title="2/2 branches covered">317</span>
+                  <span class="notRelevant">318</span>
+                  <span class="notRelevant">319</span>
+                  <span class="fullyCovered" title="2/2 branches covered">320</span>
+                  <span class="notRelevant">321</span>
+                  <span class="fullyCovered" title="2/2 branches covered">322</span>
+                  <span class="fullyCovered" title="2/2 branches covered">323</span>
+                  <span class="notRelevant">324</span>
+                  <span class="notRelevant">325</span>
+                  <span class="notRelevant">326</span>
+                  <span class="notRelevant">327</span>
+                  <span class="fullyCovered" title="2/2 branches covered">328</span>
+                  <span class="fullyCovered" title="2/2 branches covered">329</span>
+                  <span class="fullyCovered" title="2/2 branches covered">330</span>
+                  <span class="notRelevant">331</span>
+                  <span class="fullyCovered" title="2/2 branches covered">332</span>
+                  <span class="fullyCovered" title="2/2 branches covered">333</span>
+                  <span class="notRelevant">334</span>
+                  <span class="notRelevant">335</span>
+                  <span class="notRelevant">336</span>
+                  <span class="fullyCovered" title="2/2 branches covered">337</span>
+                  <span class="fullyCovered" title="2/2 branches covered">338</span>
+                  <span class="notRelevant">339</span>
+                  <span class="notRelevant">340</span>
+                  <span class="notRelevant">341</span>
+                  <span class="notRelevant">342</span>
+                  <span class="notRelevant">343</span>
+                  <span class="notRelevant">344</span>
+                  <span class="notRelevant">345</span>
+                  <span class="notRelevant">346</span>
+                  <span class="notRelevant">347</span>
+                  <span class="fullyCovered" title="4/4 branches covered">348</span>
+                  <span class="notRelevant">349</span>
+                  <span class="notRelevant">350</span>
+                  <span class="fullyCovered" title="2/2 branches covered">351</span>
+                  <span class="notRelevant">352</span>
+                  <span class="notRelevant">353</span>
+                  <span class="notRelevant">354</span>
+                  <span class="notRelevant">355</span>
+                  <span class="fullyCovered" title="2/2 branches covered">356</span>
+                  <span class="notRelevant">357</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">358</span>
+                  <span class="notRelevant">359</span>
+                  <span class="notRelevant">360</span>
+                  <span class="notRelevant">361</span>
+                  <span class="notRelevant">362</span>
+                  <span class="fullyCovered" title="2/2 branches covered">363</span>
+                  <span class="notRelevant">364</span>
+                  <span class="notRelevant">365</span>
+                  <span class="notRelevant">366</span>
+                  <span class="notRelevant">367</span>
+                  <span class="notRelevant">368</span>
+                  <span class="notRelevant">369</span>
+                  <span class="notRelevant">370</span>
+                  <span class="fullyCovered" title="2/2 branches covered">371</span>
+                  <span class="notRelevant">372</span>
+                  <span class="fullyCovered" title="2/2 branches covered">373</span>
+                  <span class="notRelevant">374</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">375</span>
+                  <span class="notRelevant">376</span>
+                  <span class="fullyCovered" title="2/2 branches covered">377</span>
+                  <span class="partiallyCovered" title="2/4 branches covered">378</span>
+                  <span class="notRelevant">379</span>
+                  <span class="notRelevant">380</span>
+                  <span class="notRelevant">381</span>
+                  <span class="notRelevant">382</span>
+                  <span class="notRelevant">383</span>
+                  <span class="notRelevant">384</span>
+                  <span class="fullyCovered" title="2/2 branches covered">385</span>
+                  <span class="notRelevant">386</span>
+                  <span class="notRelevant">387</span>
+                  <span class="notRelevant">388</span>
+                  <span class="notRelevant">389</span>
+                  <span class="fullyCovered" title="2/2 branches covered">390</span>
+                  <span class="notRelevant">391</span>
+                  <span class="fullyCovered" title="2/2 branches covered">392</span>
+                  <span class="notRelevant">393</span>
+                  <span class="notRelevant">394</span>
+                  <span class="notRelevant">395</span>
+                  <span class="notRelevant">396</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">397</span>
+                  <span class="notRelevant">398</span>
+                  <span class="notRelevant">399</span>
+                  <span class="fullyCovered" title="2/2 branches covered">400</span>
+                  <span class="fullyCovered" title="2/2 branches covered">401</span>
+                  <span class="notRelevant">402</span>
+                  <span class="fullyCovered" title="2/2 branches covered">403</span>
+                  <span class="notRelevant">404</span>
+                  <span class="fullyCovered" title="2/2 branches covered">405</span>
+                  <span class="notRelevant">406</span>
+                  <span class="notRelevant">407</span>
+                  <span class="notRelevant">408</span>
+                  <span class="notRelevant">409</span>
+                  <span class="fullyCovered" title="2/2 branches covered">410</span>
+                  <span class="notRelevant">411</span>
+                  <span class="fullyCovered" title="2/2 branches covered">412</span>
+                  <span class="notRelevant">413</span>
+                  <span class="fullyCovered" title="2/2 branches covered">414</span>
+                  <span class="fullyCovered" title="2/2 branches covered">415</span>
+                  <span class="notRelevant">416</span>
+                  <span class="notRelevant">417</span>
+                  <span class="notRelevant">418</span>
+                  <span class="notRelevant">419</span>
+                  <span class="notRelevant">420</span>
+                  <span class="notRelevant">421</span>
+                  <span class="notRelevant">422</span>
+                  <span class="notRelevant">423</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">424</span>
+                  <span class="notRelevant">425</span>
+                  <span class="notRelevant">426</span>
+                  <span class="notRelevant">427</span>
+                  <span class="notRelevant">428</span>
+                  <span class="notRelevant">429</span>
+                  <span class="notRelevant">430</span>
+                  <span class="fullyCovered" title="2/2 branches covered">431</span>
+                  <span class="notRelevant">432</span>
+                  <span class="fullyCovered" title="2/2 branches covered">433</span>
+                  <span class="notRelevant">434</span>
+                  <span class="notRelevant">435</span>
+                  <span class="notRelevant">436</span>
+                  <span class="notRelevant">437</span>
+                  <span class="notRelevant">438</span>
+                  <span class="fullyCovered" title="2/2 branches covered">439</span>
+                  <span class="notRelevant">440</span>
+                  <span class="notRelevant">441</span>
+                  <span class="notRelevant">442</span>
+                  <span class="notRelevant">443</span>
+                  <span class="notRelevant">444</span>
+                  <span class="notRelevant">445</span>
+                  <span class="fullyCovered" title="2/2 branches covered">446</span>
+                  <span class="notRelevant">447</span>
+                  <span class="fullyCovered" title="2/2 branches covered">448</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">449</span>
+                  <span class="notRelevant">450</span>
+                  <span class="notRelevant">451</span>
+                  <span class="notRelevant">452</span>
+                  <span class="notRelevant">453</span>
+                  <span class="fullyCovered" title="2/2 branches covered">454</span>
+                  <span class="fullyCovered" title="2/2 branches covered">455</span>
+                  <span class="notRelevant">456</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">457</span>
+                  <span class="notRelevant">458</span>
+                  <span class="notRelevant">459</span>
+                  <span class="fullyCovered" title="2/2 branches covered">460</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">461</span>
+                  <span class="notRelevant">462</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">463</span>
+                  <span class="notRelevant">464</span>
+                  <span class="fullyCovered" title="2/2 branches covered">465</span>
+                  <span class="notRelevant">466</span>
+                  <span class="fullyCovered" title="2/2 branches covered">467</span>
+                  <span class="notRelevant">468</span>
+                  <span class="partiallyCovered" title="2/4 branches covered">469</span>
+                  <span class="notRelevant">470</span>
+                  <span class="notRelevant">471</span>
+                  <span class="notRelevant">472</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">473</span>
+                  <span class="notRelevant">474</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">475</span>
+                  <span class="fullyCovered" title="2/2 branches covered">476</span>
+                  <span class="notRelevant">477</span>
+                  <span class="notRelevant">478</span>
+                  <span class="notRelevant">479</span>
+                  <span class="fullyCovered" title="2/2 branches covered">480</span>
+                  <span class="fullyCovered" title="2/2 branches covered">481</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">482</span>
+                  <span class="notRelevant">483</span>
+                  <span class="notRelevant">484</span>
+                  <span class="notRelevant">485</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">486</span>
+                  <span class="notRelevant">487</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">488</span>
+                  <span class="notRelevant">489</span>
+                  <span class="fullyCovered" title="2/2 branches covered">490</span>
+                  <span class="fullyCovered" title="2/2 branches covered">491</span>
+                  <span class="notRelevant">492</span>
+                  <span class="notRelevant">493</span>
+                  <span class="notRelevant">494</span>
+                  <span class="notRelevant">495</span>
+                  <span class="notRelevant">496</span>
+                  <span class="notRelevant">497</span>
+                  <span class="fullyCovered" title="2/2 branches covered">498</span>
+                  <span class="fullyCovered" title="4/4 branches covered">499</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">500</span>
+                  <span class="notRelevant">501</span>
+                  <span class="notCovered" title="0/2 branches covered">502</span>
+                  <span class="notRelevant">503</span>
+                  <span class="notRelevant">504</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">505</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">506</span>
+                  <span class="notRelevant">507</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">508</span>
+                  <span class="notRelevant">509</span>
+                  <span class="notRelevant">510</span>
+                  <span class="notRelevant">511</span>
+                  <span class="notRelevant">512</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">513</span>
+                  <span class="notRelevant">514</span>
+                  <span class="notRelevant">515</span>
+                  <span class="notRelevant">516</span>
+                  <span class="notRelevant">517</span>
+                  <span class="notRelevant">518</span>
+                  <span class="notRelevant">519</span>
+                  <span class="fullyCovered" title="2/2 branches covered">520</span>
+                  <span class="fullyCovered" title="2/2 branches covered">521</span>
+                  <span class="notRelevant">522</span>
+                  <span class="notRelevant">523</span>
+                  <span class="notRelevant">524</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">525</span>
+                  <span class="notRelevant">526</span>
+                  <span class="notRelevant">527</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">528</span>
+                  <span class="notRelevant">529</span>
+                  <span class="notRelevant">530</span>
+                  <span class="notRelevant">531</span>
+                  <span class="notRelevant">532</span>
+                  <span class="notRelevant">533</span>
+                  <span class="fullyCovered" title="2/2 branches covered">534</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">535</span>
+                  <span class="notRelevant">536</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">537</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">538</span>
+                  <span class="notRelevant">539</span>
+                  <span class="notRelevant">540</span>
+                  <span class="notRelevant">541</span>
+                  <span class="notRelevant">542</span>
+                  <span class="notRelevant">543</span>
+                  <span class="notRelevant">544</span>
+                  <span class="notRelevant">545</span>
+                  <span class="notRelevant">546</span>
+                  <span class="notCovered" title="0/2 branches covered">547</span>
+                  <span class="notRelevant">548</span>
+                  <span class="notRelevant">549</span>
+                  <span class="notRelevant">550</span>
+                  <span class="notRelevant">551</span>
+                  <span class="fullyCovered" title="2/2 branches covered">552</span>
+                  <span class="fullyCovered" title="2/2 branches covered">553</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">554</span>
+                  <span class="notRelevant">555</span>
+                  <span class="notRelevant">556</span>
+                  <span class="notRelevant">557</span>
+                  <span class="notRelevant">558</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">559</span>
+                  <span class="notCovered" title="0/2 branches covered">560</span>
+                  <span class="notRelevant">561</span>
+                  <span class="notRelevant">562</span>
+                  <span class="notRelevant">563</span>
+                  <span class="notRelevant">564</span>
+                  <span class="notRelevant">565</span>
+                  <span class="notRelevant">566</span>
+                  <span class="fullyCovered" title="2/2 branches covered">567</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">568</span>
+                  <span class="notRelevant">569</span>
+                  <span class="notRelevant">570</span>
+                  <span class="fullyCovered" title="2/2 branches covered">571</span>
+                  <span class="notRelevant">572</span>
+                  <span class="notRelevant">573</span>
+                  <span class="notRelevant">574</span>
+                  <span class="notRelevant">575</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">576</span>
+                  <span class="notRelevant">577</span>
+                  <span class="notRelevant">578</span>
+                  <span class="notRelevant">579</span>
+                  <span class="notRelevant">580</span>
+                  <span class="notRelevant">581</span>
+                  <span class="notRelevant">582</span>
+                  <span class="notRelevant">583</span>
+                  <span class="notRelevant">584</span>
+                  <span class="fullyCovered" title="2/2 branches covered">585</span>
+                  <span class="fullyCovered" title="2/2 branches covered">586</span>
+                  <span class="notRelevant">587</span>
+                  <span class="notRelevant">588</span>
+                  <span class="notRelevant">589</span>
+                  <span class="fullyCovered" title="2/2 branches covered">590</span>
+                  <span class="notRelevant">591</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">592</span>
+                  <span class="notRelevant">593</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">594</span>
+                  <span class="notRelevant">595</span>
+                  <span class="notRelevant">596</span>
+                  <span class="notRelevant">597</span>
+                  <span class="notRelevant">598</span>
+                  <span class="notRelevant">599</span>
+                  <span class="notRelevant">600</span>
+                  <span class="fullyCovered" title="2/2 branches covered">601</span>
+                  <span class="notRelevant">602</span>
+                  <span class="notRelevant">603</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;Data structures.&quot;&quot;&quot;</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Yuan Chang&quot;</span>
+<span class="n">__copyright__</span> <span class="o">=</span> <span class="s2">&quot;Copyright (C) 2020-2021&quot;</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;pyslvs@gmail.com&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModuleType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">getdoc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ast</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">parse</span><span class="p">,</span> <span class="n">unparse</span><span class="p">,</span> <span class="n">get_docstring</span><span class="p">,</span> <span class="n">AST</span><span class="p">,</span> <span class="n">FunctionDef</span><span class="p">,</span> <span class="n">AsyncFunctionDef</span><span class="p">,</span> <span class="n">ClassDef</span><span class="p">,</span>
+    <span class="n">Assign</span><span class="p">,</span> <span class="n">AnnAssign</span><span class="p">,</span> <span class="n">Delete</span><span class="p">,</span> <span class="n">Import</span><span class="p">,</span> <span class="n">ImportFrom</span><span class="p">,</span> <span class="n">Name</span><span class="p">,</span> <span class="n">Expr</span><span class="p">,</span> <span class="n">Subscript</span><span class="p">,</span> <span class="n">BinOp</span><span class="p">,</span>
+    <span class="n">BitOr</span><span class="p">,</span> <span class="n">Call</span><span class="p">,</span> <span class="n">If</span><span class="p">,</span> <span class="n">Try</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Constant</span><span class="p">,</span> <span class="n">Load</span><span class="p">,</span> <span class="n">Attribute</span><span class="p">,</span>
+    <span class="n">arg</span><span class="p">,</span> <span class="n">expr</span><span class="p">,</span> <span class="n">stmt</span><span class="p">,</span> <span class="n">arguments</span><span class="p">,</span> <span class="n">NodeTransformer</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.pep585</span><span class="w"> </span><span class="kn">import</span> <span class="n">PEP585</span>
+
+<span class="n">_I</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Import</span><span class="p">,</span> <span class="n">ImportFrom</span><span class="p">]</span>
+<span class="n">_G</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Assign</span><span class="p">,</span> <span class="n">AnnAssign</span><span class="p">]</span>
+<span class="n">_API</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">FunctionDef</span><span class="p">,</span> <span class="n">AsyncFunctionDef</span><span class="p">,</span> <span class="n">ClassDef</span><span class="p">]</span>
+<span class="n">ANY</span> <span class="o">=</span> <span class="s1">&#39;Any&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_m</span><span class="p">(</span><span class="o">*</span><span class="n">names</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get module names&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">names</span> <span class="k">if</span> <span class="n">s</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_attr</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Nest `getattr` function.&quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">obj</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">n</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_defaults</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">expr</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Literals of the table.&quot;&quot;&quot;</span>
+    <span class="k">yield from</span> <span class="p">(</span><span class="n">code</span><span class="p">(</span><span class="n">unparse</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot; &quot;</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parent</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get parent name with level.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="n">level</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_magic</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check magic name.&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">name</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;__&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_public_family</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the name is come from public modules or not.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        <span class="c1"># Magic name</span>
+        <span class="k">if</span> <span class="n">is_magic</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="c1"># Local or private name</span>
+        <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">walk_body</span><span class="p">(</span><span class="n">body</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">stmt</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">stmt</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Traverse around body and its simple definition scope.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">body</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">If</span><span class="p">):</span>
+            <span class="k">yield from</span> <span class="n">walk_body</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">walk_body</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">orelse</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Try</span><span class="p">):</span>
+            <span class="k">yield from</span> <span class="n">walk_body</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">walk_body</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">walk_body</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">orelse</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">walk_body</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">finalbody</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">node</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">code</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Escape Markdown charters from inline code.&quot;&quot;&quot;</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;&amp;#124;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;&amp;&#39;</span> <span class="ow">in</span> <span class="n">doc</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;code&gt;</span><span class="si">{</span><span class="n">doc</span><span class="si">}</span><span class="s2">&lt;/code&gt;&quot;</span>
+    <span class="k">elif</span> <span class="n">doc</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">doc</span><span class="si">}</span><span class="s2">`&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot; &quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">esc_underscore</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Escape underscore in names.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">doc</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">doc</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\_&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">doc</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">doctest</span><span class="p">(</span><span class="n">doc</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrap doctest as markdown Python code.&quot;&quot;&quot;</span>
+    <span class="n">keep</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+        <span class="n">signed</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;&gt;&gt;&gt; &quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">signed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">keep</span><span class="p">:</span>
+                <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;```python&quot;</span><span class="p">)</span>
+                <span class="n">keep</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">keep</span><span class="p">:</span>
+            <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;```&quot;</span><span class="p">)</span>
+            <span class="n">keep</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">signed</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;```&quot;</span><span class="p">)</span>
+            <span class="n">keep</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_table_cell</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make a row of table cell.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;|&#39;</span> <span class="o">+</span> <span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">items</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;|&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_table_split</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The split line of the table.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;|&#39;</span> <span class="o">+</span> <span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="k">else</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span>
+                          <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;|&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">table</span><span class="p">(</span><span class="o">*</span><span class="n">titles</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create multi-column table with the titles.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">    &gt;&gt;&gt; table(&#39;a&#39;, &#39;b&#39;, [[&#39;c&#39;, &#39;d&#39;], [&#39;e&#39;, &#39;f&#39;]])</span>
+<span class="sd">    | a | b |</span>
+<span class="sd">    |:---:|:---:|</span>
+<span class="sd">    | c | d |</span>
+<span class="sd">    | e | f |</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">_table_cell</span><span class="p">(</span><span class="n">titles</span><span class="p">),</span> <span class="n">_table_split</span><span class="p">(</span><span class="n">titles</span><span class="p">),</span>
+                      <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_table_cell</span><span class="p">([</span><span class="n">n</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">n</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">items</span><span class="p">)])</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_type_name</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get type name.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="vm">__qualname__</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_e_type</span><span class="p">(</span><span class="o">*</span><span class="n">elements</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">expr</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get element type if type is constants.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">elements</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">element</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">element</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Constant</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">nw_t</span> <span class="o">=</span> <span class="n">_type_name</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="ow">and</span> <span class="n">t</span> <span class="o">!=</span> <span class="n">nw_t</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="s2">&quot;Any&quot;</span>
+                <span class="k">break</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">nw_t</span>
+        <span class="n">ts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">const_type</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">expr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Constant type inference.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Constant</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_type_name</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="p">(</span><span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">_type_name</span><span class="p">(</span><span class="n">node</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">_e_type</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">elts</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;dict&#39;</span> <span class="o">+</span> <span class="n">_e_type</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">keys</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Call</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="p">(</span><span class="n">Name</span><span class="p">,</span> <span class="n">Attribute</span><span class="p">)):</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">unparse</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">({</span><span class="s1">&#39;bool&#39;</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">,</span> <span class="s1">&#39;complex&#39;</span><span class="p">,</span> <span class="s1">&#39;str&#39;</span><span class="p">},</span>
+                         <span class="n">PEP585</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">PEP585</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="n">func</span>
+    <span class="k">return</span> <span class="n">ANY</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Resolver</span><span class="p">(</span><span class="n">NodeTransformer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotation resolver.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">alias</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">self_ty</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set root module, alias and generic self name.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Resolver</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alias</span> <span class="o">=</span> <span class="n">alias</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">self_ty</span> <span class="o">=</span> <span class="n">self_ty</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_Constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Constant</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AST</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check string is a name.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">node</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Expr</span><span class="p">,</span> <span class="n">parse</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">SyntaxError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_Name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AST</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Replace global names with its expression recursively.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">self_ty</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Name</span><span class="p">(</span><span class="s2">&quot;Self&quot;</span><span class="p">,</span> <span class="n">Load</span><span class="p">())</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">_m</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Expr</span><span class="p">,</span> <span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alias</span><span class="p">[</span><span class="n">name</span><span class="p">])</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="c1"># Support `TypeVar`</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">Call</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">Name</span><span class="p">):</span>
+                <span class="n">func_name</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">id</span>
+                <span class="n">idf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_m</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">func_name</span><span class="p">),</span> <span class="n">func_name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">idf</span> <span class="o">==</span> <span class="s1">&#39;typing.TypeVar&#39;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">node</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_Subscript</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Subscript</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AST</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Implementation of PEP585 and PEP604.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">Name</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">node</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">idf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_m</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">idf</span> <span class="o">==</span> <span class="s1">&#39;typing.Union&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">slice</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">slice</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">slice</span><span class="o">.</span><span class="n">elts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">slice</span><span class="o">.</span><span class="n">elts</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">BinOp</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">BitOr</span><span class="p">(),</span> <span class="n">e</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">b</span>
+        <span class="k">elif</span> <span class="n">idf</span> <span class="o">==</span> <span class="s1">&#39;typing.Optional&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">BinOp</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">slice</span><span class="p">,</span> <span class="n">BitOr</span><span class="p">(),</span> <span class="n">Constant</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">idf</span> <span class="ow">in</span> <span class="n">PEP585</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">lineno</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">col_offset</span><span class="si">}</span><span class="s2">: &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;find deprecated name </span><span class="si">{</span><span class="n">idf</span><span class="si">}</span><span class="s2">, &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;recommended to use </span><span class="si">{</span><span class="n">PEP585</span><span class="p">[</span><span class="n">idf</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">Subscript</span><span class="p">(</span><span class="n">Name</span><span class="p">(</span><span class="n">PEP585</span><span class="p">[</span><span class="n">idf</span><span class="p">],</span> <span class="n">Load</span><span class="p">),</span> <span class="n">node</span><span class="o">.</span><span class="n">slice</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">ctx</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">visit_Attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Attribute</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AST</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove `typing.*` prefix of annotation.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">Name</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">node</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="s1">&#39;typing&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Name</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">attr</span><span class="p">,</span> <span class="n">Load</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">node</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Parser</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;AST parser.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">    &gt;&gt;&gt; p = Parser()</span>
+<span class="sd">    &gt;&gt;&gt; with open(&quot;pkg_path&quot;, &#39;r&#39;) as f:</span>
+<span class="sd">    &gt;&gt;&gt;     p.parse(&#39;pkg_name&#39;, f.read())</span>
+<span class="sd">    &gt;&gt;&gt; s = p.compile()</span>
+
+<span class="sd">    Or create with parameters:</span>
+<span class="sd">    &gt;&gt;&gt; p = Parser.new(link=True, level=1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">link</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">b_level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">toc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">doc</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">docstring</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">imp</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">root</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">alias</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">const</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">_Self</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;_Self&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;Parser&#39;</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">new</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">_Self</span><span class="p">],</span> <span class="n">link</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">toc</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a parser by options.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">toc</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">toc</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">link</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Main parser of the entire module.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_level</span> <span class="o">+</span> <span class="s2">&quot;# Module `</span><span class="si">{}</span><span class="s2">`&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&lt;a id=</span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">&gt;&lt;/a&gt;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imp</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span>
+        <span class="n">root_node</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">type_comments</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">walk_body</span><span class="p">(</span><span class="n">root_node</span><span class="o">.</span><span class="n">body</span><span class="p">):</span>
+            <span class="c1"># &quot;Execute&quot; assignments</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="p">(</span><span class="n">Import</span><span class="p">,</span> <span class="n">ImportFrom</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">imports</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="p">(</span><span class="n">Assign</span><span class="p">,</span> <span class="n">AnnAssign</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">get_docstring</span><span class="p">(</span><span class="n">root_node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">doc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span><span class="p">[</span><span class="n">root</span><span class="p">]</span> <span class="o">=</span> <span class="n">doctest</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">walk_body</span><span class="p">(</span><span class="n">root_node</span><span class="o">.</span><span class="n">body</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="p">(</span><span class="n">FunctionDef</span><span class="p">,</span> <span class="n">AsyncFunctionDef</span><span class="p">,</span> <span class="n">ClassDef</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">imports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">_I</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save import names.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Import</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">asname</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">a</span><span class="o">.</span><span class="n">asname</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">alias</span><span class="p">[</span><span class="n">_m</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">module</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">level</span><span class="p">:</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">parent</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">asname</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">a</span><span class="o">.</span><span class="n">asname</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">alias</span><span class="p">[</span><span class="n">_m</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_m</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">globals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">_G</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set up globals:</span>
+
+<span class="sd">        + Type alias</span>
+<span class="sd">        + Constants</span>
+<span class="sd">        + `__all__` filter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">AnnAssign</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">Name</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">):</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">target</span>
+            <span class="n">expression</span> <span class="o">=</span> <span class="n">unparse</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">ann</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">annotation</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Assign</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">targets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+            <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Name</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">expression</span> <span class="o">=</span> <span class="n">unparse</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">type_comment</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ann</span> <span class="o">=</span> <span class="n">const_type</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ann</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">type_comment</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">_m</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">left</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alias</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">expression</span>
+        <span class="k">if</span> <span class="n">left</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ANY</span><span class="p">)</span> <span class="o">==</span> <span class="n">ANY</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ann</span>
+        <span class="k">if</span> <span class="n">left</span><span class="o">.</span><span class="n">id</span> <span class="o">!=</span> <span class="s1">&#39;__all__&#39;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">)):</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">elts</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">Constant</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">imp</span><span class="p">[</span><span class="n">root</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">_m</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">api</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">_API</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create API doc for only functions and classes.</span>
+<span class="sd">        Where `name` is the full name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">level</span> <span class="o">=</span> <span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b_level</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">prefix</span> <span class="k">else</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">_m</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">[</span><span class="n">root</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span>
+        <span class="n">shirt_name</span> <span class="o">=</span> <span class="n">esc_underscore</span><span class="p">(</span><span class="n">_m</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">FunctionDef</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">shirt_name</span><span class="si">}</span><span class="s2">()</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">AsyncFunctionDef</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> async </span><span class="si">{</span><span class="n">shirt_name</span><span class="si">}</span><span class="s2">()</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level</span><span class="si">}</span><span class="s2"> class </span><span class="si">{</span><span class="n">shirt_name</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="s2">&quot;*Full name:* `</span><span class="si">{}</span><span class="s2">`&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">link</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&lt;a id=</span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">&gt;&lt;/a&gt;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+        <span class="n">decs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;@&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">decorator_list</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">decs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="n">table</span><span class="p">(</span><span class="s2">&quot;Decorators&quot;</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="nb">map</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">decs</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="p">(</span><span class="n">FunctionDef</span><span class="p">,</span> <span class="n">AsyncFunctionDef</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">func_api</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">returns</span><span class="p">,</span>
+                          <span class="n">has_self</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;@staticmethod&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">decs</span><span class="p">,</span>
+                          <span class="n">cls_method</span><span class="o">=</span><span class="s1">&#39;@classmethod&#39;</span> <span class="ow">in</span> <span class="n">decs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">class_api</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">bases</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">get_docstring</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">doc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">doctest</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">ClassDef</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">walk_body</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">body</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">(</span><span class="n">FunctionDef</span><span class="p">,</span> <span class="n">AsyncFunctionDef</span><span class="p">,</span> <span class="n">ClassDef</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">func_api</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">arguments</span><span class="p">,</span>
+                 <span class="n">returns</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">expr</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span>
+                 <span class="n">has_self</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">cls_method</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create function API.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">default</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">expr</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">posonlyargs</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">posonlyargs</span><span class="p">)</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="n">default</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">posonlyargs</span><span class="p">))</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">default</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">defaults</span><span class="p">)))</span>
+        <span class="n">default</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">defaults</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">vararg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">(</span><span class="s1">&#39;*&#39;</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">vararg</span><span class="o">.</span><span class="n">arg</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">vararg</span><span class="o">.</span><span class="n">annotation</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">kwonlyargs</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+        <span class="n">default</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">kwonlyargs</span><span class="p">)</span>
+        <span class="n">default</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">kwonlyargs</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">kw_defaults</span><span class="p">)))</span>
+        <span class="n">default</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">kw_defaults</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">kwarg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">(</span><span class="s1">&#39;**&#39;</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">kwarg</span><span class="o">.</span><span class="n">arg</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">kwarg</span><span class="o">.</span><span class="n">annotation</span><span class="p">))</span>
+            <span class="n">default</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">(</span><span class="s1">&#39;return&#39;</span><span class="p">,</span> <span class="n">returns</span><span class="p">))</span>
+        <span class="n">default</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">ann</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">func_ann</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">has_self</span><span class="o">=</span><span class="n">has_self</span><span class="p">,</span>
+                                      <span class="n">cls_method</span><span class="o">=</span><span class="n">cls_method</span><span class="p">))</span>
+        <span class="n">has_default</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">d</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">default</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="n">table</span><span class="p">(</span>
+            <span class="o">*</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">arg</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">),</span>
+            <span class="n">items</span><span class="o">=</span><span class="p">[</span><span class="n">ann</span><span class="p">]</span> <span class="k">if</span> <span class="n">has_default</span> <span class="k">else</span> <span class="p">[</span><span class="n">ann</span><span class="p">,</span> <span class="n">_defaults</span><span class="p">(</span><span class="n">default</span><span class="p">)])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">class_api</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bases</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">expr</span><span class="p">],</span>
+                  <span class="n">body</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">stmt</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create class API.&quot;&quot;&quot;</span>
+        <span class="n">r_bases</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">r_bases</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="n">table</span><span class="p">(</span><span class="s2">&quot;Bases&quot;</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="nb">map</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">r_bases</span><span class="p">))</span>
+        <span class="n">is_enum</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;enum.&#39;</span><span class="p">),</span> <span class="n">r_bases</span><span class="p">))</span>
+        <span class="n">mem</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">enums</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">walk_body</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">AnnAssign</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">Name</span><span class="p">):</span>
+                <span class="n">attr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">id</span>
+                <span class="k">if</span> <span class="n">is_enum</span><span class="p">:</span>
+                    <span class="n">enums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">is_public_family</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+                    <span class="n">mem</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">annotation</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Assign</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">targets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+                <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Name</span><span class="p">)</span>
+            <span class="p">):</span>
+                <span class="n">attr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">id</span>
+                <span class="k">if</span> <span class="n">is_enum</span><span class="p">:</span>
+                    <span class="n">enums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">is_public_family</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">type_comment</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">mem</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">const_type</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">mem</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">type_comment</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Delete</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">targets</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">Name</span><span class="p">):</span>
+                        <span class="k">continue</span>
+                    <span class="n">attr</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">id</span>
+                    <span class="n">mem</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">enums</span><span class="p">:</span>
+                        <span class="n">enums</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">enums</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="n">table</span><span class="p">(</span><span class="s2">&quot;Enums&quot;</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="n">enums</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">mem</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;Members&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">code</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">code</span><span class="p">(</span><span class="n">mem</span><span class="p">[</span><span class="n">n</span><span class="p">]))</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">mem</span><span class="p">)))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">func_ann</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">arg</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span>
+                 <span class="n">has_self</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">cls_method</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function annotation table.&quot;&quot;&quot;</span>
+        <span class="n">self_ty</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">has_self</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">annotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">self_ty</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">annotation</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">cls_method</span><span class="p">:</span>
+                        <span class="n">self_ty</span> <span class="o">=</span> <span class="p">(</span><span class="n">self_ty</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="s1">&#39;type[&#39;</span><span class="p">)</span>
+                                   <span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">))</span>
+                <span class="k">yield</span> <span class="s1">&#39;type[Self]&#39;</span> <span class="k">if</span> <span class="n">cls_method</span> <span class="k">else</span> <span class="s1">&#39;Self&#39;</span>
+            <span class="k">elif</span> <span class="n">a</span><span class="o">.</span><span class="n">arg</span> <span class="o">==</span> <span class="s1">&#39;*&#39;</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">elif</span> <span class="n">a</span><span class="o">.</span><span class="n">annotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">annotation</span><span class="p">,</span> <span class="n">self_ty</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">ANY</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">expr</span><span class="p">,</span> <span class="n">self_ty</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search and resolve global names in annotation.&quot;&quot;&quot;</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Resolver</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias</span><span class="p">,</span> <span class="n">self_ty</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">unparse</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">generic_visit</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="n">node</span><span class="p">)))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_docstring</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">m</span><span class="p">:</span> <span class="n">ModuleType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load docstring from the module.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="n">root</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="n">getdoc</span><span class="p">(</span><span class="n">_attr</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">doc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">doctest</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__is_immediate_family</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the name is immediate family.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">n2</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">n1</span><span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="n">n2</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">n2</span><span class="p">])))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__find_alias</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Alias substitution.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">doc</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__is_immediate_family</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">ch</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="n">nw</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="n">ch</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">nw</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span><span class="p">[</span><span class="n">nw</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">ch</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ch</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">nw</span><span class="p">]</span> <span class="o">=</span> <span class="n">nw</span><span class="o">.</span><span class="n">removesuffix</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">[</span><span class="n">nw</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">nw</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="p">[</span><span class="n">nw</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_public</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the name is public style or listed in `__all__`.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">imp</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="n">ch</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_public_family</span><span class="p">(</span><span class="n">ch</span><span class="p">):</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">all_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imp</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">s</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="n">all_l</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">s</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="ow">or</span> <span class="nb">bool</span><span class="p">({</span><span class="n">s</span><span class="p">,</span> <span class="n">parent</span><span class="p">(</span><span class="n">s</span><span class="p">)}</span> <span class="o">&amp;</span> <span class="n">all_l</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">is_public_family</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__get_const</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get constants table.&quot;&quot;&quot;</span>
+        <span class="n">const</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_public</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+                <span class="n">ch</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+                <span class="n">const</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">code</span><span class="p">(</span><span class="n">ch</span><span class="p">),</span> <span class="n">code</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">const</span><span class="p">[</span><span class="n">c</span><span class="p">])))</span>
+        <span class="k">if</span> <span class="n">const</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">table</span><span class="p">(</span><span class="s1">&#39;Constants&#39;</span><span class="p">,</span> <span class="s1">&#39;Type&#39;</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="n">const</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__names_cmp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Name comparison function.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">level</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">islower</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compile documentation.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__find_alias</span><span class="p">()</span>
+        <span class="n">toc</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;**Table of contents:**&#39;</span><span class="p">]</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__names_cmp</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_public</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">link</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">link</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">imp</span><span class="p">:</span>
+                <span class="n">doc</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_const</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span><span class="p">:</span>
+                <span class="n">doc</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">docstring</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">is_magic</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing documentation for </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">level</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">[</span><span class="n">name</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+            <span class="n">toc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">level</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;+ [</span><span class="si">{</span><span class="n">code</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="si">}</span><span class="s2">](#</span><span class="si">{</span><span class="n">link</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="n">docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">toc</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">toc</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-01-18 12:07:22.904577</p>
+</footer>
+</body>
+</html>

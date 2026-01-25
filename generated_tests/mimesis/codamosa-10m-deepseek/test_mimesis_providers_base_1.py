@@ -1,10 +1,8 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import enum as module_1
-
-import mimesis.providers.base as module_0
-import mimesis.random as module_2
 import pytest
-
+import mimesis.providers.base as module_0
+import mimesis.exceptions as module_1
+import mimesis.random as module_2
 
 def test_case_0():
     var_0 = module_0.BaseDataProvider()
@@ -74,10 +72,8 @@ def test_case_4():
     assert f'{type(module_0.Seed).__module__}.{type(module_0.Seed).__qualname__}' == 'types.UnionType'
     var_2 = 'gN\x0bMtC'
     var_3 = {var_2: var_2, var_2: var_0}
-    var_4 = var_1.reseed()
-    var_1.validate_enum(var_3, var_4)
+    var_1.validate_enum(var_3, var_0)
 
-@pytest.mark.xfail(strict=True)
 def test_case_5():
     var_0 = module_0.BaseProvider()
     assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'mimesis.providers.base.BaseProvider'
@@ -87,10 +83,9 @@ def test_case_5():
     assert module_0.LOCALE_SEP == '-'
     assert f'{type(module_0.MissingSeed).__module__}.{type(module_0.MissingSeed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_0.Seed).__module__}.{type(module_0.Seed).__qualname__}' == 'types.UnionType'
-    var_1 = module_1._EnumDict()
-    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'enum._EnumDict'
-    assert len(var_1) == 0
-    var_0.validate_enum(var_1, var_0)
+    var_1 = {}
+    with pytest.raises(module_1.NonEnumerableError):
+        var_0.validate_enum(var_1, var_1)
 
 def test_case_6():
     var_0 = None
@@ -145,28 +140,19 @@ def test_case_8():
     assert module_0.LOCALE_SEP == '-'
     assert f'{type(module_0.MissingSeed).__module__}.{type(module_0.MissingSeed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_0.Seed).__module__}.{type(module_0.Seed).__qualname__}' == 'types.UnionType'
-    var_2 = var_1.__str__()
-    assert var_2 == 'BaseDataProvider <Locale.EN>'
-    var_3 = {var_2: var_1, var_2: var_0}
-    var_4 = var_1.override_locale(var_0)
-    assert f'{type(var_4).__module__}.{type(var_4).__qualname__}' == 'contextlib._GeneratorContextManager'
-    assert f'{type(var_4.gen).__module__}.{type(var_4.gen).__qualname__}' == 'builtins.generator'
-    assert f'{type(var_4.args).__module__}.{type(var_4.args).__qualname__}' == 'builtins.tuple'
-    assert len(var_4.args) == 2
-    assert var_4.kwds == {}
-    var_5 = var_1.update_dataset(var_3)
-    var_6 = module_0.BaseProvider()
-    assert f'{type(var_6).__module__}.{type(var_6).__qualname__}' == 'mimesis.providers.base.BaseProvider'
-    assert f'{type(var_6.random).__module__}.{type(var_6.random).__qualname__}' == 'mimesis.random.Random'
-    assert f'{type(var_6.seed).__module__}.{type(var_6.seed).__qualname__}' == 'mimesis.types._MissingSeed'
-    var_7 = var_1.update_dataset(var_3)
-    var_8 = 'x7->Q=8B#H'
-    var_9 = "U\rOs-u'"
-    var_10 = {var_9: var_1, var_8: var_8, var_9: var_0}
-    var_11 = var_1.update_dataset(var_10)
-    var_12 = var_6.__str__()
-    assert var_12 == 'BaseProvider'
-    var_6.validate_enum(var_3, var_11)
+    var_2 = module_0.BaseProvider()
+    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'mimesis.providers.base.BaseProvider'
+    assert f'{type(var_2.random).__module__}.{type(var_2.random).__qualname__}' == 'mimesis.random.Random'
+    assert f'{type(var_2.seed).__module__}.{type(var_2.seed).__qualname__}' == 'mimesis.types._MissingSeed'
+    var_3 = 'gN\x0bMC'
+    var_4 = {var_3: var_3, var_3: var_0}
+    var_5 = var_2.__str__()
+    assert var_5 == 'BaseProvider'
+    var_6 = 'x7->Q=8B#H'
+    var_7 = "U\rOs-u'"
+    var_8 = {var_7: var_1, var_6: var_6, var_7: var_0}
+    var_9 = var_1.update_dataset(var_8)
+    var_2.validate_enum(var_4, var_9)
 
 def test_case_9():
     var_0 = None
@@ -211,6 +197,10 @@ def test_case_11():
     assert f'{type(var_3).__module__}.{type(var_3).__qualname__}' == 'mimesis.providers.base.BaseProvider'
     assert f'{type(var_3.random).__module__}.{type(var_3.random).__qualname__}' == 'mimesis.random.Random'
     assert f'{type(var_3.seed).__module__}.{type(var_3.seed).__qualname__}' == 'mimesis.types._MissingSeed'
+    var_4 = module_0.BaseProvider(seed=var_0, random=var_2)
+    assert f'{type(var_4).__module__}.{type(var_4).__qualname__}' == 'mimesis.providers.base.BaseProvider'
+    assert f'{type(var_4.random).__module__}.{type(var_4.random).__qualname__}' == 'mimesis.random.Random'
+    assert var_4.seed == 42
 
 @pytest.mark.xfail(strict=True)
 def test_case_12():
@@ -224,12 +214,10 @@ def test_case_12():
     assert module_0.LOCALE_SEP == '-'
     assert f'{type(module_0.MissingSeed).__module__}.{type(module_0.MissingSeed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_0.Seed).__module__}.{type(module_0.Seed).__qualname__}' == 'types.UnionType'
-    var_2 = var_1.__str__()
-    assert var_2 == 'BaseDataProvider <Locale.EN>'
-    var_3 = var_1.override_locale(var_0)
-    assert f'{type(var_3).__module__}.{type(var_3).__qualname__}' == 'contextlib._GeneratorContextManager'
-    assert f'{type(var_3.gen).__module__}.{type(var_3.gen).__qualname__}' == 'builtins.generator'
-    assert f'{type(var_3.args).__module__}.{type(var_3.args).__qualname__}' == 'builtins.tuple'
-    assert len(var_3.args) == 2
-    assert var_3.kwds == {}
-    var_3.__exit__(var_0, var_0, var_0)
+    var_2 = var_1.override_locale(var_0)
+    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'contextlib._GeneratorContextManager'
+    assert f'{type(var_2.gen).__module__}.{type(var_2.gen).__qualname__}' == 'builtins.generator'
+    assert f'{type(var_2.args).__module__}.{type(var_2.args).__qualname__}' == 'builtins.tuple'
+    assert len(var_2.args) == 2
+    assert var_2.kwds == {}
+    var_2.__enter__()

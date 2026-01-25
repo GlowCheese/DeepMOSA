@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,29 +7,39 @@
 #--------------------------
 
 # Unit test for function discard
-def test_discard(): 
-    from pyrsistent import m, v
-    # Test discarding from a map
-    structure = m(a=1, b=2, c=3)
-    evolver = structure.evolver()
-    discard(evolver, 'b')
-    assert evolver.persistent() == m(a=1, c=3)
-    # Test discarding a non-existent key from a map
-    evolver = structure.evolver()
-    discard(evolver, 'd')
-    assert evolver.persistent() == m(a=1, b=2, c=3)
-    # Test discarding from a vector
-    structure = v(1, 2, 3)
-    evolver = structure.evolver()
-    discard(evolver, 1)
-    assert evolver.persistent() == v(1, 3)
-    # Test discarding a non-existent index from a vector
-    evolver = structure.evolver()
-    discard(evolver, 5)
-    assert evolver.persistent() == v(1, 2, 3)
-    print("All tests passed for discard function.")
+def test_discard():
+    from pyrsistent import m, s, v
 
-# Run the unit test
+    # Test discarding from a map
+    m1 = m(a=1, b=2)
+    e1 = m1.evolver()
+    discard(e1, 'a')
+    assert e1.persistent() == m(b=2)
+
+    # Test discarding a non-existent key from a map
+    e2 = m1.evolver()
+    discard(e2, 'c')
+    assert e2.persistent() == m1
+
+    # Test discarding from a vector
+    v1 = v(1, 2, 3)
+    e3 = v1.evolver()
+    discard(e3, 1)
+    assert e3.persistent() == v(1, 3)
+
+    # Test discarding from a set
+    s1 = s(1, 2, 3)
+    e4 = s1.evolver()
+    discard(e4, 2)
+    assert e4.persistent() == s(1, 3)
+
+    # Test discarding a non-existent element from a set
+    e5 = s1.evolver()
+    discard(e5, 4)
+    assert e5.persistent() == s1
+
+    print("All tests for discard passed successfully!")
+
 test_discard()
 
 
@@ -37,121 +47,86 @@ test_discard()
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
+def test_rex():
     matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+    assert matcher('apple') is not None
+    assert matcher('banana') is None
+    assert matcher(123) is None
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for function discard
-def test_discard(): 
-    from pyrsistent import m, v
-    # Test discarding from a map
-    structure = m(a=1, b=2, c=3)
-    evolver = structure.evolver()
-    discard(evolver, 'b')
-    assert evolver.persistent() == m(a=1, c=3)
-    # Test discarding a non-existent key
-    evolver = structure.evolver()
-    discard(evolver, 'd')
-    assert evolver.persistent() == m(a=1, b=2, c=3)
-    # Test discarding from a vector
-    structure = v(1, 2, 3)
-    evolver = structure.evolver()
-    discard(evolver, 1)
-    assert evolver.persistent() == v(1, 3)
-    # Test discarding from a vector with out-of-range index
-    evolver = structure.evolver()
-    discard(evolver, 5)
-    assert evolver.persistent() == v(1, 2, 3)
-    print("All tests passed!")
+def test_discard():
+    from pyrsistent import m, s, v
 
-# Run the unit test
-test_discard()
+    # Test discarding from a map
+    m1 = m(a=1, b=2)
+    e = m1.evolver()
+    discard(e, 'a')
+    assert e.persistent() == m(b=2)
+
+    # Test discarding a non-existent key from a map
+    e = m1.evolver()
+    discard(e, 'c')
+    assert e.persistent() == m(a=1, b=2)
+
+    # Test discarding from a vector
+    v1 = v(1, 2, 3)
+    e = v1.evolver()
+    discard(e, 1)
+    assert e.persistent() == v(1, 3)
+
+    # Test discarding a non-existent index from a vector
+    e = v1.evolver()
+    discard(e, 5)
+    assert e.persistent() == v(1, 2, 3)
+
+    # Test discarding from a set
+    s1 = s(1, 2, 3)
+    e = s1.evolver()
+    discard(e, 2)
+    assert e.persistent() == s(1, 3)
+
+    # Test discarding a non-existent element from a set
+    e = s1.evolver()
+    discard(e, 4)
+    assert e.persistent() == s(1, 2, 3)
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for function transform
-def test_transform(): 
-    # Test case 1: Transform a list by incrementing each element
-    structure = [1, 2, 3]
-    transformations = [ny, inc]
-    result = transform(structure, transformations)
-    assert result == [2, 3, 4], f"Expected [2, 3, 4], but got {result}"
+def test_transform():
+    # Test transformation on a simple dictionary
+    original = {'a': 1, 'b': 2}
+    transformed = transform(original, ['a', inc])
+    assert transformed == {'a': 2, 'b': 2}, "Failed to increment 'a'"
 
-    # Test case 2: Transform a dictionary by incrementing a specific value
-    structure = {'a': 1, 'b': 2}
-    transformations = ['a', inc]
-    result = transform(structure, transformations)
-    assert result == {'a': 2, 'b': 2}, f"Expected {{'a': 2, 'b': 2}}, but got {result}"
+    # Test transformation on a nested dictionary
+    original = {'a': {'b': 1}}
+    transformed = transform(original, ['a', 'b', inc])
+    assert transformed == {'a': {'b': 2}}, "Failed to increment nested 'b'"
 
-    # Test case 3: Transform a nested structure
-    structure = {'a': [1, 2, 3], 'b': {'c': 4}}
-    transformations = ['a', [ny, inc], 'b', 'c', inc]
-    result = transform(structure, transformations)
-    assert result == {'a': [2, 3, 4], 'b': {'c': 5}}, f"Expected {{'a': [2, 3, 4], 'b': {{'c': 5}}}}, but got {result}"
+    # Test transformation with a discard command
+    original = {'a': 1, 'b': 2}
+    transformed = transform(original, ['a', discard])
+    assert transformed == {'b': 2}, "Failed to discard 'a'"
 
-    # Test case 4: Transform with discard command
-    structure = {'a': 1, 'b': 2}
-    transformations = ['a', discard]
-    result = transform(structure, transformations)
-    assert result == {'b': 2}, f"Expected {{'b': 2}}, but got {result}"
+    # Test transformation with a regular expression matcher
+    original = {'a1': 1, 'a2': 2, 'b': 3}
+    transformed = transform(original, [rex('^a'), inc])
+    assert transformed == {'a1': 2, 'a2': 3, 'b': 3}, "Failed to increment keys matching regex"
 
-    # Test case 5: Transform with regular expression matcher
-    structure = {'a1': 1, 'a2': 2, 'b1': 3}
-    transformations = [rex('a.*'), inc]
-    result = transform(structure, transformations)
-    assert result == {'a1': 2, 'a2': 3, 'b1': 3}, f"Expected {{'a1': 2, 'a2': 3, 'b1': 3}}, but got {result}"
+    # Test transformation with a matcher that matches any value
+    original = {'a': 1, 'b': 2}
+    transformed = transform(original, [ny, inc])
+    assert transformed == {'a': 2, 'b': 3}, "Failed to increment all values"
 
-    # Test case 6: Transform with callable matcher
-    structure = {'a': 1, 'b': 2, 'c': 3}
-    transformations = [lambda k: k in ['a', 'b'], inc]
-    result = transform(structure, transformations)
-    assert result == {'a': 2, 'b': 3, 'c': 3}, f"Expected {{'a': 2, 'b': 3, 'c': 3}}, but got {result}"
+    print("All transform tests passed.")
 
-    # Test case 7: Transform with binary predicate matcher
-    structure = {'a': 1, 'b': 2, 'c': 3}
-    transformations = [lambda k, v: v % 2 == 0, inc]
-    result = transform(structure, transformations)
-    assert result == {'a': 1, 'b': 3, 'c': 3}, f"Expected {{'a': 1, 'b': 3, 'c': 3}}, but got {result}"
-
-    # Test case 8: Transform with empty structure
-    structure = {}
-    transformations = [ny, inc]
-    result = transform(structure, transformations)
-    assert result == {}, f"Expected {{}}, but got {result}"
-
-    # Test case 9: Transform with nested empty structure
-    structure = {'a': {}}
-    transformations = ['a', 'b', inc]
-    result = transform(structure, transformations)
-    assert result == {'a': {'b': 1}}, f"Expected {{'a': {{'b': 1}}}}, but got {result}"
-
-    print("All test cases passed!")
-
-# Run the unit tests
 test_transform()
 
 
@@ -159,143 +134,72 @@ test_transform()
 #--------------------------
 
 # Unit test for function discard
-def test_discard(): 
-    from pyrsistent import m, v
-    # Test discarding from a map
-    map_structure = m(a=1, b=2, c=3)
-    evolver = map_structure.evolver()
-    discard(evolver, 'b')
-    assert evolver.persistent() == m(a=1, c=3)
-    
-    # Test discarding a non-existent key from a map
-    evolver = map_structure.evolver()
-    discard(evolver, 'd')
-    assert evolver.persistent() == m(a=1, b=2, c=3)
-    
-    # Test discarding from a vector
-    vec_structure = v(1, 2, 3, 4, 5)
-    evolver = vec_structure.evolver()
+def test_discard():
+    d = {1: 'a', 2: 'b', 3: 'c'}
+    evolver = d.copy()
     discard(evolver, 2)
-    assert evolver.persistent() == v(1, 2, 4, 5)
-    
-    # Test discarding a non-existent index from a vector
-    evolver = vec_structure.evolver()
-    discard(evolver, 10)
-    assert evolver.persistent() == v(1, 2, 3, 4, 5)
-    
-    print("All discard tests passed!")
+    assert evolver == {1: 'a', 3: 'c'}, "Discard failed to remove the key 2"
 
-# Run the unit test
-if __name__ == "__main__":
-    test_discard()
+    discard(evolver, 4)
+    assert evolver == {1: 'a', 3: 'c'}, "Discard incorrectly affected the dictionary when key not present"
+
 
 
 # LLM-generated content at query #6
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
+def test_rex():
+    matcher = rex(r'^\d+$')
+    assert matcher('123') is True
+    assert matcher('abc') is False
+    assert matcher('123abc') is False
+    assert matcher('') is False
 
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-
-    # Test case 3: Empty string
-    assert matcher('') == False
-
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('12a') == False
-
-    # Test case 5: Case sensitivity
-    matcher3 = rex(r'^[A-Z]+$')
-    assert matcher3('HELLO') == True
-    assert matcher3('hello') == False
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #7
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Complex pattern
-    matcher2 = rex(r'\d+')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
+def test_rex():
+    matcher = rex(r'^[a-z]+$')
+    assert matcher('abc') is not None
+    assert matcher('123') is None
 
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #8
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
+def test_rex():
     assert rex(r'^a').__name__ == '<lambda>'
-    assert rex(r'^a')('abc')
-    assert not rex(r'^a')('bac')
-    assert rex(r'^a')(1) == False
-
+    assert rex(r'^a')('abc') is True
+    assert rex(r'^a')('bac') is False
+    assert rex(r'^a')(5) is False
 
 
 # LLM-generated content at query #9
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    assert rex(r'^a.*').match('abc')
+    assert not rex(r'^a.*').match('bac')
+    assert rex(r'^a.*').match('a')
+    assert not rex(r'^a.*').match('')
 
 
 # LLM-generated content at query #10
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    assert rex(r'^a').__code__.co_argcount == 1
-    assert rex(r'^a')('a')
-    assert not rex(r'^a')('b')
+def test_rex():
+    matcher = rex(r'^a')
+    assert matcher('apple') is True
+    assert matcher('banana') is False
+    assert matcher(123) is False
 
 
 
@@ -303,11 +207,11 @@ def test_rex():
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    assert rex(r'^a').__name__ == '<lambda>'
-    assert rex(r'^a')('abc') is not None
-    assert rex(r'^a')('bac') is None
-    assert rex(r'^a')(5) is None
+def test_rex():
+    matcher = rex(r'^a')
+    assert matcher('apple') is not None
+    assert matcher('banana') is None
+    assert matcher(123) is None
 
 
 
@@ -315,512 +219,371 @@ def test_rex():
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    assert rex(r'^a').__call__('a') == True
-    assert rex(r'^a').__call__('ba') == False
-    assert rex(r'^a').__call__(1) == False
-    print('All tests passed')
+def test_rex():
+    matcher = rex(r'^a.*')
+    assert matcher('abc') is not None
+    assert matcher('def') is None
+    assert matcher(123) is None
 
-if __name__ == '__main__':
-    test_rex()
 
 
 # LLM-generated content at query #13
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    assert not rex('a')('b')
+    assert rex('a')('a')
+    assert not rex('a')(1)
+    assert not rex('a')('ab')
+    assert rex('a.*')('ab')
+    assert rex('a')('a')
+    assert rex('a')('a')
 
 
 # LLM-generated content at query #14
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Complex pattern
-    matcher2 = rex(r'\d+')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
+def test_rex():
+    assert rex('^a')('abc') is not None
+    assert rex('^a')('bac') is None
+    assert rex('^a')(1) is None
 
-# Run the test
-test_rex()
 
 
 # LLM-generated content at query #15
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc') is True
+    assert rex(r'^a')('bac') is False
+    assert rex(r'^a')(5) is False
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    pattern = rex(r'^a')
-    assert pattern('a') == True
-    assert pattern('b') == False
-    assert pattern('ab') == True
-    assert pattern('ba') == False
-    assert pattern(1) == False
-    assert pattern(None) == False
-    assert pattern([]) == False
-    assert pattern({}) == False
-    assert pattern(()) == False
-    assert pattern(1.0) == False
-    assert pattern(True) == False
-    assert pattern(False) == False
-    assert pattern('') == False
-    assert pattern('a'*100) == True
-    assert pattern('b'*100) == False
-    assert pattern('a'*100 + 'b') == True
-    assert pattern('b'*100 + 'a') == False
-    assert pattern('a'*100 + 'b'*100) == True
-    assert pattern('b'*100 + 'a'*100) == False
-    assert pattern('a'*100 + 'b'*100 + 'a') == True
-    assert pattern('b'*100 + 'a'*100 + 'b') == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100) == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100) == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b') == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a') == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100) == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100) == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a') == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b') == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100) == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100) == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b') == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a') == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100) == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100) == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a') == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b') == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100) == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100) == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b') == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a') == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100) == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100) == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a') == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b') == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100) == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100) == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b') == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a') == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100) == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100) == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a') == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b') == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100) == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100) == False
-    assert pattern('a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b') == True
-    assert pattern('b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a'*100 + 'b'*100 + 'a') == False
-    assert pattern('a'*100
+def test_rex():
+    assert rex(r"^a").match("abc") is not None
+    assert rex(r"^a").match("bac") is None
+    assert rex(r"^a").match(123) is None
+
 
 
 # LLM-generated content at query #17
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
+def test_rex():
+    assert rex(r'^\d{3}$')('123') is not None
+    assert rex(r'^\d{3}$')('1234') is None
+    assert rex(r'^\d{3}$')(123) is None
 
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #18
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Complex pattern
-    matcher2 = rex(r'\d+')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
+def test_rex():
+    matcher = rex(r'^a')
+    assert matcher('apple') is not None
+    assert matcher('banana') is None
 
-# Run the test
-test_rex()
 
 
 # LLM-generated content at query #19
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    matcher = rex(r'^a')
+    assert matcher('apple') is True
+    assert matcher('banana') is False
+    assert matcher(123) is False
 
 
 # LLM-generated content at query #20
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    assert rex(r'^a').__name__ == '<lambda>'
-    assert rex(r'^a')('abc') is not None
-    assert rex(r'^a')('bac') is None
-    assert rex(r'^a')(5) is None
-    print('All tests passed.')
+def test_rex():
+    assert rex("^[a-z]*$")("abc")
+    assert not rex("^[a-z]*$")("123")
+    assert not rex("^[a-z]*$")(123)
 
-if __name__ == '__main__':
-    test_rex()
 
 
 # LLM-generated content at query #21
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Check if rex returns a function
-    matcher = rex(r'^a.*')
-    assert callable(matcher), "rex should return a callable function"
-    
-    # Test case 2: Check if the returned function matches strings correctly
-    assert matcher('apple') is not None, "Should match 'apple'"
-    assert matcher('banana') is None, "Should not match 'banana'"
-    
-    # Test case 3: Check if the returned function returns False for non-string inputs
-    assert matcher(123) is None, "Should not match non-string inputs"
-    
-    # Test case 4: Check if the returned function works with compiled regex patterns
-    matcher = rex(r'^[0-9]+$')
-    assert matcher('123') is not None, "Should match numeric strings"
-    assert matcher('abc') is None, "Should not match non-numeric strings"
-    
-    print("All tests passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc')
+    assert not rex(r'^a')('bac')
+    assert rex(r'^\d+$')('123')
+    assert not rex(r'^\d+$')('a123')
 
 
 # LLM-generated content at query #22
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Complex pattern
-    matcher2 = rex(r'\d+')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
+def test_rex():
+    # Test with empty string
+    assert not rex("")(None)
+    assert not rex("")("")
+    # Test with normal matching
+    assert not rex("foo")("bar")
+    assert rex("foo")("foo")
+    assert rex("foo")("foobar")
+    assert not rex("foo")("barfoo")
+    # Test with special regex characters
+    assert rex("^foo$")("foo")
+    assert not rex("^foo$")("foobar")
+    assert not rex("^foo$")("barfoo")
+    # Test with unicode
+    assert rex("föö")("föö")
+    assert not rex("föö")("foo")
+    # Test with compiled regex
+    assert rex(re.compile("foo"))("foo")
 
-# Run the test
-test_rex()
+
 
 
 # LLM-generated content at query #23
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Complex pattern
-    matcher = rex(r'\d+')
-    assert matcher('123') == True
-    assert matcher('abc') == False
-    
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    matcher = rex('a')
+    assert matcher('a') is True
+    assert matcher('b') is False
+    assert matcher(1) is False
 
 
 # LLM-generated content at query #24
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-
-    # Test case 3: Empty string
-    assert matcher('') == False
-
-    # Test case 4: Matching with special characters
-    matcher = rex(r'^\d+$')
-    assert matcher('123') == True
-    assert matcher('12a') == False
-
-    # Test case 5: Case sensitivity
-    matcher = rex(r'^[A-Z]+$')
-    assert matcher('HELLO') == True
-    assert matcher('hello') == False
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    assert rex(r'^a').match('apple')
+    assert not rex(r'^a').match('banana')
+    assert rex(r'\d+').match('123')
+    assert not rex(r'\d+').match('abc')
 
 
 # LLM-generated content at query #25
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-
-    # Test case 3: Empty string
-    assert matcher('') == False
-
-    # Test case 4: Matching with special characters
-    matcher = rex(r'^\d+$')
-    assert matcher('123') == True
-    assert matcher('12a') == False
-
-    # Test case 5: Case insensitive matching
-    matcher = rex(r'^hello', re.IGNORECASE)
-    assert matcher('Hello') == True
-    assert matcher('HELLO') == True
-    assert matcher('hello') == True
-    assert matcher('hi') == False
-
-    # Test case 6: Matching with groups
-    matcher = rex(r'^(\w+)\s(\w+)$')
-    assert matcher('John Doe') == True
-    assert matcher('John') == False
-
-    # Test case 7: Matching with quantifiers
-    matcher = rex(r'^a+b*$')
-    assert matcher('aaabbb') == True
-    assert matcher('aaa') == True
-    assert matcher('bbb') == False
-
-    # Test case 8: Matching with anchors
-    matcher = rex(r'^start.*end$')
-    assert matcher('start middle end') == True
-    assert matcher('start end') == True
-    assert matcher('start middle') == False
-
-    # Test case 9: Matching with character classes
-    matcher = rex(r'^[A-Z][a-z]+$')
-    assert matcher('Hello') == True
-    assert matcher('hello') == False
-    assert matcher('H') == False
-
-    # Test case 10: Matching with lookahead
-    matcher = rex(r'^\d+(?=px)$')
-    assert matcher('100px') == True
-    assert matcher('100em') == False
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    assert rex(r'^a').match('a')
+    assert not rex(r'^a').match('b')
 
 
 # LLM-generated content at query #26
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
+def test_rex():
+    assert rex(r'^a')( 'abc' )
+    assert not rex(r'^a')( 'bac' )
+    assert rex(r'^a')('a')
+    assert not rex(r'^a')('b')
 
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-
-    # Test case 3: Empty string
-    assert matcher('') == False
-
-    # Test case 4: Matching with special characters
-    matcher = rex(r'^\d+$')
-    assert matcher('123') == True
-    assert matcher('12a') == False
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #27
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    assert rex(r'^a').__call__('a') == True
-    assert rex(r'^a').__call__('ba') == False
-    assert rex(r'^a').__call__(1) == False
-    assert rex(r'^a').__call__(None) == False
-    assert rex(r'^a').__call__([]) == False
-    assert rex(r'^a').__call__({}) == False
-    assert rex(r'^a').__call__(()) == False
-    assert rex(r'^a').__call__(set()) == False
-    assert rex(r'^a').__call__(frozenset()) == False
-    assert rex(r'^a').__call__(object()) == False
-    assert rex(r'^a').__call__(lambda x: x) == False
-    assert rex(r'^a').__call__(type) == False
-    assert rex(r'^a').__call__(type('')) == False
-    assert rex(r'^a').__call__(type('', (), {})) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__) == False
-    assert rex(r'^a').__call__(type('', (), {})().__class__.__class__.__class__.__class__.__class__.__class__.__class__.__class__
+def test_rex():
+    assert rex(r"a.*")( "apple" ) == True
+    assert rex(r"a.*")( "banana" ) == False
+    assert rex(r"\d")( "5" ) == True
+    assert rex(r"\d")( "a" ) == False
+    assert rex(r"\d+")( "123" ) == True
+    assert rex(r"\d+")( "abc" ) == False
+
+
+
+# LLM-generated content at query #28
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    # Test cases
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc')
+    assert not rex(r'^a')('bac')
+    assert rex(r'^a')('a')
+    assert not rex(r'^a')('b')
+    assert rex(r'^a')('apple')
+    assert not rex(r'^a')('banana')
+    assert rex(r'^a')('application')
+    assert not rex(r'^a')('basket')
+    assert rex(r'^a')('aardvark')
+    assert not rex(r'^a')('zebra')
+
+
+
+# LLM-generated content at query #29
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc') is True
+    assert rex(r'^a')('bac') is False
+    assert rex(r'^a')(5) is False
+
+
+# LLM-generated content at query #30
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    # Test string matching
+    matcher = rex(r'^a')
+    assert matcher('apple') is not None
+    assert matcher('banana') is None
+
+    # Test non-string input
+    assert matcher(123) is None
+
+
+
+# LLM-generated content at query #31
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^\d{4}$')('1234') is not None
+    assert rex(r'^\d{4}$')('123') is None
+    assert rex(r'^\d{4}$')(123) is None
+
+
+
+# LLM-generated content at query #32
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    # Test matching a string with a regular expression
+    assert rex(r'^a')('apple') == True
+    assert rex(r'^a')('banana') == False
+    assert rex(r'\d+')('123') == True
+    assert rex(r'\d+')('abc') == False
+
+
+
+# LLM-generated content at query #33
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex('^a')('a') is not None
+    assert rex('^a')('b') is None
+    assert rex('^a')('ab') is not None
+    assert rex('^a')('ba') is None
+    assert rex('^a')('a') is not None
+    assert rex('^a')('b') is None
+    assert rex('^a')('ab') is not None
+    assert rex('^a')('ba') is None
+
+
+
+# LLM-generated content at query #34
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc')
+    assert not rex(r'^a')('bac')
+    assert rex(r'^a')(u'abc')
+    assert not rex(r'^a')(u'bac')
+    assert not rex(r'^a')(5)
+
+
+# LLM-generated content at query #35
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    matcher = rex(r'^hello$')
+    assert matcher('hello') is True
+    assert matcher('world') is False
+    assert matcher(None) is False
+    assert matcher(123) is False
+
+
+
+# LLM-generated content at query #36
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    matcher = rex(r'^a')
+    assert matcher('apple') is True
+    assert matcher('banana') is False
+    assert matcher(123) is False
+
+
+# LLM-generated content at query #37
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc')
+    assert not rex(r'^a')('bac')
+    assert rex(r'^a')('a')
+    assert not rex(r'^a')('b')
+    assert not rex(r'^a')(1)
+
+
+# LLM-generated content at query #38
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^foo')('foo') is not None
+    assert rex(r'^foo')('bar') is None
+    assert rex(r'^foo')('foobar') is not None
+    assert rex(r'^foo')('barfoo') is None
+
+
+
+# LLM-generated content at query #39
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    matcher = rex(r'^a.*')
+    assert matcher('abc') is not None
+    assert matcher('def') is None
+
+
+
+# LLM-generated content at query #40
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc')
+    assert not rex(r'^a')('bac')
 
 
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -828,1275 +591,356 @@ def test_rex():
 #--------------------------
 
 # Unit test for function discard
-def test_discard(): 
+def test_discard():
     from pyrsistent import m, v
-    # Test discarding from a map
-    map_structure = m(a=1, b=2, c=3)
-    evolver = map_structure.evolver()
-    discard(evolver, 'b')
-    assert evolver.persistent() == m(a=1, c=3)
-    
-    # Test discarding a non-existent key from a map
-    evolver = map_structure.evolver()
-    discard(evolver, 'd')
-    assert evolver.persistent() == m(a=1, b=2, c=3)
-    
-    # Test discarding from a vector
-    vec_structure = v(1, 2, 3, 4, 5)
-    evolver = vec_structure.evolver()
-    discard(evolver, 2)
-    assert evolver.persistent() == v(1, 2, 4, 5)
-    
-    # Test discarding a non-existent index from a vector
-    evolver = vec_structure.evolver()
-    discard(evolver, 10)
-    assert evolver.persistent() == v(1, 2, 3, 4, 5)
-    
-    print("All tests passed!")
 
-# Run the unit test
-test_discard()
+    # Test discard from map
+    m1 = m(a=1, b=2)
+    e1 = m1.evolver()
+    discard(e1, 'a')
+    assert e1.persistent() == m(b=2)
+
+    # Test discard non-existent key from map
+    e2 = m1.evolver()
+    discard(e2, 'c')
+    assert e2.persistent() == m1
+
+    # Test discard from vector
+    v1 = v(1, 2, 3)
+    e3 = v1.evolver()
+    discard(e3, 1)
+    assert e3.persistent() == v(1, 3)
+
+    # Test discard non-existent index from vector
+    e4 = v1.evolver()
+    discard(e4, 5)
+    assert e4.persistent() == v1
+
+    # Test discard with transform
+    m2 = m(a=1, b=2, c=3)
+    result = transform(m2, ['a', discard, 'b', discard])
+    assert result == m(c=3)
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for function discard
-def test_discard(): 
-    from pyrsistent import m, v
-    # Test discarding from a map
-    map_structure = m(a=1, b=2, c=3)
-    evolver = map_structure.evolver()
-    discard(evolver, 'b')
-    assert evolver.persistent() == m(a=1, c=3), "Failed to discard key 'b' from map"
-    
-    # Test discarding a non-existent key from a map
-    evolver = map_structure.evolver()
-    discard(evolver, 'd')
-    assert evolver.persistent() == map_structure, "Map changed when discarding non-existent key"
-    
-    # Test discarding from a vector
-    vec_structure = v(1, 2, 3, 4, 5)
-    evolver = vec_structure.evolver()
-    discard(evolver, 2)  # Remove element at index 2 (value 3)
-    assert evolver.persistent() == v(1, 2, 4, 5), "Failed to discard index 2 from vector"
-    
-    # Test discarding a non-existent index from a vector
-    evolver = vec_structure.evolver()
-    discard(evolver, 10)
-    assert evolver.persistent() == vec_structure, "Vector changed when discarding non-existent index"
-    
-    print("All discard tests passed.")
+def test_discard():
+    from pyrsistent import m, s, v
 
-# Run the unit test
-if __name__ == "__main__":
-    test_discard()
+    # Test discarding from a map
+    m1 = m(a=1, b=2)
+    e1 = m1.evolver()
+    discard(e1, 'a')
+    assert e1.persistent() == m(b=2)
+
+    # Test discarding a non-existent key from a map
+    e2 = m1.evolver()
+    discard(e2, 'c')
+    assert e2.persistent() == m1
+
+    # Test discarding from a vector
+    v1 = v(1, 2, 3)
+    e3 = v1.evolver()
+    discard(e3, 1)
+    assert e3.persistent() == v(1, 3)
+
+    # Test discarding a non-existent index from a vector
+    e4 = v1.evolver()
+    discard(e4, 5)
+    assert e4.persistent() == v1
+
+    # Test discarding from a set
+    s1 = s(1, 2, 3)
+    e5 = s1.evolver()
+    discard(e5, 2)
+    assert e5.persistent() == s(1, 3)
+
+    # Test discarding a non-existent element from a set
+    e6 = s1.evolver()
+    discard(e6, 4)
+    assert e6.persistent() == s1
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Complex pattern
-    matcher = rex(r'\d+')
-    assert matcher('123') == True
-    assert matcher('abc') == False
-    
-    print("All test cases passed!")
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc')
+    assert not rex(r'^a')('bac')
+    assert not rex(r'^a')(123)
 
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
+def test_rex():
     matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
+    assert matcher('abc') is True
+    assert matcher('def') is False
+    assert matcher(123) is False
 
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for function discard
-def test_discard(): 
-    from pyrsistent import m, v
-    # Test discarding from a map
-    structure = m(a=1, b=2, c=3)
-    evolver = structure.evolver()
-    discard(evolver, 'b')
-    assert evolver.persistent() == m(a=1, c=3)
-    # Test discarding a non-existent key
+def test_discard():
+    data = {'a': 1, 'b': 2, 'c': 3}
+    evolver = {'a': 1, 'b': 2, 'c': 3}
+    discard(evolver, 'a')
+    assert evolver == {'b': 2, 'c': 3}
     discard(evolver, 'd')
-    assert evolver.persistent() == m(a=1, c=3)
-    # Test discarding from a vector
-    structure = v(1, 2, 3)
-    evolver = structure.evolver()
-    discard(evolver, 1)
-    assert evolver.persistent() == v(1, 3)
-    # Test discarding out of range index
-    discard(evolver, 5)
-    assert evolver.persistent() == v(1, 3)
-    print("All tests passed for discard function.")
-
-# Run the unit test
-test_discard()
+    assert evolver == {'b': 2, 'c': 3}
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for function discard
-def test_discard(): 
-    from pyrsistent import m, v
-    # Test with a map
-    structure = m(a=1, b=2, c=3)
-    evolver = structure.evolver()
-    discard(evolver, 'b')
-    assert evolver.persistent() == m(a=1, c=3)
-    # Test discarding a non-existent key
-    discard(evolver, 'd')
-    assert evolver.persistent() == m(a=1, c=3)
-    # Test with a vector
-    structure = v(1, 2, 3)
-    evolver = structure.evolver()
-    discard(evolver, 1)
-    assert evolver.persistent() == v(1, 3)
-    # Test discarding a non-existent index
-    discard(evolver, 5)
-    assert evolver.persistent() == v(1, 3)
-    print("All tests passed for discard function.")
-
-# Run the test
-test_discard()
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc') is not None
+    assert rex(r'^a')('bac') is None
+    assert rex(r'^a')(5) is None
 
 
 # LLM-generated content at query #7
 #--------------------------
 
-# Unit test for function discard
-def test_discard(): 
-    from pyrsistent import m, s, v, pmap, pvector, pset
-
-    # Test with pmap
-    structure = m(a=1, b=2, c=3)
-    evolver = structure.evolver()
-    discard(evolver, 'b')
-    assert evolver.persistent() == m(a=1, c=3)
-
-    # Test discarding non-existent key
-    evolver = structure.evolver()
-    discard(evolver, 'd')
-    assert evolver.persistent() == m(a=1, b=2, c=3)
-
-    # Test with pvector
-    structure = v(1, 2, 3)
-    evolver = structure.evolver()
-    discard(evolver, 1)
-    assert evolver.persistent() == v(1, 3)
-
-    # Test discarding non-existent index
-    evolver = structure.evolver()
-    discard(evolver, 5)
-    assert evolver.persistent() == v(1, 2, 3)
-
-    # Test with pset
-    structure = s(1, 2, 3)
-    evolver = structure.evolver()
-    discard(evolver, 2)
-    assert evolver.persistent() == s(1, 3)
-
-    # Test discarding non-existent element
-    evolver = structure.evolver()
-    discard(evolver, 4)
-    assert evolver.persistent() == s(1, 2, 3)
-
-    print("All tests passed!")
-
-# Run the unit test
-test_discard()
+# Unit test for function rex
+def test_rex():
+    matcher = rex(r'^a')
+    assert matcher('apple') is not None
+    assert matcher('banana') is None
+    assert matcher(123) is None
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for function discard
-def test_discard(): 
-    from pyrsistent import m, v, s 
-    # Test with a map 
-    map_structure = m(a=1, b=2, c=3) 
-    evolver = map_structure.evolver() 
-    discard(evolver, 'b') 
-    result = evolver.persistent() 
-    assert result == m(a=1, c=3), f"Expected m(a=1, c=3), got {result}" 
-    # Test discarding a non-existent key 
-    evolver2 = map_structure.evolver() 
-    discard(evolver2, 'd') 
-    result2 = evolver2.persistent() 
-    assert result2 == map_structure, f"Expected {map_structure}, got {result2}" 
-    # Test with a vector 
-    vec_structure = v(1, 2, 3) 
-    evolver3 = vec_structure.evolver() 
-    discard(evolver3, 1) 
-    result3 = evolver3.persistent() 
-    assert result3 == v(1, 3), f"Expected v(1, 3), got {result3}" 
-    # Test with a set 
-    set_structure = s(1, 2, 3) 
-    evolver4 = set_structure.evolver() 
-    discard(evolver4, 2) 
-    result4 = evolver4.persistent() 
-    assert result4 == s(1, 3), f"Expected s(1, 3), got {result4}" 
-    print("All tests passed!") 
+# Unit test for function rex
+def test_rex():
+    assert rex("^a")( "apple") == True
+    assert rex("^a")( "banana") == False
+    assert rex("^a")( 123) == False
 
-# Run the unit test 
-if __name__ == "__main__": 
-    test_discard()
 
 
 # LLM-generated content at query #9
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Complex pattern
-    matcher2 = rex(r'\d+')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc') is True
+    assert rex(r'^a')('bac') is False
+    assert rex(r'^a')(5) is False
 
 
 # LLM-generated content at query #10
 #--------------------------
 
-# Unit test for function discard
-def test_discard(): 
-    from pyrsistent import m, v
-    # Test discarding from a map
-    map_structure = m(a=1, b=2, c=3)
-    evolver = map_structure.evolver()
-    discard(evolver, 'b')
-    assert evolver.persistent() == m(a=1, c=3)
-    # Test discarding a non-existent key
-    discard(evolver, 'd')
-    assert evolver.persistent() == m(a=1, c=3)
-    # Test discarding from a vector
-    vec_structure = v(1, 2, 3, 4, 5)
-    evolver = vec_structure.evolver()
-    discard(evolver, 2)
-    assert evolver.persistent() == v(1, 2, 4, 5)
-    # Test discarding from an empty structure
-    empty_structure = m()
-    evolver = empty_structure.evolver()
-    discard(evolver, 'a')
-    assert evolver.persistent() == m()
-    print("All tests passed!")
-
-# Run the unit test
-test_discard()
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^a')('abc') is not None
+    assert rex(r'^a')('bac') is None
+    assert rex(r'^a')(5) is None
 
 
 # LLM-generated content at query #11
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
+def test_rex():
     matcher = rex(r'^a.*')
     assert matcher('apple') == True
     assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
     assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
+    assert matcher('avocado') == True
 
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #12
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching a string that contains 'abc'
-    matcher = rex('abc')
-    assert matcher('abc') == True
-    assert matcher('abcd') == True
-    assert matcher('ab') == False
-    assert matcher('') == False
-    assert matcher(123) == False
+def test_rex():
+    matcher = rex('^a.*')
+    assert matcher('apple') is not None
+    assert matcher('banana') is None
+    assert matcher(123) is None
 
-    # Test case 2: Matching a string that starts with 'abc'
-    matcher = rex('^abc')
-    assert matcher('abc') == True
-    assert matcher('abcd') == True
-    assert matcher('ab') == False
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 3: Matching a string that ends with 'abc'
-    matcher = rex('abc$')
-    assert matcher('abc') == True
-    assert matcher('dabc') == True
-    assert matcher('ab') == False
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 4: Matching a string that contains only digits
-    matcher = rex('^[0-9]+$')
-    assert matcher('123') == True
-    assert matcher('abc') == False
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 5: Matching a string that contains only letters
-    matcher = rex('^[a-zA-Z]+$')
-    assert matcher('abc') == True
-    assert matcher('ABC') == True
-    assert matcher('123') == False
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 6: Matching a string that contains only letters and digits
-    matcher = rex('^[a-zA-Z0-9]+$')
-    assert matcher('abc123') == True
-    assert matcher('ABC123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 7: Matching a string that contains only letters, digits and underscores
-    matcher = rex('^[a-zA-Z0-9_]+$')
-    assert matcher('abc_123') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 8: Matching a string that contains only letters, digits, underscores and hyphens
-    matcher = rex('^[a-zA-Z0-9_-]+$')
-    assert matcher('abc-123') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 9: Matching a string that contains only letters, digits, underscores, hyphens and dots
-    matcher = rex('^[a-zA-Z0-9_.-]+$')
-    assert matcher('abc.123') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 10: Matching a string that contains only letters, digits, underscores, hyphens, dots and spaces
-    matcher = rex('^[a-zA-Z0-9_. -]+$')
-    assert matcher('abc 123') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 11: Matching a string that contains only letters, digits, underscores, hyphens, dots, spaces and at signs
-    matcher = rex('^[a-zA-Z0-9_. @-]+$')
-    assert matcher('abc@123') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 12: Matching a string that contains only letters, digits, underscores, hyphens, dots, spaces, at signs and plus signs
-    matcher = rex('^[a-zA-Z0-9_. +@-]+$')
-    assert matcher('abc+123') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 13: Matching a string that contains only letters, digits, underscores, hyphens, dots, spaces, at signs, plus signs and parentheses
-    matcher = rex('^[a-zA-Z0-9_. +@()-]+$')
-    assert matcher('abc(123)') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 14: Matching a string that contains only letters, digits, underscores, hyphens, dots, spaces, at signs, plus signs, parentheses and square brackets
-    matcher = rex('^[a-zA-Z0-9_. +@()\[\]-]+$')
-    assert matcher('abc[123]') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 15: Matching a string that contains only letters, digits, underscores, hyphens, dots, spaces, at signs, plus signs, parentheses, square brackets and curly braces
-    matcher = rex('^[a-zA-Z0-9_. +@()\[\]{}-]+$')
-    assert matcher('abc{123}') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 16: Matching a string that contains only letters, digits, underscores, hyphens, dots, spaces, at signs, plus signs, parentheses, square brackets, curly braces and angle brackets
-    matcher = rex('^[a-zA-Z0-9_. +@()\[\]{}<>-]+$')
-    assert matcher('abc<123>') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 17: Matching a string that contains only letters, digits, underscores, hyphens, dots, spaces, at signs, plus signs, parentheses, square brackets, curly braces, angle brackets and backslashes
-    matcher = rex('^[a-zA-Z0-9_. +@()\[\]{}\\\\<>-]+$')
-    assert matcher('abc\\123') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 18: Matching a string that contains only letters, digits, underscores, hyphens, dots, spaces, at signs, plus signs, parentheses, square brackets, curly braces, angle brackets, backslashes and forward slashes
-    matcher = rex('^[a-zA-Z0-9_. +@()\[\]{}\\\\<>/-]+$')
-    assert matcher('abc/123') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-    assert matcher(123) == False
-
-    # Test case 19: Matching a string that contains only letters, digits, underscores, hyphens, dots, spaces, at signs, plus signs, parentheses, square brackets, curly braces, angle brackets, backslashes, forward slashes and colons
-    matcher = rex('^[a-zA-Z0-9_. +@()\[\]{}\\\\<>/:;-]+$')
-    assert matcher('abc:123') == True
-    assert matcher('ABC_123') == True
-    assert matcher('abc') == True
-    assert matcher('123') == True
-    assert matcher('') == False
-   
 
 
 # LLM-generated content at query #13
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    assert rex(r'^a').__name__ == '<lambda>'
-    assert rex(r'^a')('abc')
-    assert not rex(r'^a')('bac')
-    assert rex(r'^a')('a')
-    assert not rex(r'^a')('b')
-    assert not rex(r'^a')(1)
-    assert not rex(r'^a')(None)
-    assert not rex(r'^a')([])
-    assert not rex(r'^a')({})
-    assert not rex(r'^a')(())
-    assert not rex(r'^a')(set())
-    assert not rex(r'^a')(frozenset())
-    assert not rex(r'^a')(object())
-    assert not rex(r'^a')(1.0)
-    assert not rex(r'^a')(1j)
-    assert not rex(r'^a')(True)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')(Ellipsis)
-    assert not rex(r'^a')(NotImplemented)
-    assert not rex(r'^a')(...)
-    assert not rex(r'^a')(None)
-    assert not rex(r'^a')(0)
-    assert not rex(r'^a')(0.0)
-    assert not rex(r'^a')(0j)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')([])
-    assert not rex(r'^a')({})
-    assert not rex(r'^a')(())
-    assert not rex(r'^a')(set())
-    assert not rex(r'^a')(frozenset())
-    assert not rex(r'^a')(object())
-    assert not rex(r'^a')(1.0)
-    assert not rex(r'^a')(1j)
-    assert not rex(r'^a')(True)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')(Ellipsis)
-    assert not rex(r'^a')(NotImplemented)
-    assert not rex(r'^a')(...)
-    assert not rex(r'^a')(None)
-    assert not rex(r'^a')(0)
-    assert not rex(r'^a')(0.0)
-    assert not rex(r'^a')(0j)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')([])
-    assert not rex(r'^a')({})
-    assert not rex(r'^a')(())
-    assert not rex(r'^a')(set())
-    assert not rex(r'^a')(frozenset())
-    assert not rex(r'^a')(object())
-    assert not rex(r'^a')(1.0)
-    assert not rex(r'^a')(1j)
-    assert not rex(r'^a')(True)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')(Ellipsis)
-    assert not rex(r'^a')(NotImplemented)
-    assert not rex(r'^a')(...)
-    assert not rex(r'^a')(None)
-    assert not rex(r'^a')(0)
-    assert not rex(r'^a')(0.0)
-    assert not rex(r'^a')(0j)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')([])
-    assert not rex(r'^a')({})
-    assert not rex(r'^a')(())
-    assert not rex(r'^a')(set())
-    assert not rex(r'^a')(frozenset())
-    assert not rex(r'^a')(object())
-    assert not rex(r'^a')(1.0)
-    assert not rex(r'^a')(1j)
-    assert not rex(r'^a')(True)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')(Ellipsis)
-    assert not rex(r'^a')(NotImplemented)
-    assert not rex(r'^a')(...)
-    assert not rex(r'^a')(None)
-    assert not rex(r'^a')(0)
-    assert not rex(r'^a')(0.0)
-    assert not rex(r'^a')(0j)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')([])
-    assert not rex(r'^a')({})
-    assert not rex(r'^a')(())
-    assert not rex(r'^a')(set())
-    assert not rex(r'^a')(frozenset())
-    assert not rex(r'^a')(object())
-    assert not rex(r'^a')(1.0)
-    assert not rex(r'^a')(1j)
-    assert not rex(r'^a')(True)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')(Ellipsis)
-    assert not rex(r'^a')(NotImplemented)
-    assert not rex(r'^a')(...)
-    assert not rex(r'^a')(None)
-    assert not rex(r'^a')(0)
-    assert not rex(r'^a')(0.0)
-    assert not rex(r'^a')(0j)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')([])
-    assert not rex(r'^a')({})
-    assert not rex(r'^a')(())
-    assert not rex(r'^a')(set())
-    assert not rex(r'^a')(frozenset())
-    assert not rex(r'^a')(object())
-    assert not rex(r'^a')(1.0)
-    assert not rex(r'^a')(1j)
-    assert not rex(r'^a')(True)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')(Ellipsis)
-    assert not rex(r'^a')(NotImplemented)
-    assert not rex(r'^a')(...)
-    assert not rex(r'^a')(None)
-    assert not rex(r'^a')(0)
-    assert not rex(r'^a')(0.0)
-    assert not rex(r'^a')(0j)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')([])
-    assert not rex(r'^a')({})
-    assert not rex(r'^a')(())
-    assert not rex(r'^a')(set())
-    assert not rex(r'^a')(frozenset())
-    assert not rex(r'^a')(object())
-    assert not rex(r'^a')(1.0)
-    assert not rex(r'^a')(1j)
-    assert not rex(r'^a')(True)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')(Ellipsis)
-    assert not rex(r'^a')(NotImplemented)
-    assert not rex(r'^a')(...)
-    assert not rex(r'^a')(None)
-    assert not rex(r'^a')(0)
-    assert not rex(r'^a')(0.0)
-    assert not rex(r'^a')(0j)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')([])
-    assert not rex(r'^a')({})
-    assert not rex(r'^a')(())
-    assert not rex(r'^a')(set())
-    assert not rex(r'^a')(frozenset())
-    assert not rex(r'^a')(object())
-    assert not rex(r'^a')(1.0)
-    assert not rex(r'^a')(1j)
-    assert not rex(r'^a')(True)
-    assert not rex(r'^a')(False)
-    assert not rex(r'^a')(Ellipsis)
-    assert not rex(r'^a')(NotImplemented)
-    assert not rex(r'^a')(...)
-    assert not rex(r'^a')(None)
-    assert not rex(r'^a')(0)
-    assert not rex(r'^a')(0.0)
-    assert not rex(r'^a')(0j)
-    assert not rex(r'^a')(False)
-    assert
+def test_rex():
+    # Test case 1: Regular expression matches the key
+    assert rex(r'^a').__call__('abc') is not None
+
+    # Test case 2: Regular expression does not match the key
+    assert rex(r'^a').__call__('xyz') is None
+
 
 
 # LLM-generated content at query #14
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    assert rex("a")("a") is not None
+    assert rex("a")("b") is None
+    assert rex("a")("ab") is not None
+    assert rex("a")("ba") is None
+    assert rex("a").match("a") is not None
+    assert rex("a").match("b") is None
+    assert rex("a").match("ab") is not None
+    assert rex("a").match("ba") is None
 
 
 # LLM-generated content at query #15
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    
-    # Test case 3: Empty string
-    assert matcher('') == False
-    
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    
-    print("All test cases passed!")
+def test_rex():
+    assert rex(r'^\d+$')('123')
+    assert not rex(r'^\d+$')('abc')
+    assert rex(r'^[a-z]+$')('abc')
+    assert not rex(r'^[a-z]+$')('123')
 
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    assert rex(r'^a').__call__('a') == True
-    assert rex(r'^a').__call__('ba') == False
-    assert rex(r'^a').__call__(1) == False
-    print('All tests passed')
-
-if __name__ == '__main__':
-    test_rex()
+def test_rex():
+    assert rex(r'^a')('abc') is not None
+    assert rex(r'^a')('bac') is None
+    assert rex(r'^a')(5) is None
 
 
 # LLM-generated content at query #17
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching a string with a regular expression
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    
-    # Test case 2: Matching a string with a regular expression (case insensitive)
-    matcher = rex(r'^A.*')
-    assert matcher('Apple') == True
-    assert matcher('apple') == False
-    
-    # Test case 3: Matching a string with a regular expression (special characters)
-    matcher = rex(r'^\d+$')
-    assert matcher('123') == True
-    assert matcher('abc') == False
-    
-    # Test case 4: Matching a string with a regular expression (empty string)
-    matcher = rex(r'^$')
-    assert matcher('') == True
-    assert matcher('a') == False
-    
-    # Test case 5: Matching a string with a regular expression (multiple lines)
-    matcher = rex(r'^a.*', re.MULTILINE)
-    assert matcher('apple\nbanana') == True
-    assert matcher('banana\napple') == False
-    
-    print("All test cases passed!")
+def test_rex():
+    matcher = rex(r'^a')
+    assert matcher('apple')
+    assert not matcher('banana')
+    assert not matcher(123)
 
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #18
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
+def test_rex():
+    regexp = re.compile(r'^([A-Z][0-9]+)+$')
+    assert rex(r'^([A-Z][0-9]+)+$')('A1') == regexp.match('A1')
+    assert rex(r'^([A-Z][0-9]+)+$')('a1') is None
+    assert rex(r'^([A-Z][0-9]+)+$')('A1B2') == regexp.match('A1B2')
+    assert rex(r'^([A-Z][0-9]+)+$')('A1b2') is None
+    assert rex(r'^([A-Z][0-9]+)+$')(1) is None
 
-    # Test case 2: Non-string input
-    assert matcher(123) == False
 
-    # Test case 3: Empty string
-    assert matcher('') == False
-
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-
-    # Test case 5: Case sensitivity
-    matcher3 = rex(r'^[A-Z]+$')
-    assert matcher3('HELLO') == True
-    assert matcher3('hello') == False
-
-    # Test case 6: Matching with groups
-    matcher4 = rex(r'^(\w+)\s(\w+)$')
-    assert matcher4('John Doe') == True
-    assert matcher4('John') == False
-
-    # Test case 7: Matching with quantifiers
-    matcher5 = rex(r'^a{2,3}$')
-    assert matcher5('aa') == True
-    assert matcher5('aaa') == True
-    assert matcher5('a') == False
-
-    # Test case 8: Matching with character classes
-    matcher6 = rex(r'^[aeiou]+$')
-    assert matcher6('aeiou') == True
-    assert matcher6('bcdfg') == False
-
-    # Test case 9: Matching with anchors
-    matcher7 = rex(r'^start.*end$')
-    assert matcher7('start middle end') == True
-    assert matcher7('start middle') == False
-
-    # Test case 10: Matching with lookahead
-    matcher8 = rex(r'^\d+(?= dollars)')
-    assert matcher8('100 dollars') == True
-    assert matcher8('100 euros') == False
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #19
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Check if rex returns a function
-    matcher = rex(r'^a')
-    assert callable(matcher)
-    
-    # Test case 2: Check if the returned function matches strings correctly
-    assert matcher('apple') is not None
-    assert matcher('banana') is None
-    
-    # Test case 3: Check if the returned function returns False for non-string inputs
-    assert matcher(123) is False
-    assert matcher(['a', 'b']) is False
-    
-    print("All test cases pass")
-
-test_rex()
+def test_rex():
+    assert rex(r'^a').match('apple')
+    assert not rex(r'^a').match('banana')
 
 
 # LLM-generated content at query #20
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    assert matcher(['a', 'b']) == False
-    # Test case 3: Empty string
-    assert matcher('') == False
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('12a') == False
-    # Test case 5: Case sensitivity
-    matcher3 = rex(r'^[A-Z]+$')
-    assert matcher3('HELLO') == True
-    assert matcher3('hello') == False
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc') is True
+    assert rex(r'^a')('bac') is False
+    assert rex(r'^a')('a') is True
+    assert rex(r'^a')('b') is False
+    assert rex(r'^a')('') is False
+    assert rex(r'^a')(1) is False
 
 
 # LLM-generated content at query #21
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
+def test_rex():
+    """ Test regex matcher """
+    # Test with a valid string pattern
+    matcher = rex(r'^a')
+    assert matcher('apple') is not None
+    assert matcher('banana') is None
 
-    # Test case 2: Non-string input
-    assert matcher(123) == False
+    # Test with an invalid pattern
+    matcher = rex(r'^[0-9]')
+    assert matcher('123') is not None
+    assert matcher('abc') is None
 
-    # Test case 3: Empty string
-    assert matcher('') == False
+    # Test with a non-string input
+    assert matcher(123) is None
 
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
 
-    # Test case 5: Case sensitivity
-    matcher3 = rex(r'^[A-Z]+$')
-    assert matcher3('HELLO') == True
-    assert matcher3('hello') == False
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #22
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    pattern = rex(r'^a')
-    assert pattern('a') == True
-    assert pattern('b') == False
-    assert pattern('ab') == True
-    assert pattern('ba') == False
-    assert pattern(1) == False
-    assert pattern(None) == False
-    assert pattern([]) == False
-    assert pattern({}) == False
-    assert pattern(()) == False
-    assert pattern(set()) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(1.0) == False
-    assert pattern(
+def test_rex():
+    assert rex(r'^a').match('a')
+    assert not rex(r'^a').match('b')
 
 
 # LLM-generated content at query #23
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    assert rex('^a').__call__('a') == True
-    assert rex('^a').__call__('ba') == False
-    assert rex('^a').__call__(1) == False
-
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc') is not None
+    assert rex(r'^a')('bac') is None
+    assert rex(r'^a')(5) is None
 
 
 # LLM-generated content at query #24
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    assert rex('^a').__call__('a') == True
-    assert rex('^a').__call__('ba') == False
-    assert rex('^a').__call__(1) == False
-    assert rex('^a').__call__([]) == False
-    assert rex('^a').__call__({}) == False
-    assert rex('^a').__call__(None) == False
-    assert rex('^a').__call__(True) == False
-    assert rex('^a').__call__(False) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call__(1.0) == False
-    assert rex('^a').__call
+def test_rex():
+    assert rex(r'^a').match('a') is not None
+    assert rex(r'^a').match('b') is None
+    assert rex(r'^a').match(1) is None
 
 
 # LLM-generated content at query #25
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    # Test case 3: Empty string
-    assert matcher('') == False
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('12a') == False
-    # Test case 5: Case sensitivity
-    matcher3 = rex(r'^[A-Z]+$')
-    assert matcher3('HELLO') == True
-    assert matcher3('hello') == False
-    print("All test cases passed!")
+def test_rex():
+    matcher = rex(r'^\\d+$')
+    assert matcher('123')
+    assert not matcher('abc')
+    assert not matcher('123abc')
 
-# Run the unit test
-test_rex()
 
 
 # LLM-generated content at query #26
@@ -2104,17 +948,10 @@ test_rex()
 
 # Unit test for function rex
 def test_rex(): 
-    assert rex(r'^a').__code__.co_argcount == 1
-    assert rex(r'^a')('a')
-    assert not rex(r'^a')('ba')
-    assert rex(r'^a')('ab')
-    assert not rex(r'^a')(5)
-    assert not rex(r'^a')(b'a')
-    assert rex(rb'^a')(b'a')
-    assert not rex(rb'^a')(b'ba')
-    assert rex(rb'^a')(b'ab')
-    assert not rex(rb'^a')('a')
-    assert not rex(rb'^a')(5)
+    matcher = rex(r'^a')
+    assert matcher('apple') is not None
+    assert matcher('banana') is None
+    assert matcher(123) is None
 
 
 
@@ -2122,205 +959,324 @@ def test_rex():
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
+def test_rex():
     matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-    # Test case 3: Empty string
-    assert matcher('') == False
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-    # Test case 5: Case sensitivity
-    matcher3 = rex(r'^[A-Z]+$')
-    assert matcher3('HELLO') == True
-    assert matcher3('hello') == False
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+    assert matcher('apple') is not None
+    assert matcher('banana') is None
+    assert matcher(123) is None
 
 
 # LLM-generated content at query #28
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching a string that matches the pattern
-    pattern = rex(r'^a.*')
-    assert pattern('apple') == True
-    assert pattern('banana') == False
+def test_rex():
+    assert rex('^a')('abc') is not None
+    assert rex('^a')('bac') is None
+    assert rex('^a$')('a') is not None
+    assert rex('^a$')('ab') is None
+    assert rex('^a$')('ba') is None
+    assert rex('^a$')('') is None
 
-    # Test case 2: Matching a string that does not match the pattern
-    pattern = rex(r'^b.*')
-    assert pattern('apple') == False
-    assert pattern('banana') == True
-
-    # Test case 3: Matching a string that matches the pattern with special characters
-    pattern = rex(r'^[0-9]+$')
-    assert pattern('123') == True
-    assert pattern('abc') == False
-
-    # Test case 4: Matching a string that does not match the pattern with special characters
-    pattern = rex(r'^[a-z]+$')
-    assert pattern('abc') == True
-    assert pattern('123') == False
-
-    # Test case 5: Matching a string that matches the pattern with multiple characters
-    pattern = rex(r'^[a-z]+[0-9]+$')
-    assert pattern('abc123') == True
-    assert pattern('123abc') == False
-
-    # Test case 6: Matching a string that does not match the pattern with multiple characters
-    pattern = rex(r'^[a-z]+[0-9]+$')
-    assert pattern('abc') == False
-    assert pattern('123') == False
-
-    # Test case 7: Matching a string that matches the pattern with a wildcard
-    pattern = rex(r'^a.*b$')
-    assert pattern('apple') == False
-    assert pattern('banana') == True
-
-    # Test case 8: Matching a string that does not match the pattern with a wildcard
-    pattern = rex(r'^a.*b$')
-    assert pattern('apple') == False
-    assert pattern('banana') == True
-
-    # Test case 9: Matching a string that matches the pattern with a quantifier
-    pattern = rex(r'^a{2,3}$')
-    assert pattern('aa') == True
-    assert pattern('aaa') == True
-    assert pattern('aaaa') == False
-
-    # Test case 10: Matching a string that does not match the pattern with a quantifier
-    pattern = rex(r'^a{2,3}$')
-    assert pattern('a') == False
-    assert pattern('aaaa') == False
-
-    print("All test cases pass")
-
-test_rex()
 
 
 # LLM-generated content at query #29
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    # Test case 1: Matching string
-    matcher = rex(r'^a.*')
-    assert matcher('apple') == True
-    assert matcher('banana') == False
-
-    # Test case 2: Non-string input
-    assert matcher(123) == False
-
-    # Test case 3: Empty string
-    assert matcher('') == False
-
-    # Test case 4: Matching with special characters
-    matcher2 = rex(r'^\d+$')
-    assert matcher2('123') == True
-    assert matcher2('abc') == False
-
-    # Test case 5: Case sensitivity
-    matcher3 = rex(r'^[A-Z]+$')
-    assert matcher3('HELLO') == True
-    assert matcher3('hello') == False
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_rex()
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc') is True
+    assert rex(r'^a')('bac') is False
+    assert rex(r'^a')(5) is False
 
 
 # LLM-generated content at query #30
 #--------------------------
 
 # Unit test for function rex
-def test_rex(): 
-    pattern = rex(r'^a')
-    assert pattern('a') == True
-    assert pattern('b') == False
-    assert pattern('ab') == True
-    assert pattern('ba') == False
-    assert pattern('') == False
-    assert pattern(1) == False
-    assert pattern(None) == False
-    assert pattern([]) == False
-    assert pattern({}) == False
-    assert pattern(()) == False
-    assert pattern(1.0) == False
-    assert pattern(True) == False
-    assert pattern(False) == False
-    assert pattern(object()) == False
-    assert pattern(re.compile(r'^a')) == False
-    assert pattern(re.compile(r'^a').match('a')) == False
-    assert pattern(re.compile(r'^a').match('b')) == False
-    assert pattern(re.compile(r'^a').match('ab')) == False
-    assert pattern(re.compile(r'^a').match('ba')) == False
-    assert pattern(re.compile(r'^a').match('')) == False
-    assert pattern(re.compile(r'^a').match(1)) == False
-    assert pattern(re.compile(r'^a').match(None)) == False
-    assert pattern(re.compile(r'^a').match([])) == False
-    assert pattern(re.compile(r'^a').match({})) == False
-    assert pattern(re.compile(r'^a').match(())) == False
-    assert pattern(re.compile(r'^a').match(1.0)) == False
-    assert pattern(re.compile(r'^a').match(True)) == False
-    assert pattern(re.compile(r'^a').match(False)) == False
-    assert pattern(re.compile(r'^a').match(object())) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a'))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match('a'))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match('b'))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match('ab'))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match('ba'))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(''))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(1))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(None))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match([]))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match({}))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(()))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(1.0))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(True))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(False))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(object()))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a')))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match('a')))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match('b')))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match('ab')))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match('ba')))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match('')))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(1)))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(None)))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match([])))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match({})))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(())))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(1.0)))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(True)))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(False)))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(object())))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a'))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match('a'))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match('b'))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match('ab'))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match('ba'))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(''))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(1))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(None))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match([]))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match({}))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(()))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(1.0))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(True))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(False))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(object()))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a')))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match('a')))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a').match('b')))))) == False
-    assert pattern(re.compile(r'^a').match(re.compile(r'^a').match(re.compile(r'^a
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc')
+    assert not rex(r'^a')('bac')
+    assert rex(r'^a$')('a')
+    assert not rex(r'^a$')('ab')
+
+
+# LLM-generated content at query #31
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc') is not None
+    assert rex(r'^a')('bac') is None
+    assert rex(r'^a')(5) is None
+
+
+# LLM-generated content at query #32
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc') is True
+    assert rex(r'^a')('bac') is False
+    assert rex(r'^a')(5) is False
+
+
+# LLM-generated content at query #33
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex("^a")( "apple" )
+    assert not rex("^a")( "banana" )
+
+
+
+# LLM-generated content at query #34
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    # Test with a string that matches the pattern
+    assert rex(r'^a')('abc') == True
+    # Test with a string that does not match the pattern
+    assert rex(r'^a')('bc') == False
+    # Test with a non-string input
+    assert rex(r'^a')(123) == False
+
+
+
+# LLM-generated content at query #35
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex('a')('a') is not None
+    assert rex('a')('b') is None
+    assert rex('a')('aa') is not None
+    assert rex('^a$')('aa') is None
+    assert rex('a')(1) is None
+
+
+
+# LLM-generated content at query #36
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^Hello$')('Hello') is not None
+    assert rex(r'^Hello$')('NotHello') is None
+    assert rex(r'^[a-z]+$')('abc') is not None
+    assert rex(r'^[a-z]+$')('123') is None
+    assert rex(r'^\d+$')('123') is not None
+    assert rex(r'^\d+$')('abc') is None
+
+
+
+# LLM-generated content at query #37
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    # Test matching a string with a regular expression
+    assert rex(r"^a")("apple") == True
+    assert rex(r"^b")("apple") == False
+
+    # Test matching non-string values
+    assert rex(r"^a")(123) == False
+
+
+
+# LLM-generated content at query #38
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^a').__name__ == '<lambda>'
+    assert rex(r'^a')('abc') is True
+    assert rex(r'^a')('bac') is False
+    assert rex(r'^a')(5) is False
+
+
+# LLM-generated content at query #39
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    # Check if rex returns a regex matcher
+    # Test case 1: Regular expression 'a' matches string 'abc'
+    matcher = rex('a')
+    assert matcher('abc') is not None
+
+    # Test case 2: Regular expression 'a' does not match string 'bcd'
+    matcher = rex('a')
+    assert matcher('bcd') is None
+
+    # Test case 3: Regular expression 'a' does not match integer 1
+    matcher = rex('a')
+    assert matcher(1) is False
+
+
+
+# LLM-generated content at query #40
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^a')('abc') is not None
+    assert rex(r'^a')('bac') is None
+    assert rex(r'^a')('') is None
+    assert rex(r'^a')('a') is not None
+    assert rex(r'^a')('a' * 100) is not None
+    assert rex(r'^a')('b' * 100) is None
+    assert rex(r'^a')('a' * 100 + 'b') is not None
+    assert rex(r'^a')('b' * 100 + 'a') is None
+    assert rex(r'^a')('a' * 100 + 'b' * 100) is not None
+    assert rex(r'^a')('b' * 100 + 'a' * 100) is None
+    assert rex(r'^a')('a' * 100 + 'b' * 100 + 'a') is not None
+    assert rex(r'^a')('b' * 100 + 'a' * 100 + 'b') is None
+    assert rex(r'^a')('a' * 100 + 'b' * 100 + 'a' * 100) is not None
+    assert rex(r'^a')('b' * 100 + 'a' * 100 + 'b' * 100) is None
+    assert rex(r'^a')('a' * 100 + 'b' * 100 + 'a' * 100 + 'b') is not None
+    assert rex(r'^a')('b' * 100 + 'a' * 100 + 'b' * 100 + 'a') is None
+    assert rex(r'^a')('a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100) is not None
+    assert rex(r'^a')('b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100) is None
+    assert rex(r'^a')('a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a') is not None
+    assert rex(r'^a')('b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b') is None
+    assert rex(r'^a')('a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100) is not None
+    assert rex(r'^a')('b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100) is None
+    assert rex(r'^a')('a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b') is not None
+    assert rex(r'^a')('b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a') is None
+    assert rex(r'^a')('a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100) is not None
+    assert rex(r'^a')('b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100) is None
+    assert rex(r'^a')('a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a') is not None
+    assert rex(r'^a')('b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b') is None
+    assert rex(r'^a')('a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100) is not None
+    assert rex(r'^a')('b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100 + 'a' * 100 + 'b' * 100) is None
+
+
+# LLM-generated content at query #41
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex('^a').__name__ == '<lambda>'
+    assert rex('^a')('abc')
+    assert not rex('^a')('bac')
+    assert rex('^[ab]')('a')
+    assert rex('^[ab]')('b')
+    assert not rex('^[ab]')('c')
+
+
+
+# LLM-generated content at query #42
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r"^a$")("a")
+    assert not rex(r"^a$")("b")
+    assert rex(r"^[a-z]$")("c")
+    assert not rex(r"^[a-z]$")("1")
+
+
+
+
+# LLM-generated content at query #43
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    # Test case 1: Match a string with the pattern
+    matcher = rex(r'^a.*')
+    assert matcher('apple') == True
+
+    # Test case 2: Match a string that does not match the pattern
+    assert matcher('banana') == False
+
+    # Test case 3: Match a non-string input
+    assert matcher(123) == False
+
+
+
+# LLM-generated content at query #44
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex(r'^h')('hello') is not None
+    assert rex(r'^h')('world') is None
+    assert rex(r'^\d+')('123') is not None
+    assert rex(r'^\d+')('abc') is None
+
+
+
+# LLM-generated content at query #45
+#--------------------------
+
+# Unit test for function rex
+def test_rex():
+    assert rex("^a")("abc") is not None
+    assert rex("^a")("bac") is None
+    assert rex("^a")("a") is not None
+    assert rex("^a")("b") is None
+    assert rex("^a")("") is None
+    assert rex("^a")("a ") is not None
+    assert rex("^a")(" a") is None
+    assert rex("^a")("a\n") is not None
+    assert rex("^a")("\na") is None
+    assert rex("^a")("a\t") is not None
+    assert rex("^a")("\ta") is None
+    assert rex("^a")("a\r") is not None
+    assert rex("^a")("\ra") is None
+    assert rex("^a")("a\f") is not None
+    assert rex("^a")("\fa") is None
+    assert rex("^a")("a\v") is not None
+    assert rex("^a")("\va") is None
+    assert rex(r"\d+")("123") is not None
+    assert rex(r"\d+")("abc") is None
+    assert rex(r"\d+")("123abc") is not None
+    assert rex(r"\d+")("abc123") is None
+    assert rex(r"\d+")("123abc123") is not None
+    assert rex(r"\d+")("abc123abc") is None
+    assert rex(r"\d+")("123abc123abc") is not None
+    assert rex(r"\d+")("abc123abc123") is None
+    assert rex(r"\d+")("123abc123abc123") is not None
+    assert rex(r"\d+")("abc123abc123abc") is None
+    assert rex(r"\d+")("123abc123abc123abc") is not None
+    assert rex(r"\d+")("abc123abc123abc123") is None
+    assert rex(r"\d+")("123abc123abc123abc123") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc123") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123abc") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc123abc") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123abc123") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc123abc123") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123abc123abc") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc123abc123abc") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123abc123abc123") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc123abc123abc123") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123abc123abc123abc") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc123abc123abc123abc") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123abc123abc123abc123") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc123abc123abc123abc123") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123abc123abc123abc123abc") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc123abc123abc123abc123abc") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123abc123abc123abc123abc123") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc123abc123abc123abc123abc123") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123abc123abc123abc123abc123abc") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc123abc123abc123abc123abc123abc") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123abc123abc123abc123abc123abc123") is None
+    assert rex(r"\d+")("123abc123abc123abc123abc123abc123abc123abc123abc123abc123abc123") is not None
+    assert rex(r"\d+")("abc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abc") is None
 
 

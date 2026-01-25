@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,1221 +7,1245 @@
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"
-    assert assignment(code, "dict", ".py") == expected
-
-    # Test case 2: Sorting a list
+def test_assignment():
+    # Test case 1: Sorting a list
     code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    assert assignment(code, "list", ".py") == expected
+    sorted_code = assignment(code, "list", ".py")
+    assert sorted_code == "my_list = [1, 2, 3]"
+
+    # Test case 2: Sorting a dictionary
+    code = "my_dict = {'b': 2, 'a': 1}"
+    sorted_code = assignment(code, "dict", ".py")
+    assert sorted_code == "my_dict = {'a': 1, 'b': 2}"
 
     # Test case 3: Sorting a set
     code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    assert assignment(code, "set", ".py") == expected
+    sorted_code = assignment(code, "set", ".py")
+    assert sorted_code == "my_set = {1, 2, 3}"
 
     # Test case 4: Sorting a tuple
     code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    assert assignment(code, "tuple", ".py") == expected
+    sorted_code = assignment(code, "tuple", ".py")
+    assert sorted_code == "my_tuple = (1, 2, 3)"
 
     # Test case 5: Sorting a unique list
-    code = "my_list = [3, 1, 2, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    assert assignment(code, "unique-list", ".py") == expected
+    code = "my_list = [3, 1, 2, 1]"
+    sorted_code = assignment(code, "unique-list", ".py")
+    assert sorted_code == "my_list = [1, 2, 3]"
 
     # Test case 6: Sorting a unique tuple
-    code = "my_tuple = (3, 1, 2, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    assert assignment(code, "unique-tuple", ".py") == expected
+    code = "my_tuple = (3, 1, 2, 1)"
+    sorted_code = assignment(code, "unique-tuple", ".py")
+    assert sorted_code == "my_tuple = (1, 2, 3)"
 
-    # Test case 7: Sorting assignments
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1b = 2c = 3"
-    assert assignment(code, "assignments", ".py") == expected
+    # Test case 7: Handles assignments
+    code = """a = 1
+b = 2
+c = 3"""
+    sorted_code = assignment(code, "assignments", ".py")
+    assert sorted_code == """a = 1\nb = 2\nc = 3"""
 
-    print("All tests passed!")
+    # Test case 8: Handles incorrect assignment format
+    try:
+        assignment("a b c", "assignments", ".py")
+        assert False
+    except AssignmentsFormatMismatch:
+        assert True
 
-# Run the unit test
-test_assignment()
+    # Test case 9: Handles incorrect sort type
+    try:
+        assignment("a = 1", "unknown", ".py")
+        assert False
+    except ValueError:
+        assert True
+
+    # Test case 10: Handles incorrect literal parsing
+    try:
+        assignment("a = [1, 2,", "list", ".py")
+        assert False
+    except LiteralParsingFailure:
+        assert True
+
+    # Test case 11: Handles literal sort type mismatch
+    try:
+        assignment("a = [1, 2, 3]", "dict", ".py")
+        assert False
+    except LiteralSortTypeMismatch:
+        assert True
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1\nb = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-    print("test_assignment passed")
-
+def test_assignment():
+    code = "a = [3, 1, 2]"
+    sorted_code = assignment(code, "list", ".py")
+    assert sorted_code == "a = [1, 2, 3]"
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary  
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"  
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"  
-    assert assignment(code, "dict", ".py") == expected  
-
-    # Test case 2: Sorting a list  
-    code = "my_list = [3, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    assert assignment(code, "list", ".py") == expected  
-
-    # Test case 3: Sorting a set  
-    code = "my_set = {3, 1, 2}"  
-    expected = "my_set = {1, 2, 3}"  
-    assert assignment(code, "set", ".py") == expected  
-
-    # Test case 4: Sorting a tuple  
-    code = "my_tuple = (3, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    assert assignment(code, "tuple", ".py") == expected  
-
-    # Test case 5: Sorting assignments  
-    code = "b = 2\na = 1\nc = 3"  
-    expected = "a = 1b = 2c = 3"  
-    assert assignment(code, "assignments", ".py") == expected  
-
-    print("All tests passed!")
-
-# Run the unit test  
-test_assignment()
+def test_assignment():
+    config = Config()
+    assert assignment("x = [3, 2, 1]", "list", "py", config) == "x = [1, 2, 3]"
+    assert assignment("y = {'b': 2, 'a': 1}", "dict", "py", config) == "y = {'a': 1, 'b': 2}"
+    assert assignment("z = {3, 2, 1}", "set", "py", config) == "z = {1, 2, 3}"
+    assert assignment("a = (3, 2, 1)", "tuple", "py", config) == "a = (1, 2, 3)"
+    assert assignment("b = [3, 2, 1, 2]", "unique-list", "py", config) == "b = [1, 2, 3]"
+    assert assignment("c = (3, 2, 1, 2)", "unique-tuple", "py", config) == "c = (1, 2, 3)"
+    try:
+        assignment("d = [3, 2, 1]", "invalid", "py", config)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+    try:
+        assignment("e = not_a_literal", "list", "py", config)
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+    try:
+        assignment("f = {'b': 2, 'a': 1}", "list", "py", config)
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    result = assignments(code)
+def test_assignment():
+    # Test assignments
+    assignments_code = "b = 2\na = 1"
     expected = "a = 1b = 2"
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("test_assignment passed")
+    assert assignments(assignments_code) == expected
 
+    # Test assignment with dictionary
+    dict_code = "x = {2: 'b', 1: 'a'}"
+    expected_dict = "x = {1: 'a', 2: 'b'}"
+    assert assignment(dict_code, "dict", "py") == expected_dict
+
+    # Test assignment with list
+    list_code = "x = [2, 1]"
+    expected_list = "x = [1, 2]"
+    assert assignment(list_code, "list", "py") == expected_list
+
+    # Test assignment with unique list
+    unique_list_code = "x = [2, 1, 2]"
+    expected_unique_list = "x = [1, 2]"
+    assert assignment(unique_list_code, "unique-list", "py") == expected_unique_list
+
+    # Test assignment with set
+    set_code = "x = {2, 1}"
+    expected_set = "x = {1, 2}"
+    assert assignment(set_code, "set", "py") == expected_set
+
+    # Test assignment with tuple
+    tuple_code = "x = (2, 1)"
+    expected_tup = "x = (1, 2)"
+    assert assignment(tuple_code, "tuple", "py") == expected_tup
+
+    # Test assignment with unique tuple
+    unique_tuple_code = "x = (2, 1, 2)"
+    expected_unique_tup = "x = (1, 2)"
+    assert assignment(unique_tuple_code, "unique-tuple", "py") == expected_unique_tup
+
+    # Test LiteralParsingFailure
+    try:
+        assignment("x = not_a_literal", "list", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    # Test LiteralSortTypeMismatch
+    try:
+        assignment("x = [1, 2]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    # Test AssignmentsFormatMismatch
+    try:
+        assignments("x = 1\ny == 2")
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
+
+    # Test undefined sort type
+    try:
+        assignment("x = [1, 2]", "undefined_type", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for function assignments
-def test_assignments():  
-    code = "b = 2\na = 1\nc = 3"  
-    expected = "a = 1b = 2c = 3"  
-    result = assignments(code)  
-    assert result == expected, f"Expected {expected}, got {result}"  
-    print("test_assignments passed")  
+def test_assignments():
+    code = """b = 2
+a = 1
+c = 3"""
+    expected = """a = 1
+b = 2
+c = 3"""
+    assert assignments(code) == expected
 
+    code = """z = 26
+y = 25
+x = 24"""
+    expected = """x = 24
+y = 25
+z = 26"""
+    assert assignments(code) == expected
+
+    code = """foo = 'bar'
+baz = 'qux'
+quux = 'corge'"""
+    expected = """baz = 'qux'
+foo = 'bar'
+quux = 'corge'"""
+    assert assignments(code) == expected
+
+    code = """alpha = 'beta'
+gamma = 'delta'
+epsilon = 'zeta'"""
+    expected = """alpha = 'beta'
+epsilon = 'zeta'
+gamma = 'delta'"""
+    assert assignments(code) == expected
+
+    code = """one = 1
+three = 3
+two = 2"""
+    expected = """one = 1
+three = 3
+two = 2"""
+    assert assignments(code) == expected
+
+    code = """apple = 'fruit'
+banana = 'fruit'
+carrot = 'vegetable'"""
+    expected = """apple = 'fruit'
+banana = 'fruit'
+carrot = 'vegetable'"""
+    assert assignments(code) == expected
+
+    code = """red = 'color'
+blue = 'color'
+green = 'color'"""
+    expected = """blue = 'color'
+green = 'color'
+red = 'color'"""
+    assert assignments(code) == expected
+
+    code = """cat = 'animal'
+dog = 'animal'
+bird = 'animal'"""
+    expected = """bird = 'animal'
+cat = 'animal'
+dog = 'animal'"""
+    assert assignments(code) == expected
+
+    code = """january = 'month'
+february = 'month'
+march = 'month'"""
+    expected = """february = 'month'
+january = 'month'
+march = 'month'"""
+    assert assignments(code) == expected
+
+    code = """monday = 'day'
+tuesday = 'day'
+wednesday = 'day'"""
+    expected = """monday = 'day'
+tuesday = 'day'
+wednesday = 'day'"""
+    assert assignments(code) == expected
 
 
 # LLM-generated content at query #6
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Simple assignments  
-    code = "b = 2\na = 1\n"  
-    expected = "a = 1\nb = 2\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 2: Assignments with different values  
-    code = "x = 'hello'\ny = 'world'\n"  
-    expected = "x = 'hello'\ny = 'world'\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 3: Assignments with empty lines  
-    code = "b = 2\n\na = 1\n"  
-    expected = "a = 1\nb = 2\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 4: Assignments with trailing spaces  
-    code = "b = 2 \na = 1 "  
-    expected = "a = 1 \nb = 2 "  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 5: Assignments with multiple spaces  
-    code = "b   =   2\na   =   1\n"  
-    expected = "a   =   1\nb   =   2\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 6: Assignments with different variable names  
-    code = "var2 = 2\nvar1 = 1\n"  
-    expected = "var1 = 1\nvar2 = 2\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 7: Assignments with no newline at the end  
-    code = "b = 2\na = 1"  
-    expected = "a = 1\nb = 2"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 8: Assignments with special characters in variable names  
-    code = "b_2 = 2\na_1 = 1\n"  
-    expected = "a_1 = 1\nb_2 = 2\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 9: Assignments with mixed types  
-    code = "b = 'two'\na = 1\n"  
-    expected = "a = 1\nb = 'two'\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 10: Assignments with empty string values  
-    code = "b = ''\na = 'apple'\n"  
-    expected = "a = 'apple'\nb = ''\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    print("All test cases passed!")  
-
-# Run the unit test  
-test_assignment()
+def test_assignment():
+    assert assignment("x = [3, 1, 2]", "list", ".py") == "x = [1, 2, 3]"
+    assert assignment("y = {'b': 2, 'a': 1}", "dict", ".py") == "y = {'a': 1, 'b': 2}"
+    assert assignment("z = {3, 1, 2}", "set", ".py") == "z = {1, 2, 3}"
+    assert assignment("a = (3, 1, 2)", "tuple", ".py") == "a = (1, 2, 3)"
+    assert assignment("b = [3, 1, 2, 1]", "unique-list", ".py") == "b = [1, 2, 3]"
+    assert assignment("c = (3, 1, 2, 1)", "unique-tuple", ".py") == "c = (1, 2, 3)"
+    assert assignment("d = 1", "list", ".py") == "d = 1"  # Should not sort non-lists
+    assert assignment("x = 1\ny = 2", "assignments", ".py") == "x = 1\ny = 2"
 
 
 # LLM-generated content at query #7
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1\nb = 2\nc = 3"
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"
-    print("test_assignment passed")
+def test_assignment():
+    config = Config()
+    code = 'my_var = {"b": 2, "a": 1}'
+    sorted_code = assignment(code, "dict", ".py", config)
+    assert sorted_code == 'my_var = {"a": 1, "b": 2}'
 
+    code = 'my_var = [3, 1, 2]'
+    sorted_code = assignment(code, "list", ".py", config)
+    assert sorted_code == 'my_var = [1, 2, 3]'
+
+    code = 'my_var = {2, 1, 3}'
+    sorted_code = assignment(code, "set", ".py", config)
+    assert sorted_code == 'my_var = {1, 2, 3}'
+
+    code = 'my_var = (3, 1, 2)'
+    sorted_code = assignment(code, "tuple", ".py", config)
+    assert sorted_code == 'my_var = (1, 2, 3)'
+
+    code = 'my_var = [3, 1, 2, 1]'
+    sorted_code = assignment(code, "unique-list", ".py", config)
+    assert sorted_code == 'my_var = [1, 2, 3]'
+
+    code = 'my_var = (3, 1, 2, 1)'
+    sorted_code = assignment(code, "unique-tuple", ".py", config)
+    assert sorted_code == 'my_var = (1, 2, 3)'
+
+    code = 'my_var = {"b": 2, "a": 1}\nmy_var2 = {"d": 4, "c": 3}'
+    sorted_code = assignment(code, "assignments", ".py", config)
+    assert sorted_code == 'my_var = {"b": 2, "a": 1}\nmy_var2 = {"d": 4, "c": 3}'
+
+    try:
+        code = 'my_var = {"b": 2, "a": 1}'
+        sorted_code = assignment(code, "invalid-type", ".py", config)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    try:
+        code = 'my_var = "not a literal"'
+        sorted_code = assignment(code, "dict", ".py", config)
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    try:
+        code = 'my_var = invalid literal'
+        sorted_code = assignment(code, "dict", ".py", config)
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    try:
+        code = 'my_var = {"b": 2, "a": 1}'
+        sorted_code = assignment(code, "assignments", ".py", config)
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #8
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1\nb = 2\n"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("test_assignment passed")
-
+def test_assignment():
+    assert assignment("a = [3, 1, 2]", "list", ".py") == "a = [1, 2, 3]"
+    assert assignment("b = {'b': 1, 'a': 2}", "dict", ".py") == "b = {'a': 2, 'b': 1}"
+    assert assignment("c = {3, 1, 2}", "set", ".py") == "c = {1, 2, 3}"
+    assert assignment("d = (3, 1, 2)", "tuple", ".py") == "d = (1, 2, 3)"
+    assert assignment("e = [3, 1, 2]", "unique-list", ".py") == "e = [1, 2, 3]"
+    assert assignment("f = (3, 1, 2)", "unique-tuple", ".py") == "f = (1, 2, 3)"
+    assert assignments("a = 1\nb = 2\nc = 3") == "a = 1b = 2c = 3"
 
 
 # LLM-generated content at query #9
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment(): 
-    code = "b = 2\na = 1\n"
-    expected = "a = 1\nb = 2\n"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, got {result}"
-    print("test_assignment passed")
+def test_assignment():
+    code = "numbers = [3, 1, 2]"
+    sorted_code = assignment(code, "list", ".py")
+    assert sorted_code == "numbers = [1, 2, 3]"
 
+    code = "letters = {'c': 3, 'a': 1, 'b': 2}"
+    sorted_code = assignment(code, "dict", ".py")
+    assert sorted_code == "letters = {'a': 1, 'b': 2, 'c': 3}"
+
+    code = "unique_numbers = [3, 1, 2, 1]"
+    sorted_code = assignment(code, "unique-list", ".py")
+    assert sorted_code == "unique_numbers = [1, 2, 3]"
+
+    code = "values = (3, 1, 2)"
+    sorted_code = assignment(code, "tuple", ".py")
+    assert sorted_code == "values = (1, 2, 3)"
+
+    code = "unique_values = (3, 1, 2, 1)"
+    sorted_code = assignment(code, "unique-tuple", ".py")
+    assert sorted_code == "unique_values = (1, 2, 3)"
+
+    code = "elements = {3, 1, 2}"
+    sorted_code = assignment(code, "set", ".py")
+    assert sorted_code == "elements = {1, 2, 3}"
+
+    code = "x = 1\ny = 2\nz = 3"
+    sorted_code = assignment(code, "assignments", ".py")
+    assert sorted_code == "x = 1y = 2z = 3"
+
+    try:
+        code = "invalid = not a literal"
+        assignment(code, "list", ".py")
+    except LiteralParsingFailure:
+        pass
+
+    try:
+        code = "invalid = [1, 2, 3]"
+        assignment(code, "dict", ".py")
+    except LiteralSortTypeMismatch:
+        pass
+
+    try:
+        code = "invalid = 1"
+        assignment(code, "non-existent-type", ".py")
+    except ValueError:
+        pass
 
 
 # LLM-generated content at query #10
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment(): 
+def test_assignment():
+    # Test assignments
     code = "b = 2\na = 1\n"
-    result = assignment(code, "assignments", ".py")
-    expected = "a = 1\nb = 2\n"
-    assert result == expected, f"Expected {expected}, got {result}"
-    print("Test passed: assignments")
+    assert assignment(code, "assignments", "py") == "a = 1\nb = 2\n"
 
+    # Test dictionary
+    code = "x = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "x = {'a': 1, 'b': 2}"
+
+    # Test list
+    code = "x = [2, 1]"
+    assert assignment(code, "list", "py") == "x = [1, 2]"
+
+    # Test unique list
+    code = "x = [2, 1, 2]"
+    assert assignment(code, "unique-list", "py") == "x = [1, 2]"
+
+    # Test set
+    code = "x = {2, 1}"
+    assert assignment(code, "set", "py") == "x = {1, 2}"
+
+    # Test tuple
+    code = "x = (2, 1)"
+    assert assignment(code, "tuple", "py") == "x = (1, 2)"
+
+    # Test unique tuple
+    code = "x = (2, 1, 2)"
+    assert assignment(code, "unique-tuple", "py") == "x = (1, 2)"
+
+    # Test invalid sort type
+    try:
+        assignment("x = 1", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test invalid literal
+    try:
+        assignment("x = {", "dict", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    # Test type mismatch
+    try:
+        assignment("x = 1", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
 
 
 # LLM-generated content at query #11
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, got {result}"
-    print("test_assignment passed")
+def test_assignment():
+    code = "a = [3, 2, 1]"
+    sorted_code = assignment(code, "list", "py")
+    assert sorted_code == "a = [1, 2, 3]"
 
+    code = "b = {'c': 3, 'a': 1, 'b': 2}"
+    sorted_code = assignment(code, "dict", "py")
+    assert sorted_code == "b = {'a': 1, 'b': 2, 'c': 3}"
+
+    code = "c = (3, 1, 2)"
+    sorted_code = assignment(code, "tuple", "py")
+    assert sorted_code == "c = (1, 2, 3)"
+
+    code = "d = {3, 1, 2}"
+    sorted_code = assignment(code, "set", "py")
+    assert sorted_code == "d = {1, 2, 3}"
+
+    code = "e = [3, 1, 2, 1]"
+    sorted_code = assignment(code, "unique-list", "py")
+    assert sorted_code == "e = [1, 2, 3]"
+
+    code = "f = (3, 1, 2, 1)"
+    sorted_code = assignment(code, "unique-tuple", "py")
+    assert sorted_code == "f = (1, 2, 3)"
+
+    try:
+        code = "g = 'not a literal'"
+        assignment(code, "list", "py")
+    except LiteralParsingFailure:
+        pass
+
+    try:
+        code = "h = [1, 2, 3]"
+        assignment(code, "dict", "py")
+    except LiteralSortTypeMismatch:
+        pass
+
+    try:
+        code = "i = not an assignment"
+        assignment(code, "list", "py")
+    except AssignmentsFormatMismatch:
+        pass
+
+    try:
+        code = "j = [1, 2, 3]"
+        assignment(code, "unknown", "py")
+    except ValueError:
+        pass
+
+    code = "k = [3, 2, 1]\n"
+    sorted_code = assignment(code, "list", "py")
+    assert sorted_code == "k = [1, 2, 3]\n"
+
+    code = "l = [3, 2, 1]  # comment"
+    sorted_code = assignment(code, "list", "py")
+    assert sorted_code == "l = [1, 2, 3]  # comment"
 
 
 # LLM-generated content at query #12
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a list of integers  
-    code = "my_list = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]"  
-    expected = "my_list = [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]"  
-    result = assignment(code, "list", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 1 passed")  
-  
-    # Test case 2: Sorting a list of strings  
-    code = 'my_list = ["banana", "apple", "cherry", "date"]'  
-    expected = 'my_list = ["apple", "banana", "cherry", "date"]'  
-    result = assignment(code, "list", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 2 passed")  
-  
-    # Test case 3: Sorting a tuple  
-    code = "my_tuple = (3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5)"  
-    expected = "my_tuple = (1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9)"  
-    result = assignment(code, "tuple", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 3 passed")  
-  
-    # Test case 4: Sorting a set  
-    code = "my_set = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5}"  
-    expected = "my_set = {1, 2, 3, 4, 5, 6, 9}"  
-    result = assignment(code, "set", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 4 passed")  
-  
-    # Test case 5: Sorting a dictionary by values  
-    code = 'my_dict = {"b": 2, "a": 1, "c": 3}'  
-    expected = 'my_dict = {"a": 1, "b": 2, "c": 3}'  
-    result = assignment(code, "dict", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 5 passed")  
-  
-    # Test case 6: Sorting a list and removing duplicates  
-    code = "my_list = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]"  
-    expected = "my_list = [1, 2, 3, 4, 5, 6, 9]"  
-    result = assignment(code, "unique-list", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 6 passed")  
-  
-    # Test case 7: Sorting a tuple and removing duplicates  
-    code = "my_tuple = (3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5)"  
-    expected = "my_tuple = (1, 2, 3, 4, 5, 6, 9)"  
-    result = assignment(code, "unique-tuple", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 7 passed")  
-  
-    # Test case 8: Sorting assignments  
-    code = "b = 2\na = 1\nc = 3"  
-    expected = "a = 1\nb = 2\nc = 3"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 8 passed")  
-  
-    # Test case 9: Invalid sort type  
-    try:  
-        assignment("my_list = [1, 2, 3]", "invalid-type", ".py")  
-        assert False, "Expected ValueError for invalid sort type"  
-    except ValueError as e:  
-        assert "Trying to sort using an undefined sort_type" in str(e)  
-        print("Test case 9 passed")  
-  
-    # Test case 10: Literal parsing failure  
-    try:  
-        assignment("my_list = [1, 2, 3", "list", ".py")  
-        assert False, "Expected LiteralParsingFailure for invalid literal"  
-    except LiteralParsingFailure:  
-        print("Test case 10 passed")  
-  
-    # Test case 11: Type mismatch  
-    try:  
-        assignment('my_list = "not a list"', "list", ".py")  
-        assert False, "Expected LiteralSortTypeMismatch for type mismatch"  
-    except LiteralSortTypeMismatch:  
-        print("Test case 11 passed")  
-  
-    print("All tests passed!")  
-  
-# Run the unit tests  
-if __name__ == "__main__":  
-    test_assignment()
+def test_assignment():
+    config = Config()
+    # Test assignments
+    code = "b = 2\na = 1"
+    assert assignment(code, "assignments", ".py", config) == "a = 1b = 2"
+    # Test list sorting
+    code = "my_list = [3, 1, 2]"
+    assert assignment(code, "list", ".py", config) == "my_list = [1, 2, 3]"
+    # Test unique list sorting
+    code = "my_list = [3, 1, 2, 1]"
+    assert assignment(code, "unique-list", ".py", config) == "my_list = [1, 2, 3]"
+    # Test tuple sorting
+    code = "my_tuple = (3, 1, 2)"
+    assert assignment(code, "tuple", ".py", config) == "my_tuple = (1, 2, 3)"
+    # Test unique tuple sorting
+    code = "my_tuple = (3, 1, 2, 1)"
+    assert assignment(code, "unique-tuple", ".py", config) == "my_tuple = (1, 2, 3)"
+    # Test set sorting
+    code = "my_set = {3, 1, 2}"
+    assert assignment(code, "set", ".py", config) == "my_set = {1, 2, 3}"
+    # Test dict sorting
+    code = "my_dict = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", ".py", config) == "my_dict = {'a': 1, 'b': 2}"
+    # Test invalid sort type
+    try:
+        assignment(code, "invalid", ".py", config)
+        assert False
+    except ValueError:
+        assert True
+    # Test invalid code format
+    try:
+        assignment("invalid", "list", ".py", config)
+        assert False
+    except AssignmentsFormatMismatch:
+        assert True
+    # Test invalid literal parsing
+    try:
+        assignment("my_list = invalid", "list", ".py", config)
+        assert False
+    except LiteralParsingFailure:
+        assert True
 
 
 # LLM-generated content at query #13
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, got {result}"
-    print("test_assignment passed")
+def test_assignment():
+    test_cases = [
+        ("x = [3, 1, 2]", "list", "[1, 2, 3]"),
+        ("y = {'b': 2, 'a': 1}", "dict", "{'a': 1, 'b': 2}"),
+        ("z = (3, 1, 2)", "tuple", "(1, 2, 3)"),
+    ]
 
+    for code, sort_type, expected in test_cases:
+        result = assignment(code, sort_type, ".py")
+        assert result == f"{code.split('=')[0].strip()} = {expected}", f"Expected {expected}, got {result}"
+
+test_assignment()
 
 
 # LLM-generated content at query #14
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Simple assignments
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
+def test_assignment():
+    config = Config()
+    code = 'my_dict = {"b": 2, "a": 1}'
+    sorted_code = assignment(code, "dict", ".py", config)
+    assert sorted_code == 'my_dict = {\'a\': 1, \'b\': 2}'
 
-    # Test case 2: Assignments with extra spaces
-    code = "x = 10\n  y = 20\n"
-    expected = "  y = 20x = 10"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
+    code = 'my_list = [3, 1, 2]'
+    sorted_code = assignment(code, "list", ".py", config)
+    assert sorted_code == 'my_list = [1, 2, 3]'
 
-    # Test case 3: Assignments with empty lines
-    code = "c = 3\n\nd = 4\n"
-    expected = "c = 3d = 4"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
+    code = 'my_set = {3, 1, 2}'
+    sorted_code = assignment(code, "set", ".py", config)
+    assert sorted_code == 'my_set = {1, 2, 3}'
 
-    # Test case 4: Assignments with no '=' sign
-    code = "invalid line\n"
+    code = 'my_tuple = (3, 1, 2)'
+    sorted_code = assignment(code, "tuple", ".py", config)
+    assert sorted_code == 'my_tuple = (1, 2, 3)'
+
     try:
-        assignments(code)
-        assert False, "Expected AssignmentsFormatMismatch exception"
+        code = 'my_dict = "not a dict"'
+        assignment(code, "dict", ".py", config)
+    except LiteralSortTypeMismatch:
+        pass
+    else:
+        assert False, "Expected LiteralSortTypeMismatch exception"
+
+    try:
+        code = 'my_dict = {invalid syntax}'
+        assignment(code, "dict", ".py", config)
+    except LiteralParsingFailure:
+        pass
+    else:
+        assert False, "Expected LiteralParsingFailure exception"
+
+    try:
+        code = 'invalid_assignments'
+        assignment(code, "assignments", ".py", config)
     except AssignmentsFormatMismatch:
         pass
+    else:
+        assert False, "Expected AssignmentsFormatMismatch exception"
 
-    print("All test cases passed!")
+    print("All tests passed!")
 
-# Run the unit test
-test_assignment()
+if __name__ == "__main__":
+    test_assignment()
 
 
 # LLM-generated content at query #15
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"  
-    expected = "a = 1\nb = 2\n"  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("test_assignment passed")  
+def test_assignment():
+    # Test assignments
+    assignments_code = "b = 2\na = 1\n"
+    assert assignment(assignments_code, "assignments", "py") == "a = 1\nb = 2\n"
 
+    # Test list
+    list_code = "x = [3, 1, 2]"
+    assert assignment(list_code, "list", "py") == "x = [1, 2, 3]"
+
+    # Test unique-list
+    unique_list_code = "x = [3, 1, 2, 1]"
+    assert assignment(unique_list_code, "unique-list", "py") == "x = [1, 2, 3]"
+
+    # Test dict
+    dict_code = "x = {'b': 2, 'a': 1}"
+    assert assignment(dict_code, "dict", "py") == "x = {'a': 1, 'b': 2}"
+
+    # Test set
+    set_code = "x = {3, 1, 2}"
+    assert assignment(set_code, "set", "py") == "x = {1, 2, 3}"
+
+    # Test tuple
+    tuple_code = "x = (3, 1, 2)"
+    assert assignment(tuple_code, "tuple", "py") == "x = (1, 2, 3)"
+
+    # Test unique-tuple
+    unique_tuple_code = "x = (3, 1, 2, 1)"
+    assert assignment(unique_tuple_code, "unique-tuple", "py") == "x = (1, 2, 3)"
+
+    # Test invalid sort type
+    try:
+        assignment("x = [1, 2, 3]", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test type mismatch
+    try:
+        assignment("x = [1, 2, 3]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    # Test parsing failure
+    try:
+        assignment("x = [1, 2, 3", "list", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    # Test assignments format mismatch
+    try:
+        assignment("x = [1, 2, 3]\ny = 4", "assignments", "py")
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
+def test_assignment():
+    config = Config()
+    # Test assignments sorting
     code = "b = 2\na = 1\n"
     expected = "a = 1\nb = 2\n"
-    assert assignments(code) == expected
+    assert assignment(code, "assignments", ".py", config) == expected
 
+    # Test list sorting
+    code = "x = [3, 1, 2]"
+    expected = "x = [1, 2, 3]"
+    assert assignment(code, "list", ".py", config) == expected
+
+    # Test dictionary sorting
+    code = "x = {'b': 2, 'a': 1}"
+    expected = "x = {'a': 1, 'b': 2}"
+    assert assignment(code, "dict", ".py", config) == expected
+
+    # Test set sorting
+    code = "x = {3, 1, 2}"
+    expected = "x = {1, 2, 3}"
+    assert assignment(code, "set", ".py", config) == expected
+
+    # Test tuple sorting
+    code = "x = (3, 1, 2)"
+    expected = "x = (1, 2, 3)"
+    assert assignment(code, "tuple", ".py", config) == expected
+
+    # Test unique-list sorting
+    code = "x = [3, 1, 2, 2]"
+    expected = "x = [1, 2, 3]"
+    assert assignment(code, "unique-list", ".py", config) == expected
+
+    # Test unique-tuple sorting
+    code = "x = (3, 1, 2, 2)"
+    expected = "x = (1, 2, 3)"
+    assert assignment(code, "unique-tuple", ".py", config) == expected
+
+    # Test invalid sort type
+    try:
+        assignment("x = [1, 2, 3]", "invalid", ".py", config)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError"
+
+    # Test invalid literal parsing
+    try:
+        assignment("x = [1, 2, 3", "list", ".py", config)
+    except LiteralParsingFailure:
+        pass
+    else:
+        assert False, "Expected LiteralParsingFailure"
+
+    # Test type mismatch
+    try:
+        assignment("x = [1, 2, 3]", "dict", ".py", config)
+    except LiteralSortTypeMismatch:
+        pass
+    else:
+        assert False, "Expected LiteralSortTypeMismatch"
+
+    # Test assignments format mismatch
+    try:
+        assignment("x = 1\n y", "assignments", ".py", config)
+    except AssignmentsFormatMismatch:
+        pass
+    else:
+        assert False, "Expected AssignmentsFormatMismatch"
 
 
 # LLM-generated content at query #17
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting assignments  
-    code = "b = 2\na = 1\n"  
-    expected = "a = 1\nb = 2\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 2: Sorting dictionary  
-    code = "my_dict = {'b': 2, 'a': 1}"  
-    expected = "my_dict = {'a': 1, 'b': 2}"  
-    result = assignment(code, "dict", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 3: Sorting list  
-    code = "my_list = [3, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    result = assignment(code, "list", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 4: Sorting set  
-    code = "my_set = {3, 1, 2}"  
-    expected = "my_set = {1, 2, 3}"  
-    result = assignment(code, "set", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 5: Sorting tuple  
-    code = "my_tuple = (3, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    result = assignment(code, "tuple", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 6: Sorting unique list  
-    code = "my_list = [3, 1, 2, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    result = assignment(code, "unique-list", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 7: Sorting unique tuple  
-    code = "my_tuple = (3, 1, 2, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    result = assignment(code, "unique-tuple", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    print("All tests passed!")
+def test_assignment():
+    code = "my_list = [3, 1, 2]"
+    sorted_code = assignment(code, "list", ".py")
+    assert sorted_code == "my_list = [1, 2, 3]"
 
-# Run the unit test
-test_assignment()
+    code = "my_dict = {'b': 2, 'a': 1}"
+    sorted_code = assignment(code, "dict", ".py")
+    assert sorted_code == "my_dict = {'a': 1, 'b': 2}"
+
+    code = "my_set = {3, 1, 2}"
+    sorted_code = assignment(code, "set", ".py")
+    assert sorted_code == "my_set = {1, 2, 3}"
+
+    code = "my_tuple = (3, 1, 2)"
+    sorted_code = assignment(code, "tuple", ".py")
+    assert sorted_code == "my_tuple = (1, 2, 3)"
+
+    try:
+        code = "my_list = [3, 1, 2]"
+        assignment(code, "invalid_type", ".py")
+    except ValueError as e:
+        assert "Trying to sort using an undefined sort_type" in str(e)
+
+    try:
+        code = "my_list = 3 + 1"
+        assignment(code, "list", ".py")
+    except LiteralParsingFailure as e:
+        assert "malformed node or string" in str(e)
+
+    try:
+        code = "my_dict = [3, 1, 2]"
+        assignment(code, "dict", ".py")
+    except LiteralSortTypeMismatch as e:
+        assert "Expected <class 'dict'> but received <class 'list'>" in str(e)
 
 
 # LLM-generated content at query #18
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
+def test_assignment():
+    # Test assignments
     code = "b = 2\na = 1\n"
-    result = assignments(code)
-    expected = "a = 1b = 2"
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("Test passed: assignments")
+    assert assignment(code, "assignments", "py") == "a = 1\nb = 2\n"
 
+    # Test list
+    code = "x = [3, 1, 2]"
+    assert assignment(code, "list", "py") == "x = [1, 2, 3]"
+
+    # Test unique-list
+    code = "x = [3, 1, 2, 1]"
+    assert assignment(code, "unique-list", "py") == "x = [1, 2, 3]"
+
+    # Test set
+    code = "x = {3, 1, 2}"
+    assert assignment(code, "set", "py") == "x = {1, 2, 3}"
+
+    # Test tuple
+    code = "x = (3, 1, 2)"
+    assert assignment(code, "tuple", "py") == "x = (1, 2, 3)"
+
+    # Test unique-tuple
+    code = "x = (3, 1, 2, 1)"
+    assert assignment(code, "unique-tuple", "py") == "x = (1, 2, 3)"
+
+    # Test dict
+    code = "x = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "x = {'a': 1, 'b': 2}"
+
+    # Test invalid sort type
+    try:
+        assignment("x = [1, 2, 3]", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test invalid type for sort
+    try:
+        assignment("x = [1, 2, 3]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    # Test invalid literal
+    try:
+        assignment("x = [1, 2, 3", "list", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    # Test invalid assignments format
+    try:
+        assignment("x = 1\ny 2", "assignments", "py")
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #19
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Simple assignments  
-    code = "b = 2\na = 1\n"  
-    expected = "a = 1\nb = 2\n"  
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"  
-    print("Test case 1 passed")  
-  
-    # Test case 2: Assignments with extra spaces  
-    code = "  x = 10  \n  y = 5  \n"  
-    expected = "x = 10\ny = 5\n"  
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"  
-    print("Test case 2 passed")  
-  
-    # Test case 3: Single assignment  
-    code = "z = 100\n"  
-    expected = "z = 100\n"  
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"  
-    print("Test case 3 passed")  
-  
-    # Test case 4: Empty input  
-    code = ""  
-    expected = ""  
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"  
-    print("Test case 4 passed")  
-  
-    # Test case 5: Assignments with different variable names  
-    code = "var2 = 'second'\nvar1 = 'first'\n"  
-    expected = "var1 = 'first'\nvar2 = 'second'\n"  
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"  
-    print("Test case 5 passed")  
-  
-    # Test case 6: Assignments with numbers in variable names  
-    code = "a1 = 1\na2 = 2\n"  
-    expected = "a1 = 1\na2 = 2\n"  
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"  
-    print("Test case 6 passed")  
-  
-    # Test case 7: Assignments with underscores in variable names  
-    code = "var_b = 2\nvar_a = 1\n"  
-    expected = "var_a = 1\nvar_b = 2\n"  
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"  
-    print("Test case 7 passed")  
-  
-    # Test case 8: Assignments with mixed case variable names  
-    code = "VarB = 2\nVarA = 1\n"  
-    expected = "VarA = 1\nVarB = 2\n"  
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"  
-    print("Test case 8 passed")  
-  
-    # Test case 9: Assignments with trailing whitespace  
-    code = "b = 2 \na = 1 \n"  
-    expected = "a = 1\nb = 2\n"  
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"  
-    print("Test case 9 passed")  
-  
-    # Test case 10: Assignments with empty lines  
-    code = "b = 2\n\na = 1\n\n"  
-    expected = "a = 1\nb = 2\n"  
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"  
-    print("Test case 10 passed")  
-  
-    print("All test cases passed!")  
-  
-# Run the unit tests  
-test_assignment()
+def test_assignment():
+    config = Config()
+    # Test sorting a list
+    code = "my_list = [3, 1, 2]"
+    sorted_code = assignment(code, "list", ".py", config)
+    assert sorted_code == "my_list = [1, 2, 3]"
+
+    # Test sorting a tuple
+    code = "my_tuple = (3, 1, 2)"
+    sorted_code = assignment(code, "tuple", ".py", config)
+    assert sorted_code == "my_tuple = (1, 2, 3)"
+
+    # Test sorting a set
+    code = "my_set = {3, 1, 2}"
+    sorted_code = assignment(code, "set", ".py", config)
+    assert sorted_code == "my_set = {1, 2, 3}"
+
+    # Test sorting a dictionary
+    code = "my_dict = {'b': 2, 'a': 1}"
+    sorted_code = assignment(code, "dict", ".py", config)
+    assert sorted_code == "my_dict = {'a': 1, 'b': 2}"
+
+    # Test sorting a unique list
+    code = "my_list = [3, 1, 2, 1]"
+    sorted_code = assignment(code, "unique-list", ".py", config)
+    assert sorted_code == "my_list = [1, 2, 3]"
+
+    # Test sorting a unique tuple
+    code = "my_tuple = (3, 1, 2, 1)"
+    sorted_code = assignment(code, "unique-tuple", ".py", config)
+    assert sorted_code == "my_tuple = (1, 2, 3)"
+
+    # Test sorting assignments
+    code = "b = 2\na = 1"
+    sorted_code = assignment(code, "assignments", ".py", config)
+    assert sorted_code == "a = 1\nb = 2"
+
+    # Test invalid sort type
+    code = "my_list = [3, 1, 2]"
+    try:
+        assignment(code, "invalid", ".py", config)
+    except ValueError as e:
+        assert str(e) == "Trying to sort using an undefined sort_type. Defined sort types are dict, list, unique-list, set, tuple, unique-tuple."
 
 
 # LLM-generated content at query #20
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary literal  
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"  
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"  
-    result = assignment(code, "dict", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    
-    # Test case 2: Sorting a list literal  
-    code = "my_list = [3, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    result = assignment(code, "list", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    
-    # Test case 3: Sorting a set literal  
-    code = "my_set = {3, 1, 2}"  
-    expected = "my_set = {1, 2, 3}"  
-    result = assignment(code, "set", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    
-    # Test case 4: Sorting a tuple literal  
-    code = "my_tuple = (3, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    result = assignment(code, "tuple", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    
-    # Test case 5: Sorting a unique list literal  
-    code = "my_list = [3, 1, 2, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    result = assignment(code, "unique-list", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    
-    # Test case 6: Sorting a unique tuple literal  
-    code = "my_tuple = (3, 1, 2, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    result = assignment(code, "unique-tuple", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    
-    # Test case 7: Sorting assignments  
-    code = "b = 2\na = 1\nc = 3"  
-    expected = "a = 1b = 2c = 3"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    
-    print("All tests passed!")  
+def test_assignment():
+    config = Config()
+    # Test assignments
+    assignments_code = "b = 2\na = 1"
+    assert assignment(assignments_code, "assignments", "py", config) == "a = 1\nb = 2"
 
-# Run the unit tests  
-test_assignment()
+    # Test dict
+    dict_code = "d = {'b': 2, 'a': 1}"
+    assert assignment(dict_code, "dict", "py", config) == "d = {'a': 1, 'b': 2}"
+
+    # Test list
+    list_code = "l = [2, 1]"
+    assert assignment(list_code, "list", "py", config) == "l = [1, 2]"
+
+    # Test unique-list
+    unique_list_code = "l = [2, 1, 2]"
+    assert assignment(unique_list_code, "unique-list", "py", config) == "l = [1, 2]"
+
+    # Test set
+    set_code = "s = {2, 1}"
+    assert assignment(set_code, "set", "py", config) == "s = {1, 2}"
+
+    # Test tuple
+    tuple_code = "t = (2, 1)"
+    assert assignment(tuple_code, "tuple", "py", config) == "t = (1, 2)"
+
+    # Test unique-tuple
+    unique_tuple_code = "t = (2, 1, 2)"
+    assert assignment(unique_tuple_code, "unique-tuple", "py", config) == "t = (1, 2)"
 
 
 # LLM-generated content at query #21
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1\nb = 2\nc = 3"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, got {result}"
-    print("test_assignment passed")
+def test_assignment():
+    # Test assignments
+    assignments_code = "b = 2\na = 1\n"
+    assert assignments(assignments_code) == "a = 1b = 2"
 
+    # Test dictionary
+    dict_code = "my_dict = {'b': 2, 'a': 1}"
+    assert assignment(dict_code, "dict", ".py") == "my_dict = {'a': 1, 'b': 2}"
+
+    # Test list
+    list_code = "my_list = [2, 1]"
+    assert assignment(list_code, "list", ".py") == "my_list = [1, 2]"
+
+    # Test set
+    set_code = "my_set = {2, 1}"
+    assert assignment(set_code, "set", ".py") == "my_set = {1, 2}"
+
+    # Test tuple
+    tuple_code = "my_tuple = (2, 1)"
+    assert assignment(tuple_code, "tuple", ".py") == "my_tuple = (1, 2)"
+
+    # Test unique-list
+    unique_list_code = "my_list = [2, 1, 2]"
+    assert assignment(unique_list_code, "unique-list", ".py") == "my_list = [1, 2]"
+
+    # Test unique-tuple
+    unique_tuple_code = "my_tuple = (2, 1, 2)"
+    assert assignment(unique_tuple_code, "unique-tuple", ".py") == "my_tuple = (1, 2)"
+
+    # Test invalid sort type
+    try:
+        assignment("my_var = 1", "invalid", ".py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test type mismatch
+    try:
+        assignment("my_var = 1", "list", ".py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    # Test parsing failure
+    try:
+        assignment("my_var = invalid", "list", ".py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    # Test assignments format mismatch
+    try:
+        assignments("invalid line")
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #22
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Simple assignments  
-    code = "b = 2\na = 1\n"  
-    expected = "a = 1\nb = 2\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 1 passed")  
-  
-    # Test case 2: Assignments with extra whitespace  
-    code = "x = 10\n  y = 20\nz = 30\n"  
-    expected = "x = 10\ny = 20\nz = 30\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 2 passed")  
-  
-    # Test case 3: Assignments with empty lines  
-    code = "foo = 'bar'\n\nbaz = 'qux'\n"  
-    expected = "baz = 'qux'\nfoo = 'bar'\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 3 passed")  
-  
-    # Test case 4: Invalid format (no '=')  
-    code = "invalid line"  
-    try:  
-        assignment(code, "assignments", ".py")  
-        assert False, "Expected AssignmentsFormatMismatch exception"  
-    except AssignmentsFormatMismatch:  
-        print("Test case 4 passed (exception raised as expected)")  
-  
-    # Test case 5: Mixed assignments with different values  
-    code = "num = 42\ntext = 'hello'\nflag = True\n"  
-    expected = "flag = True\nnum = 42\ntext = 'hello'\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 5 passed")  
-  
-    # Test case 6: Single assignment  
-    code = "single = 'value'\n"  
-    expected = "single = 'value'\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 6 passed")  
-  
-    # Test case 7: Assignment with trailing whitespace  
-    code = "a = 1   \nb = 2\n"  
-    expected = "a = 1   \nb = 2\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 7 passed")  
-  
-    # Test case 8: Empty input  
-    code = ""  
-    expected = ""  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 8 passed")  
-  
-    # Test case 9: Multiple assignments with same variable name (edge case)  
-    code = "x = 1\nx = 2\nx = 3\n"  
-    expected = "x = 1\nx = 2\nx = 3\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 9 passed")  
-  
-    # Test case 10: Assignments with indentation  
-    code = "    indented = 'yes'\nnot_indented = 'no'\n"  
-    expected = "    indented = 'yes'\nnot_indented = 'no'\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 10 passed")  
-  
-    print("All test cases passed!")  
-  
-# Run the unit tests  
-if __name__ == "__main__":  
-    test_assignment()
+def test_assignment():
+    config = Config()
+    assert assignment("x = [3, 1, 2]", "list", ".py", config) == "x = [1, 2, 3]"
+    assert assignment("y = {'b': 2, 'a': 1}", "dict", ".py", config) == "y = {'a': 1, 'b': 2}"
+    assert assignment("z = {3, 1, 2}", "set", ".py", config) == "z = {1, 2, 3}"
+    assert assignment("w = (3, 1, 2)", "tuple", ".py", config) == "w = (1, 2, 3)"
+    assert assignment("v = [3, 1, 3, 2]", "unique-list", ".py", config) == "v = [1, 2, 3]"
+    assert assignment("u = (3, 1, 3, 2)", "unique-tuple", ".py", config) == "u = (1, 2, 3)"
+
+    try:
+        assignment("invalid_code", "list", ".py", config)
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    try:
+        assignment("x = [3, 1, 2]", "invalid_type", ".py", config)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    try:
+        assignment("x = 42", "list", ".py", config)
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    assert assignments("a = 1\nb = 2\nc = 3") == "a = 1b = 2c = 3"
+    assert assignments("c = 3\nb = 2\na = 1") == "a = 1b = 2c = 3"
+
+    try:
+        assignments("invalid_code")
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #23
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-    print("test_assignment passed")
+def test_assignment():
+    config = Config(line_length=88)
+    assert assignment("x = [3, 1, 2]", "list", "py", config) == "x = [1, 2, 3]"
+    assert assignment("y = {'b': 2, 'a': 1}", "dict", "py", config) == "y = {'a': 1, 'b': 2}"
+    assert assignment("z = {3, 1, 2}", "set", "py", config) == "z = {1, 2, 3}"
+    assert assignment("a = (3, 1, 2)", "tuple", "py", config) == "a = (1, 2, 3)"
+    assert assignment("b = [3, 1, 2, 3]", "unique-list", "py", config) == "b = [1, 2, 3]"
+    assert assignment("c = (3, 1, 2, 3)", "unique-tuple", "py", config) == "c = (1, 2, 3)"
+    assert assignment("d = 1\ne = 2", "assignments", "py", config) == "d = 1\ne = 2"
 
+    try:
+        assignment("invalid = [1, 2", "list", "py", config)
+        assert False, "Should have raised LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    try:
+        assignment("x = 123", "list", "py", config)
+        assert False, "Should have raised LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    try:
+        assignment("x = [1, 2]", "invalid-type", "py", config)
+        assert False, "Should have raised ValueError"
+    except ValueError:
+        pass
+
+    try:
+        assignment("invalid line", "list", "py", config)
+        assert False, "Should have raised AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #24
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("Test case 1 passed: Sorting a dictionary")
+def test_assignment():
+    # Test assignments
+    code = "b = 2\na = 1\n"
+    assert assignment(code, "assignments", "py") == "a = 1\nb = 2\n"
 
-    # Test case 2: Sorting a list
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("Test case 2 passed: Sorting a list")
+    # Test dictionary
+    code = "data = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "data = {'a': 1, 'b': 2}"
 
-    # Test case 3: Sorting a set
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("Test case 3 passed: Sorting a set")
+    # Test list
+    code = "data = [2, 1]"
+    assert assignment(code, "list", "py") == "data = [1, 2]"
 
-    # Test case 4: Sorting a tuple
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("Test case 4 passed: Sorting a tuple")
+    # Test set
+    code = "data = {2, 1}"
+    assert assignment(code, "set", "py") == "data = {1, 2}"
 
-    # Test case 5: Sorting assignments
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1b = 2c = 3"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("Test case 5 passed: Sorting assignments")
+    # Test tuple
+    code = "data = (2, 1)"
+    assert assignment(code, "tuple", "py") == "data = (1, 2)"
 
-    # Test case 6: Invalid sort type
-    code = "my_list = [3, 1, 2]"
+    # Test unique list
+    code = "data = [2, 1, 2]"
+    assert assignment(code, "unique-list", "py") == "data = [1, 2]"
+
+    # Test unique tuple
+    code = "data = (2, 1, 2)"
+    assert assignment(code, "unique-tuple", "py") == "data = (1, 2)"
+
+    # Test invalid sort type
     try:
-        assignment(code, "invalid_type", ".py")
-        assert False, "Expected ValueError for invalid sort type"
-    except ValueError as e:
-        assert "Trying to sort using an undefined sort_type" in str(e)
-        print("Test case 6 passed: Invalid sort type raises ValueError")
+        assignment("data = [1, 2]", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-    # Test case 7: Literal parsing failure
-    code = "my_list = [3, 1, 2"  # Missing closing bracket
+    # Test type mismatch
     try:
-        assignment(code, "list", ".py")
-        assert False, "Expected LiteralParsingFailure for invalid literal"
-    except LiteralParsingFailure:
-        print("Test case 7 passed: Literal parsing failure raises LiteralParsingFailure")
-
-    # Test case 8: Literal sort type mismatch
-    code = "my_list = [3, 1, 2]"
-    try:
-        assignment(code, "dict", ".py")
-        assert False, "Expected LiteralSortTypeMismatch for type mismatch"
+        assignment("data = [1, 2]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
     except LiteralSortTypeMismatch:
-        print("Test case 8 passed: Literal sort type mismatch raises LiteralSortTypeMismatch")
+        pass
 
-    # Test case 9: Sorting a list with unique elements
-    code = "my_list = [3, 1, 2, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "unique-list", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("Test case 9 passed: Sorting a list with unique elements")
+    # Test parsing failure
+    try:
+        assignment("data = invalid", "list", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
 
-    # Test case 10: Sorting a tuple with unique elements
-    code = "my_tuple = (3, 1, 2, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "unique-tuple", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("Test case 10 passed: Sorting a tuple with unique elements")
-
-    print("All test cases passed!")
-
-# Run the unit tests
-if __name__ == "__main__":
-    test_assignment()
+    # Test assignments format mismatch
+    try:
+        assignment("invalid", "assignments", "py")
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #25
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting assignments
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 1 passed")
-
-    # Test case 2: Sorting dictionary
-    code = "my_dict = {'b': 2, 'a': 1}"
-    expected = "my_dict = {'a': 1, 'b': 2}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 2 passed")
-
-    # Test case 3: Sorting list
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 3 passed")
-
-    # Test case 4: Sorting set
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 4 passed")
-
-    # Test case 5: Sorting tuple
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 5 passed")
-
-    # Test case 6: Sorting unique list
-    code = "my_list = [3, 1, 2, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "unique-list", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 6 passed")
-
-    # Test case 7: Sorting unique tuple
-    code = "my_tuple = (3, 1, 2, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "unique-tuple", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 7 passed")
-
-    # Test case 8: Invalid sort type
-    try:
-        assignment("my_var = 1", "invalid-type", ".py")
-    except ValueError as e:
-        assert "Trying to sort using an undefined sort_type" in str(e)
-        print("Test case 8 passed")
-
-    # Test case 9: Literal parsing failure
-    try:
-        assignment("my_var = invalid_literal", "list", ".py")
-    except LiteralParsingFailure:
-        print("Test case 9 passed")
-
-    # Test case 10: Literal sort type mismatch
-    try:
-        assignment("my_var = 123", "list", ".py")
-    except LiteralSortTypeMismatch:
-        print("Test case 10 passed")
-
-    print("All test cases passed!")
-
-# Run the unit tests
-test_assignment()
-
-
-# LLM-generated content at query #26
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1\nb = 2\n"
-    result = assignments(code)
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("test_assignment passed")
-
-
-
-# LLM-generated content at query #27
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-
-    # Test case 2: Sorting a list
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-
-    # Test case 3: Sorting a set
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-
-    # Test case 4: Sorting a tuple
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-
-    # Test case 5: Sorting assignments
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1b = 2c = 3"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-
-    print("All tests passed!")
-
-# Run the unit tests
-test_assignment()
-
-
-# LLM-generated content at query #28
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    result = assignments(code)
-    expected = "a = 1b = 2"
-    assert result == expected, f"Expected {expected}, got {result}"
-    print("Test passed: assignments")
-
-
-
-# LLM-generated content at query #29
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1\nb = 2\nc = 3"
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"
-    print("test_assignment passed")
-
-
-
-# LLM-generated content at query #30
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Simple assignments
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"
+def test_assignment():
+    # Test assignments
+    code = """b = 2\na = 1"""
+    assert assignments(code) == "a = 1\nb = 2"
     
-    # Test case 2: Assignments with extra spaces
-    code = "x = 10\n  y = 20\n"
-    expected = "  y = 20x = 10"
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"
-    
-    # Test case 3: Empty lines
-    code = "c = 3\n\nd = 4\n"
-    expected = "c = 3d = 4"
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"
-    
-    # Test case 4: Single assignment
-    code = "a = 1"
-    expected = "a = 1"
-    assert assignments(code) == expected, f"Expected: {expected}, Got: {assignments(code)}"
-    
-    # Test case 5: No ' = ' in line (should raise exception)
-    code = "invalid_line"
+    # Test invalid format
     try:
-        assignments(code)
+        assignments("invalid")
+    except AssignmentsFormatMismatch:
+        pass
+    else:
         assert False, "Expected AssignmentsFormatMismatch"
-    except AssignmentsFormatMismatch:
-        pass  # Expected
-    
-    print("All test cases passed!")
 
-# Run the unit test
-test_assignment()
+    # Test list sorting
+    code = "test_list = [3, 1, 2]"
+    sorted_code = assignment(code, "list", "py")
+    assert sorted_code == "test_list = [1, 2, 3]"
 
+    # Test unique list sorting
+    code = "test_list = [3, 1, 2, 1]"
+    sorted_code = assignment(code, "unique-list", "py")
+    assert sorted_code == "test_list = [1, 2, 3]"
 
-# LLM-generated content at query #31
-#--------------------------
+    # Test dict sorting
+    code = "test_dict = {'b': 2, 'a': 1}"
+    sorted_code = assignment(code, "dict", "py")
+    assert sorted_code == "test_dict = {'a': 1, 'b': 2}"
 
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected {expected}, got {result}"
-    print("test_assignment passed")
+    # Test set sorting
+    code = "test_set = {3, 1, 2}"
+    sorted_code = assignment(code, "set", "py")
+    assert sorted_code == "test_set = {1, 2, 3}"
 
+    # Test tuple sorting
+    code = "test_tuple = (3, 1, 2)"
+    sorted_code = assignment(code, "tuple", "py")
+    assert sorted_code == "test_tuple = (1, 2, 3)"
 
+    # Test unique tuple sorting
+    code = "test_tuple = (3, 1, 2, 1)"
+    sorted_code = assignment(code, "unique-tuple", "py")
+    assert sorted_code == "test_tuple = (1, 2, 3)"
 
-# LLM-generated content at query #32
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("test_assignment passed")
-
-
-
-# LLM-generated content at query #33
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    result = assignments(code)
-    expected = "a = 1b = 2"
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("test_assignment passed")
-
-
-
-# LLM-generated content at query #34
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\nc = 3"  
-    expected = "a = 1\nb = 2\nc = 3"  
-    result = assignments(code)  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("test_assignment passed")  
-
-
-
-# LLM-generated content at query #35
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment(): 
-    code = "b = 2\na = 1\n"
-    expected = "a = 1\nb = 2\n"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-    print("test_assignment passed")
-
-
-
-# LLM-generated content at query #36
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment(): 
-    # Test case 1: Sorting a dictionary
-    code = "my_dict = {'b': 2, 'a': 1}"
-    expected = "my_dict = {'a': 1, 'b': 2}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-
-    # Test case 2: Sorting a list
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-
-    # Test case 3: Sorting a set
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-
-    # Test case 4: Sorting a tuple
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-
-    # Test case 5: Sorting assignments
-    code = "b = 2\na = 1"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-
-    print("All tests passed!")
-
-# Run the unit test
-test_assignment()
-
-
-# LLM-generated content at query #37
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Basic assignments
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1b = 2c = 3"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 1 passed")
-
-    # Test case 2: Assignments with empty lines
-    code = "b = 2\n\na = 1\n\nc = 3"
-    expected = "a = 1b = 2c = 3"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 2 passed")
-
-    # Test case 3: Assignments with trailing spaces
-    code = "b = 2 \na = 1 \nc = 3 "
-    expected = "a = 1 b = 2 c = 3 "
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 3 passed")
-
-    # Test case 4: Assignments with different variable names
-    code = "var2 = 'value2'\nvar1 = 'value1'\nvar3 = 'value3'"
-    expected = "var1 = 'value1'var2 = 'value2'var3 = 'value3'"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 4 passed")
-
-    # Test case 5: Assignments with no ' = ' in line
-    code = "b = 2\na 1\nc = 3"
+    # Test invalid sort type
     try:
-        result = assignments(code)
-        assert False, "Expected AssignmentsFormatMismatch exception"
-    except AssignmentsFormatMismatch:
-        print("Test case 5 passed")
+        assignment("test = [1, 2, 3]", "invalid", "py")
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError"
 
-    print("All test cases passed")
+    # Test invalid literal parsing
+    try:
+        assignment("test = invalid", "list", "py")
+    except LiteralParsingFailure:
+        pass
+    else:
+        assert False, "Expected LiteralParsingFailure"
 
-# Run the unit test
-test_assignment()
-
-
-# LLM-generated content at query #38
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1\nb = 2\nc = 3"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-    print("Test passed for assignments")
-
-
-
-# LLM-generated content at query #39
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("test_assignment passed")
-
-
-
-# LLM-generated content at query #40
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting assignments
-    code = "b = 2\na = 1\n"
-    expected = "a = 1\nb = 2\n"
-    assert assignments(code) == expected, f"Expected: {expected}, but got: {assignments(code)}"
-    
-    # Test case 2: Sorting assignments with empty lines
-    code = "b = 2\n\na = 1\n"
-    expected = "a = 1\nb = 2\n"
-    assert assignments(code) == expected, f"Expected: {expected}, but got: {assignments(code)}"
-    
-    # Test case 3: Sorting assignments with multiple spaces
-    code = "b   =   2\na   =   1\n"
-    expected = "a   =   1\nb   =   2\n"
-    assert assignments(code) == expected, f"Expected: {expected}, but got: {assignments(code)}"
-    
-    # Test case 4: Sorting assignments with different variable names
-    code = "z = 26\ny = 25\nx = 24\n"
-    expected = "x = 24\ny = 25\nz = 26\n"
-    assert assignments(code) == expected, f"Expected: {expected}, but got: {assignments(code)}"
-    
-    # Test case 5: Sorting assignments with same variable names (should not happen in practice)
-    code = "a = 1\na = 2\n"
-    expected = "a = 1\na = 2\n"
-    assert assignments(code) == expected, f"Expected: {expected}, but got: {assignments(code)}"
-    
-    print("All test cases passed!")
-
-# Run the unit test
-test_assignment()
+    # Test literal sort type mismatch
+    try:
+        assignment("test = [1, 2, 3]", "dict", "py")
+    except LiteralSortTypeMismatch:
+        pass
+    else:
+        assert False, "Expected LiteralSortTypeMismatch"
 
 
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -1229,1139 +1253,1079 @@ test_assignment()
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
+def test_assignment():
+    # Test assignments
+    assignments_code = "b = 2\na = 1\n"
+    assert assignments(assignments_code) == "a = 1b = 2"
 
-    # Test case 2: Sorting a list
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
+    # Test assignment with dict sort type
+    dict_code = "my_dict = {'b': 2, 'a': 1}"
+    assert assignment(dict_code, "dict", ".py") == "my_dict = {'a': 1, 'b': 2}"
 
-    # Test case 3: Sorting a set
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
+    # Test assignment with list sort type
+    list_code = "my_list = [2, 1]"
+    assert assignment(list_code, "list", ".py") == "my_list = [1, 2]"
 
-    # Test case 4: Sorting a tuple
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
+    # Test assignment with unique-list sort type
+    unique_list_code = "my_list = [2, 1, 2]"
+    assert assignment(unique_list_code, "unique-list", ".py") == "my_list = [1, 2]"
 
-    # Test case 5: Sorting a unique list
-    code = "my_list = [3, 1, 2, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "unique-list", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
+    # Test assignment with set sort type
+    set_code = "my_set = {2, 1}"
+    assert assignment(set_code, "set", ".py") == "my_set = {1, 2}"
 
-    # Test case 6: Sorting a unique tuple
-    code = "my_tuple = (3, 1, 2, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "unique-tuple", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
+    # Test assignment with tuple sort type
+    tuple_code = "my_tuple = (2, 1)"
+    assert assignment(tuple_code, "tuple", ".py") == "my_tuple = (1, 2)"
 
-    # Test case 7: Sorting assignments
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1b = 2c = 3"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
+    # Test assignment with unique-tuple sort type
+    unique_tuple_code = "my_tuple = (2, 1, 2)"
+    assert assignment(unique_tuple_code, "unique-tuple", ".py") == "my_tuple = (1, 2)"
 
-    print("All tests passed!")
+    # Test invalid sort type
+    try:
+        assignment("my_var = 1", "invalid", ".py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-# Run the unit test
-test_assignment()
+    # Test invalid literal parsing
+    try:
+        assignment("my_var = {", "dict", ".py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    # Test type mismatch
+    try:
+        assignment("my_var = [1, 2]", "dict", ".py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    # Test assignments format mismatch
+    try:
+        assignments("invalid line")
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary  
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"  
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"  
-    result = assignment(code, "dict", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 2: Sorting a list  
-    code = "my_list = [3, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    result = assignment(code, "list", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 3: Sorting a set  
-    code = "my_set = {3, 1, 2}"  
-    expected = "my_set = {1, 2, 3}"  
-    result = assignment(code, "set", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 4: Sorting a tuple  
-    code = "my_tuple = (3, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    result = assignment(code, "tuple", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 5: Sorting a unique list  
-    code = "my_list = [3, 1, 2, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    result = assignment(code, "unique-list", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 6: Sorting a unique tuple  
-    code = "my_tuple = (3, 1, 2, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    result = assignment(code, "unique-tuple", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    # Test case 7: Sorting assignments  
-    code = "b = 2\na = 1\nc = 3"  
-    expected = "a = 1b = 2c = 3"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    
-    print("All tests passed!")
+def test_assignment():
+    # Test assignments
+    code = "b = 2\na = 1\n"
+    assert assignment(code, "assignments", "py") == "a = 1\nb = 2\n"
 
-# Run the unit test
-test_assignment()
+    # Test list
+    code = "x = [3, 1, 2]"
+    assert assignment(code, "list", "py") == "x = [1, 2, 3]"
+
+    # Test dict
+    code = "x = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "x = {'a': 1, 'b': 2}"
+
+    # Test set
+    code = "x = {3, 1, 2}"
+    assert assignment(code, "set", "py") == "x = {1, 2, 3}"
+
+    # Test tuple
+    code = "x = (3, 1, 2)"
+    assert assignment(code, "tuple", "py") == "x = (1, 2, 3)"
+
+    # Test unique-list
+    code = "x = [3, 1, 2, 1]"
+    assert assignment(code, "unique-list", "py") == "x = [1, 2, 3]"
+
+    # Test unique-tuple
+    code = "x = (3, 1, 2, 1)"
+    assert assignment(code, "unique-tuple", "py") == "x = (1, 2, 3)"
+
+    # Test invalid sort type
+    try:
+        assignment("x = [1, 2, 3]", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test type mismatch
+    try:
+        assignment("x = [1, 2, 3]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    # Test parsing failure
+    try:
+        assignment("x = [1, 2, 3", "list", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment(): 
-    # Test case 1: Sorting assignments
+def test_assignment():
+    # Test assignments
     code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 1 passed")
+    assert assignment(code, "assignments", "py") == "a = 1\nb = 2\n"
 
-    # Test case 2: Sorting assignments with empty lines
-    code = "b = 2\n\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 2 passed")
+    # Test dictionary
+    code = "data = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "data = {'a': 1, 'b': 2}"
 
-    # Test case 3: Sorting assignments with multiple variables
-    code = "c = 3\nb = 2\na = 1\n"
-    expected = "a = 1b = 2c = 3"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 3 passed")
+    # Test list
+    code = "data = [2, 1]"
+    assert assignment(code, "list", "py") == "data = [1, 2]"
 
-    # Test case 4: Sorting assignments with variable names of different lengths
-    code = "var2 = 2\nvar1 = 1\n"
-    expected = "var1 = 1var2 = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 4 passed")
+    # Test set
+    code = "data = {2, 1}"
+    assert assignment(code, "set", "py") == "data = {1, 2}"
 
-    # Test case 5: Sorting assignments with variable names containing numbers
-    code = "var2 = 2\nvar1 = 1\nvar10 = 10\n"
-    expected = "var1 = 1var10 = 10var2 = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 5 passed")
+    # Test tuple
+    code = "data = (2, 1)"
+    assert assignment(code, "tuple", "py") == "data = (1, 2)"
 
-    # Test case 6: Sorting assignments with variable names containing special characters
-    code = "var_2 = 2\nvar_1 = 1\n"
-    expected = "var_1 = 1var_2 = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 6 passed")
+    # Test unique list
+    code = "data = [2, 1, 2]"
+    assert assignment(code, "unique-list", "py") == "data = [1, 2]"
 
-    # Test case 7: Sorting assignments with variable names in different cases
-    code = "Var2 = 2\nvar1 = 1\n"
-    expected = "Var2 = 2var1 = 1"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 7 passed")
+    # Test unique tuple
+    code = "data = (2, 1, 2)"
+    assert assignment(code, "unique-tuple", "py") == "data = (1, 2)"
 
-    # Test case 8: Sorting assignments with variable names containing spaces (should not happen in valid Python code)
-    code = "var 2 = 2\nvar 1 = 1\n"
+    # Test invalid sort type
     try:
-        result = assignments(code)
-        print("Test case 8 failed: Expected AssignmentsFormatMismatch exception")
-    except AssignmentsFormatMismatch:
-        print("Test case 8 passed")
+        assignment("data = [1, 2]", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-    # Test case 9: Sorting assignments with empty input
-    code = ""
-    expected = ""
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 9 passed")
-
-    # Test case 10: Sorting assignments with only whitespace
-    code = "   \n   \n"
-    expected = ""
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 10 passed")
-
-    # Test case 11: Sorting assignments with variable names and values containing spaces
-    code = "b = 2  \na = 1  \n"
-    expected = "a = 1  b = 2  "
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 11 passed")
-
-    # Test case 12: Sorting assignments with variable names and values containing tabs
-    code = "b\t=\t2\n\na\t=\t1\n"
+    # Test invalid literal
     try:
-        result = assignments(code)
-        print("Test case 12 failed: Expected AssignmentsFormatMismatch exception")
-    except AssignmentsFormatMismatch:
-        print("Test case 12 passed")
+        assignment("data = [1, 2", "list", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
 
-    # Test case 13: Sorting assignments with variable names and values containing newlines
-    code = "b = 2\n\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 13 passed")
-
-    # Test case 14: Sorting assignments with variable names and values containing carriage returns
-    code = "b = 2\r\na = 1\r\n"
-    expected = "a = 1\r\nb = 2\r\n"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 14 passed")
-
-    # Test case 15: Sorting assignments with variable names and values containing mixed line endings
-    code = "b = 2\r\na = 1\n"
-    expected = "a = 1\nb = 2\r\n"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 15 passed")
-
-    # Test case 16: Sorting assignments with variable names and values containing Unicode characters
-    code = "b = 2\ná = 1\n"
-    expected = "á = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 16 passed")
-
-    # Test case 17: Sorting assignments with variable names and values containing emojis
-    code = "b = 2\n😀 = 1\n"
-    expected = "😀 = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 17 passed")
-
-    # Test case 18: Sorting assignments with variable names and values containing backslashes
-    code = "b = 2\n\\a = 1\n"
-    expected = "\\a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 18 passed")
-
-    # Test case 19: Sorting assignments with variable names and values containing quotes
-    code = 'b = 2\n"a" = 1\n'
-    expected = '"a" = 1b = 2'
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 19 passed")
-
-    # Test case 20: Sorting assignments with variable names and values containing parentheses
-    code = "b = 2\n(a) = 1\n"
-    expected = "(a) = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 20 passed")
-
-    # Test case 21: Sorting assignments with variable names and values containing brackets
-    code = "b = 2\n[a] = 1\n"
-    expected = "[a] = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 21 passed")
-
-    # Test case 22: Sorting assignments with variable names and values containing braces
-    code = "b = 2\n{a} = 1\n"
-    expected = "{a} = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 22 passed")
-
-    # Test case 23: Sorting assignments with variable names and values containing commas
-    code = "b = 2\na, = 1\n"
-    expected = "a, = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 23 passed")
-
-    # Test case 24: Sorting assignments with variable names and values containing periods
-    code = "b = 2\na. = 1\n"
-    expected = "a. = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 24 passed")
-
-    # Test case 25: Sorting assignments with variable names and values containing colons
-    code = "b = 2\na: = 1\n"
-    expected = "a: = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 25 passed")
-
-    # Test case 26: Sorting assignments with variable names and values containing semicolons
-    code = "b = 2\na; = 1\n"
-    expected
+    # Test type mismatch
+    try:
+        assignment("data = [1, 2]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Simple assignments
+def test_assignment():
+    # Test assignments
     code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    
-    # Test case 2: Assignments with extra spaces
-    code = "x = 10\ny = 20\n"
-    expected = "x = 10y = 20"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    
-    # Test case 3: Assignments with empty lines
-    code = "c = 3\n\nd = 4\n"
-    expected = "c = 3d = 4"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    
-    print("All test cases passed!")
+    assert assignment(code, "assignments", "py") == "a = 1\nb = 2\n"
 
-# Run the unit test
-test_assignment()
+    # Test list
+    code = "x = [3, 1, 2]"
+    assert assignment(code, "list", "py") == "x = [1, 2, 3]"
+
+    # Test unique-list
+    code = "x = [3, 1, 2, 1]"
+    assert assignment(code, "unique-list", "py") == "x = [1, 2, 3]"
+
+    # Test set
+    code = "x = {3, 1, 2}"
+    assert assignment(code, "set", "py") == "x = {1, 2, 3}"
+
+    # Test dict
+    code = "x = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "x = {'a': 1, 'b': 2}"
+
+    # Test tuple
+    code = "x = (3, 1, 2)"
+    assert assignment(code, "tuple", "py") == "x = (1, 2, 3)"
+
+    # Test unique-tuple
+    code = "x = (3, 1, 2, 1)"
+    assert assignment(code, "unique-tuple", "py") == "x = (1, 2, 3)"
+
+    # Test invalid sort type
+    try:
+        assignment("x = [1, 2, 3]", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test type mismatch
+    try:
+        assignment("x = [1, 2, 3]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    # Test parsing failure
+    try:
+        assignment("x = [1, 2, 3", "list", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary literal
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 1 passed!")
+def test_assignment():
+    # Test assignments
+    code = "b = 2\na = 1"
+    assert assignment(code, "assignments", "py") == "a = 1b = 2"
 
-    # Test case 2: Sorting a list literal
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 2 passed!")
+    # Test dictionary
+    code = "data = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "data = {'a': 1, 'b': 2}"
 
-    # Test case 3: Sorting a set literal
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 3 passed!")
+    # Test list
+    code = "data = [2, 1]"
+    assert assignment(code, "list", "py") == "data = [1, 2]"
 
-    # Test case 4: Sorting a tuple literal
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 4 passed!")
+    # Test unique-list
+    code = "data = [2, 1, 2]"
+    assert assignment(code, "unique-list", "py") == "data = [1, 2]"
 
-    # Test case 5: Sorting assignments
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1b = 2c = 3"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 5 passed!")
+    # Test set
+    code = "data = {2, 1}"
+    assert assignment(code, "set", "py") == "data = {1, 2}"
 
-    # Test case 6: Invalid sort type
-    code = "my_list = [3, 1, 2]"
+    # Test tuple
+    code = "data = (2, 1)"
+    assert assignment(code, "tuple", "py") == "data = (1, 2)"
+
+    # Test unique-tuple
+    code = "data = (2, 1, 2)"
+    assert assignment(code, "unique-tuple", "py") == "data = (1, 2)"
+
+    # Test invalid sort type
     try:
-        assignment(code, "invalid_type", ".py")
-    except ValueError as e:
-        assert "Trying to sort using an undefined sort_type" in str(e)
-        print("Test case 6 passed!")
+        assignment("data = [1, 2]", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-    # Test case 7: Literal parsing failure
-    code = "my_list = [3, 1, 2"  # Missing closing bracket
+    # Test type mismatch
     try:
-        assignment(code, "list", ".py")
-    except LiteralParsingFailure:
-        print("Test case 7 passed!")
-
-    # Test case 8: Literal sort type mismatch
-    code = "my_list = [3, 1, 2]"
-    try:
-        assignment(code, "dict", ".py")
+        assignment("data = [1, 2]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
     except LiteralSortTypeMismatch:
-        print("Test case 8 passed!")
+        pass
 
-    print("All test cases passed!")
+    # Test parsing failure
+    try:
+        assignment("data = invalid", "list", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
 
-# Run the unit tests
-test_assignment()
+    # Test assignments format mismatch
+    try:
+        assignment("invalid", "assignments", "py")
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #6
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1\nb = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    print("test_assignment passed")
+def test_assignment():
+    config = Config(line_length=88)
+    assert assignment("x = [3, 1, 2]", "list", "py", config) == "x = [1, 2, 3]"
+    assert assignment("y = {'b': 2, 'a': 1}", "dict", "py", config) == "y = {'a': 1, 'b': 2}"
+    assert assignment("z = (3, 1, 2)", "tuple", "py", config) == "z = (1, 2, 3)"
+    assert assignment("a = {3, 1, 2}", "set", "py", config) == "a = {1, 2, 3}"
+    assert assignment("b = [3, 1, 2, 1]", "unique-list", "py", config) == "b = [1, 2, 3]"
+    assert assignment("c = (3, 1, 2, 1)", "unique-tuple", "py", config) == "c = (1, 2, 3)"
+    assert (
+        assignments("x = 1\ny = 2\nz = 3") == "x = 1\ny = 2\nz = 3"
+    )  # assignments should maintain order
 
+    try:
+        assignment("x = [3, 1, 2]", "invalid-type", "py", config)
+        assert False, "Should raise ValueError for invalid sort_type"
+    except ValueError:
+        pass
+
+    try:
+        assignment("x = 'not a literal'", "list", "py", config)
+        assert False, "Should raise LiteralParsingFailure for invalid literals"
+    except LiteralParsingFailure:
+        pass
+
+    try:
+        assignment("x = 123", "list", "py", config)
+        assert False, "Should raise LiteralSortTypeMismatch for type mismatches"
+    except LiteralSortTypeMismatch:
+        pass
 
 
 # LLM-generated content at query #7
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, got {result}"
-    print("test_assignment passed")
-
+def test_assignment():
+    assert assignment("x = [3, 1, 2]", "list", ".py") == "x = [1, 2, 3]"
+    assert assignment("y = {'b': 2, 'a': 1}", "dict", ".py") == "y = {'a': 1, 'b': 2}"
+    assert assignment("z = {3, 1, 2}", "set", ".py") == "z = {1, 2, 3}"
+    assert assignment("a = (3, 1, 2)", "tuple", ".py") == "a = (1, 2, 3)"
+    assert assignment("b = [3, 1, 2, 1]", "unique-list", ".py") == "b = [1, 2, 3]"
+    assert assignment("c = (3, 1, 2, 1)", "unique-tuple", ".py") == "c = (1, 2, 3)"
+    assert assignment("d = 1", "list", ".py") == "d = 1"  # No change for non-list types
+    assert assignment("e = [3, 1, 2]", "unknown", ".py") == "e = [3, 1, 2]"  # No change for unknown sort types
 
 
 # LLM-generated content at query #8
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary literal  
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"  
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"  
-    result = assignment(code, "dict", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 1 passed!")  
-  
-    # Test case 2: Sorting a list literal  
-    code = "my_list = [3, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    result = assignment(code, "list", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 2 passed!")  
-  
-    # Test case 3: Sorting a set literal  
-    code = "my_set = {3, 1, 2}"  
-    expected = "my_set = {1, 2, 3}"  
-    result = assignment(code, "set", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 3 passed!")  
-  
-    # Test case 4: Sorting a tuple literal  
-    code = "my_tuple = (3, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    result = assignment(code, "tuple", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 4 passed!")  
-  
-    # Test case 5: Sorting a unique list literal  
-    code = "my_list = [3, 1, 2, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    result = assignment(code, "unique-list", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 5 passed!")  
-  
-    # Test case 6: Sorting a unique tuple literal  
-    code = "my_tuple = (3, 1, 2, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    result = assignment(code, "unique-tuple", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 6 passed!")  
-  
-    # Test case 7: Sorting assignments  
-    code = "b = 2\na = 1\nc = 3"  
-    expected = "a = 1b = 2c = 3"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 7 passed!")  
-  
-    # Test case 8: Invalid sort type  
-    code = "my_list = [3, 1, 2]"  
-    try:  
-        result = assignment(code, "invalid-type", ".py")  
-    except ValueError as e:  
-        assert "Trying to sort using an undefined sort_type" in str(e)  
-        print("Test case 8 passed!")  
-  
-    # Test case 9: Literal parsing failure  
-    code = "my_list = [3, 1, 2"  # Missing closing bracket  
-    try:  
-        result = assignment(code, "list", ".py")  
-    except LiteralParsingFailure as e:  
-        assert "unexpected EOF while parsing" in str(e)  
-        print("Test case 9 passed!")  
-  
-    # Test case 10: Literal sort type mismatch  
-    code = "my_list = [3, 1, 2]"  
-    try:  
-        result = assignment(code, "dict", ".py")  
-    except LiteralSortTypeMismatch as e:  
-        assert "<class 'list'>" in str(e) and "<class 'dict'>" in str(e)  
-        print("Test case 10 passed!")  
-  
-    print("All test cases passed!")  
-  
-# Run the unit tests  
-if __name__ == "__main__":  
-    test_assignment()
+def test_assignment():
+    # Test assignments sorting
+    code = "b = 2\na = 1\n"
+    assert assignment(code, "assignments", "py") == "a = 1\nb = 2\n"
+
+    # Test list sorting
+    code = "lst = [3, 1, 2]"
+    assert assignment(code, "list", "py") == "lst = [1, 2, 3]"
+
+    # Test unique-list sorting
+    code = "lst = [3, 1, 2, 1]"
+    assert assignment(code, "unique-list", "py") == "lst = [1, 2, 3]"
+
+    # Test dict sorting
+    code = "dct = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "dct = {'a': 1, 'b': 2}"
+
+    # Test set sorting
+    code = "st = {3, 1, 2}"
+    assert assignment(code, "set", "py") == "st = {1, 2, 3}"
+
+    # Test tuple sorting
+    code = "tpl = (3, 1, 2)"
+    assert assignment(code, "tuple", "py") == "tpl = (1, 2, 3)"
+
+    # Test unique-tuple sorting
+    code = "tpl = (3, 1, 2, 1)"
+    assert assignment(code, "unique-tuple", "py") == "tpl = (1, 2, 3)"
+
+    # Test LiteralParsingFailure
+    try:
+        code = "lst = [3, 1, 2"
+        assignment(code, "list", "py")
+    except LiteralParsingFailure:
+        pass
+    else:
+        assert False, "Expected LiteralParsingFailure"
+
+    # Test LiteralSortTypeMismatch
+    try:
+        code = "st = 'string'"
+        assignment(code, "set", "py")
+    except LiteralSortTypeMismatch:
+        pass
+    else:
+        assert False, "Expected LiteralSortTypeMismatch"
+
+    # Test AssignmentsFormatMismatch
+    try:
+        code = "a 1\nb = 2"
+        assignment(code, "assignments", "py")
+    except AssignmentsFormatMismatch:
+        pass
+    else:
+        assert False, "Expected AssignmentsFormatMismatch"
 
 
 # LLM-generated content at query #9
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting assignments
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 1 passed")
+def test_assignment():
+    # Test assignments
+    assert assignments("a = 1\nb = 2\nc = 3") == "a = 1b = 2c = 3"
+    assert assignments("c = 3\nb = 2\na = 1") == "c = 3b = 2a = 1"
+    assert assignments("z = 1\ny = 2\nx = 3") == "z = 1y = 2x = 3"
 
-    # Test case 2: Sorting assignments with empty lines
-    code = "b = 2\n\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 2 passed")
+    # Test assignment with sort type list
+    assert assignment("a = [3, 2, 1]", "list", "py") == "a = [1, 2, 3]"
+    assert assignment("b = [9, 5, 7]", "list", "py") == "b = [5, 7, 9]"
 
-    # Test case 3: Sorting assignments with multiple variables
-    code = "c = 3\nb = 2\na = 1\n"
-    expected = "a = 1b = 2c = 3"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 3 passed")
+    # Test assignment with sort type unique-list
+    assert assignment("c = [3, 2, 1, 2]", "unique-list", "py") == "c = [1, 2, 3]"
+    assert assignment("d = [9, 5, 7, 5]", "unique-list", "py") == "d = [5, 7, 9]"
 
-    # Test case 4: Sorting assignments with duplicate variable names
-    code = "b = 2\na = 1\nb = 3\n"
-    expected = "a = 1b = 2b = 3"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 4 passed")
+    # Test assignment with sort type tuple
+    assert assignment("e = (3, 2, 1)", "tuple", "py") == "e = (1, 2, 3)"
+    assert assignment("f = (9, 5, 7)", "tuple", "py") == "f = (5, 7, 9)"
 
-    # Test case 5: Sorting assignments with no spaces around equals sign
-    code = "b=2\na=1\n"
-    try:
-        result = assignments(code)
-        assert False, "Expected AssignmentsFormatMismatch exception"
-    except AssignmentsFormatMismatch:
-        print("Test case 5 passed")
+    # Test assignment with sort type unique-tuple
+    assert assignment("g = (3, 2, 1, 2)", "unique-tuple", "py") == "g = (1, 2, 3)"
+    assert assignment("h = (9, 5, 7, 5)", "unique-tuple", "py") == "h = (5, 7, 9)"
 
-    # Test case 6: Sorting assignments with empty input
-    code = ""
-    expected = ""
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 6 passed")
+    # Test assignment with sort type dict
+    assert assignment("i = {'b': 2, 'a': 1}", "dict", "py") == "i = {'a': 1, 'b': 2}"
+    assert assignment("j = {'y': 2, 'x': 1}", "dict", "py") == "j = {'x': 1, 'y': 2}"
 
-    # Test case 7: Sorting assignments with only whitespace
-    code = "   \n   \n"
-    expected = ""
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 7 passed")
-
-    # Test case 8: Sorting assignments with trailing spaces
-    code = "b = 2   \na = 1   \n"
-    expected = "a = 1   b = 2   "
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 8 passed")
-
-    # Test case 9: Sorting assignments with leading spaces
-    code = "   b = 2\n   a = 1\n"
-    expected = "   a = 1   b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 9 passed")
-
-    # Test case 10: Sorting assignments with mixed indentation
-    code = "  b = 2\n    a = 1\n"
-    expected = "    a = 1  b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 10 passed")
-
-    print("All test cases passed!")
-
-# Run the unit tests
-test_assignment()
+    # Test assignment with sort type set
+    assert assignment("k = {3, 2, 1}", "set", "py") == "k = {1, 2, 3}"
+    assert assignment("l = {9, 5, 7}", "set", "py") == "l = {5, 7, 9}"
 
 
 # LLM-generated content at query #10
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("test_assignment passed")
+def test_assignment():
+    code = "my_list = [3, 1, 2]"
+    sorted_code = assignment(code, "list", "py")
+    assert sorted_code == "my_list = [1, 2, 3]"
 
+    code = "my_dict = {'b': 2, 'a': 1}"
+    sorted_code = assignment(code, "dict", "py")
+    assert sorted_code == "my_dict = {'a': 1, 'b': 2}"
+
+    code = "my_set = {3, 1, 2}"
+    sorted_code = assignment(code, "set", "py")
+    assert sorted_code == "my_set = {1, 2, 3}"
+
+    code = "my_tuple = (3, 1, 2)"
+    sorted_code = assignment(code, "tuple", "py")
+    assert sorted_code == "my_tuple = (1, 2, 3)"
+
+    code = "my_list = [3, 1, 2]"
+    sorted_code = assignment(code, "unique-list", "py")
+    assert sorted_code == "my_list = [1, 2, 3]"
+
+    code = "my_tuple = (3, 1, 2)"
+    sorted_code = assignment(code, "unique-tuple", "py")
+    assert sorted_code == "my_tuple = (1, 2, 3)"
 
 
 # LLM-generated content at query #11
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 1 passed!")
+def test_assignment():
+    # Test assignments
+    code = "b = 2\na = 1\n"
+    assert assignment(code, "assignments", "py") == "a = 1\nb = 2\n"
 
-    # Test case 2: Sorting a list
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 2 passed!")
+    # Test dictionary
+    code = "x = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "x = {'a': 1, 'b': 2}"
 
-    # Test case 3: Sorting a set
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 3 passed!")
+    # Test list
+    code = "x = [2, 1]"
+    assert assignment(code, "list", "py") == "x = [1, 2]"
 
-    # Test case 4: Sorting a tuple
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 4 passed!")
+    # Test set
+    code = "x = {2, 1}"
+    assert assignment(code, "set", "py") == "x = {1, 2}"
 
-    # Test case 5: Sorting assignments
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1b = 2c = 3"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 5 passed!")
+    # Test tuple
+    code = "x = (2, 1)"
+    assert assignment(code, "tuple", "py") == "x = (1, 2)"
 
-    # Test case 6: Invalid sort type
-    code = "my_list = [3, 1, 2]"
+    # Test unique-list
+    code = "x = [2, 1, 2]"
+    assert assignment(code, "unique-list", "py") == "x = [1, 2]"
+
+    # Test unique-tuple
+    code = "x = (2, 1, 2)"
+    assert assignment(code, "unique-tuple", "py") == "x = (1, 2)"
+
+    # Test invalid sort type
     try:
-        assignment(code, "invalid_type", ".py")
-    except ValueError as e:
-        assert "Trying to sort using an undefined sort_type" in str(e)
-        print("Test case 6 passed!")
+        assignment("x = [1, 2]", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-    # Test case 7: Literal parsing failure
-    code = "my_list = [3, 1, 2"  # Missing closing bracket
+    # Test type mismatch
     try:
-        assignment(code, "list", ".py")
-    except LiteralParsingFailure:
-        print("Test case 7 passed!")
-
-    # Test case 8: Literal sort type mismatch
-    code = "my_list = [3, 1, 2]"
-    try:
-        assignment(code, "dict", ".py")
+        assignment("x = [1, 2]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
     except LiteralSortTypeMismatch:
-        print("Test case 8 passed!")
+        pass
 
-    print("All test cases passed!")
+    # Test parsing failure
+    try:
+        assignment("x = [1, 2", "list", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
 
-# Run the unit tests
-if __name__ == "__main__":
-    test_assignment()
+    # Test assignments format mismatch
+    try:
+        assignment("x = [1, 2]", "assignments", "py")
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #12
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Basic assignments  
-    code = "b = 2\na = 1\n"  
-    expected = "a = 1b = 2"  
-    assert assignments(code) == expected, f"Expected {expected}, got {assignments(code)}"  
-    print("Test case 1 passed")  
-  
-    # Test case 2: Assignments with empty lines  
-    code = "b = 2\n\na = 1\n"  
-    expected = "a = 1b = 2"  
-    assert assignments(code) == expected, f"Expected {expected}, got {assignments(code)}"  
-    print("Test case 2 passed")  
-  
-    # Test case 3: Assignments with trailing spaces  
-    code = "b = 2 \na = 1 "  
-    expected = "a = 1 b = 2 "  
-    assert assignments(code) == expected, f"Expected {expected}, got {assignments(code)}"  
-    print("Test case 3 passed")  
-  
-    # Test case 4: Invalid format (no ' = ')  
-    code = "b 2\na 1"  
-    try:  
-        assignments(code)  
-        assert False, "Expected AssignmentsFormatMismatch"  
-    except AssignmentsFormatMismatch:  
-        print("Test case 4 passed")  
-  
-    # Test case 5: Mixed assignments  
-    code = "x = 10\ny = 20\nz = 30\n"  
-    expected = "x = 10y = 20z = 30"  
-    assert assignments(code) == expected, f"Expected {expected}, got {assignments(code)}"  
-    print("Test case 5 passed")  
-  
-    # Test case 6: Single assignment  
-    code = "a = 1"  
-    expected = "a = 1"  
-    assert assignments(code) == expected, f"Expected {expected}, got {assignments(code)}"  
-    print("Test case 6 passed")  
-  
-    # Test case 7: Empty input  
-    code = ""  
-    expected = ""  
-    assert assignments(code) == expected, f"Expected {expected}, got {assignments(code)}"  
-    print("Test case 7 passed")  
-  
-    # Test case 8: Assignments with special characters in variable names  
-    code = "var_1 = 100\nvar_2 = 200\n"  
-    expected = "var_1 = 100var_2 = 200"  
-    assert assignments(code) == expected, f"Expected {expected}, got {assignments(code)}"  
-    print("Test case 8 passed")  
-  
-    # Test case 9: Assignments with different value types  
-    code = "b = 'hello'\na = 'world'\n"  
-    expected = "a = 'world'b = 'hello'"  
-    assert assignments(code) == expected, f"Expected {expected}, got {assignments(code)}"  
-    print("Test case 9 passed")  
-  
-    # Test case 10: Assignments with newline at the end  
-    code = "b = 2\na = 1\n"  
-    expected = "a = 1b = 2"  
-    assert assignments(code) == expected, f"Expected {expected}, got {assignments(code)}"  
-    print("Test case 10 passed")  
-  
-    print("All test cases passed!")  
-  
-# Run the unit tests  
-if __name__ == "__main__":  
-    test_assignment()
+def test_assignment():
+    code = "my_list = [3, 1, 2]"
+    sorted_code = assignment(code, "list", ".py")
+    assert sorted_code == "my_list = [1, 2, 3]"
+
+    code = "my_dict = {'b': 2, 'a': 1}"
+    sorted_code = assignment(code, "dict", ".py")
+    assert sorted_code == "my_dict = {'a': 1, 'b': 2}"
+
+    code = "my_set = {3, 1, 2}"
+    sorted_code = assignment(code, "set", ".py")
+    assert sorted_code == "my_set = {1, 2, 3}"
+
+    code = "my_tuple = (3, 1, 2)"
+    sorted_code = assignment(code, "tuple", ".py")
+    assert sorted_code == "my_tuple = (1, 2, 3)"
+
+    code = "my_list = [3, 1, 2, 3]"
+    sorted_code = assignment(code, "unique-list", ".py")
+    assert sorted_code == "my_list = [1, 2, 3]"
+
+    code = "my_tuple = (3, 1, 2, 3)"
+    sorted_code = assignment(code, "unique-tuple", ".py")
+    assert sorted_code == "my_tuple = (1, 2, 3)"
+
+    code = "my_var = 1"
+    try:
+        assignment(code, "list", ".py")
+    except LiteralSortTypeMismatch as e:
+        assert str(e) == "Expected <class 'list'>, got <class 'int'>"
+
+    code = "my_var = [1, 2, 3"
+    try:
+        assignment(code, "list", ".py")
+    except LiteralParsingFailure as e:
+        assert str(e) == "Failed to parse literal: my_var = [1, 2, 3"
+
+    code = "my_var = [1, 2, 3]"
+    try:
+        assignment(code, "unknown", ".py")
+    except ValueError as e:
+        assert str(e) == "Trying to sort using an undefined sort_type. Defined sort types are dict, list, unique-list, set, tuple, unique-tuple."
 
 
 # LLM-generated content at query #13
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Simple assignments
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-    
-    # Test case 2: Assignments with extra whitespace
-    code = "x = 10\n  y = 20\n"
-    expected = "x = 10y = 20"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-    
-    # Test case 3: Assignments with empty lines
-    code = "c = 3\n\nd = 4\n"
-    expected = "c = 3d = 4"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, Got: {result}"
-    
-    print("All test cases passed!")
+def test_assignment():
+    code = "a = [3, 2, 1]"
+    sorted_code = assignment(code, "list", ".py")
+    assert sorted_code == "a = [1, 2, 3]"
 
-# Run the unit test
-test_assignment()
+    code = "b = {'z': 1, 'y': 2, 'x': 3}"
+    sorted_code = assignment(code, "dict", ".py")
+    assert sorted_code == "b = {'x': 3, 'y': 2, 'z': 1}"
+
+    code = "c = {3, 2, 1}"
+    sorted_code = assignment(code, "set", ".py")
+    assert sorted_code == "c = {1, 2, 3}"
+
+    code = "d = (3, 2, 1)"
+    sorted_code = assignment(code, "tuple", ".py")
+    assert sorted_code == "d = (1, 2, 3)"
+
+    code = "e = [3, 2, 1, 3, 2, 1]"
+    sorted_code = assignment(code, "unique-list", ".py")
+    assert sorted_code == "e = [1, 2, 3]"
+
+    code = "f = (3, 2, 1, 3, 2, 1)"
+    sorted_code = assignment(code, "unique-tuple", ".py")
+    assert sorted_code == "f = (1, 2, 3)"
+
+    code = "g = 3"
+    try:
+        sorted_code = assignment(code, "list", ".py")
+    except LiteralSortTypeMismatch:
+        pass
+    else:
+        assert False, "Expected LiteralSortTypeMismatch"
+
+    code = "h = [3, 2, 1"
+    try:
+        sorted_code = assignment(code, "list", ".py")
+    except LiteralParsingFailure:
+        pass
+    else:
+        assert False, "Expected LiteralParsingFailure"
+
+    code = "i = 3 = 2"
+    try:
+        sorted_code = assignment(code, "assignments", ".py")
+    except AssignmentsFormatMismatch:
+        pass
+    else:
+        assert False, "Expected AssignmentsFormatMismatch"
+
+    code = "j = [3, 2, 1]"
+    try:
+        sorted_code = assignment(code, "unknown", ".py")
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError"
 
 
 # LLM-generated content at query #14
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Simple assignments  
-    code = "b = 2\na = 1\n"  
-    expected = "a = 1\nb = 2\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 1 passed")  
-  
-    # Test case 2: Assignments with different values  
-    code = "x = 'hello'\ny = 'world'\nz = 'test'\n"  
-    expected = "x = 'hello'\ny = 'world'\nz = 'test'\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 2 passed")  
-  
-    # Test case 3: Assignments with empty lines  
-    code = "b = 2\n\na = 1\n"  
-    expected = "a = 1\nb = 2\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 3 passed")  
-  
-    # Test case 4: Assignments with trailing spaces  
-    code = "b = 2  \na = 1  "  
-    expected = "a = 1  \nb = 2  "  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 4 passed")  
-  
-    # Test case 5: Assignments with no spaces around '='  
-    code = "b=2\na=1\n"  
-    try:  
-        result = assignment(code, "assignments", ".py")  
-        print("Test case 5 failed: Expected AssignmentsFormatMismatch")  
-    except AssignmentsFormatMismatch:  
-        print("Test case 5 passed")  
-  
-    # Test case 6: Mixed assignments with different types  
-    code = "b = [2, 1]\na = {'x': 1, 'y': 2}\n"  
-    expected = "a = {'x': 1, 'y': 2}\nb = [2, 1]\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 6 passed")  
-  
-    # Test case 7: Single assignment  
-    code = "a = 1\n"  
-    expected = "a = 1\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 7 passed")  
-  
-    # Test case 8: Empty input  
-    code = ""  
-    expected = ""  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 8 passed")  
-  
-    # Test case 9: Assignments with comments  
-    code = "b = 2  # comment\n a = 1  # another comment\n"  
-    expected = "a = 1  # another comment\nb = 2  # comment\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 9 passed")  
-  
-    # Test case 10: Assignments with indentation  
-    code = "    b = 2\n    a = 1\n"  
-    expected = "    a = 1\n    b = 2\n"  
-    result = assignment(code, "assignments", ".py")  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-    print("Test case 10 passed")  
-  
-    print("All test cases passed!")  
-  
-# Run the unit tests  
-test_assignment()
+def test_assignment():
+    code = "b = [3, 1, 2]"
+    sorted_code = assignment(code, "list", ".py")
+    assert sorted_code == "b = [1, 2, 3]"
+
+    code = "a = {'b': 2, 'a': 1}"
+    sorted_code = assignment(code, "dict", ".py")
+    assert sorted_code == "a = {'a': 1, 'b': 2}"
+
+    code = "c = {3, 1, 2}"
+    sorted_code = assignment(code, "set", ".py")
+    assert sorted_code == "c = {1, 2, 3}"
+
+    code = "d = (3, 1, 2)"
+    sorted_code = assignment(code, "tuple", ".py")
+    assert sorted_code == "d = (1, 2, 3)"
 
 
 # LLM-generated content at query #15
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary
-    code = "my_dict = {'b': 2, 'a': 1}"
-    expected = "my_dict = {'a': 1, 'b': 2}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 2: Sorting a list
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 3: Sorting a set
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 4: Sorting a tuple
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 5: Sorting a unique list
-    code = "my_list = [3, 1, 2, 1]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "unique-list", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 6: Sorting a unique tuple
-    code = "my_tuple = (3, 1, 2, 1)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "unique-tuple", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 7: Sorting assignments
-    code = "b = 2\na = 1"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    print("All tests passed!")
+def test_assignment():
+    # Test assignments
+    code = "b = 2\na = 1\n"
+    assert assignment(code, "assignments", "py") == "a = 1\nb = 2\n"
 
-# Run the unit test
-test_assignment()
+    # Test dict
+    code = "x = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "x = {'a': 1, 'b': 2}"
+
+    # Test list
+    code = "x = [2, 1]"
+    assert assignment(code, "list", "py") == "x = [1, 2]"
+
+    # Test unique-list
+    code = "x = [2, 1, 2]"
+    assert assignment(code, "unique-list", "py") == "x = [1, 2]"
+
+    # Test set
+    code = "x = {2, 1}"
+    assert assignment(code, "set", "py") == "x = {1, 2}"
+
+    # Test tuple
+    code = "x = (2, 1)"
+    assert assignment(code, "tuple", "py") == "x = (1, 2)"
+
+    # Test unique-tuple
+    code = "x = (2, 1, 2)"
+    assert assignment(code, "unique-tuple", "py") == "x = (1, 2)"
+
+    # Test invalid sort type
+    try:
+        assignment("x = [1, 2]", "invalid", "py")
+    except ValueError as e:
+        assert "Trying to sort using an undefined sort_type" in str(e)
+
+    # Test type mismatch
+    try:
+        assignment("x = [1, 2]", "dict", "py")
+    except LiteralSortTypeMismatch as e:
+        assert "Expected <class 'dict'>" in str(e)
+
+    # Test parsing failure
+    try:
+        assignment("x = [1, 2", "list", "py")
+    except LiteralParsingFailure as e:
+        assert "Failed to parse literal" in str(e)
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1\nb = 2\nc = 3"
-    result = assignments(code)
-    assert result == expected, f"Expected {expected}, got {result}"
-    print("Test passed: assignments")
+def test_assignment():
+    # Test sorting assignments
+    assignment_code = """
+a = 1
+c = 3
+b = 2
+"""
+    expected_code = """
+a = 1
+b = 2
+c = 3
+"""
+    assert assignment(assignment_code, "assignments", "py") == expected_code
 
+    # Test sorting list
+    list_code = "my_list = [3, 1, 2]"
+    expected_list_code = "my_list = [1, 2, 3]"
+    assert assignment(list_code, "list", "py") == expected_list_code
+
+    # Test sorting unique list
+    unique_list_code = "my_list = [3, 1, 2, 3]"
+    expected_unique_list_code = "my_list = [1, 2, 3]"
+    assert assignment(unique_list_code, "unique-list", "py") == expected_unique_list_code
+
+    # Test sorting dict
+    dict_code = "my_dict = {'b': 2, 'a': 1}"
+    expected_dict_code = "my_dict = {'a': 1, 'b': 2}"
+    assert assignment(dict_code, "dict", "py") == expected_dict_code
+
+    # Test sorting set
+    set_code = "my_set = {3, 1, 2}"
+    expected_set_code = "my_set = {1, 2, 3}"
+    assert assignment(set_code, "set", "py") == expected_set_code
+
+    # Test sorting tuple
+    tuple_code = "my_tuple = (3, 1, 2)"
+    expected_tuple_code = "my_tuple = (1, 2, 3)"
+    assert assignment(tuple_code, "tuple", "py") == expected_tuple_code
+
+    # Test sorting unique tuple
+    unique_tuple_code = "my_tuple = (3, 1, 2, 3)"
+    expected_unique_tuple_code = "my_tuple = (1, 2, 3)"
+    assert assignment(unique_tuple_code, "unique-tuple", "py") == expected_unique_tuple_code
+
+    # Test invalid sort type
+    try:
+        assignment(list_code, "invalid", "py")
+        assert False, "Expected ValueError for invalid sort type"
+    except ValueError:
+        pass
+
+    # Test invalid literal
+    try:
+        assignment("my_list = invalid", "list", "py")
+        assert False, "Expected LiteralParsingFailure for invalid literal"
+    except LiteralParsingFailure:
+        pass
+
+    # Test invalid literal type for sort type
+    try:
+        assignment("my_list = [1, 2, 3]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch for invalid literal type"
+    except LiteralSortTypeMismatch:
+        pass
 
 
 # LLM-generated content at query #17
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("test_assignment passed")
+def test_assignment():
+    # Test assignments
+    assignments_code = "b = 2\na = 1\n"
+    assert assignment(assignments_code, "assignments", "py") == "a = 1\nb = 2\n"
 
+    # Test dictionary
+    dict_code = "x = {'b': 2, 'a': 1}"
+    assert assignment(dict_code, "dict", "py") == "x = {'a': 1, 'b': 2}"
+
+    # Test list
+    list_code = "x = [2, 1]"
+    assert assignment(list_code, "list", "py") == "x = [1, 2]"
+
+    # Test unique-list
+    unique_list_code = "x = [2, 1, 2]"
+    assert assignment(unique_list_code, "unique-list", "py") == "x = [1, 2]"
+
+    # Test set
+    set_code = "x = {2, 1}"
+    assert assignment(set_code, "set", "py") == "x = {1, 2}"
+
+    # Test tuple
+    tuple_code = "x = (2, 1)"
+    assert assignment(tuple_code, "tuple", "py") == "x = (1, 2)"
+
+    # Test unique-tuple
+    unique_tuple_code = "x = (2, 1, 2)"
+    assert assignment(unique_tuple_code, "unique-tuple", "py") == "x = (1, 2)"
+
+    # Test invalid sort type
+    try:
+        assignment("x = [1, 2]", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test type mismatch
+    try:
+        assignment("x = [1, 2]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    # Test parsing failure
+    try:
+        assignment("x = [1, 2", "list", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    # Test assignments format mismatch
+    try:
+        assignment("x = [1, 2]\ny = 3", "assignments", "py")
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #18
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting assignments  
-    code = """  
-    b = 2  
-    a = 1  
-    c = 3  
-    """  
-    expected = """  
-    a = 1  
-    b = 2  
-    c = 3  
-    """  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 1 passed")  
+def test_assignment():
+    code = "my_list = [3, 1, 2]"
+    sorted_code = assignment(code, "list", "py")
+    assert sorted_code == "my_list = [1, 2, 3]"
 
-    # Test case 2: Sorting assignments with empty lines  
-    code = """  
-    z = 26  
-    y = 25  
-    x = 24  
-    """  
-    expected = """  
-    x = 24  
-    y = 25  
-    z = 26  
-    """  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 2 passed")  
+    code = "my_set = {3, 1, 2}"
+    sorted_code = assignment(code, "set", "py")
+    assert sorted_code == "my_set = {1, 2, 3}"
 
-    # Test case 3: Sorting assignments with duplicate variable names  
-    code = """  
-    b = 2  
-    a = 1  
-    b = 3  
-    """  
-    try:  
-        result = assignments(code)  
-        print("Test case 3 passed")  
-    except AssignmentsFormatMismatch:  
-        print("Test case 3 passed (expected exception)")  
+    code = "my_tuple = (3, 1, 2)"
+    sorted_code = assignment(code, "tuple", "py")
+    assert sorted_code == "my_tuple = (1, 2, 3)"
 
-    # Test case 4: Sorting assignments with no assignments  
-    code = """  
-    This is not an assignment  
-    """  
-    try:  
-        result = assignments(code)  
-        print("Test case 4 passed")  
-    except AssignmentsFormatMismatch:  
-        print("Test case 4 passed (expected exception)")  
+    code = "my_dict = {'b': 2, 'a': 1}"
+    sorted_code = assignment(code, "dict", "py")
+    assert sorted_code == "my_dict = {'a': 1, 'b': 2}"
 
-    # Test case 5: Sorting assignments with empty input  
-    code = ""  
-    expected = ""  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, but got: {result}"  
-    print("Test case 5 passed")  
+    code = "my_list = [3, 1, 2, 3]"
+    sorted_code = assignment(code, "unique-list", "py")
+    assert sorted_code == "my_list = [1, 2, 3]"
 
-    print("All test cases passed!")  
+    code = "my_tuple = (3, 1, 2, 3)"
+    sorted_code = assignment(code, "unique-tuple", "py")
+    assert sorted_code == "my_tuple = (1, 2, 3)"
 
-# Run the unit test  
-test_assignment()
+    code = "my_list = 3, 1, 2"
+    try:
+        assignment(code, "list", "py")
+        assert False
+    except ValueError:
+        assert True
+
+    code = "my_list = [3, 1, 2"
+    try:
+        assignment(code, "list", "py")
+        assert False
+    except LiteralParsingFailure:
+        assert True
+
+    code = "my_list = 3, 1, 2"
+    try:
+        assignment(code, "list", "py")
+        assert False
+    except LiteralSortTypeMismatch:
+        assert True
+
+    code = "my_list = [3, 1, 2]"
+    try:
+        assignment(code, "unknown", "py")
+        assert False
+    except ValueError:
+        assert True
+
 
 
 # LLM-generated content at query #19
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting assignments
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 1 passed")
-
-    # Test case 2: Sorting dictionary
-    code = "my_dict = {'b': 2, 'a': 1}"
-    expected = "my_dict = {'a': 1, 'b': 2}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 2 passed")
-
-    # Test case 3: Sorting list
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 3 passed")
-
-    # Test case 4: Sorting set
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 4 passed")
-
-    # Test case 5: Sorting tuple
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 5 passed")
-
-    # Test case 6: Sorting unique list
-    code = "my_list = [3, 1, 2, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "unique-list", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 6 passed")
-
-    # Test case 7: Sorting unique tuple
-    code = "my_tuple = (3, 1, 2, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "unique-tuple", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 7 passed")
-
-    # Test case 8: Invalid sort type
-    code = "my_list = [1, 2, 3]"
+def test_assignment():
+    # Test case 1: Sorting a list of integers
+    code = "numbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]"
+    sorted_code = assignment(code, "list", ".py")
+    assert sorted_code == "numbers = [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]"
+    
+    # Test case 2: Sorting a dictionary by value
+    code = "data = {'a': 3, 'b': 1, 'c': 2}"
+    sorted_code = assignment(code, "dict", ".py")
+    assert sorted_code == "data = {'b': 1, 'c': 2, 'a': 3}"
+    
+    # Test case 3: Sorting a set of strings
+    code = "unique_names = {'Alice', 'Bob', 'Charlie', 'Alice', 'Bob'}"
+    sorted_code = assignment(code, "set", ".py")
+    assert sorted_code == "unique_names = {'Alice', 'Bob', 'Charlie'}"
+    
+    # Test case 4: Sorting a tuple of floats
+    code = "values = (3.5, 1.2, 4.8, 1.2, 5.7)"
+    sorted_code = assignment(code, "tuple", ".py")
+    assert sorted_code == "values = (1.2, 1.2, 3.5, 4.8, 5.7)"
+    
+    # Test case 5: Sorting a unique tuple of integers
+    code = "unique_values = (3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5)"
+    sorted_code = assignment(code, "unique-tuple", ".py")
+    assert sorted_code == "unique_values = (1, 2, 3, 4, 5, 6, 9)"
+    
+    # Test case 6: Sorting a list of strings
+    code = "names = ['Charlie', 'Alice', 'Bob', 'Charlie', 'Alice']"
+    sorted_code = assignment(code, "list", ".py")
+    assert sorted_code == "names = ['Alice', 'Alice', 'Bob', 'Charlie', 'Charlie']"
+    
+    # Test case 7: Sorting a unique list of strings
+    code = "unique_names = ['Charlie', 'Alice', 'Bob', 'Charlie', 'Alice']"
+    sorted_code = assignment(code, "unique-list", ".py")
+    assert sorted_code == "unique_names = ['Alice', 'Bob', 'Charlie']"
+    
+    # Test case 8: Sorting assignments
+    code = "b = 2\na = 1\nc = 3"
+    sorted_code = assignment(code, "assignments", ".py")
+    assert sorted_code == "a = 1\nb = 2\nc = 3"
+    
+    # Test case 9: Invalid sort type
     try:
-        assignment(code, "invalid-type", ".py")
+        code = "values = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]"
+        sorted_code = assignment(code, "invalid-type", ".py")
     except ValueError as e:
-        assert "Trying to sort using an undefined sort_type" in str(e)
-        print("Test case 8 passed")
-
-    # Test case 9: Literal parsing failure
-    code = "my_list = [1, 2, 3"
+        assert str(e) == "Trying to sort using an undefined sort_type. Defined sort types are dict, list, unique-list, set, tuple, unique-tuple."
+    
+    # Test case 10: Invalid literal parsing
     try:
-        assignment(code, "list", ".py")
-    except LiteralParsingFailure:
-        print("Test case 9 passed")
-
-    # Test case 10: Literal sort type mismatch
-    code = "my_list = [1, 2, 3]"
+        code = "values = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5"
+        sorted_code = assignment(code, "list", ".py")
+    except LiteralParsingFailure as e:
+        assert str(e) == "Failed to parse the literal: unexpected EOF while parsing (<string>, line 1)"
+    
+    # Test case 11: Sort type mismatch
     try:
-        assignment(code, "dict", ".py")
-    except LiteralSortTypeMismatch:
-        print("Test case 10 passed")
-
+        code = "values = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]"
+        sorted_code = assignment(code, "dict", ".py")
+    except LiteralSortTypeMismatch as e:
+        assert str(e) == "Cannot sort <class 'list'> using dict sort type."
+    
     print("All test cases passed!")
-
-# Run the unit tests
-test_assignment()
 
 
 # LLM-generated content at query #20
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
+def test_assignment():
+    # Test assignments
     code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, got {result}"
-    print("test_assignment passed")
+    assert assignment(code, "assignments", "py") == "a = 1\nb = 2\n"
 
+    # Test dict
+    code = "x = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "x = {'a': 1, 'b': 2}"
+
+    # Test list
+    code = "x = [2, 1]"
+    assert assignment(code, "list", "py") == "x = [1, 2]"
+
+    # Test unique-list
+    code = "x = [2, 1, 2]"
+    assert assignment(code, "unique-list", "py") == "x = [1, 2]"
+
+    # Test set
+    code = "x = {2, 1}"
+    assert assignment(code, "set", "py") == "x = {1, 2}"
+
+    # Test tuple
+    code = "x = (2, 1)"
+    assert assignment(code, "tuple", "py") == "x = (1, 2)"
+
+    # Test unique-tuple
+    code = "x = (2, 1, 2)"
+    assert assignment(code, "unique-tuple", "py") == "x = (1, 2)"
+
+    # Test invalid sort type
+    try:
+        assignment("x = 1", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test invalid literal
+    try:
+        assignment("x = {", "dict", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    # Test type mismatch
+    try:
+        assignment("x = 1", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
 
 
 # LLM-generated content at query #21
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary literal  
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"  
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"  
-    assert assignment(code, 'dict', '.py') == expected  
-    
-    # Test case 2: Sorting a list literal  
-    code = "my_list = [3, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    assert assignment(code, 'list', '.py') == expected  
-    
-    # Test case 3: Sorting a set literal  
-    code = "my_set = {3, 1, 2}"  
-    expected = "my_set = {1, 2, 3}"  
-    assert assignment(code, 'set', '.py') == expected  
-    
-    # Test case 4: Sorting a tuple literal  
-    code = "my_tuple = (3, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    assert assignment(code, 'tuple', '.py') == expected  
-    
-    # Test case 5: Sorting a unique list literal  
-    code = "my_list = [3, 1, 2, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    assert assignment(code, 'unique-list', '.py') == expected  
-    
-    # Test case 6: Sorting a unique tuple literal  
-    code = "my_tuple = (3, 1, 2, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    assert assignment(code, 'unique-tuple', '.py') == expected  
-    
-    # Test case 7: Sorting multiple assignments  
-    code = "b = 2\na = 1\nc = 3"  
-    expected = "a = 1b = 2c = 3"  
-    assert assignment(code, 'assignments', '.py') == expected  
-    
-    print("All tests passed!")  
+def test_assignment():
+    # Test assignments
+    assignments_code = "b = 2\na = 1\n"
+    assert assignment(assignments_code, "assignments", "py") == "a = 1\nb = 2\n"
 
-# Run the unit test  
+    # Test dict
+    dict_code = "d = {'b': 2, 'a': 1}"
+    assert assignment(dict_code, "dict", "py") == "d = {'a': 1, 'b': 2}"
+
+    # Test list
+    list_code = "l = [2, 1]"
+    assert assignment(list_code, "list", "py") == "l = [1, 2]"
+
+    # Test unique-list
+    unique_list_code = "l = [2, 1, 2]"
+    assert assignment(unique_list_code, "unique-list", "py") == "l = [1, 2]"
+
+    # Test set
+    set_code = "s = {2, 1}"
+    assert assignment(set_code, "set", "py") == "s = {1, 2}"
+
+    # Test tuple
+    tuple_code = "t = (2, 1)"
+    assert assignment(tuple_code, "tuple", "py") == "t = (1, 2)"
+
+    # Test unique-tuple
+    unique_tuple_code = "t = (2, 1, 2)"
+    assert assignment(unique_tuple_code, "unique-tuple", "py") == "t = (1, 2)"
+
+    # Test invalid sort type
+    try:
+        assignment("x = 1", "invalid", "py")
+    except ValueError as e:
+        assert str(e) == "Trying to sort using an undefined sort_type. Defined sort types are dict, list, unique-list, set, tuple, unique-tuple."
+
+    # Test invalid literal parsing
+    try:
+        assignment("x = invalid", "list", "py")
+    except LiteralParsingFailure as e:
+        assert isinstance(e.error, ValueError)
+
+    # Test sort type mismatch
+    try:
+        assignment("x = 1", "list", "py")
+    except LiteralSortTypeMismatch as e:
+        assert str(e) == "Expected <class 'list'>, received <class 'int'>."
+
 test_assignment()
 
 
@@ -2369,458 +2333,227 @@ test_assignment()
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary  
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"  
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"  
-    assert assignment(code, 'dict', '.py') == expected  
+def test_assignment():
+    # Test assignments
+    assignments_code = "b = 2\na = 1\n"
+    assert assignment(assignments_code, "assignments", "py") == "a = 1\nb = 2"
 
-    # Test case 2: Sorting a list  
-    code = "my_list = [3, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    assert assignment(code, 'list', '.py') == expected  
+    # Test dictionary
+    dict_code = "my_dict = {'b': 2, 'a': 1}"
+    assert assignment(dict_code, "dict", "py") == "my_dict = {'a': 1, 'b': 2}"
 
-    # Test case 3: Sorting a set  
-    code = "my_set = {3, 1, 2}"  
-    expected = "my_set = {1, 2, 3}"  
-    assert assignment(code, 'set', '.py') == expected  
+    # Test list
+    list_code = "my_list = [2, 1]"
+    assert assignment(list_code, "list", "py") == "my_list = [1, 2]"
 
-    # Test case 4: Sorting a tuple  
-    code = "my_tuple = (3, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    assert assignment(code, 'tuple', '.py') == expected  
+    # Test unique list
+    unique_list_code = "my_list = [2, 1, 2]"
+    assert assignment(unique_list_code, "unique-list", "py") == "my_list = [1, 2]"
 
-    # Test case 5: Sorting a unique list  
-    code = "my_list = [3, 1, 2, 1, 2]"  
-    expected = "my_list = [1, 2, 3]"  
-    assert assignment(code, 'unique-list', '.py') == expected  
+    # Test set
+    set_code = "my_set = {2, 1}"
+    assert assignment(set_code, "set", "py") == "my_set = {1, 2}"
 
-    # Test case 6: Sorting a unique tuple  
-    code = "my_tuple = (3, 1, 2, 1, 2)"  
-    expected = "my_tuple = (1, 2, 3)"  
-    assert assignment(code, 'unique-tuple', '.py') == expected  
+    # Test tuple
+    tuple_code = "my_tuple = (2, 1)"
+    assert assignment(tuple_code, "tuple", "py") == "my_tuple = (1, 2)"
 
-    # Test case 7: Sorting assignments  
-    code = "b = 2\na = 1\nc = 3"  
-    expected = "a = 1b = 2c = 3"  
-    assert assignment(code, 'assignments', '.py') == expected  
+    # Test unique tuple
+    unique_tuple_code = "my_tuple = (2, 1, 2)"
+    assert assignment(unique_tuple_code, "unique-tuple", "py") == "my_tuple = (1, 2)"
 
-    print("All tests passed!")  
+    # Test invalid sort type
+    try:
+        assignment("x = 1", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-# Run the unit test  
-test_assignment()
+    # Test type mismatch
+    try:
+        assignment("x = 1", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    # Test parsing failure
+    try:
+        assignment("x = {", "dict", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
 
 
 # LLM-generated content at query #23
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary
-    code = "my_dict = {'b': 2, 'a': 1}"
-    expected = "my_dict = {'a': 1, 'b': 2}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 2: Sorting a list
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 3: Sorting a set
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 4: Sorting a tuple
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 5: Sorting assignments
-    code = "b = 2\na = 1"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    print("All tests passed!")
+def test_assignment():
+    code = "my_list = [3,1,2]"
+    sorted_code = assignment(code, "list", "py")
+    assert sorted_code == "my_list = [1, 2, 3]"
 
-# Run the unit test
-test_assignment()
+    code = "my_dict = {'c': 3, 'a': 1, 'b': 2}"
+    sorted_code = assignment(code, "dict", "py")
+    assert sorted_code == "my_dict = {'a': 1, 'b': 2, 'c': 3}"
+
+    code = "my_set = {3,1,2}"
+    sorted_code = assignment(code, "set", "py")
+    assert sorted_code == "my_set = {1, 2, 3}"
+
+    code = "my_tuple = (3,1,2)"
+    sorted_code = assignment(code, "tuple", "py")
+    assert sorted_code == "my_tuple = (1, 2, 3)"
+
+    code = "my_tuple = (3,1,2,1)"
+    sorted_code = assignment(code, "unique-tuple", "py")
+    assert sorted_code == "my_tuple = (1, 2, 3)"
+
+    code = "my_list = [3,1,2,1]"
+    sorted_code = assignment(code, "unique-list", "py")
+    assert sorted_code == "my_list = [1, 2, 3]"
+
+    code = "assignments = ['z', 'y', 'x']"
+    sorted_code = assignment(code, "assignments", "py")
+    assert sorted_code == "assignments = ['z', 'y', 'x']"
+
+    code = "assignments = ['z', 'y', 'x']"
+    sorted_code = assignment(code, "unknown-type", "py")
+    assert "Trying to sort using an undefined sort_type" in str(sorted_code)
+
+    code = "my_list = [3,1,2"
+    sorted_code = assignment(code, "list", "py")
+    assert "literal parsing failure" in str(sorted_code)
+
+    code = "my_dict = {'c': 3, 'a': 1, 'b': 2}"
+    sorted_code = assignment(code, "list", "py")
+    assert "literal sort type mismatch" in str(sorted_code)
 
 
 # LLM-generated content at query #24
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Simple assignments  
-    code = "b = 2\na = 1\n"  
-    expected = "a = 1b = 2"  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, Got: {result}"  
-    print("Test case 1 passed")  
-  
-    # Test case 2: Assignments with extra whitespace  
-    code = "x = 10\n\ny = 5\n"  
-    expected = "x = 10y = 5"  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, Got: {result}"  
-    print("Test case 2 passed")  
-  
-    # Test case 3: Assignments with different variable names  
-    code = "var2 = 'second'\nvar1 = 'first'\n"  
-    expected = "var1 = 'first'var2 = 'second'"  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, Got: {result}"  
-    print("Test case 3 passed")  
-  
-    # Test case 4: Single assignment  
-    code = "a = 1\n"  
-    expected = "a = 1"  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, Got: {result}"  
-    print("Test case 4 passed")  
-  
-    # Test case 5: Empty code  
-    code = ""  
-    expected = ""  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, Got: {result}"  
-    print("Test case 5 passed")  
-  
-    # Test case 6: Code without assignments (should raise exception)  
-    code = "print('Hello')"  
-    try:  
-        assignments(code)  
-        print("Test case 6 failed: Expected exception not raised")  
-    except AssignmentsFormatMismatch:  
-        print("Test case 6 passed: Exception raised as expected")  
-  
-    print("All test cases passed!")  
-  
-# Run the unit tests  
-test_assignment()
+def test_assignment():
+    # Test assignments
+    code = "b = 2\na = 1\n"
+    assert assignment(code, "assignments", "py") == "a = 1\nb = 2\n"
+
+    # Test list
+    code = "x = [3, 1, 2]"
+    assert assignment(code, "list", "py") == "x = [1, 2, 3]"
+
+    # Test dict
+    code = "x = {'b': 2, 'a': 1}"
+    assert assignment(code, "dict", "py") == "x = {'a': 1, 'b': 2}"
+
+    # Test set
+    code = "x = {3, 1, 2}"
+    assert assignment(code, "set", "py") == "x = {1, 2, 3}"
+
+    # Test tuple
+    code = "x = (3, 1, 2)"
+    assert assignment(code, "tuple", "py") == "x = (1, 2, 3)"
+
+    # Test unique-list
+    code = "x = [3, 1, 2, 1]"
+    assert assignment(code, "unique-list", "py") == "x = [1, 2, 3]"
+
+    # Test unique-tuple
+    code = "x = (3, 1, 2, 1)"
+    assert assignment(code, "unique-tuple", "py") == "x = (1, 2, 3)"
+
+    # Test invalid sort type
+    try:
+        assignment("x = [1, 2, 3]", "invalid", "py")
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test type mismatch
+    try:
+        assignment("x = [1, 2, 3]", "dict", "py")
+        assert False, "Expected LiteralSortTypeMismatch"
+    except LiteralSortTypeMismatch:
+        pass
+
+    # Test parsing failure
+    try:
+        assignment("x = invalid", "list", "py")
+        assert False, "Expected LiteralParsingFailure"
+    except LiteralParsingFailure:
+        pass
+
+    # Test assignments format mismatch
+    try:
+        assignment("invalid", "assignments", "py")
+        assert False, "Expected AssignmentsFormatMismatch"
+    except AssignmentsFormatMismatch:
+        pass
 
 
 # LLM-generated content at query #25
 #--------------------------
 
 # Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1\nb = 2\nc = 3"
-    assert assignments(code) == expected, f"Expected {expected}, but got {assignments(code)}"
-    print("Test passed: assignments")
-
-
-
-# LLM-generated content at query #26
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
+def test_assignment():
+    # Test assignments sorting
     code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("test_assignment passed")
+    sorted_code = assignment(code, "assignments", ".py")
+    assert sorted_code == "a = 1\nb = 2\n"
 
+    # Test list sorting
+    code = "my_list = [3, 1, 2]\n"
+    sorted_code = assignment(code, "list", ".py")
+    assert sorted_code == "my_list = [1, 2, 3]\n"
 
+    # Test dict sorting
+    code = "my_dict = {'c': 3, 'a': 1, 'b': 2}\n"
+    sorted_code = assignment(code, "dict", ".py")
+    assert sorted_code == "my_dict = {'a': 1, 'b': 2, 'c': 3}\n"
 
-# LLM-generated content at query #27
-#--------------------------
+    # Test set sorting
+    code = "my_set = {3, 1, 2}\n"
+    sorted_code = assignment(code, "set", ".py")
+    assert sorted_code == "my_set = {1, 2, 3}\n"
 
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\n"
-    expected = "a = 1\nb = 2\n"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, got {result}"
-    print("test_assignment passed")
+    # Test tuple sorting
+    code = "my_tuple = (3, 1, 2)\n"
+    sorted_code = assignment(code, "tuple", ".py")
+    assert sorted_code == "my_tuple = (1, 2, 3)\n"
 
+    # Test unique-list sorting
+    code = "my_list = [3, 1, 2, 1]\n"
+    sorted_code = assignment(code, "unique-list", ".py")
+    assert sorted_code == "my_list = [1, 2, 3]\n"
 
+    # Test unique-tuple sorting
+    code = "my_tuple = (3, 1, 2, 1)\n"
+    sorted_code = assignment(code, "unique-tuple", ".py")
+    assert sorted_code == "my_tuple = (1, 2, 3)\n"
 
-# LLM-generated content at query #28
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\nc = 3"  
-    expected = "a = 1\nb = 2\nc = 3"  
-    result = assignments(code)  
-    assert result == expected, f"Expected {expected}, got {result}"  
-    print("Test passed: assignments")  
-  
-
-
-# LLM-generated content at query #29
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Basic assignments sorting
-    code = "b = 2\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 1 passed")
-
-    # Test case 2: Assignments with extra spaces
-    code = "x = 10\n  y = 20\n"
-    expected = "x = 10  y = 20"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 2 passed")
-
-    # Test case 3: Empty input
-    code = ""
-    expected = ""
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 3 passed")
-
-    # Test case 4: Invalid format (no '=')
-    code = "invalid line"
+    # Test invalid sort type
     try:
-        assignments(code)
-        assert False, "Expected AssignmentsFormatMismatch"
-    except AssignmentsFormatMismatch:
-        print("Test case 4 passed")
-
-    # Test case 5: Mixed assignments with newlines
-    code = "z = 3\na = 1\nb = 2\n"
-    expected = "a = 1b = 2z = 3"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 5 passed")
-
-    # Test case 6: Single assignment
-    code = "single = 42"
-    expected = "single = 42"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 6 passed")
-
-    # Test case 7: Assignments with trailing spaces
-    code = "b = 2 \na = 1 "
-    expected = "a = 1 b = 2 "
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 7 passed")
-
-    # Test case 8: Assignments with empty lines
-    code = "b = 2\n\na = 1\n"
-    expected = "a = 1b = 2"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 8 passed")
-
-    # Test case 9: Multiple assignments on same line (invalid)
-    code = "a = 1 b = 2"
-    try:
-        assignments(code)
-        assert False, "Expected AssignmentsFormatMismatch"
-    except AssignmentsFormatMismatch:
-        print("Test case 9 passed")
-
-    # Test case 10: Complex values (strings with spaces)
-    code = 'name = "John Doe"\nage = 30'
-    expected = 'age = 30name = "John Doe"'
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 10 passed")
-
-    print("All test cases passed!")
-
-# Run the unit tests
-test_assignment()
-
-
-# LLM-generated content at query #30
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Sorting a dictionary
-    code = "my_dict = {'b': 2, 'a': 1, 'c': 3}"
-    expected = "my_dict = {'a': 1, 'b': 2, 'c': 3}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 2: Sorting a list
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 3: Sorting a set
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 4: Sorting a tuple
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    # Test case 5: Sorting assignments
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1b = 2c = 3"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected {expected}, but got {result}"
-    
-    print("All tests passed!")
-
-# Run the unit test
-test_assignment()
-
-
-# LLM-generated content at query #31
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    # Test case 1: Basic assignments sorting  
-    code = "b = 2\na = 1\n"  
-    expected = "a = 1b = 2"  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, Got: {result}"  
-    print("Test case 1 passed")  
-  
-    # Test case 2: Assignments with extra spaces  
-    code = "x = 10\n  y = 20\n"  
-    expected = "x = 10  y = 20"  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, Got: {result}"  
-    print("Test case 2 passed")  
-  
-    # Test case 3: Assignments with empty lines  
-    code = "c = 3\n\nd = 4\n"  
-    expected = "c = 3d = 4"  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, Got: {result}"  
-    print("Test case 3 passed")  
-  
-    # Test case 4: Invalid format (no '=')  
-    code = "invalid line"  
-    try:  
-        assignments(code)  
-        assert False, "Should have raised AssignmentsFormatMismatch"  
-    except AssignmentsFormatMismatch:  
-        print("Test case 4 passed")  
-  
-    # Test case 5: Mixed assignments  
-    code = "var2 = 'second'\nvar1 = 'first'\n"  
-    expected = "var1 = 'first'var2 = 'second'"  
-    result = assignments(code)  
-    assert result == expected, f"Expected: {expected}, Got: {result}"  
-    print("Test case 5 passed")  
-  
-# Run the unit tests  
-test_assignment()
-
-
-# LLM-generated content at query #32
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment():  
-    code = "b = 2\na = 1\nc = 3"
-    expected = "a = 1\nb = 2\nc = 3"
-    result = assignments(code)
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test passed for assignments")
-
-
-
-# LLM-generated content at query #33
-#--------------------------
-
-# Unit test for function assignment
-def test_assignment(): 
-    # Test case 1: Sorting a dictionary
-    code = "my_dict = {'b': 2, 'a': 1}"
-    expected = "my_dict = {'a': 1, 'b': 2}"
-    result = assignment(code, "dict", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 1 passed")
-
-    # Test case 2: Sorting a list
-    code = "my_list = [3, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "list", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 2 passed")
-
-    # Test case 3: Sorting a set
-    code = "my_set = {3, 1, 2}"
-    expected = "my_set = {1, 2, 3}"
-    result = assignment(code, "set", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 3 passed")
-
-    # Test case 4: Sorting a tuple
-    code = "my_tuple = (3, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "tuple", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 4 passed")
-
-    # Test case 5: Sorting a unique list
-    code = "my_list = [3, 1, 2, 1, 2]"
-    expected = "my_list = [1, 2, 3]"
-    result = assignment(code, "unique-list", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 5 passed")
-
-    # Test case 6: Sorting a unique tuple
-    code = "my_tuple = (3, 1, 2, 1, 2)"
-    expected = "my_tuple = (1, 2, 3)"
-    result = assignment(code, "unique-tuple", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 6 passed")
-
-    # Test case 7: Sorting assignments
-    code = "b = 2\na = 1"
-    expected = "a = 1b = 2"
-    result = assignment(code, "assignments", ".py")
-    assert result == expected, f"Expected: {expected}, but got: {result}"
-    print("Test case 7 passed")
-
-    # Test case 8: Invalid sort type
-    code = "my_list = [3, 1, 2]"
-    try:
-        assignment(code, "invalid-type", ".py")
-        assert False, "Expected ValueError"
+        assignment("my_list = [3, 1, 2]\n", "invalid", ".py")
     except ValueError as e:
-        assert "Trying to sort using an undefined sort_type" in str(e)
-        print("Test case 8 passed")
+        assert str(e) == "Trying to sort using an undefined sort_type. Defined sort types are assignments, dict, list, unique-list, set, tuple, unique-tuple."
 
-    # Test case 9: Literal parsing failure
-    code = "my_list = [3, 1, 2"
+    # Test invalid literal
     try:
-        assignment(code, "list", ".py")
-        assert False, "Expected LiteralParsingFailure"
-    except LiteralParsingFailure:
-        print("Test case 9 passed")
+        assignment("my_list = {3, 1, 2}\n", "list", ".py")
+    except LiteralSortTypeMismatch as e:
+        assert str(e) == "Expected type <class 'list'>, got <class 'set'>."
 
-    # Test case 10: Literal sort type mismatch
-    code = "my_list = [3, 1, 2]"
+    # Test invalid assignment format
     try:
-        assignment(code, "dict", ".py")
-        assert False, "Expected LiteralSortTypeMismatch"
-    except LiteralSortTypeMismatch:
-        print("Test case 10 passed")
+        assignment("my_list\n", "list", ".py")
+    except AssignmentsFormatMismatch as e:
+        assert str(e) == "my_list\n"
 
-    print("All test cases passed")
-
-# Run the unit tests
-test_assignment()
+    # Test invalid literal parsing
+    try:
+        assignment("my_list = {3, 1, 2}\n", "invalid", ".py")
+    except LiteralParsingFailure as e:
+        assert str(e) == "Failed to parse literal: my_list = {3, 1, 2}\n"
 
 

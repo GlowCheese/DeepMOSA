@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.37362637362637363" lines-covered="0" lines-valid="0" branches-covered="34" branches-valid="91" complexity="0.0" version="pynguin-0.40.0" timestamp="1767575077">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.37362637362637363" lines-covered="0" lines-valid="0" branches-covered="34" branches-valid="91" complexity="0.0" version="pynguin-0.40.0" timestamp="1768423527">
   <sources>
     <source>isort.wrap</source>
   </sources>

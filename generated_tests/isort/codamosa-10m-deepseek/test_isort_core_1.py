@@ -1,13 +1,11 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import email._header_value_parser as module_4
-import encodings.idna as module_5
+import pytest
+import isort.core as module_0
 import urllib.parse as module_1
 import urllib.request as module_2
-
-import isort.core as module_0
 import isort.wrap_modes as module_3
-import pytest
-
+import email._header_value_parser as module_4
+import encodings.idna as module_5
 
 @pytest.mark.xfail(strict=True)
 def test_case_0():
@@ -180,19 +178,19 @@ def test_case_3():
     var_1 = module_4.quote_string(var_0)
     assert var_1 == '"None"'
     assert module_4.hexdigits == '0123456789abcdefABCDEF'
-    assert module_4.WSP == {' ', '\t'}
-    assert module_4.CFWS_LEADER == {'(', ' ', '\t'}
-    assert module_4.SPECIALS == {'>', ']', '@', '.', '<', ';', ')', '[', ',', '"', '\\', '(', ':'}
-    assert module_4.ATOM_ENDS == {'>', ']', '@', '.', '<', ';', ')', '[', ',', ' ', '"', '\\', '(', ':', '\t'}
-    assert module_4.DOT_ATOM_ENDS == {'>', ']', '@', '<', ';', ')', '[', ',', ' ', '"', '\\', '(', ':', '\t'}
-    assert module_4.PHRASE_ENDS == {'>', ']', '@', '<', ';', ')', '[', ':', '\\', ','}
-    assert module_4.TSPECIALS == {'>', '?', '@', ']', '[', '<', ')', ';', '/', '=', ',', '"', '\\', '(', ':'}
-    assert module_4.TOKEN_ENDS == {'>', '?', ']', '@', '[', '<', ')', ';', '/', ':', '=', ' ', '"', '\\', '(', ',', '\t'}
-    assert module_4.ASPECIALS == {'*', '>', '?', ']', '@', '[', '<', ')', ';', '/', ':', '=', '"', '%', "'", '\\', '(', ','}
-    assert module_4.ATTRIBUTE_ENDS == {')', ' ', ':', ',', '@', '<', ';', '\\', '\t', '*', '>', '[', '=', '"', '%', "'", '?', ']', '/', '('}
-    assert module_4.EXTENDED_ATTRIBUTE_ENDS == {')', ' ', ':', ',', '@', '<', ';', '\\', '\t', '*', '>', '[', '=', '"', "'", '?', ']', '/', '('}
-    assert module_4.NLSET == {'\r', '\n'}
-    assert module_4.SPECIALSNL == {'>', ']', '@', '.', '<', ';', ')', '[', '\r', ',', '"', '\\', '(', ':', '\n'}
+    assert module_4.WSP == {'\t', ' '}
+    assert module_4.CFWS_LEADER == {'(', '\t', ' '}
+    assert module_4.SPECIALS == {')', '<', ';', '(', '"', ':', '.', '@', '[', '>', ',', '\\', ']'}
+    assert module_4.ATOM_ENDS == {')', '<', '\t', ';', '(', '"', ':', '.', '@', '[', '>', ',', '\\', ' ', ']'}
+    assert module_4.DOT_ATOM_ENDS == {')', '<', '\t', ';', '(', '"', ':', '@', '[', '>', ',', '\\', ' ', ']'}
+    assert module_4.PHRASE_ENDS == {')', '<', ':', '\\', '@', '[', '>', ',', ';', ']'}
+    assert module_4.TSPECIALS == {')', '<', '(', '"', ':', '\\', '@', '[', '>', '?', ',', ';', '/', '=', ']'}
+    assert module_4.TOKEN_ENDS == {')', '/', '<', '\t', ';', '(', '"', ':', '@', '[', '>', '?', ',', '\\', ' ', '=', ']'}
+    assert module_4.ASPECIALS == {')', '<', ';', "'", '(', '"', ']', ':', '@', '[', '*', '>', '?', ',', '\\', '/', '=', '%'}
+    assert module_4.ATTRIBUTE_ENDS == {'"', '[', '>', ';', ')', '<', '\t', "'", '(', ':', ',', '\\', ' ', '?', ']', '@', '*', '/', '=', '%'}
+    assert module_4.EXTENDED_ATTRIBUTE_ENDS == {'"', '[', '>', ';', ')', '<', '\t', "'", '(', ':', ',', '\\', ' ', '?', ']', '@', '*', '/', '='}
+    assert module_4.NLSET == {'\n', '\r'}
+    assert module_4.SPECIALSNL == {')', '<', ';', '(', '"', ':', '.', '@', '[', '>', ',', '\r', '\\', '\n', ']'}
     assert f'{type(module_4.rfc2047_matcher).__module__}.{type(module_4.rfc2047_matcher).__qualname__}' == 're.Pattern'
     assert f'{type(module_4.DOT).__module__}.{type(module_4.DOT).__qualname__}' == 'email._header_value_parser.ValueTerminal'
     assert len(module_4.DOT) == 1

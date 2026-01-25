@@ -1,7 +1,6 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import flutes.exception as module_0
 import pytest
-
+import flutes.exception as module_0
 
 @pytest.mark.xfail(strict=True)
 def test_case_0():
@@ -13,7 +12,8 @@ def test_case_0():
     var_4.__or__(var_3)
 
 def test_case_1():
-    var_0 = module_0.register_ipython_excepthook()
+    var_0 = None
+    var_1 = module_0.register_ipython_excepthook(var_0)
 
 def test_case_2():
     var_0 = None
@@ -21,9 +21,10 @@ def test_case_2():
 
 @pytest.mark.xfail(strict=True)
 def test_case_3():
-    var_0 = ''
-    var_1 = {var_0: var_0, var_0: var_0}
-    module_0.log_exception(var_0, **var_1)
+    var_0 = None
+    var_1 = 'C1q7'
+    var_2 = {var_1: var_0}
+    module_0.log_exception(var_0, **var_2)
 
 def test_case_4():
     pass
@@ -32,5 +33,5 @@ def test_case_5():
     var_0 = module_0.exception_wrapper()
 
 def test_case_6():
-    var_0 = ''
+    var_0 = module_0.exception_wrapper()
     var_1 = module_0.log_exception(var_0, var_0)

@@ -1,0 +1,7 @@
+cookiecutter.__main__
+cookiecutter.main
+cookiecutter.cli
+cookiecutter.repository
+cookiecutter.find
+cookiecutter.extensions
+cookiecutter.vcs

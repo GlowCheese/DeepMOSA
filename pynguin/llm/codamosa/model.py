@@ -5,11 +5,11 @@
 #  SPDX-License-Identifier: MIT
 #
 import inspect
-from typing import Dict, List, cast
+from typing import List
 
-from pynguin.llm.abstractmodel import AbstractLanguageModel
-from pynguin.llm.codamosa.outputfixers import fixup_result, rewrite_tests
 from libs.custom_logger import getLogger
+from pynguin.llm.abstractmodel import AbstractLanguageModel, Messages
+from pynguin.llm.codamosa.outputfixers import rewrite_tests
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
     GenericConstructor,
@@ -22,6 +22,13 @@ logger = getLogger(__name__)
 
 class _CodaMOSALanguageModel(AbstractLanguageModel):
     """Original language model implementation used by CodaMOSA"""
+
+    @property
+    def _system_prompt(self):
+        return (
+            "Write unit test for the given code object without any additional text or information.\n"
+            "DO NOT include any import statement (assuming everything is correctly imported)."
+        )
 
     def _get_maximal_source_context(
         self, start_line: int = -1, end_line: int = -1, used_tokens: int = 0
@@ -74,7 +81,7 @@ class _CodaMOSALanguageModel(AbstractLanguageModel):
 
         return "\n".join(split_src[context_start_line:end_line])
 
-    def _call_completion(self, function_header: str, context_start: int, context_end: int) -> str:
+    def _call_completion(self, function_header: str, context_start: int, context_end: int):
         """Asks the model to provide a completion of the given function header,
         with the additional context of the target function definition.
 
@@ -90,11 +97,14 @@ class _CodaMOSALanguageModel(AbstractLanguageModel):
 
         prompt = context + "\n" + function_header
         res = self.send_llm_request(
-            [{"role": "assistant", "content": prompt, "prefix": True}],
+            [
+                {"role": "system", "content": self._system_prompt},
+                {"role": "assistant", "content": prompt},
+            ],
             stop=["\n# Unit test for", "\ndef ", "\nclass "],
         )
 
-        return res
+        return prompt, res
 
     def target_test_case(self, gao: GenericCallableAccessibleObject, context="") -> str:
         """Provides a test case targeted to the function/method/constructor
@@ -108,13 +118,14 @@ class _CodaMOSALanguageModel(AbstractLanguageModel):
             A generated test case as natural language.
 
         """
+
+        gao_desc: str
+        test_signature: str
+
         if isinstance(gao, GenericMethod):
-            function_header = (
-                f"# Unit test for method {gao.method_name} of "
-                f"class {gao.owner.name}\n"
-                f"def test_{gao.owner.name}"
-                f"_{gao.method_name}():"
-            )
+            gao_desc = f"method {gao.method_name} of class {gao.owner.name}"
+            test_signature = f"def test_{gao.owner.name}_{gao.method_name}():"
+
             try:
                 source_lines, start_line = inspect.getsourcelines(gao.owner.raw_type)
                 end_line = start_line + len(source_lines) - 1
@@ -126,44 +137,53 @@ class _CodaMOSALanguageModel(AbstractLanguageModel):
                     end_line = start_line + len(source_lines) - 1
             except (TypeError, OSError):
                 start_line, end_line = -1, -1
+
         elif isinstance(gao, GenericFunction):
-            function_header = (
-                f"# Unit test for function {gao.function_name}\ndef test_{gao.function_name}():"
-            )
+            gao_desc = f"function {gao.function_name}"
+            test_signature = f"def test_{gao.function_name}():"
+
             try:
                 source_lines, start_line = inspect.getsourcelines(gao.callable)
                 end_line = start_line + len(source_lines) - 1
             except (TypeError, OSError):
                 start_line, end_line = -1, -1
+
         elif isinstance(gao, GenericConstructor):
-            constructor_gao = cast(GenericConstructor, gao)
-            class_name = constructor_gao.owner.name  # type: ignore
-            function_header = (
-                f"# Unit test for constructor of class {class_name}\ndef test_{class_name}():"
-            )
+            class_name = gao.owner.name  # type: ignore
+            gao_desc = f"constructor of class {class_name}"
+            test_signature = f"def test_{class_name}():"
+
             try:
                 source_lines, start_line = inspect.getsourcelines(
-                    constructor_gao.generated_type().type.raw_type
+                    gao.generated_type().type.raw_type
                 )
                 end_line = start_line + len(source_lines)
             except (TypeError, OSError):
                 start_line, end_line = -1, -1
 
-        instruction = context + function_header
-        response = self._call_completion(instruction, start_line, end_line)
-        response = function_header + response  # type: ignore
+        else:
+            raise TypeError(f"Unsupported gao of type: {type(gao)}")
 
-        self._log_query_data("user_prompts.txt", instruction, "Prompt used")
+        context = self._get_maximal_source_context(start_line, end_line) + context
+
+        prompt = (
+            context
+            + f"\nWrite unit test with pytest for {gao_desc} with the following signature: `{test_signature}`"
+        )
+
+        messages: Messages = [
+            {"role": "developer", "content": self._system_prompt},
+            {"role": "user", "content": prompt},
+        ]
+
+        response = self.send_llm_request(messages, stop="\n```")
+
+        self._log_query_data("user_prompts.txt", prompt, "Prompt used")
         self._log_query_data("llm_raw_generated.py", response, "LLM-generated content")
 
         # Remove any trailing statements that don't parse
-        generated_test = fixup_result(response)
-
-        generated_tests: Dict[str, str] = rewrite_tests(generated_test)
-        for test_name in generated_tests:
-            if test_name in function_header:
-                return generated_tests[test_name]
-        return ""
+        generated_test = "\n".join(rewrite_tests(response).values())
+        return generated_test
 
 
 codamosalanguagemodel = _CodaMOSALanguageModel()

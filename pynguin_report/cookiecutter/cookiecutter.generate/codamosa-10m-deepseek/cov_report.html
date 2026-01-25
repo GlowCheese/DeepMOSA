@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'cookiecutter.generate'</h1>
+<p>Achieved 41.51% branch coverage:
+1/2 branchless code objects covered.
+43/104 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="fullyCovered" title="1/1 branchless code objects covered">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="notRelevant">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="notRelevant">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="notRelevant">33</span>
+                  <span class="notRelevant">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="notRelevant">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="notRelevant">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="notRelevant">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="fullyCovered" title="2/2 branches covered">50</span>
+                  <span class="fullyCovered" title="2/2 branches covered">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="fullyCovered" title="2/2 branches covered">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notRelevant">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="notRelevant">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="notRelevant">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="fullyCovered" title="2/2 branches covered">66</span>
+                  <span class="fullyCovered" title="2/2 branches covered">67</span>
+                  <span class="fullyCovered" title="2/2 branches covered">68</span>
+                  <span class="notRelevant">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="fullyCovered" title="2/2 branches covered">75</span>
+                  <span class="fullyCovered" title="2/2 branches covered">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="fullyCovered" title="2/2 branches covered">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="fullyCovered" title="2/2 branches covered">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="notRelevant">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="notRelevant">88</span>
+                  <span class="notRelevant">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notRelevant">91</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">92</span>
+                  <span class="notRelevant">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="notRelevant">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="fullyCovered" title="4/4 branches covered">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="notRelevant">109</span>
+                  <span class="fullyCovered" title="4/4 branches covered">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="notRelevant">118</span>
+                  <span class="notRelevant">119</span>
+                  <span class="notRelevant">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notRelevant">122</span>
+                  <span class="notRelevant">123</span>
+                  <span class="notRelevant">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="notRelevant">129</span>
+                  <span class="notRelevant">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="notRelevant">132</span>
+                  <span class="notRelevant">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="notRelevant">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="notRelevant">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notRelevant">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="notRelevant">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="notCovered" title="0/2 branches covered">143</span>
+                  <span class="notRelevant">144</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="notRelevant">147</span>
+                  <span class="notRelevant">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  <span class="notRelevant">161</span>
+                  <span class="notRelevant">162</span>
+                  <span class="notCovered" title="0/2 branches covered">163</span>
+                  <span class="notRelevant">164</span>
+                  <span class="notRelevant">165</span>
+                  <span class="notCovered" title="0/2 branches covered">166</span>
+                  <span class="notRelevant">167</span>
+                  <span class="notCovered" title="0/2 branches covered">168</span>
+                  <span class="notRelevant">169</span>
+                  <span class="notRelevant">170</span>
+                  <span class="notRelevant">171</span>
+                  <span class="notRelevant">172</span>
+                  <span class="notRelevant">173</span>
+                  <span class="notRelevant">174</span>
+                  <span class="notRelevant">175</span>
+                  <span class="notRelevant">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notRelevant">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="notRelevant">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notRelevant">182</span>
+                  <span class="notRelevant">183</span>
+                  <span class="notRelevant">184</span>
+                  <span class="notRelevant">185</span>
+                  <span class="notRelevant">186</span>
+                  <span class="notRelevant">187</span>
+                  <span class="notRelevant">188</span>
+                  <span class="notRelevant">189</span>
+                  <span class="notRelevant">190</span>
+                  <span class="notRelevant">191</span>
+                  <span class="notRelevant">192</span>
+                  <span class="notRelevant">193</span>
+                  <span class="notRelevant">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="notRelevant">196</span>
+                  <span class="notRelevant">197</span>
+                  <span class="notRelevant">198</span>
+                  <span class="notRelevant">199</span>
+                  <span class="notRelevant">200</span>
+                  <span class="notRelevant">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notRelevant">206</span>
+                  <span class="notRelevant">207</span>
+                  <span class="notRelevant">208</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">209</span>
+                  <span class="notRelevant">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">213</span>
+                  <span class="notRelevant">214</span>
+                  <span class="notRelevant">215</span>
+                  <span class="notRelevant">216</span>
+                  <span class="notRelevant">217</span>
+                  <span class="notRelevant">218</span>
+                  <span class="notRelevant">219</span>
+                  <span class="notRelevant">220</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">221</span>
+                  <span class="notRelevant">222</span>
+                  <span class="notRelevant">223</span>
+                  <span class="notRelevant">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="notRelevant">226</span>
+                  <span class="notRelevant">227</span>
+                  <span class="notRelevant">228</span>
+                  <span class="notRelevant">229</span>
+                  <span class="notRelevant">230</span>
+                  <span class="notRelevant">231</span>
+                  <span class="notRelevant">232</span>
+                  <span class="notRelevant">233</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">234</span>
+                  <span class="notRelevant">235</span>
+                  <span class="notRelevant">236</span>
+                  <span class="notRelevant">237</span>
+                  <span class="notRelevant">238</span>
+                  <span class="notRelevant">239</span>
+                  <span class="notRelevant">240</span>
+                  <span class="notCovered" title="0/2 branches covered">241</span>
+                  <span class="notRelevant">242</span>
+                  <span class="notRelevant">243</span>
+                  <span class="notRelevant">244</span>
+                  <span class="notRelevant">245</span>
+                  <span class="notRelevant">246</span>
+                  <span class="notRelevant">247</span>
+                  <span class="notRelevant">248</span>
+                  <span class="notCovered" title="0/2 branches covered">249</span>
+                  <span class="notRelevant">250</span>
+                  <span class="notCovered" title="0/2 branches covered">251</span>
+                  <span class="notRelevant">252</span>
+                  <span class="notRelevant">253</span>
+                  <span class="notRelevant">254</span>
+                  <span class="notRelevant">255</span>
+                  <span class="notCovered" title="0/2 branches covered">256</span>
+                  <span class="notRelevant">257</span>
+                  <span class="notRelevant">258</span>
+                  <span class="notRelevant">259</span>
+                  <span class="notRelevant">260</span>
+                  <span class="notRelevant">261</span>
+                  <span class="notRelevant">262</span>
+                  <span class="notRelevant">263</span>
+                  <span class="notRelevant">264</span>
+                  <span class="notRelevant">265</span>
+                  <span class="notRelevant">266</span>
+                  <span class="notRelevant">267</span>
+                  <span class="notRelevant">268</span>
+                  <span class="notRelevant">269</span>
+                  <span class="notRelevant">270</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">271</span>
+                  <span class="notRelevant">272</span>
+                  <span class="notRelevant">273</span>
+                  <span class="notRelevant">274</span>
+                  <span class="notRelevant">275</span>
+                  <span class="notRelevant">276</span>
+                  <span class="notRelevant">277</span>
+                  <span class="notRelevant">278</span>
+                  <span class="notRelevant">279</span>
+                  <span class="notRelevant">280</span>
+                  <span class="notRelevant">281</span>
+                  <span class="notRelevant">282</span>
+                  <span class="notRelevant">283</span>
+                  <span class="notRelevant">284</span>
+                  <span class="notRelevant">285</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">286</span>
+                  <span class="notCovered" title="0/2 branches covered">287</span>
+                  <span class="notRelevant">288</span>
+                  <span class="notRelevant">289</span>
+                  <span class="notRelevant">290</span>
+                  <span class="notRelevant">291</span>
+                  <span class="notRelevant">292</span>
+                  <span class="notRelevant">293</span>
+                  <span class="notRelevant">294</span>
+                  <span class="notRelevant">295</span>
+                  <span class="notRelevant">296</span>
+                  <span class="notRelevant">297</span>
+                  <span class="notRelevant">298</span>
+                  <span class="notRelevant">299</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">300</span>
+                  <span class="notRelevant">301</span>
+                  <span class="notRelevant">302</span>
+                  <span class="notRelevant">303</span>
+                  <span class="notRelevant">304</span>
+                  <span class="notRelevant">305</span>
+                  <span class="notRelevant">306</span>
+                  <span class="notRelevant">307</span>
+                  <span class="notRelevant">308</span>
+                  <span class="notRelevant">309</span>
+                  <span class="notRelevant">310</span>
+                  <span class="notRelevant">311</span>
+                  <span class="notRelevant">312</span>
+                  <span class="notRelevant">313</span>
+                  <span class="notRelevant">314</span>
+                  <span class="notRelevant">315</span>
+                  <span class="notRelevant">316</span>
+                  <span class="notRelevant">317</span>
+                  <span class="notRelevant">318</span>
+                  <span class="notRelevant">319</span>
+                  <span class="notRelevant">320</span>
+                  <span class="notRelevant">321</span>
+                  <span class="notRelevant">322</span>
+                  <span class="notRelevant">323</span>
+                  <span class="notRelevant">324</span>
+                  <span class="notRelevant">325</span>
+                  <span class="notRelevant">326</span>
+                  <span class="notRelevant">327</span>
+                  <span class="notRelevant">328</span>
+                  <span class="notRelevant">329</span>
+                  <span class="notRelevant">330</span>
+                  <span class="notRelevant">331</span>
+                  <span class="notRelevant">332</span>
+                  <span class="notRelevant">333</span>
+                  <span class="notRelevant">334</span>
+                  <span class="notRelevant">335</span>
+                  <span class="notRelevant">336</span>
+                  <span class="notRelevant">337</span>
+                  <span class="notRelevant">338</span>
+                  <span class="notRelevant">339</span>
+                  <span class="notRelevant">340</span>
+                  <span class="notRelevant">341</span>
+                  <span class="notRelevant">342</span>
+                  <span class="notRelevant">343</span>
+                  <span class="notRelevant">344</span>
+                  <span class="notRelevant">345</span>
+                  <span class="notRelevant">346</span>
+                  <span class="notRelevant">347</span>
+                  <span class="notRelevant">348</span>
+                  <span class="fullyCovered" title="2/2 branches covered">349</span>
+                  <span class="notRelevant">350</span>
+                  <span class="notRelevant">351</span>
+                  <span class="notRelevant">352</span>
+                  <span class="notRelevant">353</span>
+                  <span class="notRelevant">354</span>
+                  <span class="notRelevant">355</span>
+                  <span class="notRelevant">356</span>
+                  <span class="notRelevant">357</span>
+                  <span class="notRelevant">358</span>
+                  <span class="notRelevant">359</span>
+                  <span class="notRelevant">360</span>
+                  <span class="notRelevant">361</span>
+                  <span class="notCovered" title="0/2 branches covered">362</span>
+                  <span class="notRelevant">363</span>
+                  <span class="notRelevant">364</span>
+                  <span class="notRelevant">365</span>
+                  <span class="notRelevant">366</span>
+                  <span class="notRelevant">367</span>
+                  <span class="notRelevant">368</span>
+                  <span class="notRelevant">369</span>
+                  <span class="notRelevant">370</span>
+                  <span class="notRelevant">371</span>
+                  <span class="notRelevant">372</span>
+                  <span class="notRelevant">373</span>
+                  <span class="notRelevant">374</span>
+                  <span class="notRelevant">375</span>
+                  <span class="notRelevant">376</span>
+                  <span class="notRelevant">377</span>
+                  <span class="notCovered" title="0/2 branches covered">378</span>
+                  <span class="notRelevant">379</span>
+                  <span class="notCovered" title="0/2 branches covered">380</span>
+                  <span class="notRelevant">381</span>
+                  <span class="notRelevant">382</span>
+                  <span class="notRelevant">383</span>
+                  <span class="notRelevant">384</span>
+                  <span class="notCovered" title="0/2 branches covered">385</span>
+                  <span class="notRelevant">386</span>
+                  <span class="notRelevant">387</span>
+                  <span class="notCovered" title="0/2 branches covered">388</span>
+                  <span class="notRelevant">389</span>
+                  <span class="notRelevant">390</span>
+                  <span class="notRelevant">391</span>
+                  <span class="notRelevant">392</span>
+                  <span class="notRelevant">393</span>
+                  <span class="notRelevant">394</span>
+                  <span class="notCovered" title="0/2 branches covered">395</span>
+                  <span class="notRelevant">396</span>
+                  <span class="notRelevant">397</span>
+                  <span class="notRelevant">398</span>
+                  <span class="notRelevant">399</span>
+                  <span class="notCovered" title="0/2 branches covered">400</span>
+                  <span class="notRelevant">401</span>
+                  <span class="notRelevant">402</span>
+                  <span class="notRelevant">403</span>
+                  <span class="notRelevant">404</span>
+                  <span class="notRelevant">405</span>
+                  <span class="notCovered" title="0/2 branches covered">406</span>
+                  <span class="notRelevant">407</span>
+                  <span class="notRelevant">408</span>
+                  <span class="notRelevant">409</span>
+                  <span class="notRelevant">410</span>
+                  <span class="notRelevant">411</span>
+                  <span class="notRelevant">412</span>
+                  <span class="notRelevant">413</span>
+                  <span class="notRelevant">414</span>
+                  <span class="notCovered" title="0/2 branches covered">415</span>
+                  <span class="notRelevant">416</span>
+                  <span class="notRelevant">417</span>
+                  <span class="notRelevant">418</span>
+                  <span class="notRelevant">419</span>
+                  <span class="notRelevant">420</span>
+                  <span class="notRelevant">421</span>
+                  <span class="notCovered" title="0/2 branches covered">422</span>
+                  <span class="notRelevant">423</span>
+                  <span class="notRelevant">424</span>
+                  <span class="notRelevant">425</span>
+                  <span class="notRelevant">426</span>
+                  <span class="notRelevant">427</span>
+                  <span class="notCovered" title="0/2 branches covered">428</span>
+                  <span class="notCovered" title="0/2 branches covered">429</span>
+                  <span class="notRelevant">430</span>
+                  <span class="notRelevant">431</span>
+                  <span class="notRelevant">432</span>
+                  <span class="notRelevant">433</span>
+                  <span class="notRelevant">434</span>
+                  <span class="notCovered" title="0/2 branches covered">435</span>
+                  <span class="notRelevant">436</span>
+                  <span class="notCovered" title="0/2 branches covered">437</span>
+                  <span class="notRelevant">438</span>
+                  <span class="notRelevant">439</span>
+                  <span class="notRelevant">440</span>
+                  <span class="notRelevant">441</span>
+                  <span class="notRelevant">442</span>
+                  <span class="notRelevant">443</span>
+                  <span class="notRelevant">444</span>
+                  <span class="notRelevant">445</span>
+                  <span class="notRelevant">446</span>
+                  <span class="notRelevant">447</span>
+                  <span class="notRelevant">448</span>
+                  <span class="notRelevant">449</span>
+                  <span class="notRelevant">450</span>
+                  <span class="notCovered" title="0/2 branches covered">451</span>
+                  <span class="notCovered" title="0/2 branches covered">452</span>
+                  <span class="notRelevant">453</span>
+                  <span class="notRelevant">454</span>
+                  <span class="notRelevant">455</span>
+                  <span class="notRelevant">456</span>
+                  <span class="notCovered" title="0/2 branches covered">457</span>
+                  <span class="notRelevant">458</span>
+                  <span class="notRelevant">459</span>
+                  <span class="notRelevant">460</span>
+                  <span class="notRelevant">461</span>
+                  <span class="notRelevant">462</span>
+                  <span class="notRelevant">463</span>
+                  <span class="notRelevant">464</span>
+                  <span class="notRelevant">465</span>
+                  <span class="notRelevant">466</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Functions for generating a project from a project template.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">fnmatch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">binaryornot.check</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_binary</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jinja2</span><span class="w"> </span><span class="kn">import</span> <span class="n">Environment</span><span class="p">,</span> <span class="n">FileSystemLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jinja2.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateSyntaxError</span><span class="p">,</span> <span class="n">UndefinedError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rich.prompt</span><span class="w"> </span><span class="kn">import</span> <span class="n">InvalidResponse</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">cookiecutter.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ContextDecodingException</span><span class="p">,</span>
+    <span class="n">EmptyDirNameException</span><span class="p">,</span>
+    <span class="n">OutputDirExistsException</span><span class="p">,</span>
+    <span class="n">UndefinedVariableInTemplate</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cookiecutter.find</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_template</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cookiecutter.hooks</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_hook_from_repo_dir</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cookiecutter.prompt</span><span class="w"> </span><span class="kn">import</span> <span class="n">YesNoPrompt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cookiecutter.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">create_env_with_context</span><span class="p">,</span>
+    <span class="n">make_sure_path_exists</span><span class="p">,</span>
+    <span class="n">rmtree</span><span class="p">,</span>
+    <span class="n">work_in</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_copy_only_path</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether the given `path` should only be copied and not rendered.</span>
+
+<span class="sd">    Returns True if `path` matches a pattern in the given `context` dict,</span>
+<span class="sd">    otherwise False.</span>
+
+<span class="sd">    :param path: A file-system path referring to a file or dir that</span>
+<span class="sd">        should be rendered or just copied.</span>
+<span class="sd">    :param context: cookiecutter context.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">dont_render</span> <span class="ow">in</span> <span class="n">context</span><span class="p">[</span><span class="s1">&#39;cookiecutter&#39;</span><span class="p">][</span><span class="s1">&#39;_copy_without_render&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">fnmatch</span><span class="o">.</span><span class="n">fnmatch</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dont_render</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_overwrites_to_context</span><span class="p">(</span>
+    <span class="n">context</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">overwrite_context</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">in_dictionary_variable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Modify the given context in place based on the overwrite_context.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">variable</span><span class="p">,</span> <span class="n">overwrite</span> <span class="ow">in</span> <span class="n">overwrite_context</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">variable</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">context</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">in_dictionary_variable</span><span class="p">:</span>
+                <span class="c1"># We are dealing with a new variable on first level, ignore</span>
+                <span class="k">continue</span>
+            <span class="c1"># We are dealing with a new dictionary variable in a deeper level</span>
+            <span class="n">context</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">overwrite</span>
+
+        <span class="n">context_value</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context_value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">in_dictionary_variable</span><span class="p">:</span>
+                <span class="n">context</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">overwrite</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">overwrite</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="c1"># We are dealing with a multichoice variable</span>
+                <span class="c1"># Let&#39;s confirm all choices are valid for the given context</span>
+                <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">overwrite</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">context_value</span><span class="p">)):</span>
+                    <span class="n">context</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">overwrite</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">overwrite</span><span class="si">}</span><span class="s2"> provided for multi-choice variable &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">, but valid choices are </span><span class="si">{</span><span class="n">context_value</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># We are dealing with a choice variable</span>
+                <span class="k">if</span> <span class="n">overwrite</span> <span class="ow">in</span> <span class="n">context_value</span><span class="p">:</span>
+                    <span class="c1"># This overwrite is actually valid for the given context</span>
+                    <span class="c1"># Let&#39;s set it as default (by definition first item in list)</span>
+                    <span class="c1"># see ``cookiecutter.prompt.prompt_choice_for_config``</span>
+                    <span class="n">context_value</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">overwrite</span><span class="p">)</span>
+                    <span class="n">context_value</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">overwrite</span><span class="si">}</span><span class="s2"> provided for choice variable &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">, but the choices are </span><span class="si">{</span><span class="n">context_value</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context_value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">overwrite</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="c1"># Partially overwrite some keys in original dict</span>
+            <span class="n">apply_overwrites_to_context</span><span class="p">(</span>
+                <span class="n">context_value</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">,</span> <span class="n">in_dictionary_variable</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+            <span class="n">context</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">context_value</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context_value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">overwrite</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># We are dealing with a boolean variable</span>
+            <span class="c1"># Convert overwrite to its boolean counterpart</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">context</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">YesNoPrompt</span><span class="p">()</span><span class="o">.</span><span class="n">process_response</span><span class="p">(</span><span class="n">overwrite</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">InvalidResponse</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">overwrite</span><span class="si">}</span><span class="s2"> provided for variable &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2"> could not be converted to a boolean.&quot;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Simply overwrite the value for this variable</span>
+            <span class="n">context</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span> <span class="o">=</span> <span class="n">overwrite</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_context</span><span class="p">(</span>
+    <span class="n">context_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cookiecutter.json&#39;</span><span class="p">,</span>
+    <span class="n">default_context</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">extra_context</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the context for a Cookiecutter project template.</span>
+
+<span class="sd">    Loads the JSON file as a Python object, with key being the JSON filename.</span>
+
+<span class="sd">    :param context_file: JSON file containing key/value pairs for populating</span>
+<span class="sd">        the cookiecutter&#39;s variables.</span>
+<span class="sd">    :param default_context: Dictionary containing config to take into account.</span>
+<span class="sd">    :param extra_context: Dictionary containing configuration overrides</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">([])</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">context_file</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_handle</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_handle</span><span class="p">,</span> <span class="n">object_pairs_hook</span><span class="o">=</span><span class="n">OrderedDict</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="c1"># JSON decoding error.  Let&#39;s throw a new exception that is more</span>
+        <span class="c1"># friendly for the developer or user.</span>
+        <span class="n">full_fpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">context_file</span><span class="p">)</span>
+        <span class="n">json_exc_message</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">our_exc_message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;JSON decoding error while loading &#39;</span><span class="si">{</span><span class="n">full_fpath</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Decoding error details: &#39;</span><span class="si">{</span><span class="n">json_exc_message</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ContextDecodingException</span><span class="p">(</span><span class="n">our_exc_message</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="c1"># Add the Python object to the context dictionary</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">context_file</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">file_stem</span> <span class="o">=</span> <span class="n">file_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">context</span><span class="p">[</span><span class="n">file_stem</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
+
+    <span class="c1"># Overwrite context variable defaults with the default context from the</span>
+    <span class="c1"># user&#39;s global config, if available</span>
+    <span class="k">if</span> <span class="n">default_context</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">apply_overwrites_to_context</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">default_context</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid default received: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">extra_context</span><span class="p">:</span>
+        <span class="n">apply_overwrites_to_context</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">extra_context</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Context generated is </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">context</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_file</span><span class="p">(</span>
+    <span class="n">project_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">infile</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">context</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
+    <span class="n">skip_if_file_exists</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render filename of infile as name of outfile, handle infile correctly.</span>
+
+<span class="sd">    Dealing with infile appropriately:</span>
+
+<span class="sd">        a. If infile is a binary file, copy it over without rendering.</span>
+<span class="sd">        b. If infile is a text file, render its contents and write the</span>
+<span class="sd">           rendered infile to outfile.</span>
+
+<span class="sd">    Precondition:</span>
+
+<span class="sd">        When calling `generate_file()`, the root template dir must be the</span>
+<span class="sd">        current working directory. Using `utils.work_in()` is the recommended</span>
+<span class="sd">        way to perform this directory change.</span>
+
+<span class="sd">    :param project_dir: Absolute path to the resulting generated project.</span>
+<span class="sd">    :param infile: Input file to generate the file from. Relative to the root</span>
+<span class="sd">        template dir.</span>
+<span class="sd">    :param context: Dict for populating the cookiecutter&#39;s variables.</span>
+<span class="sd">    :param env: Jinja2 template execution environment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Processing file </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">infile</span><span class="p">)</span>
+
+    <span class="c1"># Render the path to the output file (not including the root project dir)</span>
+    <span class="n">outfile_tmpl</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+
+    <span class="n">outfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_dir</span><span class="p">,</span> <span class="n">outfile_tmpl</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">))</span>
+    <span class="n">file_name_is_empty</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">file_name_is_empty</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;The resulting file name is empty: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">skip_if_file_exists</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">outfile</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;The resulting file already exists: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Created file at </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+
+    <span class="c1"># Just copy over binary files. Don&#39;t render.</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Check </span><span class="si">%s</span><span class="s2"> to see if it&#39;s a binary&quot;</span><span class="p">,</span> <span class="n">infile</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_binary</span><span class="p">(</span><span class="n">infile</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Copying binary </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1"> without rendering&#39;</span><span class="p">,</span> <span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copymode</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Force fwd slashes on Windows for get_template</span>
+    <span class="c1"># This is a by-design Jinja issue</span>
+    <span class="n">infile_fwd_slashes</span> <span class="o">=</span> <span class="n">infile</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Render the file</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tmpl</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">infile_fwd_slashes</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">TemplateSyntaxError</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="c1"># Disable translated so that printed exception contains verbose</span>
+        <span class="c1"># information about syntax error location</span>
+        <span class="n">exception</span><span class="o">.</span><span class="n">translated</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">raise</span>
+    <span class="n">rendered_file</span> <span class="o">=</span> <span class="n">tmpl</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">context</span><span class="p">[</span><span class="s1">&#39;cookiecutter&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;_new_lines&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># Use `_new_lines` from context, if configured.</span>
+        <span class="n">newline</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s1">&#39;cookiecutter&#39;</span><span class="p">][</span><span class="s1">&#39;_new_lines&#39;</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Using configured newline character </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">newline</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Detect original file newline to output the rendered file.</span>
+        <span class="c1"># Note that newlines can be a tuple if file contains mixed line endings.</span>
+        <span class="c1"># In this case, we pick the first line ending we detected.</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">rd</span><span class="p">:</span>
+            <span class="n">rd</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>  <span class="c1"># Read only the first line to load a &#39;newlines&#39; value.</span>
+        <span class="n">newline</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="n">newlines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rd</span><span class="o">.</span><span class="n">newlines</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">rd</span><span class="o">.</span><span class="n">newlines</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Using detected newline character </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">newline</span><span class="p">))</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Writing contents to file </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="n">newline</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">rendered_file</span><span class="p">)</span>
+
+    <span class="c1"># Apply file permissions to output file</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copymode</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">render_and_create_dir</span><span class="p">(</span>
+    <span class="n">dirname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">context</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">environment</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
+    <span class="n">overwrite_if_exists</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render name of a directory, create the directory, return its path.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dirname</span> <span class="ow">or</span> <span class="n">dirname</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Error: directory name is empty&#39;</span>
+        <span class="k">raise</span> <span class="n">EmptyDirNameException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="n">name_tmpl</span> <span class="o">=</span> <span class="n">environment</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
+    <span class="n">rendered_dirname</span> <span class="o">=</span> <span class="n">name_tmpl</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">)</span>
+
+    <span class="n">dir_to_create</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">rendered_dirname</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+        <span class="s1">&#39;Rendered dir </span><span class="si">%s</span><span class="s1"> must exist in output_dir </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">dir_to_create</span><span class="p">,</span> <span class="n">output_dir</span>
+    <span class="p">)</span>
+
+    <span class="n">output_dir_exists</span> <span class="o">=</span> <span class="n">dir_to_create</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">output_dir_exists</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">overwrite_if_exists</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s1">&#39;Output directory </span><span class="si">%s</span><span class="s1"> already exists, overwriting it&#39;</span><span class="p">,</span> <span class="n">dir_to_create</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Error: &quot;</span><span class="si">{</span><span class="n">dir_to_create</span><span class="si">}</span><span class="s1">&quot; directory already exists&#39;</span>
+            <span class="k">raise</span> <span class="n">OutputDirExistsException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">make_sure_path_exists</span><span class="p">(</span><span class="n">dir_to_create</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dir_to_create</span><span class="p">,</span> <span class="ow">not</span> <span class="n">output_dir_exists</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_run_hook_from_repo_dir</span><span class="p">(</span>
+    <span class="n">repo_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">hook_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">project_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">context</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">delete_project_on_failure</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run hook from repo directory, clean project directory if hook fails.</span>
+
+<span class="sd">    :param repo_dir: Project template input directory.</span>
+<span class="sd">    :param hook_name: The hook to execute.</span>
+<span class="sd">    :param project_dir: The directory to execute the script from.</span>
+<span class="sd">    :param context: Cookiecutter project context.</span>
+<span class="sd">    :param delete_project_on_failure: Delete the project directory on hook</span>
+<span class="sd">        failure?</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;The &#39;_run_hook_from_repo_dir&#39; function is deprecated, &quot;</span>
+        <span class="s2">&quot;use &#39;cookiecutter.hooks.run_hook_from_repo_dir&#39; instead&quot;</span><span class="p">,</span>
+        <span class="ne">DeprecationWarning</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">run_hook_from_repo_dir</span><span class="p">(</span>
+        <span class="n">repo_dir</span><span class="p">,</span> <span class="n">hook_name</span><span class="p">,</span> <span class="n">project_dir</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">delete_project_on_failure</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_files</span><span class="p">(</span>
+    <span class="n">repo_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">context</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+    <span class="n">overwrite_if_exists</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">skip_if_file_exists</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">accept_hooks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">keep_project_on_failure</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render the templates and saves them to files.</span>
+
+<span class="sd">    :param repo_dir: Project template input directory.</span>
+<span class="sd">    :param context: Dict for populating the template&#39;s variables.</span>
+<span class="sd">    :param output_dir: Where to output the generated project dir into.</span>
+<span class="sd">    :param overwrite_if_exists: Overwrite the contents of the output directory</span>
+<span class="sd">        if it exists.</span>
+<span class="sd">    :param skip_if_file_exists: Skip the files in the corresponding directories</span>
+<span class="sd">        if they already exist</span>
+<span class="sd">    :param accept_hooks: Accept pre and post hooks if set to `True`.</span>
+<span class="sd">    :param keep_project_on_failure: If `True` keep generated project directory even when</span>
+<span class="sd">        generation fails</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">context</span> <span class="ow">or</span> <span class="n">OrderedDict</span><span class="p">([])</span>
+
+    <span class="n">env</span> <span class="o">=</span> <span class="n">create_env_with_context</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+
+    <span class="n">template_dir</span> <span class="o">=</span> <span class="n">find_template</span><span class="p">(</span><span class="n">repo_dir</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Generating project from </span><span class="si">%s</span><span class="s1">...&#39;</span><span class="p">,</span> <span class="n">template_dir</span><span class="p">)</span>
+
+    <span class="n">unrendered_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">template_dir</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">project_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span>
+        <span class="n">project_dir</span><span class="p">,</span> <span class="n">output_directory_created</span> <span class="o">=</span> <span class="n">render_and_create_dir</span><span class="p">(</span>
+            <span class="n">unrendered_dir</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">overwrite_if_exists</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">UndefinedError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Unable to create project directory &#39;</span><span class="si">{</span><span class="n">unrendered_dir</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="k">raise</span> <span class="n">UndefinedVariableInTemplate</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+
+    <span class="c1"># We want the Jinja path and the OS paths to match. Consequently, we&#39;ll:</span>
+    <span class="c1">#   + CD to the template folder</span>
+    <span class="c1">#   + Set Jinja&#39;s path to &#39;.&#39;</span>
+    <span class="c1">#</span>
+    <span class="c1">#  In order to build our files to the correct folder(s), we&#39;ll use an</span>
+    <span class="c1"># absolute path for the target folder (project_dir)</span>
+
+    <span class="n">project_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">project_dir</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Project directory is </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">project_dir</span><span class="p">)</span>
+
+    <span class="c1"># if we created the output directory, then it&#39;s ok to remove it</span>
+    <span class="c1"># if rendering fails</span>
+    <span class="n">delete_project_on_failure</span> <span class="o">=</span> <span class="n">output_directory_created</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">keep_project_on_failure</span>
+
+    <span class="k">if</span> <span class="n">accept_hooks</span><span class="p">:</span>
+        <span class="n">run_hook_from_repo_dir</span><span class="p">(</span>
+            <span class="n">repo_dir</span><span class="p">,</span> <span class="s1">&#39;pre_gen_project&#39;</span><span class="p">,</span> <span class="n">project_dir</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">delete_project_on_failure</span>
+        <span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">work_in</span><span class="p">(</span><span class="n">template_dir</span><span class="p">):</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">loader</span> <span class="o">=</span> <span class="n">FileSystemLoader</span><span class="p">([</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;../templates&#39;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+            <span class="c1"># We must separate the two types of dirs into different lists.</span>
+            <span class="c1"># The reason is that we don&#39;t want ``os.walk`` to go through the</span>
+            <span class="c1"># unrendered directories, since they will just be copied.</span>
+            <span class="n">copy_dirs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">render_dirs</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dirs</span><span class="p">):</span>
+                <span class="n">d_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
+                <span class="c1"># We check the full path, because that&#39;s how it can be</span>
+                <span class="c1"># specified in the ``_copy_without_render`` setting, but</span>
+                <span class="c1"># we store just the dir name</span>
+                <span class="k">if</span> <span class="n">is_copy_only_path</span><span class="p">(</span><span class="n">d_</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Found copy only path </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+                    <span class="n">copy_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">render_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">copy_dir</span> <span class="ow">in</span> <span class="n">copy_dirs</span><span class="p">:</span>
+                <span class="n">indir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">copy_dir</span><span class="p">))</span>
+                <span class="n">outdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_dir</span><span class="p">,</span> <span class="n">indir</span><span class="p">))</span>
+                <span class="n">outdir</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Copying dir </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1"> without rendering&#39;</span><span class="p">,</span> <span class="n">indir</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
+
+                <span class="c1"># The outdir is not the root dir, it is the dir which marked as copy</span>
+                <span class="c1"># only in the config file. If the program hits this line, which means</span>
+                <span class="c1"># the overwrite_if_exists = True, and root dir exists</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">outdir</span><span class="p">):</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">indir</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
+
+            <span class="c1"># We mutate ``dirs``, because we only want to go through these dirs</span>
+            <span class="c1"># recursively</span>
+            <span class="n">dirs</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">render_dirs</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+                <span class="n">unrendered_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_dir</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">render_and_create_dir</span><span class="p">(</span>
+                        <span class="n">unrendered_dir</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">overwrite_if_exists</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="n">UndefinedError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">delete_project_on_failure</span><span class="p">:</span>
+                        <span class="n">rmtree</span><span class="p">(</span><span class="n">project_dir</span><span class="p">)</span>
+                    <span class="n">_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">unrendered_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Unable to create directory &#39;</span><span class="si">{</span><span class="n">_dir</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                    <span class="k">raise</span> <span class="n">UndefinedVariableInTemplate</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">files</span><span class="p">):</span>
+                <span class="n">infile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">is_copy_only_path</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+                    <span class="n">outfile_tmpl</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+                    <span class="n">outfile_rendered</span> <span class="o">=</span> <span class="n">outfile_tmpl</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">)</span>
+                    <span class="n">outfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_dir</span><span class="p">,</span> <span class="n">outfile_rendered</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                        <span class="s1">&#39;Copying file </span><span class="si">%s</span><span class="s1"> to </span><span class="si">%s</span><span class="s1"> without rendering&#39;</span><span class="p">,</span> <span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span>
+                    <span class="p">)</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">copymode</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">generate_file</span><span class="p">(</span>
+                        <span class="n">project_dir</span><span class="p">,</span> <span class="n">infile</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">skip_if_file_exists</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="n">UndefinedError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">delete_project_on_failure</span><span class="p">:</span>
+                        <span class="n">rmtree</span><span class="p">(</span><span class="n">project_dir</span><span class="p">)</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Unable to create file &#39;</span><span class="si">{</span><span class="n">infile</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                    <span class="k">raise</span> <span class="n">UndefinedVariableInTemplate</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+
+    <span class="k">if</span> <span class="n">accept_hooks</span><span class="p">:</span>
+        <span class="n">run_hook_from_repo_dir</span><span class="p">(</span>
+            <span class="n">repo_dir</span><span class="p">,</span>
+            <span class="s1">&#39;post_gen_project&#39;</span><span class="p">,</span>
+            <span class="n">project_dir</span><span class="p">,</span>
+            <span class="n">context</span><span class="p">,</span>
+            <span class="n">delete_project_on_failure</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">project_dir</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-01-15 23:06:45.514684</p>
+</footer>
+</body>
+</html>

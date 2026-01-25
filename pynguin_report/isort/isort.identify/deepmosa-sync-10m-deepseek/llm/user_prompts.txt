@@ -1,0 +1,5048 @@
+####################################################################
+#     TEST GENERATION BEGINS (DEEPMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+isort/parse.py:
+```
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+```
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/identify.py (module to test):
+```
+def imports(
+    input_stream: TextIO,
+    config: Config = DEFAULT_CONFIG,
+    file_path: Path | None = None,
+    top_only: bool = False,
+) -> Iterator[Import]:
+    """Parses a python file taking out and categorizing imports."""
+    in_quote = ""
+
+    indexed_input = enumerate(input_stream)
+    for index, raw_line in indexed_input:
+        (skipping_line, in_quote) = skip_line(
+            raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+        )
+
+        if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+            break
+        if skipping_line:
+            continue
+
+        stripped_line = raw_line.strip().split("#")[0]
+        if stripped_line.startswith(("raise", "yield")):
+            if stripped_line == "yield":
+                while not stripped_line or stripped_line == "yield":
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    stripped_line = next_line.strip().split("#")[0]
+            while stripped_line.endswith("\\"):
+                try:
+                    index, next_line = next(indexed_input)
+                except StopIteration:
+                    break
+
+                stripped_line = next_line.strip().split("#")[0]
+            continue  # pragma: no cover
+
+        line, *end_of_line_comment = raw_line.split("#", 1)
+        statements = [line.strip() for line in line.split(";")]
+        if end_of_line_comment:
+            statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+
+        for statement in statements:
+            line, _raw_line = normalize_line(statement)
+            if line.startswith(("import ", "cimport ")):
+                type_of_import = "straight"
+            elif line.startswith("from "):
+                type_of_import = "from"
+            else:
+                continue  # pragma: no cover
+
+            import_string, _ = parse_comments(line)
+            normalized_import_string = (
+                import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+            )
+            cimports: bool = (
+                " cimport " in normalized_import_string
+                or normalized_import_string.startswith("cimport")
+            )
+            identified_import = partial(
+                Import,
+                index + 1,  # line numbers use 1 based indexing
+                raw_line.startswith((" ", "\t")),
+                cimport=cimports,
+                file_path=file_path,
+            )
+
+            if "(" in line.split("#", 1)[0]:
+                while not line.split("#")[0].strip().endswith(")"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+                    import_string += "\n" + line
+            else:
+                while line.strip().endswith("\\"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+
+                    # Still need to check for parentheses after an escaped line
+                    if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+                        import_string += "\n" + line
+
+                        while not line.split("#")[0].strip().endswith(")"):
+                            try:
+                                index, next_line = next(indexed_input)
+                            except StopIteration:
+                                break
+                            line, _ = parse_comments(next_line)
+                            import_string += "\n" + line
+                    else:
+                        if import_string.strip().endswith(
+                            (" import", " cimport")
+                        ) or line.strip().startswith(("import ", "cimport ")):
+                            import_string += "\n" + line
+                        else:
+                            import_string = (
+                                import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+                            )
+
+            if type_of_import == "from":
+                import_string = (
+                    import_string.replace("import(", "import (")
+                    .replace("\\", " ")
+                    .replace("\n", " ")
+                )
+                parts = import_string.split(" cimport " if cimports else " import ")
+
+                from_import = parts[0].split(" ")
+                import_string = (" cimport " if cimports else " import ").join(
+                    [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+                )
+
+            just_imports = [
+                item.replace("{|", "{ ").replace("|}", " }")
+                for item in strip_syntax(import_string).split()
+            ]
+
+            direct_imports = just_imports[1:]
+            top_level_module = ""
+            if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+                while "as" in just_imports:
+                    attribute = None
+                    as_index = just_imports.index("as")
+                    if type_of_import == "from":
+                        attribute = just_imports[as_index - 1]
+                        top_level_module = just_imports[0]
+                        module = top_level_module + "." + attribute
+                        alias = just_imports[as_index + 1]
+                        direct_imports.remove(attribute)
+                        direct_imports.remove(alias)
+                        direct_imports.remove("as")
+                        just_imports[1:] = direct_imports
+                        if attribute == alias and config.remove_redundant_aliases:
+                            yield identified_import(top_level_module, attribute)
+                        else:
+                            yield identified_import(top_level_module, attribute, alias=alias)
+
+                    else:
+                        module = just_imports[as_index - 1]
+                        alias = just_imports[as_index + 1]
+                        just_imports.remove(alias)
+                        just_imports.remove("as")
+                        just_imports.remove(module)
+                        if module == alias and config.remove_redundant_aliases:
+                            yield identified_import(module)
+                        else:
+                            yield identified_import(module, alias=alias)
+
+            if just_imports:
+                if type_of_import == "from":
+                    module = just_imports.pop(0)
+                    for attribute in just_imports:
+                        yield identified_import(module, attribute)
+                else:
+                    for module in just_imports:
+                        yield identified_import(module)
+
+```
+Write unit test for function imports
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method __str__ of class Import
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method statement of class Import
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+1 |     def __str__(self) -> str:
+2 |         return (
+3 |             f"{self.file_path or ''}:{self.line_number} "
+4 |             f"{'indented ' if self.indented else ''}{self.statement()}"
+5 |         )
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method __str__ of class Import
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method statement of class Import
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 |     def statement(self) -> str:
+2 |         import_cmd = "cimport" if self.cimport else "import"
+3 |         if self.attribute:
+4 |             import_string = f"from {self.module} {import_cmd} {self.attribute}"
+5 |         else:
+6 |             import_string = f"{import_cmd} {self.module}"
+7 |         if self.alias:
+8 |             import_string += f" as {self.alias}"
+9 |         return import_string
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+isort/parse.py:
+```
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+```
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/identify.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+  1 | def imports(
+  2 |     input_stream: TextIO,
+  3 |     config: Config = DEFAULT_CONFIG,
+  4 |     file_path: Path | None = None,
+  5 |     top_only: bool = False,
+  6 | ) -> Iterator[Import]:
+  7 |     """Parses a python file taking out and categorizing imports."""
+  8 |     in_quote = ""
+  9 | 
+ 10 |     indexed_input = enumerate(input_stream)
+ 11 |     for index, raw_line in indexed_input:
+ 12 |         (skipping_line, in_quote) = skip_line(
+ 13 |             raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+ 14 |         )
+ 15 | 
+ 16 |         if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+ 17 |             break
+ 18 |         if skipping_line:
+ 19 |             continue
+ 20 | 
+ 21 |         stripped_line = raw_line.strip().split("#")[0]
+ 22 |         if stripped_line.startswith(("raise", "yield")):
+ 23 |             if stripped_line == "yield":
+ 24 |                 while not stripped_line or stripped_line == "yield":
+ 25 |                     try:
+ 26 |                         index, next_line = next(indexed_input)
+ 27 |                     except StopIteration:
+ 28 |                         break
+ 29 | 
+ 30 |                     stripped_line = next_line.strip().split("#")[0]
+ 31 |             while stripped_line.endswith("\\"):
+ 32 |                 try:
+ 33 |                     index, next_line = next(indexed_input)
+ 34 |                 except StopIteration:
+ 35 |                     break
+ 36 | 
+ 37 |                 stripped_line = next_line.strip().split("#")[0]
+ 38 |             continue  # pragma: no cover
+ 39 | 
+ 40 |         line, *end_of_line_comment = raw_line.split("#", 1)
+ 41 |         statements = [line.strip() for line in line.split(";")]
+ 42 |         if end_of_line_comment:
+ 43 |             statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+ 44 | 
+ 45 |         for statement in statements:
+ 46 |             line, _raw_line = normalize_line(statement)
+ 47 |             if line.startswith(("import ", "cimport ")):
+ 48 |                 type_of_import = "straight"
+ 49 |             elif line.startswith("from "):
+ 50 |                 type_of_import = "from"
+ 51 |             else:
+ 52 |                 continue  # pragma: no cover
+ 53 | 
+ 54 |             import_string, _ = parse_comments(line)
+ 55 |             normalized_import_string = (
+ 56 |                 import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+ 57 |             )
+ 58 |             cimports: bool = (
+ 59 |                 " cimport " in normalized_import_string
+ 60 |                 or normalized_import_string.startswith("cimport")
+ 61 |             )
+ 62 |             identified_import = partial(
+ 63 |                 Import,
+ 64 |                 index + 1,  # line numbers use 1 based indexing
+ 65 |                 raw_line.startswith((" ", "\t")),
+ 66 |                 cimport=cimports,
+ 67 |                 file_path=file_path,
+ 68 |             )
+ 69 | 
+ 70 |             if "(" in line.split("#", 1)[0]:
+ 71 |                 while not line.split("#")[0].strip().endswith(")"):
+ 72 |                     try:
+ 73 |                         index, next_line = next(indexed_input)
+ 74 |                     except StopIteration:
+ 75 |                         break
+ 76 | 
+ 77 |                     line, _ = parse_comments(next_line)
+ 78 |                     import_string += "\n" + line
+ 79 |             else:
+ 80 |                 while line.strip().endswith("\\"):
+ 81 |                     try:
+ 82 |                         index, next_line = next(indexed_input)
+ 83 |                     except StopIteration:
+ 84 |                         break
+ 85 | 
+ 86 |                     line, _ = parse_comments(next_line)
+ 87 | 
+ 88 |                     # Still need to check for parentheses after an escaped line
+ 89 |                     if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+ 90 |                         import_string += "\n" + line
+ 91 | 
+ 92 |                         while not line.split("#")[0].strip().endswith(")"):
+ 93 |                             try:
+ 94 |                                 index, next_line = next(indexed_input)
+ 95 |                             except StopIteration:
+ 96 |                                 break
+ 97 |                             line, _ = parse_comments(next_line)
+ 98 |                             import_string += "\n" + line
+ 99 |                     else:
+100 |                         if import_string.strip().endswith(
+101 |                             (" import", " cimport")
+102 |                         ) or line.strip().startswith(("import ", "cimport ")):
+103 |                             import_string += "\n" + line
+104 |                         else:
+105 |                             import_string = (
+106 |                                 import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+107 |                             )
+108 | 
+109 |             if type_of_import == "from":
+110 |                 import_string = (
+111 |                     import_string.replace("import(", "import (")
+112 |                     .replace("\\", " ")
+113 |                     .replace("\n", " ")
+114 |                 )
+115 |                 parts = import_string.split(" cimport " if cimports else " import ")
+116 | 
+117 |                 from_import = parts[0].split(" ")
+118 |                 import_string = (" cimport " if cimports else " import ").join(
+119 |                     [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+120 |                 )
+121 | 
+122 |             just_imports = [
+123 |                 item.replace("{|", "{ ").replace("|}", " }")
+124 |                 for item in strip_syntax(import_string).split()
+125 |             ]
+126 | 
+127 |             direct_imports = just_imports[1:]
+128 |             top_level_module = ""
+129 |             if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+130 |                 while "as" in just_imports:
+131 |                     attribute = None
+132 |                     as_index = just_imports.index("as")
+133 |                     if type_of_import == "from":
+134 |                         attribute = just_imports[as_index - 1]
+135 |                         top_level_module = just_imports[0]
+136 |                         module = top_level_module + "." + attribute
+137 |                         alias = just_imports[as_index + 1]
+138 |                         direct_imports.remove(attribute)
+139 |                         direct_imports.remove(alias)
+140 |                         direct_imports.remove("as")
+141 |                         just_imports[1:] = direct_imports
+142 |                         if attribute == alias and config.remove_redundant_aliases:
+143 |                             yield identified_import(top_level_module, attribute)
+144 |                         else:
+145 |                             yield identified_import(top_level_module, attribute, alias=alias)
+146 | 
+147 |                     else:
+148 |                         module = just_imports[as_index - 1]
+149 |                         alias = just_imports[as_index + 1]
+150 |                         just_imports.remove(alias)
+151 |                         just_imports.remove("as")
+152 |                         just_imports.remove(module)
+153 |                         if module == alias and config.remove_redundant_aliases:
+154 |                             yield identified_import(module)
+155 |                         else:
+156 |                             yield identified_import(module, alias=alias)
+157 | 
+158 |             if just_imports:
+159 |                 if type_of_import == "from":
+160 |                     module = just_imports.pop(0)
+161 |                     for attribute in just_imports:
+162 |                         yield identified_import(module, attribute)
+163 |                 else:
+164 |                     for module in just_imports:
+165 |                         yield identified_import(module)
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 |     def __str__(self) -> str:
+2 |         return (
+3 |             f"{self.file_path or ''}:{self.line_number} "
+4 |             f"{'indented ' if self.indented else ''}{self.statement()}"
+5 |         )
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 |     def statement(self) -> str:
+2 |         import_cmd = "cimport" if self.cimport else "import"
+3 |         if self.attribute:
+4 |             import_string = f"from {self.module} {import_cmd} {self.attribute}"
+5 |         else:
+6 |             import_string = f"{import_cmd} {self.module}"
+7 |         if self.alias:
+8 |             import_string += f" as {self.alias}"
+9 |         return import_string
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+isort/parse.py:
+```
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+```
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/identify.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+  1 | def imports(
+  2 |     input_stream: TextIO,
+  3 |     config: Config = DEFAULT_CONFIG,
+  4 |     file_path: Path | None = None,
+  5 |     top_only: bool = False,
+  6 | ) -> Iterator[Import]:
+  7 |     """Parses a python file taking out and categorizing imports."""
+  8 |     in_quote = ""
+  9 | 
+ 10 |     indexed_input = enumerate(input_stream)
+ 11 |     for index, raw_line in indexed_input:
+ 12 |         (skipping_line, in_quote) = skip_line(
+ 13 |             raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+ 14 |         )
+ 15 | 
+ 16 |         if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+ 17 |             break
+ 18 |         if skipping_line:
+ 19 |             continue
+ 20 | 
+ 21 |         stripped_line = raw_line.strip().split("#")[0]
+ 22 |         if stripped_line.startswith(("raise", "yield")):
+ 23 |             if stripped_line == "yield":
+ 24 |                 while not stripped_line or stripped_line == "yield":
+ 25 |                     try:
+ 26 |                         index, next_line = next(indexed_input)
+ 27 |                     except StopIteration:
+ 28 |                         break
+ 29 | 
+ 30 |                     stripped_line = next_line.strip().split("#")[0]
+ 31 |             while stripped_line.endswith("\\"):
+ 32 |                 try:
+ 33 |                     index, next_line = next(indexed_input)
+ 34 |                 except StopIteration:
+ 35 |                     break
+ 36 | 
+ 37 |                 stripped_line = next_line.strip().split("#")[0]
+ 38 |             continue  # pragma: no cover
+ 39 | 
+ 40 |         line, *end_of_line_comment = raw_line.split("#", 1)
+ 41 |         statements = [line.strip() for line in line.split(";")]
+ 42 |         if end_of_line_comment:
+ 43 |             statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+ 44 | 
+ 45 |         for statement in statements:
+ 46 |             line, _raw_line = normalize_line(statement)
+ 47 |             if line.startswith(("import ", "cimport ")):
+ 48 |                 type_of_import = "straight"
+ 49 |             elif line.startswith("from "):
+ 50 |                 type_of_import = "from"
+ 51 |             else:
+ 52 |                 continue  # pragma: no cover
+ 53 | 
+ 54 |             import_string, _ = parse_comments(line)
+ 55 |             normalized_import_string = (
+ 56 |                 import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+ 57 |             )
+ 58 |             cimports: bool = (
+ 59 |                 " cimport " in normalized_import_string
+ 60 |                 or normalized_import_string.startswith("cimport")
+ 61 |             )
+ 62 |             identified_import = partial(
+ 63 |                 Import,
+ 64 |                 index + 1,  # line numbers use 1 based indexing
+ 65 |                 raw_line.startswith((" ", "\t")),
+ 66 |                 cimport=cimports,
+ 67 |                 file_path=file_path,
+ 68 |             )
+ 69 | 
+ 70 |             if "(" in line.split("#", 1)[0]:
+ 71 |                 while not line.split("#")[0].strip().endswith(")"):
+ 72 |                     try:
+ 73 |                         index, next_line = next(indexed_input)
+ 74 |                     except StopIteration:
+ 75 |                         break
+ 76 | 
+ 77 |                     line, _ = parse_comments(next_line)
+ 78 |                     import_string += "\n" + line
+ 79 |             else:
+ 80 |                 while line.strip().endswith("\\"):
+ 81 |                     try:
+ 82 |                         index, next_line = next(indexed_input)
+ 83 |                     except StopIteration:
+ 84 |                         break
+ 85 | 
+ 86 |                     line, _ = parse_comments(next_line)
+ 87 | 
+ 88 |                     # Still need to check for parentheses after an escaped line
+ 89 |                     if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+ 90 |                         import_string += "\n" + line
+ 91 | 
+ 92 |                         while not line.split("#")[0].strip().endswith(")"):
+ 93 |                             try:
+ 94 |                                 index, next_line = next(indexed_input)
+ 95 |                             except StopIteration:
+ 96 |                                 break
+ 97 |                             line, _ = parse_comments(next_line)
+ 98 |                             import_string += "\n" + line
+ 99 |                     else:
+100 |                         if import_string.strip().endswith(
+101 |                             (" import", " cimport")
+102 |                         ) or line.strip().startswith(("import ", "cimport ")):
+103 |                             import_string += "\n" + line
+104 |                         else:
+105 |                             import_string = (
+106 |                                 import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+107 |                             )
+108 | 
+109 |             if type_of_import == "from":
+110 |                 import_string = (
+111 |                     import_string.replace("import(", "import (")
+112 |                     .replace("\\", " ")
+113 |                     .replace("\n", " ")
+114 |                 )
+115 |                 parts = import_string.split(" cimport " if cimports else " import ")
+116 | 
+117 |                 from_import = parts[0].split(" ")
+118 |                 import_string = (" cimport " if cimports else " import ").join(
+119 |                     [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+120 |                 )
+121 | 
+122 |             just_imports = [
+123 |                 item.replace("{|", "{ ").replace("|}", " }")
+124 |                 for item in strip_syntax(import_string).split()
+125 |             ]
+126 | 
+127 |             direct_imports = just_imports[1:]
+128 |             top_level_module = ""
+129 |             if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+130 |                 while "as" in just_imports:
+131 |                     attribute = None
+132 |                     as_index = just_imports.index("as")
+133 |                     if type_of_import == "from":
+134 |                         attribute = just_imports[as_index - 1]
+135 |                         top_level_module = just_imports[0]
+136 |                         module = top_level_module + "." + attribute
+137 |                         alias = just_imports[as_index + 1]
+138 |                         direct_imports.remove(attribute)
+139 |                         direct_imports.remove(alias)
+140 |                         direct_imports.remove("as")
+141 |                         just_imports[1:] = direct_imports
+142 |                         if attribute == alias and config.remove_redundant_aliases:
+143 |                             yield identified_import(top_level_module, attribute)
+144 |                         else:
+145 |                             yield identified_import(top_level_module, attribute, alias=alias)
+146 | 
+147 |                     else:
+148 |                         module = just_imports[as_index - 1]
+149 |                         alias = just_imports[as_index + 1]
+150 |                         just_imports.remove(alias)
+151 |                         just_imports.remove("as")
+152 |                         just_imports.remove(module)
+153 |                         if module == alias and config.remove_redundant_aliases:
+154 |                             yield identified_import(module)
+155 |                         else:
+156 |                             yield identified_import(module, alias=alias)
+157 | 
+158 |             if just_imports:
+159 |                 if type_of_import == "from":
+160 |                     module = just_imports.pop(0)
+161 |                     for attribute in just_imports:
+162 |                         yield identified_import(module, attribute)
+163 |                 else:
+164 |                     for module in just_imports:
+165 |                         yield identified_import(module)
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 7 evaluates to True.
+```
+1 |     def statement(self) -> str:
+2 |         import_cmd = "cimport" if self.cimport else "import"
+3 |         if self.attribute:
+4 |             import_string = f"from {self.module} {import_cmd} {self.attribute}"
+5 |         else:
+6 |             import_string = f"{import_cmd} {self.module}"
+7 |         if self.alias:
+8 |             import_string += f" as {self.alias}"
+9 |         return import_string
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method statement of class Import
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method statement of class Import
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 |     def __str__(self) -> str:
+2 |         return (
+3 |             f"{self.file_path or ''}:{self.line_number} "
+4 |             f"{'indented ' if self.indented else ''}{self.statement()}"
+5 |         )
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/parse.py:
+```
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+```
+
+isort/identify.py (module to test):
+```
+def imports(
+    input_stream: TextIO,
+    config: Config = DEFAULT_CONFIG,
+    file_path: Path | None = None,
+    top_only: bool = False,
+) -> Iterator[Import]:
+    """Parses a python file taking out and categorizing imports."""
+    in_quote = ""
+
+    indexed_input = enumerate(input_stream)
+    for index, raw_line in indexed_input:
+        (skipping_line, in_quote) = skip_line(
+            raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+        )
+
+        if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+            break
+        if skipping_line:
+            continue
+
+        stripped_line = raw_line.strip().split("#")[0]
+        if stripped_line.startswith(("raise", "yield")):
+            if stripped_line == "yield":
+                while not stripped_line or stripped_line == "yield":
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    stripped_line = next_line.strip().split("#")[0]
+            while stripped_line.endswith("\\"):
+                try:
+                    index, next_line = next(indexed_input)
+                except StopIteration:
+                    break
+
+                stripped_line = next_line.strip().split("#")[0]
+            continue  # pragma: no cover
+
+        line, *end_of_line_comment = raw_line.split("#", 1)
+        statements = [line.strip() for line in line.split(";")]
+        if end_of_line_comment:
+            statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+
+        for statement in statements:
+            line, _raw_line = normalize_line(statement)
+            if line.startswith(("import ", "cimport ")):
+                type_of_import = "straight"
+            elif line.startswith("from "):
+                type_of_import = "from"
+            else:
+                continue  # pragma: no cover
+
+            import_string, _ = parse_comments(line)
+            normalized_import_string = (
+                import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+            )
+            cimports: bool = (
+                " cimport " in normalized_import_string
+                or normalized_import_string.startswith("cimport")
+            )
+            identified_import = partial(
+                Import,
+                index + 1,  # line numbers use 1 based indexing
+                raw_line.startswith((" ", "\t")),
+                cimport=cimports,
+                file_path=file_path,
+            )
+
+            if "(" in line.split("#", 1)[0]:
+                while not line.split("#")[0].strip().endswith(")"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+                    import_string += "\n" + line
+            else:
+                while line.strip().endswith("\\"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+
+                    # Still need to check for parentheses after an escaped line
+                    if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+                        import_string += "\n" + line
+
+                        while not line.split("#")[0].strip().endswith(")"):
+                            try:
+                                index, next_line = next(indexed_input)
+                            except StopIteration:
+                                break
+                            line, _ = parse_comments(next_line)
+                            import_string += "\n" + line
+                    else:
+                        if import_string.strip().endswith(
+                            (" import", " cimport")
+                        ) or line.strip().startswith(("import ", "cimport ")):
+                            import_string += "\n" + line
+                        else:
+                            import_string = (
+                                import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+                            )
+
+            if type_of_import == "from":
+                import_string = (
+                    import_string.replace("import(", "import (")
+                    .replace("\\", " ")
+                    .replace("\n", " ")
+                )
+                parts = import_string.split(" cimport " if cimports else " import ")
+
+                from_import = parts[0].split(" ")
+                import_string = (" cimport " if cimports else " import ").join(
+                    [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+                )
+
+            just_imports = [
+                item.replace("{|", "{ ").replace("|}", " }")
+                for item in strip_syntax(import_string).split()
+            ]
+
+            direct_imports = just_imports[1:]
+            top_level_module = ""
+            if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+                while "as" in just_imports:
+                    attribute = None
+                    as_index = just_imports.index("as")
+                    if type_of_import == "from":
+                        attribute = just_imports[as_index - 1]
+                        top_level_module = just_imports[0]
+                        module = top_level_module + "." + attribute
+                        alias = just_imports[as_index + 1]
+                        direct_imports.remove(attribute)
+                        direct_imports.remove(alias)
+                        direct_imports.remove("as")
+                        just_imports[1:] = direct_imports
+                        if attribute == alias and config.remove_redundant_aliases:
+                            yield identified_import(top_level_module, attribute)
+                        else:
+                            yield identified_import(top_level_module, attribute, alias=alias)
+
+                    else:
+                        module = just_imports[as_index - 1]
+                        alias = just_imports[as_index + 1]
+                        just_imports.remove(alias)
+                        just_imports.remove("as")
+                        just_imports.remove(module)
+                        if module == alias and config.remove_redundant_aliases:
+                            yield identified_import(module)
+                        else:
+                            yield identified_import(module, alias=alias)
+
+            if just_imports:
+                if type_of_import == "from":
+                    module = just_imports.pop(0)
+                    for attribute in just_imports:
+                        yield identified_import(module, attribute)
+                else:
+                    for module in just_imports:
+                        yield identified_import(module)
+
+```
+Write unit test for function imports
+
+
+# Prompt used at query #17
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/parse.py:
+```
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+```
+
+isort/identify.py (module to test):
+```
+def imports(
+    input_stream: TextIO,
+    config: Config = DEFAULT_CONFIG,
+    file_path: Path | None = None,
+    top_only: bool = False,
+) -> Iterator[Import]:
+    """Parses a python file taking out and categorizing imports."""
+    in_quote = ""
+
+    indexed_input = enumerate(input_stream)
+    for index, raw_line in indexed_input:
+        (skipping_line, in_quote) = skip_line(
+            raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+        )
+
+        if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+            break
+        if skipping_line:
+            continue
+
+        stripped_line = raw_line.strip().split("#")[0]
+        if stripped_line.startswith(("raise", "yield")):
+            if stripped_line == "yield":
+                while not stripped_line or stripped_line == "yield":
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    stripped_line = next_line.strip().split("#")[0]
+            while stripped_line.endswith("\\"):
+                try:
+                    index, next_line = next(indexed_input)
+                except StopIteration:
+                    break
+
+                stripped_line = next_line.strip().split("#")[0]
+            continue  # pragma: no cover
+
+        line, *end_of_line_comment = raw_line.split("#", 1)
+        statements = [line.strip() for line in line.split(";")]
+        if end_of_line_comment:
+            statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+
+        for statement in statements:
+            line, _raw_line = normalize_line(statement)
+            if line.startswith(("import ", "cimport ")):
+                type_of_import = "straight"
+            elif line.startswith("from "):
+                type_of_import = "from"
+            else:
+                continue  # pragma: no cover
+
+            import_string, _ = parse_comments(line)
+            normalized_import_string = (
+                import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+            )
+            cimports: bool = (
+                " cimport " in normalized_import_string
+                or normalized_import_string.startswith("cimport")
+            )
+            identified_import = partial(
+                Import,
+                index + 1,  # line numbers use 1 based indexing
+                raw_line.startswith((" ", "\t")),
+                cimport=cimports,
+                file_path=file_path,
+            )
+
+            if "(" in line.split("#", 1)[0]:
+                while not line.split("#")[0].strip().endswith(")"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+                    import_string += "\n" + line
+            else:
+                while line.strip().endswith("\\"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+
+                    # Still need to check for parentheses after an escaped line
+                    if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+                        import_string += "\n" + line
+
+                        while not line.split("#")[0].strip().endswith(")"):
+                            try:
+                                index, next_line = next(indexed_input)
+                            except StopIteration:
+                                break
+                            line, _ = parse_comments(next_line)
+                            import_string += "\n" + line
+                    else:
+                        if import_string.strip().endswith(
+                            (" import", " cimport")
+                        ) or line.strip().startswith(("import ", "cimport ")):
+                            import_string += "\n" + line
+                        else:
+                            import_string = (
+                                import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+                            )
+
+            if type_of_import == "from":
+                import_string = (
+                    import_string.replace("import(", "import (")
+                    .replace("\\", " ")
+                    .replace("\n", " ")
+                )
+                parts = import_string.split(" cimport " if cimports else " import ")
+
+                from_import = parts[0].split(" ")
+                import_string = (" cimport " if cimports else " import ").join(
+                    [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+                )
+
+            just_imports = [
+                item.replace("{|", "{ ").replace("|}", " }")
+                for item in strip_syntax(import_string).split()
+            ]
+
+            direct_imports = just_imports[1:]
+            top_level_module = ""
+            if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+                while "as" in just_imports:
+                    attribute = None
+                    as_index = just_imports.index("as")
+                    if type_of_import == "from":
+                        attribute = just_imports[as_index - 1]
+                        top_level_module = just_imports[0]
+                        module = top_level_module + "." + attribute
+                        alias = just_imports[as_index + 1]
+                        direct_imports.remove(attribute)
+                        direct_imports.remove(alias)
+                        direct_imports.remove("as")
+                        just_imports[1:] = direct_imports
+                        if attribute == alias and config.remove_redundant_aliases:
+                            yield identified_import(top_level_module, attribute)
+                        else:
+                            yield identified_import(top_level_module, attribute, alias=alias)
+
+                    else:
+                        module = just_imports[as_index - 1]
+                        alias = just_imports[as_index + 1]
+                        just_imports.remove(alias)
+                        just_imports.remove("as")
+                        just_imports.remove(module)
+                        if module == alias and config.remove_redundant_aliases:
+                            yield identified_import(module)
+                        else:
+                            yield identified_import(module, alias=alias)
+
+            if just_imports:
+                if type_of_import == "from":
+                    module = just_imports.pop(0)
+                    for attribute in just_imports:
+                        yield identified_import(module, attribute)
+                else:
+                    for module in just_imports:
+                        yield identified_import(module)
+
+```
+Write unit test for function imports
+
+
+# Prompt used at query #18
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/parse.py:
+```
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+```
+
+isort/identify.py (module to test):
+```
+def imports(
+    input_stream: TextIO,
+    config: Config = DEFAULT_CONFIG,
+    file_path: Path | None = None,
+    top_only: bool = False,
+) -> Iterator[Import]:
+    """Parses a python file taking out and categorizing imports."""
+    in_quote = ""
+
+    indexed_input = enumerate(input_stream)
+    for index, raw_line in indexed_input:
+        (skipping_line, in_quote) = skip_line(
+            raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+        )
+
+        if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+            break
+        if skipping_line:
+            continue
+
+        stripped_line = raw_line.strip().split("#")[0]
+        if stripped_line.startswith(("raise", "yield")):
+            if stripped_line == "yield":
+                while not stripped_line or stripped_line == "yield":
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    stripped_line = next_line.strip().split("#")[0]
+            while stripped_line.endswith("\\"):
+                try:
+                    index, next_line = next(indexed_input)
+                except StopIteration:
+                    break
+
+                stripped_line = next_line.strip().split("#")[0]
+            continue  # pragma: no cover
+
+        line, *end_of_line_comment = raw_line.split("#", 1)
+        statements = [line.strip() for line in line.split(";")]
+        if end_of_line_comment:
+            statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+
+        for statement in statements:
+            line, _raw_line = normalize_line(statement)
+            if line.startswith(("import ", "cimport ")):
+                type_of_import = "straight"
+            elif line.startswith("from "):
+                type_of_import = "from"
+            else:
+                continue  # pragma: no cover
+
+            import_string, _ = parse_comments(line)
+            normalized_import_string = (
+                import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+            )
+            cimports: bool = (
+                " cimport " in normalized_import_string
+                or normalized_import_string.startswith("cimport")
+            )
+            identified_import = partial(
+                Import,
+                index + 1,  # line numbers use 1 based indexing
+                raw_line.startswith((" ", "\t")),
+                cimport=cimports,
+                file_path=file_path,
+            )
+
+            if "(" in line.split("#", 1)[0]:
+                while not line.split("#")[0].strip().endswith(")"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+                    import_string += "\n" + line
+            else:
+                while line.strip().endswith("\\"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+
+                    # Still need to check for parentheses after an escaped line
+                    if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+                        import_string += "\n" + line
+
+                        while not line.split("#")[0].strip().endswith(")"):
+                            try:
+                                index, next_line = next(indexed_input)
+                            except StopIteration:
+                                break
+                            line, _ = parse_comments(next_line)
+                            import_string += "\n" + line
+                    else:
+                        if import_string.strip().endswith(
+                            (" import", " cimport")
+                        ) or line.strip().startswith(("import ", "cimport ")):
+                            import_string += "\n" + line
+                        else:
+                            import_string = (
+                                import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+                            )
+
+            if type_of_import == "from":
+                import_string = (
+                    import_string.replace("import(", "import (")
+                    .replace("\\", " ")
+                    .replace("\n", " ")
+                )
+                parts = import_string.split(" cimport " if cimports else " import ")
+
+                from_import = parts[0].split(" ")
+                import_string = (" cimport " if cimports else " import ").join(
+                    [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+                )
+
+            just_imports = [
+                item.replace("{|", "{ ").replace("|}", " }")
+                for item in strip_syntax(import_string).split()
+            ]
+
+            direct_imports = just_imports[1:]
+            top_level_module = ""
+            if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+                while "as" in just_imports:
+                    attribute = None
+                    as_index = just_imports.index("as")
+                    if type_of_import == "from":
+                        attribute = just_imports[as_index - 1]
+                        top_level_module = just_imports[0]
+                        module = top_level_module + "." + attribute
+                        alias = just_imports[as_index + 1]
+                        direct_imports.remove(attribute)
+                        direct_imports.remove(alias)
+                        direct_imports.remove("as")
+                        just_imports[1:] = direct_imports
+                        if attribute == alias and config.remove_redundant_aliases:
+                            yield identified_import(top_level_module, attribute)
+                        else:
+                            yield identified_import(top_level_module, attribute, alias=alias)
+
+                    else:
+                        module = just_imports[as_index - 1]
+                        alias = just_imports[as_index + 1]
+                        just_imports.remove(alias)
+                        just_imports.remove("as")
+                        just_imports.remove(module)
+                        if module == alias and config.remove_redundant_aliases:
+                            yield identified_import(module)
+                        else:
+                            yield identified_import(module, alias=alias)
+
+            if just_imports:
+                if type_of_import == "from":
+                    module = just_imports.pop(0)
+                    for attribute in just_imports:
+                        yield identified_import(module, attribute)
+                else:
+                    for module in just_imports:
+                        yield identified_import(module)
+
+```
+Write unit test for function imports
+
+
+# Prompt used at query #19
+#--------------------------
+
+isort/parse.py:
+```
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+```
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/identify.py (module to test):
+```
+def imports(
+    input_stream: TextIO,
+    config: Config = DEFAULT_CONFIG,
+    file_path: Path | None = None,
+    top_only: bool = False,
+) -> Iterator[Import]:
+    """Parses a python file taking out and categorizing imports."""
+    in_quote = ""
+
+    indexed_input = enumerate(input_stream)
+    for index, raw_line in indexed_input:
+        (skipping_line, in_quote) = skip_line(
+            raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+        )
+
+        if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+            break
+        if skipping_line:
+            continue
+
+        stripped_line = raw_line.strip().split("#")[0]
+        if stripped_line.startswith(("raise", "yield")):
+            if stripped_line == "yield":
+                while not stripped_line or stripped_line == "yield":
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    stripped_line = next_line.strip().split("#")[0]
+            while stripped_line.endswith("\\"):
+                try:
+                    index, next_line = next(indexed_input)
+                except StopIteration:
+                    break
+
+                stripped_line = next_line.strip().split("#")[0]
+            continue  # pragma: no cover
+
+        line, *end_of_line_comment = raw_line.split("#", 1)
+        statements = [line.strip() for line in line.split(";")]
+        if end_of_line_comment:
+            statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+
+        for statement in statements:
+            line, _raw_line = normalize_line(statement)
+            if line.startswith(("import ", "cimport ")):
+                type_of_import = "straight"
+            elif line.startswith("from "):
+                type_of_import = "from"
+            else:
+                continue  # pragma: no cover
+
+            import_string, _ = parse_comments(line)
+            normalized_import_string = (
+                import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+            )
+            cimports: bool = (
+                " cimport " in normalized_import_string
+                or normalized_import_string.startswith("cimport")
+            )
+            identified_import = partial(
+                Import,
+                index + 1,  # line numbers use 1 based indexing
+                raw_line.startswith((" ", "\t")),
+                cimport=cimports,
+                file_path=file_path,
+            )
+
+            if "(" in line.split("#", 1)[0]:
+                while not line.split("#")[0].strip().endswith(")"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+                    import_string += "\n" + line
+            else:
+                while line.strip().endswith("\\"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+
+                    # Still need to check for parentheses after an escaped line
+                    if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+                        import_string += "\n" + line
+
+                        while not line.split("#")[0].strip().endswith(")"):
+                            try:
+                                index, next_line = next(indexed_input)
+                            except StopIteration:
+                                break
+                            line, _ = parse_comments(next_line)
+                            import_string += "\n" + line
+                    else:
+                        if import_string.strip().endswith(
+                            (" import", " cimport")
+                        ) or line.strip().startswith(("import ", "cimport ")):
+                            import_string += "\n" + line
+                        else:
+                            import_string = (
+                                import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+                            )
+
+            if type_of_import == "from":
+                import_string = (
+                    import_string.replace("import(", "import (")
+                    .replace("\\", " ")
+                    .replace("\n", " ")
+                )
+                parts = import_string.split(" cimport " if cimports else " import ")
+
+                from_import = parts[0].split(" ")
+                import_string = (" cimport " if cimports else " import ").join(
+                    [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+                )
+
+            just_imports = [
+                item.replace("{|", "{ ").replace("|}", " }")
+                for item in strip_syntax(import_string).split()
+            ]
+
+            direct_imports = just_imports[1:]
+            top_level_module = ""
+            if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+                while "as" in just_imports:
+                    attribute = None
+                    as_index = just_imports.index("as")
+                    if type_of_import == "from":
+                        attribute = just_imports[as_index - 1]
+                        top_level_module = just_imports[0]
+                        module = top_level_module + "." + attribute
+                        alias = just_imports[as_index + 1]
+                        direct_imports.remove(attribute)
+                        direct_imports.remove(alias)
+                        direct_imports.remove("as")
+                        just_imports[1:] = direct_imports
+                        if attribute == alias and config.remove_redundant_aliases:
+                            yield identified_import(top_level_module, attribute)
+                        else:
+                            yield identified_import(top_level_module, attribute, alias=alias)
+
+                    else:
+                        module = just_imports[as_index - 1]
+                        alias = just_imports[as_index + 1]
+                        just_imports.remove(alias)
+                        just_imports.remove("as")
+                        just_imports.remove(module)
+                        if module == alias and config.remove_redundant_aliases:
+                            yield identified_import(module)
+                        else:
+                            yield identified_import(module, alias=alias)
+
+            if just_imports:
+                if type_of_import == "from":
+                    module = just_imports.pop(0)
+                    for attribute in just_imports:
+                        yield identified_import(module, attribute)
+                else:
+                    for module in just_imports:
+                        yield identified_import(module)
+
+```
+Write unit test for function imports
+
+
+####################################################################
+#     TEST GENERATION BEGINS (DEEPMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method statement of class Import
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method statement of class Import
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method statement of class Import
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method __str__ of class Import
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 7 evaluates to True.
+```
+1 |     def statement(self) -> str:
+2 |         import_cmd = "cimport" if self.cimport else "import"
+3 |         if self.attribute:
+4 |             import_string = f"from {self.module} {import_cmd} {self.attribute}"
+5 |         else:
+6 |             import_string = f"{import_cmd} {self.module}"
+7 |         if self.alias:
+8 |             import_string += f" as {self.alias}"
+9 |         return import_string
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method __str__ of class Import
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 7 evaluates to True.
+```
+1 |     def statement(self) -> str:
+2 |         import_cmd = "cimport" if self.cimport else "import"
+3 |         if self.attribute:
+4 |             import_string = f"from {self.module} {import_cmd} {self.attribute}"
+5 |         else:
+6 |             import_string = f"{import_cmd} {self.module}"
+7 |         if self.alias:
+8 |             import_string += f" as {self.alias}"
+9 |         return import_string
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method __str__ of class Import
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+1 |     def statement(self) -> str:
+2 |         import_cmd = "cimport" if self.cimport else "import"
+3 |         if self.attribute:
+4 |             import_string = f"from {self.module} {import_cmd} {self.attribute}"
+5 |         else:
+6 |             import_string = f"{import_cmd} {self.module}"
+7 |         if self.alias:
+8 |             import_string += f" as {self.alias}"
+9 |         return import_string
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/parse.py:
+```
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+```
+
+isort/identify.py (module to test):
+```
+def imports(
+    input_stream: TextIO,
+    config: Config = DEFAULT_CONFIG,
+    file_path: Path | None = None,
+    top_only: bool = False,
+) -> Iterator[Import]:
+    """Parses a python file taking out and categorizing imports."""
+    in_quote = ""
+
+    indexed_input = enumerate(input_stream)
+    for index, raw_line in indexed_input:
+        (skipping_line, in_quote) = skip_line(
+            raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+        )
+
+        if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+            break
+        if skipping_line:
+            continue
+
+        stripped_line = raw_line.strip().split("#")[0]
+        if stripped_line.startswith(("raise", "yield")):
+            if stripped_line == "yield":
+                while not stripped_line or stripped_line == "yield":
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    stripped_line = next_line.strip().split("#")[0]
+            while stripped_line.endswith("\\"):
+                try:
+                    index, next_line = next(indexed_input)
+                except StopIteration:
+                    break
+
+                stripped_line = next_line.strip().split("#")[0]
+            continue  # pragma: no cover
+
+        line, *end_of_line_comment = raw_line.split("#", 1)
+        statements = [line.strip() for line in line.split(";")]
+        if end_of_line_comment:
+            statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+
+        for statement in statements:
+            line, _raw_line = normalize_line(statement)
+            if line.startswith(("import ", "cimport ")):
+                type_of_import = "straight"
+            elif line.startswith("from "):
+                type_of_import = "from"
+            else:
+                continue  # pragma: no cover
+
+            import_string, _ = parse_comments(line)
+            normalized_import_string = (
+                import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+            )
+            cimports: bool = (
+                " cimport " in normalized_import_string
+                or normalized_import_string.startswith("cimport")
+            )
+            identified_import = partial(
+                Import,
+                index + 1,  # line numbers use 1 based indexing
+                raw_line.startswith((" ", "\t")),
+                cimport=cimports,
+                file_path=file_path,
+            )
+
+            if "(" in line.split("#", 1)[0]:
+                while not line.split("#")[0].strip().endswith(")"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+                    import_string += "\n" + line
+            else:
+                while line.strip().endswith("\\"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+
+                    # Still need to check for parentheses after an escaped line
+                    if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+                        import_string += "\n" + line
+
+                        while not line.split("#")[0].strip().endswith(")"):
+                            try:
+                                index, next_line = next(indexed_input)
+                            except StopIteration:
+                                break
+                            line, _ = parse_comments(next_line)
+                            import_string += "\n" + line
+                    else:
+                        if import_string.strip().endswith(
+                            (" import", " cimport")
+                        ) or line.strip().startswith(("import ", "cimport ")):
+                            import_string += "\n" + line
+                        else:
+                            import_string = (
+                                import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+                            )
+
+            if type_of_import == "from":
+                import_string = (
+                    import_string.replace("import(", "import (")
+                    .replace("\\", " ")
+                    .replace("\n", " ")
+                )
+                parts = import_string.split(" cimport " if cimports else " import ")
+
+                from_import = parts[0].split(" ")
+                import_string = (" cimport " if cimports else " import ").join(
+                    [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+                )
+
+            just_imports = [
+                item.replace("{|", "{ ").replace("|}", " }")
+                for item in strip_syntax(import_string).split()
+            ]
+
+            direct_imports = just_imports[1:]
+            top_level_module = ""
+            if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+                while "as" in just_imports:
+                    attribute = None
+                    as_index = just_imports.index("as")
+                    if type_of_import == "from":
+                        attribute = just_imports[as_index - 1]
+                        top_level_module = just_imports[0]
+                        module = top_level_module + "." + attribute
+                        alias = just_imports[as_index + 1]
+                        direct_imports.remove(attribute)
+                        direct_imports.remove(alias)
+                        direct_imports.remove("as")
+                        just_imports[1:] = direct_imports
+                        if attribute == alias and config.remove_redundant_aliases:
+                            yield identified_import(top_level_module, attribute)
+                        else:
+                            yield identified_import(top_level_module, attribute, alias=alias)
+
+                    else:
+                        module = just_imports[as_index - 1]
+                        alias = just_imports[as_index + 1]
+                        just_imports.remove(alias)
+                        just_imports.remove("as")
+                        just_imports.remove(module)
+                        if module == alias and config.remove_redundant_aliases:
+                            yield identified_import(module)
+                        else:
+                            yield identified_import(module, alias=alias)
+
+            if just_imports:
+                if type_of_import == "from":
+                    module = just_imports.pop(0)
+                    for attribute in just_imports:
+                        yield identified_import(module, attribute)
+                else:
+                    for module in just_imports:
+                        yield identified_import(module)
+
+```
+Write unit test for function imports
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method statement of class Import
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 7 evaluates to True.
+```
+1 |     def statement(self) -> str:
+2 |         import_cmd = "cimport" if self.cimport else "import"
+3 |         if self.attribute:
+4 |             import_string = f"from {self.module} {import_cmd} {self.attribute}"
+5 |         else:
+6 |             import_string = f"{import_cmd} {self.module}"
+7 |         if self.alias:
+8 |             import_string += f" as {self.alias}"
+9 |         return import_string
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+isort/parse.py:
+```
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+```
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/identify.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+  1 | def imports(
+  2 |     input_stream: TextIO,
+  3 |     config: Config = DEFAULT_CONFIG,
+  4 |     file_path: Path | None = None,
+  5 |     top_only: bool = False,
+  6 | ) -> Iterator[Import]:
+  7 |     """Parses a python file taking out and categorizing imports."""
+  8 |     in_quote = ""
+  9 | 
+ 10 |     indexed_input = enumerate(input_stream)
+ 11 |     for index, raw_line in indexed_input:
+ 12 |         (skipping_line, in_quote) = skip_line(
+ 13 |             raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+ 14 |         )
+ 15 | 
+ 16 |         if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+ 17 |             break
+ 18 |         if skipping_line:
+ 19 |             continue
+ 20 | 
+ 21 |         stripped_line = raw_line.strip().split("#")[0]
+ 22 |         if stripped_line.startswith(("raise", "yield")):
+ 23 |             if stripped_line == "yield":
+ 24 |                 while not stripped_line or stripped_line == "yield":
+ 25 |                     try:
+ 26 |                         index, next_line = next(indexed_input)
+ 27 |                     except StopIteration:
+ 28 |                         break
+ 29 | 
+ 30 |                     stripped_line = next_line.strip().split("#")[0]
+ 31 |             while stripped_line.endswith("\\"):
+ 32 |                 try:
+ 33 |                     index, next_line = next(indexed_input)
+ 34 |                 except StopIteration:
+ 35 |                     break
+ 36 | 
+ 37 |                 stripped_line = next_line.strip().split("#")[0]
+ 38 |             continue  # pragma: no cover
+ 39 | 
+ 40 |         line, *end_of_line_comment = raw_line.split("#", 1)
+ 41 |         statements = [line.strip() for line in line.split(";")]
+ 42 |         if end_of_line_comment:
+ 43 |             statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+ 44 | 
+ 45 |         for statement in statements:
+ 46 |             line, _raw_line = normalize_line(statement)
+ 47 |             if line.startswith(("import ", "cimport ")):
+ 48 |                 type_of_import = "straight"
+ 49 |             elif line.startswith("from "):
+ 50 |                 type_of_import = "from"
+ 51 |             else:
+ 52 |                 continue  # pragma: no cover
+ 53 | 
+ 54 |             import_string, _ = parse_comments(line)
+ 55 |             normalized_import_string = (
+ 56 |                 import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+ 57 |             )
+ 58 |             cimports: bool = (
+ 59 |                 " cimport " in normalized_import_string
+ 60 |                 or normalized_import_string.startswith("cimport")
+ 61 |             )
+ 62 |             identified_import = partial(
+ 63 |                 Import,
+ 64 |                 index + 1,  # line numbers use 1 based indexing
+ 65 |                 raw_line.startswith((" ", "\t")),
+ 66 |                 cimport=cimports,
+ 67 |                 file_path=file_path,
+ 68 |             )
+ 69 | 
+ 70 |             if "(" in line.split("#", 1)[0]:
+ 71 |                 while not line.split("#")[0].strip().endswith(")"):
+ 72 |                     try:
+ 73 |                         index, next_line = next(indexed_input)
+ 74 |                     except StopIteration:
+ 75 |                         break
+ 76 | 
+ 77 |                     line, _ = parse_comments(next_line)
+ 78 |                     import_string += "\n" + line
+ 79 |             else:
+ 80 |                 while line.strip().endswith("\\"):
+ 81 |                     try:
+ 82 |                         index, next_line = next(indexed_input)
+ 83 |                     except StopIteration:
+ 84 |                         break
+ 85 | 
+ 86 |                     line, _ = parse_comments(next_line)
+ 87 | 
+ 88 |                     # Still need to check for parentheses after an escaped line
+ 89 |                     if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+ 90 |                         import_string += "\n" + line
+ 91 | 
+ 92 |                         while not line.split("#")[0].strip().endswith(")"):
+ 93 |                             try:
+ 94 |                                 index, next_line = next(indexed_input)
+ 95 |                             except StopIteration:
+ 96 |                                 break
+ 97 |                             line, _ = parse_comments(next_line)
+ 98 |                             import_string += "\n" + line
+ 99 |                     else:
+100 |                         if import_string.strip().endswith(
+101 |                             (" import", " cimport")
+102 |                         ) or line.strip().startswith(("import ", "cimport ")):
+103 |                             import_string += "\n" + line
+104 |                         else:
+105 |                             import_string = (
+106 |                                 import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+107 |                             )
+108 | 
+109 |             if type_of_import == "from":
+110 |                 import_string = (
+111 |                     import_string.replace("import(", "import (")
+112 |                     .replace("\\", " ")
+113 |                     .replace("\n", " ")
+114 |                 )
+115 |                 parts = import_string.split(" cimport " if cimports else " import ")
+116 | 
+117 |                 from_import = parts[0].split(" ")
+118 |                 import_string = (" cimport " if cimports else " import ").join(
+119 |                     [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+120 |                 )
+121 | 
+122 |             just_imports = [
+123 |                 item.replace("{|", "{ ").replace("|}", " }")
+124 |                 for item in strip_syntax(import_string).split()
+125 |             ]
+126 | 
+127 |             direct_imports = just_imports[1:]
+128 |             top_level_module = ""
+129 |             if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+130 |                 while "as" in just_imports:
+131 |                     attribute = None
+132 |                     as_index = just_imports.index("as")
+133 |                     if type_of_import == "from":
+134 |                         attribute = just_imports[as_index - 1]
+135 |                         top_level_module = just_imports[0]
+136 |                         module = top_level_module + "." + attribute
+137 |                         alias = just_imports[as_index + 1]
+138 |                         direct_imports.remove(attribute)
+139 |                         direct_imports.remove(alias)
+140 |                         direct_imports.remove("as")
+141 |                         just_imports[1:] = direct_imports
+142 |                         if attribute == alias and config.remove_redundant_aliases:
+143 |                             yield identified_import(top_level_module, attribute)
+144 |                         else:
+145 |                             yield identified_import(top_level_module, attribute, alias=alias)
+146 | 
+147 |                     else:
+148 |                         module = just_imports[as_index - 1]
+149 |                         alias = just_imports[as_index + 1]
+150 |                         just_imports.remove(alias)
+151 |                         just_imports.remove("as")
+152 |                         just_imports.remove(module)
+153 |                         if module == alias and config.remove_redundant_aliases:
+154 |                             yield identified_import(module)
+155 |                         else:
+156 |                             yield identified_import(module, alias=alias)
+157 | 
+158 |             if just_imports:
+159 |                 if type_of_import == "from":
+160 |                     module = just_imports.pop(0)
+161 |                     for attribute in just_imports:
+162 |                         yield identified_import(module, attribute)
+163 |                 else:
+164 |                     for module in just_imports:
+165 |                         yield identified_import(module)
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method __str__ of class Import
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method __str__ of class Import
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method statement of class Import
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+1 |     def __str__(self) -> str:
+2 |         return (
+3 |             f"{self.file_path or ''}:{self.line_number} "
+4 |             f"{'indented ' if self.indented else ''}{self.statement()}"
+5 |         )
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method statement of class Import
+
+
+# Prompt used at query #19
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/parse.py:
+```
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+```
+
+isort/identify.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+  1 | def imports(
+  2 |     input_stream: TextIO,
+  3 |     config: Config = DEFAULT_CONFIG,
+  4 |     file_path: Path | None = None,
+  5 |     top_only: bool = False,
+  6 | ) -> Iterator[Import]:
+  7 |     """Parses a python file taking out and categorizing imports."""
+  8 |     in_quote = ""
+  9 | 
+ 10 |     indexed_input = enumerate(input_stream)
+ 11 |     for index, raw_line in indexed_input:
+ 12 |         (skipping_line, in_quote) = skip_line(
+ 13 |             raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+ 14 |         )
+ 15 | 
+ 16 |         if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+ 17 |             break
+ 18 |         if skipping_line:
+ 19 |             continue
+ 20 | 
+ 21 |         stripped_line = raw_line.strip().split("#")[0]
+ 22 |         if stripped_line.startswith(("raise", "yield")):
+ 23 |             if stripped_line == "yield":
+ 24 |                 while not stripped_line or stripped_line == "yield":
+ 25 |                     try:
+ 26 |                         index, next_line = next(indexed_input)
+ 27 |                     except StopIteration:
+ 28 |                         break
+ 29 | 
+ 30 |                     stripped_line = next_line.strip().split("#")[0]
+ 31 |             while stripped_line.endswith("\\"):
+ 32 |                 try:
+ 33 |                     index, next_line = next(indexed_input)
+ 34 |                 except StopIteration:
+ 35 |                     break
+ 36 | 
+ 37 |                 stripped_line = next_line.strip().split("#")[0]
+ 38 |             continue  # pragma: no cover
+ 39 | 
+ 40 |         line, *end_of_line_comment = raw_line.split("#", 1)
+ 41 |         statements = [line.strip() for line in line.split(";")]
+ 42 |         if end_of_line_comment:
+ 43 |             statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+ 44 | 
+ 45 |         for statement in statements:
+ 46 |             line, _raw_line = normalize_line(statement)
+ 47 |             if line.startswith(("import ", "cimport ")):
+ 48 |                 type_of_import = "straight"
+ 49 |             elif line.startswith("from "):
+ 50 |                 type_of_import = "from"
+ 51 |             else:
+ 52 |                 continue  # pragma: no cover
+ 53 | 
+ 54 |             import_string, _ = parse_comments(line)
+ 55 |             normalized_import_string = (
+ 56 |                 import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+ 57 |             )
+ 58 |             cimports: bool = (
+ 59 |                 " cimport " in normalized_import_string
+ 60 |                 or normalized_import_string.startswith("cimport")
+ 61 |             )
+ 62 |             identified_import = partial(
+ 63 |                 Import,
+ 64 |                 index + 1,  # line numbers use 1 based indexing
+ 65 |                 raw_line.startswith((" ", "\t")),
+ 66 |                 cimport=cimports,
+ 67 |                 file_path=file_path,
+ 68 |             )
+ 69 | 
+ 70 |             if "(" in line.split("#", 1)[0]:
+ 71 |                 while not line.split("#")[0].strip().endswith(")"):
+ 72 |                     try:
+ 73 |                         index, next_line = next(indexed_input)
+ 74 |                     except StopIteration:
+ 75 |                         break
+ 76 | 
+ 77 |                     line, _ = parse_comments(next_line)
+ 78 |                     import_string += "\n" + line
+ 79 |             else:
+ 80 |                 while line.strip().endswith("\\"):
+ 81 |                     try:
+ 82 |                         index, next_line = next(indexed_input)
+ 83 |                     except StopIteration:
+ 84 |                         break
+ 85 | 
+ 86 |                     line, _ = parse_comments(next_line)
+ 87 | 
+ 88 |                     # Still need to check for parentheses after an escaped line
+ 89 |                     if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+ 90 |                         import_string += "\n" + line
+ 91 | 
+ 92 |                         while not line.split("#")[0].strip().endswith(")"):
+ 93 |                             try:
+ 94 |                                 index, next_line = next(indexed_input)
+ 95 |                             except StopIteration:
+ 96 |                                 break
+ 97 |                             line, _ = parse_comments(next_line)
+ 98 |                             import_string += "\n" + line
+ 99 |                     else:
+100 |                         if import_string.strip().endswith(
+101 |                             (" import", " cimport")
+102 |                         ) or line.strip().startswith(("import ", "cimport ")):
+103 |                             import_string += "\n" + line
+104 |                         else:
+105 |                             import_string = (
+106 |                                 import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+107 |                             )
+108 | 
+109 |             if type_of_import == "from":
+110 |                 import_string = (
+111 |                     import_string.replace("import(", "import (")
+112 |                     .replace("\\", " ")
+113 |                     .replace("\n", " ")
+114 |                 )
+115 |                 parts = import_string.split(" cimport " if cimports else " import ")
+116 | 
+117 |                 from_import = parts[0].split(" ")
+118 |                 import_string = (" cimport " if cimports else " import ").join(
+119 |                     [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+120 |                 )
+121 | 
+122 |             just_imports = [
+123 |                 item.replace("{|", "{ ").replace("|}", " }")
+124 |                 for item in strip_syntax(import_string).split()
+125 |             ]
+126 | 
+127 |             direct_imports = just_imports[1:]
+128 |             top_level_module = ""
+129 |             if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+130 |                 while "as" in just_imports:
+131 |                     attribute = None
+132 |                     as_index = just_imports.index("as")
+133 |                     if type_of_import == "from":
+134 |                         attribute = just_imports[as_index - 1]
+135 |                         top_level_module = just_imports[0]
+136 |                         module = top_level_module + "." + attribute
+137 |                         alias = just_imports[as_index + 1]
+138 |                         direct_imports.remove(attribute)
+139 |                         direct_imports.remove(alias)
+140 |                         direct_imports.remove("as")
+141 |                         just_imports[1:] = direct_imports
+142 |                         if attribute == alias and config.remove_redundant_aliases:
+143 |                             yield identified_import(top_level_module, attribute)
+144 |                         else:
+145 |                             yield identified_import(top_level_module, attribute, alias=alias)
+146 | 
+147 |                     else:
+148 |                         module = just_imports[as_index - 1]
+149 |                         alias = just_imports[as_index + 1]
+150 |                         just_imports.remove(alias)
+151 |                         just_imports.remove("as")
+152 |                         just_imports.remove(module)
+153 |                         if module == alias and config.remove_redundant_aliases:
+154 |                             yield identified_import(module)
+155 |                         else:
+156 |                             yield identified_import(module, alias=alias)
+157 | 
+158 |             if just_imports:
+159 |                 if type_of_import == "from":
+160 |                     module = just_imports.pop(0)
+161 |                     for attribute in just_imports:
+162 |                         yield identified_import(module, attribute)
+163 |                 else:
+164 |                     for module in just_imports:
+165 |                         yield identified_import(module)
+```
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test for method __str__ of class Import
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 |     def statement(self) -> str:
+2 |         import_cmd = "cimport" if self.cimport else "import"
+3 |         if self.attribute:
+4 |             import_string = f"from {self.module} {import_cmd} {self.attribute}"
+5 |         else:
+6 |             import_string = f"{import_cmd} {self.module}"
+7 |         if self.alias:
+8 |             import_string += f" as {self.alias}"
+9 |         return import_string
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 |     def statement(self) -> str:
+2 |         import_cmd = "cimport" if self.cimport else "import"
+3 |         if self.attribute:
+4 |             import_string = f"from {self.module} {import_cmd} {self.attribute}"
+5 |         else:
+6 |             import_string = f"{import_cmd} {self.module}"
+7 |         if self.alias:
+8 |             import_string += f" as {self.alias}"
+9 |         return import_string
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/parse.py:
+```
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+```
+
+isort/identify.py (module to test):
+```
+def imports(
+    input_stream: TextIO,
+    config: Config = DEFAULT_CONFIG,
+    file_path: Path | None = None,
+    top_only: bool = False,
+) -> Iterator[Import]:
+    """Parses a python file taking out and categorizing imports."""
+    in_quote = ""
+
+    indexed_input = enumerate(input_stream)
+    for index, raw_line in indexed_input:
+        (skipping_line, in_quote) = skip_line(
+            raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+        )
+
+        if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+            break
+        if skipping_line:
+            continue
+
+        stripped_line = raw_line.strip().split("#")[0]
+        if stripped_line.startswith(("raise", "yield")):
+            if stripped_line == "yield":
+                while not stripped_line or stripped_line == "yield":
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    stripped_line = next_line.strip().split("#")[0]
+            while stripped_line.endswith("\\"):
+                try:
+                    index, next_line = next(indexed_input)
+                except StopIteration:
+                    break
+
+                stripped_line = next_line.strip().split("#")[0]
+            continue  # pragma: no cover
+
+        line, *end_of_line_comment = raw_line.split("#", 1)
+        statements = [line.strip() for line in line.split(";")]
+        if end_of_line_comment:
+            statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+
+        for statement in statements:
+            line, _raw_line = normalize_line(statement)
+            if line.startswith(("import ", "cimport ")):
+                type_of_import = "straight"
+            elif line.startswith("from "):
+                type_of_import = "from"
+            else:
+                continue  # pragma: no cover
+
+            import_string, _ = parse_comments(line)
+            normalized_import_string = (
+                import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+            )
+            cimports: bool = (
+                " cimport " in normalized_import_string
+                or normalized_import_string.startswith("cimport")
+            )
+            identified_import = partial(
+                Import,
+                index + 1,  # line numbers use 1 based indexing
+                raw_line.startswith((" ", "\t")),
+                cimport=cimports,
+                file_path=file_path,
+            )
+
+            if "(" in line.split("#", 1)[0]:
+                while not line.split("#")[0].strip().endswith(")"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+                    import_string += "\n" + line
+            else:
+                while line.strip().endswith("\\"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+
+                    # Still need to check for parentheses after an escaped line
+                    if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+                        import_string += "\n" + line
+
+                        while not line.split("#")[0].strip().endswith(")"):
+                            try:
+                                index, next_line = next(indexed_input)
+                            except StopIteration:
+                                break
+                            line, _ = parse_comments(next_line)
+                            import_string += "\n" + line
+                    else:
+                        if import_string.strip().endswith(
+                            (" import", " cimport")
+                        ) or line.strip().startswith(("import ", "cimport ")):
+                            import_string += "\n" + line
+                        else:
+                            import_string = (
+                                import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+                            )
+
+            if type_of_import == "from":
+                import_string = (
+                    import_string.replace("import(", "import (")
+                    .replace("\\", " ")
+                    .replace("\n", " ")
+                )
+                parts = import_string.split(" cimport " if cimports else " import ")
+
+                from_import = parts[0].split(" ")
+                import_string = (" cimport " if cimports else " import ").join(
+                    [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+                )
+
+            just_imports = [
+                item.replace("{|", "{ ").replace("|}", " }")
+                for item in strip_syntax(import_string).split()
+            ]
+
+            direct_imports = just_imports[1:]
+            top_level_module = ""
+            if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+                while "as" in just_imports:
+                    attribute = None
+                    as_index = just_imports.index("as")
+                    if type_of_import == "from":
+                        attribute = just_imports[as_index - 1]
+                        top_level_module = just_imports[0]
+                        module = top_level_module + "." + attribute
+                        alias = just_imports[as_index + 1]
+                        direct_imports.remove(attribute)
+                        direct_imports.remove(alias)
+                        direct_imports.remove("as")
+                        just_imports[1:] = direct_imports
+                        if attribute == alias and config.remove_redundant_aliases:
+                            yield identified_import(top_level_module, attribute)
+                        else:
+                            yield identified_import(top_level_module, attribute, alias=alias)
+
+                    else:
+                        module = just_imports[as_index - 1]
+                        alias = just_imports[as_index + 1]
+                        just_imports.remove(alias)
+                        just_imports.remove("as")
+                        just_imports.remove(module)
+                        if module == alias and config.remove_redundant_aliases:
+                            yield identified_import(module)
+                        else:
+                            yield identified_import(module, alias=alias)
+
+            if just_imports:
+                if type_of_import == "from":
+                    module = just_imports.pop(0)
+                    for attribute in just_imports:
+                        yield identified_import(module, attribute)
+                else:
+                    for module in just_imports:
+                        yield identified_import(module)
+
+```
+Write unit test for function imports
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+class Import(NamedTuple):
+    line_number: int
+    indented: bool
+    module: str
+    attribute: str | None = None
+    alias: str | None = None
+    cimport: bool = False
+    file_path: Path | None = None
+
+    def statement(self) -> str:
+        import_cmd = "cimport" if self.cimport else "import"
+        if self.attribute:
+            import_string = f"from {self.module} {import_cmd} {self.attribute}"
+        else:
+            import_string = f"{import_cmd} {self.module}"
+        if self.alias:
+            import_string += f" as {self.alias}"
+        return import_string
+
+    def __str__(self) -> str:
+        return (
+            f"{self.file_path or ''}:{self.line_number} "
+            f"{'indented ' if self.indented else ''}{self.statement()}"
+        )
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 |     def __str__(self) -> str:
+2 |         return (
+3 |             f"{self.file_path or ''}:{self.line_number} "
+4 |             f"{'indented ' if self.indented else ''}{self.statement()}"
+5 |         )
+```
+
+
+# Prompt used at query #25
+#--------------------------
+
+isort/parse.py:
+```
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+```
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/identify.py (module to test):
+```
+def imports(
+    input_stream: TextIO,
+    config: Config = DEFAULT_CONFIG,
+    file_path: Path | None = None,
+    top_only: bool = False,
+) -> Iterator[Import]:
+    """Parses a python file taking out and categorizing imports."""
+    in_quote = ""
+
+    indexed_input = enumerate(input_stream)
+    for index, raw_line in indexed_input:
+        (skipping_line, in_quote) = skip_line(
+            raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+        )
+
+        if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+            break
+        if skipping_line:
+            continue
+
+        stripped_line = raw_line.strip().split("#")[0]
+        if stripped_line.startswith(("raise", "yield")):
+            if stripped_line == "yield":
+                while not stripped_line or stripped_line == "yield":
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    stripped_line = next_line.strip().split("#")[0]
+            while stripped_line.endswith("\\"):
+                try:
+                    index, next_line = next(indexed_input)
+                except StopIteration:
+                    break
+
+                stripped_line = next_line.strip().split("#")[0]
+            continue  # pragma: no cover
+
+        line, *end_of_line_comment = raw_line.split("#", 1)
+        statements = [line.strip() for line in line.split(";")]
+        if end_of_line_comment:
+            statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+
+        for statement in statements:
+            line, _raw_line = normalize_line(statement)
+            if line.startswith(("import ", "cimport ")):
+                type_of_import = "straight"
+            elif line.startswith("from "):
+                type_of_import = "from"
+            else:
+                continue  # pragma: no cover
+
+            import_string, _ = parse_comments(line)
+            normalized_import_string = (
+                import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+            )
+            cimports: bool = (
+                " cimport " in normalized_import_string
+                or normalized_import_string.startswith("cimport")
+            )
+            identified_import = partial(
+                Import,
+                index + 1,  # line numbers use 1 based indexing
+                raw_line.startswith((" ", "\t")),
+                cimport=cimports,
+                file_path=file_path,
+            )
+
+            if "(" in line.split("#", 1)[0]:
+                while not line.split("#")[0].strip().endswith(")"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+                    import_string += "\n" + line
+            else:
+                while line.strip().endswith("\\"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+
+                    # Still need to check for parentheses after an escaped line
+                    if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+                        import_string += "\n" + line
+
+                        while not line.split("#")[0].strip().endswith(")"):
+                            try:
+                                index, next_line = next(indexed_input)
+                            except StopIteration:
+                                break
+                            line, _ = parse_comments(next_line)
+                            import_string += "\n" + line
+                    else:
+                        if import_string.strip().endswith(
+                            (" import", " cimport")
+                        ) or line.strip().startswith(("import ", "cimport ")):
+                            import_string += "\n" + line
+                        else:
+                            import_string = (
+                                import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+                            )
+
+            if type_of_import == "from":
+                import_string = (
+                    import_string.replace("import(", "import (")
+                    .replace("\\", " ")
+                    .replace("\n", " ")
+                )
+                parts = import_string.split(" cimport " if cimports else " import ")
+
+                from_import = parts[0].split(" ")
+                import_string = (" cimport " if cimports else " import ").join(
+                    [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+                )
+
+            just_imports = [
+                item.replace("{|", "{ ").replace("|}", " }")
+                for item in strip_syntax(import_string).split()
+            ]
+
+            direct_imports = just_imports[1:]
+            top_level_module = ""
+            if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+                while "as" in just_imports:
+                    attribute = None
+                    as_index = just_imports.index("as")
+                    if type_of_import == "from":
+                        attribute = just_imports[as_index - 1]
+                        top_level_module = just_imports[0]
+                        module = top_level_module + "." + attribute
+                        alias = just_imports[as_index + 1]
+                        direct_imports.remove(attribute)
+                        direct_imports.remove(alias)
+                        direct_imports.remove("as")
+                        just_imports[1:] = direct_imports
+                        if attribute == alias and config.remove_redundant_aliases:
+                            yield identified_import(top_level_module, attribute)
+                        else:
+                            yield identified_import(top_level_module, attribute, alias=alias)
+
+                    else:
+                        module = just_imports[as_index - 1]
+                        alias = just_imports[as_index + 1]
+                        just_imports.remove(alias)
+                        just_imports.remove("as")
+                        just_imports.remove(module)
+                        if module == alias and config.remove_redundant_aliases:
+                            yield identified_import(module)
+                        else:
+                            yield identified_import(module, alias=alias)
+
+            if just_imports:
+                if type_of_import == "from":
+                    module = just_imports.pop(0)
+                    for attribute in just_imports:
+                        yield identified_import(module, attribute)
+                else:
+                    for module in just_imports:
+                        yield identified_import(module)
+
+```
+Write unit test for function imports
+
+
+# Prompt used at query #26
+#--------------------------
+
+isort/parse.py:
+```
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+```
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/identify.py (module to test):
+```
+def imports(
+    input_stream: TextIO,
+    config: Config = DEFAULT_CONFIG,
+    file_path: Path | None = None,
+    top_only: bool = False,
+) -> Iterator[Import]:
+    """Parses a python file taking out and categorizing imports."""
+    in_quote = ""
+
+    indexed_input = enumerate(input_stream)
+    for index, raw_line in indexed_input:
+        (skipping_line, in_quote) = skip_line(
+            raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+        )
+
+        if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+            break
+        if skipping_line:
+            continue
+
+        stripped_line = raw_line.strip().split("#")[0]
+        if stripped_line.startswith(("raise", "yield")):
+            if stripped_line == "yield":
+                while not stripped_line or stripped_line == "yield":
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    stripped_line = next_line.strip().split("#")[0]
+            while stripped_line.endswith("\\"):
+                try:
+                    index, next_line = next(indexed_input)
+                except StopIteration:
+                    break
+
+                stripped_line = next_line.strip().split("#")[0]
+            continue  # pragma: no cover
+
+        line, *end_of_line_comment = raw_line.split("#", 1)
+        statements = [line.strip() for line in line.split(";")]
+        if end_of_line_comment:
+            statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+
+        for statement in statements:
+            line, _raw_line = normalize_line(statement)
+            if line.startswith(("import ", "cimport ")):
+                type_of_import = "straight"
+            elif line.startswith("from "):
+                type_of_import = "from"
+            else:
+                continue  # pragma: no cover
+
+            import_string, _ = parse_comments(line)
+            normalized_import_string = (
+                import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+            )
+            cimports: bool = (
+                " cimport " in normalized_import_string
+                or normalized_import_string.startswith("cimport")
+            )
+            identified_import = partial(
+                Import,
+                index + 1,  # line numbers use 1 based indexing
+                raw_line.startswith((" ", "\t")),
+                cimport=cimports,
+                file_path=file_path,
+            )
+
+            if "(" in line.split("#", 1)[0]:
+                while not line.split("#")[0].strip().endswith(")"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+                    import_string += "\n" + line
+            else:
+                while line.strip().endswith("\\"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+
+                    # Still need to check for parentheses after an escaped line
+                    if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+                        import_string += "\n" + line
+
+                        while not line.split("#")[0].strip().endswith(")"):
+                            try:
+                                index, next_line = next(indexed_input)
+                            except StopIteration:
+                                break
+                            line, _ = parse_comments(next_line)
+                            import_string += "\n" + line
+                    else:
+                        if import_string.strip().endswith(
+                            (" import", " cimport")
+                        ) or line.strip().startswith(("import ", "cimport ")):
+                            import_string += "\n" + line
+                        else:
+                            import_string = (
+                                import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+                            )
+
+            if type_of_import == "from":
+                import_string = (
+                    import_string.replace("import(", "import (")
+                    .replace("\\", " ")
+                    .replace("\n", " ")
+                )
+                parts = import_string.split(" cimport " if cimports else " import ")
+
+                from_import = parts[0].split(" ")
+                import_string = (" cimport " if cimports else " import ").join(
+                    [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+                )
+
+            just_imports = [
+                item.replace("{|", "{ ").replace("|}", " }")
+                for item in strip_syntax(import_string).split()
+            ]
+
+            direct_imports = just_imports[1:]
+            top_level_module = ""
+            if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+                while "as" in just_imports:
+                    attribute = None
+                    as_index = just_imports.index("as")
+                    if type_of_import == "from":
+                        attribute = just_imports[as_index - 1]
+                        top_level_module = just_imports[0]
+                        module = top_level_module + "." + attribute
+                        alias = just_imports[as_index + 1]
+                        direct_imports.remove(attribute)
+                        direct_imports.remove(alias)
+                        direct_imports.remove("as")
+                        just_imports[1:] = direct_imports
+                        if attribute == alias and config.remove_redundant_aliases:
+                            yield identified_import(top_level_module, attribute)
+                        else:
+                            yield identified_import(top_level_module, attribute, alias=alias)
+
+                    else:
+                        module = just_imports[as_index - 1]
+                        alias = just_imports[as_index + 1]
+                        just_imports.remove(alias)
+                        just_imports.remove("as")
+                        just_imports.remove(module)
+                        if module == alias and config.remove_redundant_aliases:
+                            yield identified_import(module)
+                        else:
+                            yield identified_import(module, alias=alias)
+
+            if just_imports:
+                if type_of_import == "from":
+                    module = just_imports.pop(0)
+                    for attribute in just_imports:
+                        yield identified_import(module, attribute)
+                else:
+                    for module in just_imports:
+                        yield identified_import(module)
+
+```
+Write unit test for function imports
+
+
+# Prompt used at query #27
+#--------------------------
+
+isort/parse.py:
+```
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+```
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/identify.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+  1 | def imports(
+  2 |     input_stream: TextIO,
+  3 |     config: Config = DEFAULT_CONFIG,
+  4 |     file_path: Path | None = None,
+  5 |     top_only: bool = False,
+  6 | ) -> Iterator[Import]:
+  7 |     """Parses a python file taking out and categorizing imports."""
+  8 |     in_quote = ""
+  9 | 
+ 10 |     indexed_input = enumerate(input_stream)
+ 11 |     for index, raw_line in indexed_input:
+ 12 |         (skipping_line, in_quote) = skip_line(
+ 13 |             raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+ 14 |         )
+ 15 | 
+ 16 |         if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+ 17 |             break
+ 18 |         if skipping_line:
+ 19 |             continue
+ 20 | 
+ 21 |         stripped_line = raw_line.strip().split("#")[0]
+ 22 |         if stripped_line.startswith(("raise", "yield")):
+ 23 |             if stripped_line == "yield":
+ 24 |                 while not stripped_line or stripped_line == "yield":
+ 25 |                     try:
+ 26 |                         index, next_line = next(indexed_input)
+ 27 |                     except StopIteration:
+ 28 |                         break
+ 29 | 
+ 30 |                     stripped_line = next_line.strip().split("#")[0]
+ 31 |             while stripped_line.endswith("\\"):
+ 32 |                 try:
+ 33 |                     index, next_line = next(indexed_input)
+ 34 |                 except StopIteration:
+ 35 |                     break
+ 36 | 
+ 37 |                 stripped_line = next_line.strip().split("#")[0]
+ 38 |             continue  # pragma: no cover
+ 39 | 
+ 40 |         line, *end_of_line_comment = raw_line.split("#", 1)
+ 41 |         statements = [line.strip() for line in line.split(";")]
+ 42 |         if end_of_line_comment:
+ 43 |             statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+ 44 | 
+ 45 |         for statement in statements:
+ 46 |             line, _raw_line = normalize_line(statement)
+ 47 |             if line.startswith(("import ", "cimport ")):
+ 48 |                 type_of_import = "straight"
+ 49 |             elif line.startswith("from "):
+ 50 |                 type_of_import = "from"
+ 51 |             else:
+ 52 |                 continue  # pragma: no cover
+ 53 | 
+ 54 |             import_string, _ = parse_comments(line)
+ 55 |             normalized_import_string = (
+ 56 |                 import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+ 57 |             )
+ 58 |             cimports: bool = (
+ 59 |                 " cimport " in normalized_import_string
+ 60 |                 or normalized_import_string.startswith("cimport")
+ 61 |             )
+ 62 |             identified_import = partial(
+ 63 |                 Import,
+ 64 |                 index + 1,  # line numbers use 1 based indexing
+ 65 |                 raw_line.startswith((" ", "\t")),
+ 66 |                 cimport=cimports,
+ 67 |                 file_path=file_path,
+ 68 |             )
+ 69 | 
+ 70 |             if "(" in line.split("#", 1)[0]:
+ 71 |                 while not line.split("#")[0].strip().endswith(")"):
+ 72 |                     try:
+ 73 |                         index, next_line = next(indexed_input)
+ 74 |                     except StopIteration:
+ 75 |                         break
+ 76 | 
+ 77 |                     line, _ = parse_comments(next_line)
+ 78 |                     import_string += "\n" + line
+ 79 |             else:
+ 80 |                 while line.strip().endswith("\\"):
+ 81 |                     try:
+ 82 |                         index, next_line = next(indexed_input)
+ 83 |                     except StopIteration:
+ 84 |                         break
+ 85 | 
+ 86 |                     line, _ = parse_comments(next_line)
+ 87 | 
+ 88 |                     # Still need to check for parentheses after an escaped line
+ 89 |                     if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+ 90 |                         import_string += "\n" + line
+ 91 | 
+ 92 |                         while not line.split("#")[0].strip().endswith(")"):
+ 93 |                             try:
+ 94 |                                 index, next_line = next(indexed_input)
+ 95 |                             except StopIteration:
+ 96 |                                 break
+ 97 |                             line, _ = parse_comments(next_line)
+ 98 |                             import_string += "\n" + line
+ 99 |                     else:
+100 |                         if import_string.strip().endswith(
+101 |                             (" import", " cimport")
+102 |                         ) or line.strip().startswith(("import ", "cimport ")):
+103 |                             import_string += "\n" + line
+104 |                         else:
+105 |                             import_string = (
+106 |                                 import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+107 |                             )
+108 | 
+109 |             if type_of_import == "from":
+110 |                 import_string = (
+111 |                     import_string.replace("import(", "import (")
+112 |                     .replace("\\", " ")
+113 |                     .replace("\n", " ")
+114 |                 )
+115 |                 parts = import_string.split(" cimport " if cimports else " import ")
+116 | 
+117 |                 from_import = parts[0].split(" ")
+118 |                 import_string = (" cimport " if cimports else " import ").join(
+119 |                     [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+120 |                 )
+121 | 
+122 |             just_imports = [
+123 |                 item.replace("{|", "{ ").replace("|}", " }")
+124 |                 for item in strip_syntax(import_string).split()
+125 |             ]
+126 | 
+127 |             direct_imports = just_imports[1:]
+128 |             top_level_module = ""
+129 |             if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+130 |                 while "as" in just_imports:
+131 |                     attribute = None
+132 |                     as_index = just_imports.index("as")
+133 |                     if type_of_import == "from":
+134 |                         attribute = just_imports[as_index - 1]
+135 |                         top_level_module = just_imports[0]
+136 |                         module = top_level_module + "." + attribute
+137 |                         alias = just_imports[as_index + 1]
+138 |                         direct_imports.remove(attribute)
+139 |                         direct_imports.remove(alias)
+140 |                         direct_imports.remove("as")
+141 |                         just_imports[1:] = direct_imports
+142 |                         if attribute == alias and config.remove_redundant_aliases:
+143 |                             yield identified_import(top_level_module, attribute)
+144 |                         else:
+145 |                             yield identified_import(top_level_module, attribute, alias=alias)
+146 | 
+147 |                     else:
+148 |                         module = just_imports[as_index - 1]
+149 |                         alias = just_imports[as_index + 1]
+150 |                         just_imports.remove(alias)
+151 |                         just_imports.remove("as")
+152 |                         just_imports.remove(module)
+153 |                         if module == alias and config.remove_redundant_aliases:
+154 |                             yield identified_import(module)
+155 |                         else:
+156 |                             yield identified_import(module, alias=alias)
+157 | 
+158 |             if just_imports:
+159 |                 if type_of_import == "from":
+160 |                     module = just_imports.pop(0)
+161 |                     for attribute in just_imports:
+162 |                         yield identified_import(module, attribute)
+163 |                 else:
+164 |                     for module in just_imports:
+165 |                         yield identified_import(module)
+```
+
+
+# Prompt used at query #28
+#--------------------------
+
+isort/parse.py:
+```
+def normalize_line(raw_line: str) -> tuple[str, str]:
+    """Normalizes import related statements in the provided line.
+
+    Returns (normalized_line: str, raw_line: str)
+    """
+    line = re.sub(r"from(\.+)cimport ", r"from \g<1> cimport ", raw_line)
+    line = re.sub(r"from(\.+)import ", r"from \g<1> import ", line)
+    line = line.replace("import*", "import *")
+    line = re.sub(r" (\.+)import ", r" \g<1> import ", line)
+    line = re.sub(r" (\.+)cimport ", r" \g<1> cimport ", line)
+    line = line.replace("\t", " ")
+    return line, raw_line
+
+
+def skip_line(
+    line: str,
+    in_quote: str,
+    index: int,
+    section_comments: tuple[str, ...],
+    needs_import: bool = True,
+) -> tuple[bool, str]:
+    """Determine if a given line should be skipped.
+
+    Returns back a tuple containing:
+
+    (skip_line: bool,
+     in_quote: str,)
+    """
+    should_skip = bool(in_quote)
+    if '"' in line or "'" in line:
+        char_index = 0
+        while char_index < len(line):
+            if line[char_index] == "\\":
+                char_index += 1
+            elif in_quote:
+                if line[char_index : char_index + len(in_quote)] == in_quote:
+                    in_quote = ""
+            elif line[char_index] in ("'", '"'):
+                long_quote = line[char_index : char_index + 3]
+                if long_quote in ('"""', "'''"):
+                    in_quote = long_quote
+                    char_index += 2
+                else:
+                    in_quote = line[char_index]
+            elif line[char_index] == "#":
+                break
+            char_index += 1
+
+    if ";" in line.split("#")[0] and needs_import:
+        for part in (part.strip() for part in line.split(";")):
+            if (
+                part
+                and not part.startswith("from ")
+                and not part.startswith(("import ", "cimport "))
+            ):
+                should_skip = True
+
+    return (bool(should_skip or in_quote), in_quote)
+
+
+def strip_syntax(import_string: str) -> str:
+    import_string = import_string.replace("_import", "[[i]]")
+    import_string = import_string.replace("_cimport", "[[ci]]")
+    for remove_syntax in ["\\", "(", ")", ","]:
+        import_string = import_string.replace(remove_syntax, " ")
+    import_list = import_string.split()
+    for key in ("from", "import", "cimport"):
+        if key in import_list:
+            import_list.remove(key)
+    import_string = " ".join(import_list)
+    import_string = import_string.replace("[[i]]", "_import")
+    import_string = import_string.replace("[[ci]]", "_cimport")
+    return import_string.replace("{ ", "{|").replace(" }", "|}")
+
+```
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+```
+
+isort/identify.py (module to test):
+```
+def imports(
+    input_stream: TextIO,
+    config: Config = DEFAULT_CONFIG,
+    file_path: Path | None = None,
+    top_only: bool = False,
+) -> Iterator[Import]:
+    """Parses a python file taking out and categorizing imports."""
+    in_quote = ""
+
+    indexed_input = enumerate(input_stream)
+    for index, raw_line in indexed_input:
+        (skipping_line, in_quote) = skip_line(
+            raw_line, in_quote=in_quote, index=index, section_comments=config.section_comments
+        )
+
+        if top_only and not in_quote and raw_line.startswith(STATEMENT_DECLARATIONS):
+            break
+        if skipping_line:
+            continue
+
+        stripped_line = raw_line.strip().split("#")[0]
+        if stripped_line.startswith(("raise", "yield")):
+            if stripped_line == "yield":
+                while not stripped_line or stripped_line == "yield":
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    stripped_line = next_line.strip().split("#")[0]
+            while stripped_line.endswith("\\"):
+                try:
+                    index, next_line = next(indexed_input)
+                except StopIteration:
+                    break
+
+                stripped_line = next_line.strip().split("#")[0]
+            continue  # pragma: no cover
+
+        line, *end_of_line_comment = raw_line.split("#", 1)
+        statements = [line.strip() for line in line.split(";")]
+        if end_of_line_comment:
+            statements[-1] = f"{statements[-1]}#{end_of_line_comment[0]}"
+
+        for statement in statements:
+            line, _raw_line = normalize_line(statement)
+            if line.startswith(("import ", "cimport ")):
+                type_of_import = "straight"
+            elif line.startswith("from "):
+                type_of_import = "from"
+            else:
+                continue  # pragma: no cover
+
+            import_string, _ = parse_comments(line)
+            normalized_import_string = (
+                import_string.replace("import(", "import (").replace("\\", " ").replace("\n", " ")
+            )
+            cimports: bool = (
+                " cimport " in normalized_import_string
+                or normalized_import_string.startswith("cimport")
+            )
+            identified_import = partial(
+                Import,
+                index + 1,  # line numbers use 1 based indexing
+                raw_line.startswith((" ", "\t")),
+                cimport=cimports,
+                file_path=file_path,
+            )
+
+            if "(" in line.split("#", 1)[0]:
+                while not line.split("#")[0].strip().endswith(")"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+                    import_string += "\n" + line
+            else:
+                while line.strip().endswith("\\"):
+                    try:
+                        index, next_line = next(indexed_input)
+                    except StopIteration:
+                        break
+
+                    line, _ = parse_comments(next_line)
+
+                    # Still need to check for parentheses after an escaped line
+                    if "(" in line.split("#")[0] and ")" not in line.split("#")[0]:
+                        import_string += "\n" + line
+
+                        while not line.split("#")[0].strip().endswith(")"):
+                            try:
+                                index, next_line = next(indexed_input)
+                            except StopIteration:
+                                break
+                            line, _ = parse_comments(next_line)
+                            import_string += "\n" + line
+                    else:
+                        if import_string.strip().endswith(
+                            (" import", " cimport")
+                        ) or line.strip().startswith(("import ", "cimport ")):
+                            import_string += "\n" + line
+                        else:
+                            import_string = (
+                                import_string.rstrip().rstrip("\\") + " " + line.lstrip()
+                            )
+
+            if type_of_import == "from":
+                import_string = (
+                    import_string.replace("import(", "import (")
+                    .replace("\\", " ")
+                    .replace("\n", " ")
+                )
+                parts = import_string.split(" cimport " if cimports else " import ")
+
+                from_import = parts[0].split(" ")
+                import_string = (" cimport " if cimports else " import ").join(
+                    [from_import[0] + " " + "".join(from_import[1:]), *parts[1:]]
+                )
+
+            just_imports = [
+                item.replace("{|", "{ ").replace("|}", " }")
+                for item in strip_syntax(import_string).split()
+            ]
+
+            direct_imports = just_imports[1:]
+            top_level_module = ""
+            if "as" in just_imports and (just_imports.index("as") + 1) < len(just_imports):
+                while "as" in just_imports:
+                    attribute = None
+                    as_index = just_imports.index("as")
+                    if type_of_import == "from":
+                        attribute = just_imports[as_index - 1]
+                        top_level_module = just_imports[0]
+                        module = top_level_module + "." + attribute
+                        alias = just_imports[as_index + 1]
+                        direct_imports.remove(attribute)
+                        direct_imports.remove(alias)
+                        direct_imports.remove("as")
+                        just_imports[1:] = direct_imports
+                        if attribute == alias and config.remove_redundant_aliases:
+                            yield identified_import(top_level_module, attribute)
+                        else:
+                            yield identified_import(top_level_module, attribute, alias=alias)
+
+                    else:
+                        module = just_imports[as_index - 1]
+                        alias = just_imports[as_index + 1]
+                        just_imports.remove(alias)
+                        just_imports.remove("as")
+                        just_imports.remove(module)
+                        if module == alias and config.remove_redundant_aliases:
+                            yield identified_import(module)
+                        else:
+                            yield identified_import(module, alias=alias)
+
+            if just_imports:
+                if type_of_import == "from":
+                    module = just_imports.pop(0)
+                    for attribute in just_imports:
+                        yield identified_import(module, attribute)
+                else:
+                    for module in just_imports:
+                        yield identified_import(module)
+
+```
+Write unit test for function imports
+
+

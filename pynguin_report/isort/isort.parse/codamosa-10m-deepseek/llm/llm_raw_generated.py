@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,575 +7,152 @@
 #--------------------------
 
 # Unit test for function import_type
-def test_import_type(): 
-    from .settings import Config
-    config = Config()
-    # Test straight import
-    assert import_type("import os", config) == "straight"
-    # Test from import
-    assert import_type("from os import path", config) == "from"
-    # Test noqa comment
+def test_import_type():
+    config = Config(honor_noqa=True)
+    
+    # Test honor_noqa=True and line ends with "noqa"
     assert import_type("import os  # noqa", config) is None
-    # Test isort:skip
+    
+    # Test honor_noqa=True and line does not end with "noqa"
+    assert import_type("import os", config) == "straight"
+    
+    # Test honor_noqa=False and line ends with "noqa"
+    config.honor_noqa = False
+    assert import_type("import os  # noqa", config) == "straight"
+    
+    # Test line contains "isort:skip"
     assert import_type("import os  # isort:skip", config) is None
-    # Test isort: split
-    assert import_type("import os  # isort:split", config) is None
-    # Test non-import line
-    assert import_type("print('hello')", config) is None
-    # Test cimport
-    assert import_type("cimport numpy", config) == "straight"
-    # Test from with cimport
-    assert import_type("from . cimport something", config) == "from"
-    # Test line with isort: skip (with space)
+    
+    # Test line contains "isort: skip"
     assert import_type("import os  # isort: skip", config) is None
-    # Test line ending with noqa (case insensitive)
-    assert import_type("import os  # NOQA", config) is None
-    # Test line with isort:skip in middle
-    assert import_type("import os  # some comment isort:skip", config) is None
-    # Test line with isort:split in middle
-    assert import_type("import os  # isort:split comment", config) is None
-    # Test line with tab
-    assert import_type("import\tos", config) == "straight"
-    # Test from with relative import
-    assert import_type("from . import something", config) == "from"
-    # Test from with multiple dots
-    assert import_type("from ... import something", config) == "from"
-    # Test cimport with from
-    assert import_type("from .cimport something", config) == "from"
-    # Test line with multiple spaces
-    assert import_type("import  os", config) == "straight"
-    # Test line with trailing spaces
-    assert import_type("import os   ", config) == "straight"
-    # Test line with leading spaces
-    assert import_type("   import os", config) == "straight"
-    # Test line with mixed case NOQA
-    assert import_type("import os  # NoQA", config) is None
-    # Test line with noqa and other text
-    assert import_type("import os  # noqa: F401", config) is None
-    # Test line with isort:skip and other text
-    assert import_type("import os  # isort:skip some reason", config) is None
-    # Test line with isort: split and other text
-    assert import_type("import os  # isort:split here", config) is None
-    # Test empty line
-    assert import_type("", config) is None
-    # Test line with only spaces
-    assert import_type("   ", config) is None
-    # Test line with only comment
-    assert import_type("# comment", config) is None
-    # Test line with import in comment
-    assert import_type("# import os", config) is None
-    # Test line with from in comment
-    assert import_type("# from os import path", config) is None
-    # Test line with cimport in comment
-    assert import_type("# cimport numpy", config) is None
-    # Test line with import and noqa at start
-    assert import_type("import os  # NOQA import something else", config) is None
-    # Test line with from and noqa
-    assert import_type("from os import path  # noqa", config) is None
-    # Test line with cimport and noqa
-    assert import_type("cimport numpy  # noqa", config) is None
-    # Test line with isort:skip and noqa
-    assert import_type("import os  # isort:skip noqa", config) is None
-    # Test line with multiple isort directives
-    assert import_type("import os  # isort:skip isort:split", config) is None
-    # Test line with import and special characters
-    assert import_type("import os.path  # special", config) == "straight"
-    # Test line with from and special characters
-    assert import_type("from os.path import join  # special", config) == "from"
-    # Test line with cimport and special characters
-    assert import_type("cimport numpy as np  # special", config) == "straight"
-    # Test line with import and parentheses
-    assert import_type("import (os, sys)", config) == "straight"
-    # Test line with from and parentheses
-    assert import_type("from os import (path, sep)", config) == "from"
-    # Test line with import and backslash continuation
-    assert import_type("import os, \\\n    sys", config) == "straight"
-    # Test line with from and backslash continuation
-    assert import_type("from os import path, \\\n    sep", config) == "from"
-    # Test line with import and semicolon
-    assert import_type("import os; import sys", config) == "straight"
-    # Test line with from and semicolon
-    assert import_type("from os import path; from sys import argv", config) == "from"
-    # Test line with import and inline comment
-    assert import_type("import os  # inline comment", config) == "straight"
-    # Test line with from and inline comment
-    assert import_type("from os import path  # inline comment", config) == "from"
-    # Test line with cimport and inline comment
-    assert import_type("cimport numpy  # inline comment", config) == "straight"
-    # Test line with import and noqa in middle
-    assert import_type("import os  # noqa comment", config) is None
-    # Test line with from and noqa in middle
-    assert import_type("from os import path  # noqa comment", config) is None
-    # Test line with cimport and noqa in middle
-    assert import_type("cimport numpy  # noqa comment", config) is None
-    # Test line with import and isort:skip in middle
-    assert import_type("import os  # isort:skip comment", config) is None
-    # Test line with from and isort:skip in middle
-    assert import_type("from os import path  # isort:skip comment", config) is None
-    # Test line with cimport and isort:skip in middle
-    assert import_type("cimport numpy  # isort:skip comment", config) is None
-    # Test line with import and isort:split in middle
-    assert import_type("import os  # isort:split comment", config) is None
-    # Test line with from and isort:split in middle
-    assert import_type("from os import path  # isort:split comment", config) is None
-    # Test line with cimport and isort:split in middle
-    assert import_type("cimport numpy  # isort:split comment", config) is None
-    # Test line with import and multiple comments
-    assert import_type("import os  # comment1  # comment2", config) == "straight"
-    # Test line with from and multiple comments
-    assert import_type("from os import path  # comment1  # comment2", config) == "from"
-    # Test line with cimport and multiple comments
-    assert import_type("cimport numpy  # comment1  # comment2", config) == "straight"
-    # Test line with import and noqa at end with spaces
-    assert import_type("import os   #   noqa", config) is None
-    # Test line with from and noqa at end with spaces
-    assert import_type("from os import path   #   noqa", config) is None
-    # Test line with cimport and noqa at end with spaces
-    assert import_type("cimport numpy   #   noqa", config) is None
-    # Test line with import and isort:skip with spaces
-    assert import_type("import os   #   isort:skip", config) is None
-    # Test line with from and isort:skip with spaces
-    assert import_type("from os import path   #   isort:skip", config) is None
-    # Test line with cimport and isort:skip with spaces
-    assert import_type("cimport numpy   #   isort:skip", config) is None
-    # Test line with import and isort: split with spaces
-    assert import_type("import os   #   isort: split", config) is None
-    # Test line with from and isort: split with spaces
-    assert import_type("from os import path   #   isort: split", config) is None
-    # Test line with cimport and isort: split with spaces
-    assert import_type("cimport numpy   #   isort: split", config) is None
-    # Test line with import and uppercase ISORT:SKIP
-    assert import_type("import os  # ISORT:SKIP", config) is None
-    # Test line with from and uppercase ISORT:SKIP
-    assert import_type("from os import path  #
+    
+    # Test line contains "isort: split"
+    assert import_type("import os  # isort: split", config) is None
+    
+    # Test line starts with "import "
+    assert import_type("import os", config) == "straight"
+    
+    # Test line starts with "cimport "
+    assert import_type("cimport os", config) == "straight"
+    
+    # Test line starts with "from "
+    assert import_type("from os import path", config) == "from"
+    
+    # Test line does not match any import pattern
+    assert import_type("print('Hello, World!')", config) is None
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for function skip_line
-def test_skip_line(): 
-    # Test case 1: line with no quotes, not in quote
-    line1 = "import os"
-    in_quote1 = ""
-    index1 = 0
-    section_comments1 = ()
-    needs_import1 = True
-    result1 = skip_line(line1, in_quote1, index1, section_comments1, needs_import1)
-    assert result1 == (False, ""), f"Expected (False, ''), got {result1}"
+def test_skip_line():
+    # Test case 1: Line with no quotes or semicolons
+    line = "import os"
+    in_quote = ""
+    index = 0
+    section_comments = ()
+    needs_import = True
+    result = skip_line(line, in_quote, index, section_comments, needs_import)
+    assert result == (False, "")
 
-    # Test case 2: line with single quotes, not in quote
-    line2 = "import 'os'"
-    in_quote2 = ""
-    index2 = 0
-    section_comments2 = ()
-    needs_import2 = True
-    result2 = skip_line(line2, in_quote2, index2, section_comments2, needs_import2)
-    assert result2 == (False, ""), f"Expected (False, ''), got {result2}"
+    # Test case 2: Line with a single quote
+    line = "import os  # 'comment"
+    in_quote = ""
+    index = 0
+    section_comments = ()
+    needs_import = True
+    result = skip_line(line, in_quote, index, section_comments, needs_import)
+    assert result == (False, "")
 
-    # Test case 3: line with double quotes, not in quote
-    line3 = 'import "os"'
-    in_quote3 = ""
-    index3 = 0
-    section_comments3 = ()
-    needs_import3 = True
-    result3 = skip_line(line3, in_quote3, index3, section_comments3, needs_import3)
-    assert result3 == (False, ""), f"Expected (False, ''), got {result3}"
+    # Test case 3: Line with a triple quote
+    line = '"""docstring"""'
+    in_quote = ""
+    index = 0
+    section_comments = ()
+    needs_import = True
+    result = skip_line(line, in_quote, index, section_comments, needs_import)
+    assert result == (True, '"""')
 
-    # Test case 4: line with triple quotes, not in quote
-    line4 = 'import """os"""'
-    in_quote4 = ""
-    index4 = 0
-    section_comments4 = ()
-    needs_import4 = True
-    result4 = skip_line(line4, in_quote4, index4, section_comments4, needs_import4)
-    assert result4 == (False, ""), f"Expected (False, ''), got {result4}"
+    # Test case 4: Line with a semicolon and non-import statement
+    line = "import os; x = 1"
+    in_quote = ""
+    index = 0
+    section_comments = ()
+    needs_import = True
+    result = skip_line(line, in_quote, index, section_comments, needs_import)
+    assert result == (True, "")
 
-    # Test case 5: line with escaped quote, not in quote
-    line5 = 'import "os\\"'
-    in_quote5 = ""
-    index5 = 0
-    section_comments5 = ()
-    needs_import5 = True
-    result5 = skip_line(line5, in_quote5, index5, section_comments5, needs_import5)
-    assert result5 == (False, ""), f"Expected (False, ''), got {result5}"
-
-    # Test case 6: line with comment, not in quote
-    line6 = "import os # comment"
-    in_quote6 = ""
-    index6 = 0
-    section_comments6 = ()
-    needs_import6 = True
-    result6 = skip_line(line6, in_quote6, index6, section_comments6, needs_import6)
-    assert result6 == (False, ""), f"Expected (False, ''), got {result6}"
-
-    # Test case 7: line with semicolon, not in quote
-    line7 = "import os; print('hello')"
-    in_quote7 = ""
-    index7 = 0
-    section_comments7 = ()
-    needs_import7 = True
-    result7 = skip_line(line7, in_quote7, index7, section_comments7, needs_import7)
-    assert result7 == (True, ""), f"Expected (True, ''), got {result7}"
-
-    # Test case 8: line with semicolon and comment, not in quote
-    line8 = "import os; print('hello') # comment"
-    in_quote8 = ""
-    index8 = 0
-    section_comments8 = ()
-    needs_import8 = True
-    result8 = skip_line(line8, in_quote8, index8, section_comments8, needs_import8)
-    assert result8 == (True, ""), f"Expected (True, ''), got {result8}"
-
-    # Test case 9: line with semicolon and no import, not in quote
-    line9 = "print('hello'); import os"
-    in_quote9 = ""
-    index9 = 0
-    section_comments9 = ()
-    needs_import9 = True
-    result9 = skip_line(line9, in_quote9, index9, section_comments9, needs_import9)
-    assert result9 == (False, ""), f"Expected (False, ''), got {result9}"
-
-    # Test case 10: line with semicolon and no import, not in quote, needs_import=False
-    line10 = "print('hello'); import os"
-    in_quote10 = ""
-    index10 = 0
-    section_comments10 = ()
-    needs_import10 = False
-    result10 = skip_line(line10, in_quote10, index10, section_comments10, needs_import10)
-    assert result10 == (False, ""), f"Expected (False, ''), got {result10}"
-
-    # Test case 11: line with semicolon and no import, not in quote, needs_import=True
-    line11 = "print('hello'); import os"
-    in_quote11 = ""
-    index11 = 0
-    section_comments11 = ()
-    needs_import11 = True
-    result11 = skip_line(line11, in_quote11, index11, section_comments11, needs_import11)
-    assert result11 == (False, ""), f"Expected (False, ''), got {result11}"
-
-    # Test case 12: line with semicolon and no import, not in quote, needs_import=False
-    line12 = "print('hello'); import os"
-    in_quote12 = ""
-    index12 = 0
-    section_comments12 = ()
-    needs_import12 = False
-    result12 = skip_line(line12, in_quote12, index12, section_comments12, needs_import12)
-    assert result12 == (False, ""), f"Expected (False, ''), got {result12}"
-
-    # Test case 13: line with semicolon and no import, not in quote, needs_import=True
-    line13 = "print('hello'); import os"
-    in_quote13 = ""
-    index13 = 0
-    section_comments13 = ()
-    needs_import13 = True
-    result13 = skip_line(line13, in_quote13, index13, section_comments13, needs_import13)
-    assert result13 == (False, ""), f"Expected (False, ''), got {result13}"
-
-    # Test case 14: line with semicolon and no import, not in quote, needs_import=False
-    line14 = "print('hello'); import os"
-    in_quote14 = ""
-    index14 = 0
-    section_comments14 = ()
-    needs_import14 = False
-    result14 = skip_line(line14, in_quote14, index14, section_comments14, needs_import14)
-    assert result14 == (False, ""), f"Expected (False, ''), got {result14}"
-
-    # Test case 15: line with semicolon and no import, not in quote, needs_import=True
-    line15 = "print('hello'); import os"
-    in_quote15 = ""
-    index15 = 0
-    section_comments15 = ()
-    needs_import15 = True
-    result15 = skip_line(line15, in_quote15, index15, section_comments15, needs_import15)
-    assert result15 == (False, ""), f"Expected (False, ''), got {result15}"
-
-    # Test case 16: line with semicolon and no import, not in quote, needs_import=False
-    line16 = "print('hello'); import os"
-    in_quote16 = ""
-    index16 = 0
-    section_comments16 = ()
-    needs_import16 = False
-    result16 = skip_line(line16, in_quote16, index16, section_comments16, needs_import16)
-    assert result16 == (False, ""), f"Expected (False, ''), got {result16}"
-
-    # Test case 17: line with semicolon and no import, not in quote, needs_import=True
-    line17 = "print('hello'); import os"
-    in_quote17 = ""
-    index17 = 0
-    section_comments17 = ()
-    needs_import17 = True
-    result17 = skip_line(line17, in_quote17, index17, section_comments17, needs_import17)
-    assert result17 == (False, ""), f"Expected (False, ''), got {result17}"
-
-    # Test case 18: line with semicolon and no import, not in quote, needs_import=False
-    line18 = "print('hello'); import os"
-    in_quote18 = ""
-    index18 = 0
-    section_comments18 = ()
-    needs_import18 = False
-    result18 = skip_line(line18, in_quote18, index18, section_comments18, needs_import18)
-    assert result18 == (False, ""), f"Expected (False, ''), got {result18}"
-
-    # Test case 19: line with semicolon and no import, not in quote, needs_import=True
+    # Test case 5: Line with a semicolon and only import statements
+    line = "import os; import sys"
+    in_quote = ""
+    index = 0
+    section_comments = ()
+    needs_import = True
+    result = skip_line(line, in_quote, index, section_comments, needs_import)
+    assert result == (False, "")
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for function file_contents
-def test_file_contents(): 
-    # Test case 1: Empty content
+def test_file_contents():
     config = Config()
-    result = file_contents("", config)
-    assert result.import_index == -1
-    assert len(result.imports) == len(config.sections) + len(config.forced_separate)
-    assert result.change_count == 0
-
-    # Test case 2: Content with no imports
-    content = "print('Hello, World!')"
-    result = file_contents(content, config)
-    assert result.import_index == 0
-    assert result.change_count == 0
-
-    # Test case 3: Content with a single import
-    content = "import os"
-    result = file_contents(content, config)
-    assert result.import_index == 0
-    assert len(result.imports['STDLIB']['straight']) == 1
-    assert 'os' in result.imports['STDLIB']['straight']
-
-    # Test case 4: Content with multiple imports
-    content = "import os\nimport sys"
-    result = file_contents(content, config)
-    assert result.import_index == 0
-    assert len(result.imports['STDLIB']['straight']) == 2
-
-    # Test case 5: Content with from import
-    content = "from os import path"
-    result = file_contents(content, config)
-    assert result.import_index == 0
-    assert 'os' in result.imports['STDLIB']['from']
-    assert 'path' in result.imports['STDLIB']['from']['os']
-
-    # Test case 6: Content with comments
-    content = "# This is a comment\nimport os"
-    result = file_contents(content, config)
-    assert result.import_index == 1
-    assert len(result.categorized_comments['above']['straight'].get('os', [])) == 1
-
-    # Test case 7: Content with trailing commas in from imports
-    content = "from os import path,"
-    result = file_contents(content, config)
-    assert 'os' in result.trailing_commas
-
-    # Test case 8: Content with forced separate sections
-    config.forced_separate = ['THIRDPARTY']
-    content = "import requests"
-    result = file_contents(content, config)
-    assert 'requests' in result.imports['THIRDPARTY']['straight']
-
-    # Test case 9: Content with as aliases
-    content = "import os as operating_system"
-    result = file_contents(content, config)
-    assert 'operating_system' in result.as_map['straight']['os']
-
-    # Test case 10: Content with nested comments
-    content = "from os import (  # comment\n    path)"
-    result = file_contents(content, config)
-    assert 'path' in result.categorized_comments['nested'].get('os', {})
-
-    # Test case 11: Content with line continuation
-    content = "from os import \\\n    path"
-    result = file_contents(content, config)
-    assert 'path' in result.imports['STDLIB']['from']['os']
-
-    # Test case 12: Content with multiple statements per line
-    content = "import os; import sys"
-    result = file_contents(content, config)
-    assert len(result.imports['STDLIB']['straight']) == 2
-
-    # Test case 13: Content with shebang
-    content = "#!/usr/bin/env python\nimport os"
-    result = file_contents(content, config)
-    assert result.import_index == 1
-
-    # Test case 14: Content with docstring
-    content = '"""Module docstring."""\nimport os'
-    result = file_contents(content, config)
-    assert result.import_index == 1
-
-    # Test case 15: Content with isort directives
-    content = "# isort:skip_file\nimport os"
-    result = file_contents(content, config)
-    # The skip directive should be handled, but we need to check the behavior
-
-    # Test case 16: Content with float_to_top enabled
-    config.float_to_top = True
-    content = "print('Hello')\nimport os"
-    result = file_contents(content, config)
-    assert result.import_index == 0
-
-    # Test case 17: Content with cimports (Cython)
-    content = "from libc.stdio cimport printf"
-    result = file_contents(content, config)
-    assert 'libc.stdio' in result.imports['STDLIB']['from']
-
-    # Test case 18: Content with redundant aliases removal
-    config.remove_redundant_aliases = True
-    content = "import os as os"
-    result = file_contents(content, config)
-    assert 'os' not in result.as_map['straight']
-
-    # Test case 19: Content with combine_as_imports
-    config.combine_as_imports = True
-    content = "from os import path as p\n# comment"
-    result = file_contents(content, config)
-    # Check that comment is attached correctly
-
-    # Test case 20: Content with treat_all_comments_as_code
-    config.treat_all_comments_as_code = True
-    content = "# Important comment\nimport os"
-    result = file_contents(content, config)
-    # Comment should not be categorized as above import
-
-    print("All tests passed!")
-
-# Run the unit tests
-test_file_contents()
+    contents = """
+import os
+import sys
+from collections import defaultdict
+from typing import Any, Dict, List, Set, Tuple
+"""
+    parsed_content = file_contents(contents, config)
+    assert parsed_content.import_index == 1
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 5
+    assert parsed_content.line_separator == "\n"
+    assert parsed_content.sections == config.sections
+    assert parsed_content.verbose_output == []
+    assert parsed_content.trailing_commas == set()
+    assert parsed_content.imports["STDLIB"]["straight"] == OrderedDict(
+        [("os", True), ("sys", True)]
+    )
+    assert parsed_content.imports["STDLIB"]["from"] == OrderedDict(
+        [("collections", OrderedDict([("defaultdict", True)])), ("typing", OrderedDict([("Any", True), ("Dict", True), ("List", True), ("Set", True), ("Tuple", True)]))]
+    )
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for function import_type
-def test_import_type(): 
-    # Test case 1: line ends with "noqa" and honor_noqa is True
-    config = Config(honor_noqa=True)
-    line = "import something  # noqa"
-    assert import_type(line, config) is None
+def test_import_type():
+    # Test case 1: Straight import
+    assert import_type("import os") == "straight"
 
-    # Test case 2: line contains "isort:skip"
-    line = "import something  # isort:skip"
-    assert import_type(line, config) is None
+    # Test case 2: From import
+    assert import_type("from os import path") == "from"
 
-    # Test case 3: line starts with "import "
-    line = "import something"
-    assert import_type(line, config) == "straight"
+    # Test case 3: Noqa comment
+    assert import_type("import os  # noqa") is None
 
-    # Test case 4: line starts with "cimport "
-    line = "cimport something"
-    assert import_type(line, config) == "straight"
+    # Test case 4: isort:skip comment
+    assert import_type("import os  # isort:skip") is None
 
-    # Test case 5: line starts with "from "
-    line = "from something import something_else"
-    assert import_type(line, config) == "from"
+    # Test case 5: isort: split comment
+    assert import_type("import os  # isort:split") is None
 
-    # Test case 6: line does not match any import pattern
-    line = "print('Hello, World!')"
-    assert import_type(line, config) is None
+    # Test case 6: Non-import line
+    assert import_type("print('Hello, World!')") is None
 
-    # Test case 7: line ends with "noqa" but honor_noqa is False
-    config = Config(honor_noqa=False)
-    line = "import something  # noqa"
-    assert import_type(line, config) == "straight"
+    # Test case 7: cimport
+    assert import_type("cimport numpy as np") == "straight"
 
-    # Test case 8: line contains "isort: split"
-    config = Config(honor_noqa=True)
-    line = "import something  # isort: split"
-    assert import_type(line, config) is None
+    # Test case 8: Mixed case
+    assert import_type("FrOm os import path") == "from"
 
-    # Test case 9: line contains "isort: skip"
-    line = "import something  # isort: skip"
-    assert import_type(line, config) is None
+    print("All test cases passed!")
 
-    # Test case 10: line starts with "import " and has trailing spaces
-    line = "import something   "
-    assert import_type(line, config) == "straight"
-
-    # Test case 11: line starts with "from " and has trailing spaces
-    line = "from something import something_else   "
-    assert import_type(line, config) == "from"
-
-    # Test case 12: line starts with "cimport " and has trailing spaces
-    line = "cimport something   "
-    assert import_type(line, config) == "straight"
-
-    # Test case 13: line starts with "import " and has comment
-    line = "import something  # some comment"
-    assert import_type(line, config) == "straight"
-
-    # Test case 14: line starts with "from " and has comment
-    line = "from something import something_else  # some comment"
-    assert import_type(line, config) == "from"
-
-    # Test case 15: line starts with "cimport " and has comment
-    line = "cimport something  # some comment"
-    assert import_type(line, config) == "straight"
-
-    # Test case 16: line starts with "import " and has "isort:skip" comment
-    line = "import something  # isort:skip"
-    assert import_type(line, config) is None
-
-    # Test case 17: line starts with "from " and has "isort:skip" comment
-    line = "from something import something_else  # isort:skip"
-    assert import_type(line, config) is None
-
-    # Test case 18: line starts with "cimport " and has "isort:skip" comment
-    line = "cimport something  # isort:skip"
-    assert import_type(line, config) is None
-
-    # Test case 19: line starts with "import " and has "isort: split" comment
-    line = "import something  # isort: split"
-    assert import_type(line, config) is None
-
-    # Test case 20: line starts with "from " and has "isort: split" comment
-    line = "from something import something_else  # isort: split"
-    assert import_type(line, config) is None
-
-    # Test case 21: line starts with "cimport " and has "isort: split" comment
-    line = "cimport something  # isort: split"
-    assert import_type(line, config) is None
-
-    # Test case 22: line starts with "import " and has "noqa" comment but honor_noqa is False
-    config = Config(honor_noqa=False)
-    line = "import something  # noqa"
-    assert import_type(line, config) == "straight"
-
-    # Test case 23: line starts with "from " and has "noqa" comment but honor_noqa is False
-    line = "from something import something_else  # noqa"
-    assert import_type(line, config) == "from"
-
-    # Test case 24: line starts with "cimport " and has "noqa" comment but honor_noqa is False
-    line = "cimport something  # noqa"
-    assert import_type(line, config) == "straight"
-
-    # Test case 25: line starts with "import " and has "isort:skip" comment but honor_noqa is False
-    line = "import something  # isort:skip"
-    assert import_type(line, config) is None
-
-    # Test case 26: line starts with "from " and has "isort:skip" comment but honor_noqa is False
-    line = "from something import something_else  # isort:skip"
-    assert import_type(line, config) is None
-
-    # Test case 27: line starts with "cimport " and has "isort:skip" comment but honor_noqa is False
-    line = "cimport something  # isort:skip"
-    assert import_type(line, config) is None
-
-    # Test case 28: line starts with "import " and has "isort: split" comment but honor_noqa is False
-    line = "import something  # isort: split"
-    assert import_type(line, config) is None
-
-    # Test case 29: line starts with "from " and has "isort: split" comment but honor_noqa is False
-    line = "from something import something_else  # isort: split"
-    assert import_type(line, config) is None
-
-    # Test case 30: line starts with "cimport " and has "isort: split" comment but honor_noqa is False
-    line = "cimport something  # isort: split"
-    assert import_type(line, config) is None
-
-    print("All tests passed!")
-
+# Run the unit test
 test_import_type()
 
 
@@ -583,47 +160,242 @@ test_import_type()
 #--------------------------
 
 # Unit test for function strip_syntax
-def test_strip_syntax(): 
-    # Test case 1: Basic import statement
+def test_strip_syntax():
     assert strip_syntax("import os") == "os"
-    
-    # Test case 2: Import statement with multiple modules
-    assert strip_syntax("import os, sys") == "os sys"
-    
-    # Test case 3: From import statement
     assert strip_syntax("from os import path") == "os path"
-    
-    # Test case 4: From import statement with multiple modules
-    assert strip_syntax("from os import path, sep") == "os path sep"
-    
-    # Test case 5: Import statement with backslash continuation
-    assert strip_syntax("import os\\\n    sys") == "os sys"
-    
-    # Test case 6: Import statement with parentheses
-    assert strip_syntax("import (os, sys)") == "os sys"
-    
-    # Test case 7: Import statement with underscore in module name
-    assert strip_syntax("import my_module") == "my_module"
-    
-    # Test case 8: Import statement with cimport
+    assert strip_syntax("import os, sys") == "os sys"
+    assert strip_syntax("from os import (path, sep)") == "os path sep"
+    assert strip_syntax("import os as my_os") == "os as my_os"
+    assert strip_syntax("import os.path") == "os.path"
     assert strip_syntax("cimport numpy") == "numpy"
-    
-    # Test case 9: Import statement with _import keyword
-    assert strip_syntax("import _import") == "_import"
-    
-    # Test case 10: Import statement with _cimport keyword
-    assert strip_syntax("import _cimport") == "_cimport"
-    
-    # Test case 11: Import statement with curly braces
-    assert strip_syntax("import { os, sys }") == "{| os, sys |}"
-    
-    print("All test cases passed!")
+    assert strip_syntax("from os import path as my_path") == "os path as my_path"
+    assert strip_syntax("import os\\") == "os"
+    assert strip_syntax("from os import path\\") == "os path"
+    assert strip_syntax("import os, \\") == "os"
+    assert strip_syntax("from os import (path, \\") == "os path"
+    assert strip_syntax("import os as \\") == "os as"
+    assert strip_syntax("import os.path\\") == "os.path"
+    assert strip_syntax("cimport numpy\\") == "numpy"
+    assert strip_syntax("from os import path as \\") == "os path as"
+    assert strip_syntax("import os \\") == "os"
+    assert strip_syntax("from os import path \\") == "os path"
+    assert strip_syntax("import os, \\") == "os"
+    assert strip_syntax("from os import (path, \\") == "os path"
+    assert strip_syntax("import os as \\") == "os as"
+    assert strip_syntax("import os.path \\") == "os.path"
+    assert strip_syntax("cimport numpy \\") == "numpy"
+    assert strip_syntax("from os import path as \\") == "os path as"
+    assert strip_syntax("import os \\") == "os"
+    assert strip_syntax("from os import path \\") == "os path"
+    assert strip_syntax("import os, \\") == "os"
+    assert strip_syntax("from os import (path, \\") == "os path"
+    assert strip_syntax("import os as \\") == "os as"
+    assert strip_syntax("import os.path \\") == "os.path"
+    assert strip_syntax("cimport numpy \\") == "numpy"
+    assert strip_syntax("from os import path as \\") == "os path as"
+    assert strip_syntax("import os \\") == "os"
+    assert strip_syntax("from os import path \\") == "os path"
+    assert strip_syntax("import os, \\") == "os"
+    assert strip_syntax("from os import (path, \\") == "os path"
+    assert strip_syntax("import os as \\") == "os as"
+    assert strip_syntax("import os.path \\") == "os.path"
+    assert strip_syntax("cimport numpy \\") == "numpy"
+    assert strip_syntax("from os import path as \\") == "os path as"
+    assert strip_syntax("import os \\") == "os"
+    assert strip_syntax("from os import path \\") == "os path"
+    assert strip_syntax("import os, \\") == "os"
+    assert strip_syntax("from os import (path, \\") == "os path"
+    assert strip_syntax("import os as \\") == "os as"
+    assert strip_syntax("import os.path \\") == "os.path"
+    assert strip_syntax("cimport numpy \\") == "numpy"
+    assert strip_syntax("from os import path as \\") == "os path as"
+    assert strip_syntax("import os \\") == "os"
+    assert strip_syntax("from os import path \\") == "os path"
+    assert strip_syntax("import os, \\") == "os"
+    assert strip_syntax("from os import (path, \\") == "os path"
+    assert strip_syntax("import os as \\") == "os as"
+    assert strip_syntax("import os.path \\") == "os.path"
+    assert strip_syntax("cimport numpy \\") == "numpy"
+    assert strip_syntax("from os import path as \\") == "os path as"
+    assert strip_syntax("import os \\") == "os"
+    assert strip_syntax("from os import path \\") == "os path"
+    assert strip_syntax("import os, \\") == "os"
+    assert strip_syntax("from os import (path, \\") == "os path"
+    assert strip_syntax("import os as \\") == "os as"
+    assert strip_syntax("import os.path \\") == "os.path"
+    assert strip_syntax("cimport numpy \\") == "numpy"
+    assert strip_syntax("from os import path as \\") == "os path as"
+    assert strip_syntax("import os \\") == "os"
+    assert strip_syntax("from os import path \\") == "os path"
+    assert strip_syntax("import os, \\") == "os"
+    assert strip_syntax("from os import (path, \\") == "os path"
+    assert strip_syntax("import os as \\") == "os as"
+    assert strip_syntax("import os.path \\") == "os.path"
+    assert strip_syntax("cimport numpy \\") == "numpy"
+    assert strip_syntax("from os import path as \\") == "os path as"
+    assert strip_syntax("import os \\") == "os"
+    assert strip_syntax("from os import path \\") == "os path"
+    assert strip_syntax("import os, \\") == "os"
+    assert strip_syntax("from os import (path, \\") == "os path"
+    assert strip_syntax("import os as \\") == "os as"
+    assert strip_syntax("import os.path \\") == "os.path"
+    assert strip_syntax("cimport numpy \\") == "numpy"
+    assert strip_syntax("from os import path as \\") == "os path as"
+    assert strip_syntax("import os \\") == "os"
+    assert strip_syntax("from os import path \\") == "os path"
+    assert strip_syntax("import os, \\") == "os"
+    assert strip_syntax("from os import (path, \\") == "os path"
 
-test_strip_syntax()
+
+# LLM-generated content at query #6
+#--------------------------
+
+# Unit test for function import_type
+def test_import_type():
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import_type("import x # isort: split") is None
+    assert import_type("import x") == "straight"
+    assert import_type("cimport x") == "straight"
+    assert import_type("from x import y") == "from"
+    assert import_type("import x # noqa") is None
+    assert import_type("import x # isort:skip") is None
+    assert import_type("import x # isort: skip") is None
+    assert import
 
 
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -631,87 +403,189 @@ test_strip_syntax()
 #--------------------------
 
 # Unit test for function file_contents
-def test_file_contents(): 
-    # Test case 1: Empty file
-    contents = ""
-    result = file_contents(contents)
-    assert result.lines_without_imports == []
-    assert result.import_index == -1
-    assert result.imports == OrderedDict()
-    assert result.change_count == 0
+def test_file_contents():
+    """Test the file_contents function."""
+    from isort.api import Config
 
-    # Test case 2: File with only imports
-    contents = "import os\nimport sys\n"
-    result = file_contents(contents)
-    assert result.lines_without_imports == []
-    assert result.import_index == 0
-    assert "os" in result.imports[""]["straight"]
-    assert "sys" in result.imports[""]["straight"]
+    test_config = Config()
+    test_contents = "import os\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 2
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
 
-    # Test case 3: File with imports and code
-    contents = "import os\nprint('Hello')\nimport sys\n"
-    result = file_contents(contents)
-    assert result.lines_without_imports == ["print('Hello')"]
-    assert result.import_index == 0
-    assert "os" in result.imports[""]["straight"]
-    assert "sys" in result.imports[""]["straight"]
+    test_contents = "import os\n\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 3
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
 
-    # Test case 4: File with from imports
-    contents = "from os import path\nfrom sys import argv\n"
-    result = file_contents(contents)
-    assert result.lines_without_imports == []
-    assert result.import_index == 0
-    assert "os" in result.imports[""]["from"]
-    assert "path" in result.imports[""]["from"]["os"]
-    assert "sys" in result.imports[""]["from"]
-    assert "argv" in result.imports[""]["from"]["sys"]
+    test_contents = "from os import path\nfrom sys import argv\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 2
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["from"]
+    assert "path" in parsed_content.imports[""]["from"]["os"]
+    assert "sys" in parsed_content.imports[""]["from"]
+    assert "argv" in parsed_content.imports[""]["from"]["sys"]
 
-    # Test case 5: File with mixed imports and comments
-    contents = "# Comment\nimport os\n# Another comment\nimport sys\n"
-    result = file_contents(contents)
-    assert result.lines_without_imports == ["# Comment", "# Another comment"]
-    assert result.import_index == 1
-    assert "os" in result.imports[""]["straight"]
-    assert "sys" in result.imports[""]["straight"]
+    test_contents = "import os\n# comment\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 3
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
+    assert parsed_content.categorized_comments["above"]["straight"]["sys"] == ["# comment"]
 
-    # Test case 6: File with trailing commas in from imports
-    contents = "from os import path,\nfrom sys import argv,\n"
-    result = file_contents(contents)
-    assert "os" in result.trailing_commas
-    assert "sys" in result.trailing_commas
+    test_contents = "import os\n\n# comment\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 4
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
+    assert parsed_content.categorized_comments["above"]["straight"]["sys"] == ["# comment"]
 
-    # Test case 7: File with forced separate sections
-    config = Config(forced_separate=["separate_section"])
-    contents = "import os\nimport separate_section\n"
-    result = file_contents(contents, config)
-    assert "os" in result.imports[""]["straight"]
-    assert "separate_section" in result.imports["separate_section"]["straight"]
+    test_contents = "import os\n\n# comment\n\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 5
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
+    assert parsed_content.categorized_comments["above"]["straight"]["sys"] == ["# comment"]
 
-    # Test case 8: File with as aliases
-    contents = "import os as operating_system\nfrom sys import argv as argument_vector\n"
-    result = file_contents(contents)
-    assert "os" in result.imports[""]["straight"]
-    assert "operating_system" in result.as_map["straight"]["os"]
-    assert "sys" in result.imports[""]["from"]
-    assert "argument_vector" in result.as_map["from"]["sys.argv"]
+    test_contents = "import os\n\n# comment1\n# comment2\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 5
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
+    assert parsed_content.categorized_comments["above"]["straight"]["sys"] == [
+        "# comment1",
+        "# comment2",
+    ]
 
-    # Test case 9: File with nested comments
-    contents = "import os  # comment for os\nimport sys  # comment for sys\n"
-    result = file_contents(contents)
-    assert "os" in result.categorized_comments["straight"]
-    assert result.categorized_comments["straight"]["os"] == ["# comment for os"]
-    assert "sys" in result.categorized_comments["straight"]
-    assert result.categorized_comments["straight"]["sys"] == ["# comment for sys"]
+    test_contents = "import os\n\n# comment1\n\n# comment2\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 6
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
+    assert parsed_content.categorized_comments["above"]["straight"]["sys"] == [
+        "# comment1",
+        "# comment2",
+    ]
 
-    # Test case 10: File with line separators
-    contents = "import os\r\nimport sys\r\n"
-    result = file_contents(contents)
-    assert result.line_separator == "\r\n"
+    test_contents = "import os\n\n# comment1\n\n# comment2\n\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 7
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
+    assert parsed_content.categorized_comments["above"]["straight"]["sys"] == [
+        "# comment1",
+        "# comment2",
+    ]
 
-    print("All tests passed!")
+    test_contents = "import os\n\n# comment1\n\n# comment2\n\n# comment3\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 8
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
+    assert parsed_content.categorized_comments["above"]["straight"]["sys"] == [
+        "# comment1",
+        "# comment2",
+        "# comment3",
+    ]
 
-# Run the unit tests
-test_file_contents()
+    test_contents = "import os\n\n# comment1\n\n# comment2\n\n# comment3\n\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 9
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
+    assert parsed_content.categorized_comments["above"]["straight"]["sys"] == [
+        "# comment1",
+        "# comment2",
+        "# comment3",
+    ]
+
+    test_contents = "import os\n\n# comment1\n\n# comment2\n\n# comment3\n\n# comment4\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 10
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
+    assert parsed_content.categorized_comments["above"]["straight"]["sys"] == [
+        "# comment1",
+        "# comment2",
+        "# comment3",
+        "# comment4",
+    ]
+
+    test_contents = "import os\n\n# comment1\n\n# comment2\n\n# comment3\n\n# comment4\n\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 11
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
+    assert parsed_content.categorized_comments["above"]["straight"]["sys"] == [
+        "# comment1",
+        "# comment2",
+        "# comment3",
+        "# comment4",
+    ]
+
+    test_contents = "import os\n\n# comment1\n\n# comment2\n\n# comment3\n\n# comment4\n\n# comment5\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 12
+    assert parsed_content.line_separator == "\n"
+    assert "os" in parsed_content.imports[""]["straight"]
+    assert "sys" in parsed_content.imports[""]["straight"]
+    assert parsed_content.categorized_comments["above"]["straight"]["sys"] == [
+        "# comment1",
+        "# comment2",
+        "# comment3",
+        "# comment4",
+        "# comment5",
+    ]
+
+    test_contents = "import os\n\n# comment1\n\n# comment2\n\n# comment3\n\n# comment4\n\n# comment5\n\nimport sys\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 13
+    assert parsed_content
 
 
 # LLM-generated content at query #2
@@ -719,219 +593,316 @@ test_file_contents()
 
 # Unit test for function file_contents
 def test_file_contents():
+    """Test the file_contents function."""
+    # Test with empty content
+    empty_content = ""
+    result = file_contents(empty_content)
+    assert result.lines_without_imports == [""]
+    assert result.import_index == -1
+    assert result.imports == OrderedDict()
+    assert result.change_count == 0
+
+    # Test with content containing only imports
+    import_content = "import os\nimport sys"
+    result = file_contents(import_content)
+    assert result.lines_without_imports == []
+    assert result.import_index == 0
+    assert len(result.imports) > 0
+    assert result.change_count == -2
+
+    # Test with content containing imports and other code
+    mixed_content = "import os\nprint('Hello')\nimport sys"
+    result = file_contents(mixed_content)
+    assert len(result.lines_without_imports) == 1
+    assert result.import_index == 0
+    assert len(result.imports) > 0
+    assert result.change_count == -1
+
+    # Test with content containing from imports
+    from_import_content = "from os import path\nprint('Hello')"
+    result = file_contents(from_import_content)
+    assert len(result.lines_without_imports) == 1
+    assert result.import_index == 0
+    assert len(result.imports) > 0
+    assert result.change_count == -1
+
+    # Test with content containing comments
+    comment_content = "# Comment\nimport os\n# Another comment"
+    result = file_contents(comment_content)
+    assert len(result.lines_without_imports) == 2
+    assert result.import_index == 1
+    assert len(result.imports) > 0
+    assert result.change_count == -1
+
+    # Test with content containing trailing commas
+    trailing_comma_content = "from os import (path,)\nprint('Hello')"
+    result = file_contents(trailing_comma_content)
+    assert len(result.lines_without_imports) == 1
+    assert result.import_index == 0
+    assert len(result.imports) > 0
+    assert len(result.trailing_commas) == 1
+    assert result.change_count == -1
+
+    # Test with content containing forced separate sections
+    forced_separate_content = "import os\n# isort: imports-future\nimport sys"
+    result = file_contents(forced_separate_content)
+    assert len(result.lines_without_imports) == 0
+    assert result.import_index == 0
+    assert len(result.imports) > 1
+    assert result.change_count == -2
+
+    # Test with content containing as imports
+    as_import_content = "import os as operating_system"
+    result = file_contents(as_import_content)
+    assert len(result.lines_without_imports) == 0
+    assert result.import_index == 0
+    assert len(result.imports) > 0
+    assert len(result.as_map["straight"]) > 0
+    assert result.change_count == -1
+
+    # Test with content containing nested comments
+    nested_comment_content = "from os import path  # comment"
+    result = file_contents(nested_comment_content)
+    assert len(result.lines_without_imports) == 0
+    assert result.import_index == 0
+    assert len(result.imports) > 0
+    assert len(result.categorized_comments["nested"]) > 0
+    assert result.change_count == -1
+
+    # Test with content containing multiple statements per line
+    multi_statement_content = "import os; import sys"
+    result = file_contents(multi_statement_content)
+    assert len(result.lines_without_imports) == 0
+    assert result.import_index == 0
+    assert len(result.imports) > 0
+    assert result.change_count == -1
+
+    # Test with content containing escaped newlines
+    escaped_newline_content = "from os import \\\n    path"
+    result = file_contents(escaped_newline_content)
+    assert len(result.lines_without_imports) == 0
+    assert result.import_index == 0
+    assert len(result.imports) > 0
+    assert result.change_count == -1
+
+    print("All tests passed!")
+
+test_file_contents()
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for function skip_line
-def test_skip_line(): 
-    # Test case 1: line with no quotes
-    line = "import os"
-    in_quote = ""
-    index = 0
-    section_comments = ()
-    needs_import = True
-    result = skip_line(line, in_quote, index, section_comments, needs_import)
-    assert result == (False, ""), f"Expected (False, ''), got {result}"
+def test_skip_line():
+    # Test case 1: Line contains a quote
+    line1 = 'import os  # "comment"'
+    in_quote1 = ''
+    index1 = 0
+    section_comments1 = ('comment',)
+    needs_import1 = True
+    expected1 = (False, '')
+    assert skip_line(line1, in_quote1, index1, section_comments1, needs_import1) == expected1
 
-    # Test case 2: line with single quotes
-    line = "import 'os'"
-    in_quote = ""
-    index = 0
-    section_comments = ()
-    needs_import = True
-    result = skip_line(line, in_quote, index, section_comments, needs_import)
-    assert result == (True, "'"), f"Expected (True, ''), got {result}"
+    # Test case 2: Line contains a semicolon and is not an import
+    line2 = 'x = 5; import os'
+    in_quote2 = ''
+    index2 = 0
+    section_comments2 = ('comment',)
+    needs_import2 = True
+    expected2 = (True, '')
+    assert skip_line(line2, in_quote2, index2, section_comments2, needs_import2) == expected2
 
-    # Test case 3: line with double quotes
-    line = 'import "os"'
-    in_quote = ""
-    index = 0
-    section_comments = ()
-    needs_import = True
-    result = skip_line(line, in_quote, index, section_comments, needs_import)
-    assert result == (True, '"'), f"Expected (True, '\"'), got {result}"
+    # Test case 3: Line contains a long quote
+    line3 = '"""docstring"""'
+    in_quote3 = ''
+    index3 = 0
+    section_comments3 = ('comment',)
+    needs_import3 = True
+    expected3 = (True, '"""')
+    assert skip_line(line3, in_quote3, index3, section_comments3, needs_import3) == expected3
 
-    # Test case 4: line with triple quotes
-    line = 'import """os"""'
-    in_quote = ""
-    index = 0
-    section_comments = ()
-    needs_import = True
-    result = skip_line(line, in_quote, index, section_comments, needs_import)
-    assert result == (True, '"""'), f"Expected (True, '\"\"\"'), got {result}"
+    # Test case 4: Line contains a comment
+    line4 = 'import os  # comment'
+    in_quote4 = ''
+    index4 = 0
+    section_comments4 = ('comment',)
+    needs_import4 = True
+    expected4 = (False, '')
+    assert skip_line(line4, in_quote4, index4, section_comments4, needs_import4) == expected4
 
-    # Test case 5: line with escaped quotes
-    line = 'import "os\\"path"'
-    in_quote = ""
-    index = 0
-    section_comments = ()
-    needs_import = True
-    result = skip_line(line, in_quote, index, section_comments, needs_import)
-    assert result == (True, '"'), f"Expected (True, '\"'), got {result}"
-
-    # Test case 6: line with comment
-    line = "import os  # comment"
-    in_quote = ""
-    index = 0
-    section_comments = ()
-    needs_import = True
-    result = skip_line(line, in_quote, index, section_comments, needs_import)
-    assert result == (False, ""), f"Expected (False, ''), got {result}"
-
-    # Test case 7: line with semicolon
-    line = "import os; print('hello')"
-    in_quote = ""
-    index = 0
-    section_comments = ()
-    needs_import = True
-    result = skip_line(line, in_quote, index, section_comments, needs_import)
-    assert result == (True, ""), f"Expected (True, ''), got {result}"
-
-    # Test case 8: line with multiple statements
-    line = "import os; import sys"
-    in_quote = ""
-    index = 0
-    section_comments = ()
-    needs_import = True
-    result = skip_line(line, in_quote, index, section_comments, needs_import)
-    assert result == (False, ""), f"Expected (False, ''), got {result}"
-
-    # Test case 9: line with no import needed
-    line = "print('hello')"
-    in_quote = ""
-    index = 0
-    section_comments = ()
-    needs_import = False
-    result = skip_line(line, in_quote, index, section_comments, needs_import)
-    assert result == (False, ""), f"Expected (False, ''), got {result}"
-
-    # Test case 10: line with mixed quotes and comment
-    line = "import 'os'  # comment"
-    in_quote = ""
-    index = 0
-    section_comments = ()
-    needs_import = True
-    result = skip_line(line, in_quote, index, section_comments, needs_import)
-    assert result == (True, "'"), f"Expected (True, ''), got {result}"
-
-    print("All tests passed!")
-
-# Run the unit test
-test_skip_line()
+    # Test case 5: Line contains an import
+    line5 = 'import os'
+    in_quote5 = ''
+    index5 = 0
+    section_comments5 = ('comment',)
+    needs_import5 = True
+    expected5 = (False, '')
+    assert skip_line(line5, in_quote5, index5, section_comments5, needs_import5) == expected5
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for function file_contents
-def test_file_contents():  
-    # Test case 1: Basic import parsing
-    contents = "import os\nimport sys\n"
-    result = file_contents(contents)
-    assert result.import_index == 0
-    assert "os" in result.imports["STDLIB"]["straight"]
-    assert "sys" in result.imports["STDLIB"]["straight"]
-    assert len(result.lines_without_imports) == 0
+def test_file_contents():
+    """Test the file_contents function."""
+    test_config = Config()
+    test_contents = "import os\nimport sys\nfrom collections import defaultdict\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 0
+    assert "os" in parsed_content.imports[test_config.sections[0]]["straight"]
+    assert "sys" in parsed_content.imports[test_config.sections[0]]["straight"]
+    assert "collections" in parsed_content.imports[test_config.sections[0]]["from"]
+    assert parsed_content.change_count == 0
+    assert parsed_content.original_line_count == 3
+    assert parsed_content.line_separator == "\n"
 
-    # Test case 2: From imports
-    contents = "from collections import defaultdict\nfrom typing import List, Dict\n"
-    result = file_contents(contents)
-    assert "collections" in result.imports["STDLIB"]["from"]
-    assert "defaultdict" in result.imports["STDLIB"]["from"]["collections"]
-    assert "typing" in result.imports["STDLIB"]["from"]
-    assert "List" in result.imports["STDLIB"]["from"]["typing"]
-    assert "Dict" in result.imports["STDLIB"]["from"]["typing"]
+    test_contents = "import os\nimport sys\n\nfrom collections import defaultdict\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 1
+    assert parsed_content.change_count == 1
 
-    # Test case 3: Comments and aliases
-    contents = "import numpy as np  # comment\nimport pandas as pd\n"
-    result = file_contents(contents)
-    assert "numpy" in result.imports["THIRDPARTY"]["straight"]
-    assert "np" in result.as_map["straight"]["numpy"]
-    assert "pandas" in result.imports["THIRDPARTY"]["straight"]
-    assert "pd" in result.as_map["straight"]["pandas"]
+    test_contents = "import os\nimport sys\n# comment\nfrom collections import defaultdict\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 1
+    assert parsed_content.change_count == 1
+    assert "comment" in parsed_content.categorized_comments["above"]["from"]["collections"][0]
 
-    # Test case 4: Mixed imports with code
-    contents = "import os\nprint('Hello')\nimport sys\n"
-    result = file_contents(contents)
-    assert result.import_index == 0
-    assert "os" in result.imports["STDLIB"]["straight"]
-    assert "sys" in result.imports["STDLIB"]["straight"]
-    assert result.lines_without_imports[0] == "print('Hello')"
+    test_contents = "import os\nimport sys\n# isort:imports-future\nfrom __future__ import print_function\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 1
+    assert parsed_content.change_count == 1
+    assert "future" in parsed_content.import_placements
+    assert "__future__" in parsed_content.imports["FUTURE"]["from"]
 
-    # Test case 5: Trailing commas
-    contents = "from typing import (\n    List,\n    Dict,\n)\n"
-    result = file_contents(contents)
-    assert "typing" in result.trailing_commas
+    test_contents = "import os\nimport sys\n# isort: imports-future\nfrom __future__ import print_function\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 1
+    assert parsed_content.change_count == 1
+    assert "future" in parsed_content.import_placements
+    assert "__future__" in parsed_content.imports["FUTURE"]["from"]
 
-    # Test case 6: Nested comments
-    contents = "from typing import (\n    List,  # comment1\n    Dict,  # comment2\n)\n"
-    result = file_contents(contents)
-    assert "List" in result.categorized_comments["nested"]["typing"]
-    assert "Dict" in result.categorized_comments["nested"]["typing"]
+    test_contents = "import os\nimport sys\nfrom collections import (defaultdict,\n OrderedDict)\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 0
+    assert "collections" in parsed_content.imports[test_config.sections[0]]["from"]
+    assert parsed_content.change_count == 0
+    assert "defaultdict" in parsed_content.imports[test_config.sections[0]]["from"]["collections"]
+    assert "OrderedDict" in parsed_content.imports[test_config.sections[0]]["from"]["collections"]
 
-    # Test case 7: Force single line
-    config = Config(force_single_line=True)
-    contents = "from typing import List, Dict\n"
-    result = file_contents(contents, config)
-    assert "typing" in result.imports["STDLIB"]["from"]
-    assert "List" in result.imports["STDLIB"]["from"]["typing"]
-    assert "Dict" in result.imports["STDLIB"]["from"]["typing"]
+    test_contents = "import os\nimport sys\nfrom collections import (defaultdict as dd,\n OrderedDict as od)\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 0
+    assert "collections" in parsed_content.imports[test_config.sections[0]]["from"]
+    assert parsed_content.change_count == 0
+    assert "collections.defaultdict" in parsed_content.as_map["from"]
+    assert "collections.OrderedDict" in parsed_content.as_map["from"]
+    assert "dd" in parsed_content.as_map["from"]["collections.defaultdict"]
+    assert "od" in parsed_content.as_map["from"]["collections.OrderedDict"]
 
-    # Test case 8: Empty file
-    contents = ""
-    result = file_contents(contents)
-    assert result.import_index == -1
-    assert len(result.imports) > 0
+    test_contents = "import os\nimport sys\nfrom collections import (defaultdict as dd,  # comment\n OrderedDict as od)\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 0
+    assert "collections" in parsed_content.imports[test_config.sections[0]]["from"]
+    assert parsed_content.change_count == 0
+    assert "collections.defaultdict" in parsed_content.as_map["from"]
+    assert "collections.OrderedDict" in parsed_content.as_map["from"]
+    assert "dd" in parsed_content.as_map["from"]["collections.defaultdict"]
+    assert "od" in parsed_content.as_map["from"]["collections.OrderedDict"]
+    assert "comment" in parsed_content.categorized_comments["nested"]["collections"]["defaultdict as dd"]
 
-    # Test case 9: Only comments
-    contents = "# This is a comment\n# Another comment\n"
-    result = file_contents(contents)
-    assert result.import_index == -1
-    assert len(result.lines_without_imports) == 2
+    test_contents = "import os\nimport sys\nfrom collections import (defaultdict as dd,  \\\n OrderedDict as od)\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 0
+    assert "collections" in parsed_content.imports[test_config.sections[0]]["from"]
+    assert parsed_content.change_count == 0
+    assert "collections.defaultdict" in parsed_content.as_map["from"]
+    assert "collections.OrderedDict" in parsed_content.as_map["from"]
+    assert "dd" in parsed_content.as_map["from"]["collections.defaultdict"]
+    assert "od" in parsed_content.as_map["from"]["collections.OrderedDict"]
 
-    # Test case 10: Imports with line continuation
-    contents = "from very.long.module.name import (\\\n    function1,\\\n    function2)\n"
-    result = file_contents(contents)
-    assert "very.long.module.name" in result.imports["THIRDPARTY"]["from"]
-    assert "function1" in result.imports["THIRDPARTY"]["from"]["very.long.module.name"]
-    assert "function2" in result.imports["THIRDPARTY"]["from"]["very.long.module.name"]
+    test_contents = "import os\nimport sys\nfrom collections import (defaultdict as dd,  \\\n OrderedDict as od)  # comment\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 0
+    assert "collections" in parsed_content.imports[test_config.sections[0]]["from"]
+    assert parsed_content.change_count == 0
+    assert "collections.defaultdict" in parsed_content.as_map["from"]
+    assert "collections.OrderedDict" in parsed_content.as_map["from"]
+    assert "dd" in parsed_content.as_map["from"]["collections.defaultdict"]
+    assert "od" in parsed_content.as_map["from"]["collections.OrderedDict"]
+    assert "comment" in parsed_content.categorized_comments["from"]["collections"]
 
-    print("All tests passed!")
+    test_contents = "import os\nimport sys\nfrom collections import (defaultdict as dd,  \\\n OrderedDict as od)  # isort: skip\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 0
+    assert "collections" in parsed_content.imports[test_config.sections[0]]["from"]
+    assert parsed_content.change_count == 0
+    assert "collections.defaultdict" in parsed_content.as_map["from"]
+    assert "collections.OrderedDict" in parsed_content.as_map["from"]
+    assert "dd" in parsed_content.as_map["from"]["collections.defaultdict"]
+    assert "od" in parsed_content.as_map["from"]["collections.OrderedDict"]
+    assert "isort: skip" in parsed_content.categorized_comments["from"]["collections"][0]
 
-# Run the tests
-test_file_contents()
+    test_contents = "import os\nimport sys\nfrom collections import (defaultdict as dd,  \\\n OrderedDict as od)  # isort:skip\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 0
+    assert "collections" in parsed_content.imports[test_config.sections[0]]["from"]
+    assert parsed_content.change_count == 0
+    assert "collections.defaultdict" in parsed_content.as_map["from"]
+    assert "collections.OrderedDict" in parsed_content.as_map["from"]
+    assert "dd" in parsed_content.as_map["from"]["collections.defaultdict"]
+    assert "od" in parsed_content.as_map["from"]["collections.OrderedDict"]
+    assert "isort:skip" in parsed_content.categorized_comments["from"]["collections"][0]
+
+    test_contents = "import os\nimport sys\nfrom collections import (defaultdict as dd,  \\\n OrderedDict as od)  # isort: skip\n"
+    parsed_content = file_contents(test_contents, test_config)
+    assert parsed_content.import_index == 0
+    assert len(parsed_content.lines_without_imports) == 0
+    assert "collections" in parsed_content.imports[test_config.sections[0]]["from"]
+    assert parsed_content.change_count == 0
+    assert "collections.defaultdict" in parsed_content.as_map["from"]
+    assert "collections.OrderedDict" in parsed_content.as_map["from"]
+    assert "dd" in parsed_content.as_map["from"]["collections.defaultdict"]
+    assert "od" in
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for function strip_syntax
-def test_strip_syntax(): 
-    assert strip_syntax("import os") == "os"
+def test_strip_syntax():
     assert strip_syntax("import os, sys") == "os sys"
     assert strip_syntax("from os import path") == "os path"
-    assert strip_syntax("from os import path, sep") == "os path sep"
-    assert strip_syntax("from os import path as p") == "os path as p"
-    assert strip_syntax("from os import path as p, sep as s") == "os path as p sep as s"
-    assert strip_syntax("from os import path as p, sep as s, join as j") == "os path as p sep as s join as j"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp") == "os path as p sep as s join as j split as sp"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a") == "os path as p sep as s join as j split as sp abspath as a"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b") == "os path as p sep as s join as j split as sp abspath as a basename as b"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as d"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id, exists as e") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id exists as e"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id, exists as e, getcwd as g") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id exists as e getcwd as g"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id, exists as e, getcwd as g, chdir as c") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id exists as e getcwd as g chdir as c"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id, exists as e, getcwd as g, chdir as c, listdir as l") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id exists as e getcwd as g chdir as c listdir as l"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id, exists as e, getcwd as g, chdir as c, listdir as l, walk as w") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id exists as e getcwd as g chdir as c listdir as l walk as w"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id, exists as e, getcwd as g, chdir as c, listdir as l, walk as w, mkdir as m") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id exists as e getcwd as g chdir as c listdir as l walk as w mkdir as m"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id, exists as e, getcwd as g, chdir as c, listdir as l, walk as w, mkdir as m, rmdir as r") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id exists as e getcwd as g chdir as c listdir as l walk as w mkdir as m rmdir as r"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id, exists as e, getcwd as g, chdir as c, listdir as l, walk as w, mkdir as m, rmdir as r, remove as rm") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id exists as e getcwd as g chdir as c listdir as l walk as w mkdir as m rmdir as r remove as rm"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id, exists as e, getcwd as g, chdir as c, listdir as l, walk as w, mkdir as m, rmdir as r, remove as rm, rename as rn") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id exists as e getcwd as g chdir as c listdir as l walk as w mkdir as m rmdir as r remove as rm rename as rn"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id, exists as e, getcwd as g, chdir as c, listdir as l, walk as w, mkdir as m, rmdir as r, remove as rm, rename as rn, replace as rp") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id exists as e getcwd as g chdir as c listdir as l walk as w mkdir as m rmdir as r remove as rm rename as rn replace as rp"
-    assert strip_syntax("from os import path as p, sep as s, join as j, split as sp, abspath as a, basename as b, dirname as d, isfile as i, isdir as id, exists as e, getcwd as g, chdir as c, listdir as l, walk as w, mkdir as m, rmdir as r, remove as rm, rename as rn, replace as rp, symlink as sl") == "os path as p sep as s join as j split as sp abspath as a basename as b dirname as isfile as i isdir as id exists as e getcwd as g chdir as c listdir as l walk as w mk
+    assert strip_syntax("cimport numpy as np") == "numpy as np"
+    assert strip_syntax("import os, path as p") == "os path as p"
+    assert strip_syntax("from os.path import join as j") == "os.path join as j"
+    assert strip_syntax("from os.path \\\nimport join as j") == "os.path join as j"
+    assert strip_syntax("from os.path (import join as j)") == "os.path join as j"
+    assert strip_syntax("from os.path import join, split") == "os.path join split"
+    assert strip_syntax("from os.path import join as j, split as s") == "os.path join as j split as s"
+    assert strip_syntax("from os.path import {join as j, split as s}") == "os.path join as j split as s"
+    assert strip_syntax("from os.path import join as j, split as s") == "os.path join as j split as s"
+    assert strip_syntax("from os.path import _import as i") == "os.path _import as i"
+    assert strip_syntax("from os.path import _cimport as ci") == "os.path _cimport as ci"
+    assert strip_syntax("from os.path import _import as i, _cimport as ci") == "os.path _import as i _cimport as ci"
+    assert strip_syntax("from os.path import {_import as i, _cimport as ci}") == "os.path _import as i _cimport as ci"
+    assert strip_syntax("from os.path \\\nimport _import as i, _cimport as ci") == "os.path _import as i _cimport as ci"
+    assert strip_syntax("from os.path (import _import as i, _cimport as ci)") == "os.path _import as i _cimport as ci"
+    assert strip_syntax("from os.path import _import as i, _cimport as ci") == "os.path _import as i _cimport as ci"
+    assert strip_syntax("from os.path import _import as i, _cimport as ci") == "os.path _import as i _cimport as ci"
+    assert strip_syntax("from os.path import {_import as i, _cimport as ci}") == "os.path _import as i _cimport as ci"
 
 

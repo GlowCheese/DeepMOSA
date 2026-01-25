@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.4666666666666667" lines-covered="0" lines-valid="0" branches-covered="28" branches-valid="60" complexity="0.0" version="pynguin-0.40.0" timestamp="1769031117">
+  <sources>
+    <source>mimesis.providers.base</source>
+  </sources>
+  <packages>
+    <package name="" line-rate="None" branch-rate="0.4666666666666667" complexity="0.0">
+      <classes>
+        <class name="" filename="mimesis.providers.base" line-rate="None" branch-rate="0.4666666666666667" complexity="0.0">
+          <methods />
+          <lines>
+            <line number="1" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="18" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="27" hits="0" branch="true" condition-coverage="0% (0/1)" />
+            <line number="36" hits="0" branch="true" condition-coverage="0% (0/1)" />
+            <line number="44" hits="0" branch="true" condition-coverage="0% (0/1)" />
+            <line number="54" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="62" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="75" hits="1" branch="true" condition-coverage="50% (2/4)" />
+            <line number="77" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="96" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="97" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="118" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="120" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="133" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="135" hits="1" branch="true" condition-coverage="50% (2/4)" />
+            <line number="151" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="158" hits="0" branch="true" condition-coverage="0% (0/4)" />
+            <line number="159" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="162" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="167" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="170" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="191" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="209" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="213" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="223" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="224" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="240" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="245" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="252" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="263" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="268" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="279" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="308" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="311" hits="1" branch="true" condition-coverage="100% (1/1)" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

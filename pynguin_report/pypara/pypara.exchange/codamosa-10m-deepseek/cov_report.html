@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'pypara.exchange'</h1>
+<p>Achieved 27.27% branch coverage:
+6/8 branchless code objects covered.
+0/14 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="fullyCovered" title="1/1 branchless code objects covered">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="notRelevant">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="notRelevant">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="notRelevant">33</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="notRelevant">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="notRelevant">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="notRelevant">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notRelevant">50</span>
+                  <span class="notRelevant">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notRelevant">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="notRelevant">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="notRelevant">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="notRelevant">66</span>
+                  <span class="notRelevant">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="notRelevant">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="notRelevant">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="notRelevant">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">81</span>
+                  <span class="notRelevant">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="notRelevant">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="notRelevant">88</span>
+                  <span class="notRelevant">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notRelevant">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="notRelevant">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="notRelevant">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="notCovered" title="0/2 branches covered">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notCovered" title="0/2 branches covered">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notCovered" title="0/2 branches covered">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="notCovered" title="0/2 branches covered">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="notRelevant">118</span>
+                  <span class="notCovered" title="0/2 branches covered">119</span>
+                  <span class="notRelevant">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notRelevant">122</span>
+                  <span class="notCovered" title="0/4 branches covered">123</span>
+                  <span class="notRelevant">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="notRelevant">129</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="notRelevant">132</span>
+                  <span class="notRelevant">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="notRelevant">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="notRelevant">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notRelevant">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="notRelevant">143</span>
+                  <span class="notRelevant">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="notRelevant">147</span>
+                  <span class="notRelevant">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  <span class="notRelevant">161</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides definitions and functionality related to foreign-exchange conversions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FXRate&quot;</span><span class="p">,</span> <span class="s2">&quot;FXRateLookupError&quot;</span><span class="p">,</span> <span class="s2">&quot;FXRateService&quot;</span><span class="p">]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.commons.numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ONE</span><span class="p">,</span> <span class="n">ZERO</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.commons.zeitgeist</span><span class="w"> </span><span class="kn">import</span> <span class="n">Date</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.currencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">Currency</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FXRateLookupError</span><span class="p">(</span><span class="ne">LookupError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides an exception indicating that the foreign exchange rate is not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ccy1</span><span class="p">:</span> <span class="n">Currency</span><span class="p">,</span> <span class="n">ccy2</span><span class="p">:</span> <span class="n">Currency</span><span class="p">,</span> <span class="n">asof</span><span class="p">:</span> <span class="n">Date</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the foreign exchange rate lookup error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## Keep the slots:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ccy1</span> <span class="o">=</span> <span class="n">ccy1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ccy2</span> <span class="o">=</span> <span class="n">ccy2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asof</span> <span class="o">=</span> <span class="n">asof</span>
+
+        <span class="c1">## Set the message:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Foreign exchange rate for </span><span class="si">{</span><span class="n">ccy1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">ccy2</span><span class="si">}</span><span class="s2"> not found as of </span><span class="si">{</span><span class="n">asof</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FXRate</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines a foreign exchange (FX) rate model.</span>
+
+<span class="sd">    Note that the constructor of this class is not safe: It does not check input. :func:`FXRate.of`, on the</span>
+<span class="sd">    other hand provides a safer way of creating :class:`FXRate` instances.</span>
+
+<span class="sd">    **Implementation Note:**</span>
+
+<span class="sd">    I wanted to use an immutable, compact object model with fast creation and property access. Options were</span>
+<span class="sd">    tweaked plain-vanilla Python class, NamedTuple and dataclasses.</span>
+
+<span class="sd">    NamedTuple has slightly slower property access, whereby immutable dataclasses are slow for creation.</span>
+
+<span class="sd">    Furthermore, as of the implementation of this class, mypy does not have proper dataclass support. Therefore,</span>
+<span class="sd">    I am sticking to NamedTuple implementation.</span>
+
+<span class="sd">    Last but not least, as objects are essentially tuples, indexed access to properties is possible and slightly</span>
+<span class="sd">    faster.</span>
+
+<span class="sd">    &gt;&gt;&gt; import datetime</span>
+<span class="sd">    &gt;&gt;&gt; from decimal import Decimal</span>
+<span class="sd">    &gt;&gt;&gt; from pypara.currencies import Currencies</span>
+<span class="sd">    &gt;&gt;&gt; rate = FXRate(Currencies[&quot;EUR&quot;], Currencies[&quot;USD&quot;], datetime.date.today(), Decimal(&quot;2&quot;))</span>
+<span class="sd">    &gt;&gt;&gt; ccy1, ccy2, date, value = rate</span>
+<span class="sd">    &gt;&gt;&gt; ccy1 == Currencies[&quot;EUR&quot;]</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; ccy2 == Currencies[&quot;USD&quot;]</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; date == datetime.date.today()</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; value == Decimal(&quot;2&quot;)</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Defines the first currency of the FX rate.</span>
+    <span class="n">ccy1</span><span class="p">:</span> <span class="n">Currency</span>
+
+    <span class="c1">#: Defines the second currency of the FX rate.</span>
+    <span class="n">ccy2</span><span class="p">:</span> <span class="n">Currency</span>
+
+    <span class="c1">#: Defines the date the FX rate is effective as of.</span>
+    <span class="n">date</span><span class="p">:</span> <span class="n">Date</span>
+
+    <span class="c1">#: Defines the value of the FX rate.</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">Decimal</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FXRate&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the inverted foreign exchange rate.</span>
+
+<span class="sd">        &gt;&gt;&gt; import datetime</span>
+<span class="sd">        &gt;&gt;&gt; from decimal import Decimal</span>
+<span class="sd">        &gt;&gt;&gt; from pypara.currencies import Currencies</span>
+<span class="sd">        &gt;&gt;&gt; nrate = FXRate(Currencies[&quot;EUR&quot;], Currencies[&quot;USD&quot;], datetime.date.today(), Decimal(&quot;2&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; rrate = FXRate(Currencies[&quot;USD&quot;], Currencies[&quot;EUR&quot;], datetime.date.today(), Decimal(&quot;0.5&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; ~nrate == rrate</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">FXRate</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="bp">self</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">**</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">of</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ccy1</span><span class="p">:</span> <span class="n">Currency</span><span class="p">,</span> <span class="n">ccy2</span><span class="p">:</span> <span class="n">Currency</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="n">Date</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FXRate&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates and returns an FX rate instance by validating arguments.</span>
+
+<span class="sd">        &gt;&gt;&gt; import datetime</span>
+<span class="sd">        &gt;&gt;&gt; from decimal import Decimal</span>
+<span class="sd">        &gt;&gt;&gt; from pypara.currencies import Currencies</span>
+<span class="sd">        &gt;&gt;&gt; urate = FXRate(Currencies[&quot;EUR&quot;], Currencies[&quot;USD&quot;], datetime.date.today(), Decimal(&quot;2&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; srate = FXRate.of(Currencies[&quot;EUR&quot;], Currencies[&quot;USD&quot;], datetime.date.today(), Decimal(&quot;2&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; urate == srate</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## All argument must be of the respective specified type:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ccy1</span><span class="p">,</span> <span class="n">Currency</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CCY/1 must be of type `Currency`.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ccy2</span><span class="p">,</span> <span class="n">Currency</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CCY/2 must be of type `Currency`.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ccy1</span><span class="p">,</span> <span class="n">Currency</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;FX rate value must be of type `Decimal`.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ccy1</span><span class="p">,</span> <span class="n">Currency</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;FX rate date must be of type `date`.&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Check the value:</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="n">ZERO</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;FX rate value can not be equal to or less than `zero`.&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Check consistency:</span>
+        <span class="k">if</span> <span class="n">ccy1</span> <span class="o">==</span> <span class="n">ccy2</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">ONE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;FX rate to the same currency must be `one`.&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Create and return the FX rate instance:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">ccy1</span><span class="p">,</span> <span class="n">ccy2</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FXRateService</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides an abstract class for serving foreign exchange rates.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Defines the default foreign exchange rate service for the runtime.</span>
+    <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;FXRateService&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># noqa: E704</span>
+
+    <span class="c1">#: Defines an FX rate query tuple.</span>
+    <span class="n">TQuery</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Currency</span><span class="p">,</span> <span class="n">Currency</span><span class="p">,</span> <span class="n">Date</span><span class="p">]</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ccy1</span><span class="p">:</span> <span class="n">Currency</span><span class="p">,</span> <span class="n">ccy2</span><span class="p">:</span> <span class="n">Currency</span><span class="p">,</span> <span class="n">asof</span><span class="p">:</span> <span class="n">Date</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FXRate</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the foreign exchange rate of a given currency pair as of a given date.</span>
+
+<span class="sd">        :param ccy1: The first currency of foreign exchange rate.</span>
+<span class="sd">        :param ccy2: The second currency of foreign exchange rate.</span>
+<span class="sd">        :param asof: Temporal dimension the foreign exchange rate is effective as of.</span>
+<span class="sd">        :param strict: Indicates if we should raise a lookup error if that the foreign exchange rate can not be found.</span>
+<span class="sd">        :return: The foreign exchange rate as a :class:`Decimal` instance or None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">queries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queries</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">TQuery</span><span class="p">],</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">FXRate</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns foreign exchange rates for a given collection of currency pairs and dates.</span>
+
+<span class="sd">        :param queries: An iterable of :class:`Currency`, :class:`Currency` and :class:`Temporal` tuples.</span>
+<span class="sd">        :param strict: Indicates if we should raise a lookup error if that the foreign exchange rate can not be found.</span>
+<span class="sd">        :return: An iterable of rates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-01-19 03:27:23.111138</p>
+</footer>
+</body>
+</html>

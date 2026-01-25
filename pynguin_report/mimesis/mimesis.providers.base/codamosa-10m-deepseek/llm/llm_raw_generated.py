@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,1070 +7,1703 @@
 #--------------------------
 
 # Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Test with None item
-    # Should return a random choice from the enum
+def test_BaseProvider_validate_enum():
+    from enum import Enum
+
     class TestEnum(Enum):
-        A = "a"
-        B = "b"
-        C = "c"
-    
-    provider = BaseProvider(seed=42)
+        A = 1
+        B = 2
+        C = 3
+
+    provider = BaseProvider()
+
+    # Test with None
     result = provider.validate_enum(None, TestEnum)
-    assert result in ["a", "b", "c"]
-    
-    # Test with valid enum item
-    result = provider.validate_enum(TestEnum.A, TestEnum)
-    assert result == "a"
-    
-    # Test with invalid item (should raise NonEnumerableError)
+    assert result in [1, 2, 3]
+
+    # Test with enum member
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 2
+
+    # Test with invalid value
     try:
         provider.validate_enum("invalid", TestEnum)
-        assert False, "Should have raised NonEnumerableError"
+        assert False, "Should raise NonEnumerableError"
     except NonEnumerableError:
         pass
 
+    print("All tests passed for BaseProvider.validate_enum()")
+
+test_BaseProvider_validate_enum()
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == 'en'
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == 'ru'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test with nested context managers
-    with provider.override_locale(Locale.DE):
-        assert provider.get_current_locale() == 'de'
-        with provider.override_locale(Locale.FR):
-            assert provider.get_current_locale() == 'fr'
-        assert provider.get_current_locale() == 'de'
-    
-    assert provider.get_current_locale() == 'en'
+def test_BaseDataProvider_override_locale():
+    # Test case 1: Override locale temporarily
+    provider = BaseDataProvider(locale="en")
+    assert provider.get_current_locale() == "en"
+
+    with provider.override_locale(Locale("ru")):
+        assert provider.get_current_locale() == "ru"
+
+    assert provider.get_current_locale() == "en"
+
+    # Test case 2: Override locale with invalid provider
+    provider_without_locale = BaseDataProvider(locale="en")
+    delattr(provider_without_locale, "_dataset")
+
+    try:
+        with provider_without_locale.override_locale(Locale("ru")):
+            pass
+    except ValueError as e:
+        assert str(e) == "«BaseDataProvider» has not locale dependent"
+
+    # Test case 3: Override locale with None
+    provider = BaseDataProvider(locale="en")
+    assert provider.get_current_locale() == "en"
+
+    with provider.override_locale(None):
+        assert provider.get_current_locale() == "en"
+
+    assert provider.get_current_locale() == "en"
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Test with None item
-    # Should return a random choice from the enum
-    # Mock enum with some values
-    class MockEnum:
-        A = "a"
-        B = "b"
-        C = "c"
-    
-    # Create instance of BaseProvider
-    provider = BaseProvider(seed=42)
-    
-    # Call validate_enum with None
-    result = provider.validate_enum(None, MockEnum)
-    
-    # Check that result is one of the enum values
-    assert result in ["a", "b", "c"]
-    
-    # Test with valid enum item
-    # Should return the value of that item
-    result = provider.validate_enum(MockEnum.B, MockEnum)
-    assert result == "b"
-    
-    # Test with invalid item (not an enum member)
-    # Should raise NonEnumerableError
-    try:
-        provider.validate_enum("invalid", MockEnum)
-        assert False, "Should have raised NonEnumerableError"
-    except NonEnumerableError:
-        pass  # Expected
-    
-    print("test_BaseProvider_validate_enum passed")
+def test_BaseProvider_validate_enum():
+    from enum import Enum
+    class TestEnum(Enum):
+        A = 'a'
+        B = 'b'
+        C = 'c'
 
-# Run the test
-test_BaseProvider_validate_enum()
+    # Test with None
+    provider = BaseProvider()
+    result = provider.validate_enum(None, TestEnum)
+    assert result in ['a', 'b', 'c']
+
+    # Test with enum member
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 'b'
+
+    # Test with invalid item
+    try:
+        provider.validate_enum('invalid', TestEnum)
+        assert False, "Should raise NonEnumerableError"
+    except NonEnumerableError:
+        pass
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Test with None item
+def test_BaseProvider_validate_enum():
+    from enum import Enum
+
+    class TestEnum(Enum):
+        TEST1 = "test1"
+        TEST2 = "test2"
+
     provider = BaseProvider()
-    enum = t.cast(t.Any, type('Enum', (), {'value': 'test'}))
-    result = provider.validate_enum(None, enum)
-    assert result == 'test'
 
-    # Test with valid item
-    item = enum()
-    result = provider.validate_enum(item, enum)
-    assert result == 'test'
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in [e.value for e in TestEnum]
 
-    # Test with invalid item
+    # Test with valid enum member
+    result = provider.validate_enum(TestEnum.TEST1, TestEnum)
+    assert result == "test1"
+
+    # Test with invalid enum member
     try:
-        provider.validate_enum('invalid', enum)
+        provider.validate_enum("invalid", TestEnum)
     except NonEnumerableError:
-        assert True
+        pass
     else:
-        assert False
-
+        assert False, "Expected NonEnumerableError"
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  # noqa: N802
-    # Create a mock provider that inherits from BaseDataProvider
-    class MockProvider(BaseDataProvider):
-        class Meta:
-            name = "mock"
-            datafile = "test.json"
-            datadir = DATADIR / "en"
+def test_BaseDataProvider_override_locale():
+    """Test method override_locale of class BaseDataProvider."""
+    # Create a provider with a specific locale
+    provider = BaseDataProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == Locale.EN
 
-        def __init__(self, locale=Locale.EN):
-            super().__init__(locale=locale)
+    # Test overriding the locale within the context manager
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
 
-    # Test that override_locale temporarily changes locale
-    provider = MockProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == "en"
+    # Verify the locale is restored after the context manager
+    assert provider.get_current_locale() == Locale.EN
 
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == "ru"
-
-    # After context manager, locale should be back to original
-    assert provider.get_current_locale() == "en"
-
-    # Test with nested context managers
-    with provider.override_locale(Locale.DE):
-        assert provider.get_current_locale() == "de"
-        with provider.override_locale(Locale.FR):
-            assert provider.get_current_locale() == "fr"
-        assert provider.get_current_locale() == "de"
-    assert provider.get_current_locale() == "en"
-
-    # Test that locale is restored even if exception occurs
-    try:
-        with provider.override_locale(Locale.ES):
-            assert provider.get_current_locale() == "es"
-            raise ValueError("Test exception")
-    except ValueError:
+    # Test with a non-locale-dependent provider
+    class NonLocaleProvider(BaseProvider):
         pass
-    assert provider.get_current_locale() == "en"
 
-    # Test with locale that has sublocale
-    with provider.override_locale(Locale.EN_GB):
-        assert provider.get_current_locale() == "en-gb"
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_BaseDataProvider_override_locale()
+    non_locale_provider = NonLocaleProvider()
+    try:
+        with non_locale_provider.override_locale(Locale.RU):
+            pass
+    except ValueError as e:
+        assert str(e) == "«NonLocaleProvider» has not locale dependent"
 
 
 # LLM-generated content at query #6
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
-    
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == Locale.RU.value
-    
-    assert provider.get_current_locale() == original_locale
-    
-    # Test that override_locale raises ValueError for non-locale dependent providers
-    class NonLocaleDependentProvider(BaseDataProvider):
+def test_BaseDataProvider_override_locale():
+    import pytest
+
+    class CustomProvider(BaseDataProvider):
         class Meta:
-            name = "non_locale"
-            datafile = "nonexistent.json"
-    
-    provider2 = NonLocaleDependentProvider(locale=Locale.EN)
-    try:
-        with provider2.override_locale(Locale.RU):
+            name = "custom"
+            datafile = "test_datafile.json"
+
+    # Mocking data loading to avoid actual file operations
+    CustomProvider._load_dataset = lambda self: None
+
+    provider = CustomProvider(locale="en")
+    assert provider.get_current_locale() == "en"
+
+    with provider.override_locale("fr"):
+        assert provider.get_current_locale() == "fr"
+
+    assert provider.get_current_locale() == "en"
+
+    with pytest.raises(ValueError):
+        provider_without_locale = BaseProvider()
+        with provider_without_locale.override_locale("fr"):
             pass
-    except ValueError as e:
-        assert "has not locale dependent" in str(e)
 
 
 # LLM-generated content at query #7
 #--------------------------
 
-# Unit test for constructor of class BaseProvider
-def test_BaseProvider():  
-    # Test with default seed (MissingSeed)
-    provider = BaseProvider()
-    assert provider.seed is MissingSeed
-    assert isinstance(provider.random, _random.Random)
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Unit test for method override_locale of class BaseDataProvider."""
+    # Test case 1: Override locale with a valid locale and ensure the locale is correctly overridden
+    provider = BaseDataProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == Locale.EN.value
+    
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU.value
+    
+    assert provider.get_current_locale() == Locale.EN.value
 
-    # Test with explicit seed
-    provider = BaseProvider(seed=42)
-    assert provider.seed == 42
+    # Test case 2: Attempt to override locale with an invalid locale and ensure it raises an error
+    try:
+        with provider.override_locale("invalid_locale"):
+            pass
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError when overriding with an invalid locale"
 
-    # Test with custom random instance
-    custom_random = _random.Random()
-    provider = BaseProvider(random=custom_random)
-    assert provider.random is custom_random
+    # Test case 3: Ensure the original locale is restored even if an exception occurs within the context
+    try:
+        with provider.override_locale(Locale.RU):
+            raise Exception("Test exception")
+    except Exception:
+        pass
+    
+    assert provider.get_current_locale() == Locale.EN.value
 
-    # Test reseed method
-    provider = BaseProvider(seed=42)
-    provider.reseed(100)
-    assert provider.seed == 100
+    # Test case 4: Test overriding locale in a nested context
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU.value
+        with provider.override_locale(Locale.ES):
+            assert provider.get_current_locale() == Locale.ES.value
+        assert provider.get_current_locale() == Locale.RU.value
+    
+    assert provider.get_current_locale() == Locale.EN.value
 
-    # Test reseed with MissingSeed
-    provider = BaseProvider(seed=42)
-    provider.reseed(MissingSeed)
-    assert provider.seed is MissingSeed
+    # Test case 5: Test overriding locale with the same locale
+    with provider.override_locale(Locale.EN):
+        assert provider.get_current_locale() == Locale.EN.value
+    
+    assert provider.get_current_locale() == Locale.EN.value
 
-    # Test _has_seed method
-    provider = BaseProvider(seed=42)
-    assert provider._has_seed() is True
-
-    provider = BaseProvider(seed=None)
-    assert provider._has_seed() is True
-
-    provider = BaseProvider(seed=MissingSeed)
-    assert provider._has_seed() is False
-
-    # Test __str__ method
-    provider = BaseProvider()
-    assert str(provider) == "BaseProvider"
-
+    # Test case 6: Test overriding locale with a locale that has a sublocale
+    with provider.override_locale(Locale.ES_CO):
+        assert provider.get_current_locale() == Locale.ES_CO.value
+    
+    assert provider.get_current_locale() == Locale.EN.value
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test with default seed (MissingSeed)
-    provider = BaseProvider()
-    original_random_state = provider.random.getstate()
-    provider.reseed()
-    assert provider.random.getstate() != original_random_state
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    # Create a mock provider class that inherits from BaseDataProvider
+    class MockProvider(BaseDataProvider):
+        class Meta:
+            name = "mock"
+            datafile = "mock.json"
+            datadir = DATADIR
 
-    # Test with explicit seed
-    provider = BaseProvider()
-    provider.reseed(42)
-    state1 = provider.random.getstate()
-    provider.reseed(42)
-    state2 = provider.random.getstate()
-    assert state1 == state2
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+            self._dataset = {"en": {"key": "value_en"}, "fr": {"key": "value_fr"}}
 
-    # Test with None seed (should use system time)
-    provider = BaseProvider()
-    provider.reseed(None)
-    # Can't really test randomness, but ensure no error
-    assert provider.random is not None
+    # Test case 1: Override locale from 'en' to 'fr'
+    provider = MockProvider(locale=Locale.ENGLISH)
+    with provider.override_locale(Locale.FRENCH) as p:
+        assert p.get_current_locale() == "fr"
+        assert p._dataset == {"en": {"key": "value_en"}, "fr": {"key": "value_fr"}}
+    assert provider.get_current_locale() == "en"
 
-    # Test with integer seed
-    provider = BaseProvider()
-    provider.reseed(12345)
-    # Should be deterministic
-    val1 = provider.random.randint(1, 100)
-    provider.reseed(12345)
-    val2 = provider.random.randint(1, 100)
-    assert val1 == val2
+    # Test case 2: Override locale with a locale that has a separator (e.g., 'en-US')
+    provider = MockProvider(locale=Locale.ENGLISH)
+    with provider.override_locale(Locale("en-US")) as p:
+        assert p.get_current_locale() == "en-US"
+    assert provider.get_current_locale() == "en"
 
-    # Test with string seed
-    provider = BaseProvider()
-    provider.reseed("test_seed")
-    val1 = provider.random.randint(1, 100)
-    provider.reseed("test_seed")
-    val2 = provider.random.randint(1, 100)
-    assert val1 == val2
+    # Test case 3: Override locale on a provider without locale-dependent data
+    class NonLocaleProvider(BaseDataProvider):
+        class Meta:
+            name = "non_locale"
+            datafile = None
 
-    # Test that global seed affects when MissingSeed
-    import mimesis.random as mimesis_random
-    original_global_seed = mimesis_random.global_seed
+    provider = NonLocaleProvider()
     try:
-        mimesis_random.global_seed = 999
-        provider1 = BaseProvider()
-        provider2 = BaseProvider()
-        # Both should have same random state due to global seed
-        assert provider1.random.getstate() == provider2.random.getstate()
-    finally:
-        mimesis_random.global_seed = original_global_seed
-
+        with provider.override_locale(Locale.FRENCH):
+            pass
+        assert False, "Expected ValueError"
+    except ValueError as e:
+        assert str(e) == "«NonLocaleProvider» has not locale dependent"
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for constructor of class BaseProvider
-def test_BaseProvider():  
-    # Test with default seed
-    provider = BaseProvider()
-    assert provider.seed == MissingSeed
-    assert isinstance(provider.random, _random.Random)
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    from enum import Enum
 
-    # Test with custom seed
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+        C = 3
+
     provider = BaseProvider(seed=42)
-    assert provider.seed == 42
-
-    # Test with custom random instance
-    custom_random = _random.Random()
-    provider = BaseProvider(random=custom_random)
-    assert provider.random is custom_random
-
-    # Test that custom random must be instance of _random.Random
+    
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in [1, 2, 3]
+    
+    # Test with enum item
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 2
+    
+    # Test with invalid item
     try:
-        BaseProvider(random="not_a_random_instance")
-        assert False, "Should have raised TypeError"
-    except TypeError:
+        provider.validate_enum(4, TestEnum)
+        assert False, "Expected NonEnumerableError"
+    except NonEnumerableError:
         pass
-
 
 
 # LLM-generated content at query #10
 #--------------------------
 
-# Unit test for constructor of class BaseProvider
-def test_BaseProvider():  
-    # Test with default seed
-    provider = BaseProvider()
-    assert provider.seed is MissingSeed
-    assert isinstance(provider.random, _random.Random)
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    # Create a mock provider class that inherits from BaseDataProvider
+    class MockProvider(BaseDataProvider):
+        class Meta:
+            name = "mock"
+            datafile = "mock.json"
+            datadir = DATADIR / "mock"
 
-    # Test with custom seed
-    provider = BaseProvider(seed=42)
-    assert provider.seed == 42
-    assert isinstance(provider.random, _random.Random)
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+            self._dataset = {"key": "value"}
 
-    # Test with custom random instance
-    custom_random = _random.Random()
-    provider = BaseProvider(random=custom_random)
-    assert provider.random is custom_random
+    # Test with a valid locale
+    provider = MockProvider()
+    with provider.override_locale(Locale.EN) as p:
+        assert p.get_current_locale() == Locale.EN
 
-    # Test reseed method
-    provider = BaseProvider(seed=42)
-    provider.reseed(100)
-    assert provider.seed == 100
+    # Test that locale is reverted after context
+    assert provider.get_current_locale() == Locale.DEFAULT
 
-    # Test validate_enum method
-    from enum import Enum
-    class TestEnum(Enum):
-        A = "a"
-        B = "b"
-    
-    # Test with None (should return random choice)
-    result = provider.validate_enum(None, TestEnum)
-    assert result in ["a", "b"]
-    
-    # Test with enum member
-    result = provider.validate_enum(TestEnum.A, TestEnum)
-    assert result == "a"
-    
-    # Test with invalid value (should raise NonEnumerableError)
+    # Test with an invalid locale (should raise ValueError)
     try:
-        provider.validate_enum("invalid", TestEnum)
-        assert False, "Should have raised NonEnumerableError"
-    except NonEnumerableError:
+        with provider.override_locale("invalid_locale"):
+            pass
+    except ValueError:
         pass
+    else:
+        assert False, "Expected ValueError for invalid locale"
 
-    # Test _has_seed method
-    provider = BaseProvider()
-    assert not provider._has_seed()  # No seed set
-    
-    provider = BaseProvider(seed=42)
-    assert provider._has_seed()  # Has seed
-    
-    # Test __str__ method
-    assert str(provider) == "BaseProvider"
+    # Test with a provider that has no locale-dependent data
+    class NonLocaleProvider(BaseDataProvider):
+        class Meta:
+            name = "non_locale"
+            datafile = None
 
+    non_locale_provider = NonLocaleProvider()
+    try:
+        with non_locale_provider.override_locale(Locale.EN):
+            pass
+    except ValueError as e:
+        assert "has not locale dependent" in str(e)
+    else:
+        assert False, "Expected ValueError for non-locale-dependent provider"
 
 
 # LLM-generated content at query #11
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test with default seed (MissingSeed)
-    provider = BaseProvider()
-    original_random_state = provider.random.getstate()
-    provider.reseed()
-    assert provider.random.getstate() != original_random_state
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    provider = BaseDataProvider(locale="en")
+    assert provider.get_current_locale() == "en"
 
-    # Test with specific seed
-    provider = BaseProvider()
-    provider.reseed(42)
-    state1 = provider.random.getstate()
-    provider.reseed(42)
-    state2 = provider.random.getstate()
-    assert state1 == state2
+    with provider.override_locale("ru"):
+        assert provider.get_current_locale() == "ru"
 
-    # Test with None seed
-    provider = BaseProvider()
-    provider.reseed(None)
-    # Should use current system time, so different each time
-    # Can't assert equality, but shouldn't crash
-    assert provider.seed is None
-
-    # Test with integer seed
-    provider = BaseProvider()
-    provider.reseed(12345)
-    assert provider.seed == 12345
-
-    # Test with string seed
-    provider = BaseProvider()
-    provider.reseed("test_seed")
-    assert provider.seed == "test_seed"
-
-    # Test that global seed is used when MissingSeed
-    import mimesis.random as mimesis_random
-    original_global_seed = mimesis_random.global_seed
-    mimesis_random.global_seed = 999
-    provider = BaseProvider()
-    provider.reseed()
-    # Can't directly compare states, but should be deterministic
-    mimesis_random.global_seed = original_global_seed
-
-    print("All tests passed for BaseProvider.reseed()")
-
-if __name__ == "__main__":
-    test_BaseProvider_reseed()
+    assert provider.get_current_locale() == "en"
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    from enum import Enum
+
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+        C = 3
+
+    provider = BaseProvider(seed=42)
     
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR.value
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in [1, 2, 3]
     
-    assert provider.get_current_locale() == original_locale
+    # Test with enum member
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 2
+    
+    # Test with invalid enum member
+    try:
+        provider.validate_enum(4, TestEnum)
+        assert False, "Should raise NonEnumerableError"
+    except NonEnumerableError:
+        pass
 
 
 # LLM-generated content at query #13
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test with default seed (MissingSeed)
-    provider = BaseProvider()
-    original_random = provider.random
-    provider.reseed()
-    assert provider.random is original_random  # Should not change
+# Unit test for constructor of class BaseProvider
+def test_BaseProvider():
+    """Test the BaseProvider class."""
+    # Test with default seed
+    provider1 = BaseProvider()
+    provider2 = BaseProvider()
+    assert provider1.random != provider2.random
 
     # Test with explicit seed
-    provider = BaseProvider()
-    provider.reseed(42)
-    assert provider.seed == 42
+    seed = 42
+    provider3 = BaseProvider(seed=seed)
+    provider4 = BaseProvider(seed=seed)
+    assert provider3.random == provider4.random
 
-    # Test with None seed
-    provider = BaseProvider()
-    provider.reseed(None)
-    assert provider.seed is None
+    # Test reseed
+    provider5 = BaseProvider(seed=seed)
+    provider5.reseed(43)
+    assert provider5.random != provider3.random
 
-    # Test with global seed set
-    import mimesis.random as mimesis_random
-    mimesis_random.global_seed = 123
-    provider = BaseProvider()
-    provider.reseed()
-    assert provider.seed is mimesis_random.MissingSeed
-    mimesis_random.global_seed = mimesis_random.MissingSeed  # Reset
+    # Test with custom random
+    custom_random = _random.Random()
+    provider6 = BaseProvider(random=custom_random)
+    assert provider6.random == custom_random
 
+    # Test validate_enum
+    from enum import Enum
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+
+    assert provider1.validate_enum(None, TestEnum) in [1, 2]
+    assert provider1.validate_enum(TestEnum.A, TestEnum) == 1
+    try:
+        provider1.validate_enum(3, TestEnum)
+        assert False, "Should have raised NonEnumerableError"
+    except NonEnumerableError:
+        pass
+
+    # Test _read_global_file
+    data = provider1._read_global_file("address.json")
+    assert isinstance(data, dict)
+
+    # Test _has_seed
+    provider7 = BaseProvider(seed=None)
+    assert provider7._has_seed() is True
+    provider8 = BaseProvider(seed=MissingSeed)
+    assert provider8._has_seed() is False
+
+    # Test __str__
+    assert str(provider1) == "BaseProvider"
 
 
 # LLM-generated content at query #14
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale and restores it after context
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum(): 
+    from enum import Enum
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+        C = 3
     
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == Locale.RU.value
+    provider = BaseProvider()
+    # Test when item is None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in [1, 2, 3]
     
-    assert provider.get_current_locale() == original_locale
-
-# Generated by CodiumAI
-
-import pytest
-
+    # Test when item is a valid enum member
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 2
+    
+    # Test when item is invalid
+    try:
+        provider.validate_enum(4, TestEnum)
+        assert False, "Expected NonEnumerableError"
+    except NonEnumerableError:
+        pass
 
 
 # LLM-generated content at query #15
 #--------------------------
 
-# Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Create an instance of BaseProvider
-    provider = BaseProvider()
-    
-    # Define a simple enum for testing
-    from enum import Enum
-    class TestEnum(Enum):
-        A = "value_a"
-        B = "value_b"
-        C = "value_c"
-    
-    # Test case 1: item is None, should return a random enum value
-    result = provider.validate_enum(None, TestEnum)
-    assert result in ["value_a", "value_b", "value_c"]
-    
-    # Test case 2: item is a valid enum member, should return its value
-    result = provider.validate_enum(TestEnum.A, TestEnum)
-    assert result == "value_a"
-    
-    # Test case 3: item is not an enum member, should raise NonEnumerableError
-    try:
-        provider.validate_enum("invalid", TestEnum)
-        assert False, "Expected NonEnumerableError"
-    except NonEnumerableError:
-        pass  # Expected
-    
-    # Test case 4: item is an instance of the enum, should return its value
-    result = provider.validate_enum(TestEnum.B, TestEnum)
-    assert result == "value_b"
-    
-    print("All tests passed for validate_enum method.")
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    import pytest
+    from mimesis.enums import Gender
+    from mimesis.providers.person import Person
 
-# Run the test
-test_BaseProvider_validate_enum()
+    person = Person()
+    with person.override_locale(Locale.RU):
+        assert person.get_current_locale() == Locale.RU
+        assert person.full_name(gender=Gender.MALE) != ""
+        assert person.full_name(gender=Gender.FEMALE) != ""
+        assert person.full_name(gender=Gender.NON_BINARY) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.UNKNOWN) != ""
+        assert person.full_name(gender=Gender.PREFER_NOT_TO_SAY) != ""
+        assert person.full_name(gender=Gender.OTHER) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT_AVAILABLE) != ""
+        assert person.full_name(gender=Gender.NOT_REPORTED) != ""
+        assert person.full_name(gender=Gender.NOT_DISCLOSED) != ""
+        assert person.full_name(gender=Gender.NOT_APPLICABLE) != ""
+        assert person.full_name(gender=Gender.NOT_SPECIFIED) != ""
+        assert person.full_name(gender=Gender.NOT_KNOWN) != ""
+        assert person.full_name(gender=Gender.NOT_PROVIDED) != ""
+        assert person.full_name(gender=Gender.NOT
 
 
 # LLM-generated content at query #16
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test case 1: Reseed with a specific seed
-    provider = BaseProvider(seed=123)
-    original_random_state = provider.random.getstate()
-    provider.reseed(456)
-    assert provider.random.getstate() != original_random_state, "Random state should change after reseeding"
-    
-    # Test case 2: Reseed with None (should use current system time)
-    provider = BaseProvider(seed=123)
-    original_random_state = provider.random.getstate()
-    provider.reseed(None)
-    assert provider.random.getstate() != original_random_state, "Random state should change after reseeding with None"
-    
-    # Test case 3: Reseed with MissingSeed (should use global seed if set)
-    # First, set a global seed
-    import mimesis.random as mimesis_random
-    mimesis_random.global_seed = 999
-    provider = BaseProvider(seed=MissingSeed)
-    # The random state should be based on global seed 999
-    # We can't directly compare states, but we can verify that reseeding doesn't crash
-    provider.reseed(MissingSeed)
-    assert provider.seed is MissingSeed, "Seed should remain MissingSeed"
-    
-    # Test case 4: Reseed with the same seed should produce same random sequence
-    provider1 = BaseProvider(seed=100)
-    provider2 = BaseProvider(seed=100)
-    # Generate some random values
-    vals1 = [provider1.random.random() for _ in range(5)]
-    vals2 = [provider2.random.random() for _ in range(5)]
-    assert vals1 == vals2, "Same seed should produce same random sequence"
-    
-    # Now reseed both with same new seed
-    provider1.reseed(200)
-    provider2.reseed(200)
-    vals1_new = [provider1.random.random() for _ in range(5)]
-    vals2_new = [provider2.random.random() for _ in range(5)]
-    assert vals1_new == vals2_new, "After reseeding with same seed, random sequences should match"
-    
-    # Clean up global seed
-    mimesis_random.global_seed = MissingSeed
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    from enum import Enum
+
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+        C = 3
+
+    provider = BaseProvider()
+
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in [1, 2, 3]
+
+    # Test with enum member
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 2
+
+    # Test with invalid item
+    try:
+        provider.validate_enum("invalid", TestEnum)
+        assert False, "Should raise NonEnumerableError"
+    except NonEnumerableError:
+        pass
 
 
 # LLM-generated content at query #17
 #--------------------------
 
-# Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Create a mock enum class for testing
-    from enum import Enum
-    class MockEnum(Enum):
-        A = "value_a"
-        B = "value_b"
-        C = "value_c"
-    
-    # Test case 1: item is None, should return a random enum value
-    provider = BaseProvider(seed=42)
-    result = provider.validate_enum(None, MockEnum)
-    assert result in ["value_a", "value_b", "value_c"]
-    
-    # Test case 2: item is a valid enum member, should return its value
-    result = provider.validate_enum(MockEnum.B, MockEnum)
-    assert result == "value_b"
-    
-    # Test case 3: item is not an enum member, should raise NonEnumerableError
-    try:
-        provider.validate_enum("invalid", MockEnum)
-        assert False, "Expected NonEnumerableError"
-    except NonEnumerableError:
-        pass
-    
-    # Test case 4: item is an enum member but wrong enum type, should raise NonEnumerableError
-    class AnotherEnum(Enum):
-        D = "value_d"
-    
-    try:
-        provider.validate_enum(AnotherEnum.D, MockEnum)
-        assert False, "Expected NonEnumerableError"
-    except NonEnumerableError:
-        pass
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    # Setup
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            datafile = "test.json"
+            datadir = DATADIR
 
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale, seed)
+
+    provider = TestProvider(locale=Locale.EN)
+
+    # Test override_locale context manager
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
+
+    # Ensure locale is restored after context manager
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test override_locale with unsupported locale
+    try:
+        with provider.override_locale("unsupported_locale"):
+            pass
+    except ValueError as e:
+        assert str(e) == "«TestProvider» has not locale dependent"
 
 
 # LLM-generated content at query #18
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
+def test_BaseDataProvider_override_locale():
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test_provider"
+            datafile = "test_data.json"
+            datadir = DATADIR
+
+    provider = TestProvider(locale=Locale.EN)
     
     with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == Locale.RU.value
+        assert p.get_current_locale() == Locale.RU
     
-    assert provider.get_current_locale() == original_locale
+    assert provider.get_current_locale() == Locale.EN
     
-    # Test with a provider that doesn't have locale dependent data
-    # This should raise ValueError
     try:
-        with provider.override_locale(Locale.RU):
+        with provider.override_locale(Locale.DE) as p:
+            raise Exception("Test exception")
+    except Exception:
+        assert provider.get_current_locale() == Locale.EN
+    
+    try:
+        provider = BaseProvider()
+        with provider.override_locale(Locale.FR):
             pass
-    except ValueError as e:
-        assert "has not locale dependent" in str(e)
+    except ValueError:
+        pass
 
 
 # LLM-generated content at query #19
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test 1: Override locale and check if it's correctly set
+def test_BaseDataProvider_override_locale():
+    """Unit test for method override_locale of class BaseDataProvider."""
+    # Test that the locale is correctly overridden and restored
     provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR.value
     assert provider.get_current_locale() == Locale.EN.value
 
-    # Test 2: Override locale with a non-default locale and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.DE)
-    with provider.override_locale(Locale.IT) as p:
-        assert p.get_current_locale() == Locale.IT.value
-    assert provider.get_current_locale() == Locale.DE.value
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU.value
 
-    # Test 3: Override locale with the same locale and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN) as p:
-        assert p.get_current_locale() == Locale.EN.value
     assert provider.get_current_locale() == Locale.EN.value
 
-    # Test 4: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 5: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_US)
-    with provider.override_locale(Locale.EN_GB) as p:
-        assert p.get_current_locale() == Locale.EN_GB.value
-    assert provider.get_current_locale() == Locale.EN_US.value
-
-    # Test 6: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_GB)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US.value
-    assert provider.get_current_locale() == Locale.EN_GB.value
-
-    # Test 7: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_US)
-    with provider.override_locale(Locale.EN) as p:
-        assert p.get_current_locale() == Locale.EN.value
-    assert provider.get_current_locale() == Locale.EN_US.value
-
-    # Test 8: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_GB)
-    with provider.override_locale(Locale.EN) as p:
-        assert p.get_current_locale() == Locale.EN.value
-    assert provider.get_current_locale() == Locale.EN_GB.value
-
-    # Test 9: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_GB) as p:
-        assert p.get_current_locale() == Locale.EN_GB.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 10: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_US)
-    with provider.override_locale(Locale.EN_GB) as p:
-        assert p.get_current_locale() == Locale.EN_GB.value
-    assert provider.get_current_locale() == Locale.EN_US.value
-
-    # Test 11: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_GB)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US.value
-    assert provider.get_current_locale() == Locale.EN_GB.value
-
-    # Test 12: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 13: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_US)
-    with provider.override_locale(Locale.EN) as p:
-        assert p.get_current_locale() == Locale.EN.value
-    assert provider.get_current_locale() == Locale.EN_US.value
-
-    # Test 14: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_GB)
-    with provider.override_locale(Locale.EN) as p:
-        assert p.get_current_locale() == Locale.EN.value
-    assert provider.get_current_locale() == Locale.EN_GB.value
-
-    # Test 15: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_GB) as p:
-        assert p.get_current_locale() == Locale.EN_GB.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 16: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_US)
-    with provider.override_locale(Locale.EN_GB) as p:
-        assert p.get_current_locale() == Locale.EN_GB.value
-    assert provider.get_current_locale() == Locale.EN_US.value
-
-    # Test 17: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_GB)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US.value
-    assert provider.get_current_locale() == Locale.EN_GB.value
-
-    # Test 18: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 19: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_US)
-    with provider.override_locale(Locale.EN) as p:
-        assert p.get_current_locale() == Locale.EN.value
-    assert provider.get_current_locale() == Locale.EN_US.value
-
-    # Test 20: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_GB)
-    with provider.override_locale(Locale.EN) as p:
-        assert p.get_current_locale() == Locale.EN.value
-    assert provider.get_current_locale() == Locale.EN_GB.value
-
-    # Test 21: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_GB) as p:
-        assert p.get_current_locale() == Locale.EN_GB.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 22: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_US)
-    with provider.override_locale(Locale.EN_GB) as p:
-        assert p.get_current_locale() == Locale.EN_GB.value
-    assert provider.get_current_locale() == Locale.EN_US.value
-
-    # Test 23: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN_GB)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US.value
-    assert provider.get_current_locale() == Locale.EN_GB.value
-
-    # Test 24: Override locale with a locale that has a separator and check if it's correctly set
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override
+    # Test that the context manager raises ValueError for non-locale dependent providers
+    non_locale_provider = BaseProvider()
+    try:
+        with non_locale_provider.override_locale(Locale.RU):
+            pass
+    except ValueError as e:
+        assert str(e) == "«BaseProvider» has not locale dependent"
+    else:
+        assert False, "Expected ValueError for non-locale dependent provider"
 
 
 # LLM-generated content at query #20
 #--------------------------
 
-# Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Test case 1: item is None, should return a random enum value
-    class TestEnum(enum.Enum):
-        A = "a"
-        B = "b"
-        C = "c"
-    
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    """Test reseed method of BaseProvider."""
+    # Test with default seed (MissingSeed)
     provider = BaseProvider()
-    result = provider.validate_enum(None, TestEnum)
-    assert result in ["a", "b", "c"]
-    
-    # Test case 2: item is a valid enum member, should return its value
-    result = provider.validate_enum(TestEnum.B, TestEnum)
-    assert result == "b"
-    
-    # Test case 3: item is not an enum member, should raise NonEnumerableError
-    with pytest.raises(NonEnumerableError):
-        provider.validate_enum("invalid", TestEnum)
-    
-    # Test case 4: item is an enum member but not of the correct enum, should raise NonEnumerableError
-    class OtherEnum(enum.Enum):
-        D = "d"
-    
-    with pytest.raises(NonEnumerableError):
-        provider.validate_enum(OtherEnum.D, TestEnum)
+    initial_random_state = provider.random.getstate()
+    provider.reseed()
+    assert provider.random.getstate() == initial_random_state
+
+    # Test with explicit seed
+    seed = 42
+    provider.reseed(seed)
+    assert provider.seed == seed
+    assert provider.random.getstate() != initial_random_state
+
+    # Test with seed=None (system time)
+    provider.reseed(None)
+    assert provider.seed is None
+    assert provider.random.getstate() != initial_random_state
 
 
 # LLM-generated content at query #21
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that the locale is correctly overridden and restored
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == 'en'
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == 'ru'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test with a locale that has a region
-    with provider.override_locale(Locale.EN_US):
-        assert provider.get_current_locale() == 'en-us'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test that the context manager yields the provider itself
-    with provider.override_locale(Locale.DE) as p:
-        assert p is provider
-        assert p.get_current_locale() == 'de'
-    
-    assert provider.get_current_locale() == 'en'
+def test_BaseDataProvider_override_locale():
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test_provider"
+            datafile = "test.json"
+            datadir = DATADIR / "tests"
 
-# Run the unit test
-test_BaseDataProvider_override_locale()
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+            self._dataset = {"key": "value"}
+
+        def get_value(self):
+            return self._dataset["key"]
+
+    provider = TestProvider(locale=Locale.EN)
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_value() == "value"
+    assert provider.get_current_locale() == Locale.EN.value
 
 
 # LLM-generated content at query #22
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that the locale is correctly overridden and restored
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == 'en'
-    
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == 'ru'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test that the locale is restored even if an exception occurs
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    class TestEnum:
+        A = "A"
+        B = "B"
+        C = "C"
+
+    provider = BaseProvider()
+
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in ["A", "B", "C"]
+
+    # Test with valid enum item
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == "B"
+
+    # Test with invalid enum item
     try:
-        with provider.override_locale(Locale.DE) as p:
-            assert p.get_current_locale() == 'de'
-            raise ValueError("Test exception")
-    except ValueError:
+        provider.validate_enum("D", TestEnum)
+    except NonEnumerableError:
         pass
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test with a locale that has a region
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == 'en-us'
-    
-    assert provider.get_current_locale() == 'en'
+    else:
+        assert False, "Expected NonEnumerableError"
+
 
 
 # LLM-generated content at query #23
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale
+def test_BaseDataProvider_override_locale():
+    # Create an instance of BaseDataProvider with default locale
     provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
     
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == Locale.RU.value
+    # Test overriding the locale temporarily
+    with provider.override_locale(Locale.FR) as p:
+        assert p.get_current_locale() == Locale.FR
     
-    assert provider.get_current_locale() == original_locale
-    
-    # Test that locale is restored even if an exception occurs
-    try:
-        with provider.override_locale(Locale.DE):
-            raise ValueError("Test exception")
-    except ValueError:
-        pass
-    
-    assert provider.get_current_locale() == original_locale
+    # Ensure the locale is reverted back to the original after the context manager
+    assert provider.get_current_locale() == Locale.EN
 
 
 # LLM-generated content at query #24
 #--------------------------
 
-# Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Test case 1: item is None, should return a random enum value
-    class TestEnum(enum.Enum):
-        A = "a"
-        B = "b"
-        C = "c"
-    
-    provider = BaseProvider(seed=42)
-    result = provider.validate_enum(None, TestEnum)
-    assert result in ["a", "b", "c"]
-    
-    # Test case 2: item is a valid enum member, should return its value
-    result = provider.validate_enum(TestEnum.B, TestEnum)
-    assert result == "b"
-    
-    # Test case 3: item is not an enum member, should raise NonEnumerableError
-    try:
-        provider.validate_enum("invalid", TestEnum)
-        assert False, "Expected NonEnumerableError"
-    except NonEnumerableError:
-        pass
-    
-    # Test case 4: item is an enum member but not of the correct enum, should raise NonEnumerableError
-    class OtherEnum(enum.Enum):
-        D = "d"
-    
-    try:
-        provider.validate_enum(OtherEnum.D, TestEnum)
-        assert False, "Expected NonEnumerableError"
-    except NonEnumerableError:
-        pass
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test method override_locale()."""
+    provider = BaseDataProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == Locale.EN.value
+
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU.value
+
+    assert provider.get_current_locale() == Locale.EN.value
 
 
 # LLM-generated content at query #25
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Create a provider instance
+def test_BaseDataProvider_override_locale():
+    """
+    Test that the override_locale method correctly changes the locale temporarily.
+    """
     provider = BaseDataProvider(locale=Locale.EN)
-    
-    # Test that locale is initially EN
-    assert provider.get_current_locale() == 'en'
-    
-    # Test overriding to DE
-    with provider.override_locale(Locale.DE) as p:
-        assert p.get_current_locale() == 'de'
-    
-    # Test that locale is restored to EN
-    assert provider.get_current_locale() == 'en'
-    
-    # Test overriding to FR
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == 'fr'
-    
-    # Test that locale is restored to EN
-    assert provider.get_current_locale() == 'en'
-    
-    print("All tests passed!")
+    assert provider.get_current_locale() == Locale.EN.value
 
-# Run the test
-test_BaseDataProvider_override_locale()
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU.value
+
+    assert provider.get_current_locale() == Locale.EN.value
+
+    try:
+        with provider.override_locale(Locale.RU):
+            raise ValueError("Test error")
+    except ValueError:
+        pass
+    assert provider.get_current_locale() == Locale.EN.value
 
 
 # LLM-generated content at query #26
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test 1: Override locale for a locale-dependent provider
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR
-    assert provider.get_current_locale() == Locale.EN
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    from enum import Enum
 
-    # Test 2: Override locale for a locale-independent provider
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR
-    assert provider.get_current_locale() == Locale.EN
+    class TestEnum(Enum):
+        A = "A"
+        B = "B"
+        C = "C"
 
-    # Test 3: Override locale with invalid locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    with pytest.raises(ValueError):
-        with provider.override_locale("invalid_locale") as p:
-            pass
+    provider = BaseProvider(seed=42)
 
-    # Test 4: Override locale with None
-    provider = BaseDataProvider(locale=Locale.EN)
-    with pytest.raises(ValueError):
-        with provider.override_locale(None) as p:
-            pass
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in ["A", "B", "C"]
 
-    # Test 5: Override locale with empty string
-    provider = BaseDataProvider(locale=Locale.EN)
-    with pytest.raises(ValueError):
-        with provider.override_locale("") as p:
-            pass
+    # Test with enum member
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == "B"
 
-    # Test 6: Override locale with a locale that has a separator
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US
-    assert provider.get_current_locale() == Locale.EN
+    # Test with invalid enum member
+    try:
+        provider.validate_enum("D", TestEnum)
+        assert False, "Should raise NonEnumerableError"
+    except NonEnumerableError:
+        pass
 
-    # Test 7: Override locale with a locale that has a separator and a master locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_GB) as p:
-        assert p.get_current_locale() == Locale.EN_GB
-    assert provider.get_current_locale() == Locale.EN
+    # Test with wrong enum type
+    class OtherEnum(Enum):
+        D = "D"
 
-    # Test 8: Override locale with a locale that has a separator and a master locale, and then override again
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US
-        with p.override_locale(Locale.FR) as p2:
-            assert p2.get_current_locale() == Locale.FR
-        assert p.get_current_locale() == Locale.EN_US
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test 9: Override locale with a locale that has a separator and a master locale, and then override again with the same locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US
-        with p.override_locale(Locale.EN_US) as p2:
-            assert p2.get_current_locale() == Locale.EN_US
-        assert p.get_current_locale() == Locale.EN_US
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test 10: Override locale with a locale that has a separator and a master locale, and then override again with a different locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US
-        with p.override_locale(Locale.FR) as p2:
-            assert p2.get_current_locale() == Locale.FR
-        assert p.get_current_locale() == Locale.EN_US
-    assert provider.get_current_locale() == Locale.EN
+    try:
+        provider.validate_enum(OtherEnum.D, TestEnum)
+        assert False, "Should raise NonEnumerableError"
+    except NonEnumerableError:
+        pass
 
 
 # LLM-generated content at query #27
 #--------------------------
 
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    # Test with default seed (MissingSeed)
+    provider = BaseProvider()
+    original_seed = provider.random.seed
+    provider.reseed()
+    assert provider.random.seed == original_seed  # Should not change
+
+    # Test with explicit seed
+    test_seed = 42
+    provider.reseed(test_seed)
+    assert provider.random.seed == test_seed
+
+    # Test with None seed (should use system time)
+    provider.reseed(None)
+    assert provider.random.seed is not None
+
+    # Test with global seed set
+    _random.global_seed = 123
+    provider = BaseProvider()
+    provider.reseed()
+    assert provider.random.seed == 123
+    _random.global_seed = MissingSeed  # Reset global seed
+
+    # Test instance-specific seed overrides global
+    provider = BaseProvider(seed=456)
+    assert provider.random.seed == 456
+
+
+# LLM-generated content at query #28
+#--------------------------
+
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  # noqa: N802
-    # Test that override_locale temporarily changes locale
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test_provider"
+            datafile = "test_data.json"
+            datadir = DATADIR
+
+        def get_data(self):
+            return self._dataset
+
+    provider = TestProvider(locale=Locale.EN)
+
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
+
+    assert provider.get_current_locale() == Locale.EN
+
+
+# LLM-generated content at query #29
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    provider = BaseDataProvider(locale="en")
+    with provider.override_locale(locale="ru") as p:
+        assert p.get_current_locale() == "ru"
+    assert provider.get_current_locale() == "en"
+
+
+# LLM-generated content at query #30
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test override_locale method of BaseDataProvider."""
     provider = BaseDataProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == Locale.EN.value
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU.value
+    assert provider.get_current_locale() == Locale.EN.value
+
+
+# LLM-generated content at query #31
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    # Create an instance of a locale-dependent provider
+    provider = BaseDataProvider(locale=Locale.EN)
+
+    # Test overriding the locale
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
+
+    # Ensure the locale is reset after the context manager exits
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test with invalid provider (non-locale dependent)
+    non_locale_provider = BaseProvider()
+    try:
+        with non_locale_provider.override_locale(Locale.RU):
+            pass
+    except ValueError as e:
+        assert str(e) == f"«{non_locale_provider.__class__.__name__}» has not locale dependent"
+
+    print("All tests passed.")
+
+
+# LLM-generated content at query #32
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test_provider"
+            datafile = "test_data.json"
+            datadir = DATADIR
+
+        def __init__(self, locale: Locale = Locale.DEFAULT, seed: Seed = MissingSeed):
+            super().__init__(locale, seed)
+
+    provider = TestProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == "en"
+
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == "ru"
+
+    assert provider.get_current_locale() == "en"
+
+
+# LLM-generated content at query #33
+#--------------------------
+
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    """Test reseed method of BaseProvider."""
+    provider = BaseProvider()
+    provider.reseed(42)
+    assert provider.seed == 42
+    provider.reseed(None)
+    assert provider.seed is None
+    provider.reseed(MissingSeed)
+    assert provider.seed is MissingSeed
+
+
+# LLM-generated content at query #34
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    locale = Locale.RU
+    provider = BaseDataProvider()
+    with provider.override_locale(locale):
+        assert provider.get_current_locale() == locale.value
+    assert provider.get_current_locale() == Locale.DEFAULT.value
+
+
+# LLM-generated content at query #35
+#--------------------------
+
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    provider = BaseProvider(seed=42)
+    assert provider.seed == 42
+    provider.reseed(123)
+    assert provider.seed == 123
+    provider.reseed()
+    assert provider.seed is None
+
+
+
+# LLM-generated content at query #36
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test method override_locale of class BaseDataProvider."""
+    provider = BaseDataProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == Locale.EN
+
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU
+
+    assert provider.get_current_locale() == Locale.EN
+
+    try:
+        with provider.override_locale("invalid_locale"):
+            pass
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for invalid locale"
+
+    try:
+        provider = BaseDataProvider(locale=Locale.EN)
+        provider._dataset = None  # Force error in _load_dataset
+        with provider.override_locale(Locale.RU):
+            pass
+    except Exception:
+        pass
+    else:
+        assert False, "Expected exception when dataset is None"
+
+
+# LLM-generated content at query #37
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test_provider"
+            datafile = "test_data.json"
+
+    provider = TestProvider(locale="en")
+    assert provider.get_current_locale() == "en"
+
+    with provider.override_locale("ru"):
+        assert provider.get_current_locale() == "ru"
+
+    assert provider.get_current_locale() == "en"
+
+    try:
+        with provider.override_locale("ru"):
+            raise ValueError("Test exception")
+    except ValueError:
+        pass  # Expected exception
+
+    assert provider.get_current_locale() == "en"
+
+    provider = TestProvider(locale="en_US")
+    assert provider.get_current_locale() == "en_US"
+
+    with provider.override_locale("ru_RU"):
+        assert provider.get_current_locale() == "ru_RU"
+
+    assert provider.get_current_locale() == "en_US"
+
+
+# LLM-generated content at query #38
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test the `override_locale` method of `BaseDataProvider`.
+
+    This test ensures that the `override_locale` method temporarily changes the locale
+    of a `BaseDataProvider` instance and restores the original locale after exiting the context.
+    """
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test_provider"
+            datafile = "test_data.json"
+
+    provider = TestProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == Locale.EN
+
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU
+
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test with an unsupported locale
+    try:
+        with provider.override_locale("unsupported_locale"):
+            pass
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for an unsupported locale"
+
+    # Test with a provider that has no locale-dependent data
+    class NonLocaleProvider(BaseProvider):
+        pass
+
+    non_locale_provider = NonLocaleProvider()
+    try:
+        with non_locale_provider.override_locale(Locale.RU):
+            pass
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for a provider without locale-dependent data"
+
+
+# LLM-generated content at query #39
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    class MockDataProvider(BaseDataProvider):
+        class Meta:
+            name = "mock"
+            datafile = "mock.json"
+
+        def mock_method(self):
+            return self.locale
+
+    provider = MockDataProvider(locale=Locale.EN)
+    with provider.override_locale(Locale.RU) as p:
+        assert p.mock_method() == Locale.RU.value
+    assert provider.mock_method() == Locale.EN.value
+
+
+# LLM-generated content at query #40
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    # Create a mock provider class that inherits from BaseDataProvider
+    class MockProvider(BaseDataProvider):
+        class Meta:
+            name = "mock"
+            datafile = "mock.json"
+            datadir = DATADIR
+
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+            self._dataset = {"key": "value"}
+
+    # Test with a valid locale
+    provider = MockProvider()
+    with provider.override_locale(Locale.EN) as p:
+        assert p.get_current_locale() == Locale.EN
+
+    # Verify locale is restored after context
+    assert provider.get_current_locale() == Locale.DEFAULT
+
+    # Test with an invalid locale (non-locale-dependent provider)
+    class NonLocaleProvider(BaseProvider):
+        pass
+
+    non_locale_provider = NonLocaleProvider()
+    try:
+        with non_locale_provider.override_locale(Locale.EN):
+            pass
+    except ValueError as e:
+        assert "has not locale dependent" in str(e)
+
+
+# LLM-generated content at query #41
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    # Create a mock provider class that inherits from BaseDataProvider
+    class MockProvider(BaseDataProvider):
+        class Meta:
+            name = "mock"
+            datafile = "mock.json"
+            datadir = DATADIR
+
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+            self._dataset = {"en": {"key": "value"}, "fr": {"key": "valeur"}}
+
+    # Test with a valid locale override
+    provider = MockProvider(locale=Locale.EN)
+    with provider.override_locale(Locale.FR) as p:
+        assert p.get_current_locale() == Locale.FR
+        assert p._dataset == {"en": {"key": "value"}, "fr": {"key": "valeur"}}
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test with a locale-independent provider (should raise ValueError)
+    class LocaleIndependentProvider(BaseProvider):
+        pass
+
+    provider = LocaleIndependentProvider()
+    try:
+        with provider.override_locale(Locale.FR):
+            pass
+    except ValueError as e:
+        assert str(e) == "«LocaleIndependentProvider» has not locale dependent"
+    else:
+        assert False, "Expected ValueError for locale-independent provider"
+
+
+# LLM-generated content at query #42
+#--------------------------
+
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    """Test method validate_enum of class BaseProvider."""
+    from enum import Enum
+
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+        C = 3
+
+    provider = BaseProvider()
+
+    # Test with None, should return a random enum value
+    assert provider.validate_enum(None, TestEnum) in [1, 2, 3]
+
+    # Test with valid enum member
+    assert provider.validate_enum(TestEnum.A, TestEnum) == 1
+
+    # Test with invalid enum member, should raise NonEnumerableError
+    try:
+        provider.validate_enum("invalid", TestEnum)
+    except NonEnumerableError:
+        pass
+    else:
+        raise AssertionError("Expected NonEnumerableError")
+
+
+# LLM-generated content at query #43
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    provider = BaseDataProvider(locale=Locale.EN)
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU.value
+    assert provider.get_current_locale() == Locale.EN.value
+
+
+# LLM-generated content at query #44
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test"
+            datafile = "test.json"
+
+    provider = TestProvider(locale=Locale.DEFAULT)
+    origin_locale = provider.get_current_locale()
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU
+    assert provider.get_current_locale() == origin_locale
+
+
+# LLM-generated content at query #45
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    # Create a mock provider object
+    provider = BaseDataProvider()
+
+    # Test override_locale context manager with a new locale
+    new_locale = Locale.EN
+    with provider.override_locale(new_locale) as p:
+        assert p.get_current_locale() == 'en'
+
+    # Ensure locale is restored after exiting the context manager
+    assert provider.get_current_locale() == Locale.DEFAULT.value
+
+    # Test with a different locale
+    new_locale = Locale.RU
+    with provider.override_locale(new_locale) as p:
+        assert p.get_current_locale() == 'ru'
+
+    # Ensure locale is restored after exiting the context manager
+    assert provider.get_current_locale() == Locale.DEFAULT.value
+
+    # Test with an invalid locale
+    try:
+        with provider.override_locale("invalid"):
+            pass
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("Expected ValueError for invalid locale")
+
+    # Ensure locale is still default after handling an invalid locale
+    assert provider.get_current_locale() == Locale.DEFAULT.value
+
+
+# LLM-generated content at query #46
+#--------------------------
+
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    """Test reseed method of BaseProvider."""
+    # Test with default seed
+    provider = BaseProvider()
+    provider.reseed()
+    assert provider.seed is MissingSeed
+
+    # Test with None seed
+    provider.reseed(None)
+    assert provider.seed is None
+
+    # Test with integer seed
+    provider.reseed(42)
+    assert provider.seed == 42
+
+    # Test with string seed
+    provider.reseed("test_seed")
+    assert provider.seed == "test_seed"
+
+    # Test reseeding with different seeds
+    provider.reseed(123)
+    assert provider.seed == 123
+    provider.reseed(456)
+    assert provider.seed == 456
+
+
+# LLM-generated content at query #47
+#--------------------------
+
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed(): 
+    # Create an instance of BaseProvider 
+    provider = BaseProvider(seed=42) 
+
+    # Verify that the seed is correctly set 
+    assert provider.seed == 42 
+
+    # Reseed the provider with a new seed 
+    provider.reseed(123) 
+    assert provider.seed == 123 
+
+    # Reseed the provider with None (uses system time) 
+    provider.reseed(None) 
+    assert provider.seed is None 
+
+    # Reseed the provider with MissingSeed (uses global seed) 
+    provider.reseed(MissingSeed) 
+    assert provider.seed is MissingSeed
+
+
+# LLM-generated content at query #48
+#--------------------------
+
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    # Create a mock enum class for testing
+    class MockEnum:
+        A = 'a'
+        B = 'b'
+        C = 'c'
+
+    # Initialize BaseProvider
+    provider = BaseProvider()
+
+    # Test case 1: item is None, should return a random enum value
+    result = provider.validate_enum(None, MockEnum)
+    assert result in ['a', 'b', 'c']
+
+    # Test case 2: item is a valid enum member, should return its value
+    result = provider.validate_enum(MockEnum.B, MockEnum)
+    assert result == 'b'
+
+    # Test case 3: item is not a valid enum member, should raise NonEnumerableError
+    try:
+        provider.validate_enum('invalid', MockEnum)
+        assert False, "Expected NonEnumerableError"
+    except NonEnumerableError:
+        pass
+
+    # Test case 4: item is an instance of the enum, should return its value
+    result = provider.validate_enum(MockEnum.C, MockEnum)
+    assert result == 'c'
+
+
+# LLM-generated content at query #49
+#--------------------------
+
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    seed = 42
+    provider = BaseProvider(seed=seed)
+    provider.reseed(seed)
+    assert provider.seed == seed
+    provider.reseed(None)
+    assert provider.seed is None
+    provider.reseed(MissingSeed)
+    assert provider.seed is MissingSeed
+
+
+# LLM-generated content at query #50
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    # Create a test provider class that inherits from BaseDataProvider
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            datafile = "test.json"
+            name = "test_provider"
+
+        def __init__(self, locale=Locale.EN, seed=None):
+            super().__init__(locale=locale, seed=seed)
+            self._dataset = {"key": "value"}
+
+    # Create an instance of the test provider
+    provider = TestProvider(locale=Locale.EN)
+
+    # Test that the context manager works correctly
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
+
+    # Test that the locale is restored after the context manager
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test that the context manager raises ValueError for non-locale-dependent providers
+    class NonLocaleProvider(BaseProvider):
+        pass
+
+    non_locale_provider = NonLocaleProvider()
+    try:
+        with non_locale_provider.override_locale(Locale.RU):
+            pass
+    except ValueError as e:
+        assert str(e) == "«NonLocaleProvider» has not locale dependent"
+
+
+# LLM-generated content at query #51
+#--------------------------
+
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    # Test with default seed (MissingSeed)
+    provider = BaseProvider()
+    initial_random_value = provider.random.random()
+    provider.reseed()
+    assert provider.random.random() == initial_random_value
+
+    # Test with explicit seed
+    seed = 42
+    provider = BaseProvider(seed=seed)
+    initial_random_value = provider.random.random()
+    provider.reseed(seed)
+    assert provider.random.random() == initial_random_value
+
+    # Test with None seed (should use system time)
+    provider = BaseProvider(seed=None)
+    initial_random_value = provider.random.random()
+    provider.reseed(None)
+    assert provider.random.random() != initial_random_value  # Very unlikely to be same
+
+    # Test global seed influence
+    global_seed = 123
+    _random.global_seed = global_seed
+    provider = BaseProvider()
+    initial_random_value = provider.random.random()
+    provider.reseed()
+    assert provider.random.random() == initial_random_value
+    _random.global_seed = MissingSeed  # Reset global seed
+
+    print("test_BaseProvider_reseed passed successfully")
+
+test_BaseProvider_reseed()
+
+
+# LLM-generated content at query #52
+#--------------------------
+
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    """Unit test for method reseed of class BaseProvider."""
+    # Test case 1: Reseed with explicit seed
+    seed = 12345
+    provider = BaseProvider(seed=seed)
+    provider.reseed(seed)
+    assert provider.seed == seed
+
+    # Test case 2: Reseed with None (uses system time)
+    provider = BaseProvider(seed=None)
+    provider.reseed(None)
+    assert provider.seed is None
+
+    # Test case 3: Reseed with MissingSeed (uses global seed)
+    provider = BaseProvider(seed=MissingSeed)
+    provider.reseed(MissingSeed)
+    assert provider.seed is MissingSeed
+
+    # Test case 4: Reseed with explicit seed after initializing with MissingSeed
+    provider = BaseProvider(seed=MissingSeed)
+    provider.reseed(seed)
+    assert provider.seed == seed
+
+    # Test case 5: Reseed with MissingSeed after initializing with explicit seed
+    provider = BaseProvider(seed=seed)
+    provider.reseed(MissingSeed)
+    assert provider.seed is MissingSeed
+
+    # Test case 6: Reseed with None after initializing with explicit seed
+    provider = BaseProvider(seed=seed)
+    provider.reseed(None)
+    assert provider.seed is None
+
+    # Test case 7: Reseed with explicit seed after initializing with None
+    provider = BaseProvider(seed=None)
+    provider.reseed(seed)
+    assert provider.seed == seed
+
+    # Test case 8: Reseed with MissingSeed after initializing with None
+    provider = BaseProvider(seed=None)
+    provider.reseed(MissingSeed)
+    assert provider.seed is MissingSeed
+
+    # Test case 9: Reseed with None after initializing with MissingSeed
+    provider = BaseProvider(seed=MissingSeed)
+    provider.reseed(None)
+    assert provider.seed is None
+
+    # Test case 10: Reseed with explicit seed after initializing with explicit seed
+    new_seed = 67890
+    provider = BaseProvider(seed=seed)
+    provider.reseed(new_seed)
+    assert provider.seed == new_seed
+
+
+# LLM-generated content at query #53
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test_provider"
+            datafile = "test_data.json"
+            datadir = DATADIR
+
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+
+    provider = TestProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == Locale.EN.value
+
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU.value
+
+    assert provider.get_current_locale() == Locale.EN.value
+
+    try:
+        with provider.override_locale(Locale.RU):
+            assert provider.get_current_locale() == Locale.RU.value
+            raise ValueError("Test exception")
+    except ValueError:
+        pass
+    assert provider.get_current_locale() == Locale.EN.value
+
+
+# LLM-generated content at query #54
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test_provider"
+            datafile = "test.json"
+            datadir = DATADIR / "test"
+
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+
+    provider = TestProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == Locale.EN.value
+
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU.value
+
+    assert provider.get_current_locale() == Locale.EN.value
+
+
+# LLM-generated content at query #55
+#--------------------------
+
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    # Create a mock provider class that inherits from BaseDataProvider
+    class MockProvider(BaseDataProvider):
+        class Meta:
+            name = "mock"
+            datafile = "mock.json"
+            datadir = DATADIR
+
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+    
+    # Create a mock JSON file in the data directory
+    mock_data = {"en": {"key": "value_en"}, "ru": {"key": "value_ru"}}
+    with open(DATADIR / "en" / "mock.json", "w", encoding="utf8") as f:
+        json.dump(mock_data, f)
+    with open(DATADIR / "ru" / "mock.json", "w", encoding="utf8") as f:
+        json.dump(mock_data, f)
+    
+    # Test that the locale is correctly overridden
+    provider = MockProvider(locale=Locale.EN)
     assert provider.get_current_locale() == "en"
     
     with provider.override_locale(Locale.RU):
@@ -1078,234 +1711,14 @@ def test_BaseDataProvider_override_locale():  # noqa: N802
     
     assert provider.get_current_locale() == "en"
     
-    # Test that locale is restored even if exception occurs
-    try:
-        with provider.override_locale(Locale.DE):
-            assert provider.get_current_locale() == "de"
-            raise ValueError("Test exception")
-    except ValueError:
-        pass
-    
-    assert provider.get_current_locale() == "en"
-
-
-
-# LLM-generated content at query #28
-#--------------------------
-
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that the locale is correctly overridden and restored
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == 'en'
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == 'ru'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test with nested overrides
-    with provider.override_locale(Locale.DE):
-        assert provider.get_current_locale() == 'de'
-        with provider.override_locale(Locale.FR):
-            assert provider.get_current_locale() == 'fr'
-        assert provider.get_current_locale() == 'de'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test that original locale is restored even if exception occurs
-    try:
-        with provider.override_locale(Locale.ES):
-            assert provider.get_current_locale() == 'es'
-            raise ValueError("Test exception")
-    except ValueError:
-        pass
-    
-    assert provider.get_current_locale() == 'en'
-
-
-# LLM-generated content at query #29
-#--------------------------
-
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == 'en'
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == 'ru'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test that locale is restored even if an exception occurs
-    try:
-        with provider.override_locale(Locale.DE):
-            assert provider.get_current_locale() == 'de'
-            raise ValueError("Test exception")
-    except ValueError:
-        pass
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test with nested overrides
-    with provider.override_locale(Locale.FR):
-        assert provider.get_current_locale() == 'fr'
-        with provider.override_locale(Locale.IT):
-            assert provider.get_current_locale() == 'it'
-        assert provider.get_current_locale() == 'fr'
-    
-    assert provider.get_current_locale() == 'en'
-
-
-# LLM-generated content at query #30
-#--------------------------
-
-# Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Test with None item
-    # Should return a random choice from the enum
-    class TestEnum(enum.Enum):
-        A = "a"
-        B = "b"
-        C = "c"
-    
-    provider = BaseProvider(seed=42)
-    result = provider.validate_enum(None, TestEnum)
-    assert result in ["a", "b", "c"]
-    
-    # Test with valid enum item
-    result = provider.validate_enum(TestEnum.A, TestEnum)
-    assert result == "a"
-    
-    # Test with invalid item (should raise NonEnumerableError)
-    try:
-        provider.validate_enum("invalid", TestEnum)
-        assert False, "Should have raised NonEnumerableError"
-    except NonEnumerableError:
-        pass
-
-
-# LLM-generated content at query #31
-#--------------------------
-
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == Locale.EN.value
-    with provider.override_locale(Locale.FR):
-        assert provider.get_current_locale() == Locale.FR.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-
-# LLM-generated content at query #32
-#--------------------------
-
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test that reseed sets the seed correctly
-    provider = BaseProvider(seed=42)
-    assert provider.seed == 42
-    provider.reseed(123)
-    assert provider.seed == 123
-
-
-# LLM-generated content at query #33
-#--------------------------
-
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == "en"
-    
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == "ru"
-    
-    assert provider.get_current_locale() == "en"
-    
-    # Test with nested context managers
-    with provider.override_locale(Locale.DE) as p1:
-        assert p1.get_current_locale() == "de"
-        with p1.override_locale(Locale.FR) as p2:
-            assert p2.get_current_locale() == "fr"
-        assert p1.get_current_locale() == "de"
-    
-    assert provider.get_current_locale() == "en"
-    
-    # Test that exception in context doesn't break locale restoration
-    try:
-        with provider.override_locale(Locale.ES):
-            raise ValueError("Test exception")
-    except ValueError:
-        pass
-    
-    assert provider.get_current_locale() == "en"
-
-
-# LLM-generated content at query #34
-#--------------------------
-
-# Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Create a mock enum class for testing
-    class MockEnum:
-        class Item:
-            def __init__(self, value):
-                self.value = value
-        
-        A = Item('a')
-        B = Item('b')
-        C = Item('c')
-    
-    # Create instance of BaseProvider
-    provider = BaseProvider()
-    
-    # Test 1: When item is None, should return random enum item
-    # We'll mock random.choice_enum_item to return a specific value
-    provider.random.choice_enum_item = lambda enum: MockEnum.B
-    result = provider.validate_enum(None, MockEnum)
-    assert result == 'b'
-    
-    # Test 2: When item is a valid enum member, should return its value
-    result = provider.validate_enum(MockEnum.A, MockEnum)
-    assert result == 'a'
-    
-    # Test 3: When item is not an enum member, should raise NonEnumerableError
-    try:
-        provider.validate_enum('invalid', MockEnum)
-        assert False, "Should have raised NonEnumerableError"
-    except NonEnumerableError:
-        pass  # Expected
-    
-    # Test 4: When item is an instance of the enum class
-    result = provider.validate_enum(MockEnum.C, MockEnum)
-    assert result == 'c'
-
-
-# LLM-generated content at query #35
-#--------------------------
-
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that the locale is correctly overridden and restored
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == Locale.EN.value
-    
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR.value
-    
-    assert provider.get_current_locale() == Locale.EN.value
-    
-    # Test with a provider that has locale-dependent data
-    # (assuming there is a provider with locale-dependent data)
-    # This part would require a concrete provider class to test properly
-    # For now, we just test the base functionality
+    # Clean up the mock files
+    import os
+    os.remove(DATADIR / "en" / "mock.json")
+    os.remove(DATADIR / "ru" / "mock.json")
 
 
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -1313,64 +1726,62 @@ def test_BaseDataProvider_override_locale():
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale
+def test_BaseDataProvider_override_locale():
+    # Setup
     provider = BaseDataProvider(locale=Locale.EN)
     original_locale = provider.get_current_locale()
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR.value
+
+    # Test override_locale context manager
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
     assert provider.get_current_locale() == original_locale
 
-    # Test that override_locale raises ValueError for non-locale dependent providers
-    class NonLocaleDependentProvider(BaseDataProvider):
-        class Meta:
-            name = "non_locale_dependent"
-            datafile = ""
+    # Test nested override_locale context managers
+    with provider.override_locale(Locale.RU) as p1:
+        with p1.override_locale(Locale.DE) as p2:
+            assert p2.get_current_locale() == Locale.DE
+        assert p1.get_current_locale() == Locale.RU
+    assert provider.get_current_locale() == original_locale
 
-    provider = NonLocaleDependentProvider(locale=Locale.EN)
+    # Test error handling
     try:
-        with provider.override_locale(Locale.FR):
+        with provider.override_locale("invalid_locale"):
             pass
-    except ValueError as e:
-        assert "has not locale dependent" in str(e)
-    else:
-        assert False, "Expected ValueError"
-
-    # Test that override_locale restores original locale even if an exception occurs
-    provider = BaseDataProvider(locale=Locale.EN)
-    try:
-        with provider.override_locale(Locale.FR):
-            raise RuntimeError("Test exception")
-    except RuntimeError:
+        assert False, "Expected ValueError for invalid locale"
+    except ValueError:
         pass
-    assert provider.get_current_locale() == Locale.EN.value
+
+    # Test error handling for non-locale dependent providers
+    try:
+        provider._override_locale("invalid_locale")
+        assert False, "Expected ValueError for invalid locale"
+    except ValueError:
+        pass
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for constructor of class BaseProvider
-def test_BaseProvider():  
-    # Test with default seed
-    provider = BaseProvider()
-    assert provider.seed == MissingSeed
-    assert isinstance(provider.random, _random.Random)
-
-    # Test with custom seed
+def test_BaseProvider():
+    # test constructor with seed
     provider = BaseProvider(seed=42)
     assert provider.seed == 42
-
-    # Test with custom random instance
-    custom_random = _random.Random()
-    provider = BaseProvider(random=custom_random)
-    assert provider.random is custom_random
-
-    # Test that custom random must be instance of _random.Random
+    # test constructor with random instance
+    random_instance = _random.Random()
+    provider = BaseProvider(random=random_instance)
+    assert provider.random == random_instance
+    # test constructor with seed and random instance
+    provider = BaseProvider(seed=42, random=random_instance)
+    assert provider.seed == 42
+    assert provider.random == random_instance
+    # test constructor with invalid random instance
     try:
-        BaseProvider(random="not a random")
-        assert False, "Should have raised TypeError"
-    except TypeError:
-        pass
+        provider = BaseProvider(random="invalid")
+    except TypeError as e:
+        assert str(e) == "The random must be an instance of mimesis.random.Random"
+    else:
+        assert False, "Expected TypeError"
 
 
 
@@ -1378,125 +1789,114 @@ def test_BaseProvider():
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
-    
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR.value
-    
-    assert provider.get_current_locale() == original_locale
+def test_BaseDataProvider_override_locale():
+    locale_obj = BaseDataProvider(locale=Locale.EN)
+    assert locale_obj.get_current_locale() == Locale.EN
+
+    with locale_obj.override_locale(Locale.RU):
+        assert locale_obj.get_current_locale() == Locale.RU
+
+    assert locale_obj.get_current_locale() == Locale.EN
+
+    try:
+        with locale_obj.override_locale("unsupported_locale"):
+            pass
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for unsupported locale"
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  # noqa: N802
-    # Test that override_locale temporarily changes the locale
+def test_BaseDataProvider_override_locale():
+    # Test that the locale is temporarily overridden
     provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == "en"
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == "ru"
-    
-    assert provider.get_current_locale() == "en"
+    original_locale = provider.get_current_locale()
 
-    # Test that override_locale restores the original locale even if an exception occurs
-    provider = BaseDataProvider(locale=Locale.EN)
-    try:
-        with provider.override_locale(Locale.RU):
-            raise ValueError("Test exception")
-    except ValueError:
-        pass
-    assert provider.get_current_locale() == "en"
+    # Use context manager to override locale
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU.value
 
-    # Test that override_locale works with nested contexts
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.RU):
-        with provider.override_locale(Locale.DE):
-            assert provider.get_current_locale() == "de"
-        assert provider.get_current_locale() == "ru"
-    assert provider.get_current_locale() == "en"
+    # Ensure the original locale is restored after the context manager
+    assert provider.get_current_locale() == original_locale
 
-    # Test that override_locale raises ValueError for non-locale-dependent providers
-    class NonLocaleDependentProvider(BaseDataProvider):
-        class Meta:
-            name = "non_locale_dependent"
-            datafile = ""
-
-    provider = NonLocaleDependentProvider(locale=Locale.EN)
-    try:
-        with provider.override_locale(Locale.RU):
-            pass
-    except ValueError as e:
-        assert "has not locale dependent" in str(e)
-
-    # Test that override_locale works with locale-dependent providers
+    # Test with a locale-dependent provider
     class LocaleDependentProvider(BaseDataProvider):
         class Meta:
             name = "locale_dependent"
-            datafile = "test.json"
+            datafile = "datafile.json"
 
-    # Mock the _load_dataset method to avoid file not found errors
-    original_load_dataset = LocaleDependentProvider._load_dataset
-    LocaleDependentProvider._load_dataset = lambda self: None
-    try:
-        provider = LocaleDependentProvider(locale=Locale.EN)
-        with provider.override_locale(Locale.RU):
-            assert provider.get_current_locale() == "ru"
-        assert provider.get_current_locale() == "en"
-    finally:
-        LocaleDependentProvider._load_dataset = original_load_dataset
+    locale_dependent_provider = LocaleDependentProvider(locale=Locale.EN)
+    original_locale = locale_dependent_provider.get_current_locale()
 
-    # Test that override_locale works with complex locale strings
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale("en_US"):
-        assert provider.get_current_locale() == "en_US"
-    assert provider.get_current_locale() == "en"
+    with locale_dependent_provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU.value
 
-    print("All tests passed!")
+    assert locale_dependent_provider.get_current_locale() == original_locale
 
-if __name__ == "__main__":
-    test_BaseDataProvider_override_locale()
+    # Test with a provider that has no locale dependent data
+    class NonLocaleDependentProvider(BaseDataProvider):
+        class Meta:
+            name = "non_locale_dependent"
+
+    non_locale_dependent_provider = NonLocaleDependentProvider(locale=Locale.EN)
+    with pytest.raises(ValueError):
+        with non_locale_dependent_provider.override_locale(Locale.RU):
+            pass
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == Locale.RU.value
-    
-    assert provider.get_current_locale() == original_locale
-    
-    # Test that override_locale works with nested contexts
-    with provider.override_locale(Locale.DE):
-        assert provider.get_current_locale() == Locale.DE.value
-        with provider.override_locale(Locale.FR):
-            assert provider.get_current_locale() == Locale.FR.value
-        assert provider.get_current_locale() == Locale.DE.value
-    
-    assert provider.get_current_locale() == original_locale
-    
-    # Test that override_locale raises ValueError for non-locale dependent providers
-    class NonLocaleProvider(BaseDataProvider):
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    # Create a mock provider class that inherits from BaseDataProvider
+    class MockProvider(BaseDataProvider):
         class Meta:
-            name = "non_locale"
-            datafile = None
-        
-        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
-            super().__init__(locale=locale, seed=seed)
-    
+            name = "mock"
+            datafile = "mock.json"
+            datadir = DATADIR
+
+        def __init__(self, locale=Locale.EN):
+            super().__init__(locale=locale)
+
+    # Initialize the provider with default locale (EN)
+    provider = MockProvider()
+
+    # Test with a different locale (RU)
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
+
+    # Verify locale is restored after context manager
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test with the same locale (EN)
+    with provider.override_locale(Locale.EN) as p:
+        assert p.get_current_locale() == Locale.EN
+
+    # Verify locale is still EN after context manager
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test with invalid locale (should raise ValueError)
+    try:
+        with provider.override_locale("invalid_locale"):  # type: ignore
+            pass
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for invalid locale"
+
+    # Test with a provider that has no locale dependent data
+    class NonLocaleProvider(BaseProvider):
+        pass
+
     non_locale_provider = NonLocaleProvider()
     try:
-        with non_locale_provider.override_locale(Locale.RU):
+        with non_locale_provider.override_locale(Locale.RU):  # type: ignore
             pass
     except ValueError as e:
         assert "has not locale dependent" in str(e)
@@ -1508,1458 +1908,1014 @@ def test_BaseDataProvider_override_locale():
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test 1: Check that locale is overridden correctly
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == Locale.RU.value
-    assert provider.get_current_locale() == Locale.EN.value
+def test_BaseDataProvider_override_locale(): 
+    # Test 1: Test that the locale is correctly overridden and then reset
+    provider = BaseDataProvider(locale="en")
+    with provider.override_locale("ru"):
+        assert provider.get_current_locale() == "ru"
+    assert provider.get_current_locale() == "en"
 
-    # Test 2: Check that locale is restored after context manager exits
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.RU):
-        pass
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 3: Check that locale is restored even if an exception occurs
-    provider = BaseDataProvider(locale=Locale.EN)
+    # Test 2: Test that the context manager handles non-locale-dependent providers
     try:
-        with provider.override_locale(Locale.RU):
+        with provider.override_locale("fr"):
+            pass
+    except ValueError:
+        pass  # Expected behavior for non-locale-dependent providers
+
+    # Test 3: Test that the locale is correctly overridden and then reset even if an exception occurs within the context manager
+    try:
+        with provider.override_locale("de"):
             raise Exception("Test exception")
     except Exception:
         pass
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 4: Check that locale is overridden correctly for multiple providers
-    provider1 = BaseDataProvider(locale=Locale.EN)
-    provider2 = BaseDataProvider(locale=Locale.RU)
-    with provider1.override_locale(Locale.RU) as p1:
-        with provider2.override_locale(Locale.EN) as p2:
-            assert p1.get_current_locale() == Locale.RU.value
-            assert p2.get_current_locale() == Locale.EN.value
-    assert provider1.get_current_locale() == Locale.EN.value
-    assert provider2.get_current_locale() == Locale.RU.value
-
-    # Test 5: Check that locale is overridden correctly for nested context managers
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.RU) as p:
-        with p.override_locale(Locale.DE) as p2:
-            assert p2.get_current_locale() == Locale.DE.value
-        assert p.get_current_locale() == Locale.RU.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 6: Check that locale is overridden correctly for multiple nested context managers
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.RU) as p:
-        with p.override_locale(Locale.DE) as p2:
-            with p2.override_locale(Locale.FR) as p3:
-                assert p3.get_current_locale() == Locale.FR.value
-            assert p2.get_current_locale() == Locale.DE.value
-        assert p.get_current_locale() == Locale.RU.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 7: Check that locale is overridden correctly for multiple nested context managers with exceptions
-    provider = BaseDataProvider(locale=Locale.EN)
-    try:
-        with provider.override_locale(Locale.RU) as p:
-            with p.override_locale(Locale.DE) as p2:
-                with p2.override_locale(Locale.FR) as p3:
-                    raise Exception("Test exception")
-    except Exception:
-        pass
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 8: Check that locale is overridden correctly for multiple nested context managers with exceptions in inner context
-    provider = BaseDataProvider(locale=Locale.EN)
-    try:
-        with provider.override_locale(Locale.RU) as p:
-            with p.override_locale(Locale.DE) as p2:
-                with p2.override_locale(Locale.FR) as p3:
-                    raise Exception("Test exception")
-    except Exception:
-        pass
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 9: Check that locale is overridden correctly for multiple nested context managers with exceptions in outer context
-    provider = BaseDataProvider(locale=Locale.EN)
-    try:
-        with provider.override_locale(Locale.RU) as p:
-            with p.override_locale(Locale.DE) as p2:
-                with p2.override_locale(Locale.FR) as p3:
-                    pass
-            raise Exception("Test exception")
-    except Exception:
-        pass
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 10: Check that locale is overridden correctly for multiple nested context managers with exceptions in middle context
-    provider = BaseDataProvider(locale=Locale.EN)
-    try:
-        with provider.override_locale(Locale.RU) as p:
-            with p.override_locale(Locale.DE) as p2:
-                raise Exception("Test exception")
-            with p.override_locale(Locale.FR) as p3:
-                pass
-    except Exception:
-        pass
-    assert provider.get_current_locale() == Locale.EN.value
+    assert provider.get_current_locale() == "en"
 
 
 # LLM-generated content at query #7
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that the locale is correctly overridden and restored
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == 'en'
-    
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == 'fr'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test that the locale is correctly overridden and restored for nested contexts
-    with provider.override_locale(Locale.DE) as p:
-        assert p.get_current_locale() == 'de'
-        with p.override_locale(Locale.IT) as p2:
-            assert p2.get_current_locale() == 'it'
-        assert p.get_current_locale() == 'de'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test that the locale is correctly overridden and restored for multiple contexts
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == 'fr'
-        with p.override_locale(Locale.DE) as p2:
-            assert p2.get_current_locale() == 'de'
-        assert p.get_current_locale() == 'fr'
-    
-    assert provider.get_current_locale() == 'en'
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    # Create a mock provider class that inherits from BaseDataProvider
+    class MockProvider(BaseDataProvider):
+        class Meta:
+            name = "mock"
+            datafile = "mock.json"
+            datadir = DATADIR
+
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+
+    # Test with a valid locale override
+    provider = MockProvider(locale=Locale.EN)
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
+
+    # Verify the locale is restored after the context
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test with an invalid provider (no locale dependency)
+    class InvalidProvider(BaseProvider):
+        pass
+
+    invalid_provider = InvalidProvider()
+    try:
+        with invalid_provider.override_locale(Locale.RU):
+            pass
+    except ValueError as e:
+        assert str(e) == "«InvalidProvider» has not locale dependent"
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test with default seed (MissingSeed)
-    provider = BaseProvider()
-    original_random = provider.random
-    provider.reseed()
-    assert provider.random is original_random  # Should not change
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Unit test for method override_locale of class BaseDataProvider"""
+    # Test that the locale is correctly overridden and restored
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test_provider"
+            datafile = "test.json"
 
-    # Test with explicit seed
-    provider = BaseProvider()
-    provider.reseed(42)
-    assert provider.seed == 42
+    provider = TestProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == Locale.EN
 
-    # Test with None seed
-    provider = BaseProvider()
-    provider.reseed(None)
-    assert provider.seed is None
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU
 
-    # Test that reseed actually changes random state
-    provider1 = BaseProvider(seed=123)
-    provider2 = BaseProvider(seed=123)
-    # Both should produce same sequence
-    val1 = provider1.random.randint(1, 100)
-    val2 = provider2.random.randint(1, 100)
-    assert val1 == val2
+    assert provider.get_current_locale() == Locale.EN
 
-    # Reseed one provider
-    provider1.reseed(456)
-    val3 = provider1.random.randint(1, 100)
-    val4 = provider2.random.randint(1, 100)
-    assert val3 != val4  # Should be different after reseed
+    # Test that the locale is correctly overridden and restored when the provider does not have locale dependent data
+    class TestProviderNoLocale(BaseDataProvider):
+        class Meta:
+            name = "test_provider_no_locale"
 
+    provider_no_locale = TestProviderNoLocale()
+    try:
+        with provider_no_locale.override_locale(Locale.RU):
+            pass
+    except ValueError as e:
+        assert str(e) == f"«{provider_no_locale.__class__.__name__}» has not locale dependent"
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test that reseed works with a given seed
-    provider = BaseProvider(seed=42)
-    provider.reseed(123)
-    assert provider.seed == 123
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    # Arrange
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test_provider"
+            datafile = "test_data.json"
 
-    # Test that reseed works with None seed
-    provider = BaseProvider(seed=42)
-    provider.reseed(None)
-    assert provider.seed is None
+        def __init__(self, locale: Locale = Locale.EN, seed: Seed = MissingSeed):
+            super().__init__(locale=locale, seed=seed)
 
-    # Test that reseed works with MissingSeed
-    provider = BaseProvider(seed=42)
-    provider.reseed(MissingSeed)
-    assert provider.seed is MissingSeed
+    provider = TestProvider(locale=Locale.EN)
 
-    # Test that reseed updates the random generator
-    provider = BaseProvider(seed=42)
-    original_random = provider.random
-    provider.reseed(123)
-    assert provider.random is original_random  # Same instance, but reseeded
+    # Act
+    with provider.override_locale(Locale.RU) as p:
+        locale_after_override = p.get_current_locale()
 
-    # Test that reseed with MissingSeed uses global seed if set
-    _random.global_seed = 999
-    provider = BaseProvider()
-    provider.reseed(MissingSeed)
-    assert provider.seed is MissingSeed
-    # Check that random generator was seeded with global seed
-    # (this is internal, but we can verify by checking that random is seeded)
-    _random.global_seed = MissingSeed  # Reset global seed
+    locale_after_reset = provider.get_current_locale()
 
-    # Test that reseed with a specific seed overrides global seed
-    provider = BaseProvider()
-    provider.reseed(456)
-    assert provider.seed == 456
-
-    # Test that reseed works with a custom random instance
-    custom_random = _random.Random()
-    provider = BaseProvider(random=custom_random)
-    provider.reseed(789)
-    assert provider.seed == 789
-    assert provider.random is custom_random
-
-    # Test that reseed raises no error with invalid seed type (should be handled by random.seed)
-    provider = BaseProvider()
-    provider.reseed("invalid_seed")  # This should not raise, but random.seed will handle it
-    assert provider.seed == "invalid_seed"
+    # Assert
+    assert locale_after_override == Locale.RU.value
+    assert locale_after_reset == Locale.EN.value
 
 
 # LLM-generated content at query #10
 #--------------------------
 
 # Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Test case 1: item is None
-    # Expected: returns a random choice from the enum
-    # Mock the random.choice_enum_item method to return a specific value
+def test_BaseProvider_validate_enum():
+    """Unit test for method validate_enum of class BaseProvider."""
+    class TestEnum:
+        """Test enum."""
+        A = 1
+        B = 2
+        C = 3
+
     provider = BaseProvider()
-    provider.random.choice_enum_item = lambda enum: "random_value"
-    result = provider.validate_enum(None, "enum")
-    assert result == "random_value"
-    
-    # Test case 2: item is an instance of the enum
-    # Expected: returns the value of the item
-    class MockEnum:
-        def __init__(self, value):
-            self.value = value
-    
-    item = MockEnum("enum_value")
-    result = provider.validate_enum(item, MockEnum)
-    assert result == "enum_value"
-    
-    # Test case 3: item is not None and not an instance of the enum
-    # Expected: raises NonEnumerableError
+
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in [1, 2, 3]
+
+    # Test with valid enum item
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 2
+
+    # Test with invalid enum item
     try:
-        provider.validate_enum("invalid_item", MockEnum)
+        provider.validate_enum(4, TestEnum)
     except NonEnumerableError:
-        pass  # Expected exception
+        pass
     else:
         assert False, "Expected NonEnumerableError"
-    
-    # Test case 4: item is an instance of the enum but with a different value
-    # Expected: returns the value of the item
-    item = MockEnum("different_value")
-    result = provider.validate_enum(item, MockEnum)
-    assert result == "different_value"
-    
-    # Test case 5: item is an instance of a subclass of the enum
-    # Expected: returns the value of the item
-    class SubEnum(MockEnum):
-        pass
-    
-    item = SubEnum("subclass_value")
-    result = provider.validate_enum(item, MockEnum)
-    assert result == "subclass_value"
-    
-    # Test case 6: item is an instance of the enum but with a value that is not a string
-    # Expected: returns the value of the item
-    item = MockEnum(123)
-    result = provider.validate_enum(item, MockEnum)
-    assert result == 123
-    
-    # Test case 7: item is an instance of the enum but with a value that is a list
-    # Expected: returns the value of the item
-    item = MockEnum([1, 2, 3])
-    result = provider.validate_enum(item, MockEnum)
-    assert result == [1, 2, 3]
-    
-    # Test case 8: item is an instance of the enum but with a value that is a dict
-    # Expected: returns the value of the item
-    item = MockEnum({"key": "value"})
-    result = provider.validate_enum(item, MockEnum)
-    assert result == {"key": "value"}
-    
-    # Test case 9: item is an instance of the enum but with a value that is None
-    # Expected: returns None
-    item = MockEnum(None)
-    result = provider.validate_enum(item, MockEnum)
-    assert result is None
-    
-    # Test case 10: item is an instance of the enum but with a value that is an empty string
-    # Expected: returns an empty string
-    item = MockEnum("")
-    result = provider.validate_enum(item, MockEnum)
-    assert result == ""
-    
-    # Test case 11: item is an instance of the enum but with a value that is a boolean
-    # Expected: returns the boolean value
-    item = MockEnum(True)
-    result = provider.validate_enum(item, MockEnum)
-    assert result is True
-    
-    # Test case 12: item is an instance of the enum but with a value that is a float
-    # Expected: returns the float value
-    item = MockEnum(3.14)
-    result = provider.validate_enum(item, MockEnum)
-    assert result == 3.14
-    
-    # Test case 13: item is an instance of the enum but with a value that is a complex number
-    # Expected: returns the complex number value
-    item = MockEnum(1+2j)
-    result = provider.validate_enum(item, MockEnum)
-    assert result == 1+2j
-    
-    # Test case 14: item is an instance of the enum but with a value that is a tuple
-    # Expected: returns the tuple value
-    item = MockEnum((1, 2, 3))
-    result = provider.validate_enum(item, MockEnum)
-    assert result == (1, 2, 3)
-    
-    # Test case 15: item is an instance of the enum but with a value that is a set
-    # Expected: returns the set value
-    item = MockEnum({1, 2, 3})
-    result = provider.validate_enum(item, MockEnum)
-    assert result == {1, 2, 3}
-    
-    # Test case 16: item is an instance of the enum but with a value that is a frozenset
-    # Expected: returns the frozenset value
-    item = MockEnum(frozenset([1, 2, 3]))
-    result = provider.validate_enum(item, MockEnum)
-    assert result == frozenset([1, 2, 3])
-    
-    # Test case 17: item is an instance of the enum but with a value that is a bytes object
-    # Expected: returns the bytes value
-    item = MockEnum(b"hello")
-    result = provider.validate_enum(item, MockEnum)
-    assert result == b"hello"
-    
-    # Test case 18: item is an instance of the enum but with a value that is a bytearray
-    # Expected: returns the bytearray value
-    item = MockEnum(bytearray(b"hello"))
-    result = provider.validate_enum(item, MockEnum)
-    assert result == bytearray(b"hello")
-    
-    # Test case 19: item is an instance of the enum but with a value that is a memoryview
-    # Expected: returns the memoryview value
-    item = MockEnum(memoryview(b"hello"))
-    result = provider.validate_enum(item, MockEnum)
-    assert result == memoryview(b"hello")
-    
-    # Test case 20: item is an instance of the enum but with a value that is a range
-    # Expected: returns the range value
-    item = MockEnum(range(5))
-    result = provider.validate_enum(item, MockEnum)
-    assert result == range(5)
-    
-    # Test case 21: item is an instance of the enum but with a value that is a slice
-    # Expected: returns the slice value
-    item = MockEnum(slice(1, 10, 2))
-    result = provider.validate_enum(item, MockEnum)
-    assert result == slice(1, 10, 2)
-    
-    # Test case 22: item is an instance of the enum but with a value that is an Ellipsis
-    # Expected: returns Ellipsis
-    item = MockEnum(...)
-    result = provider.validate_enum(item, MockEnum)
-    assert result is ...
-    
-    # Test case 23: item is an instance of the enum but with a value that is a NotImplemented
-    # Expected: returns NotImplemented
-    item = MockEnum(NotImplemented)
-    result = provider.validate_enum(item, MockEnum)
-    assert result is NotImplemented
-    
-    # Test case 24: item is an instance of the enum but with a value that is a function
-    # Expected: returns the function
-    def dummy_func():
-        pass
-    item = MockEnum(dummy_func)
-    result = provider.validate_enum(item, MockEnum)
-    assert result is dummy_func
-    
-    # Test case 25: item is an instance of the enum but with a value that is a class
-    # Expected: returns the class
-    class DummyClass:
-        pass
-    item = MockEnum(DummyClass)
-    result = provider.validate_enum(item, MockEnum)
-    assert result is DummyClass
-    
-    # Test case 26: item is an instance of the enum but with a value that is an instance of a class
-    # Expected: returns the instance
-    instance = DummyClass()
-    item = MockEnum(instance)
-    result = provider.validate_enum(item, MockEnum)
-    assert result is instance
-    
-    # Test case 27: item is an instance of the enum but with a value that is a generator
-    # Expected: returns the generator
-    def dummy_gen():
-        yield 1
-    gen = dummy_gen()
-    item = MockEnum(gen)
-    result = provider.validate_enum(item, MockEnum)
-    assert result is gen
-    
-    # Test case 28: item is an instance of the enum but with a value that is a coroutine
-    # Expected: returns the coroutine
-    import asyncio
-    async def dummy_coro():
-        await asyncio.sleep(0)
-    coro = dummy_coro()
-    item = MockEnum(coro)
-    result = provider.validate_enum(item, MockEnum)
-    assert result is coro
-    
-    # Test case 29: item is an instance of the enum but with a value that is an async generator
-    # Expected: returns the async generator
-    async def dummy_async_gen():
-        yield 1
-    async_gen = dummy_async_gen()
-    item = MockEnum(async_gen)
-    result = provider.validate_enum(item, MockEnum)
-    assert result is async_gen
-    
-    # Test case 30: item is an instance of the enum but with a value that is a context manager
-    # Expected: returns the context manager
-    from contextlib import contextmanager
-    @contextmanager
-    def dummy_cm
+
 
 
 # LLM-generated content at query #11
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that the locale is correctly overridden and restored
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == Locale.EN.value
-    
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR.value
-    
-    assert provider.get_current_locale() == Locale.EN.value
+def test_BaseDataProvider_override_locale():
+    provider = BaseDataProvider(locale="en")
+    with provider.override_locale("ru"):
+        assert provider.get_current_locale() == "ru"
+    assert provider.get_current_locale() == "en"
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
-    
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == 'ru'
-    
-    assert provider.get_current_locale() == original_locale
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    """Test reseed method of BaseProvider."""
+    # Test with default seed
+    provider = BaseProvider()
+    provider.reseed()
+    assert provider.seed == MissingSeed
+
+    # Test with custom seed
+    provider = BaseProvider(seed=42)
+    provider.reseed(42)
+    assert provider.seed == 42
+
+    # Test with None seed
+    provider = BaseProvider(seed=None)
+    provider.reseed(None)
+    assert provider.seed is None
+
+    # Test with global seed
+    _random.global_seed = 123
+    provider = BaseProvider()
+    provider.reseed()
+    assert provider.seed == MissingSeed
+    _random.global_seed = MissingSeed
 
 
 # LLM-generated content at query #13
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test case 1: Reseed with a specific seed
-    provider = BaseProvider(seed=42)
-    original_random_state = provider.random.getstate()
-    provider.reseed(123)
-    assert provider.random.getstate() != original_random_state
-
-    # Test case 2: Reseed with None (should use system time)
-    provider = BaseProvider(seed=42)
-    original_random_state = provider.random.getstate()
-    provider.reseed(None)
-    assert provider.random.getstate() != original_random_state
-
-    # Test case 3: Reseed with MissingSeed (should use global seed if set)
-    _random.global_seed = 999
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    # Test with None
+    class MockEnum:
+        A = 1
+        B = 2
     provider = BaseProvider()
-    original_random_state = provider.random.getstate()
-    provider.reseed()
-    assert provider.random.getstate() == original_random_state
+    result = provider.validate_enum(None, MockEnum)
+    assert result in [MockEnum.A.value, MockEnum.B.value]
 
-    # Test case 4: Reseed with a string seed
-    provider = BaseProvider(seed="test_seed")
-    original_random_state = provider.random.getstate()
-    provider.reseed("new_seed")
-    assert provider.random.getstate() != original_random_state
+    # Test with enum item
+    result = provider.validate_enum(MockEnum.A, MockEnum)
+    assert result == MockEnum.A.value
 
-    # Test case 5: Reseed with the same seed should produce same random state
-    provider1 = BaseProvider(seed=42)
-    provider2 = BaseProvider(seed=42)
-    provider1.reseed(42)
-    provider2.reseed(42)
-    assert provider1.random.getstate() == provider2.random.getstate()
+    # Test with invalid enum item
+    try:
+        provider.validate_enum(3, MockEnum)
+    except NonEnumerableError:
+        pass
+    else:
+        assert False, "Should raise NonEnumerableError"
 
 
 # LLM-generated content at query #14
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Create a provider with default locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    
-    # Test that locale is initially EN
-    assert provider.get_current_locale() == 'en'
-    
-    # Test overriding to DE
-    with provider.override_locale(Locale.DE) as p:
-        assert p.get_current_locale() == 'de'
-    
-    # Test that locale is restored to EN after context manager
-    assert provider.get_current_locale() == 'en'
-    
-    # Test overriding to RU
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == 'ru'
-    
-    # Test that locale is restored to EN after context manager
-    assert provider.get_current_locale() == 'en'
-    
-    # Test with nested context managers
-    with provider.override_locale(Locale.FR) as p1:
-        assert p1.get_current_locale() == 'fr'
-        with p1.override_locale(Locale.IT) as p2:
-            assert p2.get_current_locale() == 'it'
-        assert p1.get_current_locale() == 'fr'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    print("All tests passed!")
-
-# Run the test
-test_BaseDataProvider_override_locale()
+def test_BaseDataProvider_override_locale():
+    provider = BaseDataProvider(locale="en")
+    with provider.override_locale("ru"):
+        assert provider.get_current_locale() == "ru"
+    assert provider.get_current_locale() == "en"
 
 
 # LLM-generated content at query #15
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes locale and restores it
+def test_BaseDataProvider_override_locale():
+    # Setup
     provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == 'en'
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == 'ru'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test with nested context managers
-    with provider.override_locale(Locale.DE):
-        assert provider.get_current_locale() == 'de'
-        with provider.override_locale(Locale.FR):
-            assert provider.get_current_locale() == 'fr'
-        assert provider.get_current_locale() == 'de'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test that locale is restored even if exception occurs
-    try:
-        with provider.override_locale(Locale.ES):
-            assert provider.get_current_locale() == 'es'
-            raise ValueError("Test exception")
-    except ValueError:
-        pass
-    
-    assert provider.get_current_locale() == 'en'
+
+    # Execute
+    with provider.override_locale(Locale.RU) as p:
+        current_locale = p.get_current_locale()
+
+    # Verify
+    assert current_locale == Locale.RU.value
+
+    # Cleanup
+    assert provider.get_current_locale() == Locale.EN.value
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale
+def test_BaseDataProvider_override_locale():
     provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == Locale.RU
-    assert provider.get_current_locale() == Locale.EN
+    assert provider.get_current_locale() == Locale.EN.value
 
-    # Test that override_locale restores original locale even if an exception occurs
-    provider = BaseDataProvider(locale=Locale.EN)
-    try:
-        with provider.override_locale(Locale.RU) as p:
-            raise ValueError("Test exception")
-    except ValueError:
-        pass
-    assert provider.get_current_locale() == Locale.EN
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU.value
 
-    # Test that override_locale raises ValueError for non-locale dependent providers
-    class NonLocaleDependentProvider(BaseDataProvider):
-        class Meta:
-            name = "non_locale_dependent"
-            datafile = ""
-
-    provider = NonLocaleDependentProvider(locale=Locale.EN)
-    try:
-        with provider.override_locale(Locale.RU):
-            pass
-    except ValueError as e:
-        assert str(e) == "«NonLocaleDependentProvider» has not locale dependent"
-
-    # Test that override_locale works with nested contexts
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.RU) as p1:
-        with p1.override_locale(Locale.DE) as p2:
-            assert p2.get_current_locale() == Locale.DE
-        assert p1.get_current_locale() == Locale.RU
-    assert provider.get_current_locale() == Locale.EN
+    assert provider.get_current_locale() == Locale.EN.value
 
 
 # LLM-generated content at query #17
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test that reseed works with a given seed
-    provider = BaseProvider(seed=42)
-    provider.reseed(123)
-    assert provider.seed == 123
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    # Mock provider class for testing
+    class MockProvider(BaseDataProvider):
+        class Meta:
+            name = "mock"
+            datafile = "mock_data.json"
+            datadir = DATADIR
 
-    # Test that reseed works with None seed
-    provider = BaseProvider(seed=42)
-    provider.reseed(None)
-    assert provider.seed is None
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
 
-    # Test that reseed works with MissingSeed
-    provider = BaseProvider(seed=42)
-    provider.reseed(MissingSeed)
-    assert provider.seed is MissingSeed
+        def get_data(self):
+            return self._extract(["key"])
+
+    # Create a mock JSON file
+    import os
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        os.makedirs(os.path.join(temp_dir, "en"))
+        os.makedirs(os.path.join(temp_dir, "en-US"))
+
+        # Create mock data files
+        en_data = {"key": "en_value"}
+        en_us_data = {"key": "en_us_value"}
+
+        with open(os.path.join(temp_dir, "en", "mock_data.json"), "w") as f:
+            json.dump(en_data, f)
+
+        with open(os.path.join(temp_dir, "en-US", "mock_data.json"), "w") as f:
+            json.dump(en_us_data, f)
+
+        # Update the datadir for the mock provider
+        MockProvider.Meta.datadir = temp_dir
+
+        # Test the override_locale method
+        provider = MockProvider(locale="en")
+
+        # Test with default locale
+        assert provider.get_data() == "en_value"
+
+        # Test with overridden locale
+        with provider.override_locale("en-US"):
+            assert provider.get_data() == "en_us_value"
+
+        # Ensure locale is reset
+        assert provider.get_data() == "en_value"
 
 
 # LLM-generated content at query #18
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  # noqa: N802
-    """Test override_locale method of BaseDataProvider."""
-    # Create a mock provider class that inherits from BaseDataProvider
-    class MockProvider(BaseDataProvider):
-        class Meta:
-            name = "mock"
-            datafile = "test.json"
-        
-        def __init__(self, locale=Locale.EN, seed=MissingSeed):
-            super().__init__(locale=locale, seed=seed)
-        
-        def get_data(self):
-            return self._dataset.get("test", "default")
-    
-    # Create a provider with EN locale
-    provider = MockProvider(locale=Locale.EN)
-    
-    # Test that we can override locale temporarily
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == Locale.RU.value
-    
-    # Test that locale is restored after context manager
-    assert provider.get_current_locale() == Locale.EN.value
-    
-    # Test with nested context managers
-    with provider.override_locale(Locale.RU) as p1:
-        with p1.override_locale(Locale.DE) as p2:
-            assert p2.get_current_locale() == Locale.DE.value
-        assert p1.get_current_locale() == Locale.RU.value
-    assert provider.get_current_locale() == Locale.EN.value
-    
-    print("All tests passed!")
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    """Test reseed method of BaseProvider."""
+    # Test with default seed (MissingSeed)
+    provider = BaseProvider()
+    original_random = provider.random
+    provider.reseed()
+    assert provider.random is original_random  # Should not change the random instance
 
-if __name__ == "__main__":
-    test_BaseDataProvider_override_locale()
+    # Test with explicit seed
+    provider = BaseProvider(seed=42)
+    original_random = provider.random
+    provider.reseed(123)
+    assert provider.random is original_random  # Should not change the random instance
+    assert provider.seed == 123
+
+    # Test with None seed
+    provider = BaseProvider(seed=None)
+    original_random = provider.random
+    provider.reseed(None)
+    assert provider.random is original_random  # Should not change the random instance
+    assert provider.seed is None
 
 
 # LLM-generated content at query #19
 #--------------------------
 
-# Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Test with None item
-    class MockEnum:
-        A = "a"
-        B = "b"
-        C = "c"
-    
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    # Test reseeding with a specific seed
     provider = BaseProvider(seed=42)
-    result = provider.validate_enum(None, MockEnum)
-    assert result in ["a", "b", "c"]
-    
-    # Test with valid enum item
-    result = provider.validate_enum(MockEnum.B, MockEnum)
-    assert result == "b"
-    
-    # Test with invalid enum item (should raise NonEnumerableError)
-    try:
-        provider.validate_enum("invalid", MockEnum)
-        assert False, "Should have raised NonEnumerableError"
-    except NonEnumerableError:
-        pass
+    provider.reseed(123)
+    assert provider.seed == 123
+
+    # Test reseeding with MissingSeed
+    provider.reseed(MissingSeed)
+    assert provider.seed is MissingSeed
+
+    # Test reseeding with None
+    provider.reseed(None)
+    assert provider.seed is None
 
 
 
 # LLM-generated content at query #20
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
-    
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == Locale.RU.value
-    
-    assert provider.get_current_locale() == original_locale
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    from enum import Enum
 
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+        C = 3
+
+    provider = BaseProvider()
+    assert provider.validate_enum(None, TestEnum) in [1, 2, 3]
+    assert provider.validate_enum(TestEnum.A, TestEnum) == 1
+    try:
+        provider.validate_enum(4, TestEnum)
+        assert False, "Expected NonEnumerableError"
+    except NonEnumerableError:
+        pass
 
 
 # LLM-generated content at query #21
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == Locale.RU.value
-    
-    assert provider.get_current_locale() == original_locale
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    from enum import Enum
+
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+        C = 3
+
+    provider = BaseProvider(seed=42)
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in [1, 2, 3]
+
+    # Test with enum item
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 2
+
+    # Test with invalid item
+    try:
+        provider.validate_enum("D", TestEnum)
+        assert False, "Should raise NonEnumerableError"
+    except NonEnumerableError:
+        pass
 
 
 # LLM-generated content at query #22
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
-    
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == Locale.RU.value
-    
-    assert provider.get_current_locale() == original_locale
-    
-    # Test with a provider that doesn't have locale dependent data
-    # This should raise ValueError
-    try:
-        with provider.override_locale(Locale.RU):
-            pass
-    except ValueError as e:
-        assert "has not locale dependent" in str(e)
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    provider = BaseProvider()
+    original_seed = provider.seed
+
+    provider.reseed(42)
+    assert provider.seed == 42
+
+    provider.reseed(MissingSeed)
+    assert provider.seed == original_seed
+
 
 
 # LLM-generated content at query #23
 #--------------------------
 
 # Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Create an instance of BaseProvider
-    provider = BaseProvider()
-    
-    # Define a simple enum for testing
+def test_BaseProvider_validate_enum():
     from enum import Enum
+
     class TestEnum(Enum):
-        A = "value_a"
-        B = "value_b"
-        C = "value_c"
-    
-    # Test case 1: item is None, should return a random enum value
+        A = 1
+        B = 2
+        C = 3
+
+    provider = BaseProvider(seed=42)
+
+    # Test with None
     result = provider.validate_enum(None, TestEnum)
-    assert result in ["value_a", "value_b", "value_c"]
-    
-    # Test case 2: item is a valid enum member
-    result = provider.validate_enum(TestEnum.A, TestEnum)
-    assert result == "value_a"
-    
-    # Test case 3: item is not an enum member, should raise NonEnumerableError
+    assert result in [1, 2, 3]
+
+    # Test with enum member
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 2
+
+    # Test with invalid value
     try:
-        provider.validate_enum("invalid", TestEnum)
-        assert False, "Expected NonEnumerableError"
+        provider.validate_enum(4, TestEnum)
+        assert False, "Should raise NonEnumerableError"
     except NonEnumerableError:
-        pass  # Expected
-    
-    # Test case 4: item is an enum member but not from the correct enum
-    class OtherEnum(Enum):
-        D = "value_d"
-    
+        pass
+
+    # Test with string (invalid)
     try:
-        provider.validate_enum(OtherEnum.D, TestEnum)
-        assert False, "Expected NonEnumerableError"
+        provider.validate_enum("A", TestEnum)
+        assert False, "Should raise NonEnumerableError"
     except NonEnumerableError:
-        pass  # Expected
+        pass
 
 
 # LLM-generated content at query #24
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == 'en'
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == 'ru'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test with nested context managers
-    with provider.override_locale(Locale.DE):
-        assert provider.get_current_locale() == 'de'
-        with provider.override_locale(Locale.FR):
-            assert provider.get_current_locale() == 'fr'
-        assert provider.get_current_locale() == 'de'
-    
-    assert provider.get_current_locale() == 'en'
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    from enum import Enum
+
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+        C = 3
+
+    provider = BaseProvider()
+
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in [1, 2, 3]
+
+    # Test with valid enum item
+    result = provider.validate_enum(TestEnum.A, TestEnum)
+    assert result == 1
+
+    # Test with invalid enum item (should raise NonEnumerableError)
+    try:
+        provider.validate_enum(4, TestEnum)
+        assert False
+    except NonEnumerableError:
+        assert True
+
+    # Test with valid enum instance
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 2
 
 
 # LLM-generated content at query #25
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
-    
-    with provider.override_locale(Locale.FR):
-        assert provider.get_current_locale() == Locale.FR.value
-    
-    assert provider.get_current_locale() == original_locale
-
-    # Test with a non-locale dependent provider (should raise ValueError)
-    class NonLocaleProvider(BaseDataProvider):
+def test_BaseDataProvider_override_locale():
+    class TestProvider(BaseDataProvider):
         class Meta:
-            name = "non_locale"
-            datafile = "nonexistent.json"
-    
-    non_locale_provider = NonLocaleProvider(locale=Locale.EN)
-    try:
-        with non_locale_provider.override_locale(Locale.FR):
-            pass
-    except ValueError as e:
-        assert "has not locale dependent" in str(e)
+            name = "test"
+            datafile = "test.json"
+
+    provider = TestProvider()
+    original_locale = provider.get_current_locale()
+
+    with provider.override_locale(Locale("ru")):
+        assert provider.get_current_locale() == "ru"
+
+    assert provider.get_current_locale() == original_locale
 
 
 # LLM-generated content at query #26
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes the locale and reverts it back
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == Locale.RU
-    assert provider.get_current_locale() == Locale.EN
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    class MockEnum:
+        def __init__(self, value):
+            self.value = value
 
-    # Test with a provider that has no locale-dependent data
-    class NonLocaleProvider(BaseDataProvider):
-        class Meta:
-            name = "non_locale"
-            datafile = ""
+    enum = MockEnum("test_value")
+    provider = BaseProvider()
 
-    non_locale_provider = NonLocaleProvider(locale=Locale.EN)
+    # Test when item is None
+    result = provider.validate_enum(None, enum)
+    assert result == "test_value"
+
+    # Test when item is an enum instance
+    result = provider.validate_enum(enum, enum)
+    assert result == "test_value"
+
+    # Test when item is invalid
     try:
-        with non_locale_provider.override_locale(Locale.RU):
-            pass
-    except ValueError as e:
-        assert "has not locale dependent" in str(e)
+        provider.validate_enum("invalid", enum)
+    except NonEnumerableError:
+        pass
+    else:
+        assert False, "Expected NonEnumerableError"
 
 
 # LLM-generated content at query #27
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == Locale.RU.value
-    
-    assert provider.get_current_locale() == original_locale
-
-    # Test that override_locale works with nested contexts
-    with provider.override_locale(Locale.DE):
-        assert provider.get_current_locale() == Locale.DE.value
-        with provider.override_locale(Locale.FR):
-            assert provider.get_current_locale() == Locale.FR.value
-        assert provider.get_current_locale() == Locale.DE.value
-    
-    assert provider.get_current_locale() == original_locale
-
-    # Test that override_locale raises ValueError for non-locale dependent providers
-    class NonLocaleProvider(BaseDataProvider):
+def test_BaseDataProvider_override_locale():
+    # Test that the locale is correctly overridden and restored
+    class TestProvider(BaseDataProvider):
         class Meta:
-            name = "non_locale"
-    
-    non_locale_provider = NonLocaleProvider(locale=Locale.EN)
+            name = "test"
+            datafile = "test.json"
+            datadir = DATADIR
+
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+            self._dataset = {"key": "value"}
+
+    provider = TestProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == Locale.EN
+
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == Locale.RU
+
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test that the locale is restored even if an exception occurs
+    try:
+        with provider.override_locale(Locale.RU):
+            assert provider.get_current_locale() == Locale.RU
+            raise ValueError("Test exception")
+    except ValueError:
+        pass
+
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test that the method raises ValueError for non-locale-dependent providers
+    class NonLocaleProvider(BaseProvider):
+        pass
+
+    non_locale_provider = NonLocaleProvider()
     try:
         with non_locale_provider.override_locale(Locale.RU):
             pass
     except ValueError as e:
-        assert "has not locale dependent" in str(e)
+        assert str(e) == "«NonLocaleProvider» has not locale dependent"
 
 
 # LLM-generated content at query #28
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test 1: Override locale for a locale-dependent provider
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 2: Override locale for a locale-independent provider
-    class LocaleIndependentProvider(BaseDataProvider):
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    # Create a test provider class that inherits from BaseDataProvider
+    class TestProvider(BaseDataProvider):
         class Meta:
-            name = "locale_independent"
-            datafile = "test.json"
-            datadir = DATADIR
+            name = "test_provider"
+            datafile = "test_data.json"
 
-    provider = LocaleIndependentProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR.value
-    assert provider.get_current_locale() == Locale.EN.value
+        def __init__(self, locale=Locale.EN, seed=None):
+            super().__init__(locale=locale, seed=seed)
+            self._dataset = {"key": "value"}
 
-    # Test 3: Override locale with invalid locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    with pytest.raises(ValueError):
-        with provider.override_locale("invalid_locale") as p:
+    # Test with a valid locale override
+    provider = TestProvider()
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
+
+    # Verify the locale is reverted after the context
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test with a provider that has no locale-dependent data
+    class NonLocaleProvider(BaseDataProvider):
+        class Meta:
+            name = "non_locale_provider"
+
+    non_locale_provider = NonLocaleProvider()
+    try:
+        with non_locale_provider.override_locale(Locale.RU):
             pass
-
-    # Test 4: Override locale with None
-    provider = BaseDataProvider(locale=Locale.EN)
-    with pytest.raises(ValueError):
-        with provider.override_locale(None) as p:
-            pass
-
-    # Test 5: Override locale with empty string
-    provider = BaseDataProvider(locale=Locale.EN)
-    with pytest.raises(ValueError):
-        with provider.override_locale("") as p:
-            pass
-
-    # Test 6: Override locale with same locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN) as p:
-        assert p.get_current_locale() == Locale.EN.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 7: Override locale multiple times
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR.value
-        with p.override_locale(Locale.DE) as p2:
-            assert p2.get_current_locale() == Locale.DE.value
-        assert p.get_current_locale() == Locale.FR.value
-    assert provider.get_current_locale() == Locale.EN.value
-
-    # Test 8: Override locale with locale that has no data file
-    provider = BaseDataProvider(locale=Locale.EN)
-    with pytest.raises(FileNotFoundError):
-        with provider.override_locale(Locale.XX) as p:
-            pass
-
-    # Test 9: Override locale with locale that has data file but no data for the provider
-    provider = BaseDataProvider(locale=Locale.EN)
-    with pytest.raises(KeyError):
-        with provider.override_locale(Locale.YY) as p:
-            pass
-
-    # Test 10: Override locale with locale that has data file but data is invalid JSON
-    provider = BaseDataProvider(locale=Locale.EN)
-    with pytest.raises(json.JSONDecodeError):
-        with provider.override_locale(Locale.ZZ) as p:
-            pass
+    except ValueError as e:
+        assert str(e) == "«NonLocaleProvider» has not locale dependent"
 
 
 # LLM-generated content at query #29
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale correctly changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == 'en'
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == 'ru'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test with nested overrides
-    with provider.override_locale(Locale.DE):
-        assert provider.get_current_locale() == 'de'
-        with provider.override_locale(Locale.FR):
-            assert provider.get_current_locale() == 'fr'
-        assert provider.get_current_locale() == 'de'
-    
-    assert provider.get_current_locale() == 'en'
-    
-    # Test that it raises ValueError for non-locale dependent providers
-    class NonLocaleProvider(BaseDataProvider):
+def test_BaseDataProvider_override_locale():
+    class TestProvider(BaseDataProvider):
         class Meta:
-            name = "non_locale"
-            datafile = None
-        
+            name = "test_provider"
+            datafile = "test.json"
+
         def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
             super().__init__(locale=locale, seed=seed)
-            self._dataset = {}
+
+    provider = TestProvider(locale=Locale.EN)
     
-    non_locale_provider = NonLocaleProvider()
-    try:
-        with non_locale_provider.override_locale(Locale.RU):
-            pass
-        assert False, "Should have raised ValueError"
-    except ValueError as e:
-        assert "has not locale dependent" in str(e)
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
+    
+    assert provider.get_current_locale() == Locale.EN
+
+
+test_BaseDataProvider_override_locale()
 
 
 # LLM-generated content at query #30
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
-    
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == Locale.RU.value
-    
-    assert provider.get_current_locale() == original_locale
+# Unit test for method reseed of class BaseProvider
+def test_BaseProvider_reseed():
+    # Test reseeding with a specific seed
+    provider = BaseProvider(seed=42)
+    provider.reseed(123)
+    assert provider.seed == 123
 
-    # Test that override_locale raises ValueError for locale-independent providers
-    class NonLocaleProvider(BaseDataProvider):
-        class Meta:
-            name = "non_locale"
-            datafile = None
-        
-        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
-            super().__init__(locale=locale, seed=seed)
-            self._dataset = {}
-    
-    non_locale_provider = NonLocaleProvider()
-    try:
-        with non_locale_provider.override_locale(Locale.RU):
-            pass
-    except ValueError as e:
-        assert "has not locale dependent" in str(e)
+    # Test reseeding with None (should use system time)
+    provider = BaseProvider()
+    provider.reseed(None)
+    assert provider.seed is None
+
+    # Test reseeding with MissingSeed (should use global seed if set)
+    provider = BaseProvider()
+    provider.reseed(MissingSeed)
+    assert provider.seed is MissingSeed
+
+    # Test reseeding with global seed set
+    _random.global_seed = 456
+    provider = BaseProvider()
+    provider.reseed(MissingSeed)
+    assert provider.seed is MissingSeed
+    assert _random.global_seed == 456
+    _random.global_seed = MissingSeed  # Reset global seed
+
 
 
 # LLM-generated content at query #31
 #--------------------------
 
 # Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that the locale is correctly overridden and restored
+def test_BaseDataProvider_override_locale():
+    # Create a provider instance
     provider = BaseDataProvider(locale=Locale.EN)
+    
+    # Test with valid locale override
     with provider.override_locale(Locale.RU) as p:
-        assert p.get_current_locale() == Locale.RU
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a different locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.FR) as p:
-        assert p.get_current_locale() == Locale.FR
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for the same locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN) as p:
-        assert p.get_current_locale() == Locale.EN
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN_US
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country and a language
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN_US_EN) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN_US_EN
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country and a language and a variant
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN_US_EN_POSIX) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN_US_EN_POSIX
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country and a language and a variant and a script
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country and a language and a variant and a script and a country
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country and a language and a variant and a script and a country and a language
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country and a language and a variant and a script and a country and a language and a variant
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country and a language and a variant and a script and a country and a language and a variant and a script
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX_LATN) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX_LATN
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country and a language and a variant and a script and a country and a language and a variant and a script and a country
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX_LATN_US) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX_LATN_US
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country and a language and a variant and a script and a country and a language and a variant and a script and a country and a language
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX_LATN_US_EN) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX_LATN_US_EN
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country and a language and a variant and a script and a country and a language and a variant and a script and a country and a language and a variant
-    provider = BaseDataProvider(locale=Locale.EN)
-    with provider.override_locale(Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX) as p:
-        assert p.get_current_locale() == Locale.EN_US_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX_LATN_US_EN_POSIX
-    assert provider.get_current_locale() == Locale.EN
-
-    # Test that the locale is correctly overridden and restored for a locale with a region and a variant and a script and a country and a language and a variant and a script and a country and a language and a variant and a script and a country and a language and a variant
+        assert p.get_current_locale() == Locale.RU.value
+    
+    # Verify locale is restored after context manager exit
+    assert provider.get_current_locale() == Locale.EN.value
+    
+    # Test with invalid locale (should raise ValueError)
+    try:
+        with provider.override_locale("invalid_locale"):
+            pass
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for invalid locale"
 
 
 # LLM-generated content at query #32
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test that reseed sets the seed correctly
-    provider = BaseProvider(seed=42)
-    provider.reseed(123)
-    assert provider.seed == 123
-    # Test that reseed with MissingSeed uses global seed
-    _random.global_seed = 999
-    provider.reseed(MissingSeed)
-    assert provider.seed == MissingSeed
-    # Test that reseed with None uses system time
-    provider.reseed(None)
-    assert provider.seed is None
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    # Create a mock provider class that inherits from BaseDataProvider
+    class MockProvider(BaseDataProvider):
+        class Meta:
+            name = "mock"
+            datafile = "mock.json"
+            datadir = DATADIR
 
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+            self._dataset = {"key": "value"}
+
+    # Test with a valid locale
+    provider = MockProvider()
+    with provider.override_locale(Locale.EN) as p:
+        assert p.get_current_locale() == Locale.EN
+    assert provider.get_current_locale() == Locale.DEFAULT
+
+    # Test with an invalid locale (should raise ValueError)
+    try:
+        with provider.override_locale("invalid_locale"):
+            pass
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for invalid locale"
+
+    # Test with a provider that has no locale-dependent data
+    class NonLocaleProvider(BaseDataProvider):
+        class Meta:
+            name = "non_locale"
+            datafile = None
+
+    non_locale_provider = NonLocaleProvider()
+    try:
+        with non_locale_provider.override_locale(Locale.EN):
+            pass
+    except ValueError as e:
+        assert "has not locale dependent" in str(e)
+    else:
+        assert False, "Expected ValueError for non-locale-dependent provider"
 
 
 # LLM-generated content at query #33
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test case 1: Reseed with a specific seed
-    provider = BaseProvider(seed=12345)
-    original_random_state = provider.random.getstate()
-    provider.reseed(54321)
-    assert provider.random.getstate() != original_random_state, "Random state should change after reseeding"
-    print("Test case 1 passed: Reseed with specific seed")
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    # Create a mock provider class that inherits from BaseDataProvider
+    class MockProvider(BaseDataProvider):
+        class Meta:
+            name = "mock"
+            datafile = "mock.json"
+            datadir = DATADIR
 
-    # Test case 2: Reseed with None (should use current system time)
-    provider = BaseProvider(seed=12345)
-    original_random_state = provider.random.getstate()
-    provider.reseed(None)
-    assert provider.random.getstate() != original_random_state, "Random state should change after reseeding with None"
-    print("Test case 2 passed: Reseed with None")
+        def __init__(self, locale=Locale.EN, seed=None):
+            super().__init__(locale=locale, seed=seed)
 
-    # Test case 3: Reseed with MissingSeed (should use global seed if set)
-    _random.global_seed = 99999
-    provider = BaseProvider(seed=MissingSeed)
-    provider.reseed(MissingSeed)
-    # Since global seed is set, random state should be based on global seed
-    # We can't directly compare states, but we can verify that seed is set correctly
-    assert provider.seed == MissingSeed, "Seed should remain MissingSeed"
-    print("Test case 3 passed: Reseed with MissingSeed and global seed set")
+    # Initialize the provider with default locale (EN)
+    provider = MockProvider(locale=Locale.EN)
 
-    # Test case 4: Reseed with MissingSeed and no global seed (should use default)
-    _random.global_seed = MissingSeed
-    provider = BaseProvider(seed=MissingSeed)
-    provider.reseed(MissingSeed)
-    assert provider.seed == MissingSeed, "Seed should remain MissingSeed"
-    print("Test case 4 passed: Reseed with MissingSeed and no global seed")
+    # Test that the locale is correctly overridden within the context
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
 
-    # Test case 5: Verify that reseeding with the same seed produces same random sequence
-    provider1 = BaseProvider(seed=42)
-    sequence1 = [provider1.random.randint(1, 100) for _ in range(5)]
-    
-    provider2 = BaseProvider(seed=42)
-    sequence2 = [provider2.random.randint(1, 100) for _ in range(5)]
-    
-    assert sequence1 == sequence2, "Same seed should produce same random sequence"
-    print("Test case 5 passed: Same seed produces same random sequence")
+    # Test that the locale is reverted back after the context
+    assert provider.get_current_locale() == Locale.EN
 
-    # Test case 6: Reseed changes random sequence
-    provider = BaseProvider(seed=42)
-    sequence_before = [provider.random.randint(1, 100) for _ in range(5)]
-    provider.reseed(100)
-    sequence_after = [provider.random.randint(1, 100) for _ in range(5)]
-    assert sequence_before != sequence_after, "Different seed should produce different random sequence"
-    print("Test case 6 passed: Reseed changes random sequence")
+    # Test with a provider that has no locale-dependent data
+    class NonLocaleProvider(BaseDataProvider):
+        class Meta:
+            name = "non_locale"
+            datafile = None
 
-    print("All test cases passed!")
-
-# Run the unit test
-if __name__ == "__main__":
-    test_BaseProvider_reseed()
+    non_locale_provider = NonLocaleProvider()
+    try:
+        with non_locale_provider.override_locale(Locale.RU):
+            pass
+    except ValueError as e:
+        assert str(e) == "«NonLocaleProvider» has not locale dependent"
+    else:
+        assert False, "Expected ValueError for non-locale dependent provider"
 
 
 # LLM-generated content at query #34
 #--------------------------
 
-# Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Create an instance of BaseProvider
-    provider = BaseProvider()
-    
-    # Define a simple enum for testing
-    from enum import Enum
-    class TestEnum(Enum):
-        A = "value_a"
-        B = "value_b"
-        C = "value_c"
-    
-    # Test case 1: item is None, should return a random enum value
-    result = provider.validate_enum(None, TestEnum)
-    assert result in ["value_a", "value_b", "value_c"]
-    
-    # Test case 2: item is a valid enum member
-    result = provider.validate_enum(TestEnum.A, TestEnum)
-    assert result == "value_a"
-    
-    # Test case 3: item is not an enum member (should raise NonEnumerableError)
-    try:
-        provider.validate_enum("invalid", TestEnum)
-        assert False, "Expected NonEnumerableError"
-    except NonEnumerableError:
-        pass  # Expected
-    
-    # Test case 4: item is an enum member but not from the correct enum
-    class OtherEnum(Enum):
-        D = "value_d"
-    
-    try:
-        provider.validate_enum(OtherEnum.D, TestEnum)
-        assert False, "Expected NonEnumerableError"
-    except NonEnumerableError:
-        pass  # Expected
-    
-    print("All tests passed for validate_enum")
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test override_locale method of BaseDataProvider."""
+    class TestProvider(BaseDataProvider):
+        class Meta:
+            name = "test_provider"
+            datafile = "test_data.json"
 
-# Run the test
-test_BaseProvider_validate_enum()
+    provider = TestProvider(locale=Locale.EN)
+    assert provider.get_current_locale() == "en"
+
+    with provider.override_locale(Locale.RU):
+        assert provider.get_current_locale() == "ru"
+
+    assert provider.get_current_locale() == "en"
+
+    try:
+        with provider.override_locale(Locale.RU):
+            raise ValueError("Test exception")
+    except ValueError:
+        pass
+
+    assert provider.get_current_locale() == "en"
 
 
 # LLM-generated content at query #35
 #--------------------------
 
 # Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test that reseed works with a given seed
-    provider = BaseProvider(seed=42)
-    provider.reseed(123)
-    assert provider.seed == 123
-
-    # Test that reseed works with None seed
-    provider = BaseProvider(seed=42)
+def test_BaseProvider_reseed():
+    provider = BaseProvider()
+    provider.reseed(42)
+    assert provider.seed == 42
     provider.reseed(None)
     assert provider.seed is None
-
-    # Test that reseed works with MissingSeed
-    provider = BaseProvider(seed=42)
     provider.reseed(MissingSeed)
     assert provider.seed is MissingSeed
+
 
 
 # LLM-generated content at query #36
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes locale
-    provider = BaseDataProvider(locale=Locale.EN)
-    assert provider.get_current_locale() == Locale.EN.value
-    with provider.override_locale(Locale.FR):
-        assert provider.get_current_locale() == Locale.FR.value
-    assert provider.get_current_locale() == Locale.EN.value
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    from enum import Enum
 
-    # Test that override_locale restores original locale even if exception occurs
-    provider = BaseDataProvider(locale=Locale.EN)
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+        C = 3
+
+    provider = BaseProvider()
+
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in [1, 2, 3]
+
+    # Test with valid enum member
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 2
+
+    # Test with invalid enum member
     try:
-        with provider.override_locale(Locale.FR):
-            raise ValueError("Test exception")
-    except ValueError:
+        provider.validate_enum(4, TestEnum)
+    except NonEnumerableError:
         pass
-    assert provider.get_current_locale() == Locale.EN.value
+    else:
+        assert False, "Expected NonEnumerableError"
 
-    # Test that override_locale raises ValueError for non-locale dependent providers
-    class NonLocaleDependentProvider(BaseDataProvider):
-        class Meta:
-            name = "non_locale_dependent"
-            datafile = ""
-
-    provider = NonLocaleDependentProvider(locale=Locale.EN)
+    # Test with invalid type
     try:
-        with provider.override_locale(Locale.FR):
-            pass
-    except ValueError as e:
-        assert str(e) == "«NonLocaleDependentProvider» has not locale dependent"
+        provider.validate_enum("A", TestEnum)
+    except NonEnumerableError:
+        pass
+    else:
+        assert False, "Expected NonEnumerableError"
 
 
 # LLM-generated content at query #37
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test that reseed works with a given seed
-    provider = BaseProvider(seed=42)
-    provider.reseed(123)
-    assert provider.seed == 123
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum(): 
+    """Test validate_enum method of BaseProvider."""
+    import pytest
+    from enum import Enum
 
-    # Test that reseed works with None seed
-    provider = BaseProvider(seed=42)
-    provider.reseed(None)
-    assert provider.seed is None
+    class TestEnum(Enum):
+        A = "A"
+        B = "B"
+        C = "C"
 
-    # Test that reseed works with MissingSeed
-    provider = BaseProvider(seed=42)
-    provider.reseed(MissingSeed)
-    assert provider.seed is MissingSeed
+    provider = BaseProvider()
+
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in ["A", "B", "C"]
+
+    # Test with valid enum item
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == "B"
+
+    # Test with invalid enum item
+    with pytest.raises(NonEnumerableError):
+        provider.validate_enum("D", TestEnum)
 
 
 # LLM-generated content at query #38
 #--------------------------
 
-# Unit test for method reseed of class BaseProvider
-def test_BaseProvider_reseed():  
-    # Test with default seed (MissingSeed)
-    provider = BaseProvider()
-    original_random_state = provider.random.getstate()
-    provider.reseed()
-    assert provider.random.getstate() != original_random_state
-    
-    # Test with specific seed
-    provider = BaseProvider()
-    provider.reseed(42)
-    state1 = provider.random.getstate()
-    provider.reseed(42)
-    state2 = provider.random.getstate()
-    assert state1 == state2
-    
-    # Test with None seed
-    provider = BaseProvider()
-    provider.reseed(None)
-    # Should use current system time, so different each time
-    # We can't assert equality, but we can verify it doesn't crash
-    
-    # Test with integer seed
-    provider = BaseProvider()
-    provider.reseed(12345)
-    # Should not raise any exception
-    
-    print("All tests passed for BaseProvider.reseed()")
+# Unit test for method override_locale of class BaseDataProvider
+def test_BaseDataProvider_override_locale():
+    """Test the override_locale method of BaseDataProvider."""
+    # Create a mock provider class that inherits from BaseDataProvider
+    class MockProvider(BaseDataProvider):
+        class Meta:
+            name = "mock"
+            datafile = "mock.json"
+            datadir = DATADIR / "mock"
 
-# Run the test
-test_BaseProvider_reseed()
+        def __init__(self, locale=Locale.DEFAULT, seed=MissingSeed):
+            super().__init__(locale=locale, seed=seed)
+
+    # Create a mock provider instance
+    provider = MockProvider(locale=Locale.EN)
+
+    # Test that the locale is correctly overridden
+    with provider.override_locale(Locale.RU) as p:
+        assert p.get_current_locale() == Locale.RU
+
+    # Test that the locale is restored after the context manager
+    assert provider.get_current_locale() == Locale.EN
+
+    # Test that the method raises ValueError for non-locale-dependent providers
+    class NonLocaleProvider(BaseProvider):
+        pass
+
+    non_locale_provider = NonLocaleProvider()
+    try:
+        with non_locale_provider.override_locale(Locale.RU):
+            pass
+    except ValueError as e:
+        assert str(e) == "«NonLocaleProvider» has not locale dependent"
+    else:
+        assert False, "Expected ValueError"
 
 
 # LLM-generated content at query #39
 #--------------------------
 
 # Unit test for method validate_enum of class BaseProvider
-def test_BaseProvider_validate_enum():  
-    # Test with None item
-    class TestEnum(enum.Enum):
+def test_BaseProvider_validate_enum():
+    from enum import Enum
+
+    class TestEnum(Enum):
         A = "a"
         B = "b"
         C = "c"
-    
+
     provider = BaseProvider(seed=42)
+    
+    # Test with None (should return random choice)
     result = provider.validate_enum(None, TestEnum)
     assert result in ["a", "b", "c"]
-    
-    # Test with valid enum item
-    result = provider.validate_enum(TestEnum.A, TestEnum)
-    assert result == "a"
-    
+
+    # Test with enum item
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == "b"
+
     # Test with invalid item (should raise NonEnumerableError)
     try:
         provider.validate_enum("invalid", TestEnum)
-        assert False, "Should have raised NonEnumerableError"
+        assert False, "Expected NonEnumerableError"
     except NonEnumerableError:
         pass
-
 
 
 # LLM-generated content at query #40
 #--------------------------
 
-# Unit test for method override_locale of class BaseDataProvider
-def test_BaseDataProvider_override_locale():  
-    # Test that override_locale temporarily changes the locale and restores it
-    provider = BaseDataProvider(locale=Locale.EN)
-    original_locale = provider.get_current_locale()
+# Unit test for method validate_enum of class BaseProvider
+def test_BaseProvider_validate_enum():
+    from enum import Enum
+
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+        C = 3
+
+    provider = BaseProvider(seed=42)
     
-    with provider.override_locale(Locale.RU):
-        assert provider.get_current_locale() == Locale.RU
+    # Test with None
+    result = provider.validate_enum(None, TestEnum)
+    assert result in [1, 2, 3]
     
-    assert provider.get_current_locale() == original_locale
+    # Test with valid enum item
+    result = provider.validate_enum(TestEnum.B, TestEnum)
+    assert result == 2
+    
+    # Test with invalid enum item
+    try:
+        provider.validate_enum(4, TestEnum)
+        assert False, "Expected NonEnumerableError"
+    except NonEnumerableError:
+        pass
+
 
 

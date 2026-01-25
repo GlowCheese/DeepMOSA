@@ -175,7 +175,7 @@ def test_case_11():
     assert f'{type(var_4).__module__}.{type(var_4).__qualname__}' == 'pyrsistent._pset.PSet'
     assert len(var_4) == 1
     var_5 = var_4.__hash__()
-    assert var_5 == -1183879258646384326
+    assert var_5 == -1039761839211214971
     var_6 = var_4.__str__()
     assert var_6 == 'pset([None])'
     var_6.__contains__(var_0)

@@ -1,0 +1,435 @@
+####################################################################
+#     TEST GENERATION BEGINS (DEEPMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def identify_repo(repo_url: str) -> tuple[Literal["git", "hg"], str]:
+    """Determine if `repo_url` should be treated as a URL to a git or hg repo.
+
+    Repos can be identified by prepending "hg+" or "git+" to the repo URL.
+
+    :param repo_url: Repo URL of unknown type.
+    :returns: ('git', repo_url), ('hg', repo_url), or None.
+    """
+    repo_url_values = repo_url.split('+')
+    if len(repo_url_values) == 2:
+        repo_type = repo_url_values[0]
+        if repo_type in ["git", "hg"]:
+            return repo_type, repo_url_values[1]  # type: ignore[return-value]
+        raise UnknownRepoType
+    if 'git' in repo_url:
+        return 'git', repo_url
+    if 'bitbucket' in repo_url:
+        return 'hg', repo_url
+    raise UnknownRepoType
+
+```
+Write unit test for function identify_repo
+
+
+# Prompt used at query #2
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def rmtree(path: Path | str) -> None:
+    """Remove a directory and all its contents. Like rm -rf on Unix.
+
+    :param path: A directory path.
+    """
+    shutil.rmtree(path, onerror=force_delete)
+
+
+def make_sure_path_exists(path: Path | str) -> None:
+    """Ensure that a directory exists.
+
+    :param path: A directory tree path for creation.
+    """
+    logger.debug('Making sure path exists (creates tree if not exist): %s', path)
+    try:
+        Path(path).mkdir(parents=True, exist_ok=True)
+    except OSError as error:
+        msg = f'Unable to create directory at {path}'
+        raise OSError(msg) from error
+
+```
+
+cookiecutter/prompt.py:
+```
+def read_user_yes_no(var_name, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to reply with 'yes' or 'no' (or equivalent values).
+
+    - These input values will be converted to ``True``:
+      "1", "true", "t", "yes", "y", "on"
+    - These input values will be converted to ``False``:
+      "0", "false", "f", "no", "n", "off"
+
+    Actual parsing done by :func:`prompt`; Check this function codebase change in
+    case of unexpected behaviour.
+
+    :param str question: Question to the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return YesNoPrompt.ask(f"{prefix}{question}", default=default_value)
+
+
+def prompt_and_delete(path: Path | str, no_input: bool = False) -> bool:
+    """
+    Ask user if it's okay to delete the previously-downloaded file/directory.
+
+    If yes, delete it. If no, checks to see if the old version should be
+    reused. If yes, it's reused; otherwise, Cookiecutter exits.
+
+    :param path: Previously downloaded zipfile.
+    :param no_input: Suppress prompt to delete repo and just delete it.
+    :return: True if the content was deleted
+    """
+    # Suppress prompt if called via API
+    if no_input:
+        ok_to_delete = True
+    else:
+        question = (
+            f"You've downloaded {path} before. Is it okay to delete and re-download it?"
+        )
+
+        ok_to_delete = read_user_yes_no(question, 'yes')
+
+    if ok_to_delete:
+        if os.path.isdir(path):
+            rmtree(path)
+        else:
+            os.remove(path)
+        return True
+    ok_to_reuse = read_user_yes_no("Do you want to re-use the existing version?", 'yes')
+
+    if ok_to_reuse:
+        return False
+
+    sys.exit()
+
+```
+
+cookiecutter/vcs.py (module to test):
+```
+def identify_repo(repo_url: str) -> tuple[Literal["git", "hg"], str]:
+    """Determine if `repo_url` should be treated as a URL to a git or hg repo.
+
+    Repos can be identified by prepending "hg+" or "git+" to the repo URL.
+
+    :param repo_url: Repo URL of unknown type.
+    :returns: ('git', repo_url), ('hg', repo_url), or None.
+    """
+    repo_url_values = repo_url.split('+')
+    if len(repo_url_values) == 2:
+        repo_type = repo_url_values[0]
+        if repo_type in ["git", "hg"]:
+            return repo_type, repo_url_values[1]  # type: ignore[return-value]
+        raise UnknownRepoType
+    if 'git' in repo_url:
+        return 'git', repo_url
+    if 'bitbucket' in repo_url:
+        return 'hg', repo_url
+    raise UnknownRepoType
+
+
+def is_vcs_installed(repo_type: str) -> bool:
+    """
+    Check if the version control system for a repo type is installed.
+
+    :param repo_type:
+    """
+    return bool(which(repo_type))
+
+
+def clone(
+    repo_url: str,
+    checkout: str | None = None,
+    clone_to_dir: Path | str = ".",
+    no_input: bool = False,
+) -> str:
+    """Clone a repo to the current directory.
+
+    :param repo_url: Repo URL of unknown type.
+    :param checkout: The branch, tag or commit ID to checkout after clone.
+    :param clone_to_dir: The directory to clone to.
+                         Defaults to the current directory.
+    :param no_input: Do not prompt for user input and eventually force a refresh of
+        cached resources.
+    :returns: str with path to the new directory of the repository.
+    """
+    # Ensure that clone_to_dir exists
+    clone_to_dir = Path(clone_to_dir).expanduser()
+    make_sure_path_exists(clone_to_dir)
+
+    # identify the repo_type
+    repo_type, repo_url = identify_repo(repo_url)
+
+    # check that the appropriate VCS for the repo_type is installed
+    if not is_vcs_installed(repo_type):
+        msg = f"'{repo_type}' is not installed."
+        raise VCSNotInstalled(msg)
+
+    repo_url = repo_url.rstrip('/')
+    repo_name = os.path.split(repo_url)[1]
+    if repo_type == 'git':
+        repo_name = repo_name.split(':')[-1].rsplit('.git')[0]
+        repo_dir = os.path.normpath(os.path.join(clone_to_dir, repo_name))
+    if repo_type == 'hg':
+        repo_dir = os.path.normpath(os.path.join(clone_to_dir, repo_name))
+    logger.debug(f'repo_dir is {repo_dir}')
+
+    if os.path.isdir(repo_dir):
+        clone = prompt_and_delete(repo_dir, no_input=no_input)
+    else:
+        clone = True
+
+    if clone:
+        try:
+            subprocess.check_output(
+                [repo_type, 'clone', repo_url],
+                cwd=clone_to_dir,
+                stderr=subprocess.STDOUT,
+            )
+            if checkout is not None:
+                checkout_params = [checkout]
+                # Avoid Mercurial "--config" and "--debugger" injection vulnerability
+                if repo_type == "hg":
+                    checkout_params.insert(0, "--")
+                subprocess.check_output(
+                    [repo_type, 'checkout', *checkout_params],
+                    cwd=repo_dir,
+                    stderr=subprocess.STDOUT,
+                )
+        except subprocess.CalledProcessError as clone_error:
+            output = clone_error.output.decode('utf-8')
+            if 'not found' in output.lower():
+                msg = (
+                    f'The repository {repo_url} could not be found, '
+                    'have you made a typo?'
+                )
+                raise RepositoryNotFound(msg) from clone_error
+            if any(error in output for error in BRANCH_ERRORS):
+                msg = (
+                    f'The {checkout} branch of repository '
+                    f'{repo_url} could not found, have you made a typo?'
+                )
+                raise RepositoryCloneFailed(msg) from clone_error
+            logger.exception('git clone failed with error: %s', output)
+            raise
+
+    return repo_dir
+
+```
+Write unit test for function clone
+
+
+# Prompt used at query #3
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def rmtree(path: Path | str) -> None:
+    """Remove a directory and all its contents. Like rm -rf on Unix.
+
+    :param path: A directory path.
+    """
+    shutil.rmtree(path, onerror=force_delete)
+
+
+def make_sure_path_exists(path: Path | str) -> None:
+    """Ensure that a directory exists.
+
+    :param path: A directory tree path for creation.
+    """
+    logger.debug('Making sure path exists (creates tree if not exist): %s', path)
+    try:
+        Path(path).mkdir(parents=True, exist_ok=True)
+    except OSError as error:
+        msg = f'Unable to create directory at {path}'
+        raise OSError(msg) from error
+
+```
+
+cookiecutter/prompt.py:
+```
+def read_user_yes_no(var_name, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to reply with 'yes' or 'no' (or equivalent values).
+
+    - These input values will be converted to ``True``:
+      "1", "true", "t", "yes", "y", "on"
+    - These input values will be converted to ``False``:
+      "0", "false", "f", "no", "n", "off"
+
+    Actual parsing done by :func:`prompt`; Check this function codebase change in
+    case of unexpected behaviour.
+
+    :param str question: Question to the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return YesNoPrompt.ask(f"{prefix}{question}", default=default_value)
+
+
+def prompt_and_delete(path: Path | str, no_input: bool = False) -> bool:
+    """
+    Ask user if it's okay to delete the previously-downloaded file/directory.
+
+    If yes, delete it. If no, checks to see if the old version should be
+    reused. If yes, it's reused; otherwise, Cookiecutter exits.
+
+    :param path: Previously downloaded zipfile.
+    :param no_input: Suppress prompt to delete repo and just delete it.
+    :return: True if the content was deleted
+    """
+    # Suppress prompt if called via API
+    if no_input:
+        ok_to_delete = True
+    else:
+        question = (
+            f"You've downloaded {path} before. Is it okay to delete and re-download it?"
+        )
+
+        ok_to_delete = read_user_yes_no(question, 'yes')
+
+    if ok_to_delete:
+        if os.path.isdir(path):
+            rmtree(path)
+        else:
+            os.remove(path)
+        return True
+    ok_to_reuse = read_user_yes_no("Do you want to re-use the existing version?", 'yes')
+
+    if ok_to_reuse:
+        return False
+
+    sys.exit()
+
+```
+
+cookiecutter/vcs.py (module to test):
+```
+def identify_repo(repo_url: str) -> tuple[Literal["git", "hg"], str]:
+    """Determine if `repo_url` should be treated as a URL to a git or hg repo.
+
+    Repos can be identified by prepending "hg+" or "git+" to the repo URL.
+
+    :param repo_url: Repo URL of unknown type.
+    :returns: ('git', repo_url), ('hg', repo_url), or None.
+    """
+    repo_url_values = repo_url.split('+')
+    if len(repo_url_values) == 2:
+        repo_type = repo_url_values[0]
+        if repo_type in ["git", "hg"]:
+            return repo_type, repo_url_values[1]  # type: ignore[return-value]
+        raise UnknownRepoType
+    if 'git' in repo_url:
+        return 'git', repo_url
+    if 'bitbucket' in repo_url:
+        return 'hg', repo_url
+    raise UnknownRepoType
+
+
+def is_vcs_installed(repo_type: str) -> bool:
+    """
+    Check if the version control system for a repo type is installed.
+
+    :param repo_type:
+    """
+    return bool(which(repo_type))
+
+
+def clone(
+    repo_url: str,
+    checkout: str | None = None,
+    clone_to_dir: Path | str = ".",
+    no_input: bool = False,
+) -> str:
+    """Clone a repo to the current directory.
+
+    :param repo_url: Repo URL of unknown type.
+    :param checkout: The branch, tag or commit ID to checkout after clone.
+    :param clone_to_dir: The directory to clone to.
+                         Defaults to the current directory.
+    :param no_input: Do not prompt for user input and eventually force a refresh of
+        cached resources.
+    :returns: str with path to the new directory of the repository.
+    """
+    # Ensure that clone_to_dir exists
+    clone_to_dir = Path(clone_to_dir).expanduser()
+    make_sure_path_exists(clone_to_dir)
+
+    # identify the repo_type
+    repo_type, repo_url = identify_repo(repo_url)
+
+    # check that the appropriate VCS for the repo_type is installed
+    if not is_vcs_installed(repo_type):
+        msg = f"'{repo_type}' is not installed."
+        raise VCSNotInstalled(msg)
+
+    repo_url = repo_url.rstrip('/')
+    repo_name = os.path.split(repo_url)[1]
+    if repo_type == 'git':
+        repo_name = repo_name.split(':')[-1].rsplit('.git')[0]
+        repo_dir = os.path.normpath(os.path.join(clone_to_dir, repo_name))
+    if repo_type == 'hg':
+        repo_dir = os.path.normpath(os.path.join(clone_to_dir, repo_name))
+    logger.debug(f'repo_dir is {repo_dir}')
+
+    if os.path.isdir(repo_dir):
+        clone = prompt_and_delete(repo_dir, no_input=no_input)
+    else:
+        clone = True
+
+    if clone:
+        try:
+            subprocess.check_output(
+                [repo_type, 'clone', repo_url],
+                cwd=clone_to_dir,
+                stderr=subprocess.STDOUT,
+            )
+            if checkout is not None:
+                checkout_params = [checkout]
+                # Avoid Mercurial "--config" and "--debugger" injection vulnerability
+                if repo_type == "hg":
+                    checkout_params.insert(0, "--")
+                subprocess.check_output(
+                    [repo_type, 'checkout', *checkout_params],
+                    cwd=repo_dir,
+                    stderr=subprocess.STDOUT,
+                )
+        except subprocess.CalledProcessError as clone_error:
+            output = clone_error.output.decode('utf-8')
+            if 'not found' in output.lower():
+                msg = (
+                    f'The repository {repo_url} could not be found, '
+                    'have you made a typo?'
+                )
+                raise RepositoryNotFound(msg) from clone_error
+            if any(error in output for error in BRANCH_ERRORS):
+                msg = (
+                    f'The {checkout} branch of repository '
+                    f'{repo_url} could not found, have you made a typo?'
+                )
+                raise RepositoryCloneFailed(msg) from clone_error
+            logger.exception('git clone failed with error: %s', output)
+            raise
+
+    return repo_dir
+
+```
+Write unit test for function clone
+
+

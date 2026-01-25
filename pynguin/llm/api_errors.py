@@ -6,11 +6,6 @@ class APIError(Exception):
         super().__init__(message)
 
 
-class APILengthError(APIError):
-    def __init__(self):
-        super().__init__("Conversation was too long for context window")
-
-
 class APIRefusalError(APIError):
     def __init__(self, message=None):
         super().__init__(message or "OpenAI API safety system fault")

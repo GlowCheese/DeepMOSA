@@ -422,7 +422,7 @@ class LLMConfiguration:
     temperature: float = 0.8
     """The temperature of the model"""
 
-    base_url: str = ""
+    base_url: str = "https://openrouter.ai/api/v1"
     """Base URL to query the model"""
 
     max_tokens: int = 2048
@@ -472,6 +472,9 @@ class DeepMosaConfiguration:
 
     tau: float = 1.3
     """Temperate parameter used in goal selection softmax formula."""
+
+    deserializer_version: int = 2
+    """Deserializer version to be used for deserializing test cases."""
 
 
 @dataclasses.dataclass

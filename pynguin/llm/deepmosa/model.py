@@ -12,10 +12,10 @@ import random
 from collections import defaultdict
 from typing import TYPE_CHECKING, Dict
 
+from libs.custom_logger import getLogger
 from pynguin.configuration import config
 from pynguin.llm.abstractmodel import AbstractLanguageModel
 from pynguin.utils import randomness
-from libs.custom_logger import getLogger
 from pynguin.utils.deepseek import tokenizer
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,

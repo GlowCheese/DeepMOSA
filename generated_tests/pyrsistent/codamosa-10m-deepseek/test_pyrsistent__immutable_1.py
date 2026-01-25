@@ -4,9 +4,10 @@ import pytest
 
 
 def test_case_0():
-    var_0 = 'x, y, id_'
-    with pytest.raises(SyntaxError):
-        module_0.immutable(var_0, var_0)
+    var_0 = 'x, y'
+    var_1 = 'Point'
+    var_2 = module_0.immutable(var_0, var_1)
+    var_3 = tuple()
 
 def test_case_1():
     var_0 = module_0.immutable()
@@ -27,8 +28,17 @@ def test_case_4():
     var_0 = None
     module_0.immutable(var_0)
 
-@pytest.mark.xfail(strict=True)
 def test_case_5():
-    var_0 = 'f0Q%W9sW]'
+    var_0 = 'x, y'
+    var_1 = 'Point'
+    var_2 = module_0.immutable(var_0, var_1)
+    var_3 = 'x, y, id_'
+    var_4 = 'PointWithFrozen'
+    var_5 = module_0.immutable(var_3, var_4)
+    var_6 = tuple()
+
+@pytest.mark.xfail(strict=True)
+def test_case_6():
+    var_0 = 'D|, y'
     var_1 = 'Point'
     module_0.immutable(var_0, var_1)

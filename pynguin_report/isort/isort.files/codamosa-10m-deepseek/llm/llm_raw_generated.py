@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,1774 +7,779 @@
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files  
-    paths = ["test_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  
-    assert "test_dir/file1.py" in result  
-    assert "test_dir/file2.py" in result  
-    assert len(skipped) == 0  
-    assert len(broken) == 0  
-  
-    # Test case 2: Test with a skipped directory  
-    paths = ["skipped_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 0  
-    assert len(skipped) == 1  
-    assert "skipped_dir" in skipped  
-    assert len(broken) == 0  
-  
-    # Test case 3: Test with a broken path  
-    paths = ["nonexistent_path"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 0  
-    assert len(skipped) == 0  
-    assert len(broken) == 1  
-    assert "nonexistent_path" in broken  
-  
-    # Test case 4: Test with a mix of valid and invalid paths  
-    paths = ["test_dir", "skipped_dir", "nonexistent_path"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  
-    assert "test_dir/file1.py" in result  
-    assert "test_dir/file2.py" in result  
-    assert len(skipped) == 1  
-    assert "skipped_dir" in skipped  
-    assert len(broken) == 1  
-    assert "nonexistent_path" in broken  
-  
-    # Test case 5: Test with an empty paths list  
-    paths = []  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 0  
-    assert len(skipped) == 0  
-    assert len(broken) == 0  
-  
-    # Test case 6: Test with a single Python file path  
-    paths = ["test_dir/file1.py"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  
-    assert "test_dir/file1.py" in result  
-    assert len(skipped) == 0  
-    assert len(broken) == 0  
-  
-    # Test case 7: Test with a directory containing subdirectories  
-    paths = ["parent_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 3  
-    assert "parent_dir/file1.py" in result  
-    assert "parent_dir/subdir1/file2.py" in result  
-    assert "parent_dir/subdir2/file3.py" in result  
-    assert len(skipped) == 0  
-    assert len(broken) == 0  
-  
-    # Test case 8: Test with a directory containing a skipped subdirectory  
-    paths = ["parent_dir_with_skipped"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  
-    assert "parent_dir_with_skipped/file1.py" in result  
-    assert "parent_dir_with_skipped/subdir2/file3.py" in result  
-    assert len(skipped) == 1  
-    assert "parent_dir_with_skipped/skipped_subdir" in skipped  
-    assert len(broken) == 0  
-  
-    # Test case 9: Test with a directory containing a broken symlink  
-    paths = ["dir_with_broken_symlink"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  
-    assert "dir_with_broken_symlink/file1.py" in result  
-    assert len(skipped) == 0  
-    assert len(broken) == 1  
-    assert "dir_with_broken_symlink/broken_symlink" in broken  
-  
-    # Test case 10: Test with a directory containing a valid symlink  
-    paths = ["dir_with_valid_symlink"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  
-    assert "dir_with_valid_symlink/file1.py" in result  
-    assert "dir_with_valid_symlink/valid_symlink/file2.py" in result  
-    assert len(skipped) == 0  
-    assert len(broken) == 0  
-  
-    # Test case 11: Test with a directory containing a circular symlink  
-    paths = ["dir_with_circular_symlink"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  
-    assert "dir_with_circular_symlink/file1.py" in result  
-    assert len(skipped) == 0  
-    assert len(broken) == 0  
-  
-    # Test case 12: Test with a directory containing a file with unsupported extension  
-    paths = ["dir_with_unsupported_file"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  
-    assert "dir_with_unsupported_file/file1.py" in result  
-    assert len(skipped) == 0  
-    assert len(broken) == 0  
-  
-    # Test case 13: Test with a directory containing a skipped file  
-    paths = ["dir_with_skipped_file"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  
-    assert "dir_with_skipped_file/file1.py" in result  
-    assert len(skipped) == 1  
-    assert "dir_with_skipped_file/skipped_file.py" in skipped  
-    assert len(broken) == 0  
-  
-    # Test case 14: Test with a directory containing a skipped file and a skipped directory  
-    paths = ["dir_with_skipped_file_and_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  
-    assert "dir_with_skipped_file_and_dir/file1.py" in result  
-    assert len(skipped) == 2  
-    assert "dir_with_skipped_file_and_dir/skipped_file.py" in skipped  
-    assert "dir_with_skipped_file_and_dir/skipped_dir" in skipped  
-    assert len(broken) == 0  
-  
-    # Test case 15: Test with a directory containing a broken symlink and a skipped file  
-    paths = ["dir_with_broken_symlink_and_skipped_file"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  
-    assert "dir_with_broken_symlink_and_skipped_file/file1.py" in result  
-    assert len(skipped) == 1  
-    assert "dir_with_broken_symlink_and_skipped_file/skipped_file.py" in skipped  
-    assert len(broken) == 1  
-    assert "dir_with_broken_symlink_and_skipped_file/broken_symlink" in broken  
-  
-    # Test case 16: Test with a directory containing a valid symlink and a skipped directory  
-    paths = ["dir_with_valid_symlink_and_skipped_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  
-    assert "dir_with_valid_symlink_and_skipped_dir/file1.py" in result  
-    assert "dir_with_valid_symlink_and_skipped_dir/valid_symlink/file2.py" in result  
-    assert len(skipped) == 1  
-    assert "dir_with_valid_symlink_and_skipped_dir/skipped_dir" in skipped  
-    assert len(broken) == 0  
-  
-    # Test case 17: Test with a directory containing a circular symlink and a skipped file  
-    paths = ["dir_with_circular_symlink_and_skipped_file"]  
-    config = Config()  
-    skipped = []  
-    broken
-
-
-# LLM-generated content at query #2
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Mock config object with required attributes
-    class MockConfig:
-        follow_links = False
-        def is_skipped(self, path):
-            return False
-        def is_supported_filetype(self, filepath):
-            return filepath.endswith('.py')
-    
-    config = MockConfig()
-    skipped = []
-    broken = []
-    
-    # Test with a single file path
-    paths = ['test.py']
-    result = list(find(paths, config, skipped, broken))
-    assert result == ['test.py']
-    assert skipped == []
-    assert broken == []
-    
-    # Test with a non-existent path
-    paths = ['nonexistent.py']
-    result = list(find(paths, config, skipped, broken))
-    assert result == []
-    assert broken == ['nonexistent.py']
-    
-    # Test with a directory containing Python files
+def test_find():
     import tempfile
+    from unittest.mock import MagicMock
+
+    # Setup test directory structure
     with tempfile.TemporaryDirectory() as tmpdir:
-        # Create a Python file
-        py_file = os.path.join(tmpdir, 'test.py')
-        with open(py_file, 'w') as f:
-            f.write('print("hello")')
-        
-        # Create a non-Python file
-        txt_file = os.path.join(tmpdir, 'test.txt')
-        with open(txt_file, 'w') as f:
-            f.write('hello')
-        
-        paths = [tmpdir]
-        result = list(find(paths, config, skipped, broken))
-        assert result == [py_file]
-        assert skipped == []
-        assert broken == []
-    
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_find()
-
-
-# LLM-generated content at query #3
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files
-    paths = ["/path/to/directory"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No Python files in the directory
-
-    # Test case 2: Test with a non-existent path
-    paths = ["/path/to/nonexistent"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No files found
-    assert broken == ["/path/to/nonexistent"]  # Path is broken
-
-    # Test case 3: Test with a file path
-    paths = ["/path/to/file.py"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == ["/path/to/file.py"]  # File path is returned
-
-    # Test case 4: Test with a skipped directory
-    paths = ["/path/to/skipped"]
-    config = Config()
-    config.skip = ["/path/to/skipped"]
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No files found
-    assert skipped == ["/path/to/skipped"]  # Directory is skipped
-
-    # Test case 5: Test with a supported filetype
-    paths = ["/path/to/file.py"]
-    config = Config()
-    config.supported_filetypes = [".py"]
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == ["/path/to/file.py"]  # File path is returned
-
-    # Test case 6: Test with an unsupported filetype
-    paths = ["/path/to/file.txt"]
-    config = Config()
-    config.supported_filetypes = [".py"]
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No files found
-
-    # Test case 7: Test with a broken path and a valid path
-    paths = ["/path/to/nonexistent", "/path/to/file.py"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == ["/path/to/file.py"]  # Only valid file path is returned
-    assert broken == ["/path/to/nonexistent"]  # Broken path is recorded
-
-    # Test case 8: Test with a skipped file
-    paths = ["/path/to/skipped.py"]
-    config = Config()
-    config.skip = ["/path/to/skipped.py"]
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No files found
-    assert skipped == ["/path/to/skipped.py"]  # File is skipped
-
-    # Test case 9: Test with a directory containing skipped subdirectories
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.skip = ["/path/to/directory/skipped"]
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No files found
-    assert skipped == ["/path/to/directory/skipped"]  # Subdirectory is skipped
-
-    # Test case 10: Test with a directory containing broken symlinks
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.follow_links = True
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No files found
-    assert broken == []  # No broken paths recorded
-
-    # Test case 11: Test with a directory containing visited directories
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.follow_links = True
-    skipped = []
-    broken = []
-    visited_dirs = set()
-    visited_dirs.add(Path("/path/to/directory").resolve())
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No files found
-    assert skipped == []  # No skipped paths recorded
-
-    # Test case 12: Test with a directory containing multiple Python files
-    paths = ["/path/to/directory"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No Python files in the directory
-
-    # Test case 13: Test with a directory containing nested directories
-    paths = ["/path/to/directory"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No Python files in the directory
-
-    # Test case 14: Test with a directory containing hidden directories
-    paths = ["/path/to/directory"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No Python files in the directory
-
-    # Test case 15: Test with a directory containing hidden files
-    paths = ["/path/to/directory"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No Python files in the directory
-
-    # Test case 16: Test with a directory containing symlinks
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.follow_links = True
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No Python files in the directory
-
-    # Test case 17: Test with a directory containing broken symlinks
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.follow_links = True
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No Python files in the directory
-    assert broken == []  # No broken paths recorded
-
-    # Test case 18: Test with a directory containing circular symlinks
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.follow_links = True
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No Python files in the directory
-    assert broken == []  # No broken paths recorded
-
-    # Test case 19: Test with a directory containing a mix of file types
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.supported_filetypes = [".py", ".txt"]
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No supported files in the directory
-
-    # Test case 20: Test with a directory containing a large number of files
-    paths = ["/path/to/directory"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0  # No Python files in the directory
-
-    print("All test cases passed!")
-
-# Run the unit tests
-test_find()
-
-
-# LLM-generated content at query #4
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Test with a directory containing Python files
-    paths = ["test_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2  # Assuming there are 2 Python files in test_dir
-    assert skipped == []
-    assert broken == []
-
-    # Test with a non-existent path
-    paths = ["non_existent_path"]
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == []
-    assert skipped == []
-    assert broken == ["non_existent_path"]
-
-    # Test with a skipped directory
-    paths = ["skipped_dir"]
-    config = Config(skip=["skipped_dir"])
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == []
-    assert skipped == ["skipped_dir"]
-    assert broken == []
-
-    # Test with a broken symlink
-    paths = ["broken_symlink"]
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == []
-    assert skipped == []
-    assert broken == ["broken_symlink"]
-
-    # Test with a file path
-    paths = ["test_file.py"]
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == ["test_file.py"]
-    assert skipped == []
-    assert broken == []
-
-    print("All tests passed!")
-
-# Run the unit test
-test_find()
-
-
-# LLM-generated content at query #5
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files  
-    paths = ["test_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  # Assuming there are 2 Python files in test_dir  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 2: Test with a skipped directory  
-    paths = ["skipped_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 0  
-    assert len(skipped) == 1  
-    assert broken == []  
-  
-    # Test case 3: Test with a non-existent path  
-    paths = ["non_existent_path"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 0  
-    assert skipped == []  
-    assert len(broken) == 1  
-  
-    # Test case 4: Test with a file path  
-    paths = ["test_file.py"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 5: Test with multiple paths  
-    paths = ["test_dir", "skipped_dir", "non_existent_path", "test_file.py"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 3  # Assuming there are 2 Python files in test_dir and 1 test_file.py  
-    assert len(skipped) == 1  
-    assert len(broken) == 1  
-  
-    print("All test cases passed!")  
-  
-# Run the unit test  
-test_find()
-
-
-# LLM-generated content at query #6
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Test case 1: Test with a single directory path
-    paths = ["/path/to/directory"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == []  # No Python source files in the directory
-
-    # Test case 2: Test with a single file path
-    paths = ["/path/to/file.py"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == ["/path/to/file.py"]  # Single Python source file
-
-    # Test case 3: Test with multiple paths
-    paths = ["/path/to/directory", "/path/to/file.py"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == ["/path/to/file.py"]  # Only the file path is returned
-
-    # Test case 4: Test with skipped directory
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.skip = ["/path/to/directory"]
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == []  # Skipped directory, no files returned
-    assert skipped == ["/path/to/directory"]  # Skipped directory added to skipped list
-
-    # Test case 5: Test with broken path
-    paths = ["/path/to/nonexistent"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == []  # Broken path, no files returned
-    assert broken == ["/path/to/nonexistent"]  # Broken path added to broken list
-
-    # Test case 6: Test with nested directory structure
-    paths = ["/path/to/directory"]
-    config = Config()
-    skipped = []
-    broken = []
-    # Create a temporary directory structure for testing
-    import tempfile
-    with tempfile.TemporaryDirectory() as tmpdir:
-        dir1 = os.path.join(tmpdir, "dir1")
-        dir2 = os.path.join(dir1, "dir2")
-        os.makedirs(dir2)
-        file1 = os.path.join(dir1, "file1.py")
-        file2 = os.path.join(dir2, "file2.py")
-        open(file1, "w").close()
-        open(file2, "w").close()
-        result = list(find([dir1], config, skipped, broken))
-        assert sorted(result) == sorted([file1, file2])  # Both files should be found
-
-    # Test case 7: Test with follow_links=True
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.follow_links = True
-    skipped = []
-    broken = []
-    # Create a temporary directory structure with a symbolic link for testing
-    import tempfile
-    with tempfile.TemporaryDirectory() as tmpdir:
-        dir1 = os.path.join(tmpdir, "dir1")
-        dir2 = os.path.join(tmpdir, "dir2")
-        os.makedirs(dir1)
-        os.makedirs(dir2)
-        file1 = os.path.join(dir1, "file1.py")
-        file2 = os.path.join(dir2, "file2.py")
-        open(file1, "w").close()
-        open(file2, "w").close()
-        link = os.path.join(dir1, "link")
-        os.symlink(dir2, link)
-        result = list(find([dir1], config, skipped, broken))
-        assert sorted(result) == sorted([file1, os.path.join(link, "file2.py")])  # Both files should be found, including the linked file
-
-    # Test case 8: Test with unsupported file type
-    paths = ["/path/to/file.txt"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == []  # Unsupported file type, no files returned
-
-    # Test case 9: Test with skipped file
-    paths = ["/path/to/file.py"]
-    config = Config()
-    config.skip = ["/path/to/file.py"]
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == []  # Skipped file, no files returned
-    assert skipped == ["/path/to/file.py"]  # Skipped file added to skipped list
-
-    # Test case 10: Test with empty paths list
-    paths = []
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == []  # Empty paths list, no files returned
-
-    # Test case 11: Test with multiple broken paths
-    paths = ["/path/to/nonexistent1", "/path/to/nonexistent2"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert result == []  # Broken paths, no files returned
-    assert broken == ["/path/to/nonexistent1", "/path/to/nonexistent2"]  # Both broken paths added to broken list
-
-    # Test case 12: Test with a mix of valid and broken paths
-    paths = ["/path/to/directory", "/path/to/nonexistent"]
-    config = Config()
-    skipped = []
-    broken = []
-    # Create a temporary directory for testing
-    import tempfile
-    with tempfile.TemporaryDirectory() as tmpdir:
-        dir1 = os.path.join(tmpdir, "dir1")
-        os.makedirs(dir1)
-        file1 = os.path.join(dir1, "file1.py")
-        open(file1, "w").close()
-        result = list(find([dir1, "/path/to/nonexistent"], config, skipped, broken))
-        assert result == [file1]  # Only the valid file path is returned
-        assert broken == ["/path/to/nonexistent"]  # Broken path added to broken list
-
-    # Test case 13: Test with a directory containing only subdirectories
-    paths = ["/path/to/directory"]
-    config = Config()
-    skipped = []
-    broken = []
-    # Create a temporary directory structure with only subdirectories for testing
-    import tempfile
-    with tempfile.TemporaryDirectory() as tmpdir:
-        dir1 = os.path.join(tmpdir, "dir1")
-        dir2 = os.path.join(dir1, "dir2")
-        os.makedirs(dir2)
-        result = list(find([dir1], config, skipped, broken))
-        assert result == []  # No Python source files in the directory
-
-    # Test case 14: Test with a directory containing only skipped subdirectories
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.skip = ["/path/to/directory/dir2"]
-    skipped = []
-    broken = []
-    # Create a temporary directory structure with skipped subdirectories for testing
-    import tempfile
-    with tempfile.TemporaryDirectory() as tmpdir:
-        dir1 = os.path.join(tmpdir, "dir1")
-        dir2 = os.path.join(dir1, "dir2")
-        os.makedirs(dir2)
-        file1 = os.path.join(dir2, "file1.py")
-        open(file1, "w").close()
-        result = list(find([dir1], config, skipped, broken))
-        assert result == []  # Skipped subdirectory, no files returned
-        assert skipped == [dir2]  # Skipped subdirectory added to skipped list
-
-    # Test case 15: Test with a directory containing both skipped and non-skipped subdirectories
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.skip = ["/path/to/directory/dir2"]
-    skipped = []
-    broken = []
-    # Create a temporary directory structure with skipped and non-skipped subdirectories for testing
-    import tempfile
-    with tempfile.TemporaryDirectory() as tmpdir:
-        dir1 = os.path.join(tmpdir, "dir1")
-        dir2 = os.path.join(dir1, "dir2")
-        dir3 = os.path.join(dir1, "dir3")
-        os.makedirs(dir2)
-        os.makedirs(dir3)
-        file1 = os.path.join(dir2, "file1.py")
-        file2 = os.path.join(dir3, "file2.py")
-        open(file1, "w").close()
-        open(file2, "w").close()
-        result = list(find([dir1], config, skipped, broken))
-        assert result == [file2]  # Only the file from non-skipped subdirectory is returned
-        assert skipped == [dir2]  # Skipped subdirectory added to skipped list
-
-    # Test case 16: Test with a directory containing a symbolic link to a skipped directory
-    paths = ["/path/to/directory"]
-    config = Config()
-    config.skip = ["/path/to/directory/link"]
-    skipped = []
-    broken = []
-    # Create a temporary directory structure with a symbolic link to a skipped directory for testing
-    import tempfile
-    with tempfile.TemporaryDirectory() as tmpdir:
-        dir1 = os.path.join(tmpdir, "dir1")
-        dir2 = os.path
-
-
-# LLM-generated content at query #7
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files  
-    paths = ["test_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  
-    assert "test_dir/file1.py" in result  
-    assert "test_dir/file2.py" in result  
-    assert len(skipped) == 0  
-    assert len(broken) == 0  
-  
-    # Test case 2: Test with a skipped directory  
-    paths = ["test_dir/skipped_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 0  
-    assert len(skipped) == 1  
-    assert "test_dir/skipped_dir" in skipped  
-    assert len(broken) == 0  
-  
-    # Test case 3: Test with a broken path  
-    paths = ["nonexistent_path"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 0  
-    assert len(skipped) == 0  
-    assert len(broken) == 1  
-    assert "nonexistent_path" in broken  
-  
-    # Test case 4: Test with a file path  
-    paths = ["test_dir/file1.py"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  
-    assert "test_dir/file1.py" in result  
-    assert len(skipped) == 0  
-    assert len(broken) == 0  
-  
-    # Test case 5: Test with multiple paths  
-    paths = ["test_dir", "test_dir/skipped_dir", "nonexistent_path", "test_dir/file1.py"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 3  
-    assert "test_dir/file1.py" in result  
-    assert "test_dir/file2.py" in result  
-    assert "test_dir/file1.py" in result  
-    assert len(skipped) == 1  
-    assert "test_dir/skipped_dir" in skipped  
-    assert len(broken) == 1  
-    assert "nonexistent_path" in broken  
-  
-    print("All test cases passed!")  
-  
-# Run the unit tests  
-test_find()
-
-
-# LLM-generated content at query #8
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Mock config object with necessary attributes and methods  
-    class MockConfig:  
-        def __init__(self):  
-            self.follow_links = False  
-            self.skipped_paths = set()  
-            self.supported_extensions = {'.py'}  
-          
-        def is_skipped(self, path):  
-            # Simulate skipping certain directories or files  
-            return any(skipped in str(path) for skipped in self.skipped_paths)  
-          
-        def is_supported_filetype(self, filepath):  
-            return any(filepath.endswith(ext) for ext in self.supported_extensions)  
-      
-    config = MockConfig()  
-    config.skipped_paths = {'skip_dir', 'skip_file.py'}  
-      
-    # Test paths  
-    paths = ['test_dir', 'non_existent_file.py']  
-    skipped = []  
-    broken = []  
-      
-    # Create a temporary directory structure for testing  
-    import tempfile
-    with tempfile.TemporaryDirectory() as tmpdir:  
-        test_dir = os.path.join(tmpdir, 'test_dir')  
-        os.makedirs(test_dir)  
-          
-        # Create some Python files  
-        with open(os.path.join(test_dir, 'file1.py'), 'w') as f:  
-            f.write('print("hello")')  
-        with open(os.path.join(test_dir, 'file2.py'), 'w') as f:  
-            f.write('print("world")')  
-          
-        # Create a skipped directory  
-        skip_dir_path = os.path.join(test_dir, 'skip_dir')  
-        os.makedirs(skip_dir_path)  
-        with open(os.path.join(skip_dir_path, 'file3.py'), 'w') as f:  
-            f.write('print("skipped")')  
-          
-        # Create a skipped file  
-        with open(os.path.join(test_dir, 'skip_file.py'), 'w') as f:  
-            f.write('print("skipped file")')  
-          
-        # Run find function  
-        result = list(find([test_dir, 'non_existent_file.py'], config, skipped, broken))  
-          
-        # Assertions  
-        assert len(result) == 2  # file1.py and file2.py  
-        assert 'non_existent_file.py' in broken  
-        assert any('skip_dir' in s for s in skipped)  
-        assert any('skip_file.py' in s for s in skipped)  
-        print("All tests passed!")  
-
-# Run the unit test  
-if __name__ == "__main__":  
-    test_find()
-
-
-# LLM-generated content at query #9
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Mock config object with required attributes
-    class MockConfig:
-        def __init__(self):
-            self.follow_links = False
-            self.supported_filetypes = ['.py']
-            self.skipped_paths = []
-        
-        def is_supported_filetype(self, filepath):
-            return any(filepath.endswith(ext) for ext in self.supported_filetypes)
-        
-        def is_skipped(self, path):
-            return str(path) in self.skipped_paths
-    
-    config = MockConfig()
-    skipped = []
-    broken = []
-    
-    # Test case 1: Directory with Python files
-    test_dir = 'test_dir'
-    os.makedirs(test_dir, exist_ok=True)
-    with open(os.path.join(test_dir, 'test1.py'), 'w') as f:
-        f.write('print("test1")')
-    with open(os.path.join(test_dir, 'test2.txt'), 'w') as f:
-        f.write('not a python file')
-    
-    paths = [test_dir]
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1
-    assert result[0].endswith('test1.py')
-    
-    # Clean up
-    import shutil
-    shutil.rmtree(test_dir)
-    
-    # Test case 2: Non-existent path
-    paths = ['non_existent_path']
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(broken) == 1
-    assert broken[0] == 'non_existent_path'
-    
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_find()
-
-
-# LLM-generated content at query #10
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files
-    paths = ["test_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2
-    assert "test_dir/file1.py" in result
-    assert "test_dir/file2.py" in result
-    assert len(skipped) == 0
-    assert len(broken) == 0
-
-    # Test case 2: Test with a skipped directory
-    paths = ["skipped_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 1
-    assert "skipped_dir" in skipped
-    assert len(broken) == 0
-
-    # Test case 3: Test with a broken path
-    paths = ["nonexistent_path"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 0
-    assert len(broken) == 1
-    assert "nonexistent_path" in broken
-
-    # Test case 4: Test with a single Python file
-    paths = ["test_file.py"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1
-    assert "test_file.py" in result
-    assert len(skipped) == 0
-    assert len(broken) == 0
-
-    print("All unit tests passed!")
-
-# Run the unit tests
-test_find()
-
-
-# LLM-generated content at query #11
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Test case 1: Directory with Python files
-    paths = ["test_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2
-    assert "test_dir/file1.py" in result
-    assert "test_dir/file2.py" in result
-    assert len(skipped) == 0
-    assert len(broken) == 0
-
-    # Test case 2: Directory with skipped files
-    paths = ["test_dir_skipped"]
-    config = Config(skip=["test_dir_skipped/skipped.py"])
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1
-    assert "test_dir_skipped/not_skipped.py" in result
-    assert len(skipped) == 1
-    assert "test_dir_skipped/skipped.py" in skipped
-    assert len(broken) == 0
-
-    # Test case 3: Non-existent path
-    paths = ["non_existent_path"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 0
-    assert len(broken) == 1
-    assert "non_existent_path" in broken
-
-    # Test case 4: Mixed paths
-    paths = ["test_dir", "non_existent_path", "test_dir_skipped"]
-    config = Config(skip=["test_dir_skipped/skipped.py"])
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 3
-    assert "test_dir/file1.py" in result
-    assert "test_dir/file2.py" in result
-    assert "test_dir_skipped/not_skipped.py" in result
-    assert len(skipped) == 1
-    assert "test_dir_skipped/skipped.py" in skipped
-    assert len(broken) == 1
-    assert "non_existent_path" in broken
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_find()
-
-
-# LLM-generated content at query #12
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files
-    paths = ["test_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2  # Assuming there are 2 Python files in test_dir
-    assert skipped == []
-    assert broken == []
-
-    # Test case 2: Test with a non-existent path
-    paths = ["non_existent_path"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert skipped == []
-    assert broken == ["non_existent_path"]
-
-    # Test case 3: Test with a skipped directory
-    paths = ["skipped_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert skipped == ["skipped_dir"]
-    assert broken == []
-
-    # Test case 4: Test with a broken symlink
-    paths = ["broken_symlink"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert skipped == []
-    assert broken == ["broken_symlink"]
-
-    # Test case 5: Test with a file path
-    paths = ["test_file.py"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1
-    assert skipped == []
-    assert broken == []
-
-    # Test case 6: Test with multiple paths
-    paths = ["test_dir", "test_file.py", "non_existent_path"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 3  # Assuming there are 2 Python files in test_dir and 1 test_file.py
-    assert skipped == []
-    assert broken == ["non_existent_path"]
-
-    # Test case 7: Test with a directory containing subdirectories
-    paths = ["parent_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 3  # Assuming there are 3 Python files in parent_dir and its subdirectories
-    assert skipped == []
-    assert broken == []
-
-    # Test case 8: Test with a directory containing skipped subdirectories
-    paths = ["parent_dir_with_skipped"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2  # Assuming there are 2 Python files in parent_dir_with_skipped, excluding skipped subdirectory
-    assert skipped == ["parent_dir_with_skipped/skipped_subdir"]
-    assert broken == []
-
-    # Test case 9: Test with a directory containing broken symlinks
-    paths = ["dir_with_broken_symlinks"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1  # Assuming there is 1 Python file in dir_with_broken_symlinks
-    assert skipped == []
-    assert broken == ["dir_with_broken_symlinks/broken_symlink"]
-
-    # Test case 10: Test with a directory containing both skipped and broken paths
-    paths = ["mixed_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2  # Assuming there are 2 Python files in mixed_dir, excluding skipped and broken paths
-    assert skipped == ["mixed_dir/skipped_subdir"]
-    assert broken == ["mixed_dir/broken_symlink"]
-
-    print("All test cases passed!")
-
-# Run the unit tests
-test_find()
-
-
-# LLM-generated content at query #13
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files  
-    paths = ["test_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  # Assuming there are 2 Python files in test_dir  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 2: Test with a non-existent path  
-    paths = ["non_existent_path"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert result == []  
-    assert skipped == []  
-    assert broken == ["non_existent_path"]  
-  
-    # Test case 3: Test with a skipped directory  
-    paths = ["skipped_dir"]  
-    config = Config()  
-    config.skip = ["skipped_dir"]  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert result == []  
-    assert skipped == ["skipped_dir"]  
-    assert broken == []  
-  
-    # Test case 4: Test with a file path  
-    paths = ["test_file.py"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert result == ["test_file.py"]  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 5: Test with a directory containing subdirectories and files  
-    paths = ["test_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 3  # Assuming there are 3 Python files in test_dir and its subdirectories  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 6: Test with a directory that has already been visited  
-    paths = ["test_dir", "test_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 3  # Should still only yield 3 unique files  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 7: Test with a directory that contains a broken symlink  
-    paths = ["symlink_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert result == []  
-    assert skipped == []  
-    assert broken == []  # Assuming the symlink is broken and not followed  
-  
-    # Test case 8: Test with a directory that contains a valid symlink  
-    paths = ["valid_symlink_dir"]  
-    config = Config()  
-    config.follow_links = True  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  # Assuming the symlink points to a directory with 1 Python file  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 9: Test with a directory that contains a file with unsupported extension  
-    paths = ["unsupported_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert result == []  # Assuming the directory contains only unsupported files  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 10: Test with a directory that is skipped via config  
-    paths = ["skipped_via_config_dir"]  
-    config = Config()  
-    config.skip = ["skipped_via_config_dir"]  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert result == []  
-    assert skipped == ["skipped_via_config_dir"]  
-    assert broken == []  
-  
-    # Test case 11: Test with a directory that contains a subdirectory that is skipped  
-    paths = ["parent_dir"]  
-    config = Config()  
-    config.skip = ["parent_dir/skipped_subdir"]  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  # Assuming parent_dir has 1 Python file and skipped_subdir has 1 Python file  
-    assert skipped == ["parent_dir/skipped_subdir"]  
-    assert broken == []  
-  
-    # Test case 12: Test with a directory that contains a file that is skipped  
-    paths = ["skipped_file_dir"]  
-    config = Config()  
-    config.skip = ["skipped_file_dir/skipped_file.py"]  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  # Assuming skipped_file_dir has 2 Python files, one skipped  
-    assert skipped == ["skipped_file_dir/skipped_file.py"]  
-    assert broken == []  
-  
-    # Test case 13: Test with a directory that contains a broken symlink and follow_links is False  
-    paths = ["broken_symlink_dir"]  
-    config = Config()  
-    config.follow_links = False  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert result == []  
-    assert skipped == []  
-    assert broken == []  # The broken symlink is not followed, so not added to broken  
-  
-    # Test case 14: Test with a directory that contains a valid symlink and follow_links is False  
-    paths = ["valid_symlink_dir_no_follow"]  
-    config = Config()  
-    config.follow_links = False  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert result == []  # The symlink is not followed, so no files are yielded  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 15: Test with a directory that contains a mix of Python and non-Python files  
-    paths = ["mixed_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  # Assuming mixed_dir has 2 Python files and 2 non-Python files  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 16: Test with a directory that contains a subdirectory that is a symlink  
-    paths = ["subdir_symlink_dir"]  
-    config = Config()  
-    config.follow_links = True  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  # Assuming the symlink points to a directory with 1 Python file  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 17: Test with a directory that contains a file that is a symlink  
-    paths = ["file_symlink_dir"]  
-    config = Config()  
-    config.follow_links = True  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  # Assuming the symlink points to a Python file  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 18: Test with a directory that contains a broken symlink and follow_links is True  
-    paths = ["broken_symlink_follow_dir"]  
-    config = Config()  
-    config.follow_links = True  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert result == []  
-    assert skipped == []  
-    assert broken == []  # The broken symlink is followed, but it's broken, so no files  
-  
-    # Test case 19: Test with a directory that contains a valid symlink to a directory with skipped files  
-    paths = ["symlink_to_skipped_dir"]  
-    config = Config()  
-    config.skip = ["skipped_dir"]  
-    config.follow_links = True  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert result == []  
-    assert skipped == ["skipped_dir"]  
-    assert broken == []  
-  
-    # Test case 20: Test with a directory that contains a valid symlink to a directory with broken symlinks  
-    paths = ["symlink_to_broken_symlink_dir"]  
-    config = Config()  
-    config.follow_links = True  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert result == []  
-    assert skipped == []  
-    assert broken == []  # The broken symlink is followed, but it's broken, so no files  
-  
-    print("All tests passed!")  
-  
-# Run the unit tests  
-test_find()
-
-
-# LLM-generated content at query #14
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Mock config object with required attributes
-    class MockConfig:
-        def __init__(self):
-            self.follow_links = False
-            self.supported_extensions = {'.py'}
-            self.skip_glob = []
-            self.skip = []
-
-        def is_supported_filetype(self, filepath):
-            return any(filepath.endswith(ext) for ext in self.supported_extensions)
-
-        def is_skipped(self, path):
-            # Simple skipping logic for testing
-            return any(skip in str(path) for skip in self.skip_glob) or path.name in self.skip
-
-    config = MockConfig()
-    config.skip_glob = ['*/skipdir/*']
-    config.skip = ['skipfile.py']
-
-    # Test data
-    test_paths = ['test_dir']
-    skipped = []
-    broken = []
-
-    # Create test directory structure
-    os.makedirs('test_dir/subdir', exist_ok=True)
-    os.makedirs('test_dir/skipdir', exist_ok=True)
-    with open('test_dir/file1.py', 'w') as f:
-        f.write('print("hello")')
-    with open('test_dir/subdir/file2.py', 'w') as f:
-        f.write('print("world")')
-    with open('test_dir/skipdir/skipped.py', 'w') as f:
-        f.write('print("skipped")')
-    with open('test_dir/skipfile.py', 'w') as f:
-        f.write('print("skipfile")')
-
-    # Run find function
-    result = list(find(test_paths, config, skipped, broken))
-
-    # Clean up test files
-    import shutil
-    shutil.rmtree('test_dir')
-
-    # Assertions
-    assert 'test_dir/file1.py' in result
-    assert 'test_dir/subdir/file2.py' in result
-    assert 'test_dir/skipdir/skipped.py' not in result  # Should be skipped
-    assert 'test_dir/skipfile.py' not in result  # Should be skipped
-    assert len(skipped) == 2  # Both skipped files should be in skipped list
-    assert len(broken) == 0  # No broken paths
-
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_find()
-
-
-# LLM-generated content at query #15
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Mock config object with required methods
-    class MockConfig:
-        def __init__(self):
-            self.follow_links = False
-            self.skipped_paths = set()
-            self.supported_extensions = {'.py'}
-        
-        def is_skipped(self, path):
-            return str(path) in self.skipped_paths
-        
-        def is_supported_filetype(self, filepath):
-            return any(filepath.endswith(ext) for ext in self.supported_extensions)
-    
-    # Test case 1: Directory with Python files
-    config = MockConfig()
-    skipped = []
-    broken = []
-    paths = ['test_dir']
-    
-    # Create test directory structure
-    os.makedirs('test_dir/subdir', exist_ok=True)
-    with open('test_dir/file1.py', 'w') as f:
-        f.write('print("hello")')
-    with open('test_dir/subdir/file2.py', 'w') as f:
-        f.write('print("world")')
-    with open('test_dir/not_python.txt', 'w') as f:
-        f.write('not a python file')
-    
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2
-    assert any('file1.py' in r for r in result)
-    assert any('file2.py' in r for r in result)
-    assert len(skipped) == 0
-    assert len(broken) == 0
-    
-    # Cleanup
-    import shutil
-    shutil.rmtree('test_dir')
-    
-    # Test case 2: Skipped directory
-    config.skipped_paths.add('test_dir_skipped/subdir')
-    os.makedirs('test_dir_skipped/subdir', exist_ok=True)
-    with open('test_dir_skipped/file1.py', 'w') as f:
-        f.write('print("hello")')
-    with open('test_dir_skipped/subdir/file2.py', 'w') as f:
-        f.write('print("world")')
-    
-    skipped = []
-    broken = []
-    paths = ['test_dir_skipped']
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1
-    assert 'file1.py' in result[0]
-    assert len(skipped) == 1
-    assert 'subdir' in skipped[0]
-    
-    # Cleanup
-    shutil.rmtree('test_dir_skipped')
-    
-    # Test case 3: Non-existent path
-    skipped = []
-    broken = []
-    paths = ['non_existent_dir']
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(broken) == 1
-    assert broken[0] == 'non_existent_dir'
-    
-    print("All tests passed!")
-
-# Run the unit test
-if __name__ == "__main__":
-    test_find()
-
-
-####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
-####################################################################
-
-
-# LLM-generated content at query #1
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Mock config object with required methods
-    class MockConfig:
-        def __init__(self):
-            self.follow_links = False
-            self.skipped_paths = set()
-        
-        def is_skipped(self, path):
-            return str(path) in self.skipped_paths
-        
-        def is_supported_filetype(self, filepath):
-            # Simulate supporting only .py files
-            return filepath.endswith('.py')
-    
-    config = MockConfig()
-    config.skipped_paths = {'/skipped_dir', '/skipped_file.py'}
-    
-    # Test paths
-    paths = ['/test_dir', '/test_file.py', '/nonexistent', '/skipped_dir', '/skipped_file.py']
-    skipped = []
-    broken = []
-    
-    # Create test directory structure
-    import tempfile
-    
-    with tempfile.TemporaryDirectory() as tmpdir:
-        # Create test directory with subdirectories and files
-        test_dir = os.path.join(tmpdir, 'test_dir')
-        os.makedirs(test_dir)
-        
-        # Create Python files
-        with open(os.path.join(test_dir, 'file1.py'), 'w') as f:
-            f.write('print("test")')
-        with open(os.path.join(test_dir, 'file2.py'), 'w') as f:
-            f.write('print("test2")')
-        # Create non-Python file
-        with open(os.path.join(test_dir, 'file3.txt'), 'w') as f:
-            f.write('not python')
-        
-        # Create subdirectory
-        subdir = os.path.join(test_dir, 'subdir')
-        os.makedirs(subdir)
-        with open(os.path.join(subdir, 'file4.py'), 'w') as f:
-            f.write('print("test4")')
-        
-        # Create test file
-        test_file = os.path.join(tmpdir, 'test_file.py')
-        with open(test_file, 'w') as f:
-            f.write('print("single file")')
-        
-        # Create skipped directory
-        skipped_dir = os.path.join(tmpdir, 'skipped_dir')
-        os.makedirs(skipped_dir)
-        with open(os.path.join(skipped_dir, 'skipped.py'), 'w') as f:
-            f.write('print("skipped")')
-        
-        # Create skipped file
-        skipped_file = os.path.join(tmpdir, 'skipped_file.py')
-        with open(skipped_file, 'w') as f:
-            f.write('print("skipped file")')
-        
-        # Update paths with temp directory
-        test_paths = [
-            test_dir,
-            test_file,
-            os.path.join(tmpdir, 'nonexistent'),
-            skipped_dir,
-            skipped_file
-        ]
-        
-        # Run find function
-        result = list(find(test_paths, config, skipped, broken))
-        
-        # Verify results
-        expected_files = [
-            os.path.join(test_dir, 'file1.py'),
-            os.path.join(test_dir, 'file2.py'),
-            os.path.join(subdir, 'file4.py'),
-            test_file
-        ]
-        
-        assert sorted(result) == sorted(expected_files), f"Expected {expected_files}, got {result}"
-        assert skipped == [skipped_dir, skipped_file], f"Expected skipped {[skipped_dir, skipped_file]}, got {skipped}"
-        assert broken == [os.path.join(tmpdir, 'nonexistent')], f"Expected broken {[os.path.join(tmpdir, 'nonexistent')]}, got {broken}"
-        
-        print("All tests passed!")
-
-# Run the test
-if __name__ == "__main__":
-    test_find()
-
-
-# LLM-generated content at query #2
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    import shutil
-    import tempfile
-
-    from isort.settings import Config
-
-    # Create a temporary directory structure
-    tmpdir = tempfile.mkdtemp()
-    try:
-        # Create some test files and directories
+        # Create test files and directories
         os.makedirs(os.path.join(tmpdir, "dir1"))
         os.makedirs(os.path.join(tmpdir, "dir2"))
-        with open(os.path.join(tmpdir, "dir1", "file1.py"), "w") as f:
-            f.write("print('hello')")
-        with open(os.path.join(tmpdir, "dir2", "file2.py"), "w") as f:
-            f.write("print('world')")
-        with open(os.path.join(tmpdir, "file3.py"), "w") as f:
-            f.write("print('test')")
-        # Create a skipped directory
         os.makedirs(os.path.join(tmpdir, "skipped_dir"))
+        
+        with open(os.path.join(tmpdir, "file1.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "dir1", "file2.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "dir2", "file3.py"), "w") as f:
+            f.write("")
         with open(os.path.join(tmpdir, "skipped_dir", "file4.py"), "w") as f:
-            f.write("print('skipped')")
+            f.write("")
+        with open(os.path.join(tmpdir, "not_python.txt"), "w") as f:
+            f.write("")
 
-        # Test config
-        config = Config(skip=["skipped_dir"], follow_links=False)
+        # Create mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        config.is_skipped = lambda x: "skipped" in str(x)
+
+        # Test cases
         skipped = []
         broken = []
         
-        # Call find
-        result = list(find([tmpdir], config, skipped, broken))
+        # Test 1: Find all Python files
+        paths = [tmpdir]
+        result = list(find(paths, config, skipped, broken))
+        assert len(result) == 3  # file1.py, dir1/file2.py, dir2/file3.py
+        assert os.path.join(tmpdir, "file1.py") in result
+        assert os.path.join(tmpdir, "dir1", "file2.py") in result
+        assert os.path.join(tmpdir, "dir2", "file3.py") in result
         
-        # Assertions
-        assert len(result) == 3  # file1.py, file2.py, file3.py
-        assert any("file1.py" in p for p in result)
-        assert any("file2.py" in p for p in result)
-        assert any("file3.py" in p for p in result)
-        assert len(skipped) == 1  # skipped_dir
-        assert "skipped_dir" in skipped[0]
-        assert len(broken) == 0
-    finally:
-        shutil.rmtree(tmpdir)
+        # Test 2: Verify skipped files
+        assert len(skipped) == 1
+        assert os.path.join(tmpdir, "skipped_dir") in skipped[0]
+        
+        # Test 3: Verify broken paths
+        paths = [tmpdir, "nonexistent_path"]
+        broken.clear()
+        result = list(find(paths, config, skipped, broken))
+        assert len(broken) == 1
+        assert "nonexistent_path" in broken[0]
+        
+        # Test 4: Single file path
+        paths = [os.path.join(tmpdir, "file1.py")]
+        result = list(find(paths, config, skipped, broken))
+        assert len(result) == 1
+        assert os.path.join(tmpdir, "file1.py") in result
 
-if __name__ == "__main__":
-    test_find()
-    print("All tests passed!")
+        # Test 5: Non-Python file should be ignored
+        paths = [os.path.join(tmpdir, "not_python.txt")]
+        result = list(find(paths, config, skipped, broken))
+        assert len(result) == 0
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    config = Config()
+    skipped = []
+    broken = []
+    
+    # Test case 1: Finding files in a directory
+    paths = ["test_directory"]
+    files = list(find(paths, config, skipped, broken))
+    assert len(files) > 0, "No files found in the directory"
+    
+    # Test case 2: Finding files in a non-existent directory
+    paths = ["non_existent_directory"]
+    files = list(find(paths, config, skipped, broken))
+    assert len(files) == 0, "Files found in a non-existent directory"
+    
+    # Test case 3: Finding files in a skipped directory
+    paths = ["skipped_directory"]
+    files = list(find(paths, config, skipped, broken))
+    assert len(files) == 0, "Files found in a skipped directory"
+    
+    # Test case 4: Finding files in a broken path
+    paths = ["broken_path"]
+    files = list(find(paths, config, skipped, broken))
+    assert len(files) == 0, "Files found in a broken path"
+    
+    # Test case 5: Finding files in a directory with follow_links set to True
+    config.follow_links = True
+    paths = ["test_directory"]
+    files = list(find(paths, config, skipped, broken))
+    assert len(files) > 0, "No files found in the directory with follow_links set to True"
+    
+    print("All test cases passed")
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Mock config object with required attributes
+def test_find():
+    # Test case 1: Test with a single directory containing Python files
+    paths = ['test_directory']
+    config = Config()
+    skipped = []
+    broken = []
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 2
+    assert 'test_directory/file1.py' in result
+    assert 'test_directory/file2.py' in result
+    assert skipped == []
+    assert broken == []
+
+    # Test case 2: Test with a skipped directory
+    paths = ['test_directory']
+    config = Config(skip=['test_directory/skip_dir'])
+    skipped = []
+    broken = []
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 1
+    assert 'test_directory/file1.py' in result
+    assert skipped == ['test_directory/skip_dir']
+    assert broken == []
+
+    # Test case 3: Test with a non-existent path
+    paths = ['non_existent_path']
+    config = Config()
+    skipped = []
+    broken = []
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 0
+    assert skipped == []
+    assert broken == ['non_existent_path']
+
+    # Test case 4: Test with a single Python file
+    paths = ['test_directory/file1.py']
+    config = Config()
+    skipped = []
+    broken = []
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 1
+    assert 'test_directory/file1.py' in result
+    assert skipped == []
+    assert broken == []
+
+    # Test case 5: Test with a broken path
+    paths = ['broken_path']
+    config = Config()
+    skipped = []
+    broken = []
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 0
+    assert skipped == []
+    assert broken == ['broken_path']
+
+    print("All test cases passed!")
+
+test_find()
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    config = Config(profile="black")
+    skipped = []
+    broken = []
+
+    # Test with a directory containing Python files
+    paths = ["test_directory"]
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) > 0, "Expected Python files in the directory"
+
+    # Test with a non-existent path
+    paths = ["non_existent_path"]
+    result = list(find(paths, config, skipped, broken))
+    assert len(broken) == 1, "Expected broken path to be recorded"
+
+    # Test with a skipped directory
+    paths = ["skipped_directory"]
+    result = list(find(paths, config, skipped, broken))
+    assert len(skipped) > 0, "Expected skipped directory to be recorded"
+
+    # Test with a single Python file
+    paths = ["test_file.py"]
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 1, "Expected single Python file to be found"
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    paths = ["/path/to/dir"]
+    config = Config()
+    skipped = []
+    broken = []
+    
+    result = list(find(paths, config, skipped, broken))
+    assert isinstance(result, list)
+    assert isinstance(skipped, list)
+    assert isinstance(broken, list)
+    
+    # Add more assertions as needed based on specific test cases
+    
+    print("All tests passed.")
+
+test_find()
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    # Mock Config class for testing
+    class MockConfig:
+        def __init__(self, skipped_paths, supported_filetypes, follow_links):
+            self.skipped_paths = skipped_paths
+            self.supported_filetypes = supported_filetypes
+            self.follow_links = follow_links
+
+        def is_skipped(self, path):
+            return str(path) in self.skipped_paths
+
+        def is_supported_filetype(self, filepath):
+            return os.path.splitext(filepath)[1] in self.supported_filetypes
+
+    # Test case 1: Simple directory with Python files
+    paths = ["test_directory"]
+    skipped = []
+    broken = []
+    config = MockConfig([], [".py"], False)
+    os.makedirs("test_directory", exist_ok=True)
+    with open("test_directory/test_file.py", "w") as f:
+        f.write("print('Hello, World!')")
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 1
+    assert "test_directory/test_file.py" in result
+    assert skipped == []
+    assert broken == []
+    os.remove("test_directory/test_file.py")
+    os.rmdir("test_directory")
+
+    # Test case 2: Directory with skipped file
+    paths = ["test_directory"]
+    skipped = []
+    broken = []
+    config = MockConfig(["test_directory/skipped_file.py"], [".py"], False)
+    os.makedirs("test_directory", exist_ok=True)
+    with open("test_directory/skipped_file.py", "w") as f:
+        f.write("print('Skipped!')")
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 0
+    assert skipped == ["test_directory/skipped_file.py"]
+    assert broken == []
+    os.remove("test_directory/skipped_file.py")
+    os.rmdir("test_directory")
+
+    # Test case 3: Non-existent path
+    paths = ["non_existent_directory"]
+    skipped = []
+    broken = []
+    config = MockConfig([], [".py"], False)
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 0
+    assert skipped == []
+    assert broken == ["non_existent_directory"]
+
+    # Test case 4: Mixed paths with supported and unsupported filetypes
+    paths = ["test_directory"]
+    skipped = []
+    broken = []
+    config = MockConfig([], [".py"], False)
+    os.makedirs("test_directory", exist_ok=True)
+    with open("test_directory/test_file.py", "w") as f:
+        f.write("print('Hello, World!')")
+    with open("test_directory/unsupported_file.txt", "w") as f:
+        f.write("This file is not supported.")
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 1
+    assert "test_directory/test_file.py" in result
+    assert skipped == []
+    assert broken == []
+    os.remove("test_directory/test_file.py")
+    os.remove("test_directory/unsupported_file.txt")
+    os.rmdir("test_directory")
+
+    # Test case 5: Follow symbolic links
+    paths = ["test_directory"]
+    skipped = []
+    broken = []
+    config = MockConfig([], [".py"], True)
+    os.makedirs("test_directory", exist_ok=True)
+    os.makedirs("linked_directory", exist_ok=True)
+    with open("linked_directory/linked_file.py", "w") as f:
+        f.write("print('Hello, World!')")
+    os.symlink("linked_directory", "test_directory/link")
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 1
+    assert "test_directory/link/linked_file.py" in result
+    assert skipped == []
+    assert broken == []
+    os.remove("test_directory/link/linked_file.py")
+    os.rmdir("linked_directory")
+    os.unlink("test_directory/link")
+    os.rmdir("test_directory")
+
+    print("All test cases passed!")
+
+# Run the unit test
+if __name__ == "__main__":
+    test_find()
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    import tempfile
+    from unittest.mock import patch
+
+    # Create a temporary directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        subdir = os.path.join(tmpdir, 'subdir')
+        os.makedirs(subdir)
+        file1 = os.path.join(tmpdir, 'file1.py')
+        file2 = os.path.join(subdir, 'file2.py')
+        skipped_file = os.path.join(subdir, 'skipped.py')
+        broken_file = os.path.join(tmpdir, 'nonexistent.py')
+
+        with open(file1, 'w') as f:
+            f.write('print("Hello, World!")')
+        with open(file2, 'w') as f:
+            f.write('print("Hello, World!")')
+        with open(skipped_file, 'w') as f:
+            f.write('print("Skipped")')
+
+        # Mock Config object
+        class MockConfig:
+            def __init__(self):
+                self.follow_links = False
+
+            def is_skipped(self, path):
+                return str(path) == skipped_file
+
+            def is_supported_filetype(self, path):
+                return path.endswith('.py')
+
+        config = MockConfig()
+        skipped = []
+        broken = []
+
+        # Test with multiple paths
+        paths = [tmpdir, broken_file]
+        result = list(find(paths, config, skipped, broken))
+
+        assert set(result) == {file1, file2}
+        assert skipped == [skipped_file]
+        assert broken == [broken_file]
+
+        # Test with a single path
+        paths = [tmpdir]
+        skipped = []
+        broken = []
+        result = list(find(paths, config, skipped, broken))
+
+        assert set(result) == {file1, file2}
+        assert skipped == [skipped_file]
+        assert broken == []
+
+        # Test with a broken path
+        paths = [broken_file]
+        skipped = []
+        broken = []
+        result = list(find(paths, config, skipped, broken))
+
+        assert result == []
+        assert skipped == []
+        assert broken == [broken_file]
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    # Create temporary directories and files for testing
+    import tempfile
+    import shutil
+
+    # Create a temporary directory
+    temp_dir = tempfile.mkdtemp()
+
+    # Create a subdirectory and a Python file
+    sub_dir = os.path.join(temp_dir, 'subdir')
+    os.makedirs(sub_dir)
+    py_file = os.path.join(sub_dir, 'test.py')
+    with open(py_file, 'w') as f:
+        f.write("print('Hello, World!')")
+
+    # Create a skipped directory and a skipped Python file
+    skipped_dir = os.path.join(temp_dir, 'skipped_dir')
+    os.makedirs(skipped_dir)
+    skipped_py_file = os.path.join(skipped_dir, 'skipped.py')
+    with open(skipped_py_file, 'w') as f:
+        f.write("print('Skipped file')")
+
+    # Create a broken path
+    broken_path = os.path.join(temp_dir, 'non_existent_path')
+
+    # Initialize Config object
+    config = Config(settings_file=None, skip=[skipped_dir], skip_glob=[], skip_gitignore=False)
+
+    # Initialize skipped and broken lists
+    skipped = []
+    broken = []
+
+    # Test the find function
+    paths = [temp_dir, broken_path]
+    found_files = list(find(paths, config, skipped, broken))
+
+    # Assertions
+    assert py_file in found_files
+    assert skipped_py_file not in found_files
+    assert broken_path in broken
+    assert skipped_dir in skipped
+
+    # Clean up
+    shutil.rmtree(temp_dir)
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    import tempfile
+    from unittest.mock import MagicMock
+
+    # Setup test directory structure
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmp_dir, "dir1"))
+        os.makedirs(os.path.join(tmp_dir, "dir2"))
+        os.makedirs(os.path.join(tmp_dir, "skipped_dir"))
+        
+        with open(os.path.join(tmp_dir, "file1.py"), "w") as f:
+            f.write("print('hello')")
+        with open(os.path.join(tmp_dir, "dir1", "file2.py"), "w") as f:
+            f.write("print('world')")
+        with open(os.path.join(tmp_dir, "dir2", "file3.txt"), "w") as f:
+            f.write("not a python file")
+        with open(os.path.join(tmp_dir, "skipped_dir", "file4.py"), "w") as f:
+            f.write("print('skipped')")
+
+        # Create mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        config.is_skipped = lambda x: "skipped" in str(x)
+
+        # Test cases
+        skipped = []
+        broken = []
+        
+        # Test with single file
+        files = list(find([os.path.join(tmp_dir, "file1.py")], config, skipped, broken))
+        assert len(files) == 1
+        assert os.path.join(tmp_dir, "file1.py") in files
+        assert not skipped
+        assert not broken
+
+        # Test with directory
+        files = list(find([tmp_dir], config, skipped, broken))
+        assert len(files) == 2
+        assert os.path.join(tmp_dir, "file1.py") in files
+        assert os.path.join(tmp_dir, "dir1", "file2.py") in files
+        assert len(skipped) == 1
+        assert os.path.join(tmp_dir, "skipped_dir") in skipped[0]
+        assert not broken
+
+        # Test with non-existent file
+        broken = []
+        files = list(find([os.path.join(tmp_dir, "nonexistent.py")], config, skipped, broken))
+        assert not files
+        assert len(broken) == 1
+        assert os.path.join(tmp_dir, "nonexistent.py") in broken[0]
+
+        # Test with skipped file
+        skipped = []
+        files = list(find([os.path.join(tmp_dir, "skipped_dir", "file4.py")], config, skipped, broken))
+        assert not files
+        assert len(skipped) == 1
+        assert os.path.join(tmp_dir, "skipped_dir", "file4.py") in skipped[0]
+
+        # Test with non-python file
+        skipped = []
+        files = list(find([os.path.join(tmp_dir, "dir2", "file3.txt")], config, skipped, broken))
+        assert not files
+        assert not skipped
+        assert not broken
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    test_find()
+
+
+# LLM-generated content at query #10
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    # Mock Config object for testing
     class MockConfig:
         def __init__(self):
             self.follow_links = False
-            self.supported_filetypes = ['.py']
-            self.skipped_paths = []
-        
-        def is_supported_filetype(self, filepath):
-            return filepath.endswith('.py')
-        
+
         def is_skipped(self, path):
-            return str(path) in self.skipped_paths
-    
-    # Test case 1: Single directory with Python files
-    config = MockConfig()
+            return str(path).endswith("skipped_dir") or str(path).endswith("skipped_file.py")
+
+        def is_supported_filetype(self, path):
+            return path.endswith(".py")
+
+    # Mock paths and lists to collect skipped and broken paths
+    paths = ["test_dir"]
     skipped = []
     broken = []
-    paths = ['test_dir']
-    
-    # Create test directory structure
-    os.makedirs('test_dir/subdir', exist_ok=True)
-    with open('test_dir/file1.py', 'w') as f:
-        f.write('print("hello")')
-    with open('test_dir/file2.txt', 'w') as f:
-        f.write('not python')
-    with open('test_dir/subdir/file3.py', 'w') as f:
-        f.write('print("world")')
-    
+
+    # Create a mock directory structure
+    os.makedirs("test_dir", exist_ok=True)
+    os.makedirs("test_dir/skipped_dir", exist_ok=True)
+    os.makedirs("test_dir/normal_dir", exist_ok=True)
+    with open("test_dir/normal_dir/normal_file.py", "w") as f:
+        f.write("")
+    with open("test_dir/skipped_dir/skipped_file.py", "w") as f:
+        f.write("")
+    with open("test_dir/normal_dir/not_python_file.txt", "w") as f:
+        f.write("")
+
+    # Initialize MockConfig
+    config = MockConfig()
+
+    # Call the find function
     result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2
-    assert any('file1.py' in p for p in result)
-    assert any('file3.py' in p for p in result)
-    assert all('.py' in p for p in result)
-    
-    # Cleanup
-    import shutil
-    shutil.rmtree('test_dir')
-    
-    # Test case 2: Skipped directory
-    config.skipped_paths = ['test_dir/skip_me']
-    os.makedirs('test_dir/skip_me', exist_ok=True)
-    with open('test_dir/skip_me/file.py', 'w') as f:
-        f.write('print("skipped")')
-    
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) > 0
-    
-    # Cleanup
-    shutil.rmtree('test_dir')
-    
-    # Test case 3: Non-existent path
-    broken.clear()
-    paths = ['non_existent']
-    result = list(find(paths, config, skipped, broken))
-    assert len(broken) == 1
-    
+
+    # Assertions
+    assert "test_dir/normal_dir/normal_file.py" in result
+    assert "test_dir/skipped_dir/skipped_file.py" not in result
+    assert "test_dir/normal_dir/not_python_file.txt" not in result
+    assert "test_dir/skipped_dir" in skipped
+    assert "test_dir/skipped_dir/skipped_file.py" in skipped
+    assert not broken
+
+    # Clean up the mock directory structure
+    os.remove("test_dir/normal_dir/normal_file.py")
+    os.remove("test_dir/skipped_dir/skipped_file.py")
+    os.remove("test_dir/normal_dir/not_python_file.txt")
+    os.rmdir("test_dir/normal_dir")
+    os.rmdir("test_dir/skipped_dir")
+    os.rmdir("test_dir")
+
+
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# LLM-generated content at query #1
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    # Setup test environment
+    import tempfile
+    from unittest.mock import Mock
+
+    # Create temporary directories and files
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_dir_path = Path(temp_dir)
+        (temp_dir_path / "dir1").mkdir()
+        (temp_dir_path / "dir1" / "file1.py").touch()
+        (temp_dir_path / "dir2").mkdir()
+        (temp_dir_path / "dir2" / "file2.py").touch()
+        (temp_dir_path / "dir3").mkdir()
+        (temp_dir_path / "dir3" / "file3.txt").touch()
+
+        # Mock Config object
+        config = Mock()
+        config.follow_links = False
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        config.is_skipped = lambda x: False
+
+        # Initialize skipped and broken lists
+        skipped = []
+        broken = []
+
+        # Test function
+        results = list(find([str(temp_dir_path)], config, skipped, broken))
+
+        # Assertions
+        assert len(results) == 2
+        assert str(temp_dir_path / "dir1" / "file1.py") in results
+        assert str(temp_dir_path / "dir2" / "file2.py") in results
+        assert skipped == []
+        assert broken == []
+
+        # Test skipped files
+        config.is_skipped = lambda x: str(x).endswith("file1.py")
+        skipped = []
+        broken = []
+        results = list(find([str(temp_dir_path)], config, skipped, broken))
+        assert len(results) == 1
+        assert str(temp_dir_path / "dir2" / "file2.py") in results
+        assert len(skipped) == 1
+        assert str(temp_dir_path / "dir1" / "file1.py") in skipped
+        assert broken == []
+
+        # Test broken path
+        skipped = []
+        broken = []
+        results = list(find([str(temp_dir_path / "nonexistent")], config, skipped, broken))
+        assert len(results) == 0
+        assert skipped == []
+        assert len(broken) == 1
+        assert str(temp_dir_path / "nonexistent") in broken
+
+        # Test nested directories
+        (temp_dir_path / "dir1" / "nested_dir").mkdir()
+        (temp_dir_path / "dir1" / "nested_dir" / "nested_file.py").touch()
+        skipped = []
+        broken = []
+        results = list(find([str(temp_dir_path)], config, skipped, broken))
+        assert len(results) == 2
+        assert str(temp_dir_path / "dir1" / "nested_dir" / "nested_file.py") in results
+        assert str(temp_dir_path / "dir2" / "file2.py") in results
+        assert len(skipped) == 1
+        assert str(temp_dir_path / "dir1" / "file1.py") in skipped
+        assert broken == []
+
+# Run the unit test if this script is executed
+if __name__ == "__main__":
+    test_find()
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    """Test the find function."""
+    import tempfile
+    from unittest.mock import MagicMock
+
+    # Create temporary directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create subdirectories and files
+        os.makedirs(os.path.join(tmpdir, "dir1"))
+        os.makedirs(os.path.join(tmpdir, "dir2"))
+        with open(os.path.join(tmpdir, "dir1", "file1.py"), "w") as f:
+            f.write("print('Hello')")
+        with open(os.path.join(tmpdir, "dir2", "file2.py"), "w") as f:
+            f.write("print('World')")
+        with open(os.path.join(tmpdir, "file3.py"), "w") as f:
+            f.write("print('!')")
+
+        # Create a mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_skipped = lambda x: False
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+
+        # Test with directory path
+        skipped = []
+        broken = []
+        files = list(find([tmpdir], config, skipped, broken))
+        assert len(files) == 3
+        assert any("file1.py" in f for f in files)
+        assert any("file2.py" in f for f in files)
+        assert any("file3.py" in f for f in files)
+        assert not skipped
+        assert not broken
+
+        # Test with direct file path
+        files = list(find([os.path.join(tmpdir, "file3.py")], config, skipped, broken))
+        assert len(files) == 1
+        assert files[0].endswith("file3.py")
+
+        # Test with non-existent path
+        broken = []
+        list(find(["nonexistent_path"], config, skipped, broken))
+        assert len(broken) == 1
+        assert broken[0] == "nonexistent_path"
+
+        # Test with skipped directory
+        config.is_skipped = lambda x: "dir1" in str(x)
+        skipped = []
+        files = list(find([tmpdir], config, skipped, broken))
+        assert len(files) == 2  # file2.py and file3.py
+        assert len(skipped) == 1
+        assert "dir1" in skipped[0]
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    test_find()
+
+
+# LLM-generated content at query #3
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    """Test the find function."""
+    import tempfile
+    from unittest.mock import MagicMock
+
+    # Setup test directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmpdir, "dir1"))
+        os.makedirs(os.path.join(tmpdir, "dir2"))
+        with open(os.path.join(tmpdir, "file1.py"), "w") as f:
+            f.write("print('Hello')")
+        with open(os.path.join(tmpdir, "dir1", "file2.py"), "w") as f:
+            f.write("print('World')")
+        with open(os.path.join(tmpdir, "dir2", "file3.txt"), "w") as f:
+            f.write("Not a Python file")
+
+        # Mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        config.is_skipped = lambda x: False
+
+        # Test finding Python files
+        skipped = []
+        broken = []
+        result = list(find([tmpdir], config, skipped, broken))
+        assert len(result) == 2
+        assert any("file1.py" in f for f in result)
+        assert any("file2.py" in f for f in result)
+        assert len(skipped) == 0
+        assert len(broken) == 0
+
+        # Test skipped files
+        config.is_skipped = lambda x: "dir1" in str(x)
+        skipped = []
+        broken = []
+        result = list(find([tmpdir], config, skipped, broken))
+        assert len(result) == 1
+        assert "file1.py" in result[0]
+        assert len(skipped) == 1
+        assert "dir1" in skipped[0]
+
+        # Test broken path
+        skipped = []
+        broken = []
+        result = list(find([os.path.join(tmpdir, "nonexistent")], config, skipped, broken))
+        assert len(result) == 0
+        assert len(skipped) == 0
+        assert len(broken) == 1
+        assert "nonexistent" in broken[0]
+
     print("All tests passed!")
 
 if __name__ == "__main__":
@@ -1785,809 +790,1425 @@ if __name__ == "__main__":
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files
-    paths = ["test_dir"]
+def test_find():
+    # Setup
     config = Config()
     skipped = []
     broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2  # Assuming there are 2 Python files in test_dir
-    assert skipped == []
-    assert broken == []
-
-    # Test case 2: Test with a skipped directory
-    paths = ["skipped_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 1
-    assert broken == []
-
-    # Test case 3: Test with a non-existent path
-    paths = ["non_existent_path"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert skipped == []
-    assert len(broken) == 1
-
-    # Test case 4: Test with a single Python file
-    paths = ["test_file.py"]
-    config = Config()
-    skipped = []
-    broken = []
+    paths = ["test_directory"]
+    
+    # Create a test directory with some files
+    os.makedirs("test_directory", exist_ok=True)
+    with open("test_directory/test_file1.py", "w") as f:
+        f.write("print('Hello, World!')")
+    with open("test_directory/test_file2.txt", "w") as f:
+        f.write("This is a text file.")
+    os.makedirs("test_directory/skipped_dir", exist_ok=True)
+    with open("test_directory/skipped_dir/test_file3.py", "w") as f:
+        f.write("print('Skipped file')")
+    
+    # Test finding Python files
     result = list(find(paths, config, skipped, broken))
     assert len(result) == 1
-    assert skipped == []
-    assert broken == []
-
-    print("All test cases passed!")
-
-# Run the unit test
-test_find()
+    assert "test_directory/test_file1.py" in result
+    
+    # Test skipped directory
+    config.skip = ["test_directory/skipped_dir"]
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 1
+    assert "test_directory/test_file1.py" in result
+    assert len(skipped) == 1
+    assert "test_directory/skipped_dir" in skipped[0]
+    
+    # Test non-existent path
+    paths = ["non_existent_directory"]
+    result = list(find(paths, config, skipped, broken))
+    assert len(result) == 0
+    assert len(broken) == 1
+    assert "non_existent_directory" in broken
+    
+    # Cleanup
+    os.remove("test_directory/test_file1.py")
+    os.remove("test_directory/test_file2.txt")
+    os.remove("test_directory/skipped_dir/test_file3.py")
+    os.rmdir("test_directory/skipped_dir")
+    os.rmdir("test_directory")
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files
-    paths = ["test_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2  # Assuming there are 2 Python files in test_dir
-    assert skipped == []
-    assert broken == []
+def test_find():
+    # Setup test environment
+    test_config = Config(
+        skip=[],
+        skip_glob=[],
+        skip_gitignore=False,
+        follow_links=False,
+        supported_filetypes=[".py"],
+    )
+    test_paths = ["./test_dir"]
+    test_skipped = []
+    test_broken = []
 
-    # Test case 2: Test with a skipped directory
-    paths = ["skipped_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 1
-    assert broken == []
+    # Create test directory and files
+    os.makedirs("./test_dir", exist_ok=True)
+    with open("./test_dir/test_file.py", "w") as f:
+        f.write("print('Hello, World!')")
+    with open("./test_dir/skip_file.py", "w") as f:
+        f.write("print('Skipped')")
+    with open("./test_dir/unsupported_file.txt", "w") as f:
+        f.write("Unsupported file")
 
-    # Test case 3: Test with a non-existent path
-    paths = ["non_existent_path"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert skipped == []
-    assert len(broken) == 1
+    # Test find function
+    found_files = list(find(test_paths, test_config, test_skipped, test_broken))
 
-    # Test case 4: Test with a single Python file
-    paths = ["test_file.py"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1
-    assert skipped == []
-    assert broken == []
+    # Assertions
+    assert "./test_dir/test_file.py" in found_files
+    assert "./test_dir/skip_file.py" not in found_files
+    assert "./test_dir/unsupported_file.txt" not in found_files
+    assert len(test_skipped) == 0
+    assert len(test_broken) == 0
 
-    # Test case 5: Test with a directory containing subdirectories
-    paths = ["parent_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 3  # Assuming there are 3 Python files in parent_dir and its subdirectories
-    assert skipped == []
-    assert broken == []
-
-    # Test case 6: Test with a directory containing skipped subdirectories
-    paths = ["parent_dir_with_skipped"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2  # Assuming there are 2 Python files in non-skipped subdirectories
-    assert len(skipped) == 1  # Assuming there is 1 skipped subdirectory
-    assert broken == []
-
-    # Test case 7: Test with a directory containing broken symlinks
-    paths = ["dir_with_broken_symlinks"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert skipped == []
-    assert len(broken) == 1  # Assuming there is 1 broken symlink
-
-    # Test case 8: Test with a directory containing visited directories
-    paths = ["dir_with_visited_dirs"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1  # Assuming there is 1 Python file in non-visited directories
-    assert skipped == []
-    assert broken == []
-
-    # Test case 9: Test with a directory containing both skipped and non-skipped files
-    paths = ["mixed_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2  # Assuming there are 2 non-skipped Python files
-    assert len(skipped) == 1  # Assuming there is 1 skipped Python file
-    assert broken == []
-
-    # Test case 10: Test with a directory containing only skipped files
-    paths = ["skipped_files_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 2  # Assuming there are 2 skipped Python files
-    assert broken == []
-
-    print("All test cases passed!")
-
-# Run the unit tests
-test_find()
+    # Cleanup test environment
+    os.remove("./test_dir/test_file.py")
+    os.remove("./test_dir/skip_file.py")
+    os.remove("./test_dir/unsupported_file.txt")
+    os.rmdir("./test_dir")
 
 
 # LLM-generated content at query #6
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Mock config object with required attributes
-    class MockConfig:
-        follow_links = False
-        def is_skipped(self, path):
-            return False
-        def is_supported_filetype(self, filepath):
-            return filepath.endswith('.py')
-    
-    config = MockConfig()
-    skipped = []
-    broken = []
-    
-    # Test with a single file path
-    paths = ['test.py']
-    result = list(find(paths, config, skipped, broken))
-    assert result == ['test.py']
-    assert skipped == []
-    assert broken == []
-    
-    # Test with a non-existent path
-    paths = ['nonexistent.py']
-    result = list(find(paths, config, skipped, broken))
-    assert result == []
-    assert broken == ['nonexistent.py']
-    
-    # Test with a directory containing Python files
+def test_find():
     import tempfile
-    with tempfile.TemporaryDirectory() as tmpdir:
-        # Create a Python file
-        py_file = os.path.join(tmpdir, 'script.py')
-        with open(py_file, 'w') as f:
-            f.write('print("hello")')
-        
-        # Create a non-Python file
-        txt_file = os.path.join(tmpdir, 'notes.txt')
-        with open(txt_file, 'w') as f:
-            f.write('some notes')
-        
-        paths = [tmpdir]
-        result = list(find(paths, config, skipped, broken))
-        assert result == [py_file]
-        assert skipped == []
-        assert broken == []
-    
-    print("All tests passed!")
+    from unittest.mock import patch, MagicMock
 
-if __name__ == "__main__":
-    test_find()
+    # Setup temporary directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmpdir, "dir1"))
+        os.makedirs(os.path.join(tmpdir, "dir2"))
+        os.makedirs(os.path.join(tmpdir, "dir3"))
+        with open(os.path.join(tmpdir, "dir1", "file1.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "dir2", "file2.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "dir3", "file3.txt"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "file4.py"), "w") as f:
+            f.write("")
+
+        # Test case 1: Find all Python files
+        config = MagicMock()
+        config.follow_links = False
+        config.is_skipped = lambda x: False
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        skipped = []
+        broken = []
+        result = list(find([tmpdir], config, skipped, broken))
+        assert len(result) == 3  # file1.py, file2.py, file4.py
+        assert not skipped
+        assert not broken
+
+        # Test case 2: Skip a directory
+        config.is_skipped = lambda x: "dir1" in str(x)
+        skipped = []
+        broken = []
+        result = list(find([tmpdir], config, skipped, broken))
+        assert len(result) == 2  # file2.py, file4.py
+        assert len(skipped) == 1  # dir1
+        assert not broken
+
+        # Test case 3: Non-existent path
+        skipped = []
+        broken = []
+        result = list(find([os.path.join(tmpdir, "nonexistent")], config, skipped, broken))
+        assert not result
+        assert not skipped
+        assert len(broken) == 1
+
+        # Test case 4: Single file path
+        skipped = []
+        broken = []
+        result = list(find([os.path.join(tmpdir, "file4.py")], config, skipped, broken))
+        assert len(result) == 1
+        assert not skipped
+        assert not broken
+
+        # Test case 5: Non-Python file
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        skipped = []
+        broken = []
+        result = list(find([os.path.join(tmpdir, "dir3", "file3.txt")], config, skipped, broken))
+        assert not result
+        assert not skipped
+        assert not broken
 
 
 # LLM-generated content at query #7
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Mock config object with required attributes
-    class MockConfig:
-        def __init__(self):
-            self.follow_links = False
-            self.supported_extensions = {'.py'}
-            self.skip_glob = []
-        
-        def is_supported_filetype(self, filepath):
-            return filepath.endswith('.py')
-        
-        def is_skipped(self, path):
-            return False
-    
-    config = MockConfig()
-    skipped = []
-    broken = []
-    
-    # Test with a directory containing Python files
-    test_dir = 'test_dir'
-    os.makedirs(test_dir, exist_ok=True)
-    with open(os.path.join(test_dir, 'test1.py'), 'w') as f:
-        f.write('print("test1")')
-    with open(os.path.join(test_dir, 'test2.py'), 'w') as f:
-        f.write('print("test2")')
-    
-    paths = [test_dir]
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2
-    assert all(f.endswith('.py') for f in result)
-    
-    # Clean up
-    import shutil
-    shutil.rmtree(test_dir)
-    
-    print("All tests passed!")
+def test_find():
+    import tempfile
+    from unittest.mock import MagicMock
 
-if __name__ == "__main__":
-    test_find()
+    # Setup test directory structure
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmp_dir, "skipped_dir"))
+        os.makedirs(os.path.join(tmp_dir, "included_dir"))
+        with open(os.path.join(tmp_dir, "included_dir", "test1.py"), "w") as f:
+            f.write("print('test1')")
+        with open(os.path.join(tmp_dir, "included_dir", "test2.py"), "w") as f:
+            f.write("print('test2')")
+        with open(os.path.join(tmp_dir, "included_dir", "test3.txt"), "w") as f:
+            f.write("not a python file")
+        os.makedirs(os.path.join(tmp_dir, "included_dir", "nested_dir"))
+        with open(os.path.join(tmp_dir, "included_dir", "nested_dir", "test4.py"), "w") as f:
+            f.write("print('test4')")
+        with open(os.path.join(tmp_dir, "single_file.py"), "w") as f:
+            f.write("print('single')")
+
+        # Create mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_supported_filetype = lambda path: path.endswith(".py")
+        config.is_skipped = lambda path: "skipped" in str(path)
+
+        # Test cases
+        skipped = []
+        broken = []
+        
+        # Test 1: Single directory
+        result = list(find([os.path.join(tmp_dir, "included_dir")], config, skipped, broken))
+        assert len(result) == 3  # test1.py, test2.py, test4.py
+        assert not skipped  # No skipped files should be found
+        assert not broken  # No broken paths
+
+        # Test 2: Single file
+        skipped = []
+        broken = []
+        result = list(find([os.path.join(tmp_dir, "single_file.py")], config, skipped, broken))
+        assert len(result) == 1
+        assert result[0].endswith("single_file.py")
+        assert not skipped
+        assert not broken
+
+        # Test 3: Skipped directory
+        skipped = []
+        broken = []
+        result = list(find([os.path.join(tmp_dir, "skipped_dir")], config, skipped, broken))
+        assert len(result) == 0
+        assert len(skipped) == 1  # The directory itself should be skipped
+        assert not broken
+
+        # Test 4: Non-existent path
+        skipped = []
+        broken = []
+        result = list(find([os.path.join(tmp_dir, "nonexistent")], config, skipped, broken))
+        assert len(result) == 0
+        assert len(broken) == 1
+        assert not skipped
+
+        # Test 5: Multiple paths
+        skipped = []
+        broken = []
+        result = list(find([
+            os.path.join(tmp_dir, "included_dir"),
+            os.path.join(tmp_dir, "single_file.py"),
+            os.path.join(tmp_dir, "nonexistent")
+        ], config, skipped, broken))
+        assert len(result) == 4  # 3 from included_dir + single_file.py
+        assert len(broken) == 1
+        assert not skipped  # Because we didn't include skipped_dir in paths
+
+        # Test 6: Non-Python file
+        skipped = []
+        broken = []
+        result = list(find([os.path.join(tmp_dir, "included_dir", "test3.txt")], config, skipped, broken))
+        assert len(result) == 0  # Should be filtered by is_supported_filetype
+        assert not skipped
+        assert not broken
 
 
 # LLM-generated content at query #8
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files  
-    paths = ["test_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  # Assuming there are 2 Python files in test_dir  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 2: Test with a non-existent path  
-    paths = ["non_existent_path"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 0  
-    assert skipped == []  
-    assert broken == ["non_existent_path"]  
-  
-    # Test case 3: Test with a skipped directory  
-    paths = ["skipped_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 0  
-    assert skipped == ["skipped_dir"]  
-    assert broken == []  
-  
-    # Test case 4: Test with a file path  
-    paths = ["test_file.py"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 5: Test with multiple paths  
-    paths = ["test_dir", "non_existent_path", "skipped_dir", "test_file.py"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 3  # Assuming there are 2 Python files in test_dir and 1 test_file.py  
-    assert skipped == ["skipped_dir"]  
-    assert broken == ["non_existent_path"]  
-  
-    # Test case 6: Test with follow_links set to True  
-    paths = ["test_dir"]  
-    config = Config(follow_links=True)  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  # Assuming there are 2 Python files in test_dir  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 7: Test with follow_links set to False  
-    paths = ["test_dir"]  
-    config = Config(follow_links=False)  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  # Assuming there are 2 Python files in test_dir  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 8: Test with a directory containing subdirectories  
-    paths = ["parent_dir"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 3  # Assuming there are 3 Python files in parent_dir and its subdirectories  
-    assert skipped == []  
-    assert broken == []  
-  
-    # Test case 9: Test with a directory containing a skipped subdirectory  
-    paths = ["parent_dir_with_skipped"]  
-    config = Config()  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 2  # Assuming there are 2 Python files in parent_dir_with_skipped, excluding skipped subdirectory  
-    assert skipped == ["parent_dir_with_skipped/skipped_subdir"]  
-    assert broken == []  
-  
-    # Test case 10: Test with a directory containing a broken symlink  
-    paths = ["dir_with_broken_symlink"]  
-    config = Config(follow_links=True)  
-    skipped = []  
-    broken = []  
-    result = list(find(paths, config, skipped, broken))  
-    assert len(result) == 1  # Assuming there is 1 Python file in dir_with_broken_symlink  
-    assert skipped == []  
-    assert broken == []  
-  
-    print("All test cases passed!")  
-  
-# Run the unit tests  
-test_find()
+def test_find():
+    import tempfile
+    from unittest.mock import MagicMock
+
+    # Setup test directories and files
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmp_dir, "test_dir"))
+        with open(os.path.join(tmp_dir, "test_dir", "test_file.py"), "w") as f:
+            f.write("print('Hello')")
+        os.makedirs(os.path.join(tmp_dir, "skip_dir"))
+        with open(os.path.join(tmp_dir, "skip_dir", "skip_file.py"), "w") as f:
+            f.write("print('Skipped')")
+        with open(os.path.join(tmp_dir, "single_file.py"), "w") as f:
+            f.write("print('Single')")
+
+        # Mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_skipped = lambda path: "skip" in str(path)
+        config.is_supported_filetype = lambda path: path.endswith(".py")
+
+        # Test parameters
+        skipped = []
+        broken = []
+        paths = [tmp_dir, "nonexistent_file.py"]
+
+        # Call the function
+        result = list(find(paths, config, skipped, broken))
+
+        # Assertions
+        assert len(result) == 2  # test_file.py and single_file.py
+        assert any("test_file.py" in path for path in result)
+        assert any("single_file.py" in path for path in result)
+        assert len(skipped) == 1  # skip_dir/skip_file.py
+        assert "skip_file.py" in skipped[0]
+        assert len(broken) == 1  # nonexistent_file.py
+        assert "nonexistent_file.py" in broken[0]
+
+        # Test with empty paths
+        skipped = []
+        broken = []
+        result = list(find([], config, skipped, broken))
+        assert len(result) == 0
+        assert len(skipped) == 0
+        assert len(broken) == 0
 
 
 # LLM-generated content at query #9
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Test case 1: Test with a single directory containing Python files
-    paths = ["test_dir"]
+def test_find():
+    skipped = []
+    broken = []
     config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2  # Assuming there are 2 Python files in test_dir
-    assert skipped == []
-    assert broken == []
-    
-    # Test case 2: Test with a skipped directory
-    paths = ["skipped_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 1  # Assuming skipped_dir is skipped
-    assert broken == []
-    
-    # Test case 3: Test with a non-existent path
-    paths = ["non_existent_path"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert skipped == []
-    assert len(broken) == 1  # non_existent_path is broken
-    
-    # Test case 4: Test with a mix of valid and invalid paths
-    paths = ["test_dir", "skipped_dir", "non_existent_path"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2  # Only files from test_dir are yielded
-    assert len(skipped) == 1  # skipped_dir is skipped
-    assert len(broken) == 1  # non_existent_path is broken
-    
-    # Test case 5: Test with follow_links set to True
-    paths = ["linked_dir"]
-    config = Config(follow_links=True)
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    # Assuming linked_dir contains symlinks to Python files
-    assert len(result) > 0
-    assert skipped == []
-    assert broken == []
-    
-    print("All tests passed!")
+    config.follow_links = False
+    paths = ["tests"]
+    files = list(find(paths, config, skipped, broken))
+    assert isinstance(files, list)
+    assert all(isinstance(file, str) for file in files)
+    assert len(skipped) == 0
+    assert len(broken) == 0
 
-# Run the unit tests
-test_find()
+    paths = ["nonexistent_directory"]
+    files = list(find(paths, config, skipped, broken))
+    assert len(files) == 0
+    assert len(broken) == 1
 
 
 # LLM-generated content at query #10
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    from unittest.mock import Mock
-    config = Mock(spec=Config)  
-    config.follow_links = False  
-    config.is_skipped = Mock(return_value=False)  
-    config.is_supported_filetype = Mock(return_value=True)  
-    skipped = []  
-    broken = []  
-    paths = ["test_dir"]  
-    result = list(find(paths, config, skipped, broken))  
-    assert isinstance(result, list)  
-    assert skipped == []  
-    assert broken == []
+def test_find():
+    import tempfile
+    from unittest.mock import MagicMock
 
-
-# LLM-generated content at query #11
-#--------------------------
-
-# Unit test for function find
-def test_find():  
-    # Mock config object with required attributes
-    class MockConfig:
-        def __init__(self):
-            self.follow_links = False
-            self.supported_extensions = {'.py'}
-            self.skipped_paths = set()
+    # Setup test directory structure
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmp_dir, "dir1"))
+        os.makedirs(os.path.join(tmp_dir, "dir2"))
+        os.makedirs(os.path.join(tmp_dir, "skipped_dir"))
         
-        def is_supported_filetype(self, filepath):
-            return any(filepath.endswith(ext) for ext in self.supported_extensions)
+        with open(os.path.join(tmp_dir, "file1.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmp_dir, "dir1", "file2.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmp_dir, "dir2", "file3.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmp_dir, "skipped_dir", "file4.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmp_dir, "not_python.txt"), "w") as f:
+            f.write("")
+
+        # Create mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        config.is_skipped = lambda x: "skipped" in str(x)
+
+        # Test cases
+        skipped = []
+        broken = []
         
-        def is_skipped(self, path):
-            return str(path) in self.skipped_paths
-    
-    config = MockConfig()
-    skipped = []
-    broken = []
-    
-    # Test with a directory containing Python files
-    test_dir = 'test_dir'
-    os.makedirs(test_dir, exist_ok=True)
-    with open(os.path.join(test_dir, 'test1.py'), 'w') as f:
-        f.write('print("hello")')
-    with open(os.path.join(test_dir, 'test2.txt'), 'w') as f:
-        f.write('not a python file')
-    
-    paths = [test_dir]
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1
-    assert result[0].endswith('test1.py')
-    
-    # Clean up
-    os.remove(os.path.join(test_dir, 'test1.py'))
-    os.remove(os.path.join(test_dir, 'test2.txt'))
-    os.rmdir(test_dir)
-    
-    # Test with a non-existent path
-    paths = ['non_existent_path']
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(broken) == 1
-    
+        # Test with single file
+        files = list(find([os.path.join(tmp_dir, "file1.py")], config, skipped, broken))
+        assert len(files) == 1
+        assert os.path.join(tmp_dir, "file1.py") in files
+        assert not skipped
+        assert not broken
+
+        # Test with directory
+        files = list(find([tmp_dir], config, skipped, broken))
+        assert len(files) == 3  # file1.py, dir1/file2.py, dir2/file3.py
+        assert os.path.join(tmp_dir, "file1.py") in files
+        assert os.path.join(tmp_dir, "dir1", "file2.py") in files
+        assert os.path.join(tmp_dir, "dir2", "file3.py") in files
+        assert len(skipped) == 1  # skipped_dir/file4.py
+        assert os.path.join(tmp_dir, "skipped_dir", "file4.py") in skipped[0]
+        assert not broken
+
+        # Test with non-existent file
+        broken = []
+        files = list(find([os.path.join(tmp_dir, "nonexistent.py")], config, skipped, broken))
+        assert not files
+        assert len(broken) == 1
+        assert os.path.join(tmp_dir, "nonexistent.py") in broken[0]
+
+        # Test with non-python file
+        skipped = []
+        files = list(find([os.path.join(tmp_dir, "not_python.txt")], config, skipped, broken))
+        assert not files
+        assert not skipped
+        assert len(broken) == 1  # still from previous test
+
     print("All tests passed!")
 
 if __name__ == "__main__":
     test_find()
 
 
+# LLM-generated content at query #11
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    # Mock Config class
+    class MockConfig:
+        def __init__(self, skipped_paths, supported_extensions, follow_links):
+            self.skipped_paths = skipped_paths
+            self.supported_extensions = supported_extensions
+            self.follow_links = follow_links
+
+        def is_skipped(self, path):
+            return str(path) in self.skipped_paths
+
+        def is_supported_filetype(self, filepath):
+            return any(filepath.endswith(ext) for ext in self.supported_extensions)
+
+    # Test data
+    skipped_paths = ["/path/to/skip"]
+    supported_extensions = [".py"]
+    follow_links = False
+    config = MockConfig(skipped_paths, supported_extensions, follow_links)
+    skipped = []
+    broken = []
+
+    # Test case 1: Directory with supported and unsupported files
+    paths = ["/path/to/dir"]
+    os.makedirs("/path/to/dir", exist_ok=True)
+    with open("/path/to/dir/test.py", "w") as f:
+        f.write("print('Hello, World!')")
+    with open("/path/to/dir/test.txt", "w") as f:
+        f.write("Not a Python file")
+    with open("/path/to/dir/skip.py", "w") as f:
+        f.write("This file should be skipped")
+
+    result = list(find(paths, config, skipped, broken))
+    assert "/path/to/dir/test.py" in result
+    assert "/path/to/dir/test.txt" not in result
+    assert "/path/to/dir/skip.py" not in result
+    assert "/path/to/dir/skip.py" in skipped
+
+    # Clean up
+    os.remove("/path/to/dir/test.py")
+    os.remove("/path/to/dir/test.txt")
+    os.remove("/path/to/dir/skip.py")
+    os.rmdir("/path/to/dir")
+
+    # Test case 2: Non-existent path
+    paths = ["/path/to/nonexistent"]
+    result = list(find(paths, config, skipped, broken))
+    assert "/path/to/nonexistent" in broken
+
+    # Test case 3: Single file path
+    paths = ["/path/to/file.py"]
+    with open("/path/to/file.py", "w") as f:
+        f.write("print('Single file')")
+    result = list(find(paths, config, skipped, broken))
+    assert "/path/to/file.py" in result
+
+    # Clean up
+    os.remove("/path/to/file.py")
+
+    # Test case 4: Skipped directory
+    paths = ["/path/to/skip"]
+    os.makedirs("/path/to/skip", exist_ok=True)
+    with open("/path/to/skip/test.py", "w") as f:
+        f.write("This file should be skipped")
+    result = list(find(paths, config, skipped, broken))
+    assert "/path/to/skip/test.py" not in result
+    assert "/path/to/skip/test.py" in skipped
+
+    # Clean up
+    os.remove("/path/to/skip/test.py")
+    os.rmdir("/path/to/skip")
+
+    # Test case 5: Follow links
+    config.follow_links = True
+    paths = ["/path/to/dir"]
+    os.makedirs("/path/to/dir", exist_ok=True)
+    os.symlink("/path/to/dir", "/path/to/link")
+    with open("/path/to/dir/test.py", "w") as f:
+        f.write("print('Follow links')")
+    result = list(find(paths, config, skipped, broken))
+    assert "/path/to/dir/test.py" in result
+
+    # Clean up
+    os.remove("/path/to/dir/test.py")
+    os.rmdir("/path/to/dir")
+    os.remove("/path/to/link")
+
+    print("All test cases passed")
+
+
 # LLM-generated content at query #12
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files
-    paths = ["test_dir"]
-    config = Config()
+def test_find():
+    import tempfile
+    import shutil
+
+    # Create a temporary directory
+    tmp_dir = tempfile.mkdtemp()
+
+    # Create a temporary Python file
+    tmp_file = os.path.join(tmp_dir, "test.py")
+    with open(tmp_file, "w") as f:
+        f.write("print('Hello, World!')")
+
+    # Create a temporary directory to be skipped
+    skipped_dir = os.path.join(tmp_dir, "skipped_dir")
+    os.mkdir(skipped_dir)
+
+    # Create a temporary Python file in the skipped directory
+    skipped_file = os.path.join(skipped_dir, "skipped.py")
+    with open(skipped_file, "w") as f:
+        f.write("print('Skipped!')")
+
+    # Create a Config object with the skipped directory
+    config = Config(skip=[skipped_dir])
+
+    # Lists to store skipped and broken paths
+    skipped = []
+    broken = []
+
+    # Call the find function
+    paths = [tmp_dir]
+    result = list(find(paths, config, skipped, broken))
+
+    # Assertions
+    assert tmp_file in result
+    assert skipped_file not in result
+    assert skipped_dir in skipped
+    assert skipped_file in skipped
+    assert not broken
+
+    # Clean up
+    shutil.rmtree(tmp_dir)
+
+    # Test with a non-existing path
+    non_existing_path = "/path/does/not/exist"
+    paths = [non_existing_path]
     skipped = []
     broken = []
     result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2  # Assuming there are 2 Python files in test_dir
-    assert skipped == []
-    assert broken == []
+    assert non_existing_path in broken
+    assert not result
+    assert not skipped
 
-    # Test case 2: Test with a skipped directory
-    paths = ["skipped_dir"]
-    config = Config()
+    # Test with a file directly passed as path
+    paths = [tmp_file]
     skipped = []
     broken = []
     result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 1
-    assert broken == []
+    assert tmp_file in result
+    assert not skipped
+    assert not broken
 
-    # Test case 3: Test with a non-existent path
-    paths = ["non_existent_path"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert skipped == []
-    assert len(broken) == 1
-
-    # Test case 4: Test with a single Python file
-    paths = ["test_file.py"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1
-    assert skipped == []
-    assert broken == []
-
-    # Test case 5: Test with a directory containing subdirectories
-    paths = ["parent_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 3  # Assuming there are 3 Python files in parent_dir and its subdirectories
-    assert skipped == []
-    assert broken == []
-
-    # Test case 6: Test with a directory containing a broken symlink
-    paths = ["symlink_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert skipped == []
-    assert len(broken) == 1
-
-    # Test case 7: Test with a directory containing a circular symlink
-    paths = ["circular_symlink_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert skipped == []
-    assert broken == []
-
-    # Test case 8: Test with a directory containing a file with unsupported filetype
-    paths = ["unsupported_file_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert skipped == []
-    assert broken == []
-
-    # Test case 9: Test with a directory containing a file with supported filetype but skipped
-    paths = ["skipped_file_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 1
-    assert broken == []
-
-    # Test case 10: Test with multiple paths
-    paths = ["test_dir", "test_file.py", "non_existent_path"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 3  # Assuming there are 2 Python files in test_dir and 1 test_file.py
-    assert skipped == []
-    assert len(broken) == 1
-
-    print("All test cases passed!")
-
-# Run the unit tests
-test_find()
+    # Clean up
+    os.remove(tmp_file)
 
 
 # LLM-generated content at query #13
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Test case 1: Test with a directory containing Python files
-    paths = ["test_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 2
-    assert "test_dir/file1.py" in result
-    assert "test_dir/file2.py" in result
-    assert len(skipped) == 0
-    assert len(broken) == 0
+def test_find():
+    import tempfile
+    from unittest.mock import MagicMock
 
-    # Test case 2: Test with a skipped directory
-    paths = ["skipped_dir"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 1
-    assert len(broken) == 0
+    # Setup test directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmpdir, "dir1"))
+        os.makedirs(os.path.join(tmpdir, "dir2"))
+        os.makedirs(os.path.join(tmpdir, "skipped_dir"))
+        
+        with open(os.path.join(tmpdir, "file1.py"), "w") as f:
+            f.write("print('file1')")
+        with open(os.path.join(tmpdir, "dir1", "file2.py"), "w") as f:
+            f.write("print('file2')")
+        with open(os.path.join(tmpdir, "dir2", "file3.py"), "w") as f:
+            f.write("print('file3')")
+        with open(os.path.join(tmpdir, "skipped_dir", "file4.py"), "w") as f:
+            f.write("print('file4')")
+        with open(os.path.join(tmpdir, "not_python.txt"), "w") as f:
+            f.write("not python")
 
-    # Test case 3: Test with a broken path
-    paths = ["nonexistent_path"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 0
-    assert len(broken) == 1
+        # Create mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        config.is_skipped = lambda x: "skipped" in str(x)
 
-    # Test case 4: Test with a single Python file
-    paths = ["test_file.py"]
-    config = Config()
-    skipped = []
-    broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1
-    assert result[0] == "test_file.py"
-    assert len(skipped) == 0
-    assert len(broken) == 0
+        # Test cases
+        skipped = []
+        broken = []
+        
+        # Test 1: Find all Python files
+        paths = [tmpdir]
+        result = list(find(paths, config, skipped, broken))
+        assert len(result) == 3  # file1.py, dir1/file2.py, dir2/file3.py
+        assert os.path.join(tmpdir, "file1.py") in result
+        assert os.path.join(tmpdir, "dir1", "file2.py") in result
+        assert os.path.join(tmpdir, "dir2", "file3.py") in result
+        assert len(skipped) == 1  # skipped_dir/file4.py
+        assert len(broken) == 0
 
-    print("All test cases passed!")
+        # Test 2: Non-existent path
+        skipped = []
+        broken = []
+        paths = ["/nonexistent/path"]
+        result = list(find(paths, config, skipped, broken))
+        assert len(result) == 0
+        assert len(skipped) == 0
+        assert len(broken) == 1
 
-# Run the unit test
-test_find()
+        # Test 3: Direct file path
+        skipped = []
+        broken = []
+        paths = [os.path.join(tmpdir, "file1.py")]
+        result = list(find(paths, config, skipped, broken))
+        assert len(result) == 1
+        assert result[0] == os.path.join(tmpdir, "file1.py")
+        assert len(skipped) == 0
+        assert len(broken) == 0
+
+        # Test 4: Non-Python file
+        skipped = []
+        broken = []
+        paths = [os.path.join(tmpdir, "not_python.txt")]
+        result = list(find(paths, config, skipped, broken))
+        assert len(result) == 0
+        assert len(skipped) == 0
+        assert len(broken) == 0
+
+        # Test 5: Multiple paths
+        skipped = []
+        broken = []
+        paths = [
+            os.path.join(tmpdir, "dir1"),
+            os.path.join(tmpdir, "dir2"),
+            "/nonexistent/path"
+        ]
+        result = list(find(paths, config, skipped, broken))
+        assert len(result) == 2  # dir1/file2.py, dir2/file3.py
+        assert os.path.join(tmpdir, "dir1", "file2.py") in result
+        assert os.path.join(tmpdir, "dir2", "file3.py") in result
+        assert len(skipped) == 0
+        assert len(broken) == 1
 
 
 # LLM-generated content at query #14
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Create a temporary directory structure for testing  
-    import shutil
+def test_find():
     import tempfile
+    from unittest.mock import MagicMock
 
-    from isort.settings import Config
-      
-    # Setup temporary directory  
-    tmpdir = tempfile.mkdtemp()  
-    try:  
-        # Create some test files and directories  
-        os.makedirs(os.path.join(tmpdir, "dir1"))  
-        os.makedirs(os.path.join(tmpdir, "dir2", "subdir"))  
-        os.makedirs(os.path.join(tmpdir, "skipped_dir"))  
-          
-        # Create Python files  
-        with open(os.path.join(tmpdir, "dir1", "file1.py"), "w") as f:  
-            f.write("print('hello')")  
-        with open(os.path.join(tmpdir, "dir2", "file2.py"), "w") as f:  
-            f.write("print('world')")  
-        with open(os.path.join(tmpdir, "dir2", "subdir", "file3.py"), "w") as f:  
-            f.write("print('test')")  
-        with open(os.path.join(tmpdir, "skipped_dir", "file4.py"), "w") as f:  
-            f.write("print('skipped')")  
-          
-        # Create a non-Python file  
-        with open(os.path.join(tmpdir, "dir1", "file.txt"), "w") as f:  
-            f.write("text")  
-          
-        # Test configuration  
-        config = Config(  
-            skip=[os.path.join(tmpdir, "skipped_dir")],  
-            follow_links=False,  
-            supported_extensions=[".py"],  
-        )  
-          
-        # Test find function  
-        skipped = []  
-        broken = []  
-        paths = [tmpdir]  
-          
-        result = list(find(paths, config, skipped, broken))  
-          
-        # Verify results  
-        expected_files = [  
-            os.path.join(tmpdir, "dir1", "file1.py"),  
-            os.path.join(tmpdir, "dir2", "file2.py"),  
-            os.path.join(tmpdir, "dir2", "subdir", "file3.py"),  
-        ]  
-          
-        assert sorted(result) == sorted(expected_files), f"Expected {expected_files}, got {result}"  
-        assert skipped == [os.path.join(tmpdir, "skipped_dir")], f"Expected skipped dir, got {skipped}"  
-        assert broken == [], f"Expected no broken paths, got {broken}"  
-          
-        # Test with non-existent path  
-        broken.clear()  
-        paths = [os.path.join(tmpdir, "nonexistent")]  
-        result = list(find(paths, config, skipped, broken))  
-        assert broken == [os.path.join(tmpdir, "nonexistent")], f"Expected broken path, got {broken}"  
-          
-        print("All tests passed!")  
-    finally:  
-        # Cleanup  
-        shutil.rmtree(tmpdir)  
-  
-if __name__ == "__main__":  
-    test_find()
+    # Setup test directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmpdir, "dir1"))
+        os.makedirs(os.path.join(tmpdir, "dir2"))
+        os.makedirs(os.path.join(tmpdir, "skipped_dir"))
+        
+        with open(os.path.join(tmpdir, "file1.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "dir1/file2.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "dir2/file3.txt"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "skipped_dir/file4.py"), "w") as f:
+            f.write("")
+
+        # Mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        config.is_skipped = lambda x: "skipped" in str(x)
+
+        # Test cases
+        skipped = []
+        broken = []
+        
+        # Test 1: Find all Python files in root
+        paths = [tmpdir]
+        result = list(find(paths, config, skipped, broken))
+        assert sorted(result) == sorted([
+            os.path.join(tmpdir, "file1.py"),
+            os.path.join(tmpdir, "dir1/file2.py")
+        ])
+        assert skipped == [os.path.join(tmpdir, "skipped_dir")]
+        assert broken == []
+
+        # Test 2: Find specific file
+        skipped = []
+        broken = []
+        paths = [os.path.join(tmpdir, "file1.py")]
+        result = list(find(paths, config, skipped, broken))
+        assert result == [os.path.join(tmpdir, "file1.py")]
+        assert skipped == []
+        assert broken == []
+
+        # Test 3: Non-existent file
+        skipped = []
+        broken = []
+        paths = [os.path.join(tmpdir, "nonexistent.py")]
+        result = list(find(paths, config, skipped, broken))
+        assert result == []
+        assert skipped == []
+        assert broken == [os.path.join(tmpdir, "nonexistent.py")]
+
+        # Test 4: Mixed paths
+        skipped = []
+        broken = []
+        paths = [
+            os.path.join(tmpdir, "file1.py"),
+            os.path.join(tmpdir, "nonexistent.py"),
+            os.path.join(tmpdir, "dir1")
+        ]
+        result = list(find(paths, config, skipped, broken))
+        assert sorted(result) == sorted([
+            os.path.join(tmpdir, "file1.py"),
+            os.path.join(tmpdir, "dir1/file2.py")
+        ])
+        assert skipped == []
+        assert broken == [os.path.join(tmpdir, "nonexistent.py")]
 
 
 # LLM-generated content at query #15
 #--------------------------
 
 # Unit test for function find
-def test_find():  
-    # Mock config object with required attributes
-    class MockConfig:
-        def __init__(self):
-            self.follow_links = False
-            self.supported_filetypes = ['.py']
-            self.skipped_paths = []
+def test_find():
+    """Test the find function."""
+    import tempfile
+    from unittest.mock import MagicMock
 
-        def is_supported_filetype(self, filepath):
-            return any(filepath.endswith(ft) for ft in self.supported_filetypes)
+    # Setup temporary directory structure
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmp_dir, "valid_dir"))
+        os.makedirs(os.path.join(tmp_dir, "skipped_dir"))
+        with open(os.path.join(tmp_dir, "valid_dir", "test.py"), "w") as f:
+            f.write("print('Hello')")
+        with open(os.path.join(tmp_dir, "valid_dir", "test.txt"), "w") as f:
+            f.write("Not a Python file")
+        with open(os.path.join(tmp_dir, "skipped_dir", "test.py"), "w") as f:
+            f.write("print('Skipped')")
 
-        def is_skipped(self, path):
-            return str(path) in self.skipped_paths
+        # Mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_skipped = lambda path: "skipped" in str(path)
+        config.is_supported_filetype = lambda path: path.endswith(".py")
 
-    config = MockConfig()
-    skipped = []
-    broken = []
+        # Test parameters
+        skipped = []
+        broken = []
+        paths = [os.path.join(tmp_dir, "valid_dir"), os.path.join(tmp_dir, "skipped_dir")]
 
-    # Test case 1: Directory with Python files
-    test_dir = 'test_dir'
-    os.makedirs(test_dir, exist_ok=True)
-    with open(os.path.join(test_dir, 'test1.py'), 'w') as f:
-        f.write('print("Hello")')
-    with open(os.path.join(test_dir, 'test2.txt'), 'w') as f:
-        f.write('Not a Python file')
+        # Call the function
+        result = list(find(paths, config, skipped, broken))
 
-    paths = [test_dir]
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 1
-    assert result[0].endswith('test1.py')
-    assert skipped == []
-    assert broken == []
+        # Assertions
+        assert len(result) == 1
+        assert os.path.basename(result[0]) == "test.py"
+        assert len(skipped) == 1
+        assert "skipped_dir" in skipped[0]
+        assert len(broken) == 0
 
-    # Clean up
+        # Test with non-existent path
+        broken.clear()
+        paths = ["non_existent_path"]
+        result = list(find(paths, config, skipped, broken))
+        assert len(result) == 0
+        assert len(broken) == 1
+        assert broken[0] == "non_existent_path"
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    test_find()
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    from unittest import mock
+    import pytest
+
+    # Mocking os.path.isdir and os.path.exists
+    with mock.patch('os.path.isdir') as mock_isdir, mock.patch('os.path.exists') as mock_exists, mock.patch('os.walk') as mock_walk:
+        # Example test case: Single file
+        mock_exists.return_value = True
+        mock_isdir.return_value = False
+        config = Config(supported_filetypes=['py'], skip=['skip_dir'], follow_links=False)
+        skipped = []
+        broken = []
+        paths = ['file.py']
+        result = list(find(paths, config, skipped, broken))
+        assert result == ['file.py']
+        assert skipped == []
+        assert broken == []
+
+        # Example test case: Directory with skipped file
+        mock_exists.return_value = True
+        mock_isdir.return_value = True
+        mock_walk.return_value = [('root', [], ['file.py', 'skip_file.py'])]
+        config = Config(supported_filetypes=['py'], skip=['skip_file.py'], follow_links=False)
+        skipped = []
+        broken = []
+        paths = ['root']
+        result = list(find(paths, config, skipped, broken))
+        assert result == ['root/file.py']
+        assert skipped == ['root/skip_file.py']
+        assert broken == []
+
+        # Example test case: Non-existent path
+        mock_exists.return_value = False
+        mock_isdir.return_value = False
+        config = Config(supported_filetypes=['py'], skip=[], follow_links=False)
+        skipped = []
+        broken = []
+        paths = ['non_existent_file.py']
+        result = list(find(paths, config, skipped, broken))
+        assert result == []
+        assert skipped == []
+        assert broken == ['non_existent_file.py']
+
+        # Example test case: Directory with nested skipped directory
+        mock_exists.return_value = True
+        mock_isdir.side_effect = lambda x: x == 'root' or x == 'root/skip_dir'
+        mock_walk.side_effect = [
+            ('root', ['skip_dir'], ['file.py']),
+            ('root/skip_dir', [], ['nested_file.py'])
+        ]
+        config = Config(supported_filetypes=['py'], skip=['skip_dir'], follow_links=False)
+        skipped = []
+        broken = []
+        paths = ['root']
+        result = list(find(paths, config, skipped, broken))
+        assert result == ['root/file.py']
+        assert skipped == ['root/skip_dir']
+        assert broken == []
+
+        # Example test case: Directory with nested supported file
+        mock_exists.return_value = True
+        mock_isdir.side_effect = lambda x: x == 'root' or x == 'root/nested_dir'
+        mock_walk.side_effect = [
+            ('root', ['nested_dir'], ['file.py']),
+            ('root/nested_dir', [], ['nested_file.py'])
+        ]
+        config = Config(supported_filetypes=['py'], skip=[], follow_links=False)
+        skipped = []
+        broken = []
+        paths = ['root']
+        result = list(find(paths, config, skipped, broken))
+        assert sorted(result) == sorted(['root/file.py', 'root/nested_dir/nested_file.py'])
+        assert skipped == []
+        assert broken == []
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    import tempfile
+    from unittest.mock import MagicMock
+
+    # Setup test directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmpdir, "dir1"))
+        os.makedirs(os.path.join(tmpdir, "dir2"))
+        os.makedirs(os.path.join(tmpdir, "skipped_dir"))
+        
+        with open(os.path.join(tmpdir, "file1.py"), "w") as f:
+            f.write("print('file1')")
+        with open(os.path.join(tmpdir, "dir1/file2.py"), "w") as f:
+            f.write("print('file2')")
+        with open(os.path.join(tmpdir, "dir2/file3.py"), "w") as f:
+            f.write("print('file3')")
+        with open(os.path.join(tmpdir, "skipped_dir/file4.py"), "w") as f:
+            f.write("print('file4')")
+        with open(os.path.join(tmpdir, "not_python.txt"), "w") as f:
+            f.write("not python")
+
+        # Create mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_supported_filetype = lambda path: path.endswith(".py")
+        config.is_skipped = lambda path: "skipped" in str(path)
+
+        # Test cases
+        skipped = []
+        broken = []
+        
+        # Test 1: Single file
+        result = list(find([os.path.join(tmpdir, "file1.py")], config, skipped, broken))
+        assert len(result) == 1
+        assert os.path.join(tmpdir, "file1.py") in result
+        assert not skipped
+        assert not broken
+
+        # Test 2: Directory
+        result = list(find([tmpdir], config, skipped, broken))
+        assert len(result) == 3  # file1.py, dir1/file2.py, dir2/file3.py
+        assert os.path.join(tmpdir, "file1.py") in result
+        assert os.path.join(tmpdir, "dir1/file2.py") in result
+        assert os.path.join(tmpdir, "dir2/file3.py") in result
+        assert len(skipped) == 1  # skipped_dir/file4.py
+        assert os.path.join(tmpdir, "skipped_dir/file4.py") in skipped[0]
+        assert not broken
+
+        # Test 3: Non-existent file
+        result = list(find([os.path.join(tmpdir, "nonexistent.py")], config, skipped, broken))
+        assert not result
+        assert len(broken) == 1
+        assert os.path.join(tmpdir, "nonexistent.py") in broken[0]
+
+        # Test 4: Non-Python file
+        result = list(find([os.path.join(tmpdir, "not_python.txt")], config, skipped, broken))
+        assert not result
+        assert not skipped  # Skipped list shouldn't change
+        assert not broken  # Broken list shouldn't change
+
+        # Test 5: Multiple paths
+        result = list(find([
+            os.path.join(tmpdir, "file1.py"),
+            os.path.join(tmpdir, "dir1"),
+            os.path.join(tmpdir, "nonexistent.py")
+        ], config, skipped, broken))
+        assert len(result) == 2  # file1.py and dir1/file2.py
+        assert len(broken) == 2  # nonexistent.py from this test and previous test
+        assert len(skipped) == 1  # Only skipped_dir from previous tests
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    test_find()
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    import tempfile
     import shutil
-    shutil.rmtree(test_dir)
 
-    # Test case 2: Non-existent path
-    paths = ['non_existent_path']
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert broken == ['non_existent_path']
+    # Create a temporary directory structure
+    temp_dir = tempfile.mkdtemp()
+    try:
+        # Create test files and directories
+        os.makedirs(os.path.join(temp_dir, "dir1"))
+        os.makedirs(os.path.join(temp_dir, "dir2"))
+        os.makedirs(os.path.join(temp_dir, "skipped_dir"))
+        
+        with open(os.path.join(temp_dir, "file1.py"), "w") as f:
+            f.write("print('Hello')")
+        with open(os.path.join(temp_dir, "file2.py"), "w") as f:
+            f.write("print('World')")
+        with open(os.path.join(temp_dir, "skipped_file.py"), "w") as f:
+            f.write("print('Skipped')")
+        with open(os.path.join(temp_dir, "dir1", "file3.py"), "w") as f:
+            f.write("print('Nested')")
+        with open(os.path.join(temp_dir, "dir2", "file4.txt"), "w") as f:
+            f.write("Not a Python file")
+        
+        # Create a test config
+        class TestConfig:
+            def __init__(self):
+                self.follow_links = False
+                self.skipped = {"skipped_dir", os.path.join(temp_dir, "skipped_file.py")}
+            
+            def is_skipped(self, path):
+                return str(path) in self.skipped
+            
+            def is_supported_filetype(self, filename):
+                return filename.endswith(".py")
+        
+        config = TestConfig()
+        skipped = []
+        broken = []
+        
+        # Test finding all Python files
+        paths = [temp_dir]
+        found_files = list(find(paths, config, skipped, broken))
+        
+        # Verify results
+        expected_files = [
+            os.path.join(temp_dir, "file1.py"),
+            os.path.join(temp_dir, "file2.py"),
+            os.path.join(temp_dir, "dir1", "file3.py"),
+        ]
+        
+        assert sorted(found_files) == sorted(expected_files)
+        assert skipped == [
+            os.path.join(temp_dir, "skipped_file.py"),
+            os.path.join(temp_dir, "skipped_dir"),
+        ]
+        assert broken == []
+        
+        # Test with non-existent path
+        broken = []
+        paths = [os.path.join(temp_dir, "nonexistent")]
+        found_files = list(find(paths, config, skipped, broken))
+        assert found_files == []
+        assert broken == [os.path.join(temp_dir, "nonexistent")]
+        
+        print("All tests passed!")
+    
+    finally:
+        # Clean up
+        shutil.rmtree(temp_dir)
 
-    # Test case 3: Skipped directory
-    test_dir = 'skipped_dir'
-    os.makedirs(test_dir, exist_ok=True)
-    with open(os.path.join(test_dir, 'test.py'), 'w') as f:
-        f.write('print("Skipped")')
-    config.skipped_paths = [os.path.abspath(test_dir)]
-    paths = [test_dir]
+if __name__ == "__main__":
+    test_find()
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    """Test the find function."""
+    import tempfile
+    from unittest.mock import MagicMock
+
+    # Setup test directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmpdir, "dir1"))
+        os.makedirs(os.path.join(tmpdir, "dir2"))
+        with open(os.path.join(tmpdir, "file1.py"), "w") as f:
+            f.write("print('Hello')")
+        with open(os.path.join(tmpdir, "dir1", "file2.py"), "w") as f:
+            f.write("print('World')")
+        with open(os.path.join(tmpdir, "dir2", "file3.txt"), "w") as f:
+            f.write("Not a Python file")
+
+        # Create mock config
+        config = MagicMock()
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        config.is_skipped = lambda x: False
+        config.follow_links = False
+
+        # Test finding Python files
+        skipped = []
+        broken = []
+        result = list(find([tmpdir], config, skipped, broken))
+        assert len(result) == 2
+        assert any("file1.py" in f for f in result)
+        assert any("file2.py" in f for f in result)
+        assert len(skipped) == 0
+        assert len(broken) == 0
+
+        # Test skipped files
+        config.is_skipped = lambda x: "file1.py" in str(x)
+        skipped = []
+        result = list(find([tmpdir], config, skipped, broken))
+        assert len(result) == 1
+        assert len(skipped) == 1
+
+        # Test non-existent path
+        broken = []
+        result = list(find([os.path.join(tmpdir, "nonexistent")], config, skipped, broken))
+        assert len(result) == 0
+        assert len(broken) == 1
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    test_find()
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    import tempfile
+    from isort.settings import Config
+
+    # Create a temporary directory with some files
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create some Python files and directories
+        Path(tmpdir, "file1.py").touch()
+        Path(tmpdir, "file2.py").touch()
+        Path(tmpdir, "subdir").mkdir()
+        Path(tmpdir, "subdir", "file3.py").touch()
+        Path(tmpdir, "subdir", "file4.txt").touch()  # Non-Python file
+        Path(tmpdir, "skipped_dir").mkdir()
+        Path(tmpdir, "skipped_dir", "file5.py").touch()
+        Path(tmpdir, "broken_file.py").write_text("")  # Will be marked as broken
+
+        # Create a config object
+        config = Config(skip_glob=[f"{tmpdir}/skipped_dir/**"], follow_links=False)
+
+        # Initialize skipped and broken lists
+        skipped = []
+        broken = []
+
+        # Call the find function
+        result = list(find([tmpdir], config, skipped, broken))
+
+        # Verify the results
+        assert sorted(result) == sorted([
+            os.path.join(tmpdir, "file1.py"),
+            os.path.join(tmpdir, "file2.py"),
+            os.path.join(tmpdir, "subdir", "file3.py"),
+        ])
+        assert skipped == [os.path.join(tmpdir, "skipped_dir")]
+        assert broken == []
+
+    print("All tests passed.")
+
+# Run the unit test
+test_find()
+
+
+# LLM-generated content at query #21
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    import tempfile
+    from unittest.mock import MagicMock
+
+    # Setup temporary directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmpdir, "dir1"))
+        os.makedirs(os.path.join(tmpdir, "dir2"))
+        os.makedirs(os.path.join(tmpdir, "skipped_dir"))
+        
+        with open(os.path.join(tmpdir, "file1.py"), "w") as f:
+            f.write("print('file1')")
+        with open(os.path.join(tmpdir, "dir1", "file2.py"), "w") as f:
+            f.write("print('file2')")
+        with open(os.path.join(tmpdir, "dir2", "file3.txt"), "w") as f:
+            f.write("not a python file")
+        with open(os.path.join(tmpdir, "skipped_dir", "file4.py"), "w") as f:
+            f.write("print('file4')")
+
+        # Mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        config.is_skipped = lambda x: "skipped" in str(x)
+
+        skipped = []
+        broken = []
+        
+        # Test with single file
+        result = list(find([os.path.join(tmpdir, "file1.py")], config, skipped, broken))
+        assert len(result) == 1
+        assert os.path.join(tmpdir, "file1.py") in result
+        assert not skipped
+        assert not broken
+
+        # Test with directory
+        result = list(find([tmpdir], config, skipped, broken))
+        assert len(result) == 2
+        assert os.path.join(tmpdir, "file1.py") in result
+        assert os.path.join(tmpdir, "dir1", "file2.py") in result
+        assert os.path.join(tmpdir, "skipped_dir") in skipped
+        assert not broken
+
+        # Test with non-existent file
+        result = list(find([os.path.join(tmpdir, "nonexistent.py")], config, skipped, broken))
+        assert not result
+        assert os.path.join(tmpdir, "nonexistent.py") in broken
+
+        # Test with skipped directory
+        skipped = []
+        result = list(find([os.path.join(tmpdir, "skipped_dir")], config, skipped, broken))
+        assert not result
+        assert os.path.join(tmpdir, "skipped_dir") in skipped
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    test_find()
+
+
+# LLM-generated content at query #22
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    import tempfile
+    from unittest.mock import MagicMock
+
+    # Setup test directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmpdir, "dir1"))
+        os.makedirs(os.path.join(tmpdir, "dir2"))
+        os.makedirs(os.path.join(tmpdir, "skipped_dir"))
+        with open(os.path.join(tmpdir, "file1.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "dir1", "file2.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "dir2", "file3.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "skipped_dir", "file4.py"), "w") as f:
+            f.write("")
+        with open(os.path.join(tmpdir, "file5.txt"), "w") as f:
+            f.write("")
+
+        # Create mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_supported_filetype = lambda x: x.endswith(".py")
+        config.is_skipped = lambda x: "skipped" in str(x)
+
+        skipped = []
+        broken = []
+
+        # Test with single file
+        result = list(find([os.path.join(tmpdir, "file1.py")], config, skipped, broken))
+        assert len(result) == 1
+        assert os.path.join(tmpdir, "file1.py") in result
+        assert not skipped
+        assert not broken
+
+        # Test with directory
+        result = list(find([tmpdir], config, skipped, broken))
+        assert len(result) == 3  # file1.py, dir1/file2.py, dir2/file3.py
+        assert os.path.join(tmpdir, "file1.py") in result
+        assert os.path.join(tmpdir, "dir1", "file2.py") in result
+        assert os.path.join(tmpdir, "dir2", "file3.py") in result
+        assert len(skipped) == 1  # skipped_dir
+        assert not broken
+
+        # Test with non-existent file
+        result = list(find([os.path.join(tmpdir, "nonexistent.py")], config, skipped, broken))
+        assert not result
+        assert len(broken) == 1
+
+        # Test with unsupported file type
+        result = list(find([os.path.join(tmpdir, "file5.txt")], config, skipped, broken))
+        assert not result
+        assert not skipped
+        assert not broken  # broken count shouldn't increase for existing files
+
+        # Test with skipped directory
+        skipped = []
+        result = list(find([os.path.join(tmpdir, "skipped_dir")], config, skipped, broken))
+        assert not result
+        assert len(skipped) == 1
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    test_find()
+
+
+# LLM-generated content at query #23
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    # Setup
+    paths = ["test_dir"]
+    config = Config(settings_file="")
     skipped = []
     broken = []
-    result = list(find(paths, config, skipped, broken))
-    assert len(result) == 0
-    assert len(skipped) == 1
-    assert skipped[0].endswith(test_dir)
 
-    # Clean up
-    shutil.rmtree(test_dir)
+    # Create test directory and files
+    os.makedirs("test_dir", exist_ok=True)
+    with open("test_dir/test_file.py", "w") as f:
+        f.write("print('Hello World')")
+
+    # Test finding files
+    found_files = list(find(paths, config, skipped, broken))
+    assert len(found_files) == 1
+    assert found_files[0] == "test_dir/test_file.py"
+
+    # Cleanup
+    os.remove("test_dir/test_file.py")
+    os.rmdir("test_dir")
+
+
+# LLM-generated content at query #24
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    """Test the find function."""
+    import tempfile
+    from unittest.mock import MagicMock
+
+    # Setup test directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create test files and directories
+        os.makedirs(os.path.join(tmpdir, "valid_dir"))
+        os.makedirs(os.path.join(tmpdir, "skipped_dir"))
+        with open(os.path.join(tmpdir, "valid_dir", "test.py"), "w") as f:
+            f.write("print('hello')")
+        with open(os.path.join(tmpdir, "valid_dir", "test.txt"), "w") as f:
+            f.write("not a python file")
+        with open(os.path.join(tmpdir, "skipped_dir", "test.py"), "w") as f:
+            f.write("print('skipped')")
+
+        # Create mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_skipped = lambda path: "skipped" in str(path)
+        config.is_supported_filetype = lambda path: path.endswith(".py")
+
+        # Test cases
+        skipped = []
+        broken = []
+        
+        # Test with valid directory
+        result = list(find([os.path.join(tmpdir, "valid_dir")], config, skipped, broken))
+        assert len(result) == 1
+        assert result[0].endswith("test.py")
+        assert len(skipped) == 0
+        assert len(broken) == 0
+
+        # Test with skipped directory
+        skipped = []
+        result = list(find([os.path.join(tmpdir, "skipped_dir")], config, skipped, broken))
+        assert len(result) == 0
+        assert len(skipped) == 1
+        assert skipped[0].endswith("skipped_dir")
+        assert len(broken) == 0
+
+        # Test with non-existent path
+        skipped = []
+        broken = []
+        result = list(find([os.path.join(tmpdir, "nonexistent")], config, skipped, broken))
+        assert len(result) == 0
+        assert len(skipped) == 0
+        assert len(broken) == 1
+        assert broken[0].endswith("nonexistent")
+
+        # Test with direct file path
+        skipped = []
+        broken = []
+        result = list(find([os.path.join(tmpdir, "valid_dir", "test.py")], config, skipped, broken))
+        assert len(result) == 1
+        assert result[0].endswith("test.py")
+        assert len(skipped) == 0
+        assert len(broken) == 0
+
+        # Test with unsupported file type
+        skipped = []
+        broken = []
+        result = list(find([os.path.join(tmpdir, "valid_dir", "test.txt")], config, skipped, broken))
+        assert len(result) == 0
+        assert len(skipped) == 0
+        assert len(broken) == 0
+
+    print("All tests passed!")
+
+if __name__ == "__main__":
+    test_find()
+
+
+# LLM-generated content at query #25
+#--------------------------
+
+# Unit test for function find
+def test_find():
+    """Test the find function."""
+    import tempfile
+    from unittest.mock import MagicMock
+
+    # Create a temporary directory structure
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create subdirectories and files
+        os.makedirs(os.path.join(tmpdir, "dir1"))
+        os.makedirs(os.path.join(tmpdir, "dir2"))
+        os.makedirs(os.path.join(tmpdir, "skipped_dir"))
+        
+        with open(os.path.join(tmpdir, "file1.py"), "w") as f:
+            f.write("print('Hello')")
+        with open(os.path.join(tmpdir, "file2.txt"), "w") as f:
+            f.write("Not a Python file")
+        with open(os.path.join(tmpdir, "dir1", "file3.py"), "w") as f:
+            f.write("print('World')")
+        with open(os.path.join(tmpdir, "dir2", "file4.py"), "w") as f:
+            f.write("print('Test')")
+        with open(os.path.join(tmpdir, "skipped_dir", "file5.py"), "w") as f:
+            f.write("print('Skipped')")
+
+        # Mock config
+        config = MagicMock()
+        config.follow_links = False
+        config.is_skipped = lambda path: "skipped" in str(path)
+        config.is_supported_filetype = lambda path: path.endswith(".py")
+
+        # Test parameters
+        skipped = []
+        broken = []
+        paths = [tmpdir]
+
+        # Call the function
+        result = list(find(paths, config, skipped, broken))
+
+        # Assertions
+        expected_files = [
+            os.path.join(tmpdir, "file1.py"),
+            os.path.join(tmpdir, "dir1", "file3.py"),
+            os.path.join(tmpdir, "dir2", "file4.py")
+        ]
+        assert sorted(result) == sorted(expected_files)
+        assert skipped == [os.path.join(tmpdir, "skipped_dir")]
+        assert broken == []
+
+        # Test with non-existent path
+        broken.clear()
+        paths = [os.path.join(tmpdir, "nonexistent")]
+        result = list(find(paths, config, skipped, broken))
+        assert result == []
+        assert broken == paths
 
     print("All tests passed!")
 

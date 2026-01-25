@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,168 +7,79 @@
 #--------------------------
 
 
-import typesystem.fields as module_0
-import typesystem.forms as module_1
-
+import typesystem.forms as module_0
+import typesystem.fields as module_1
 
 def test_case_0():
-    var_0 = module_0.Field()
-    var_1 = None
-    var_2 = module_1.Form(env=var_1, schema=var_1)
-    var_3 = var_2.input_type_for_field(var_0)
+    var_0 = None
+    var_1 = module_0.Form(env=var_0, schema=var_0)
+    var_2 = module_1.Field()
+    var_3 = var_1.input_type_for_field(var_2)
     assert var_3 == 'text'
-    var_4 = 'unknown'
-    var_5 = module_0.Field()
-    var_6 = var_2.input_type_for_field(var_5)
-    assert var_6 == 'text'
-    var_7 = 'email'
-    var_8 = module_0.Field()
-    var_9 = var_2.input_type_for_field(var_8)
-    assert var_9 == 'email'
-    var_10 = 'color'
-    var_11 = module_0.Field()
-    var_12 = var_2.input_type_for_field(var_11)
-    assert var_12 == 'color'
-    var_13 = 'datetime'
-    var_14 = module_0.Field()
-    var_15 = var_2.input_type_for_field(var_14)
-    assert var_15 == 'datetime-local'
-    var_16 = 'date'
-    var_17 = module_0.Field()
-    var_18 = var_2.input_type_for_field(var_17)
-    assert var_18 == 'date'
+    var_4 = 'email'
+    var_5 = module_1.String(format=var_4)
+    var_6 = var_1.input_type_for_field(var_5)
+    assert var_6 == 'email'
+    var_7 = 'datetime'
+    var_8 = module_1.String(format=var_7)
+    var_9 = var_1.input_type_for_field(var_8)
+    assert var_9 == 'datetime-local'
+    var_10 = 'date'
+    var_11 = module_1.String(format=var_10)
+    var_12 = var_1.input_type_for_field(var_11)
+    assert var_12 == 'date'
+    var_13 = 'color'
+    var_14 = module_1.String(format=var_13)
+    var_15 = var_1.input_type_for_field(var_14)
+    assert var_15 == 'color'
+    var_16 = 'hidden'
+    var_17 = module_1.String(format=var_16)
+    var_18 = var_1.input_type_for_field(var_17)
+    assert var_18 == 'hidden'
     var_19 = 'month'
-    var_20 = module_0.Field()
-    var_21 = var_2.input_type_for_field(var_20)
+    var_20 = module_1.String(format=var_19)
+    var_21 = var_1.input_type_for_field(var_20)
     assert var_21 == 'month'
     var_22 = 'number'
-    var_23 = module_0.Field()
-    var_24 = var_2.input_type_for_field(var_23)
+    var_23 = module_1.String(format=var_22)
+    var_24 = var_1.input_type_for_field(var_23)
     assert var_24 == 'number'
     var_25 = 'password'
-    var_26 = module_0.Field()
-    var_27 = var_2.input_type_for_field(var_26)
+    var_26 = module_1.String(format=var_25)
+    var_27 = var_1.input_type_for_field(var_26)
     assert var_27 == 'password'
     var_28 = 'range'
-    var_29 = module_0.Field()
-    var_30 = var_2.input_type_for_field(var_29)
+    var_29 = module_1.String(format=var_28)
+    var_30 = var_1.input_type_for_field(var_29)
     assert var_30 == 'range'
     var_31 = 'search'
-    var_32 = module_0.Field()
-    var_33 = var_2.input_type_for_field(var_32)
+    var_32 = module_1.String(format=var_31)
+    var_33 = var_1.input_type_for_field(var_32)
     assert var_33 == 'search'
     var_34 = 'tel'
-    var_35 = module_0.Field()
-    var_36 = var_2.input_type_for_field(var_35)
+    var_35 = module_1.String(format=var_34)
+    var_36 = var_1.input_type_for_field(var_35)
     assert var_36 == 'tel'
-    var_37 = 'time'
-    var_38 = module_0.Field()
-    var_39 = var_2.input_type_for_field(var_38)
-    assert var_39 == 'time'
-    var_40 = 'url'
-    var_41 = module_0.Field()
-    var_42 = var_2.input_type_for_field(var_41)
-    assert var_42 == 'url'
-    var_43 = 'week'
-    var_44 = module_0.Field()
-    var_45 = var_2.input_type_for_field(var_44)
-    assert var_45 == 'week'
-    var_46 = 'hidden'
-    var_47 = module_0.Field()
-    var_48 = var_2.input_type_for_field(var_47)
-    assert var_48 == 'hidden'
-    var_49 = 'text'
-    var_50 = module_0.Field()
-    var_51 = var_2.input_type_for_field(var_50)
+    var_37 = 'text'
+    var_38 = module_1.String(format=var_37)
+    var_39 = var_1.input_type_for_field(var_38)
+    assert var_39 == 'text'
+    var_40 = 'time'
+    var_41 = module_1.String(format=var_40)
+    var_42 = var_1.input_type_for_field(var_41)
+    assert var_42 == 'time'
+    var_43 = 'url'
+    var_44 = module_1.String(format=var_43)
+    var_45 = var_1.input_type_for_field(var_44)
+    assert var_45 == 'url'
+    var_46 = 'week'
+    var_47 = module_1.String(format=var_46)
+    var_48 = var_1.input_type_for_field(var_47)
+    assert var_48 == 'week'
+    var_49 = 'unknown'
+    var_50 = module_1.String(format=var_49)
+    var_51 = var_1.input_type_for_field(var_50)
     assert var_51 == 'text'
-    var_52 = module_0.Field()
-    var_53 = var_2.input_type_for_field(var_52)
-    assert var_53 == 'color'
-    var_54 = module_0.Field()
-    var_55 = var_2.input_type_for_field(var_54)
-    assert var_55 == 'datetime-local'
-    var_56 = module_0.Field()
-    var_57 = var_2.input_type_for_field(var_56)
-    assert var_57 == 'date'
-    var_58 = module_0.Field()
-    var_59 = var_2.input_type_for_field(var_58)
-    assert var_59 == 'month'
-    var_60 = module_0.Field()
-    var_61 = var_2.input_type_for_field(var_60)
-    assert var_61 == 'number'
-    var_62 = module_0.Field()
-    var_63 = var_2.input_type_for_field(var_62)
-    assert var_63 == 'password'
-    var_64 = module_0.Field()
-    var_65 = var_2.input_type_for_field(var_64)
-    assert var_65 == 'range'
-    var_66 = module_0.Field()
-    var_67 = var_2.input_type_for_field(var_66)
-    assert var_67 == 'search'
-    var_68 = module_0.Field()
-    var_69 = var_2.input_type_for_field(var_68)
-    assert var_69 == 'tel'
-    var_70 = module_0.Field()
-    var_71 = var_2.input_type_for_field(var_70)
-    assert var_71 == 'time'
-    var_72 = module_0.Field()
-    var_73 = var_2.input_type_for_field(var_72)
-    assert var_73 == 'url'
-    var_74 = module_0.Field()
-    var_75 = var_2.input_type_for_field(var_74)
-    assert var_75 == 'week'
-    var_76 = module_0.Field()
-    var_77 = var_2.input_type_for_field(var_76)
-    assert var_77 == 'hidden'
-    var_78 = module_0.Field()
-    var_79 = var_2.input_type_for_field(var_78)
-    assert var_79 == 'text'
-    var_80 = module_0.Field()
-    var_81 = var_2.input_type_for_field(var_80)
-    assert var_81 == 'color'
-    var_82 = module_0.Field()
-    var_83 = var_2.input_type_for_field(var_82)
-    assert var_83 == 'datetime-local'
-    var_84 = module_0.Field()
-    var_85 = var_2.input_type_for_field(var_84)
-    assert var_85 == 'date'
-    var_86 = module_0.Field()
-    var_87 = var_2.input_type_for_field(var_86)
-    assert var_87 == 'month'
-    var_88 = module_0.Field()
-    var_89 = var_2.input_type_for_field(var_88)
-    assert var_89 == 'number'
-    var_90 = module_0.Field()
-    var_91 = var_2.input_type_for_field(var_90)
-    assert var_91 == 'password'
-    var_92 = module_0.Field()
-    var_93 = var_2.input_type_for_field(var_92)
-    assert var_93 == 'range'
-    var_94 = module_0.Field()
-    var_95 = var_2.input_type_for_field(var_94)
-    assert var_95 == 'search'
-    var_96 = module_0.Field()
-    var_97 = var_2.input_type_for_field(var_96)
-    assert var_97 == 'tel'
-    var_98 = module_0.Field()
-    var_99 = var_2.input_type_for_field(var_98)
-    assert var_99 == 'time'
-    var_100 = module_0.Field()
-    var_101 = var_2.input_type_for_field(var_100)
-    assert var_101 == 'url'
-    var_102 = module_0.Field()
-    var_103 = var_2.input_type_for_field(var_102)
-    assert var_103 == 'week'
-    var_104 = module_0.Field()
-    var_105 = var_2.input_type_for_field(var_104)
-    assert var_105 == 'hidden'
-    var_106 = module_0.Field()
-    var_107 = var_2.input_type_for_field(var_106)
-    assert var_107 == 'text'
-    var_108 = module_0.Field()
-    var_109 = var_2.input_type_for_field(var_108)
-    assert var_109 == 'color'
-    var_110 = module_0.Field()
 
 
 
@@ -176,209 +87,22 @@ def test_case_0():
 #--------------------------
 
 
-import typesystem.forms as module_2
-import typesystem.schemas as module_1
-
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
 
 def test_case_0():
-    var_0 = 'name'
-    var_1 = 10
-    var_2 = module_0.String(max_length=var_1)
-    var_3 = {var_0: var_2}
-    var_4 = module_1.Schema(var_3)
-    var_5 = None
-    var_6 = module_2.Form(env=var_5, schema=var_4)
+    var_0 = 'forms/input.html'
+    var_1 = '\n        <input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" />\n        '
+    var_2 = {var_0: var_1}
+    var_3 = module_0.DictLoader(var_2)
+    var_4 = module_1.Environment(loader=var_3)
+    var_5 = 'name'
+    var_6 = 'age'
     var_7 = 'John'
-    var_8 = {var_0: var_7}
-    var_9 = var_6.validate(var_8)
-    var_10 = module_0.String(max_length=var_1)
-    var_11 = {var_0: var_10}
-    var_12 = module_1.Schema(var_11)
-    var_13 = module_2.Form(env=var_5, schema=var_12)
-    var_14 = 'John Doe'
-    var_15 = {var_0: var_14}
-    var_16 = var_13.validate(var_15)
-    var_17 = module_0.String(max_length=var_1)
-    var_18 = {var_0: var_17}
-    var_19 = module_1.Schema(var_18)
-    var_20 = module_2.Form(env=var_5, schema=var_19)
-    var_21 = {}
-    var_22 = var_20.validate(var_21)
-    var_23 = module_0.String(max_length=var_1)
-    var_24 = {var_0: var_23}
-    var_25 = module_1.Schema(var_24)
-    var_26 = module_2.Form(env=var_5, schema=var_25)
-    var_27 = 'age'
-    var_28 = 25
-    var_29 = {var_0: var_7, var_27: var_28}
-    var_30 = var_26.validate(var_29)
-    var_31 = 'person'
-    var_32 = module_0.String(max_length=var_1)
-    var_33 = {var_0: var_32}
-    var_34 = module_0.Object()
-    var_35 = {var_31: var_34}
-    var_36 = module_1.Schema(var_35)
-    var_37 = module_2.Form(env=var_5, schema=var_36)
-    var_38 = {var_0: var_7}
-    var_39 = {var_31: var_38}
-    var_40 = var_37.validate(var_39)
-    var_41 = module_0.String(max_length=var_1)
-    var_42 = {var_0: var_41}
-    var_43 = module_0.Object()
-    var_44 = {var_31: var_43}
-    var_45 = module_1.Schema(var_44)
-    var_46 = module_2.Form(env=var_5, schema=var_45)
-    var_47 = {var_0: var_14}
-    var_48 = {var_31: var_47}
-    var_49 = var_46.validate(var_48)
-    var_50 = True
-    var_51 = module_0.String(max_length=var_1)
-    var_52 = {var_0: var_51}
-    var_53 = module_1.Schema(var_52)
-    var_54 = module_2.Form(env=var_5, schema=var_53)
-    var_55 = {var_0: var_7}
-    var_56 = var_54.validate(var_55)
-    var_57 = module_0.String(max_length=var_1)
-    var_58 = {var_0: var_57}
-    var_59 = module_1.Schema(var_58)
-    var_60 = module_2.Form(env=var_5, schema=var_59)
-    var_61 = {}
-    var_62 = var_60.validate(var_61)
-    var_63 = module_0.String(max_length=var_1)
-    var_64 = {var_0: var_63}
-    var_65 = module_1.Schema(var_64)
-    var_66 = module_2.Form(env=var_5, schema=var_65)
-    var_67 = {var_0: var_5}
-    var_68 = var_66.validate(var_67)
-    var_69 = module_0.String(allow_blank=var_50, max_length=var_1)
-    var_70 = {var_0: var_69}
-    var_71 = module_1.Schema(var_70)
-    var_72 = module_2.Form(env=var_5, schema=var_71)
-    var_73 = ''
-    var_74 = {var_0: var_73}
-    var_75 = var_72.validate(var_74)
-    var_76 = 'color'
-    var_77 = 'red'
-    var_78 = 'green'
-    var_79 = 'blue'
-    var_80 = [var_77, var_78, var_79]
-    var_81 = module_0.Choice(choices=var_80)
-    var_82 = {var_76: var_81}
-    var_83 = module_1.Schema(var_82)
-    var_84 = module_2.Form(env=var_5, schema=var_83)
-    var_85 = {var_76: var_77}
-    var_86 = var_84.validate(var_85)
-    var_87 = [var_77, var_78, var_79]
-    var_88 = module_0.Choice(choices=var_87)
-    var_89 = {var_76: var_88}
-    var_90 = module_1.Schema(var_89)
-    var_91 = module_2.Form(env=var_5, schema=var_90)
-    var_92 = 'yellow'
-    var_93 = {var_76: var_92}
-    var_94 = var_91.validate(var_93)
-    var_95 = 'active'
-    var_96 = module_0.Boolean()
-    var_97 = {var_95: var_96}
-    var_98 = module_1.Schema(var_97)
-    var_99 = module_2.Form(env=var_5, schema=var_98)
-    var_100 = {var_95: var_50}
-    var_101 = var_99.validate(var_100)
-    var_102 = module_0.Boolean()
-    var_103 = {var_95: var_102}
-    var_104 = module_1.Schema(var_103)
-    var_105 = module_2.Form(env=var_5, schema=var_104)
-    var_106 = 'yes'
-    var_107 = {var_95: var_106}
-    var_108 = var_105.validate(var_107)
-    var_109 = module_0.String(max_length=var_1)
-    var_110 = 2
-    var_111 = module_0.String(max_length=var_110)
-    var_112 = {var_0: var_109, var_27: var_111}
-    var_113 = module_1.Schema(var_112)
-    var_114 = module_2.Form(env=var_5, schema=var_113)
-    var_115 = '25'
-    var_116 = {var_0: var_14, var_27: var_115}
-    var_117 = var_114.validate(var_116)
-    var_118 = module_0.String(max_length=var_1)
-    var_119 = module_0.String(max_length=var_110)
-    var_120 = {var_0: var_118, var_27: var_119}
-    var_121 = module_1.Schema(var_120)
-    var_122 = module_2.Form(env=var_5, schema=var_121)
-    var_123 = {var_0: var_7, var_27: var_115}
-    var_124 = var_122.validate(var_123)
-    var_125 = module_0.String(max_length=var_1)
-    var_126 = module_0.String(max_length=var_110)
-    var_127 = {var_0: var_125, var_27: var_126}
-    var_128 = module_0.Object()
-    var_129 = {var_31: var_128}
-    var_130 = module_1.Schema(var_129)
-    var_131 = module_2.Form(env=var_5, schema=var_130)
-    var_132 = {var_0: var_14, var_27: var_115}
-    var_133 = {var_31: var_132}
-    var_134 = var_131.validate(var_133)
-    var_135 = module_0.String(max_length=var_1)
-    var_136 = module_0.String(max_length=var_110)
-    var_137 = {var_0: var_135, var_27: var_136}
-    var_138 = module_0.Object()
-    var_139 = {var_31: var_138}
-    var_140 = module_1.Schema(var_139)
-    var_141 = module_2.Form(env=var_5, schema=var_140)
-    var_142 = {var_0: var_7, var_27: var_115}
-    var_143 = {var_31: var_142}
-    var_144 = var_141.validate(var_143)
-    var_145 = module_0.String(max_length=var_1)
-    var_146 = module_0.String(max_length=var_110)
-    var_147 = {var_0: var_145, var_27: var_146}
-    var_148 = module_0.Object()
-    var_149 = {var_31: var_148}
-    var_150 = module_1.Schema(var_149)
-    var_151 = module_2.Form(env=var_5, schema=var_150)
-    var_152 = '250'
-    var_153 = {var_0: var_7, var_27: var_152}
-    var_154 = {var_31: var_153}
-    var_155 = var_151.validate(var_154)
-    var_156 = module_0.String(max_length=var_1)
-    var_157 = module_0.String(max_length=var_110)
-    var_158 = {var_0: var_156, var_27: var_157}
-    var_159 = module_0.Object()
-    var_160 = {var_31: var_159}
-    var_161 = module_1.Schema(var_160)
-    var_162 = module_2.Form(env=var_5, schema=var_161)
-    var_163 = {var_0: var_7}
-    var_164 = {var_31: var_163}
-    var_165 = var_162.validate(var_164)
-    var_166 = module_0.String(max_length=var_1)
-    var_167 = module_0.String(max_length=var_110)
-    var_168 = {var_0: var_166, var_27: var_167}
-    var_169 = module_0.Object()
-    var_170 = {var_31: var_169}
-    var_171 = module_1.Schema(var_170)
-    var_172 = module_2.Form(env=var_5, schema=var_171)
-    var_173 = 'city'
-    var_174 = 'New York'
-    var_175 = {var_0: var_7, var_27: var_115, var_173: var_174}
-    var_176 = {var_31: var_175}
-    var_177 = var_172.validate(var_176)
-    var_178 = module_0.String(max_length=var_1)
-    var_179 = module_0.String(max_length=var_110)
-    var_180 = {var_0: var_178, var_27: var_179}
-    var_181 = module_0.Object()
-    var_182 = {var_31: var_181}
-    var_183 = module_1.Schema(var_182)
-    var_184 = module_2.Form(env=var_5, schema=var_183)
-    var_185 = {var_0: var_5, var_27: var_115}
-    var_186 = {var_31: var_185}
-    var_187 = var_184.validate(var_186)
-    var_188 = module_0.String(allow_blank=var_50, max_length=var_1)
-    var_189 = module_0.String(max_length=var_110)
-    var_190 = {var_0: var_188, var_27: var_189}
-    var_191 = module_0.Object()
-    var_192 = {var_31: var_191}
-    var_193 = module_1.Schema(var_192)
-    var_194 = module_2.Form(env=var_5, schema=var_193)
-    var_195 = {var_0: var_73, var_27: var_115}
-    var_196 = {var_31: var_195}
-    var_197 = var_194.validate(var_196)
+    var_8 = '30'
+    var_9 = {var_5: var_7, var_6: var_8}
+    var_10 = '300'
+    var_11 = {var_5: var_7, var_6: var_10}
 
 
 
@@ -386,33 +110,25 @@ def test_case_0():
 #--------------------------
 
 
-import jinja2.environment as module_0
-import typesystem.fields as module_3
-
+import typesystem.forms as module_0
+import typesystem.fields as module_1
 
 def test_case_0():
-    var_0 = module_0.Environment()
-    var_1 = module_1.Schema()
-    var_2 = module_2.Form(env=var_0, schema=var_1)
-    var_3 = module_3.Field()
-    var_4 = var_2.template_for_field(var_3)
-    assert var_4 == 'forms/input.html'
-    var_5 = module_3.Choice()
-    var_6 = var_2.template_for_field(var_5)
-    assert var_6 == 'forms/select.html'
-    var_7 = module_3.Boolean()
-    var_8 = var_2.template_for_field(var_7)
-    assert var_8 == 'forms/checkbox.html'
-    var_9 = 'text'
-    var_10 = module_3.String(format=var_9)
-    var_11 = var_2.template_for_field(var_10)
-    assert var_11 == 'forms/textarea.html'
-    var_12 = 'email'
-    var_13 = module_3.String(format=var_12)
-    var_14 = var_2.template_for_field(var_13)
-    assert var_14 == 'forms/input.html'
-    var_15 = module_3.Object()
-    var_16 = var_2.template_for_field(var_15)
+    var_0 = None
+    var_1 = module_0.Form(env=var_0, schema=var_0)
+    var_2 = module_1.Choice()
+    var_3 = var_1.template_for_field(var_2)
+    assert var_3 == 'forms/select.html'
+    var_4 = module_1.Boolean()
+    var_5 = var_1.template_for_field(var_4)
+    assert var_5 == 'forms/checkbox.html'
+    var_6 = 'text'
+    var_7 = module_1.String(format=var_6)
+    var_8 = var_1.template_for_field(var_7)
+    assert var_8 == 'forms/textarea.html'
+    var_9 = module_1.String()
+    var_10 = var_1.template_for_field(var_9)
+    assert var_10 == 'forms/input.html'
 
 
 
@@ -420,14 +136,25 @@ def test_case_0():
 #--------------------------
 
 
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
 
 def test_case_0():
-    var_0 = module_0.Environment()
-    var_1 = 'name'
-    var_2 = 'John'
-    var_3 = {var_1: var_2}
-    var_4 = 'John Doe John Doe'
-    var_5 = {var_1: var_4}
+    var_0 = 'templates'
+    var_1 = module_0.FileSystemLoader(var_0)
+    var_2 = module_1.Environment(loader=var_1)
+    var_3 = 'name'
+    var_4 = 'age'
+    var_5 = 'John Doe'
+    var_6 = '30'
+    var_7 = {var_3: var_5, var_4: var_6}
+    var_8 = 'thirty'
+    var_9 = {var_3: var_5, var_4: var_8}
+    var_10 = {var_4: var_6}
+    var_11 = 'extra'
+    var_12 = 'data'
+    var_13 = {var_3: var_5, var_4: var_6, var_11: var_12}
+    var_14 = {}
 
 
 
@@ -435,14 +162,31 @@ def test_case_0():
 #--------------------------
 
 
-import jinja2.environment as module_1
 import jinja2.loaders as module_0
-
+import jinja2.environment as module_1
 
 def test_case_0():
-    var_0 = {}
-    var_1 = module_0.DictLoader(var_0)
-    var_2 = module_1.Environment(loader=var_1)
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/textarea.html'
+    var_2 = 'forms/select.html'
+    var_3 = 'forms/checkbox.html'
+    var_4 = '<input id="{{ field_id }}" name="{{ field_name }}" type="{{ input_type }}" value="{{ value }}" />'
+    var_5 = '<textarea id="{{ field_id }}" name="{{ field_name }}">{{ value }}</textarea>'
+    var_6 = '<select id="{{ field_id }}" name="{{ field_name }}">{{ value }}</select>'
+    var_7 = '<input id="{{ field_id }}" name="{{ field_name }}" type="checkbox" {% if value %}checked{% endif %} />'
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'name'
+    var_12 = 'description'
+    var_13 = 'active'
+    var_14 = 'category'
+    var_15 = 'Test'
+    var_16 = 'Test description'
+    var_17 = True
+    var_18 = '1'
+    var_19 = {var_11: var_15, var_12: var_16, var_13: var_17, var_14: var_18}
+    var_20 = '<input id="name" name="name" type="text" value="Test" /><textarea id="description" name="description">Test description</textarea><input id="active" name="active" type="checkbox" checked /><select id="category" name="category">1</select>'
 
 
 
@@ -451,31 +195,26 @@ def test_case_0():
 
 
 import typesystem.fields as module_0
-
+import typesystem.forms as module_1
 
 def test_case_0():
-    var_0 = module_0.String()
-    var_1 = module_0.Integer()
-    var_2 = module_1.Environment()
-    var_3 = module_0.String()
-    var_4 = module_1.Environment()
-    var_5 = module_0.Integer()
-    var_6 = module_1.Environment()
-    var_7 = module_0.Integer()
-    var_8 = module_1.Environment()
-    var_9 = module_0.Integer()
-    var_10 = module_1.Environment()
-    var_11 = module_0.Integer()
-    var_12 = module_1.Environment()
-    var_13 = module_0.Integer()
-    var_14 = module_1.Environment()
-    var_15 = module_0.Integer()
-    var_16 = module_1.Environment()
-    var_17 = module_0.Boolean()
-    var_18 = module_0.Integer()
-    var_19 = module_1.Environment()
-    var_20 = module_0.Integer()
-    var_21 = module_1.Environment()
+    var_0 = module_0.Field()
+    var_1 = None
+    var_2 = module_1.Form(env=var_1, schema=var_1)
+    var_3 = var_2.input_type_for_field(var_0)
+    assert var_3 == 'text'
+    var_4 = 'email'
+    var_5 = module_0.String(format=var_4)
+    var_6 = var_2.input_type_for_field(var_5)
+    assert var_6 == 'email'
+    var_7 = 'unknown'
+    var_8 = module_0.String(format=var_7)
+    var_9 = var_2.input_type_for_field(var_8)
+    assert var_9 == 'text'
+    var_10 = 'datetime'
+    var_11 = module_0.String(format=var_10)
+    var_12 = var_2.input_type_for_field(var_11)
+    assert var_12 == 'datetime-local'
 
 
 
@@ -483,195 +222,23 @@ def test_case_0():
 #--------------------------
 
 
-import typesystem.schemas as module_1
-
+import typesystem.forms as module_0
+import typesystem.fields as module_1
 
 def test_case_0():
-    var_0 = 'name'
-    var_1 = module_0.String()
-    var_2 = {var_0: var_1}
-    var_3 = module_1.Schema(var_2)
-    var_4 = None
-    var_5 = module_2.Form(env=var_4, schema=var_3, values=var_4)
-    var_6 = var_5.validate()
-    var_7 = var_5.render_fields()
-    var_8 = module_0.String()
-    var_9 = {var_0: var_8}
-    var_10 = module_1.Schema(var_9)
-    var_11 = module_2.Form(env=var_4, schema=var_10, values=var_4)
-    var_12 = ''
-    var_13 = {var_0: var_12}
-    var_14 = var_11.validate(var_13)
-    var_15 = var_11.render_fields()
-    var_16 = module_0.String()
-    var_17 = {var_0: var_16}
-    var_18 = module_1.Schema(var_17)
-    var_19 = 'John'
-    var_20 = {var_0: var_19}
-    var_21 = module_2.Form(env=var_4, schema=var_18, values=var_20)
-    var_22 = var_21.validate()
-    var_23 = var_21.render_fields()
-    var_24 = module_0.String()
-    var_25 = {var_0: var_24}
-    var_26 = module_1.Schema(var_25)
-    var_27 = {var_0: var_19}
-    var_28 = module_2.Form(env=var_4, schema=var_26, values=var_27)
-    var_29 = {var_0: var_12}
-    var_30 = var_28.validate(var_29)
-    var_31 = var_28.render_fields()
-    var_32 = True
-    var_33 = module_0.String()
-    var_34 = {var_0: var_33}
-    var_35 = module_1.Schema(var_34)
-    var_36 = module_2.Form(env=var_4, schema=var_35, values=var_4)
-    var_37 = var_36.validate()
-    var_38 = var_36.render_fields()
-    var_39 = module_0.String()
-    var_40 = {var_0: var_39}
-    var_41 = module_1.Schema(var_40)
-    var_42 = module_2.Form(env=var_4, schema=var_41, values=var_4)
-    var_43 = var_42.validate()
-    var_44 = var_42.render_fields()
-    var_45 = module_0.String()
-    var_46 = {var_0: var_45}
-    var_47 = module_1.Schema(var_46)
-    var_48 = module_2.Form(env=var_4, schema=var_47, values=var_4)
-    var_49 = var_48.validate()
-    var_50 = var_48.render_fields()
-    var_51 = module_0.String(allow_blank=var_32)
-    var_52 = {var_0: var_51}
-    var_53 = module_1.Schema(var_52)
-    var_54 = module_2.Form(env=var_4, schema=var_53, values=var_4)
-    var_55 = var_54.validate()
-    var_56 = var_54.render_fields()
-    var_57 = module_0.String()
-    var_58 = {var_0: var_57}
-    var_59 = module_1.Schema(var_58)
-    var_60 = module_2.Form(env=var_4, schema=var_59, values=var_4)
-    var_61 = var_60.validate()
-    var_62 = var_60.render_fields()
-    var_63 = module_0.String()
-    var_64 = {var_0: var_63}
-    var_65 = module_1.Schema(var_64)
-    var_66 = module_2.Form(env=var_4, schema=var_65, values=var_4)
-    var_67 = var_66.validate()
-    var_68 = var_66.render_fields()
-    var_69 = 'Full Name'
-    var_70 = module_0.String()
-    var_71 = {var_0: var_70}
-    var_72 = module_1.Schema(var_71)
-    var_73 = module_2.Form(env=var_4, schema=var_72, values=var_4)
-    var_74 = var_73.validate()
-    var_75 = var_73.render_fields()
-    var_76 = module_0.String()
-    var_77 = {var_0: var_76}
-    var_78 = module_1.Schema(var_77)
-    var_79 = module_2.Form(env=var_4, schema=var_78, values=var_4)
-    var_80 = var_79.validate()
-    var_81 = var_79.render_fields()
-    var_82 = 'email'
-    var_83 = module_0.String(format=var_82)
-    var_84 = {var_82: var_83}
-    var_85 = module_1.Schema(var_84)
-    var_86 = module_2.Form(env=var_4, schema=var_85, values=var_4)
-    var_87 = var_86.validate()
-    var_88 = var_86.render_fields()
-    var_89 = module_0.String()
-    var_90 = {var_0: var_89}
-    var_91 = module_1.Schema(var_90)
-    var_92 = module_2.Form(env=var_4, schema=var_91, values=var_4)
-    var_93 = var_92.validate()
-    var_94 = var_92.render_fields()
-    var_95 = 'unknown'
-    var_96 = module_0.String(format=var_95)
-    var_97 = {var_0: var_96}
-    var_98 = module_1.Schema(var_97)
-    var_99 = module_2.Form(env=var_4, schema=var_98, values=var_4)
-    var_100 = var_99.validate()
-    var_101 = var_99.render_fields()
-    var_102 = 'color'
-    var_103 = module_0.String(format=var_102)
-    var_104 = {var_102: var_103}
-    var_105 = module_1.Schema(var_104)
-    var_106 = module_2.Form(env=var_4, schema=var_105, values=var_4)
-    var_107 = var_106.validate()
-    var_108 = var_106.render_fields()
-    var_109 = 'datetime'
-    var_110 = module_0.String(format=var_109)
-    var_111 = {var_109: var_110}
-    var_112 = module_1.Schema(var_111)
-    var_113 = module_2.Form(env=var_4, schema=var_112, values=var_4)
-    var_114 = var_113.validate()
-    var_115 = var_113.render_fields()
-    var_116 = 'date'
-    var_117 = module_0.String(format=var_116)
-    var_118 = {var_116: var_117}
-    var_119 = module_1.Schema(var_118)
-    var_120 = module_2.Form(env=var_4, schema=var_119, values=var_4)
-    var_121 = var_120.validate()
-    var_122 = var_120.render_fields()
-    var_123 = module_0.String(format=var_82)
-    var_124 = {var_82: var_123}
-    var_125 = module_1.Schema(var_124)
-    var_126 = module_2.Form(env=var_4, schema=var_125, values=var_4)
-    var_127 = var_126.validate()
-    var_128 = var_126.render_fields()
-    var_129 = 'hidden'
-    var_130 = module_0.String(format=var_129)
-    var_131 = {var_129: var_130}
-    var_132 = module_1.Schema(var_131)
-    var_133 = module_2.Form(env=var_4, schema=var_132, values=var_4)
-    var_134 = var_133.validate()
-    var_135 = var_133.render_fields()
-    var_136 = 'month'
-    var_137 = module_0.String(format=var_136)
-    var_138 = {var_136: var_137}
-    var_139 = module_1.Schema(var_138)
-    var_140 = module_2.Form(env=var_4, schema=var_139, values=var_4)
-    var_141 = var_140.validate()
-    var_142 = var_140.render_fields()
-    var_143 = 'number'
-    var_144 = module_0.String(format=var_143)
-    var_145 = {var_143: var_144}
-    var_146 = module_1.Schema(var_145)
-    var_147 = module_2.Form(env=var_4, schema=var_146, values=var_4)
-    var_148 = var_147.validate()
-    var_149 = var_147.render_fields()
-    var_150 = 'password'
-    var_151 = module_0.String(format=var_150)
-    var_152 = {var_150: var_151}
-    var_153 = module_1.Schema(var_152)
-    var_154 = module_2.Form(env=var_4, schema=var_153, values=var_4)
-    var_155 = var_154.validate()
-    var_156 = var_154.render_fields()
-    var_157 = 'range'
-    var_158 = module_0.String(format=var_157)
-    var_159 = {var_157: var_158}
-    var_160 = module_1.Schema(var_159)
-    var_161 = module_2.Form(env=var_4, schema=var_160, values=var_4)
-    var_162 = var_161.validate()
-    var_163 = var_161.render_fields()
-    var_164 = 'search'
-    var_165 = module_0.String(format=var_164)
-    var_166 = {var_164: var_165}
-    var_167 = module_1.Schema(var_166)
-    var_168 = module_2.Form(env=var_4, schema=var_167, values=var_4)
-    var_169 = var_168.validate()
-    var_170 = var_168.render_fields()
-    var_171 = 'tel'
-    var_172 = module_0.String(format=var_171)
-    var_173 = {var_171: var_172}
-    var_174 = module_1.Schema(var_173)
-    var_175 = module_2.Form(env=var_4, schema=var_174, values=var_4)
-    var_176 = var_175.validate()
-    var_177 = var_175.render_fields()
-    var_178 = 'text'
-    var_179 = module_0.String(format=var_178)
-    var_180 = {var_178: var_179}
-    var_181 = module_1.Schema(var_180)
-    var_182 = module_2.Form(env=var_4, schema=var_181, values=var_4)
-    var_183 = var_182.validate()
-    var_184 = var_182.render_fields()
+    var_0 = None
+    var_1 = module_0.Form(env=var_0, schema=var_0)
+    var_2 = 'email'
+    var_3 = module_1.String(format=var_2)
+    var_4 = var_1.input_type_for_field(var_3)
+    assert var_4 == 'email'
+    var_5 = 'unknown'
+    var_6 = module_1.String(format=var_5)
+    var_7 = var_1.input_type_for_field(var_6)
+    assert var_7 == 'text'
+    var_8 = module_1.String()
+    var_9 = var_1.input_type_for_field(var_8)
+    assert var_9 == 'text'
 
 
 
@@ -679,21 +246,11 @@ def test_case_0():
 #--------------------------
 
 
-import jinja2.environment as module_1
-import jinja2.loaders as module_0
-
+import typesystem.forms as module_0
 
 def test_case_0():
-    var_0 = {}
-    var_1 = module_0.DictLoader(var_0)
-    var_2 = module_1.Environment(loader=var_1)
-    var_3 = 'name'
-    var_4 = 'email'
-    var_5 = 'age'
-    var_6 = 'password'
-    var_7 = 'bio'
-    var_8 = 'agree'
-    var_9 = 'color'
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
 
 
 
@@ -701,14 +258,81 @@ def test_case_0():
 #--------------------------
 
 
-import typesystem.fields as module_2
-import typesystem.forms as module_4
-import typesystem.schemas as module_3
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}">'
+    var_2 = {var_0: var_1}
+    var_3 = module_0.DictLoader(var_2)
+    var_4 = module_1.Environment(loader=var_3)
+    var_5 = 'name'
+    var_6 = 'Test'
+    var_7 = {var_5: var_6}
+
+
+
+# Parsed testcases at query #10
+#--------------------------
+
+
+import typesystem.fields as module_0
+import typesystem.schemas as module_1
+import jinja2.environment as module_2
+import typesystem.forms as module_3
+
+def test_case_0():
+    var_0 = 'name'
+    var_1 = module_0.String()
+    var_2 = {var_0: var_1}
+    var_3 = module_1.Schema(var_2)
+    var_4 = module_2.Environment()
+    var_5 = module_3.Form(env=var_4, schema=var_3)
+    var_6 = var_5.__html__()
+    var_7 = True
+    var_8 = module_0.String()
+    var_9 = {var_0: var_8}
+    var_10 = module_1.Schema(var_9)
+    var_11 = module_2.Environment()
+    var_12 = module_3.Form(env=var_11, schema=var_10)
+    var_13 = {}
+    var_14 = var_12.validate(var_13)
+    var_15 = var_12.__html__()
+    var_16 = 'user'
+    var_17 = module_0.String()
+    var_18 = {var_0: var_17}
+    var_19 = module_0.Object(properties=var_18)
+    var_20 = {var_16: var_19}
+    var_21 = module_1.Schema(var_20)
+    var_22 = module_2.Environment()
+    var_23 = module_3.Form(env=var_22, schema=var_21)
+    var_24 = var_23.__html__()
+
+
+
+# Parsed testcases at query #11
+#--------------------------
 
 
 def test_case_0():
-    var_0 = {}
-    var_1 = module_0.DictLoader(var_0)
+    pass
+
+
+
+# Parsed testcases at query #12
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = '.'
+    var_1 = module_0.FileSystemLoader(var_0)
     var_2 = module_1.Environment(loader=var_1)
     var_3 = 'name'
     var_4 = 'Name'
@@ -717,382 +341,8 @@ def test_case_0():
     var_7 = module_3.Schema(var_6)
     var_8 = module_4.Form(env=var_2, schema=var_7)
     var_9 = module_2.String()
-    var_10 = var_8.render_field(field_name=var_3, field=var_9)
-    assert var_10 == ''
-    var_11 = {}
-    var_12 = module_0.DictLoader(var_11)
-    var_13 = module_1.Environment(loader=var_12)
-    var_14 = module_2.String()
-    var_15 = {var_3: var_14}
-    var_16 = module_3.Schema(var_15)
-    var_17 = module_4.Form(env=var_13, schema=var_16)
-    var_18 = ''
-    var_19 = {var_3: var_18}
-    var_20 = var_17.validate(var_19)
-    var_21 = module_2.String()
-    var_22 = 'This field is required.'
-    var_23 = var_17.render_field(field_name=var_3, field=var_21, value=var_18, error=var_22)
-    assert var_23 == ''
-    var_24 = {}
-    var_25 = module_0.DictLoader(var_24)
-    var_26 = module_1.Environment(loader=var_25)
-    var_27 = 'password'
-    var_28 = 'Password'
-    var_29 = module_2.String(format=var_27)
-    var_30 = {var_27: var_29}
-    var_31 = module_3.Schema(var_30)
-    var_32 = module_4.Form(env=var_26, schema=var_31)
-    var_33 = module_2.String(format=var_27)
-    var_34 = 'secret'
-    var_35 = var_32.render_field(field_name=var_27, field=var_33, value=var_34)
-    assert var_35 == ''
-    var_36 = {}
-    var_37 = module_0.DictLoader(var_36)
-    var_38 = module_1.Environment(loader=var_37)
-    var_39 = 'description'
-    var_40 = 'Description'
-    var_41 = 'text'
-    var_42 = module_2.String(format=var_41)
-    var_43 = {var_39: var_42}
-    var_44 = module_3.Schema(var_43)
-    var_45 = module_4.Form(env=var_38, schema=var_44)
-    var_46 = module_2.String(format=var_41)
-    var_47 = 'Some description'
-    var_48 = var_45.render_field(field_name=var_39, field=var_46, value=var_47)
-    assert var_48 == ''
-    var_49 = {}
-    var_50 = module_0.DictLoader(var_49)
-    var_51 = module_1.Environment(loader=var_50)
-    var_52 = 'choice'
-    var_53 = 'Choice'
-    var_54 = 'a'
-    var_55 = 'A'
-    var_56 = (var_54, var_55)
-    var_57 = 'b'
-    var_58 = 'B'
-    var_59 = (var_57, var_58)
-    var_60 = [var_56, var_59]
-    var_61 = module_2.Choice(choices=var_60)
-    var_62 = {var_52: var_61}
-    var_63 = module_3.Schema(var_62)
-    var_64 = module_4.Form(env=var_51, schema=var_63)
-    var_65 = (var_54, var_55)
-    var_66 = (var_57, var_58)
-    var_67 = [var_65, var_66]
-    var_68 = module_2.Choice(choices=var_67)
-    var_69 = var_64.render_field(field_name=var_52, field=var_68, value=var_54)
-    assert var_69 == ''
-    var_70 = {}
-    var_71 = module_0.DictLoader(var_70)
-    var_72 = module_1.Environment(loader=var_71)
-    var_73 = 'agree'
-    var_74 = 'Agree'
-    var_75 = module_2.Boolean()
-    var_76 = {var_73: var_75}
-    var_77 = module_3.Schema(var_76)
-    var_78 = module_4.Form(env=var_72, schema=var_77)
-    var_79 = module_2.Boolean()
-    var_80 = True
-    var_81 = var_78.render_field(field_name=var_73, field=var_79, value=var_80)
-    assert var_81 == ''
-    var_82 = {}
-    var_83 = module_0.DictLoader(var_82)
-    var_84 = module_1.Environment(loader=var_83)
-    var_85 = False
-    var_86 = module_2.String()
-    var_87 = {var_3: var_86}
-    var_88 = module_3.Schema(var_87)
-    var_89 = module_4.Form(env=var_84, schema=var_88)
-    var_90 = module_2.String()
-    var_91 = var_89.render_field(field_name=var_3, field=var_90)
-    assert var_91 == ''
-    var_92 = {}
-    var_93 = module_0.DictLoader(var_92)
-    var_94 = module_1.Environment(loader=var_93)
-    var_95 = module_2.String()
-    var_96 = {var_3: var_95}
-    var_97 = module_3.Schema(var_96)
-    var_98 = module_4.Form(env=var_94, schema=var_97)
-    var_99 = module_2.String()
-    var_100 = var_98.render_field(field_name=var_3, field=var_99)
-    assert var_100 == ''
-    var_101 = {}
-    var_102 = module_0.DictLoader(var_101)
-    var_103 = module_1.Environment(loader=var_102)
-    var_104 = module_2.String(allow_blank=var_80)
-    var_105 = {var_3: var_104}
-    var_106 = module_3.Schema(var_105)
-    var_107 = module_4.Form(env=var_103, schema=var_106)
-    var_108 = module_2.String(allow_blank=var_80)
-    var_109 = var_107.render_field(field_name=var_3, field=var_108)
-    assert var_109 == ''
-    var_110 = {}
-    var_111 = module_0.DictLoader(var_110)
-    var_112 = module_1.Environment(loader=var_111)
-    var_113 = 'John'
-    var_114 = module_2.String()
-    var_115 = {var_3: var_114}
-    var_116 = module_3.Schema(var_115)
-    var_117 = module_4.Form(env=var_112, schema=var_116)
-    var_118 = module_2.String()
-    var_119 = var_117.render_field(field_name=var_3, field=var_118)
-    assert var_119 == ''
-
-
-
-# Parsed testcases at query #10
-#--------------------------
-
-
-import jinja2.environment as module_0
-import typesystem.fields as module_3
-import typesystem.forms as module_2
-import typesystem.schemas as module_1
-
-
-def test_case_0():
-    var_0 = module_0.Environment()
-    var_1 = module_1.Schema()
-    var_2 = module_2.Form(env=var_0, schema=var_1)
-    var_3 = module_3.Field()
-    var_4 = var_2.template_for_field(var_3)
-    assert var_4 == 'forms/input.html'
-    var_5 = module_3.Choice()
-    var_6 = var_2.template_for_field(var_5)
-    assert var_6 == 'forms/select.html'
-    var_7 = module_3.Boolean()
-    var_8 = var_2.template_for_field(var_7)
-    assert var_8 == 'forms/checkbox.html'
-    var_9 = 'text'
-    var_10 = module_3.String(format=var_9)
-    var_11 = var_2.template_for_field(var_10)
-    assert var_11 == 'forms/textarea.html'
-    var_12 = 'email'
-    var_13 = module_3.String(format=var_12)
-    var_14 = var_2.template_for_field(var_13)
-    assert var_14 == 'forms/input.html'
-    var_15 = module_3.Object()
-    var_16 = var_2.template_for_field(var_15)
-
-
-
-# Parsed testcases at query #11
-#--------------------------
-
-
-import jinja2.environment as module_1
-import jinja2.loaders as module_0
-import typesystem.fields as module_2
-import typesystem.schemas as module_3
-
-
-def test_case_0():
-    var_0 = 'forms/input.html'
-    var_1 = 'forms/textarea.html'
-    var_2 = 'forms/checkbox.html'
-    var_3 = 'forms/select.html'
-    var_4 = '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" />'
-    var_5 = '<textarea name="{{ field_name }}">{{ value }}</textarea>'
-    var_6 = '<input type="checkbox" name="{{ field_name }}" {% if value %}checked{% endif %} />'
-    var_7 = '<select name="{{ field_name }}"><option value="{{ value }}">{{ value }}</option></select>'
-    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
-    var_9 = module_0.DictLoader(var_8)
-    var_10 = module_1.Environment(loader=var_9)
-    var_11 = 'name'
-    var_12 = 'description'
-    var_13 = 'active'
-    var_14 = 'choice'
-    var_15 = 'Name'
-    var_16 = module_2.String()
-    var_17 = 'Description'
-    var_18 = 'text'
-    var_19 = module_2.String(format=var_18)
-    var_20 = 'Active'
-    var_21 = module_2.Boolean()
-    var_22 = 'Choice'
-    var_23 = 'option1'
-    var_24 = 'Option 1'
-    var_25 = (var_23, var_24)
-    var_26 = 'option2'
-    var_27 = 'Option 2'
-    var_28 = (var_26, var_27)
-    var_29 = [var_25, var_28]
-    var_30 = module_2.Choice(choices=var_29)
-    var_31 = {var_11: var_16, var_12: var_19, var_13: var_21, var_14: var_30}
-    var_32 = module_3.Schema(var_31)
-    var_33 = module_4.Form(env=var_10, schema=var_32)
-    var_34 = var_32.fields[var_11]
-    var_35 = 'John'
-    var_36 = var_33.render_field(field_name=var_11, field=var_34, value=var_35)
-    assert var_36 == '<input type="text" name="name" value="John" />'
-    var_37 = var_32.fields[var_12]
-    var_38 = 'Some description'
-    var_39 = var_33.render_field(field_name=var_12, field=var_37, value=var_38)
-    assert var_39 == '<textarea name="description">Some description</textarea>'
-    var_40 = var_32.fields[var_13]
-    var_41 = True
-    var_42 = var_33.render_field(field_name=var_13, field=var_40, value=var_41)
-    assert var_42 == '<input type="checkbox" name="active" checked />'
-    var_43 = var_32.fields[var_14]
-    var_44 = var_33.render_field(field_name=var_14, field=var_43, value=var_23)
-    assert var_44 == '<select name="choice"><option value="option1">option1</option></select>'
-    var_45 = var_32.fields[var_11]
-    var_46 = 'Invalid name'
-    var_47 = var_33.render_field(field_name=var_11, field=var_45, value=var_35, error=var_46)
-    assert var_47 == '<input type="text" name="name" value="John" />'
-    var_48 = var_32.fields[var_11]
-    var_49 = var_33.render_field(field_name=var_11, field=var_48)
-    assert var_49 == '<input type="text" name="name" value="" />'
-    var_50 = 'Password'
-    var_51 = 'password'
-    var_52 = module_2.String(format=var_51)
-    var_53 = 'secret'
-    var_54 = var_33.render_field(field_name=var_51, field=var_52, value=var_53)
-    assert var_54 == '<input type="password" name="password" value="" />'
-    var_55 = 'Email'
-    var_56 = 'email'
-    var_57 = module_2.String(format=var_56)
-    var_58 = 'test@example.com'
-    var_59 = var_33.render_field(field_name=var_56, field=var_57, value=var_58)
-    assert var_59 == '<input type="email" name="email" value="test@example.com" />'
-    var_60 = 'Required'
-    var_61 = False
-    var_62 = module_2.String()
-    var_63 = 'required'
-    var_64 = var_33.render_field(field_name=var_63, field=var_62)
-    var_65 = 'Optional'
-    var_66 = module_2.String()
-    var_67 = 'optional'
-    var_68 = var_33.render_field(field_name=var_67, field=var_66)
-    var_69 = 'Default'
-    var_70 = 'default_value'
-    var_71 = module_2.String()
-    var_72 = 'default'
-    var_73 = var_33.render_field(field_name=var_72, field=var_71)
-    var_74 = 'Blank'
-    var_75 = module_2.String(allow_blank=var_41)
-    var_76 = 'blank'
-    var_77 = var_33.render_field(field_name=var_76, field=var_75)
-    var_78 = 'NullableBlank'
-    var_79 = module_2.String(allow_blank=var_41)
-    var_80 = 'nullable_blank'
-    var_81 = var_33.render_field(field_name=var_80, field=var_79)
-    var_82 = 'Strict'
-    var_83 = module_2.String(allow_blank=var_61)
-    var_84 = 'strict'
-    var_85 = var_33.render_field(field_name=var_84, field=var_83)
-    var_86 = 'Custom'
-    var_87 = 'custom'
-    var_88 = module_2.String(format=var_87)
-    var_89 = var_33.render_field(field_name=var_87, field=var_88)
-    assert var_89 == '<input type="text" name="custom" value="" />'
-    var_90 = 'Date'
-    var_91 = 'date'
-    var_92 = module_2.String(format=var_91)
-    var_93 = '2023-01-01'
-    var_94 = var_33.render_field(field_name=var_91, field=var_92, value=var_93)
-    assert var_94 == '<input type="date" name="date" value="2023-01-01" />'
-    var_95 = 'DateTime'
-    var_96 = 'datetime'
-    var_97 = module_2.String(format=var_96)
-    var_98 = '2023-01-01T12:00'
-    var_99 = var_33.render_field(field_name=var_96, field=var_97, value=var_98)
-    assert var_99 == '<input type="datetime-local" name="datetime" value="2023-01-01T12:00" />'
-    var_100 = 'NonString'
-    var_101 = module_2.Boolean()
-    var_102 = 'non_string'
-    var_103 = var_33.render_field(field_name=var_102, field=var_101)
-    assert var_103 == '<input type="checkbox" name="non_string"  />'
-    var_104 = 'NonStringWithFormat'
-    var_105 = module_2.Boolean()
-    var_106 = 'non_string_with_format'
-    var_107 = var_33.render_field(field_name=var_106, field=var_105)
-    assert var_107 == '<input type="checkbox" name="non_string_with_format"  />'
-    var_108 = 'NoFormat'
-    var_109 = None
-    var_110 = module_2.String(format=var_109)
-    var_111 = 'no_format'
-    var_112 = var_33.render_field(field_name=var_111, field=var_110)
-    assert var_112 == '<input type="text" name="no_format" value="" />'
-    var_113 = 'EmptyFormat'
-    var_114 = ''
-    var_115 = module_2.String(format=var_114)
-    var_116 = 'empty_format'
-    var_117 = var_33.render_field(field_name=var_116, field=var_115)
-    assert var_117 == '<input type="text" name="empty_format" value="" />'
-    var_118 = 'WhitespaceFormat'
-    var_119 = ' '
-    var_120 = module_2.String(format=var_119)
-    var_121 = 'whitespace_format'
-    var_122 = var_33.render_field(field_name=var_121, field=var_120)
-    assert var_122 == '<input type="text" name="whitespace_format" value="" />'
-    var_123 = 'NumberFormat'
-    var_124 = 123
-    var_125 = module_2.String(format=var_124)
-    var_126 = 'number_format'
-    var_127 = var_33.render_field(field_name=var_126, field=var_125)
-    assert var_127 == '<input type="text" name="number_format" value="" />'
-    var_128 = 'BoolFormat'
-    var_129 = module_2.String(format=var_41)
-    var_130 = 'bool_format'
-    var_131 = var_33.render_field(field_name=var_130, field=var_129)
-    assert var_131 == '<input type="text" name="bool_format" value="" />'
-    var_132 = 'ListFormat'
-    var_133 = [var_18, var_56]
-    var_134 = module_2.String(format=var_133)
-    var_135 = 'list_format'
-    var_136 = var_33.render_field(field_name=var_135, field=var_134)
-    assert var_136 == '<input type="text" name="list_format" value="" />'
-    var_137 = 'DictFormat'
-    var_138 = 'type'
-    var_139 = {var_138: var_18}
-    var_140 = module_2.String(format=var_139)
-    var_141 = 'dict_format'
-    var_142 = var_33.render_field(field_name=var_141, field=var_140)
-    assert var_142 == '<input type="text" name="dict_format" value="" />'
-    assert var_142 == '<input type="text" name="func_format" value="" />'
-    assert var_142 == '<input type="text" name="class_format" value="" />'
-    var_143 = 'FuncFormat'
-    var_144 = 'func_format'
-    var_145 = 'ClassFormat'
-    var_146 = 'class_format'
-    var_147 = 'InstanceFormat'
-
-
-
-# Parsed testcases at query #12
-#--------------------------
-
-
-import jinja2.environment as module_0
-import typesystem.fields as module_3
-import typesystem.forms as module_2
-import typesystem.schemas as module_1
-
-
-def test_case_0():
-    var_0 = module_0.Environment()
-    var_1 = module_1.Schema()
-    var_2 = module_2.Form(env=var_0, schema=var_1)
-    var_3 = module_3.Field()
-    var_4 = var_2.template_for_field(var_3)
-    assert var_4 == 'forms/input.html'
-    var_5 = module_3.Choice()
-    var_6 = var_2.template_for_field(var_5)
-    assert var_6 == 'forms/select.html'
-    var_7 = module_3.Boolean()
-    var_8 = var_2.template_for_field(var_7)
-    assert var_8 == 'forms/checkbox.html'
-    var_9 = 'text'
-    var_10 = module_3.String(format=var_9)
-    var_11 = var_2.template_for_field(var_10)
-    assert var_11 == 'forms/textarea.html'
-    var_12 = 'email'
-    var_13 = module_3.String(format=var_12)
-    var_14 = var_2.template_for_field(var_13)
-    assert var_14 == 'forms/input.html'
-    var_15 = module_3.Object()
-    var_16 = var_2.template_for_field(var_15)
+    var_10 = 'John'
+    var_11 = var_8.render_field(field_name=var_3, field=var_9, value=var_10)
 
 
 
@@ -1100,23 +350,14 @@ def test_case_0():
 #--------------------------
 
 
-import jinja2.environment as module_1
-import jinja2.loaders as module_0
-import typesystem.fields as module_4
-import typesystem.forms as module_3
-import typesystem.schemas as module_2
-
+import typesystem.forms as module_0
 
 def test_case_0():
-    var_0 = {}
-    var_1 = module_0.DictLoader(var_0)
-    var_2 = module_1.Environment(loader=var_1)
-    var_3 = {}
-    var_4 = module_2.Schema(var_3)
-    var_5 = module_3.Form(env=var_2, schema=var_4)
-    var_6 = 'test_field'
-    var_7 = module_4.String()
-    var_8 = var_5.render_field(field_name=var_6, field=var_7)
+    var_0 = 'typesystem'
+    var_1 = module_0.Jinja2Forms(package=var_0)
+    var_2 = var_1.env.loader
+    var_3 = var_1.env.loader
+    var_4 = module_0.Jinja2Forms()
 
 
 
@@ -1124,822 +365,835 @@ def test_case_0():
 #--------------------------
 
 
-import typesystem.fields as module_0
-import typesystem.forms as module_1
-
-
-def test_case_0():
-    var_0 = '1'
-    var_1 = 'One'
-    var_2 = (var_0, var_1)
-    var_3 = '2'
-    var_4 = 'Two'
-    var_5 = (var_3, var_4)
-    var_6 = [var_2, var_5]
-    var_7 = module_0.Choice(choices=var_6)
-    var_8 = None
-    var_9 = module_1.Form(env=var_8, schema=var_8)
-    var_10 = var_9.template_for_field(var_7)
-    assert var_10 == 'forms/select.html'
-    var_11 = module_0.Boolean()
-    var_12 = var_9.template_for_field(var_11)
-    assert var_12 == 'forms/checkbox.html'
-    var_13 = 'text'
-    var_14 = module_0.String(format=var_13)
-    var_15 = var_9.template_for_field(var_14)
-    assert var_15 == 'forms/textarea.html'
-    var_16 = module_0.String()
-    var_17 = var_9.template_for_field(var_16)
-    assert var_17 == 'forms/input.html'
-    var_18 = {}
-    var_19 = module_0.Object(properties=var_18)
-    var_20 = var_9.template_for_field(var_19)
-
-
-
-####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
-####################################################################
-
-
-# Parsed testcases at query #1
-#--------------------------
-
-
-import jinja2.environment as module_1
-import jinja2.loaders as module_0
-import typesystem.fields as module_2
-import typesystem.forms as module_4
-import typesystem.schemas as module_3
-
-
-def test_case_0():
-    var_0 = '.'
-    var_1 = module_0.FileSystemLoader(var_0)
-    var_2 = module_1.Environment(loader=var_1)
-    var_3 = 'name'
-    var_4 = module_2.String()
-    var_5 = {var_3: var_4}
-    var_6 = module_3.Schema(var_5)
-    var_7 = module_4.Form(env=var_2, schema=var_6)
-    var_8 = module_2.String()
-    var_9 = var_7.render_field(field_name=var_3, field=var_8)
-    var_10 = 'color'
-    var_11 = 'red'
-    var_12 = 'green'
-    var_13 = 'blue'
-    var_14 = [var_11, var_12, var_13]
-    var_15 = module_2.Choice(choices=var_14)
-    var_16 = {var_10: var_15}
-    var_17 = module_3.Schema(var_16)
-    var_18 = module_4.Form(env=var_2, schema=var_17)
-    var_19 = [var_11, var_12, var_13]
-    var_20 = module_2.Choice(choices=var_19)
-    var_21 = var_18.render_field(field_name=var_10, field=var_20)
-    var_22 = 'active'
-    var_23 = module_2.Boolean()
-    var_24 = {var_22: var_23}
-    var_25 = module_3.Schema(var_24)
-    var_26 = module_4.Form(env=var_2, schema=var_25)
-    var_27 = module_2.Boolean()
-    var_28 = var_26.render_field(field_name=var_22, field=var_27)
-    var_29 = 'description'
-    var_30 = 'text'
-    var_31 = module_2.String(format=var_30)
-    var_32 = {var_29: var_31}
-    var_33 = module_3.Schema(var_32)
-    var_34 = module_4.Form(env=var_2, schema=var_33)
-    var_35 = module_2.String(format=var_30)
-    var_36 = var_34.render_field(field_name=var_29, field=var_35)
-    var_37 = 'email'
-    var_38 = module_2.String(format=var_37)
-    var_39 = {var_37: var_38}
-    var_40 = module_3.Schema(var_39)
-    var_41 = module_4.Form(env=var_2, schema=var_40)
-    var_42 = module_2.String(format=var_37)
-    var_43 = var_41.render_field(field_name=var_37, field=var_42)
-    var_44 = 'password'
-    var_45 = module_2.String(format=var_44)
-    var_46 = {var_44: var_45}
-    var_47 = module_3.Schema(var_46)
-    var_48 = module_4.Form(env=var_2, schema=var_47)
-    var_49 = module_2.String(format=var_44)
-    var_50 = var_48.render_field(field_name=var_44, field=var_49)
-    var_51 = 'birthday'
-    var_52 = 'date'
-    var_53 = module_2.String(format=var_52)
-    var_54 = {var_51: var_53}
-    var_55 = module_3.Schema(var_54)
-    var_56 = module_4.Form(env=var_2, schema=var_55)
-    var_57 = module_2.String(format=var_52)
-    var_58 = var_56.render_field(field_name=var_51, field=var_57)
-    var_59 = 'appointment'
-    var_60 = 'datetime'
-    var_61 = module_2.String(format=var_60)
-    var_62 = {var_59: var_61}
-    var_63 = module_3.Schema(var_62)
-    var_64 = module_4.Form(env=var_2, schema=var_63)
-    var_65 = module_2.String(format=var_60)
-    var_66 = var_64.render_field(field_name=var_59, field=var_65)
-    var_67 = 'alarm'
-    var_68 = 'time'
-    var_69 = module_2.String(format=var_68)
-    var_70 = {var_67: var_69}
-    var_71 = module_3.Schema(var_70)
-    var_72 = module_4.Form(env=var_2, schema=var_71)
-    var_73 = module_2.String(format=var_68)
-    var_74 = var_72.render_field(field_name=var_67, field=var_73)
-    var_75 = 'website'
-    var_76 = 'url'
-    var_77 = module_2.String(format=var_76)
-    var_78 = {var_75: var_77}
-    var_79 = module_3.Schema(var_78)
-    var_80 = module_4.Form(env=var_2, schema=var_79)
-    var_81 = module_2.String(format=var_76)
-    var_82 = var_80.render_field(field_name=var_75, field=var_81)
-    var_83 = 'phone'
-    var_84 = 'tel'
-    var_85 = module_2.String(format=var_84)
-    var_86 = {var_83: var_85}
-    var_87 = module_3.Schema(var_86)
-    var_88 = module_4.Form(env=var_2, schema=var_87)
-    var_89 = module_2.String(format=var_84)
-    var_90 = var_88.render_field(field_name=var_83, field=var_89)
-    var_91 = 'age'
-    var_92 = 'number'
-    var_93 = module_2.String(format=var_92)
-    var_94 = {var_91: var_93}
-    var_95 = module_3.Schema(var_94)
-    var_96 = module_4.Form(env=var_2, schema=var_95)
-    var_97 = module_2.String(format=var_92)
-    var_98 = var_96.render_field(field_name=var_91, field=var_97)
-    var_99 = 'volume'
-    var_100 = 'range'
-    var_101 = module_2.String(format=var_100)
-    var_102 = {var_99: var_101}
-    var_103 = module_3.Schema(var_102)
-    var_104 = module_4.Form(env=var_2, schema=var_103)
-    var_105 = module_2.String(format=var_100)
-    var_106 = var_104.render_field(field_name=var_99, field=var_105)
-    var_107 = module_2.String(format=var_10)
-    var_108 = {var_10: var_107}
-    var_109 = module_3.Schema(var_108)
-    var_110 = module_4.Form(env=var_2, schema=var_109)
-    var_111 = module_2.String(format=var_10)
-    var_112 = var_110.render_field(field_name=var_10, field=var_111)
-    var_113 = 'query'
-    var_114 = 'search'
-    var_115 = module_2.String(format=var_114)
-    var_116 = {var_113: var_115}
-    var_117 = module_3.Schema(var_116)
-    var_118 = module_4.Form(env=var_2, schema=var_117)
-    var_119 = module_2.String(format=var_114)
-    var_120 = var_118.render_field(field_name=var_113, field=var_119)
-    var_121 = 'month'
-    var_122 = module_2.String(format=var_121)
-    var_123 = {var_121: var_122}
-    var_124 = module_3.Schema(var_123)
-    var_125 = module_4.Form(env=var_2, schema=var_124)
-    var_126 = module_2.String(format=var_121)
-    var_127 = var_125.render_field(field_name=var_121, field=var_126)
-    var_128 = 'week'
-    var_129 = module_2.String(format=var_128)
-    var_130 = {var_128: var_129}
-    var_131 = module_3.Schema(var_130)
-    var_132 = module_4.Form(env=var_2, schema=var_131)
-    var_133 = module_2.String(format=var_128)
-    var_134 = var_132.render_field(field_name=var_128, field=var_133)
-    var_135 = 'secret'
-    var_136 = 'hidden'
-    var_137 = module_2.String(format=var_136)
-    var_138 = {var_135: var_137}
-    var_139 = module_3.Schema(var_138)
-    var_140 = module_4.Form(env=var_2, schema=var_139)
-    var_141 = module_2.String(format=var_136)
-    var_142 = var_140.render_field(field_name=var_135, field=var_141)
-    var_143 = module_2.String(format=var_30)
-    var_144 = {var_29: var_143}
-    var_145 = module_3.Schema(var_144)
-    var_146 = module_4.Form(env=var_2, schema=var_145)
-    var_147 = module_2.String(format=var_30)
-    var_148 = 'This field is required.'
-    var_149 = var_146.render_field(field_name=var_29, field=var_147, error=var_148)
-    var_150 = module_2.String(format=var_30)
-    var_151 = {var_29: var_150}
-    var_152 = module_3.Schema(var_151)
-    var_153 = module_4.Form(env=var_2, schema=var_152)
-    var_154 = module_2.String(format=var_30)
-    var_155 = 'Hello, world!'
-    var_156 = var_153.render_field(field_name=var_29, field=var_154, value=var_155)
-    var_157 = True
-    var_158 = module_2.String(format=var_30)
-    var_159 = {var_29: var_158}
-    var_160 = module_3.Schema(var_159)
-    var_161 = module_4.Form(env=var_2, schema=var_160)
-    var_162 = module_2.String(format=var_30)
-    var_163 = var_161.render_field(field_name=var_29, field=var_162)
-    var_164 = False
-    var_165 = module_2.String(format=var_30)
-    var_166 = {var_29: var_165}
-    var_167 = module_3.Schema(var_166)
-    var_168 = module_4.Form(env=var_2, schema=var_167)
-    var_169 = module_2.String(format=var_30)
-    var_170 = var_168.render_field(field_name=var_29, field=var_169)
-    var_171 = 'Description'
-    var_172 = module_2.String(format=var_30)
-    var_173 = {var_29: var_172}
-    var_174 = module_3.Schema(var_173)
-    var_175 = module_4.Form(env=var_2, schema=var_174)
-    var_176 = module_2.String(format=var_30)
-    var_177 = var_175.render_field(field_name=var_29, field=var_176)
-
-
-
-# Parsed testcases at query #2
-#--------------------------
-
-
-import typesystem.fields as module_0
-
-
-def test_case_0():
-    var_0 = module_0.String()
-    var_1 = module_0.Integer()
-    var_2 = None
-    var_3 = module_0.Boolean()
-
-
-
-# Parsed testcases at query #3
-#--------------------------
-
-
 import typesystem.forms as module_0
-
+import typesystem.fields as module_1
 
 def test_case_0():
     var_0 = None
-    var_1 = module_0.Form(env=var_0, schema=var_0)
-    var_2 = 'email'
-    var_3 = 'unknown'
+    var_1 = module_0.Form(env=var_0, schema=var_0, values=var_0)
+    var_2 = module_1.String()
+    var_3 = var_1.template_for_field(var_2)
+    assert var_3 == 'forms/input.html'
+    var_4 = 'text'
+    var_5 = module_1.String(format=var_4)
+    var_6 = var_1.template_for_field(var_5)
+    assert var_6 == 'forms/textarea.html'
+    var_7 = module_1.Boolean()
+    var_8 = var_1.template_for_field(var_7)
+    assert var_8 == 'forms/checkbox.html'
+    var_9 = module_1.Choice()
+    var_10 = var_1.template_for_field(var_9)
+    assert var_10 == 'forms/select.html'
 
 
 
-# Parsed testcases at query #4
+# Parsed testcases at query #15
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
+    var_5 = module_0.Jinja2Forms()
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
+    var_5 = var_4.env.loader
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/textarea.html'
+    var_2 = 'forms/select.html'
+    var_3 = 'forms/checkbox.html'
+    var_4 = '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}">'
+    var_5 = '<textarea name="{{ field_name }}" id="{{ field_id }}">{{ value }}</textarea>'
+    var_6 = '<select name="{{ field_name }}" id="{{ field_id }}">{{ value }}</select>'
+    var_7 = '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %}>'
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'text_field'
+    var_12 = 'select_field'
+    var_13 = 'checkbox_field'
+    var_14 = True
+    var_15 = 'input_field'
+    var_16 = 'Test Value'
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/textarea.html'
+    var_2 = 'forms/select.html'
+    var_3 = 'forms/checkbox.html'
+    var_4 = '\n        <div>\n            <label for="{{ field_id }}">{{ label }}</label>\n            <input type="{{ input_type }}" id="{{ field_id }}" name="{{ field_name }}" value="{{ value }}" {% if required %}required{% endif %}>\n            {% if error %}<p>{{ error }}</p>{% endif %}\n        </div>\n        '
+    var_5 = '\n        <div>\n            <label for="{{ field_id }}">{{ label }}</label>\n            <textarea id="{{ field_id }}" name="{{ field_name }}" {% if required %}required{% endif %}>{{ value }}</textarea>\n            {% if error %}<p>{{ error }}</p>{% endif %}\n        </div>\n        '
+    var_6 = '\n        <div>\n            <label for="{{ field_id }}">{{ label }}</label>\n            <select id="{{ field_id }}" name="{{ field_name }}" {% if required %}required{% endif %}>\n                {% for choice in field.choices %}\n                    <option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>{{ choice.text }}</option>\n                {% endfor %}\n            </select>\n            {% if error %}<p>{{ error }}</p>{% endif %}\n        </div>\n        '
+    var_7 = '\n        <div>\n            <label for="{{ field_id }}">{{ label }}</label>\n            <input type="checkbox" id="{{ field_id }}" name="{{ field_name }}" value="true" {% if value %}checked{% endif %} {% if required %}required{% endif %}>\n            {% if error %}<p>{{ error }}</p>{% endif %}\n        </div>\n        '
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'username'
+    var_12 = 'password'
+    var_13 = 'description'
+    var_14 = 'role'
+    var_15 = 'is_active'
+    var_16 = 'Username'
+    var_17 = module_2.String()
+    var_18 = 'Password'
+    var_19 = module_2.String(format=var_12)
+    var_20 = 'Description'
+    var_21 = 'text'
+    var_22 = module_2.String(format=var_21)
+    var_23 = 'Role'
+    var_24 = 'admin'
+    var_25 = 'Admin'
+    var_26 = (var_24, var_25)
+    var_27 = 'user'
+    var_28 = 'User'
+    var_29 = (var_27, var_28)
+    var_30 = [var_26, var_29]
+    var_31 = module_2.Choice(choices=var_30)
+    var_32 = 'Is Active'
+    var_33 = module_2.Boolean()
+    var_34 = {var_11: var_17, var_12: var_19, var_13: var_22, var_14: var_31, var_15: var_33}
+    var_35 = module_3.Schema(var_34)
+    var_36 = module_4.Form(env=var_10, schema=var_35)
+    var_37 = var_35.fields[var_11]
+    var_38 = var_36.render_field(field_name=var_11, field=var_37)
+    assert var_38 == '\n        <div>\n            <label for="username">Username</label>\n            <input type="text" id="username" name="username" value="" required>\n            <p></p>\n        </div>\n    '
+    var_39 = var_35.fields[var_12]
+    var_40 = var_36.render_field(field_name=var_12, field=var_39)
+    assert var_40 == '\n        <div>\n            <label for="password">Password</label>\n            <input type="password" id="password" name="password" value="" required>\n            <p></p>\n        </div>\n    '
+    var_41 = var_35.fields[var_13]
+    var_42 = var_36.render_field(field_name=var_13, field=var_41)
+    assert var_42 == '\n        <div>\n            <label for="description">Description</label>\n            <textarea id="description" name="description" required></textarea>\n            <p></p>\n        </div>\n    '
+    var_43 = var_35.fields[var_14]
+    var_44 = var_36.render_field(field_name=var_14, field=var_43)
+    assert var_44 == '\n        <div>\n            <label for="role">Role</label>\n            <select id="role" name="role" required>\n                <option value="admin">Admin</option>\n                <option value="user">User</option>\n            </select>\n            <p></p>\n        </div>\n    '
+    var_45 = var_35.fields[var_15]
+    var_46 = var_36.render_field(field_name=var_15, field=var_45)
+    assert var_46 == '\n        <div>\n            <label for="is-active">Is Active</label>\n            <input type="checkbox" id="is-active" name="is_active" value="true"  required>\n            <p></p>\n        </div>\n    '
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/textarea.html'
+    var_2 = 'forms/checkbox.html'
+    var_3 = 'forms/select.html'
+    var_4 = '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>'
+    var_5 = '<textarea name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{{ value }}</textarea>'
+    var_6 = '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %}>'
+    var_7 = '<select name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{% for choice in field.choices %}<option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>{{ choice.display }}</option>{% endfor %}</select>'
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'username'
+    var_12 = 'password'
+    var_13 = 'email'
+    var_14 = 'bio'
+    var_15 = 'active'
+    var_16 = 'role'
+    var_17 = 'Username'
+    var_18 = 100
+    var_19 = module_2.String(max_length=var_18)
+    var_20 = 'Password'
+    var_21 = module_2.String(format=var_12)
+    var_22 = 'Email'
+    var_23 = module_2.String(format=var_13)
+    var_24 = 'Bio'
+    var_25 = 'text'
+    var_26 = module_2.String(format=var_25)
+    var_27 = 'Active'
+    var_28 = module_2.Boolean()
+    var_29 = 'Role'
+    var_30 = 'value'
+    var_31 = 'display'
+    var_32 = 'admin'
+    var_33 = 'Administrator'
+    var_34 = {var_30: var_32, var_31: var_33}
+    var_35 = 'user'
+    var_36 = 'User'
+    var_37 = {var_30: var_35, var_31: var_36}
+    var_38 = [var_34, var_37]
+    var_39 = module_2.Choice(choices=var_38)
+    var_40 = {var_11: var_19, var_12: var_21, var_13: var_23, var_14: var_26, var_15: var_28, var_16: var_39}
+    var_41 = module_3.Schema(var_40)
+    var_42 = module_4.Form(env=var_10, schema=var_41)
+    var_43 = var_41.fields[var_11]
+    var_44 = var_42.render_field(field_name=var_11, field=var_43)
+    assert var_44 == '<input type="text" name="username" id="username" value="" required>'
+    var_45 = var_41.fields[var_12]
+    var_46 = var_42.render_field(field_name=var_12, field=var_45)
+    assert var_46 == '<input type="password" name="password" id="password" value="" required>'
+    var_47 = var_41.fields[var_13]
+    var_48 = var_42.render_field(field_name=var_13, field=var_47)
+    assert var_48 == '<input type="email" name="email" id="email" value="" required>'
+    var_49 = var_41.fields[var_14]
+    var_50 = var_42.render_field(field_name=var_14, field=var_49)
+    assert var_50 == '<textarea name="bio" id="bio" required></textarea>'
+    var_51 = var_41.fields[var_15]
+    var_52 = var_42.render_field(field_name=var_15, field=var_51)
+    assert var_52 == '<input type="checkbox" name="active" id="active">'
+    var_53 = var_41.fields[var_16]
+    var_54 = var_42.render_field(field_name=var_16, field=var_53)
+    assert var_54 == '<select name="role" id="role" required><option value="admin">Administrator</option><option value="user">User</option></select>'
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+
+import jinja2.environment as module_0
+import typesystem.schemas as module_1
+import typesystem.forms as module_2
+import typesystem.fields as module_3
+
+def test_case_0():
+    var_0 = module_0.Environment()
+    var_1 = module_1.Schema()
+    var_2 = module_2.Form(env=var_0, schema=var_1)
+    var_3 = '1'
+    var_4 = 'One'
+    var_5 = (var_3, var_4)
+    var_6 = '2'
+    var_7 = 'Two'
+    var_8 = (var_6, var_7)
+    var_9 = [var_5, var_8]
+    var_10 = module_3.Choice(choices=var_9)
+    var_11 = var_2.template_for_field(var_10)
+    assert var_11 == 'forms/select.html'
+    var_12 = module_3.Boolean()
+    var_13 = var_2.template_for_field(var_12)
+    assert var_13 == 'forms/checkbox.html'
+    var_14 = 'text'
+    var_15 = module_3.String(format=var_14)
+    var_16 = var_2.template_for_field(var_15)
+    assert var_16 == 'forms/textarea.html'
+    var_17 = module_3.String()
+    var_18 = var_2.template_for_field(var_17)
+    assert var_18 == 'forms/input.html'
+    var_19 = {}
+    var_20 = module_3.Object(properties=var_19)
+    var_21 = var_2.template_for_field(var_20)
+
+
+
+# Parsed testcases at query #21
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = '/path/to/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env
+    var_3 = var_1.env.loader
+    var_4 = 'my_package'
+    var_5 = module_0.Jinja2Forms(package=var_4)
+    var_6 = var_5.env
+    var_7 = var_5.env.loader
+    var_8 = '/path/to/templates'
+    var_9 = 'my_package'
+    var_10 = module_0.Jinja2Forms(directory=var_8, package=var_9)
+    var_11 = var_10.env
+    var_12 = var_10.env.loader
+    var_13 = var_10.env.loader.loaders
+    var_14 = len(var_13)
+    assert var_14 == 2
+    var_15 = 0
+    var_16 = var_10.env.loader.loaders[var_15]
+    var_17 = 1
+    var_18 = var_10.env.loader.loaders[var_17]
+
+
+
+# Parsed testcases at query #22
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env
+    var_3 = var_1.env.loader
+    var_4 = 'myapp'
+    var_5 = module_0.Jinja2Forms(package=var_4)
+    var_6 = var_5.env
+    var_7 = var_5.env.loader
+    var_8 = module_0.Jinja2Forms(directory=var_0, package=var_4)
+    var_9 = var_8.env
+    var_10 = var_8.env.loader
+    var_11 = module_0.Jinja2Forms()
+
+
+
+# Parsed testcases at query #23
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = module_0.Jinja2Forms()
+    var_1 = 'test_dir'
+    var_2 = module_0.Jinja2Forms(directory=var_1)
+    var_3 = 'test_pkg'
+    var_4 = module_0.Jinja2Forms(package=var_3)
+    var_5 = 'test_dir'
+    var_6 = 'test_pkg'
+    var_7 = module_0.Jinja2Forms(directory=var_5, package=var_6)
+
+
+
+# Parsed testcases at query #24
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>'
+    var_2 = {var_0: var_1}
+    var_3 = module_0.DictLoader(var_2)
+    var_4 = module_1.Environment(loader=var_3)
+    var_5 = 'name'
+    var_6 = 'age'
+    var_7 = 'John'
+    var_8 = 30
+    var_9 = {var_5: var_7, var_6: var_8}
+
+
+
+# Parsed testcases at query #25
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/textarea.html'
+    var_2 = 'forms/checkbox.html'
+    var_3 = 'forms/select.html'
+    var_4 = "<input id='{{ field_id }}' name='{{ field_name }}' type='{{ input_type }}' value='{{ value }}'>"
+    var_5 = "<textarea id='{{ field_id }}' name='{{ field_name }}'>{{ value }}</textarea>"
+    var_6 = "<input id='{{ field_id }}' name='{{ field_name }}' type='checkbox' {% if value %}checked{% endif %}>"
+    var_7 = "<select id='{{ field_id }}' name='{{ field_name }}'></select>"
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'test_field'
+    var_12 = 'Test Field'
+    var_13 = module_2.String()
+    var_14 = {var_11: var_13}
+    var_15 = module_3.Schema(var_14)
+    var_16 = module_4.Form(env=var_10, schema=var_15)
+    var_17 = 'test_field'
+    var_18 = module_2.String()
+    var_19 = var_16.render_field(field_name=var_17, field=var_18)
+    assert var_19 == "<input id='test-field' name='test_field' type='text' value=''>"
+    var_20 = 'text'
+    var_21 = module_2.String(format=var_20)
+    var_22 = var_16.render_field(field_name=var_17, field=var_21)
+    assert var_22 == "<textarea id='test-field' name='test_field'></textarea>"
+    var_23 = module_2.Boolean()
+    var_24 = var_16.render_field(field_name=var_17, field=var_23)
+    assert var_24 == "<input id='test-field' name='test_field' type='checkbox'>"
+    var_25 = '1'
+    var_26 = 'One'
+    var_27 = (var_25, var_26)
+    var_28 = '2'
+    var_29 = 'Two'
+    var_30 = (var_28, var_29)
+    var_31 = [var_27, var_30]
+    var_32 = module_2.Choice(choices=var_31)
+    var_33 = var_16.render_field(field_name=var_17, field=var_32)
+    assert var_33 == "<select id='test-field' name='test_field'></select>"
+
+
+
+# Parsed testcases at query #26
 #--------------------------
 
 
 import typesystem.fields as module_0
 import typesystem.forms as module_1
 
-
 def test_case_0():
-    var_0 = '1'
-    var_1 = 'One'
-    var_2 = (var_0, var_1)
-    var_3 = '2'
-    var_4 = 'Two'
-    var_5 = (var_3, var_4)
-    var_6 = [var_2, var_5]
-    var_7 = module_0.Choice(choices=var_6)
-    var_8 = None
-    var_9 = module_1.Form(env=var_8, schema=var_8)
-    var_10 = var_9.template_for_field(var_7)
-    assert var_10 == 'forms/select.html'
-    var_11 = module_0.Boolean()
-    var_12 = var_9.template_for_field(var_11)
-    assert var_12 == 'forms/checkbox.html'
-    var_13 = 'text'
-    var_14 = module_0.String(format=var_13)
-    var_15 = var_9.template_for_field(var_14)
-    assert var_15 == 'forms/textarea.html'
-    var_16 = module_0.String()
-    var_17 = var_9.template_for_field(var_16)
-    assert var_17 == 'forms/input.html'
-    var_18 = {}
-    var_19 = module_0.Object(properties=var_18)
-    var_20 = var_9.template_for_field(var_19)
-
-
-
-# Parsed testcases at query #5
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = '1'
-    var_1 = 'One'
-    var_2 = (var_0, var_1)
-    var_3 = '2'
-    var_4 = 'Two'
-    var_5 = (var_3, var_4)
-    var_6 = [var_2, var_5]
-    var_7 = module_0.Choice(choices=var_6)
-    var_8 = None
-    var_9 = module_1.Form(env=var_8, schema=var_8)
-    var_10 = var_9.template_for_field(var_7)
-    assert var_10 == 'forms/select.html'
-    var_11 = module_0.Boolean()
-    var_12 = var_9.template_for_field(var_11)
-    assert var_12 == 'forms/checkbox.html'
-    var_13 = 'text'
-    var_14 = module_0.String(format=var_13)
-    var_15 = var_9.template_for_field(var_14)
-    assert var_15 == 'forms/textarea.html'
-    var_16 = module_0.String()
-    var_17 = var_9.template_for_field(var_16)
-    assert var_17 == 'forms/input.html'
-    var_18 = {}
-    var_19 = module_0.Object(properties=var_18)
-    var_20 = var_9.template_for_field(var_19)
-
-
-
-# Parsed testcases at query #6
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = module_0.Field()
-    var_1 = None
-    var_2 = module_1.Form(env=var_1, schema=var_1)
-    var_3 = var_2.input_type_for_field(var_0)
-    assert var_3 == 'text'
-    var_4 = var_2.input_type_for_field(var_0)
-    assert var_4 == 'text'
-    var_5 = var_2.input_type_for_field(var_0)
-    assert var_5 == 'email'
-    var_6 = var_2.input_type_for_field(var_0)
-    assert var_6 == 'color'
-    var_7 = var_2.input_type_for_field(var_0)
-    assert var_7 == 'datetime-local'
-    var_8 = var_2.input_type_for_field(var_0)
-    assert var_8 == 'date'
-    var_9 = var_2.input_type_for_field(var_0)
-    assert var_9 == 'month'
-    var_10 = var_2.input_type_for_field(var_0)
-    assert var_10 == 'number'
-    var_11 = var_2.input_type_for_field(var_0)
-    assert var_11 == 'password'
-    var_12 = var_2.input_type_for_field(var_0)
-    assert var_12 == 'range'
-    var_13 = var_2.input_type_for_field(var_0)
-    assert var_13 == 'search'
-    var_14 = var_2.input_type_for_field(var_0)
-    assert var_14 == 'tel'
-    var_15 = var_2.input_type_for_field(var_0)
-    assert var_15 == 'time'
-    var_16 = var_2.input_type_for_field(var_0)
-    assert var_16 == 'url'
-    var_17 = var_2.input_type_for_field(var_0)
-    assert var_17 == 'week'
-    var_18 = var_2.input_type_for_field(var_0)
-    assert var_18 == 'text'
-    var_19 = var_2.input_type_for_field(var_0)
-    assert var_19 == 'hidden'
-    var_20 = var_2.input_type_for_field(var_0)
-    assert var_20 == 'color'
-    var_21 = var_2.input_type_for_field(var_0)
-    assert var_21 == 'datetime-local'
-    var_22 = var_2.input_type_for_field(var_0)
-    assert var_22 == 'date'
-    var_23 = var_2.input_type_for_field(var_0)
-    assert var_23 == 'month'
-    var_24 = var_2.input_type_for_field(var_0)
-    assert var_24 == 'number'
-    var_25 = var_2.input_type_for_field(var_0)
-    assert var_25 == 'password'
-    var_26 = var_2.input_type_for_field(var_0)
-    assert var_26 == 'range'
-    var_27 = var_2.input_type_for_field(var_0)
-    assert var_27 == 'search'
-    var_28 = var_2.input_type_for_field(var_0)
-    assert var_28 == 'tel'
-    var_29 = var_2.input_type_for_field(var_0)
-    assert var_29 == 'time'
-    var_30 = var_2.input_type_for_field(var_0)
-    assert var_30 == 'url'
-    var_31 = var_2.input_type_for_field(var_0)
-    assert var_31 == 'week'
-    var_32 = var_2.input_type_for_field(var_0)
-    assert var_32 == 'text'
-    var_33 = var_2.input_type_for_field(var_0)
-    assert var_33 == 'hidden'
-    var_34 = var_2.input_type_for_field(var_0)
-    assert var_34 == 'color'
-    var_35 = var_2.input_type_for_field(var_0)
-    assert var_35 == 'datetime-local'
-    var_36 = var_2.input_type_for_field(var_0)
-    assert var_36 == 'date'
-    var_37 = var_2.input_type_for_field(var_0)
-    assert var_37 == 'month'
-    var_38 = var_2.input_type_for_field(var_0)
-    assert var_38 == 'number'
-    var_39 = var_2.input_type_for_field(var_0)
-    assert var_39 == 'password'
-    var_40 = var_2.input_type_for_field(var_0)
-    assert var_40 == 'range'
-    var_41 = var_2.input_type_for_field(var_0)
-    assert var_41 == 'search'
-    var_42 = var_2.input_type_for_field(var_0)
-    assert var_42 == 'tel'
-    var_43 = var_2.input_type_for_field(var_0)
-    assert var_43 == 'time'
-    var_44 = var_2.input_type_for_field(var_0)
-    assert var_44 == 'url'
-    var_45 = var_2.input_type_for_field(var_0)
-    assert var_45 == 'week'
-    var_46 = var_2.input_type_for_field(var_0)
-    assert var_46 == 'text'
-    var_47 = var_2.input_type_for_field(var_0)
-    assert var_47 == 'hidden'
-    var_48 = var_2.input_type_for_field(var_0)
-    assert var_48 == 'color'
-    var_49 = var_2.input_type_for_field(var_0)
-    assert var_49 == 'datetime-local'
-
-
-
-# Parsed testcases at query #7
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = '1'
-    var_1 = 'One'
-    var_2 = (var_0, var_1)
-    var_3 = '2'
-    var_4 = 'Two'
-    var_5 = (var_3, var_4)
-    var_6 = [var_2, var_5]
-    var_7 = module_0.Choice(choices=var_6)
-    var_8 = None
-    var_9 = module_1.Form(env=var_8, schema=var_8)
-    var_10 = var_9.template_for_field(var_7)
-    assert var_10 == 'forms/select.html'
-    var_11 = module_0.Boolean()
-    var_12 = var_9.template_for_field(var_11)
-    assert var_12 == 'forms/checkbox.html'
-    var_13 = 'text'
-    var_14 = module_0.String(format=var_13)
-    var_15 = var_9.template_for_field(var_14)
-    assert var_15 == 'forms/textarea.html'
-    var_16 = module_0.String()
-    var_17 = var_9.template_for_field(var_16)
-    assert var_17 == 'forms/input.html'
-    var_18 = {}
-    var_19 = module_0.Object(properties=var_18)
-    var_20 = var_9.template_for_field(var_19)
-
-
-
-# Parsed testcases at query #8
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'email'
-    var_1 = module_0.String(format=var_0)
+    var_0 = 'Name'
+    var_1 = module_0.String()
     var_2 = None
-    var_3 = module_1.Form(env=var_2, schema=var_2)
-    var_4 = var_3.input_type_for_field(var_1)
-    assert var_4 == 'email'
-    var_5 = 'unknown'
-    var_6 = module_0.String(format=var_5)
-    var_7 = var_3.input_type_for_field(var_6)
-    assert var_7 == 'text'
-    var_8 = module_0.String()
-    var_9 = var_3.input_type_for_field(var_8)
-    assert var_9 == 'text'
-    var_10 = module_0.Boolean()
-    var_11 = var_3.input_type_for_field(var_10)
-    assert var_11 == 'text'
-    var_12 = '1'
-    var_13 = 'One'
-    var_14 = (var_12, var_13)
-    var_15 = '2'
-    var_16 = 'Two'
-    var_17 = (var_15, var_16)
-    var_18 = [var_14, var_17]
-    var_19 = module_0.Choice(choices=var_18)
-    var_20 = var_3.input_type_for_field(var_19)
-    assert var_20 == 'text'
-    var_21 = {}
-    var_22 = module_0.Object(properties=var_21)
-    var_23 = var_3.input_type_for_field(var_22)
-    var_24 = 'color'
-    var_25 = module_0.String(format=var_24)
-    var_26 = var_3.input_type_for_field(var_25)
-    assert var_26 == 'color'
-    var_27 = 'datetime'
-    var_28 = module_0.String(format=var_27)
-    var_29 = var_3.input_type_for_field(var_28)
-    assert var_29 == 'datetime-local'
-    var_30 = 'date'
-    var_31 = module_0.String(format=var_30)
-    var_32 = var_3.input_type_for_field(var_31)
-    assert var_32 == 'date'
-    var_33 = 'month'
-    var_34 = module_0.String(format=var_33)
-    var_35 = var_3.input_type_for_field(var_34)
-    assert var_35 == 'month'
-    var_36 = 'number'
-    var_37 = module_0.String(format=var_36)
-    var_38 = var_3.input_type_for_field(var_37)
-    assert var_38 == 'number'
-    var_39 = 'password'
-    var_40 = module_0.String(format=var_39)
-    var_41 = var_3.input_type_for_field(var_40)
-    assert var_41 == 'password'
-    var_42 = 'range'
-    var_43 = module_0.String(format=var_42)
-    var_44 = var_3.input_type_for_field(var_43)
-    assert var_44 == 'range'
-    var_45 = 'search'
-    var_46 = module_0.String(format=var_45)
-    var_47 = var_3.input_type_for_field(var_46)
-    assert var_47 == 'search'
-    var_48 = 'tel'
-    var_49 = module_0.String(format=var_48)
-    var_50 = var_3.input_type_for_field(var_49)
-    assert var_50 == 'tel'
-    var_51 = 'time'
-    var_52 = module_0.String(format=var_51)
-    var_53 = var_3.input_type_for_field(var_52)
-    assert var_53 == 'time'
-    var_54 = 'url'
-    var_55 = module_0.String(format=var_54)
-    var_56 = var_3.input_type_for_field(var_55)
-    assert var_56 == 'url'
-    var_57 = 'week'
-    var_58 = module_0.String(format=var_57)
-    var_59 = var_3.input_type_for_field(var_58)
-    assert var_59 == 'week'
-    var_60 = 'hidden'
-    var_61 = module_0.String(format=var_60)
-    var_62 = var_3.input_type_for_field(var_61)
-    assert var_62 == 'hidden'
-    var_63 = 'text'
-    var_64 = module_0.String(format=var_63)
-    var_65 = var_3.input_type_for_field(var_64)
-    assert var_65 == 'text'
-    var_66 = module_0.String(format=var_23)
-    var_67 = var_3.input_type_for_field(var_66)
-    assert var_67 == 'email'
-    var_68 = module_0.String(format=var_27)
-    var_69 = var_3.input_type_for_field(var_68)
-    assert var_69 == 'datetime-local'
-    var_70 = module_0.String(format=var_30)
-    var_71 = var_3.input_type_for_field(var_70)
-    assert var_71 == 'date'
-    var_72 = module_0.String(format=var_33)
-    var_73 = var_3.input_type_for_field(var_72)
-    assert var_73 == 'month'
-    var_74 = module_0.String(format=var_36)
-    var_75 = var_3.input_type_for_field(var_74)
-    assert var_75 == 'number'
-    var_76 = module_0.String(format=var_39)
-    var_77 = var_3.input_type_for_field(var_76)
-    assert var_77 == 'password'
-    var_78 = module_0.String(format=var_42)
-    var_79 = var_3.input_type_for_field(var_78)
-    assert var_79 == 'range'
-    var_80 = module_0.String(format=var_45)
-    var_81 = var_3.input_type_for_field(var_80)
-    assert var_81 == 'search'
-    var_82 = module_0.String(format=var_48)
-    var_83 = var_3.input_type_for_field(var_82)
-    assert var_83 == 'tel'
-    var_84 = module_0.String(format=var_51)
-    var_85 = var_3.input_type_for_field(var_84)
-    assert var_85 == 'time'
-    var_86 = module_0.String(format=var_54)
-    var_87 = var_3.input_type_for_field(var_86)
-    assert var_87 == 'url'
-    var_88 = module_0.String(format=var_57)
-    var_89 = var_3.input_type_for_field(var_88)
-    assert var_89 == 'week'
-    var_90 = module_0.String(format=var_60)
-    var_91 = var_3.input_type_for_field(var_90)
-    assert var_91 == 'hidden'
-    var_92 = module_0.String(format=var_63)
-    var_93 = var_3.input_type_for_field(var_92)
-    assert var_93 == 'text'
-    var_94 = module_0.String(format=var_23)
-    var_95 = var_3.input_type_for_field(var_94)
-    assert var_95 == 'email'
-    var_96 = module_0.String(format=var_27)
-    var_97 = var_3.input_type_for_field(var_96)
-    assert var_97 == 'datetime-local'
-    var_98 = module_0.String(format=var_30)
-    var_99 = var_3.input_type_for_field(var_98)
-    assert var_99 == 'date'
-    var_100 = module_0.String(format=var_33)
-    var_101 = var_3.input_type_for_field(var_100)
-    assert var_101 == 'month'
+    var_3 = 'name'
+    var_4 = 'test'
+    var_5 = {var_3: var_4}
+    var_6 = module_1.Form(env=var_2, schema=var_2, values=var_5)
+    var_7 = var_6.render_field(field_name=var_3, field=var_1, value=var_4)
+    var_8 = 'Age'
+    var_9 = module_0.Integer()
+    var_10 = 'age'
+    var_11 = 25
+    var_12 = {var_10: var_11}
+    var_13 = module_1.Form(env=var_2, schema=var_2, values=var_12)
+    var_14 = var_13.render_field(field_name=var_10, field=var_9, value=var_11)
+    var_15 = 'Active'
+    var_16 = module_0.Boolean()
+    var_17 = 'active'
+    var_18 = True
+    var_19 = {var_17: var_18}
+    var_20 = module_1.Form(env=var_2, schema=var_2, values=var_19)
+    var_21 = var_20.render_field(field_name=var_17, field=var_16, value=var_18)
+    var_22 = 'Color'
+    var_23 = 'red'
+    var_24 = 'Red'
+    var_25 = (var_23, var_24)
+    var_26 = 'blue'
+    var_27 = 'Blue'
+    var_28 = (var_26, var_27)
+    var_29 = [var_25, var_28]
+    var_30 = module_0.Choice(choices=var_29)
+    var_31 = 'color'
+    var_32 = {var_31: var_23}
+    var_33 = module_1.Form(env=var_2, schema=var_2, values=var_32)
+    var_34 = var_33.render_field(field_name=var_31, field=var_30, value=var_23)
+    var_35 = module_0.String()
+    var_36 = ''
+    var_37 = {var_3: var_36}
+    var_38 = module_1.Form(env=var_2, schema=var_2, values=var_37)
+    var_39 = 'Required'
+    var_40 = var_38.render_field(field_name=var_3, field=var_35, value=var_36, error=var_39)
 
 
 
-# Parsed testcases at query #9
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'color'
-    var_1 = module_0.Field()
-    var_2 = None
-    var_3 = module_1.Form(env=var_2, schema=var_2)
-    var_4 = var_3.input_type_for_field(var_1)
-    assert var_4 == 'color'
-    var_5 = 'datetime'
-    var_6 = module_0.Field()
-    var_7 = module_1.Form(env=var_2, schema=var_2)
-    var_8 = var_7.input_type_for_field(var_6)
-    assert var_8 == 'datetime-local'
-    var_9 = 'date'
-    var_10 = module_0.Field()
-    var_11 = module_1.Form(env=var_2, schema=var_2)
-    var_12 = var_11.input_type_for_field(var_10)
-    assert var_12 == 'date'
-    var_13 = 'email'
-    var_14 = module_0.Field()
-    var_15 = module_1.Form(env=var_2, schema=var_2)
-    var_16 = var_15.input_type_for_field(var_14)
-    assert var_16 == 'email'
-    var_17 = 'hidden'
-    var_18 = module_0.Field()
-    var_19 = module_1.Form(env=var_2, schema=var_2)
-    var_20 = var_19.input_type_for_field(var_18)
-    assert var_20 == 'hidden'
-    var_21 = 'month'
-    var_22 = module_0.Field()
-    var_23 = module_1.Form(env=var_2, schema=var_2)
-    var_24 = var_23.input_type_for_field(var_22)
-    assert var_24 == 'month'
-    var_25 = 'number'
-    var_26 = module_0.Field()
-    var_27 = module_1.Form(env=var_2, schema=var_2)
-    var_28 = var_27.input_type_for_field(var_26)
-    assert var_28 == 'number'
-    var_29 = 'password'
-    var_30 = module_0.Field()
-    var_31 = module_1.Form(env=var_2, schema=var_2)
-    var_32 = var_31.input_type_for_field(var_30)
-    assert var_32 == 'password'
-    var_33 = 'range'
-    var_34 = module_0.Field()
-    var_35 = module_1.Form(env=var_2, schema=var_2)
-    var_36 = var_35.input_type_for_field(var_34)
-    assert var_36 == 'range'
-    var_37 = 'search'
-    var_38 = module_0.Field()
-    var_39 = module_1.Form(env=var_2, schema=var_2)
-    var_40 = var_39.input_type_for_field(var_38)
-    assert var_40 == 'search'
-    var_41 = 'tel'
-    var_42 = module_0.Field()
-    var_43 = module_1.Form(env=var_2, schema=var_2)
-    var_44 = var_43.input_type_for_field(var_42)
-    assert var_44 == 'tel'
-    var_45 = 'text'
-    var_46 = module_0.Field()
-    var_47 = module_1.Form(env=var_2, schema=var_2)
-    var_48 = var_47.input_type_for_field(var_46)
-    assert var_48 == 'text'
-    var_49 = 'time'
-    var_50 = module_0.Field()
-    var_51 = module_1.Form(env=var_2, schema=var_2)
-    var_52 = var_51.input_type_for_field(var_50)
-    assert var_52 == 'time'
-    var_53 = 'url'
-    var_54 = module_0.Field()
-    var_55 = module_1.Form(env=var_2, schema=var_2)
-    var_56 = var_55.input_type_for_field(var_54)
-    assert var_56 == 'url'
-    var_57 = 'week'
-    var_58 = module_0.Field()
-    var_59 = module_1.Form(env=var_2, schema=var_2)
-    var_60 = var_59.input_type_for_field(var_58)
-    assert var_60 == 'week'
-    var_61 = 'unknown'
-    var_62 = module_0.Field()
-    var_63 = module_1.Form(env=var_2, schema=var_2)
-    var_64 = var_63.input_type_for_field(var_62)
-    assert var_64 == 'text'
-    var_65 = module_0.Field()
-    var_66 = module_1.Form(env=var_2, schema=var_2)
-    var_67 = var_66.input_type_for_field(var_65)
-    assert var_67 == 'text'
-    var_68 = True
-    var_69 = module_0.Field()
-    var_70 = module_1.Form(env=var_2, schema=var_2)
-    var_71 = var_70.input_type_for_field(var_69)
-    assert var_71 == 'color'
-    var_72 = module_0.Field()
-    var_73 = module_1.Form(env=var_2, schema=var_2)
-    var_74 = var_73.input_type_for_field(var_72)
-    assert var_74 == 'datetime-local'
-    var_75 = module_0.Field()
-    var_76 = module_1.Form(env=var_2, schema=var_2)
-    var_77 = var_76.input_type_for_field(var_75)
-    assert var_77 == 'date'
-    var_78 = module_0.Field()
-    var_79 = module_1.Form(env=var_2, schema=var_2)
-    var_80 = var_79.input_type_for_field(var_78)
-    assert var_80 == 'email'
-    var_81 = module_0.Field()
-    var_82 = module_1.Form(env=var_2, schema=var_2)
-    var_83 = var_82.input_type_for_field(var_81)
-    assert var_83 == 'hidden'
-    var_84 = module_0.Field()
-    var_85 = module_1.Form(env=var_2, schema=var_2)
-    var_86 = var_85.input_type_for_field(var_84)
-    assert var_86 == 'month'
-    var_87 = module_0.Field()
-    var_88 = module_1.Form(env=var_2, schema=var_2)
-    var_89 = var_88.input_type_for_field(var_87)
-    assert var_89 == 'number'
-    var_90 = module_0.Field()
-    var_91 = module_1.Form(env=var_2, schema=var_2)
-    var_92 = var_91.input_type_for_field(var_90)
-    assert var_92 == 'password'
-    var_93 = module_0.Field()
-    var_94 = module_1.Form(env=var_2, schema=var_2)
-    var_95 = var_94.input_type_for_field(var_93)
-    assert var_95 == 'range'
-    var_96 = module_0.Field()
-    var_97 = module_1.Form(env=var_2, schema=var_2)
-    var_98 = var_97.input_type_for_field(var_96)
-    assert var_98 == 'search'
-    var_99 = module_0.Field()
-    var_100 = module_1.Form(env=var_2, schema=var_2)
-    var_101 = var_100.input_type_for_field(var_99)
-    assert var_101 == 'tel'
-    var_102 = module_0.Field()
-    var_103 = module_1.Form(env=var_2, schema=var_2)
-    var_104 = var_103.input_type_for_field(var_102)
-    assert var_104 == 'text'
-    var_105 = module_0.Field()
-    var_106 = module_1.Form(env=var_2, schema=var_2)
-    var_107 = var_106.input_type_for_field(var_105)
-    assert var_107 == 'time'
-    var_108 = module_0.Field()
-    var_109 = module_1.Form(env=var_2, schema=var_2)
-    var_110 = var_109.input_type_for_field(var_108)
-    assert var_110 == 'url'
-    var_111 = module_0.Field()
-    var_112 = module_1.Form(env=var_2, schema=var_2)
-    var_113 = var_112.input_type_for_field(var_111)
-    assert var_113 == 'week'
-    var_114 = module_0.Field()
-    var_115 = module_1.Form(env=var_2, schema=var_2)
-    var_116 = var_115.input_type_for_field(var_114)
-    assert var_116 == 'text'
-    var_117 = module_0.Field()
-    var_118 = module_1.Form(env=var_2, schema=var_2)
-    var_119 = var_118.input_type_for_field(var_117)
-    assert var_119 == 'text'
-    var_120 = False
-    var_121 = module_0.Field()
-    var_122 = module_1.Form(env=var_2, schema=var_2)
-    var_123 = var_122.input_type_for_field(var_121)
-    assert var_123 == 'color'
-    var_124 = module_0.Field()
-    var_125 = module_1.Form(env=var_2, schema=var_2)
-    var_126 = var_125.input_type_for_field(var_124)
-    assert var_126 == 'datetime-local'
-    var_127 = module_0.Field()
-    var_128 = module_1.Form(env=var_2, schema=var_2)
-    var_129 = var_128.input_type_for_field(var_127)
-    assert var_129 == 'date'
-    var_130 = module_0.Field()
-    var_131 = module_1.Form(env=var_2, schema=var_2)
-    var_132 = var_131.input_type_for_field(var_130)
-    assert var_132 == 'email'
-    var_133 = module_0.Field()
-    var_134 = module_1.Form(env=var_2, schema=var_2)
-    var_135 = var_134.input_type_for_field(var_133)
-    assert var_135 == 'hidden'
-    var_136 = module_0.Field()
-    var_137 = module_1.Form(env=var_2, schema=var_2)
-    var_138 = var_137.input_type_for_field(var_136)
-    assert var_138 == 'month'
-    var_139 = module_0.Field()
-    var_140 = module_1.Form(env=var_2, schema=var_2)
-
-
-
-# Parsed testcases at query #10
+# Parsed testcases at query #27
 #--------------------------
 
 
 import typesystem.forms as module_0
 
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env.loader
+    var_3 = 'tests'
+    var_4 = module_0.Jinja2Forms(package=var_3)
+    var_5 = var_4.env.loader
+    var_6 = module_0.Jinja2Forms(directory=var_0, package=var_3)
+    var_7 = var_6.env.loader
+    var_8 = var_6.env.loader.loaders
+    var_9 = len(var_8)
+    assert var_9 == 2
+    var_10 = 0
+    var_11 = var_6.env.loader.loaders[var_10]
+    var_12 = 1
+    var_13 = var_6.env.loader.loaders[var_12]
+
+
+
+# Parsed testcases at query #28
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = 'templates'
+    var_5 = 'tests'
+    var_6 = module_0.Jinja2Forms(directory=var_4, package=var_5)
+    var_7 = module_0.Jinja2Forms()
+
+
+
+# Parsed testcases at query #29
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'test_directory'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env.loader
+    var_3 = 'test_package'
+    var_4 = module_0.Jinja2Forms(package=var_3)
+    var_5 = var_4.env.loader
+    var_6 = module_0.Jinja2Forms(directory=var_0, package=var_3)
+    var_7 = var_6.env.loader
+    var_8 = var_6.env.loader.loaders
+    var_9 = len(var_8)
+    assert var_9 == 2
+    var_10 = 0
+    var_11 = var_6.env.loader.loaders[var_10]
+    var_12 = 1
+    var_13 = var_6.env.loader.loaders[var_12]
+    var_14 = module_0.Jinja2Forms()
+    var_15 = module_0.Jinja2Forms(directory=var_0)
+    var_16 = module_0.Jinja2Forms(directory=var_0)
+    var_17 = False
+    var_18 = module_0.Jinja2Forms(directory=var_0)
+    var_19 = True
+    var_20 = lambda x: var_19
+    var_21 = module_0.Jinja2Forms(directory=var_0)
+    var_22 = False
+    var_23 = lambda x: var_22
+    var_24 = module_0.Jinja2Forms(directory=var_0)
+    var_25 = True
+    var_26 = lambda x: var_25
+    var_27 = module_0.Jinja2Forms(directory=var_0)
+    var_28 = False
+    var_29 = lambda x: var_28
+
+
+
+# Parsed testcases at query #30
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+
+def test_case_0():
+    var_0 = 'tests'
+    var_1 = 'templates'
+    var_2 = module_0.PackageLoader(var_0, var_1)
+    var_3 = module_1.Environment(loader=var_2)
+    var_4 = module_2.Integer()
+    var_5 = 'name'
+    var_6 = 'age'
+    var_7 = 'test'
+    var_8 = 20
+    var_9 = {var_5: var_7, var_6: var_8}
+
+
+
+# Parsed testcases at query #31
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/textarea.html'
+    var_2 = 'forms/select.html'
+    var_3 = 'forms/checkbox.html'
+    var_4 = '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>'
+    var_5 = '<textarea name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{{ value }}</textarea>'
+    var_6 = '<select name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}></select>'
+    var_7 = '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %} {% if required %}required{% endif %}>'
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'username'
+    var_12 = 'password'
+    var_13 = 'bio'
+    var_14 = 'is_active'
+    var_15 = 'role'
+    var_16 = 'Username'
+    var_17 = 100
+    var_18 = module_2.String(max_length=var_17)
+    var_19 = 'Password'
+    var_20 = module_2.String(max_length=var_17, format=var_12)
+    var_21 = 'Bio'
+    var_22 = 'text'
+    var_23 = module_2.String(format=var_22)
+    var_24 = 'Is Active'
+    var_25 = module_2.Boolean()
+    var_26 = 'Role'
+    var_27 = 'admin'
+    var_28 = 'Admin'
+    var_29 = (var_27, var_28)
+    var_30 = 'user'
+    var_31 = 'User'
+    var_32 = (var_30, var_31)
+    var_33 = [var_29, var_32]
+    var_34 = module_2.Choice(choices=var_33)
+    var_35 = {var_11: var_18, var_12: var_20, var_13: var_23, var_14: var_25, var_15: var_34}
+    var_36 = module_3.Schema(var_35)
+    var_37 = module_4.Form(env=var_10, schema=var_36)
+    var_38 = var_36.fields[var_11]
+    var_39 = var_37.render_field(field_name=var_11, field=var_38)
+    var_40 = var_36.fields[var_12]
+    var_41 = var_37.render_field(field_name=var_12, field=var_40)
+    var_42 = var_36.fields[var_13]
+    var_43 = var_37.render_field(field_name=var_13, field=var_42)
+    var_44 = var_36.fields[var_14]
+    var_45 = True
+    var_46 = var_37.render_field(field_name=var_14, field=var_44, value=var_45)
+    var_47 = var_36.fields[var_15]
+    var_48 = var_37.render_field(field_name=var_15, field=var_47)
+
+
+
+# Parsed testcases at query #32
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'typesystem.forms'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
+
+
+
+# Parsed testcases at query #33
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env.loader
+    var_3 = 'tests'
+    var_4 = module_0.Jinja2Forms(package=var_3)
+    var_5 = var_4.env.loader
+    var_6 = module_0.Jinja2Forms(directory=var_0, package=var_3)
+    var_7 = var_6.env.loader
+    var_8 = var_6.env.loader.loaders
+    var_9 = 0
+    var_10 = var_8[var_9]
+    var_11 = 1
+    var_12 = var_8[var_11]
+
+
+
+# Parsed testcases at query #34
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.FileSystemLoader(var_0)
+    var_2 = module_1.Environment(loader=var_1)
+    var_3 = 'TestSchema'
+    var_4 = 'test_field'
+    var_5 = 'Test Field'
+    var_6 = module_2.String()
+    var_7 = {var_4: var_6}
+    var_8 = module_3.Schema(var_7)
+    var_9 = module_4.Form(env=var_2, schema=var_8)
+    var_10 = module_2.String()
+    var_11 = var_9.render_field(field_name=var_4, field=var_10)
+
+
+
+# Parsed testcases at query #35
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.FileSystemLoader(var_0)
+    var_2 = module_1.Environment(loader=var_1)
+    var_3 = 'name'
+    var_4 = 'Name'
+    var_5 = module_2.String()
+    var_6 = {var_3: var_5}
+    var_7 = module_3.Schema(var_6)
+    var_8 = module_4.Form(env=var_2, schema=var_7)
+    var_9 = 'name'
+    var_10 = module_2.String()
+    var_11 = 'John Doe'
+    var_12 = None
+    var_13 = var_8.render_field(field_name=var_9, field=var_10, value=var_11, error=var_12)
+    var_14 = 'Invalid name'
+    var_15 = var_8.render_field(field_name=var_9, field=var_10, value=var_11, error=var_14)
+    var_16 = '1'
+    var_17 = 'One'
+    var_18 = (var_16, var_17)
+    var_19 = '2'
+    var_20 = 'Two'
+    var_21 = (var_19, var_20)
+    var_22 = [var_18, var_21]
+    var_23 = module_2.Choice(choices=var_22)
+    var_24 = var_8.render_field(field_name=var_9, field=var_23, value=var_11, error=var_14)
+    var_25 = module_2.Boolean()
+    var_26 = var_8.render_field(field_name=var_9, field=var_25, value=var_11, error=var_14)
+    var_27 = 'text'
+    var_28 = module_2.String(format=var_27)
+    var_29 = var_8.render_field(field_name=var_9, field=var_28, value=var_11, error=var_14)
+    var_30 = module_2.String()
+    var_31 = {var_3: var_30}
+    var_32 = module_2.Object(properties=var_31)
+    var_33 = var_8.render_field(field_name=var_9, field=var_32, value=var_11, error=var_14)
+
+
+
+# Parsed testcases at query #36
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+
+
+
+# Parsed testcases at query #37
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.FileSystemLoader(var_0)
+    var_2 = module_1.Environment(loader=var_1)
+    var_3 = 'username'
+    var_4 = 'Username'
+    var_5 = module_2.String()
+    var_6 = {var_3: var_5}
+    var_7 = module_3.Schema(var_6)
+    var_8 = module_4.Form(env=var_2, schema=var_7)
+    var_9 = module_2.String()
+    var_10 = var_8.render_field(field_name=var_3, field=var_9)
+
+
+
+# Parsed testcases at query #38
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/checkbox.html'
+    var_2 = 'forms/select.html'
+    var_3 = 'forms/textarea.html'
+    var_4 = '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>'
+    var_5 = '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %} {% if required %}required{% endif %}>'
+    var_6 = '<select name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{% for choice in field.choices %}<option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>{{ choice.text }}</option>{% endfor %}</select>'
+    var_7 = '<textarea name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{{ value }}</textarea>'
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'name'
+    var_12 = 'Name'
+    var_13 = module_2.String()
+    var_14 = 'John'
+    var_15 = 'active'
+    var_16 = 'Active'
+    var_17 = module_2.Boolean()
+    var_18 = True
+    var_19 = 'a'
+    var_20 = 'Option A'
+    var_21 = (var_19, var_20)
+    var_22 = 'b'
+    var_23 = 'Option B'
+    var_24 = (var_22, var_23)
+    var_25 = [var_21, var_24]
+    var_26 = 'choice'
+    var_27 = module_2.Choice(choices=var_25)
+    var_28 = 'description'
+    var_29 = 'text'
+    var_30 = module_2.String(format=var_29)
+    var_31 = 'Test'
+    var_32 = module_2.String()
+    var_33 = ''
+    var_34 = 'Required'
+    var_35 = 'All tests passed.'
+    var_36 = print(var_35)
+
+
+
+# Parsed testcases at query #39
+#--------------------------
+
+
+import typesystem.forms as module_0
 
 def test_case_0():
     var_0 = 'templates'
@@ -1948,38 +1202,345 @@ def test_case_0():
     var_3 = module_0.Jinja2Forms(package=var_2)
     var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
     var_5 = module_0.Jinja2Forms()
-    var_6 = 'templates'
-    var_7 = module_0.Jinja2Forms(directory=var_6)
-    var_8 = module_0.Jinja2Forms(directory=var_6)
-    var_9 = module_0.Jinja2Forms(package=var_2)
-    var_10 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_11 = module_0.Jinja2Forms()
-    var_12 = 'does_not_exist'
-    var_13 = module_0.Jinja2Forms(directory=var_12)
-    var_14 = module_0.Jinja2Forms(package=var_12)
-    var_15 = module_0.Jinja2Forms(directory=var_12, package=var_12)
-    var_16 = module_0.Jinja2Forms(directory=var_6, package=var_12)
-    var_17 = module_0.Jinja2Forms(directory=var_12, package=var_2)
-    var_18 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_19 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_20 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_21 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_22 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_23 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_24 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_25 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_26 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_27 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_28 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_29 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_30 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_31 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_32 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_33 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_34 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_35 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_36 = module_0.Jinja2Forms(directory=var_6, package=var_2)
-    var_37 = module_0.Jinja2Forms(directory=var_6, package=var_2)
+
+
+
+# Parsed testcases at query #40
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env.loader
+    var_3 = 'tests'
+    var_4 = module_0.Jinja2Forms(package=var_3)
+    var_5 = var_4.env.loader
+    var_6 = module_0.Jinja2Forms(directory=var_0, package=var_3)
+    var_7 = var_6.env.loader
+    var_8 = var_6.env.loader.loaders
+    var_9 = len(var_8)
+    assert var_9 == 2
+    var_10 = 0
+    var_11 = var_6.env.loader.loaders[var_10]
+    var_12 = 1
+    var_13 = var_6.env.loader.loaders[var_12]
+
+
+
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/textarea.html'
+    var_2 = 'forms/checkbox.html'
+    var_3 = 'forms/select.html'
+    var_4 = '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" {% if required %}required{% endif %}>'
+    var_5 = '<textarea name="{{ field_name }}" {% if required %}required{% endif %}>{{ value }}</textarea>'
+    var_6 = '<input type="checkbox" name="{{ field_name }}" {% if value %}checked{% endif %}>'
+    var_7 = '<select name="{{ field_name }}" {% if required %}required{% endif %}>{% for choice in field.choices %}<option value="{{ choice }}" {% if choice == value %}selected{% endif %}>{{ choice }}</option>{% endfor %}</select>'
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'text_field'
+    var_12 = 'number_field'
+    var_13 = 'checkbox_field'
+    var_14 = 'select_field'
+    var_15 = 'Text Field'
+    var_16 = module_2.String()
+    var_17 = 'number'
+    var_18 = 'Number Field'
+    var_19 = module_2.String(format=var_17)
+    var_20 = 'Checkbox Field'
+    var_21 = module_2.Boolean()
+    var_22 = 'option1'
+    var_23 = 'option2'
+    var_24 = [var_22, var_23]
+    var_25 = 'Select Field'
+    var_26 = module_2.Choice(choices=var_24)
+    var_27 = {var_11: var_16, var_12: var_19, var_13: var_21, var_14: var_26}
+    var_28 = module_3.Schema(var_27)
+    var_29 = module_4.Form(env=var_10, schema=var_28)
+    var_30 = module_2.String()
+    var_31 = 'test value'
+    var_32 = var_29.render_field(field_name=var_11, field=var_30, value=var_31)
+    assert var_32 == '<input type="text" name="text_field" value="test value" >'
+    var_33 = module_2.String(format=var_17)
+    var_34 = 42
+    var_35 = var_29.render_field(field_name=var_12, field=var_33, value=var_34)
+    assert var_35 == '<input type="number" name="number_field" value="42" >'
+    var_36 = module_2.Boolean()
+    var_37 = True
+    var_38 = var_29.render_field(field_name=var_13, field=var_36, value=var_37)
+    assert var_38 == '<input type="checkbox" name="checkbox_field" checked>'
+    var_39 = [var_22, var_23]
+    var_40 = module_2.Choice(choices=var_39)
+    var_41 = var_29.render_field(field_name=var_14, field=var_40, value=var_22)
+    assert var_41 == '<select name="select_field" ><option value="option1" selected>option1</option><option value="option2" >option2</option></select>'
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.FileSystemLoader(var_0)
+    var_2 = module_1.Environment(loader=var_1)
+    var_3 = 'name'
+    var_4 = 'email'
+    var_5 = 'age'
+    var_6 = 'John'
+    var_7 = 'john@example.com'
+    var_8 = 30
+    var_9 = {var_3: var_6, var_4: var_7, var_5: var_8}
+    var_10 = ''
+    var_11 = 'invalid'
+    var_12 = 'not a number'
+    var_13 = {var_3: var_10, var_4: var_11, var_5: var_12}
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+
+import typesystem.forms as module_0
+import typesystem.fields as module_1
+
+def test_case_0():
+    var_0 = None
+    var_1 = module_0.Form(env=var_0, schema=var_0)
+    var_2 = module_1.Field()
+    var_3 = var_1.input_type_for_field(var_2)
+    assert var_3 == 'text'
+    var_4 = 'email'
+    var_5 = module_1.String(format=var_4)
+    var_6 = var_1.input_type_for_field(var_5)
+    assert var_6 == 'email'
+    var_7 = 'datetime'
+    var_8 = module_1.String(format=var_7)
+    var_9 = var_1.input_type_for_field(var_8)
+    assert var_9 == 'datetime-local'
+    var_10 = 'date'
+    var_11 = module_1.String(format=var_10)
+    var_12 = var_1.input_type_for_field(var_11)
+    assert var_12 == 'date'
+    var_13 = 'color'
+    var_14 = module_1.String(format=var_13)
+    var_15 = var_1.input_type_for_field(var_14)
+    assert var_15 == 'color'
+    var_16 = 'month'
+    var_17 = module_1.String(format=var_16)
+    var_18 = var_1.input_type_for_field(var_17)
+    assert var_18 == 'month'
+    var_19 = 'number'
+    var_20 = module_1.String(format=var_19)
+    var_21 = var_1.input_type_for_field(var_20)
+    assert var_21 == 'number'
+    var_22 = 'password'
+    var_23 = module_1.String(format=var_22)
+    var_24 = var_1.input_type_for_field(var_23)
+    assert var_24 == 'password'
+    var_25 = 'range'
+    var_26 = module_1.String(format=var_25)
+    var_27 = var_1.input_type_for_field(var_26)
+    assert var_27 == 'range'
+    var_28 = 'search'
+    var_29 = module_1.String(format=var_28)
+    var_30 = var_1.input_type_for_field(var_29)
+    assert var_30 == 'search'
+    var_31 = 'tel'
+    var_32 = module_1.String(format=var_31)
+    var_33 = var_1.input_type_for_field(var_32)
+    assert var_33 == 'tel'
+    var_34 = 'time'
+    var_35 = module_1.String(format=var_34)
+    var_36 = var_1.input_type_for_field(var_35)
+    assert var_36 == 'time'
+    var_37 = 'url'
+    var_38 = module_1.String(format=var_37)
+    var_39 = var_1.input_type_for_field(var_38)
+    assert var_39 == 'url'
+    var_40 = 'week'
+    var_41 = module_1.String(format=var_40)
+    var_42 = var_1.input_type_for_field(var_41)
+    assert var_42 == 'week'
+    var_43 = 'unknown'
+    var_44 = module_1.String(format=var_43)
+    var_45 = var_1.input_type_for_field(var_44)
+    assert var_45 == 'text'
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'option1'
+    var_1 = 'Option 1'
+    var_2 = (var_0, var_1)
+    var_3 = 'option2'
+    var_4 = 'Option 2'
+    var_5 = (var_3, var_4)
+    var_6 = [var_2, var_5]
+    var_7 = module_0.Choice(choices=var_6)
+    var_8 = None
+    var_9 = module_0.Boolean()
+    var_10 = 'text'
+    var_11 = module_0.String(format=var_10)
+    var_12 = 'email'
+    var_13 = module_0.String(format=var_12)
+    var_14 = 'name'
+    var_15 = module_0.String()
+    var_16 = {var_14: var_15}
+    var_17 = module_0.Object(properties=var_16)
+    var_18 = None
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+
+import typesystem.forms as module_0
+import typesystem.fields as module_1
+
+def test_case_0():
+    var_0 = None
+    var_1 = module_0.Form(env=var_0, schema=var_0)
+    var_2 = 'a'
+    var_3 = 'A'
+    var_4 = (var_2, var_3)
+    var_5 = 'b'
+    var_6 = 'B'
+    var_7 = (var_5, var_6)
+    var_8 = [var_4, var_7]
+    var_9 = module_1.Choice(choices=var_8)
+    var_10 = var_1.template_for_field(var_9)
+    assert var_10 == 'forms/select.html'
+    var_11 = module_1.Boolean()
+    var_12 = var_1.template_for_field(var_11)
+    assert var_12 == 'forms/checkbox.html'
+    var_13 = 'text'
+    var_14 = module_1.String(format=var_13)
+    var_15 = var_1.template_for_field(var_14)
+    assert var_15 == 'forms/textarea.html'
+    var_16 = module_1.String()
+    var_17 = var_1.template_for_field(var_16)
+    assert var_17 == 'forms/input.html'
+    var_18 = {}
+    var_19 = module_1.Object(properties=var_18)
+    var_20 = var_1.template_for_field(var_19)
+
+
+
+# Parsed testcases at query #6
+#--------------------------
+
+
+import typesystem.forms as module_0
+import typesystem.fields as module_1
+
+def test_case_0():
+    var_0 = None
+    var_1 = module_0.Form(env=var_0, schema=var_0)
+    var_2 = 'a'
+    var_3 = 'A'
+    var_4 = (var_2, var_3)
+    var_5 = [var_4]
+    var_6 = module_1.Choice(choices=var_5)
+    var_7 = var_1.template_for_field(var_6)
+    assert var_7 == 'forms/select.html'
+    var_8 = module_1.Boolean()
+    var_9 = var_1.template_for_field(var_8)
+    assert var_9 == 'forms/checkbox.html'
+    var_10 = 'text'
+    var_11 = module_1.String(format=var_10)
+    var_12 = var_1.template_for_field(var_11)
+    assert var_12 == 'forms/textarea.html'
+    var_13 = module_1.String()
+    var_14 = var_1.template_for_field(var_13)
+    assert var_14 == 'forms/input.html'
+
+
+
+# Parsed testcases at query #7
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'name'
+
+
+
+# Parsed testcases at query #8
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
+
+
+
+# Parsed testcases at query #9
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = './templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'name'
+    var_3 = 'age'
+    var_4 = 'John'
+    var_5 = '30'
+    var_6 = {var_2: var_4, var_3: var_5}
+
+
+
+# Parsed testcases at query #10
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'test_directory'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
 
 
 
@@ -1987,28 +1548,44 @@ def test_case_0():
 #--------------------------
 
 
-import jinja2.environment as module_1
 import jinja2.loaders as module_0
-import typesystem.fields as module_4
-import typesystem.forms as module_3
+import jinja2.environment as module_1
 import typesystem.schemas as module_2
-
+import typesystem.forms as module_3
+import typesystem.fields as module_4
 
 def test_case_0():
-    var_0 = {}
-    var_1 = module_0.DictLoader(var_0)
+    var_0 = 'templates'
+    var_1 = module_0.FileSystemLoader(var_0)
     var_2 = module_1.Environment(loader=var_1)
-    var_3 = {}
-    var_4 = module_2.Schema(var_3)
-    var_5 = module_3.Form(env=var_2, schema=var_4)
-    var_6 = 'Test Field'
-    var_7 = True
-    var_8 = module_4.String(allow_blank=var_7)
-    var_9 = 'test_field'
-    var_10 = 'test value'
-    var_11 = 'test error'
-    var_12 = var_5.render_field(field_name=var_9, field=var_8, value=var_10, error=var_11)
-    assert var_12 == ''
+    var_3 = module_2.Schema()
+    var_4 = module_3.Form(env=var_2, schema=var_3)
+    var_5 = 'option1'
+    var_6 = 'Option 1'
+    var_7 = (var_5, var_6)
+    var_8 = 'option2'
+    var_9 = 'Option 2'
+    var_10 = (var_8, var_9)
+    var_11 = [var_7, var_10]
+    var_12 = module_4.Choice(choices=var_11)
+    var_13 = var_4.template_for_field(var_12)
+    assert var_13 == 'forms/select.html'
+    var_14 = module_4.Boolean()
+    var_15 = var_4.template_for_field(var_14)
+    assert var_15 == 'forms/checkbox.html'
+    var_16 = 'text'
+    var_17 = module_4.String(format=var_16)
+    var_18 = var_4.template_for_field(var_17)
+    assert var_18 == 'forms/textarea.html'
+    var_19 = 'email'
+    var_20 = module_4.String(format=var_19)
+    var_21 = var_4.template_for_field(var_20)
+    assert var_21 == 'forms/input.html'
+    var_22 = module_4.String()
+    var_23 = var_4.template_for_field(var_22)
+    assert var_23 == 'forms/input.html'
+    var_24 = module_4.Object()
+    var_25 = var_4.template_for_field(var_24)
 
 
 
@@ -2016,39 +1593,24 @@ def test_case_0():
 #--------------------------
 
 
+import typesystem.forms as module_0
 
 def test_case_0():
-    var_0 = 'forms/input.html'
-    var_1 = 'forms/textarea.html'
-    var_2 = 'forms/checkbox.html'
-    var_3 = 'forms/select.html'
-    var_4 = '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" />'
-    var_5 = '<textarea name="{{ field_name }}">{{ value }}</textarea>'
-    var_6 = '<input type="checkbox" name="{{ field_name }}" {% if value %}checked{% endif %} />'
-    var_7 = '<select name="{{ field_name }}">{% for key, val in field.choices %}<option value="{{ key }}" {% if value == key %}selected{% endif %}>{{ val }}</option>{% endfor %}</select>'
-    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
-    var_9 = module_0.DictLoader(var_8)
-    var_10 = module_1.Environment(loader=var_9)
-    var_11 = 'name'
-    var_12 = 'email'
-    var_13 = 'age'
-    var_14 = 'bio'
-    var_15 = 'active'
-    var_16 = 'role'
-    var_17 = 'John'
-    var_18 = 'john@example.com'
-    var_19 = 30
-    var_20 = 'Developer'
-    var_21 = True
-    var_22 = 'admin'
-    var_23 = {var_11: var_17, var_12: var_18, var_13: var_19, var_14: var_20, var_15: var_21, var_16: var_22}
-    var_24 = ''
-    var_25 = 'invalid'
-    var_26 = 'not a number'
-    var_27 = False
-    var_28 = {var_11: var_24, var_12: var_25, var_13: var_26, var_14: var_24, var_15: var_27, var_16: var_25}
-    var_29 = 'All tests passed!'
-    var_30 = print(var_29)
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env.loader
+    var_3 = 'forms'
+    var_4 = module_0.Jinja2Forms(package=var_3)
+    var_5 = var_4.env.loader
+    var_6 = module_0.Jinja2Forms(directory=var_0, package=var_3)
+    var_7 = var_6.env.loader
+    var_8 = var_6.env.loader.loaders
+    var_9 = len(var_8)
+    assert var_9 == 2
+    var_10 = 0
+    var_11 = var_6.env.loader.loaders[var_10]
+    var_12 = 1
+    var_13 = var_6.env.loader.loaders[var_12]
 
 
 
@@ -2056,150 +1618,16 @@ def test_case_0():
 #--------------------------
 
 
-import typesystem.fields as module_0
-import typesystem.forms as module_1
-
+import typesystem.forms as module_0
 
 def test_case_0():
-    var_0 = module_0.Field()
-    var_1 = None
-    var_2 = module_1.Form(env=var_1, schema=var_1)
-    var_3 = var_2.input_type_for_field(var_0)
-    assert var_3 == 'text'
-    var_4 = 'unknown'
-    var_5 = module_0.Field()
-    var_6 = var_2.input_type_for_field(var_5)
-    assert var_6 == 'text'
-    var_7 = 'email'
-    var_8 = module_0.Field()
-    var_9 = var_2.input_type_for_field(var_8)
-    assert var_9 == 'email'
-    var_10 = 'datetime'
-    var_11 = module_0.Field()
-    var_12 = var_2.input_type_for_field(var_11)
-    assert var_12 == 'datetime-local'
-    var_13 = 'date'
-    var_14 = module_0.Field()
-    var_15 = var_2.input_type_for_field(var_14)
-    assert var_15 == 'date'
-    var_16 = 'time'
-    var_17 = module_0.Field()
-    var_18 = var_2.input_type_for_field(var_17)
-    assert var_18 == 'time'
-    var_19 = 'url'
-    var_20 = module_0.Field()
-    var_21 = var_2.input_type_for_field(var_20)
-    assert var_21 == 'url'
-    var_22 = 'password'
-    var_23 = module_0.Field()
-    var_24 = var_2.input_type_for_field(var_23)
-    assert var_24 == 'password'
-    var_25 = 'search'
-    var_26 = module_0.Field()
-    var_27 = var_2.input_type_for_field(var_26)
-    assert var_27 == 'search'
-    var_28 = 'tel'
-    var_29 = module_0.Field()
-    var_30 = var_2.input_type_for_field(var_29)
-    assert var_30 == 'tel'
-    var_31 = 'color'
-    var_32 = module_0.Field()
-    var_33 = var_2.input_type_for_field(var_32)
-    assert var_33 == 'color'
-    var_34 = 'range'
-    var_35 = module_0.Field()
-    var_36 = var_2.input_type_for_field(var_35)
-    assert var_36 == 'range'
-    var_37 = 'month'
-    var_38 = module_0.Field()
-    var_39 = var_2.input_type_for_field(var_38)
-    assert var_39 == 'month'
-    var_40 = 'week'
-    var_41 = module_0.Field()
-    var_42 = var_2.input_type_for_field(var_41)
-    assert var_42 == 'week'
-    var_43 = 'number'
-    var_44 = module_0.Field()
-    var_45 = var_2.input_type_for_field(var_44)
-    assert var_45 == 'number'
-    var_46 = 'hidden'
-    var_47 = module_0.Field()
-    var_48 = var_2.input_type_for_field(var_47)
-    assert var_48 == 'hidden'
-    var_49 = 'text'
-    var_50 = module_0.Field()
-    var_51 = var_2.input_type_for_field(var_50)
-    assert var_51 == 'text'
-    var_52 = 'datetime-local'
-    var_53 = module_0.Field()
-    var_54 = var_2.input_type_for_field(var_53)
-    assert var_54 == 'datetime-local'
-    var_55 = module_0.Field()
-    var_56 = var_2.input_type_for_field(var_55)
-    assert var_56 == 'date'
-    var_57 = module_0.Field()
-    var_58 = var_2.input_type_for_field(var_57)
-    assert var_58 == 'time'
-    var_59 = module_0.Field()
-    var_60 = var_2.input_type_for_field(var_59)
-    assert var_60 == 'url'
-    var_61 = module_0.Field()
-    var_62 = var_2.input_type_for_field(var_61)
-    assert var_62 == 'password'
-    var_63 = module_0.Field()
-    var_64 = var_2.input_type_for_field(var_63)
-    assert var_64 == 'search'
-    var_65 = module_0.Field()
-    var_66 = var_2.input_type_for_field(var_65)
-    assert var_66 == 'tel'
-    var_67 = module_0.Field()
-    var_68 = var_2.input_type_for_field(var_67)
-    assert var_68 == 'color'
-    var_69 = module_0.Field()
-    var_70 = var_2.input_type_for_field(var_69)
-    assert var_70 == 'range'
-    var_71 = module_0.Field()
-    var_72 = var_2.input_type_for_field(var_71)
-    assert var_72 == 'month'
-    var_73 = module_0.Field()
-    var_74 = var_2.input_type_for_field(var_73)
-    assert var_74 == 'week'
-    var_75 = module_0.Field()
-    var_76 = var_2.input_type_for_field(var_75)
-    assert var_76 == 'number'
-    var_77 = module_0.Field()
-    var_78 = var_2.input_type_for_field(var_77)
-    assert var_78 == 'hidden'
-    var_79 = module_0.Field()
-    var_80 = var_2.input_type_for_field(var_79)
-    assert var_80 == 'text'
-    var_81 = module_0.Field()
-    var_82 = var_2.input_type_for_field(var_81)
-    assert var_82 == 'datetime-local'
-    var_83 = module_0.Field()
-    var_84 = var_2.input_type_for_field(var_83)
-    assert var_84 == 'date'
-    var_85 = module_0.Field()
-    var_86 = var_2.input_type_for_field(var_85)
-    assert var_86 == 'time'
-    var_87 = module_0.Field()
-    var_88 = var_2.input_type_for_field(var_87)
-    assert var_88 == 'url'
-    var_89 = module_0.Field()
-    var_90 = var_2.input_type_for_field(var_89)
-    assert var_90 == 'password'
-    var_91 = module_0.Field()
-    var_92 = var_2.input_type_for_field(var_91)
-    assert var_92 == 'search'
-    var_93 = module_0.Field()
-    var_94 = var_2.input_type_for_field(var_93)
-    assert var_94 == 'tel'
-    var_95 = module_0.Field()
-    var_96 = var_2.input_type_for_field(var_95)
-    assert var_96 == 'color'
-    var_97 = module_0.Field()
-    var_98 = var_2.input_type_for_field(var_97)
-    assert var_98 == 'range'
+    var_0 = 'name'
+    var_1 = 'age'
+    var_2 = 'John'
+    var_3 = 30
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'tests'
+    var_6 = module_0.Jinja2Forms(package=var_5)
 
 
 
@@ -2207,85 +1635,1007 @@ def test_case_0():
 #--------------------------
 
 
-import typesystem.fields as module_1
-import typesystem.forms as module_0
-
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
 
 def test_case_0():
-    var_0 = '/path/to/templates'
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/textarea.html'
+    var_2 = 'forms/checkbox.html'
+    var_3 = 'forms/select.html'
+    var_4 = '\n        <div>\n            <label for="{{ field_id }}">{{ label }}</label>\n            <input type="{{ input_type }}" id="{{ field_id }}" name="{{ field_name }}" value="{{ value }}" {% if required %}required{% endif %}>\n            {% if error %}<p>{{ error }}</p>{% endif %}\n        </div>\n        '
+    var_5 = '\n        <div>\n            <label for="{{ field_id }}">{{ label }}</label>\n            <textarea id="{{ field_id }}" name="{{ field_name }}" {% if required %}required{% endif %}>{{ value }}</textarea>\n            {% if error %}<p>{{ error }}</p>{% endif %}\n        </div>\n        '
+    var_6 = '\n        <div>\n            <label for="{{ field_id }}">{{ label }}</label>\n            <input type="checkbox" id="{{ field_id }}" name="{{ field_name }}" {% if value %}checked{% endif %} {% if required %}required{% endif %}>\n            {% if error %}<p>{{ error }}</p>{% endif %}\n        </div>\n        '
+    var_7 = '\n        <div>\n            <label for="{{ field_id }}">{{ label }}</label>\n            <select id="{{ field_id }}" name="{{ field_name }}" {% if required %}required{% endif %}>\n                {% for choice in field.choices %}\n                    <option value="{{ choice }}" {% if choice == value %}selected{% endif %}>{{ choice }}</option>\n                {% endfor %}\n            </select>\n            {% if error %}<p>{{ error }}</p>{% endif %}\n        </div>\n        '
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'name'
+    var_12 = 'Name'
+    var_13 = 1
+    var_14 = module_2.String(min_length=var_13)
+    var_15 = {var_11: var_14}
+    var_16 = module_3.Schema(var_15)
+    var_17 = module_4.Form(env=var_10, schema=var_16)
+    var_18 = module_2.String(min_length=var_13)
+    var_19 = 'John'
+    var_20 = None
+    var_21 = var_17.render_field(field_name=var_11, field=var_18, value=var_19, error=var_20)
+    var_22 = '\n        <div>\n            <label for="name">Name</label>\n            <input type="text" id="name" name="name" value="John" required>\n        </div>\n    '
+    var_23 = 'bio'
+    var_24 = 'Bio'
+    var_25 = 'text'
+    var_26 = module_2.String(format=var_25)
+    var_27 = {var_23: var_26}
+    var_28 = module_3.Schema(var_27)
+    var_29 = module_4.Form(env=var_10, schema=var_28)
+    var_30 = module_2.String(format=var_25)
+    var_31 = 'Hello, World!'
+    var_32 = var_29.render_field(field_name=var_23, field=var_30, value=var_31, error=var_20)
+    var_33 = '\n        <div>\n            <label for="bio">Bio</label>\n            <textarea id="bio" name="bio" required>Hello, World!</textarea>\n        </div>\n    '
+    var_34 = 'active'
+    var_35 = 'Active'
+    var_36 = module_2.Boolean()
+    var_37 = {var_34: var_36}
+    var_38 = module_3.Schema(var_37)
+    var_39 = module_4.Form(env=var_10, schema=var_38)
+    var_40 = module_2.Boolean()
+    var_41 = True
+    var_42 = var_39.render_field(field_name=var_34, field=var_40, value=var_41, error=var_20)
+    var_43 = '\n        <div>\n            <label for="active">Active</label>\n            <input type="checkbox" id="active" name="active" checked>\n        </div>\n    '
+    var_44 = 'Red'
+    var_45 = 'Green'
+    var_46 = 'Blue'
+    var_47 = [var_44, var_45, var_46]
+    var_48 = 'color'
+    var_49 = 'Color'
+    var_50 = module_2.Choice(choices=var_47)
+    var_51 = {var_48: var_50}
+    var_52 = module_3.Schema(var_51)
+    var_53 = module_4.Form(env=var_10, schema=var_52)
+    var_54 = module_2.Choice(choices=var_47)
+    var_55 = var_53.render_field(field_name=var_48, field=var_54, value=var_45, error=var_20)
+    var_56 = '\n        <div>\n            <label for="color">Color</label>\n            <select id="color" name="color" required>\n                <option value="Red">Red</option>\n                <option value="Green" selected>Green</option>\n                <option value="Blue">Blue</option>\n            </select>\n        </div>\n    '
+
+
+
+# Parsed testcases at query #15
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
     var_1 = module_0.Jinja2Forms(directory=var_0)
-    var_2 = 'myapp'
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/checkbox.html'
+    var_2 = 'forms/select.html'
+    var_3 = 'forms/textarea.html'
+    var_4 = '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" {% if required %}required{% endif %}>'
+    var_5 = '<input type="checkbox" name="{{ field_name }}" {% if value %}checked{% endif %}>'
+    var_6 = '<select name="{{ field_name }}">{% for choice in field.choices %}<option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>{{ choice.display }}</option>{% endfor %}</select>'
+    var_7 = '<textarea name="{{ field_name }}">{{ value }}</textarea>'
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'Test String'
+    var_12 = 'text'
+    var_13 = module_2.String(format=var_12)
+    var_14 = 'test_field'
+    var_15 = {var_14: var_13}
+    var_16 = module_3.Schema(var_15)
+    var_17 = module_4.Form(env=var_10, schema=var_16)
+    var_18 = 'test value'
+    var_19 = var_17.render_field(field_name=var_14, field=var_13, value=var_18)
+    assert var_19 == '<textarea name="test_field">test value</textarea>'
+    var_20 = 'Test Boolean'
+    var_21 = module_2.Boolean()
+    var_22 = {var_14: var_21}
+    var_23 = module_3.Schema(var_22)
+    var_24 = module_4.Form(env=var_10, schema=var_23)
+    var_25 = True
+    var_26 = var_24.render_field(field_name=var_14, field=var_21, value=var_25)
+    assert var_26 == '<input type="checkbox" name="test_field" checked>'
+    var_27 = 'option1'
+    var_28 = 'Option 1'
+    var_29 = (var_27, var_28)
+    var_30 = 'option2'
+    var_31 = 'Option 2'
+    var_32 = (var_30, var_31)
+    var_33 = [var_29, var_32]
+    var_34 = module_2.Choice(choices=var_33)
+    var_35 = {var_14: var_34}
+    var_36 = module_3.Schema(var_35)
+    var_37 = module_4.Form(env=var_10, schema=var_36)
+    var_38 = var_37.render_field(field_name=var_14, field=var_34, value=var_27)
+    assert var_38 == '<select name="test_field"><option value="option1" selected>Option 1</option><option value="option2">Option 2</option></select>'
+    var_39 = 'Test Email'
+    var_40 = 'email'
+    var_41 = module_2.String(format=var_40)
+    var_42 = {var_14: var_41}
+    var_43 = module_3.Schema(var_42)
+    var_44 = module_4.Form(env=var_10, schema=var_43)
+    var_45 = 'test@example.com'
+    var_46 = var_44.render_field(field_name=var_14, field=var_41, value=var_45)
+    assert var_46 == '<input type="email" name="test_field" value="test@example.com">'
+    var_47 = 'Test Error'
+    var_48 = module_2.String()
+    var_49 = {var_14: var_48}
+    var_50 = module_3.Schema(var_49)
+    var_51 = module_4.Form(env=var_10, schema=var_50)
+    var_52 = ''
+    var_53 = 'This field is required'
+    var_54 = var_51.render_field(field_name=var_14, field=var_48, value=var_52, error=var_53)
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'name'
+    var_3 = 'age'
+    var_4 = 'John'
+    var_5 = 30
+    var_6 = {var_2: var_4, var_3: var_5}
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+
+import typesystem.fields as module_0
+import jinja2.environment as module_1
+import typesystem.schemas as module_2
+import typesystem.forms as module_3
+
+def test_case_0():
+    var_0 = '1'
+    var_1 = 'Option 1'
+    var_2 = (var_0, var_1)
+    var_3 = '2'
+    var_4 = 'Option 2'
+    var_5 = (var_3, var_4)
+    var_6 = [var_2, var_5]
+    var_7 = module_0.Choice(choices=var_6)
+    var_8 = module_1.Environment()
+    var_9 = {}
+    var_10 = module_2.Schema(var_9)
+    var_11 = module_3.Form(env=var_8, schema=var_10)
+    var_12 = var_11.template_for_field(var_7)
+    assert var_12 == 'forms/select.html'
+    var_13 = module_0.Boolean()
+    var_14 = var_11.template_for_field(var_13)
+    assert var_14 == 'forms/checkbox.html'
+    var_15 = 'text'
+    var_16 = module_0.String(format=var_15)
+    var_17 = var_11.template_for_field(var_16)
+    assert var_17 == 'forms/textarea.html'
+    var_18 = module_0.String()
+    var_19 = var_11.template_for_field(var_18)
+    assert var_19 == 'forms/input.html'
+    var_20 = {}
+    var_21 = module_0.Object(properties=var_20)
+    var_22 = var_11.template_for_field(var_21)
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
+    var_5 = var_4.env.loader
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.FileSystemLoader(var_0)
+    var_2 = module_1.Environment(loader=var_1)
+    var_3 = 'username'
+    var_4 = 'Username'
+    var_5 = module_2.String()
+    var_6 = {var_3: var_5}
+    var_7 = module_3.Schema(var_6)
+    var_8 = module_4.Form(env=var_2, schema=var_7)
+    var_9 = module_2.String()
+    var_10 = 'testuser'
+    var_11 = var_8.render_field(field_name=var_3, field=var_9, value=var_10)
+
+
+
+# Parsed testcases at query #21
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = 'Expected AssertionError when neither directory nor package is specified'
+    var_5 = AssertionError(var_4)
+
+
+
+# Parsed testcases at query #22
+#--------------------------
+
+
+import typesystem.fields as module_0
+import typesystem.schemas as module_1
+import typesystem.forms as module_2
+
+def test_case_0():
+    var_0 = 'name'
+    var_1 = module_0.String()
+    var_2 = {var_0: var_1}
+    var_3 = module_1.Schema(var_2)
+    var_4 = 'tests/templates'
+    var_5 = module_2.Jinja2Forms(directory=var_4)
+    var_6 = var_5.create_form(var_3)
+    var_7 = 'test'
+    var_8 = {var_0: var_7}
+    var_9 = var_5.create_form(var_3, var_8)
+    var_10 = 123
+    var_11 = {var_0: var_10}
+    var_12 = var_5.create_form(var_3, var_11)
+
+
+
+# Parsed testcases at query #23
+#--------------------------
+
+
+import typesystem.fields as module_0
+import typesystem.forms as module_1
+
+def test_case_0():
+    var_0 = 'Test Field'
+    var_1 = True
+    var_2 = module_0.String()
+    var_3 = None
+    var_4 = module_1.Form(env=var_3, schema=var_3, values=var_3)
+    var_5 = 'test_field'
+    var_6 = var_4.render_field(field_name=var_5, field=var_2)
+    var_7 = 'Test Checkbox'
+    var_8 = module_0.Boolean()
+    var_9 = 'test_checkbox'
+    var_10 = var_4.render_field(field_name=var_9, field=var_8)
+    var_11 = 'option1'
+    var_12 = 'Option 1'
+    var_13 = (var_11, var_12)
+    var_14 = 'option2'
+    var_15 = 'Option 2'
+    var_16 = (var_14, var_15)
+    var_17 = [var_13, var_16]
+    var_18 = module_0.Choice(choices=var_17)
+    var_19 = 'test_choice'
+    var_20 = var_4.render_field(field_name=var_19, field=var_18)
+    var_21 = 'Test Textarea'
+    var_22 = 'text'
+    var_23 = module_0.String(format=var_22)
+    var_24 = 'test_textarea'
+    var_25 = var_4.render_field(field_name=var_24, field=var_23)
+    var_26 = 'Test Email'
+    var_27 = 'email'
+    var_28 = module_0.String(format=var_27)
+    var_29 = 'test_email'
+    var_30 = var_4.render_field(field_name=var_29, field=var_28)
+    var_31 = 'Test Password'
+    var_32 = 'password'
+    var_33 = module_0.String(format=var_32)
+    var_34 = 'test_password'
+    var_35 = var_4.render_field(field_name=var_34, field=var_33)
+    var_36 = 'Required Field'
+    var_37 = False
+    var_38 = module_0.String()
+    var_39 = 'required_field'
+    var_40 = var_4.render_field(field_name=var_39, field=var_38)
+    var_41 = 'Field with Value'
+    var_42 = module_0.String()
+    var_43 = 'field_with_value'
+    var_44 = 'test value'
+    var_45 = var_4.render_field(field_name=var_43, field=var_42, value=var_44)
+    var_46 = 'Field with Error'
+    var_47 = module_0.String()
+    var_48 = 'field_with_error'
+    var_49 = 'Test error'
+    var_50 = var_4.render_field(field_name=var_48, field=var_47, error=var_49)
+    var_51 = 'Custom Format Field'
+    var_52 = 'color'
+    var_53 = module_0.String(format=var_52)
+    var_54 = 'custom_format_field'
+    var_55 = var_4.render_field(field_name=var_54, field=var_53)
+
+
+
+# Parsed testcases at query #24
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'name'
+    var_3 = 'age'
+    var_4 = 'John'
+    var_5 = '30'
+    var_6 = {var_2: var_4, var_3: var_5}
+
+
+
+# Parsed testcases at query #25
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
+
+
+
+# Parsed testcases at query #26
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env
+    var_3 = 'name'
+    var_4 = 'age'
+    var_5 = 'John'
+    var_6 = 30
+    var_7 = {var_3: var_5, var_4: var_6}
+    var_8 = ''
+    var_9 = -5
+    var_10 = {var_3: var_8, var_4: var_9}
+
+
+
+# Parsed testcases at query #27
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
     var_3 = module_0.Jinja2Forms(package=var_2)
     var_4 = var_3.env.loader
     var_5 = module_0.Jinja2Forms(directory=var_0, package=var_2)
-    var_6 = var_5.env.loader
-    var_7 = var_5.env.loader.loaders
-    var_8 = len(var_7)
-    assert var_8 == 2
-    var_9 = 1
-    var_10 = var_5.env.loader.loaders[var_9]
-    var_11 = '/path/to/templates'
-    var_12 = module_0.Jinja2Forms(directory=var_11)
-    var_13 = module_0.Jinja2Forms()
-    var_14 = module_0.Jinja2Forms(directory=var_13)
-    var_15 = module_0.Jinja2Forms(directory=var_13)
-    var_16 = var_15.env.loader
-    var_17 = module_0.Jinja2Forms(package=var_12)
-    var_18 = var_17.env.loader
-    var_19 = module_0.Jinja2Forms(directory=var_13, package=var_12)
-    var_20 = var_19.env.loader
-    var_21 = var_19.env.loader.loaders
-    var_22 = len(var_21)
-    assert var_22 == 2
-    var_23 = var_19.env.loader.loaders[var_9]
-    var_24 = module_0.Jinja2Forms(directory=var_13)
-    var_25 = var_24.env.loader
-    var_26 = module_0.Jinja2Forms(package=var_12)
-    var_27 = var_26.env.loader
-    var_28 = module_0.Jinja2Forms(directory=var_13, package=var_12)
-    var_29 = var_28.env.loader
-    var_30 = var_28.env.loader.loaders
-    var_31 = len(var_30)
-    assert var_31 == 2
-    var_32 = var_28.env.loader.loaders[var_9]
-    var_33 = module_0.Jinja2Forms(directory=var_13)
-    var_34 = 'forms/input.html'
-    var_35 = module_0.Jinja2Forms(package=var_12)
-    var_36 = module_0.Jinja2Forms(directory=var_13, package=var_12)
-    var_37 = module_0.Jinja2Forms(directory=var_13)
-    var_38 = 'test'
-    var_39 = module_1.String()
-    var_40 = 'Test'
-    var_41 = True
-    var_42 = 'text'
-    var_43 = ''
-    var_44 = None
-    var_45 = module_0.Jinja2Forms(package=var_12)
-    var_46 = module_1.String()
-    var_47 = True
-    var_48 = module_0.Jinja2Forms(directory=var_13, package=var_12)
-    var_49 = module_1.String()
-    var_50 = True
-    var_51 = module_0.Jinja2Forms(directory=var_13)
-    var_52 = module_1.String()
-    var_53 = True
-    var_54 = "<script>alert('xss')</script>"
-    var_55 = module_0.Jinja2Forms(package=var_12)
-    var_56 = module_1.String()
-    var_57 = True
-    var_58 = module_0.Jinja2Forms(directory=var_13, package=var_12)
-    var_59 = module_1.String()
-    var_60 = True
-    var_61 = module_0.Jinja2Forms(directory=var_13)
-    var_62 = module_1.String()
-    var_63 = True
-    var_64 = module_0.Jinja2Forms(package=var_12)
-    var_65 = module_1.String()
-    var_66 = True
-    var_67 = module_0.Jinja2Forms(directory=var_13, package=var_12)
-    var_68 = module_1.String()
-    var_69 = True
-    var_70 = module_0.Jinja2Forms(directory=var_13)
+    var_6 = var_5.env.loader.loaders
+    var_7 = len(var_6)
+    assert var_7 == 2
+    var_8 = module_0.Jinja2Forms()
+
+
+
+# Parsed testcases at query #28
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/select.html'
+    var_2 = 'forms/checkbox.html'
+    var_3 = 'forms/textarea.html'
+    var_4 = '<input type="{{ input_type }}" name="{{ field_name }}" value="{{ value }}" id="{{ field_id }}" {% if required %}required{% endif %}>'
+    var_5 = '<select name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{% for choice in field.choices %}<option value="{{ choice }}" {% if choice == value %}selected{% endif %}>{{ choice }}</option>{% endfor %}</select>'
+    var_6 = '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %}>'
+    var_7 = '<textarea name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{{ value }}</textarea>'
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'field_name'
+    var_12 = 'choice_field'
+    var_13 = 'bool_field'
+    var_14 = 'text_field'
+    var_15 = 'Test Field'
+    var_16 = 'email'
+    var_17 = module_2.String(format=var_16)
+    var_18 = 'option1'
+    var_19 = 'option2'
+    var_20 = [var_18, var_19]
+    var_21 = module_2.Choice(choices=var_20)
+    var_22 = module_2.Boolean()
+    var_23 = 'text'
+    var_24 = module_2.String(format=var_23)
+    var_25 = {var_11: var_17, var_12: var_21, var_13: var_22, var_14: var_24}
+    var_26 = module_3.Schema(var_25)
+    var_27 = module_4.Form(env=var_10, schema=var_26)
+    var_28 = module_2.String(format=var_16)
+    var_29 = 'test@example.com'
+    var_30 = var_27.render_field(field_name=var_11, field=var_28, value=var_29)
+    assert var_30 == '<input type="email" name="field_name" value="test@example.com" id="field-name" required>'
+    var_31 = [var_18, var_19]
+    var_32 = module_2.Choice(choices=var_31)
+    var_33 = var_27.render_field(field_name=var_12, field=var_32, value=var_18)
+    assert var_33 == '<select name="choice_field" id="choice-field" required><option value="option1" selected>option1</option><option value="option2">option2</option></select>'
+    var_34 = module_2.Boolean()
+    var_35 = True
+    var_36 = var_27.render_field(field_name=var_13, field=var_34, value=var_35)
+    assert var_36 == '<input type="checkbox" name="bool_field" id="bool-field" checked>'
+    var_37 = module_2.String(format=var_23)
+    var_38 = 'Hello World'
+    var_39 = var_27.render_field(field_name=var_14, field=var_37, value=var_38)
+    assert var_39 == '<textarea name="text_field" id="text-field" required>Hello World</textarea>'
+    var_40 = module_2.String(format=var_16)
+    var_41 = ''
+    var_42 = 'Invalid email'
+    var_43 = var_27.render_field(field_name=var_11, field=var_40, value=var_41, error=var_42)
+    assert var_43 == '<input type="email" name="field_name" value="" id="field-name" required>'
+
+
+
+# Parsed testcases at query #29
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
+    var_5 = var_4.env.loader
+    var_6 = module_0.Jinja2Forms()
+
+
+
+# Parsed testcases at query #30
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/textarea.html'
+    var_2 = 'forms/checkbox.html'
+    var_3 = 'forms/select.html'
+    var_4 = 'input template'
+    var_5 = 'textarea template'
+    var_6 = 'checkbox template'
+    var_7 = 'select template'
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'text_field'
+    var_12 = 'textarea_field'
+    var_13 = 'checkbox_field'
+    var_14 = 'select_field'
+
+
+
+# Parsed testcases at query #31
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" />'
+    var_2 = {var_0: var_1}
+    var_3 = module_0.DictLoader(var_2)
+    var_4 = module_1.Environment(loader=var_3)
+    var_5 = 'Test Field'
+    var_6 = module_2.String()
+    var_7 = 'test_field'
+    var_8 = {var_7: var_6}
+    var_9 = module_3.Schema(var_8)
+    var_10 = module_4.Form(env=var_4, schema=var_9)
+    var_11 = 'test value'
+    var_12 = var_10.render_field(field_name=var_7, field=var_6, value=var_11)
+    assert var_12 == '<input type="text" name="test_field" id="test-field" value="test value" />'
+
+
+
+# Parsed testcases at query #32
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = '\n            <input type="{{ input_type }}" id="{{ field_id }}" name="{{ field_name }}" value="{{ value }}">\n        '
+    var_2 = {var_0: var_1}
+    var_3 = module_0.DictLoader(var_2)
+    var_4 = module_1.Environment(loader=var_3)
+    var_5 = 'name'
+    var_6 = 'email'
+    var_7 = 'John'
+    var_8 = 'john@example.com'
+    var_9 = {var_5: var_7, var_6: var_8}
+
+
+
+# Parsed testcases at query #33
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env
+
+
+
+# Parsed testcases at query #34
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/data'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env.loader
+    var_3 = 'tests'
+    var_4 = module_0.Jinja2Forms(package=var_3)
+    var_5 = var_4.env.loader
+
+
+
+# Parsed testcases at query #35
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/textarea.html'
+    var_2 = 'forms/checkbox.html'
+    var_3 = 'forms/select.html'
+    var_4 = 'input template'
+    var_5 = 'textarea template'
+    var_6 = 'checkbox template'
+    var_7 = 'select template'
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'TestSchema'
+    var_12 = 'field1'
+    var_13 = 'field2'
+    var_14 = 'field3'
+    var_15 = 'field4'
+    var_16 = 'field5'
+    var_17 = 'Field1'
+    var_18 = module_2.String()
+    var_19 = 'Field2'
+    var_20 = 'email'
+    var_21 = module_2.String(format=var_20)
+    var_22 = 'Field3'
+    var_23 = module_2.Boolean()
+    var_24 = 'Field4'
+    var_25 = '1'
+    var_26 = 'One'
+    var_27 = (var_25, var_26)
+    var_28 = '2'
+    var_29 = 'Two'
+    var_30 = (var_28, var_29)
+    var_31 = [var_27, var_30]
+    var_32 = module_2.Choice(choices=var_31)
+    var_33 = 'Field5'
+    var_34 = 'text'
+    var_35 = module_2.String(format=var_34)
+    var_36 = {var_12: var_18, var_13: var_21, var_14: var_23, var_15: var_32, var_16: var_35}
+    var_37 = module_3.Schema(var_36)
+    var_38 = module_4.Form(env=var_10, schema=var_37)
+    var_39 = var_37.fields[var_12]
+    var_40 = var_38.render_field(field_name=var_12, field=var_39)
+    assert var_40 == 'input template'
+    var_41 = var_37.fields[var_13]
+    var_42 = var_38.render_field(field_name=var_13, field=var_41)
+    assert var_42 == 'input template'
+    var_43 = var_37.fields[var_14]
+    var_44 = var_38.render_field(field_name=var_14, field=var_43)
+    assert var_44 == 'checkbox template'
+    var_45 = var_37.fields[var_15]
+    var_46 = var_38.render_field(field_name=var_15, field=var_45)
+    assert var_46 == 'select template'
+    var_47 = var_37.fields[var_16]
+    var_48 = var_38.render_field(field_name=var_16, field=var_47)
+    assert var_48 == 'textarea template'
+
+
+
+# Parsed testcases at query #36
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env.loader
+    var_3 = 'package_name'
+    var_4 = module_0.Jinja2Forms(package=var_3)
+    var_5 = var_4.env.loader
+    var_6 = module_0.Jinja2Forms(directory=var_0, package=var_3)
+    var_7 = var_6.env.loader
+    var_8 = 0
+    var_9 = var_6.env.loader.loaders[var_8]
+    var_10 = 1
+    var_11 = var_6.env.loader.loaders[var_10]
+
+
+
+# Parsed testcases at query #37
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 2
+
+
+
+# Parsed testcases at query #38
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.FileSystemLoader(var_0)
+    var_2 = module_1.Environment(loader=var_1)
+    var_3 = '<div><label for="name">Name</label><input type="text" id="name" name="name" value=""></div><div><label for="age">Age</label><input type="number" id="age" name="age" value=""></div>'
+
+
+
+# Parsed testcases at query #39
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env
+    var_3 = var_1.env.loader
+    var_4 = 'test_package'
+    var_5 = module_0.Jinja2Forms(package=var_4)
+    var_6 = var_5.env
+    var_7 = var_5.env.loader
+    var_8 = module_0.Jinja2Forms(directory=var_0, package=var_4)
+    var_9 = var_8.env
+    var_10 = var_8.env.loader
+    var_11 = var_8.env.loader.loaders
+    var_12 = len(var_11)
+    assert var_12 == 2
+    var_13 = 0
+    var_14 = var_8.env.loader.loaders[var_13]
+    var_15 = 1
+    var_16 = var_8.env.loader.loaders[var_15]
+
+
+
+# Parsed testcases at query #40
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = '\n            <input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>\n        '
+    var_2 = {var_0: var_1}
+    var_3 = module_0.DictLoader(var_2)
+    var_4 = module_1.Environment(loader=var_3)
+    var_5 = 'name'
+    var_6 = 'age'
+    var_7 = 'John'
+    var_8 = '30'
+    var_9 = {var_5: var_7, var_6: var_8}
+
+
+
+# Parsed testcases at query #41
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env
+    var_3 = 'tests'
+    var_4 = module_0.Jinja2Forms(package=var_3)
+    var_5 = var_4.env
+    var_6 = module_0.Jinja2Forms(directory=var_0, package=var_3)
+    var_7 = var_6.env
+    var_8 = module_0.Jinja2Forms()
+
+
+
+# Parsed testcases at query #42
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
+    var_5 = module_0.Jinja2Forms()
+
+
+
+# Parsed testcases at query #43
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.FileSystemLoader(var_0)
+    var_2 = module_1.Environment(loader=var_1)
+    var_3 = 'name'
+
+
+
+# Parsed testcases at query #44
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+import typesystem.schemas as module_3
+import typesystem.forms as module_4
+
+def test_case_0():
+    var_0 = 'templates'
+    var_1 = module_0.FileSystemLoader(var_0)
+    var_2 = module_1.Environment(loader=var_1)
+    var_3 = 'field_name'
+    var_4 = 'Field Title'
+    var_5 = module_2.String()
+    var_6 = {var_3: var_5}
+    var_7 = module_3.Schema(var_6)
+    var_8 = module_4.Form(env=var_2, schema=var_7)
+    var_9 = module_2.String()
+    var_10 = 'test_value'
+    var_11 = 'test_error'
+    var_12 = var_8.render_field(field_name=var_3, field=var_9, value=var_10, error=var_11)
+
+
+
+# Parsed testcases at query #45
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
+    var_5 = var_4.env.loader.loaders
+    var_6 = len(var_5)
+    assert var_6 == 2
+    var_7 = module_0.Jinja2Forms()
+
+
+
+# Parsed testcases at query #46
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.FileSystemLoader(var_0)
+    var_2 = module_1.Environment(loader=var_1)
+    var_3 = 'name'
+
+
+
+# Parsed testcases at query #47
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'test_templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = var_1.env.loader
+    var_3 = 'test_package'
+    var_4 = module_0.Jinja2Forms(package=var_3)
+    var_5 = var_4.env.loader
+    var_6 = 'test_templates'
+    var_7 = 'test_package'
+    var_8 = module_0.Jinja2Forms(directory=var_6, package=var_7)
+    var_9 = var_8.env.loader
+    var_10 = var_8.env.loader.loaders
+    var_11 = len(var_10)
+    assert var_11 == 2
+    var_12 = 0
+    var_13 = var_8.env.loader.loaders[var_12]
+    var_14 = 1
+    var_15 = var_8.env.loader.loaders[var_14]
+    var_16 = module_0.Jinja2Forms()
+
+
+
+# Parsed testcases at query #48
+#--------------------------
+
+
+import jinja2.loaders as module_0
+import jinja2.environment as module_1
+import typesystem.fields as module_2
+
+def test_case_0():
+    var_0 = 'forms/input.html'
+    var_1 = 'forms/textarea.html'
+    var_2 = 'forms/select.html'
+    var_3 = 'forms/checkbox.html'
+    var_4 = '<input type="{{ input_type }}" name="{{ field_name }}" id="{{ field_id }}" value="{{ value }}" {% if required %}required{% endif %}>'
+    var_5 = '<textarea name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{{ value }}</textarea>'
+    var_6 = '<select name="{{ field_name }}" id="{{ field_id }}" {% if required %}required{% endif %}>{% for choice in field.choices %}<option value="{{ choice.value }}" {% if choice.value == value %}selected{% endif %}>{{ choice.text }}</option>{% endfor %}</select>'
+    var_7 = '<input type="checkbox" name="{{ field_name }}" id="{{ field_id }}" {% if value %}checked{% endif %}>'
+    var_8 = {var_0: var_4, var_1: var_5, var_2: var_6, var_3: var_7}
+    var_9 = module_0.DictLoader(var_8)
+    var_10 = module_1.Environment(loader=var_9)
+    var_11 = 'name'
+    var_12 = 'Name'
+    var_13 = module_2.String()
+    var_14 = 'John'
+    var_15 = 'age'
+    var_16 = 'Age'
+    var_17 = module_2.Integer()
+    var_18 = 30
+    var_19 = 'description'
+    var_20 = 'Description'
+    var_21 = 'text'
+    var_22 = module_2.String(format=var_21)
+    var_23 = 'Test description'
+    var_24 = 'option1'
+    var_25 = 'Option 1'
+    var_26 = (var_24, var_25)
+    var_27 = 'option2'
+    var_28 = 'Option 2'
+    var_29 = (var_27, var_28)
+    var_30 = [var_26, var_29]
+    var_31 = 'choice'
+    var_32 = 'Choice'
+    var_33 = module_2.Choice(choices=var_30)
+    var_34 = 'active'
+    var_35 = 'Active'
+    var_36 = module_2.Boolean()
+    var_37 = True
+
+
+
+# Parsed testcases at query #49
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
+    var_5 = module_0.Jinja2Forms()
+    var_6 = 'invalid'
+    var_7 = module_0.Jinja2Forms(directory=var_6)
+    var_8 = 'invalid'
+    var_9 = module_0.Jinja2Forms(package=var_8)
+
+
+
+# Parsed testcases at query #50
+#--------------------------
+
+
+import typesystem.forms as module_0
+
+def test_case_0():
+    var_0 = 'tests/templates'
+    var_1 = module_0.Jinja2Forms(directory=var_0)
+    var_2 = 'tests'
+    var_3 = module_0.Jinja2Forms(package=var_2)
+    var_4 = module_0.Jinja2Forms(directory=var_0, package=var_2)
+    var_5 = module_0.Jinja2Forms()
 
 
 

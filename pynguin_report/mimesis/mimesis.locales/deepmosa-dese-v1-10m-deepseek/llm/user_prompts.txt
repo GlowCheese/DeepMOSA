@@ -1,0 +1,352 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+```
+Write unit test for function validate_locale
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+```
+Write unit test for function validate_locale
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def validate_locale(locale: Locale | str) -> Locale:
+ 2 |     if isinstance(locale, str):
+ 3 |         try:
+ 4 |             return Locale(locale)
+ 5 |         except ValueError:
+ 6 |             raise LocaleError(locale)
+ 7 | 
+ 8 |     if not isinstance(locale, Locale):
+ 9 |         raise LocaleError(locale)
+10 | 
+11 |     return locale
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def validate_locale(locale: Locale | str) -> Locale:
+ 2 |     if isinstance(locale, str):
+ 3 |         try:
+ 4 |             return Locale(locale)
+ 5 |         except ValueError:
+ 6 |             raise LocaleError(locale)
+ 7 | 
+ 8 |     if not isinstance(locale, Locale):
+ 9 |         raise LocaleError(locale)
+10 | 
+11 |     return locale
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def validate_locale(locale: Locale | str) -> Locale:
+ 2 |     if isinstance(locale, str):
+ 3 |         try:
+ 4 |             return Locale(locale)
+ 5 |         except ValueError:
+ 6 |             raise LocaleError(locale)
+ 7 | 
+ 8 |     if not isinstance(locale, Locale):
+ 9 |         raise LocaleError(locale)
+10 | 
+11 |     return locale
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def validate_locale(locale: Locale | str) -> Locale:
+ 2 |     if isinstance(locale, str):
+ 3 |         try:
+ 4 |             return Locale(locale)
+ 5 |         except ValueError:
+ 6 |             raise LocaleError(locale)
+ 7 | 
+ 8 |     if not isinstance(locale, Locale):
+ 9 |         raise LocaleError(locale)
+10 | 
+11 |     return locale
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+```
+Write unit test for function validate_locale
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def validate_locale(locale: Locale | str) -> Locale:
+ 2 |     if isinstance(locale, str):
+ 3 |         try:
+ 4 |             return Locale(locale)
+ 5 |         except ValueError:
+ 6 |             raise LocaleError(locale)
+ 7 | 
+ 8 |     if not isinstance(locale, Locale):
+ 9 |         raise LocaleError(locale)
+10 | 
+11 |     return locale
+```
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+```
+Write unit test for function validate_locale
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def validate_locale(locale: Locale | str) -> Locale:
+ 2 |     if isinstance(locale, str):
+ 3 |         try:
+ 4 |             return Locale(locale)
+ 5 |         except ValueError:
+ 6 |             raise LocaleError(locale)
+ 7 | 
+ 8 |     if not isinstance(locale, Locale):
+ 9 |         raise LocaleError(locale)
+10 | 
+11 |     return locale
+```
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def validate_locale(locale: Locale | str) -> Locale:
+ 2 |     if isinstance(locale, str):
+ 3 |         try:
+ 4 |             return Locale(locale)
+ 5 |         except ValueError:
+ 6 |             raise LocaleError(locale)
+ 7 | 
+ 8 |     if not isinstance(locale, Locale):
+ 9 |         raise LocaleError(locale)
+10 | 
+11 |     return locale
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def validate_locale(locale: Locale | str) -> Locale:
+ 2 |     if isinstance(locale, str):
+ 3 |         try:
+ 4 |             return Locale(locale)
+ 5 |         except ValueError:
+ 6 |             raise LocaleError(locale)
+ 7 | 
+ 8 |     if not isinstance(locale, Locale):
+ 9 |         raise LocaleError(locale)
+10 | 
+11 |     return locale
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+def validate_locale(locale: Locale | str) -> Locale:
+    if isinstance(locale, str):
+        try:
+            return Locale(locale)
+        except ValueError:
+            raise LocaleError(locale)
+
+    if not isinstance(locale, Locale):
+        raise LocaleError(locale)
+
+    return locale
+
+```
+Write unit test for function validate_locale
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def validate_locale(locale: Locale | str) -> Locale:
+ 2 |     if isinstance(locale, str):
+ 3 |         try:
+ 4 |             return Locale(locale)
+ 5 |         except ValueError:
+ 6 |             raise LocaleError(locale)
+ 7 | 
+ 8 |     if not isinstance(locale, Locale):
+ 9 |         raise LocaleError(locale)
+10 | 
+11 |     return locale
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def validate_locale(locale: Locale | str) -> Locale:
+ 2 |     if isinstance(locale, str):
+ 3 |         try:
+ 4 |             return Locale(locale)
+ 5 |         except ValueError:
+ 6 |             raise LocaleError(locale)
+ 7 | 
+ 8 |     if not isinstance(locale, Locale):
+ 9 |         raise LocaleError(locale)
+10 | 
+11 |     return locale
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def validate_locale(locale: Locale | str) -> Locale:
+ 2 |     if isinstance(locale, str):
+ 3 |         try:
+ 4 |             return Locale(locale)
+ 5 |         except ValueError:
+ 6 |             raise LocaleError(locale)
+ 7 | 
+ 8 |     if not isinstance(locale, Locale):
+ 9 |         raise LocaleError(locale)
+10 | 
+11 |     return locale
+```
+
+

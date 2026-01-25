@@ -1,0 +1,3982 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + anthropic/claude-haiku-4.5 t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+
+def get_user_config(
+    config_file: str | None = None,
+    default_config: bool | dict[str, Any] = False,
+) -> dict[str, Any]:
+    """Return the user config as a dict.
+
+    If ``default_config`` is True, ignore ``config_file`` and return default
+    values for the config parameters.
+
+    If ``default_config`` is a dict, merge values with default values and return them
+    for the config parameters.
+
+    If a path to a ``config_file`` is given, that is different from the default
+    location, load the user config from that.
+
+    Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+    environment variable. If set, load the config from this path. This will
+    raise an error if the specified path is not valid.
+
+    If the environment variable is not set, try the default config file path
+    before falling back to the default config values.
+    """
+    # Do NOT load a config. Merge provided values with defaults and return them instead
+    if default_config and isinstance(default_config, dict):
+        return merge_configs(DEFAULT_CONFIG, default_config)
+
+    # Do NOT load a config. Return defaults instead.
+    if default_config:
+        logger.debug("Force ignoring user config with default_config switch.")
+        return copy.copy(DEFAULT_CONFIG)
+
+    # Load the given config file
+    if config_file and config_file is not USER_CONFIG_PATH:
+        logger.debug("Loading custom config from %s.", config_file)
+        return get_config(config_file)
+
+    try:
+        # Does the user set up a config environment variable?
+        env_config_file = os.environ['COOKIECUTTER_CONFIG']
+    except KeyError:
+        # Load an optional user config if it exists
+        # otherwise return the defaults
+        if os.path.exists(USER_CONFIG_PATH):
+            logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+            return get_config(USER_CONFIG_PATH)
+        logger.debug("User config not found. Loading default config.")
+        return copy.copy(DEFAULT_CONFIG)
+    else:
+        # There is a config environment variable. Try to load it.
+        # Do not check for existence, so invalid file paths raise an error.
+        logger.debug("User config not found or not specified. Loading default config.")
+        return get_config(env_config_file)
+
+```
+Write unit test for function get_user_config
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 33 evaluates to False.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 33 evaluates to False.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+
+def get_user_config(
+    config_file: str | None = None,
+    default_config: bool | dict[str, Any] = False,
+) -> dict[str, Any]:
+    """Return the user config as a dict.
+
+    If ``default_config`` is True, ignore ``config_file`` and return default
+    values for the config parameters.
+
+    If ``default_config`` is a dict, merge values with default values and return them
+    for the config parameters.
+
+    If a path to a ``config_file`` is given, that is different from the default
+    location, load the user config from that.
+
+    Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+    environment variable. If set, load the config from this path. This will
+    raise an error if the specified path is not valid.
+
+    If the environment variable is not set, try the default config file path
+    before falling back to the default config values.
+    """
+    # Do NOT load a config. Merge provided values with defaults and return them instead
+    if default_config and isinstance(default_config, dict):
+        return merge_configs(DEFAULT_CONFIG, default_config)
+
+    # Do NOT load a config. Return defaults instead.
+    if default_config:
+        logger.debug("Force ignoring user config with default_config switch.")
+        return copy.copy(DEFAULT_CONFIG)
+
+    # Load the given config file
+    if config_file and config_file is not USER_CONFIG_PATH:
+        logger.debug("Loading custom config from %s.", config_file)
+        return get_config(config_file)
+
+    try:
+        # Does the user set up a config environment variable?
+        env_config_file = os.environ['COOKIECUTTER_CONFIG']
+    except KeyError:
+        # Load an optional user config if it exists
+        # otherwise return the defaults
+        if os.path.exists(USER_CONFIG_PATH):
+            logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+            return get_config(USER_CONFIG_PATH)
+        logger.debug("User config not found. Loading default config.")
+        return copy.copy(DEFAULT_CONFIG)
+    else:
+        # There is a config environment variable. Try to load it.
+        # Do not check for existence, so invalid file paths raise an error.
+        logger.debug("User config not found or not specified. Loading default config.")
+        return get_config(env_config_file)
+
+```
+Write unit test for function get_user_config
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 40 evaluates to False.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 40 evaluates to False.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 43 evaluates to True.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 43 evaluates to True.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 33 evaluates to False.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 33 evaluates to False.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_user_config(
+    config_file: str | None = None,
+    default_config: bool | dict[str, Any] = False,
+) -> dict[str, Any]:
+    """Return the user config as a dict.
+
+    If ``default_config`` is True, ignore ``config_file`` and return default
+    values for the config parameters.
+
+    If ``default_config`` is a dict, merge values with default values and return them
+    for the config parameters.
+
+    If a path to a ``config_file`` is given, that is different from the default
+    location, load the user config from that.
+
+    Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+    environment variable. If set, load the config from this path. This will
+    raise an error if the specified path is not valid.
+
+    If the environment variable is not set, try the default config file path
+    before falling back to the default config values.
+    """
+    # Do NOT load a config. Merge provided values with defaults and return them instead
+    if default_config and isinstance(default_config, dict):
+        return merge_configs(DEFAULT_CONFIG, default_config)
+
+    # Do NOT load a config. Return defaults instead.
+    if default_config:
+        logger.debug("Force ignoring user config with default_config switch.")
+        return copy.copy(DEFAULT_CONFIG)
+
+    # Load the given config file
+    if config_file and config_file is not USER_CONFIG_PATH:
+        logger.debug("Loading custom config from %s.", config_file)
+        return get_config(config_file)
+
+    try:
+        # Does the user set up a config environment variable?
+        env_config_file = os.environ['COOKIECUTTER_CONFIG']
+    except KeyError:
+        # Load an optional user config if it exists
+        # otherwise return the defaults
+        if os.path.exists(USER_CONFIG_PATH):
+            logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+            return get_config(USER_CONFIG_PATH)
+        logger.debug("User config not found. Loading default config.")
+        return copy.copy(DEFAULT_CONFIG)
+    else:
+        # There is a config environment variable. Try to load it.
+        # Do not check for existence, so invalid file paths raise an error.
+        logger.debug("User config not found or not specified. Loading default config.")
+        return get_config(env_config_file)
+
+```
+Write unit test for function get_user_config
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+
+def get_user_config(
+    config_file: str | None = None,
+    default_config: bool | dict[str, Any] = False,
+) -> dict[str, Any]:
+    """Return the user config as a dict.
+
+    If ``default_config`` is True, ignore ``config_file`` and return default
+    values for the config parameters.
+
+    If ``default_config`` is a dict, merge values with default values and return them
+    for the config parameters.
+
+    If a path to a ``config_file`` is given, that is different from the default
+    location, load the user config from that.
+
+    Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+    environment variable. If set, load the config from this path. This will
+    raise an error if the specified path is not valid.
+
+    If the environment variable is not set, try the default config file path
+    before falling back to the default config values.
+    """
+    # Do NOT load a config. Merge provided values with defaults and return them instead
+    if default_config and isinstance(default_config, dict):
+        return merge_configs(DEFAULT_CONFIG, default_config)
+
+    # Do NOT load a config. Return defaults instead.
+    if default_config:
+        logger.debug("Force ignoring user config with default_config switch.")
+        return copy.copy(DEFAULT_CONFIG)
+
+    # Load the given config file
+    if config_file and config_file is not USER_CONFIG_PATH:
+        logger.debug("Loading custom config from %s.", config_file)
+        return get_config(config_file)
+
+    try:
+        # Does the user set up a config environment variable?
+        env_config_file = os.environ['COOKIECUTTER_CONFIG']
+    except KeyError:
+        # Load an optional user config if it exists
+        # otherwise return the defaults
+        if os.path.exists(USER_CONFIG_PATH):
+            logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+            return get_config(USER_CONFIG_PATH)
+        logger.debug("User config not found. Loading default config.")
+        return copy.copy(DEFAULT_CONFIG)
+    else:
+        # There is a config environment variable. Try to load it.
+        # Do not check for existence, so invalid file paths raise an error.
+        logger.debug("User config not found or not specified. Loading default config.")
+        return get_config(env_config_file)
+
+```
+Write unit test for function get_user_config
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+
+def get_user_config(
+    config_file: str | None = None,
+    default_config: bool | dict[str, Any] = False,
+) -> dict[str, Any]:
+    """Return the user config as a dict.
+
+    If ``default_config`` is True, ignore ``config_file`` and return default
+    values for the config parameters.
+
+    If ``default_config`` is a dict, merge values with default values and return them
+    for the config parameters.
+
+    If a path to a ``config_file`` is given, that is different from the default
+    location, load the user config from that.
+
+    Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+    environment variable. If set, load the config from this path. This will
+    raise an error if the specified path is not valid.
+
+    If the environment variable is not set, try the default config file path
+    before falling back to the default config values.
+    """
+    # Do NOT load a config. Merge provided values with defaults and return them instead
+    if default_config and isinstance(default_config, dict):
+        return merge_configs(DEFAULT_CONFIG, default_config)
+
+    # Do NOT load a config. Return defaults instead.
+    if default_config:
+        logger.debug("Force ignoring user config with default_config switch.")
+        return copy.copy(DEFAULT_CONFIG)
+
+    # Load the given config file
+    if config_file and config_file is not USER_CONFIG_PATH:
+        logger.debug("Loading custom config from %s.", config_file)
+        return get_config(config_file)
+
+    try:
+        # Does the user set up a config environment variable?
+        env_config_file = os.environ['COOKIECUTTER_CONFIG']
+    except KeyError:
+        # Load an optional user config if it exists
+        # otherwise return the defaults
+        if os.path.exists(USER_CONFIG_PATH):
+            logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+            return get_config(USER_CONFIG_PATH)
+        logger.debug("User config not found. Loading default config.")
+        return copy.copy(DEFAULT_CONFIG)
+    else:
+        # There is a config environment variable. Try to load it.
+        # Do not check for existence, so invalid file paths raise an error.
+        logger.debug("User config not found or not specified. Loading default config.")
+        return get_config(env_config_file)
+
+```
+Write unit test for function get_user_config
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 40 evaluates to False.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + anthropic/claude-haiku-4.5 t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+
+def get_user_config(
+    config_file: str | None = None,
+    default_config: bool | dict[str, Any] = False,
+) -> dict[str, Any]:
+    """Return the user config as a dict.
+
+    If ``default_config`` is True, ignore ``config_file`` and return default
+    values for the config parameters.
+
+    If ``default_config`` is a dict, merge values with default values and return them
+    for the config parameters.
+
+    If a path to a ``config_file`` is given, that is different from the default
+    location, load the user config from that.
+
+    Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+    environment variable. If set, load the config from this path. This will
+    raise an error if the specified path is not valid.
+
+    If the environment variable is not set, try the default config file path
+    before falling back to the default config values.
+    """
+    # Do NOT load a config. Merge provided values with defaults and return them instead
+    if default_config and isinstance(default_config, dict):
+        return merge_configs(DEFAULT_CONFIG, default_config)
+
+    # Do NOT load a config. Return defaults instead.
+    if default_config:
+        logger.debug("Force ignoring user config with default_config switch.")
+        return copy.copy(DEFAULT_CONFIG)
+
+    # Load the given config file
+    if config_file and config_file is not USER_CONFIG_PATH:
+        logger.debug("Loading custom config from %s.", config_file)
+        return get_config(config_file)
+
+    try:
+        # Does the user set up a config environment variable?
+        env_config_file = os.environ['COOKIECUTTER_CONFIG']
+    except KeyError:
+        # Load an optional user config if it exists
+        # otherwise return the defaults
+        if os.path.exists(USER_CONFIG_PATH):
+            logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+            return get_config(USER_CONFIG_PATH)
+        logger.debug("User config not found. Loading default config.")
+        return copy.copy(DEFAULT_CONFIG)
+    else:
+        # There is a config environment variable. Try to load it.
+        # Do not check for existence, so invalid file paths raise an error.
+        logger.debug("User config not found or not specified. Loading default config.")
+        return get_config(env_config_file)
+
+```
+Write unit test for function get_user_config
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+```
+Write unit test for function _expand_path
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+
+def get_user_config(
+    config_file: str | None = None,
+    default_config: bool | dict[str, Any] = False,
+) -> dict[str, Any]:
+    """Return the user config as a dict.
+
+    If ``default_config`` is True, ignore ``config_file`` and return default
+    values for the config parameters.
+
+    If ``default_config`` is a dict, merge values with default values and return them
+    for the config parameters.
+
+    If a path to a ``config_file`` is given, that is different from the default
+    location, load the user config from that.
+
+    Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+    environment variable. If set, load the config from this path. This will
+    raise an error if the specified path is not valid.
+
+    If the environment variable is not set, try the default config file path
+    before falling back to the default config values.
+    """
+    # Do NOT load a config. Merge provided values with defaults and return them instead
+    if default_config and isinstance(default_config, dict):
+        return merge_configs(DEFAULT_CONFIG, default_config)
+
+    # Do NOT load a config. Return defaults instead.
+    if default_config:
+        logger.debug("Force ignoring user config with default_config switch.")
+        return copy.copy(DEFAULT_CONFIG)
+
+    # Load the given config file
+    if config_file and config_file is not USER_CONFIG_PATH:
+        logger.debug("Loading custom config from %s.", config_file)
+        return get_config(config_file)
+
+    try:
+        # Does the user set up a config environment variable?
+        env_config_file = os.environ['COOKIECUTTER_CONFIG']
+    except KeyError:
+        # Load an optional user config if it exists
+        # otherwise return the defaults
+        if os.path.exists(USER_CONFIG_PATH):
+            logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+            return get_config(USER_CONFIG_PATH)
+        logger.debug("User config not found. Loading default config.")
+        return copy.copy(DEFAULT_CONFIG)
+    else:
+        # There is a config environment variable. Try to load it.
+        # Do not check for existence, so invalid file paths raise an error.
+        logger.debug("User config not found or not specified. Loading default config.")
+        return get_config(env_config_file)
+
+```
+Write unit test for function get_user_config
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_user_config(
+    config_file: str | None = None,
+    default_config: bool | dict[str, Any] = False,
+) -> dict[str, Any]:
+    """Return the user config as a dict.
+
+    If ``default_config`` is True, ignore ``config_file`` and return default
+    values for the config parameters.
+
+    If ``default_config`` is a dict, merge values with default values and return them
+    for the config parameters.
+
+    If a path to a ``config_file`` is given, that is different from the default
+    location, load the user config from that.
+
+    Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+    environment variable. If set, load the config from this path. This will
+    raise an error if the specified path is not valid.
+
+    If the environment variable is not set, try the default config file path
+    before falling back to the default config values.
+    """
+    # Do NOT load a config. Merge provided values with defaults and return them instead
+    if default_config and isinstance(default_config, dict):
+        return merge_configs(DEFAULT_CONFIG, default_config)
+
+    # Do NOT load a config. Return defaults instead.
+    if default_config:
+        logger.debug("Force ignoring user config with default_config switch.")
+        return copy.copy(DEFAULT_CONFIG)
+
+    # Load the given config file
+    if config_file and config_file is not USER_CONFIG_PATH:
+        logger.debug("Loading custom config from %s.", config_file)
+        return get_config(config_file)
+
+    try:
+        # Does the user set up a config environment variable?
+        env_config_file = os.environ['COOKIECUTTER_CONFIG']
+    except KeyError:
+        # Load an optional user config if it exists
+        # otherwise return the defaults
+        if os.path.exists(USER_CONFIG_PATH):
+            logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+            return get_config(USER_CONFIG_PATH)
+        logger.debug("User config not found. Loading default config.")
+        return copy.copy(DEFAULT_CONFIG)
+    else:
+        # There is a config environment variable. Try to load it.
+        # Do not check for existence, so invalid file paths raise an error.
+        logger.debug("User config not found or not specified. Loading default config.")
+        return get_config(env_config_file)
+
+```
+Write unit test for function get_user_config
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_user_config(
+    config_file: str | None = None,
+    default_config: bool | dict[str, Any] = False,
+) -> dict[str, Any]:
+    """Return the user config as a dict.
+
+    If ``default_config`` is True, ignore ``config_file`` and return default
+    values for the config parameters.
+
+    If ``default_config`` is a dict, merge values with default values and return them
+    for the config parameters.
+
+    If a path to a ``config_file`` is given, that is different from the default
+    location, load the user config from that.
+
+    Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+    environment variable. If set, load the config from this path. This will
+    raise an error if the specified path is not valid.
+
+    If the environment variable is not set, try the default config file path
+    before falling back to the default config values.
+    """
+    # Do NOT load a config. Merge provided values with defaults and return them instead
+    if default_config and isinstance(default_config, dict):
+        return merge_configs(DEFAULT_CONFIG, default_config)
+
+    # Do NOT load a config. Return defaults instead.
+    if default_config:
+        logger.debug("Force ignoring user config with default_config switch.")
+        return copy.copy(DEFAULT_CONFIG)
+
+    # Load the given config file
+    if config_file and config_file is not USER_CONFIG_PATH:
+        logger.debug("Loading custom config from %s.", config_file)
+        return get_config(config_file)
+
+    try:
+        # Does the user set up a config environment variable?
+        env_config_file = os.environ['COOKIECUTTER_CONFIG']
+    except KeyError:
+        # Load an optional user config if it exists
+        # otherwise return the defaults
+        if os.path.exists(USER_CONFIG_PATH):
+            logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+            return get_config(USER_CONFIG_PATH)
+        logger.debug("User config not found. Loading default config.")
+        return copy.copy(DEFAULT_CONFIG)
+    else:
+        # There is a config environment variable. Try to load it.
+        # Do not check for existence, so invalid file paths raise an error.
+        logger.debug("User config not found or not specified. Loading default config.")
+        return get_config(env_config_file)
+
+```
+Write unit test for function get_user_config
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+
+def get_user_config(
+    config_file: str | None = None,
+    default_config: bool | dict[str, Any] = False,
+) -> dict[str, Any]:
+    """Return the user config as a dict.
+
+    If ``default_config`` is True, ignore ``config_file`` and return default
+    values for the config parameters.
+
+    If ``default_config`` is a dict, merge values with default values and return them
+    for the config parameters.
+
+    If a path to a ``config_file`` is given, that is different from the default
+    location, load the user config from that.
+
+    Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+    environment variable. If set, load the config from this path. This will
+    raise an error if the specified path is not valid.
+
+    If the environment variable is not set, try the default config file path
+    before falling back to the default config values.
+    """
+    # Do NOT load a config. Merge provided values with defaults and return them instead
+    if default_config and isinstance(default_config, dict):
+        return merge_configs(DEFAULT_CONFIG, default_config)
+
+    # Do NOT load a config. Return defaults instead.
+    if default_config:
+        logger.debug("Force ignoring user config with default_config switch.")
+        return copy.copy(DEFAULT_CONFIG)
+
+    # Load the given config file
+    if config_file and config_file is not USER_CONFIG_PATH:
+        logger.debug("Loading custom config from %s.", config_file)
+        return get_config(config_file)
+
+    try:
+        # Does the user set up a config environment variable?
+        env_config_file = os.environ['COOKIECUTTER_CONFIG']
+    except KeyError:
+        # Load an optional user config if it exists
+        # otherwise return the defaults
+        if os.path.exists(USER_CONFIG_PATH):
+            logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+            return get_config(USER_CONFIG_PATH)
+        logger.debug("User config not found. Loading default config.")
+        return copy.copy(DEFAULT_CONFIG)
+    else:
+        # There is a config environment variable. Try to load it.
+        # Do not check for existence, so invalid file paths raise an error.
+        logger.debug("User config not found or not specified. Loading default config.")
+        return get_config(env_config_file)
+
+```
+Write unit test for function get_user_config
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 33 evaluates to False.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 14 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 40 evaluates to False.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 33 evaluates to False.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 40 evaluates to False.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 43 evaluates to True.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+
+def get_user_config(
+    config_file: str | None = None,
+    default_config: bool | dict[str, Any] = False,
+) -> dict[str, Any]:
+    """Return the user config as a dict.
+
+    If ``default_config`` is True, ignore ``config_file`` and return default
+    values for the config parameters.
+
+    If ``default_config`` is a dict, merge values with default values and return them
+    for the config parameters.
+
+    If a path to a ``config_file`` is given, that is different from the default
+    location, load the user config from that.
+
+    Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+    environment variable. If set, load the config from this path. This will
+    raise an error if the specified path is not valid.
+
+    If the environment variable is not set, try the default config file path
+    before falling back to the default config values.
+    """
+    # Do NOT load a config. Merge provided values with defaults and return them instead
+    if default_config and isinstance(default_config, dict):
+        return merge_configs(DEFAULT_CONFIG, default_config)
+
+    # Do NOT load a config. Return defaults instead.
+    if default_config:
+        logger.debug("Force ignoring user config with default_config switch.")
+        return copy.copy(DEFAULT_CONFIG)
+
+    # Load the given config file
+    if config_file and config_file is not USER_CONFIG_PATH:
+        logger.debug("Loading custom config from %s.", config_file)
+        return get_config(config_file)
+
+    try:
+        # Does the user set up a config environment variable?
+        env_config_file = os.environ['COOKIECUTTER_CONFIG']
+    except KeyError:
+        # Load an optional user config if it exists
+        # otherwise return the defaults
+        if os.path.exists(USER_CONFIG_PATH):
+            logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+            return get_config(USER_CONFIG_PATH)
+        logger.debug("User config not found. Loading default config.")
+        return copy.copy(DEFAULT_CONFIG)
+    else:
+        # There is a config environment variable. Try to load it.
+        # Do not check for existence, so invalid file paths raise an error.
+        logger.debug("User config not found or not specified. Loading default config.")
+        return get_config(env_config_file)
+
+```
+Write unit test for function get_user_config
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 43 evaluates to True.
+```
+ 1 | def get_user_config(
+ 2 |     config_file: str | None = None,
+ 3 |     default_config: bool | dict[str, Any] = False,
+ 4 | ) -> dict[str, Any]:
+ 5 |     """Return the user config as a dict.
+ 6 | 
+ 7 |     If ``default_config`` is True, ignore ``config_file`` and return default
+ 8 |     values for the config parameters.
+ 9 | 
+10 |     If ``default_config`` is a dict, merge values with default values and return them
+11 |     for the config parameters.
+12 | 
+13 |     If a path to a ``config_file`` is given, that is different from the default
+14 |     location, load the user config from that.
+15 | 
+16 |     Otherwise look up the config file path in the ``COOKIECUTTER_CONFIG``
+17 |     environment variable. If set, load the config from this path. This will
+18 |     raise an error if the specified path is not valid.
+19 | 
+20 |     If the environment variable is not set, try the default config file path
+21 |     before falling back to the default config values.
+22 |     """
+23 |     # Do NOT load a config. Merge provided values with defaults and return them instead
+24 |     if default_config and isinstance(default_config, dict):
+25 |         return merge_configs(DEFAULT_CONFIG, default_config)
+26 | 
+27 |     # Do NOT load a config. Return defaults instead.
+28 |     if default_config:
+29 |         logger.debug("Force ignoring user config with default_config switch.")
+30 |         return copy.copy(DEFAULT_CONFIG)
+31 | 
+32 |     # Load the given config file
+33 |     if config_file and config_file is not USER_CONFIG_PATH:
+34 |         logger.debug("Loading custom config from %s.", config_file)
+35 |         return get_config(config_file)
+36 | 
+37 |     try:
+38 |         # Does the user set up a config environment variable?
+39 |         env_config_file = os.environ['COOKIECUTTER_CONFIG']
+40 |     except KeyError:
+41 |         # Load an optional user config if it exists
+42 |         # otherwise return the defaults
+43 |         if os.path.exists(USER_CONFIG_PATH):
+44 |             logger.debug("Loading config from %s.", USER_CONFIG_PATH)
+45 |             return get_config(USER_CONFIG_PATH)
+46 |         logger.debug("User config not found. Loading default config.")
+47 |         return copy.copy(DEFAULT_CONFIG)
+48 |     else:
+49 |         # There is a config environment variable. Try to load it.
+50 |         # Do not check for existence, so invalid file paths raise an error.
+51 |         logger.debug("User config not found or not specified. Loading default config.")
+52 |         return get_config(env_config_file)
+```
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 14 evaluates to False.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #31
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #32
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+
+# Prompt used at query #33
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 14 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #34
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #36
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #37
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 14 evaluates to False.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #38
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #39
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #40
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 14 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #41
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #42
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #43
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def get_config(config_path: Path | str) -> dict[str, Any]:
+ 2 |     """Retrieve the config from the specified path, returning a config dict."""
+ 3 |     if not os.path.exists(config_path):
+ 4 |         msg = f'Config file {config_path} does not exist.'
+ 5 |         raise ConfigDoesNotExistException(msg)
+ 6 | 
+ 7 |     logger.debug('config_path is %s', config_path)
+ 8 |     with open(config_path, encoding='utf-8') as file_handle:
+ 9 |         try:
+10 |             yaml_dict = yaml.safe_load(file_handle) or {}
+11 |         except yaml.YAMLError as e:
+12 |             msg = f'Unable to parse YAML file {config_path}.'
+13 |             raise InvalidConfiguration(msg) from e
+14 |         if not isinstance(yaml_dict, dict):
+15 |             msg = f'Top-level element of YAML file {config_path} should be an object.'
+16 |             raise InvalidConfiguration(msg)
+17 | 
+18 |     config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+19 | 
+20 |     raw_replay_dir = config_dict['replay_dir']
+21 |     config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+22 | 
+23 |     raw_cookies_dir = config_dict['cookiecutters_dir']
+24 |     config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+25 | 
+26 |     return config_dict
+```
+
+
+# Prompt used at query #44
+#--------------------------
+
+```
+def merge_configs(default: dict[str, Any], overwrite: dict[str, Any]) -> dict[str, Any]:
+    """Recursively update a dict with the key/value pair of another.
+
+    Dict values that are dictionaries themselves will be updated, whilst
+    preserving existing keys.
+    """
+    new_config = copy.deepcopy(default)
+
+    for k, v in overwrite.items():
+        # Make sure to preserve existing items in
+        # nested dicts, for example `abbreviations`
+        if isinstance(v, dict):
+            new_config[k] = merge_configs(default.get(k, {}), v)
+        else:
+            new_config[k] = v
+
+    return new_config
+
+
+def _expand_path(path: str) -> str:
+    """Expand both environment variables and user home in the given path."""
+    path = os.path.expandvars(path)
+    return os.path.expanduser(path)
+
+
+def get_config(config_path: Path | str) -> dict[str, Any]:
+    """Retrieve the config from the specified path, returning a config dict."""
+    if not os.path.exists(config_path):
+        msg = f'Config file {config_path} does not exist.'
+        raise ConfigDoesNotExistException(msg)
+
+    logger.debug('config_path is %s', config_path)
+    with open(config_path, encoding='utf-8') as file_handle:
+        try:
+            yaml_dict = yaml.safe_load(file_handle) or {}
+        except yaml.YAMLError as e:
+            msg = f'Unable to parse YAML file {config_path}.'
+            raise InvalidConfiguration(msg) from e
+        if not isinstance(yaml_dict, dict):
+            msg = f'Top-level element of YAML file {config_path} should be an object.'
+            raise InvalidConfiguration(msg)
+
+    config_dict = merge_configs(DEFAULT_CONFIG, yaml_dict)
+
+    raw_replay_dir = config_dict['replay_dir']
+    config_dict['replay_dir'] = _expand_path(raw_replay_dir)
+
+    raw_cookies_dir = config_dict['cookiecutters_dir']
+    config_dict['cookiecutters_dir'] = _expand_path(raw_cookies_dir)
+
+    return config_dict
+
+```
+Write unit test for function get_config
+
+

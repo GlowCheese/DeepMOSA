@@ -1,6 +1,4 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import re as module_1
-
 import isort.sorting as module_0
 import pytest
 
@@ -12,13 +10,13 @@ def test_case_0():
 
 @pytest.mark.xfail(strict=True)
 def test_case_1():
-    var_0 = "Y}o'g)q+5"
+    var_0 = '$\x0c3~I0_x-2@V]Z'
     module_0.module_key(var_0, var_0, ignore_case=var_0)
 
 @pytest.mark.xfail(strict=True)
 def test_case_2():
-    var_0 = '5jkLwnkt._cYv2t'
-    module_0.module_key(var_0, var_0)
+    var_0 = '~NB'
+    module_0.module_key(var_0, var_0, straight_import=var_0)
 
 @pytest.mark.xfail(strict=True)
 def test_case_3():
@@ -31,52 +29,27 @@ def test_case_4():
     assert module_0.TYPE_CHECKING is False
 
 def test_case_5():
-    var_0 = 'xx1vUH`U&["v^W'
+    var_0 = 'E}0\x0bT;~'
     var_1 = module_0.naturally(var_0)
     assert module_0.TYPE_CHECKING is False
 
 @pytest.mark.xfail(strict=True)
 def test_case_6():
     var_0 = 'TaI,=m_gh6.!'
-    module_0.module_key(var_0, var_0, var_0, var_0)
+    var_1 = None
+    var_2 = True
+    module_0.module_key(var_0, var_1, var_2)
 
 @pytest.mark.xfail(strict=True)
 def test_case_7():
-    var_0 = '(+[4mE2q'
-    var_1 = {var_0, var_0}
-    var_2 = module_0.naturally(var_1)
-    assert module_0.TYPE_CHECKING is False
-    var_3 = ()
-    var_4 = module_0.naturally(var_3, var_3)
-    var_5 = None
-    module_0.module_key(var_0, var_5, section_name=var_4)
+    var_0 = b'\x01\xce'
+    module_0.naturally(var_0, var_0)
 
 @pytest.mark.xfail(strict=True)
 def test_case_8():
-    var_0 = '.]4\rIDYM\\FP'
-    module_0.module_key(var_0, var_0)
-
-@pytest.mark.xfail(strict=True)
-def test_case_9():
-    var_0 = '(+[4mEpq'
-    var_1 = module_1.escape(var_0)
-    assert var_1 == '\\(\\+\\[4mEpq'
-    assert module_1.ASCII == module_1.RegexFlag.ASCII
-    assert module_1.A == module_1.RegexFlag.ASCII
-    assert module_1.IGNORECASE == module_1.RegexFlag.IGNORECASE
-    assert module_1.I == module_1.RegexFlag.IGNORECASE
-    assert module_1.LOCALE == module_1.RegexFlag.LOCALE
-    assert module_1.L == module_1.RegexFlag.LOCALE
-    assert module_1.UNICODE == module_1.RegexFlag.UNICODE
-    assert module_1.U == module_1.RegexFlag.UNICODE
-    assert module_1.MULTILINE == module_1.RegexFlag.MULTILINE
-    assert module_1.M == module_1.RegexFlag.MULTILINE
-    assert module_1.DOTALL == module_1.RegexFlag.DOTALL
-    assert module_1.S == module_1.RegexFlag.DOTALL
-    assert module_1.VERBOSE == module_1.RegexFlag.VERBOSE
-    assert module_1.X == module_1.RegexFlag.VERBOSE
-    assert module_1.TEMPLATE == module_1.RegexFlag.TEMPLATE
-    assert module_1.T == module_1.RegexFlag.TEMPLATE
-    assert module_1.DEBUG == module_1.RegexFlag.DEBUG
-    var_2 = False
-    module_0.naturally(var_1, var_1, var_2)
+    var_0 = '.'
+    var_1 = {var_0}
+    var_2 = module_0.naturally(var_1)
+    assert module_0.TYPE_CHECKING is False
+    var_3 = None
+    module_0.module_key(var_0, var_3, ignore_case=var_3, section_name=var_3)

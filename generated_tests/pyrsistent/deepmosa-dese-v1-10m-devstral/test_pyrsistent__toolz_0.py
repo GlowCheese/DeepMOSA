@@ -1,0 +1,13 @@
+# Check out: https://github.com/GlowCheese/deepmosa
+import pytest
+import pyrsistent._toolz as module_0
+
+def test_case_0():
+    var_0 = None
+    var_1 = module_0.get_in(var_0, var_0, var_0)
+
+def test_case_1():
+    var_0 = 2233
+    var_1 = None
+    with pytest.raises(TypeError):
+        module_0.get_in(var_1, var_1, no_default=var_0)

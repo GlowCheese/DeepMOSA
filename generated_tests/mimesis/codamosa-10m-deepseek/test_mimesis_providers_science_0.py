@@ -1,8 +1,7 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import mimesis.providers.base as module_1
-import mimesis.providers.science as module_0
 import pytest
-
+import mimesis.providers.science as module_0
+import mimesis.providers.base as module_1
 
 @pytest.mark.xfail(strict=True)
 def test_case_0():
@@ -114,11 +113,13 @@ def test_case_6():
     var_2 = var_0.measure_unit()
     var_3 = True
     var_4 = var_0.rna_sequence(var_3)
-    assert var_4 == 'U'
+    assert var_4 == 'C'
     var_5 = var_0.metric_prefix(symbol=var_4)
+    assert var_5 == 'm'
     var_6 = var_0.measure_unit()
     var_7 = True
     var_8 = var_0.rna_sequence(var_7)
+    assert var_8 == 'A'
     var_9 = module_0.Science()
     assert f'{type(var_9).__module__}.{type(var_9).__qualname__}' == 'mimesis.providers.science.Science'
     assert f'{type(var_9.random).__module__}.{type(var_9.random).__qualname__}' == 'mimesis.random.Random'

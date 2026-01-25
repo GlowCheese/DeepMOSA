@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,1825 +7,546 @@
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
+def test_Choice():
     choice = Choice()
     assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
+    assert isinstance(choice, BaseProvider)
 
-
-
-####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
-####################################################################
-
-
-# LLM-generated content at query #1
-#--------------------------
-
-# Unit test for constructor of class Choice
-def test_Choice(): 
-    choice = Choice()
-    assert choice is not None
-    assert isinstance(choice, Choice)
-    assert choice.__class__.__name__ == "Choice"
-    assert choice.__class__.__module__ == "mimesis.providers.choice"
-    assert choice.__class__.__doc__ is not None
-    assert choice.__class__.__doc__ == "Class for generating a random choice from items in a sequence."
-    assert choice.__class__.__init__.__doc__ is not None
-    assert choice.__class__.__init__.__doc__ == "Initialize internal state of the provider."
-    assert choice.__class__.__call__.__doc__ is not None
-    assert choice.__class__.__call__.__doc__ == "Generates a randomly chosen sequence or bare element from a sequence."
-    assert choice.__class__.choice.__doc__ is not None
-    assert choice.__class__.choice.__doc__ == "Choice random item form sequence."
-    assert choice.__class__.Meta.name == "choice"
-    assert choice.__class__.Meta.__doc__ is not None
-    assert choice.__class__.Meta.__doc__ == "Metadata for the provider."
-    assert choice.__class__.Meta.__module__ == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__name__ == "Meta"
-    assert choice.__class__.Meta.__dict__ is not None
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class__.Meta.__dict__["__module__"] == "mimesis.providers.choice"
-    assert choice.__class__.Meta.__dict__["__doc__"] == "Metadata for the provider."
-    assert choice.__class__.Meta.__dict__["name"] == "choice"
-    assert choice.__class__.Meta.__dict__["__dict__"] is not None
-    assert choice.__class__.Meta.__dict__["__weakref__"] is not None
-    assert choice.__class
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for method __call__ of class Choice
-def test_Choice___call__():  
-    # Test case 1: items is a list, length is 0, unique is False
-    choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=False)
-    assert result in items
+def test_Choice___call__():
+    # Initialize a Choice instance
+    choice_instance = Choice()
 
-    # Test case 2: items is a tuple, length is 1, unique is False
-    choice = Choice()
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1, unique=False)
+    # Test case 1: Single element choice
+    result = choice_instance(items=['a', 'b', 'c'])
+    assert result in ['a', 'b', 'c']
+
+    # Test case 2: Sequence of length 1
+    result = choice_instance(items=['a', 'b', 'c'], length=1)
+    assert isinstance(result, list)
     assert len(result) == 1
-    assert result[0] in items
+    assert result[0] in ['a', 'b', 'c']
 
-    # Test case 3: items is a string, length is 2, unique is False
-    choice = Choice()
-    items = 'abc'
-    result = choice(items, length=2, unique=False)
+    # Test case 3: String sequence of length 2
+    result = choice_instance(items='abc', length=2)
+    assert isinstance(result, str)
     assert len(result) == 2
-    assert all(char in items for char in result)
 
-    # Test case 4: items is a tuple, length is 5, unique is False
-    choice = Choice()
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5, unique=False)
+    # Test case 4: Tuple sequence of length 5
+    result = choice_instance(items=('a', 'b', 'c'), length=5)
+    assert isinstance(result, tuple)
     assert len(result) == 5
-    assert all(char in items for char in result)
 
-    # Test case 5: items is a string, length is 4, unique is True
-    choice = Choice()
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
+    # Test case 5: Unique elements from string sequence
+    result = choice_instance(items='aabbbccccddddd', length=4, unique=True)
+    assert isinstance(result, str)
     assert len(result) == 4
-    assert all(char in items for char in result)
     assert len(set(result)) == 4
 
-    # Test case 6: items is an empty list, length is 0, unique is False
-    choice = Choice()
-    items = []
+    # Test case 6: Empty sequence
     try:
-        choice(items, length=0, unique=False)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
+        choice_instance(items=[])
+    except ValueError as e:
+        assert str(e) == "**items** must be a non-empty sequence."
 
-    # Test case 7: items is a list, length is -1, unique is False
-    choice = Choice()
-    items = ['a', 'b', 'c']
+    # Test case 7: Negative length
     try:
-        choice(items, length=-1, unique=False)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
+        choice_instance(items=['a', 'b', 'c'], length=-1)
+    except ValueError as e:
+        assert str(e) == "**length** should be a positive integer."
 
-    # Test case 8: items is a list, length is 5, unique is True, but not enough unique elements
-    choice = Choice()
-    items = ['a', 'a', 'b', 'b', 'c']
+    # Test case 8: Unique elements with insufficient unique items
     try:
-        choice(items, length=5, unique=True)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
+        choice_instance(items=['a', 'a', 'a'], length=2, unique=True)
+    except ValueError as e:
+        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
 
-    # Test case 9: items is not a sequence, length is 0, unique is False
-    choice = Choice()
-    items = 123
+    # Test case 9: Non-sequence items
     try:
-        choice(items, length=0, unique=False)
-        assert False, "Expected TypeError"
-    except TypeError:
-        pass
-
-    # Test case 10: items is a list, length is 0, unique is True
-    choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=True)
-    assert result in items
-
-    # Test case 11: items is a list, length is 1, unique is True
-    choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test case 12: items is a string, length is 2, unique is True
-    choice = Choice()
-    items = 'abc'
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert all(char in items for char in result)
-    assert len(set(result)) == 2
-
-    # Test case 13: items is a tuple, length is 5, unique is True
-    choice = Choice()
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5, unique=True)
-    assert len(result) == 5
-    assert all(char in items for char in result)
-    assert len(set(result)) == 3
-
-    # Test case 14: items is a string, length is 4, unique is True, but not enough unique elements
-    choice = Choice()
-    items = 'aabbbccccddddd'
-    try:
-        choice(items, length=10, unique=True)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test case 15: items is a list, length is 0, unique is False, but items is empty
-    choice = Choice()
-    items = []
-    try:
-        choice(items, length=0, unique=False)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test case 16: items is a list, length is 0, unique is True, but items is empty
-    choice = Choice()
-    items = []
-    try:
-        choice(items, length=0, unique=True)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test case 17: items is a list, length is 1, unique is True, but items is empty
-    choice = Choice()
-    items = []
-    try:
-        choice(items, length=1, unique=True)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test case 18: items is a list, length is 2, unique is True, but items has only one unique element
-    choice = Choice()
-    items = ['a', 'a', 'a']
-    try:
-        choice(items, length=2, unique=True)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test case 19: items is a list, length is 0, unique is False, but items is a string
-    choice = Choice()
-    items = 'abc'
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 20: items is a list, length is 1, unique is False, but items is a string
-    choice = Choice()
-    items = 'abc'
-    result = choice(items, length=1, unique=False)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test case 21: items is a list, length is 2, unique is False, but items is a string
-    choice = Choice()
-    items = 'abc'
-    result = choice(items, length=2, unique=False)
-    assert len(result) == 2
-    assert all(char in items for char in result)
-
-    # Test case 22: items is a list, length is 5, unique is False, but items is a string
-    choice = Choice()
-    items = 'abc'
-    result = choice(items, length=5, unique=False)
-    assert len(result) == 5
-    assert all(char in items for char in result)
-
-    # Test case 23: items is a list, length is 4, unique is True, but items is a string
-    choice = Choice()
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
-    assert len(result) == 4
-    assert all(char in items for char in result)
-    assert len(set(result)) == 4
-
-    # Test case 24: items is a list, length is 0, unique is False, but items is a tuple
-    choice = Choice()
-    items = ('a', 'b', 'c')
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 25: items is a list, length is 1, unique is False, but items is a tuple
-    choice = Choice()
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1, unique=False)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test case 26: items is a list, length is 2, unique is False, but items is a tuple
-    choice = Choice()
-    items = ('a', 'b', 'c')
-    result = choice(items, length=2, unique=False)
-    assert len(result) == 2
-    assert all(char in items for char in result)
-
-    # Test case 27: items is a list, length is 5, unique is False, but items is a tuple
-    choice = Choice()
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5, unique=False)
-    assert len(result) == 5
-    assert all(char in items for char in result)
-
-    # Test case 28: items is a list, length is 4, unique is True, but items is a tuple
-    choice = Choice()
-    items = ('a', 'a', 'b', 'b', 'c', 'c', 'd', 'd', 'd', 'd', 'd')
-    result = choice(items, length=4, unique=True)
-    assert len(result) == 4
-    assert all(char in items for char in result)
-    assert len(set(result)) == 4
-
-    # Test case 29: items is a list, length is 0, unique is False, but items is a list of integers
-    choice = Choice()
-    items = [1, 2, 3]
-    result = choice(items, length=0, unique=False)
-
+        choice_instance(items=123)
+    except TypeError as e:
+        assert str(e) == "**items** must be non-empty sequence."
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
+def test_Choice():    # Test constructor
     choice = Choice()
-    assert choice is not None
     assert isinstance(choice, Choice)
-    assert choice._seed is None
-    assert choice._random is not None
-
-    # Test with a seed
-    choice = Choice(seed=42)
-    assert choice._seed == 42
-    assert choice._random is not None
-
 
 
 # LLM-generated content at query #4
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice(): 
-    choice = Choice()
-    assert choice is not None
-
+def test_Choice():choice = Choice()
+    assert isinstance(choice, Choice)
 
 
 # LLM-generated content at query #5
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
+def test_Choice():
+    """Unit test for constructor of class Choice."""
+    # Test that the Choice object is created correctly
     choice = Choice()
     assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
-
+    assert hasattr(choice, 'choice')
+    assert hasattr(choice, '__call__')
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    """Unit test for method __call__ of class Choice."""
     choice = Choice()
-    assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
 
+    # Test with list input
+    assert choice(items=['a', 'b', 'c']) in ['a', 'b', 'c']
+    assert len(choice(items=['a', 'b', 'c'], length=2)) == 2
+    assert len(set(choice(items=['a', 'b', 'c'], length=2, unique=True))) == 2
+
+    # Test with tuple input
+    assert choice(items=('a', 'b', 'c')) in ('a', 'b', 'c')
+    assert len(choice(items=('a', 'b', 'c'), length=3)) == 3
+    assert len(set(choice(items=('a', 'b', 'c'), length=3, unique=True))) == 3
+
+    # Test with string input
+    assert choice(items='abc') in 'abc'
+    assert len(choice(items='abc', length=2)) == 2
+    assert len(set(choice(items='abc', length=2, unique=True))) == 2
+
+    # Test edge cases
+    try:
+        choice(items=[])
+        assert False, "Expected ValueError for empty sequence"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+        assert False, "Expected ValueError for negative length"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=['a', 'a', 'a'], length=2, unique=True)
+        assert False, "Expected ValueError for insufficient unique elements"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=123)  # type: ignore
+        assert False, "Expected TypeError for non-sequence input"
+    except TypeError:
+        pass
 
 
 # LLM-generated content at query #7
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice(): 
+def test_Choice():
+    # Test initialization
     choice = Choice()
     assert choice is not None
     assert isinstance(choice, Choice)
-    assert isinstance(choice, BaseProvider)
-    assert choice.meta.name == "choice"
-    assert hasattr(choice, "choice")
-    assert hasattr(choice, "__call__")
-    assert callable(choice.choice)
-    assert callable(choice.__call__)
-    assert choice.choice == choice.__call__
-    assert choice.choice is not None
-    assert choice.__call__ is not None
-    assert choice.choice is not choice.__call__
-    assert choice.choice != choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice.choice is not choice.__call__
-    assert choice
 
 
 # LLM-generated content at query #8
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
-    choice = Choice()
-    assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
+def test_Choice():
+    # Create an instance of Choice
+    choice_instance = Choice()
 
+    # Assert that the instance is created successfully
+    assert isinstance(choice_instance, Choice)
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    """Test method __call__ of class Choice."""
-    # Test with list
+# Unit test for constructor of class Choice
+def test_Choice():
     choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items)
-    assert result in items
-    # Test with tuple
-    items = ('a', 'b', 'c')
-    result = choice(items)
-    assert result in items
-    # Test with string
-    items = 'abc'
-    result = choice(items)
-    assert result in items
-    # Test with length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-    # Test with unique
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    # Test with empty sequence
-    try:
-        choice([])
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with negative length
-    try:
-        choice(['a', 'b', 'c'], length=-1)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with insufficient unique elements
-    try:
-        choice(['a', 'a', 'b'], length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with non-sequence items
-    try:
-        choice(123)
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError"
+    assert choice is not None
 
 
 # LLM-generated content at query #10
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
+def test_Choice():
     choice = Choice()
-    assert choice is not None
     assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
-
 
 
 # LLM-generated content at query #11
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice(): 
-    # Test that the Choice class can be instantiated
+def test_Choice():
     choice = Choice()
     assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
-
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    """Test method __call__ of class Choice."""
-    # Test with list
+# Unit test for constructor of class Choice
+def test_Choice():
     choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items)
-    assert result in items
-
-    # Test with tuple
-    items = ('a', 'b', 'c')
-    result = choice(items)
-    assert result in items
-
-    # Test with string
-    items = 'abc'
-    result = choice(items)
-    assert result in items
-
-    # Test with length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with unique
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with empty sequence
-    try:
-        choice([])
-    except ValueError as e:
-        assert str(e) == "**items** must be a non-empty sequence."
-
-    # Test with non-sequence
-    try:
-        choice(123)
-    except TypeError as e:
-        assert str(e) == "**items** must be non-empty sequence."
-
-    # Test with negative length
-    try:
-        choice(['a', 'b', 'c'], length=-1)
-    except ValueError as e:
-        assert str(e) == "**length** should be a positive integer."
-
-    # Test with insufficient unique elements
-    try:
-        choice(['a', 'a', 'a'], length=2, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
-
-    # Test with length 0
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with length 1
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with length greater than items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with unique and length equal to unique items
-    items = ['a', 'b', 'c', 'c', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with string and length
-    items = 'abc'
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with tuple and length
-    items = ('a', 'b', 'c')
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with list and length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=2)
-    assert isinstance(result, list)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with tuple and length
-    items = ('a', 'b', 'c')
-    result = choice(items, length=2)
-    assert isinstance(result, tuple)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with string and length
-    items = 'abc'
-    result = choice(items, length=2)
-    assert isinstance(result, str)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with unique and string
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
-    assert len(result) == 4
-    assert len(set(result)) == 4
-    assert all(item in items for item in result)
-
-    # Test with unique and tuple
-    items = ('a', 'a', 'b', 'b', 'c', 'c')
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with unique and list
-    items = ['a', 'a', 'b', 'b', 'c', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with unique and length equal to unique items
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with unique and length less than unique items
-    items = ['a', 'b', 'c', 'd', 'e']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with unique and length greater than unique items
-    items = ['a', 'a', 'b', 'b']
-    try:
-        choice(items, length=3, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
-
-    # Test with unique and length 0
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=True)
-    assert result in items
-
-    # Test with unique and length 1
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with unique and length equal to items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with unique and length greater than items length
-    items = ['a', 'b', 'c']
-    try:
-        choice(items, length=4, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
-
-    # Test with unique and string length
-    items = 'abc'
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with unique and tuple length
-    items = ('a', 'b', 'c')
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with unique and list length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with unique and string length less than unique items
-    items = 'abcde'
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with unique and tuple length less than unique items
-    items = ('a', 'b', 'c', 'd', 'e')
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with unique and list length less than unique items
-    items = ['a', 'b', 'c', 'd', 'e']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-
-    # Test with unique and string length greater than unique items
-    items = 'aabb'
-    try:
-        choice(items, length=3, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
-
-    # Test with unique and tuple length greater than unique items
-    items = ('a', 'a', 'b', 'b')
-    try:
-        choice(items, length=3, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**
+    assert isinstance(choice, Choice)
 
 
 # LLM-generated content at query #13
 #--------------------------
 
-# Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    """Test method __call__ of class Choice."""
-    # Test with list
+# Unit test for constructor of class Choice
+def test_Choice():
+    """Unit test for constructor of class Choice."""
     choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items=items)
-    assert result in items
-    # Test with tuple
-    items = ('a', 'b', 'c')
-    result = choice(items=items)
-    assert result in items
-    # Test with string
-    items = 'abc'
-    result = choice(items=items)
-    assert result in items
-    # Test with length
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-    # Test with unique
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-    # Test with empty sequence
-    try:
-        choice(items=[])
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with negative length
-    try:
-        choice(items=['a', 'b', 'c'], length=-1)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with non-sequence items
-    try:
-        choice(items=123)
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError"
-    # Test with insufficient unique elements
-    try:
-        choice(items=['a', 'a', 'b'], length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
+    assert isinstance(choice, Choice)
+    assert choice._seed is None
+    assert isinstance(choice.random, object)
+    assert isinstance(choice.choice, object)
+    assert isinstance(choice.__call__, object)
+    assert isinstance(choice.Meta, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
+    assert isinstance(choice.Meta.name, str)
+    assert isinstance(choice.Meta.name, object)
 
 
 # LLM-generated content at query #14
 #--------------------------
 
-# Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    """Unit test for method __call__ of class Choice."""
     choice = Choice()
-    assert choice is not None
-    assert isinstance(choice, Choice)
 
+    # Test with list
+    items = ['a', 'b', 'c']
+    result = choice(items=items)
+    assert result in items
+
+    result = choice(items=items, length=1)
+    assert isinstance(result, list)
+    assert len(result) == 1
+    assert result[0] in items
+
+    result = choice(items=items, length=5)
+    assert isinstance(result, list)
+    assert len(result) == 5
+    for item in result:
+        assert item in items
+
+    # Test with tuple
+    items = ('a', 'b', 'c')
+    result = choice(items=items)
+    assert result in items
+
+    result = choice(items=items, length=1)
+    assert isinstance(result, tuple)
+    assert len(result) == 1
+    assert result[0] in items
+
+    result = choice(items=items, length=5)
+    assert isinstance(result, tuple)
+    assert len(result) == 5
+    for item in result:
+        assert item in items
+
+    # Test with string
+    items = 'abc'
+    result = choice(items=items)
+    assert result in items
+
+    result = choice(items=items, length=1)
+    assert isinstance(result, str)
+    assert len(result) == 1
+    assert result in items
+
+    result = choice(items=items, length=5)
+    assert isinstance(result, str)
+    assert len(result) == 5
+    for item in result:
+        assert item in items
+
+    # Test with unique=True
+    items = ['a', 'b', 'c']
+    result = choice(items=items, length=3, unique=True)
+    assert isinstance(result, list)
+    assert len(result) == 3
+    assert len(set(result)) == 3
+    for item in result:
+        assert item in items
+
+    items = 'aabbbccccddddd'
+    result = choice(items=items, length=4, unique=True)
+    assert isinstance(result, str)
+    assert len(result) == 4
+    assert len(set(result)) == 4
+    for item in result:
+        assert item in items
+
+    # Test with empty sequence
+    try:
+        choice(items=[])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with non-sequence
+    try:
+        choice(items=123)
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
+
+    # Test with negative length
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with insufficient unique elements
+    try:
+        choice(items=['a', 'a', 'a'], length=2, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
 
 # LLM-generated content at query #15
 #--------------------------
 
-# Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    """Test method __call__ of class Choice."""
-    # Test with list
-    choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items=items)
-    assert result in items
-    # Test with tuple
-    items = ('a', 'b', 'c')
-    result = choice(items=items)
-    assert result in items
-    # Test with string
-    items = 'abc'
-    result = choice(items=items)
-    assert result in items
-    # Test with length
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-    # Test with unique
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-    # Test with empty sequence
-    try:
-        choice(items=[])
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with negative length
-    try:
-        choice(items=['a', 'b', 'c'], length=-1)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with non-sequence items
-    try:
-        choice(items=123)
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError"
-    # Test with insufficient unique elements
-    try:
-        choice(items=['a', 'a', 'b'], length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
+# Unit test for constructor of class Choice
+def test_Choice():
+    # Test with default initialization
+    choice_default = Choice()
+    assert choice_default is not None
+
+    # Test with locale parameter
+    choice_locale = Choice(locale='en')
+    assert choice_locale is not None
+
+    # Test with seed parameter
+    choice_seed = Choice(seed=42)
+    assert choice_seed is not None
+
+    # Test with both locale and seed parameters
+    choice_both = Choice(locale='en', seed=42)
+    assert choice_both is not None
+
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    # Test with list items and length=0
+def test_Choice___call__():
+    """Test method __call__ of class Choice."""
     choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0)
-    assert result in items
 
-    # Test with tuple items and length=1
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
+    # Test with list
+    assert choice(items=['a', 'b', 'c']) in ['a', 'b', 'c']
+    assert len(choice(items=['a', 'b', 'c'], length=2)) == 2
+    assert len(set(choice(items=['a', 'b', 'c'], length=2, unique=True))) == 2
 
-    # Test with string items and length=2
-    items = 'abc'
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(c in items for c in result)
+    # Test with tuple
+    assert choice(items=('a', 'b', 'c')) in ('a', 'b', 'c')
+    assert len(choice(items=('a', 'b', 'c'), length=3)) == 3
+    assert len(set(choice(items=('a', 'b', 'c'), length=3, unique=True))) == 3
 
-    # Test with unique=True
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
-    assert len(result) == 4
-    assert len(set(result)) == 4
-    assert all(c in items for c in result)
+    # Test with string
+    assert choice(items='abc') in 'abc'
+    assert len(choice(items='abc', length=2)) == 2
+    assert len(set(choice(items='abc', length=2, unique=True))) == 2
 
-    # Test with unique=True and insufficient unique elements
-    items = 'aa'
+    # Test edge cases
     try:
-        choice(items, length=3, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
+        choice(items=[], length=1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-    # Test with negative length
-    items = ['a', 'b', 'c']
     try:
-        choice(items, length=-1)
-    except ValueError as e:
-        assert str(e) == "**length** should be a positive integer."
+        choice(items='abc', length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-    # Test with non-sequence items
-    items = 123
     try:
-        choice(items, length=1)
-    except TypeError as e:
-        assert str(e) == "**items** must be non-empty sequence."
+        choice(items='aab', length=3, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-    # Test with empty sequence
-    items = []
     try:
-        choice(items, length=1)
-    except ValueError as e:
-        assert str(e) == "**items** must be a non-empty sequence."
-
-    # Test with length greater than items length and unique=False
-    items = ['a', 'b', 'c']
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with length equal to items length and unique=True
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert set(result) == set(items)
-
-    # Test with string items and length=0
-    items = 'abc'
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with tuple items and length=0
-    items = ('a', 'b', 'c')
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with list items and length=1 and unique=True
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with string items and length=3 and unique=True
-    items = 'abc'
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(c in items for c in result)
-
-    # Test with tuple items and length=2 and unique=True
-    items = ('a', 'b', 'c')
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-    assert all(c in items for c in result)
-
-    # Test with list items and length=0 and unique=True (should not raise error)
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=True)
-    assert result in items
-
-    # Test with string items and length=0 and unique=True (should not raise error)
-    items = 'abc'
-    result = choice(items, length=0, unique=True)
-    assert result in items
-
-    # Test with tuple items and length=0 and unique=True (should not raise error)
-    items = ('a', 'b', 'c')
-    result = choice(items, length=0, unique=True)
-    assert result in items
-
-    # Test with list items and length=1 and unique=False
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1, unique=False)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with string items and length=1 and unique=False
-    items = 'abc'
-    result = choice(items, length=1, unique=False)
-    assert len(result) == 1
-    assert result in items
-
-    # Test with tuple items and length=1 and unique=False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1, unique=False)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with list items and length=2 and unique=False
-    items = ['a', 'b', 'c']
-    result = choice(items, length=2, unique=False)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with string items and length=2 and unique=False
-    items = 'abc'
-    result = choice(items, length=2, unique=False)
-    assert len(result) == 2
-    assert all(c in items for c in result)
-
-    # Test with tuple items and length=2 and unique=False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=2, unique=False)
-    assert len(result) == 2
-    assert all(c in items for c in result)
-
-    # Test with list items and length=3 and unique=False
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=False)
-    assert len(result) == 3
-    assert all(item in items for item in result)
-
-    # Test with string items and length=3 and unique=False
-    items = 'abc'
-    result = choice(items, length=3, unique=False)
-    assert len(result) == 3
-    assert all(c in items for c in result)
-
-    # Test with tuple items and length=3 and unique=False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=3, unique=False)
-    assert len(result) == 3
-    assert all(c in items for c in result)
-
-    # Test with list items and length=4 and unique=False
-    items = ['a', 'b', 'c']
-    result = choice(items, length=4, unique=False)
-    assert len(result) == 4
-    assert all(item in items for item in result)
-
-    # Test with string items and length=4 and unique=False
-    items = 'abc'
-    result = choice(items, length=4, unique=False)
-    assert len(result) == 4
-    assert all(c in items for c in result)
-
-    # Test with tuple items and length=4 and unique=False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=4, unique=False)
-    assert len(result) == 4
-    assert all(c in items for c in result)
-
-    # Test with list items and length=5 and unique=False
-    items = ['a', 'b', 'c']
-    result = choice(items, length=5, unique=False)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with string items and length=5 and unique=False
-    items = 'abc'
-    result = choice(items, length=5, unique=False)
-    assert len(result) == 5
-    assert all(c in items for c in result)
-
-    # Test with tuple items and length=5 and unique=False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5, unique=False)
-    assert len(result) == 5
-    assert all(c in items for c in result)
-
-    # Test with list items and length=1 and unique=True and insufficient unique elements
-    items = ['a', 'a', 'a']
-    try:
-        choice(items, length=2, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
-
-    # Test with string items and length=1 and unique=True and insufficient unique elements
-    items = 'aaa'
-    try:
-        choice(items, length=2, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
-
-    # Test with tuple items and length=1 and unique=True and insufficient unique elements
-    items = ('a', 'a', 'a')
-    try:
-        choice(items, length=2, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
-
-    # Test with list items and length=0 and unique=True and insufficient unique elements (should not raise error)
-    items = ['a', 'a', 'a']
-    result = choice(items, length=0, unique=True)
-    assert
+        choice(items=123, length=1)
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
 
 
 # LLM-generated content at query #17
 #--------------------------
 
-# Unit test for constructor of class Choice
-def test_Choice():  
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    """Tests the functionality of the `__call__` method in the `Choice` class."""
     choice = Choice()
-    assert choice is not None
 
+    # Test with a list
+    assert choice(['a', 'b', 'c']) in ['a', 'b', 'c']
+    assert len(choice(['a', 'b', 'c'], length=3)) == 3
+    assert len(choice(['a', 'b', 'c'], length=3, unique=True)) == 3
+
+    # Test with a tuple
+    assert choice(('a', 'b', 'c')) in ['a', 'b', 'c']
+    assert len(choice(('a', 'b', 'c'), length=3)) == 3
+    assert len(choice(('a', 'b', 'c'), length=3, unique=True)) == 3
+
+    # Test with a string
+    assert choice('abc') in ['a', 'b', 'c']
+    assert len(choice('abc', length=3)) == 3
+    assert len(choice('abc', length=3, unique=True)) == 3
+
+    # Test with empty sequence
+    try:
+        choice([])
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for empty sequence"
+
+    # Test with negative length
+    try:
+        choice(['a', 'b', 'c'], length=-1)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for negative length"
+
+    # Test with insufficient unique elements
+    try:
+        choice(['a', 'a', 'a'], length=2, unique=True)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for insufficient unique elements"
 
 
 # LLM-generated content at query #18
 #--------------------------
 
-# Unit test for method __call__ of class Choice
-def test_Choice___call__():  
-    # Test case 1: items is a list, length is 0, unique is False
-    choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 2: items is a list, length is 1, unique is False
-    result = choice(items, length=1, unique=False)
-    assert isinstance(result, list)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test case 3: items is a string, length is 2, unique is False
-    items = 'abc'
-    result = choice(items, length=2, unique=False)
-    assert isinstance(result, str)
-    assert len(result) == 2
-    assert all(c in items for c in result)
-
-    # Test case 4: items is a tuple, length is 5, unique is False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5, unique=False)
-    assert isinstance(result, tuple)
-    assert len(result) == 5
-    assert all(c in items for c in result)
-
-    # Test case 5: items is a string, length is 4, unique is True
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
-    assert isinstance(result, str)
-    assert len(result) == 4
-    assert len(set(result)) == 4
-    assert all(c in items for c in result)
-
-    # Test case 6: items is a list, length is 0, unique is True
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=True)
-    assert result in items
-
-    # Test case 7: items is a list, length is 1, unique is True
-    result = choice(items, length=1, unique=True)
-    assert isinstance(result, list)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test case 8: items is a string, length is 2, unique is True
-    items = 'abc'
-    result = choice(items, length=2, unique=True)
-    assert isinstance(result, str)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-    assert all(c in items for c in result)
-
-    # Test case 9: items is a tuple, length is 5, unique is True
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5, unique=True)
-    assert isinstance(result, tuple)
-    assert len(result) == 5
-    assert all(c in items for c in result)
-
-    # Test case 10: items is a list, length is 0, unique is False, but items is empty
-    items = []
-    try:
-        choice(items, length=0, unique=False)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test case 11: items is a list, length is 0, unique is False, but items is not a sequence
-    items = 123
-    try:
-        choice(items, length=0, unique=False)
-        assert False, "Expected TypeError"
-    except TypeError:
-        pass
-
-    # Test case 12: items is a list, length is -1, unique is False
-    items = ['a', 'b', 'c']
-    try:
-        choice(items, length=-1, unique=False)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test case 13: items is a list, length is 5, unique is True, but not enough unique elements
-    items = ['a', 'a', 'b', 'b']
-    try:
-        choice(items, length=5, unique=True)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test case 14: items is a list, length is 0, unique is False, but items is a string
-    items = 'abc'
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 15: items is a list, length is 0, unique is False, but items is a tuple
-    items = ('a', 'b', 'c')
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 16: items is a list, length is 0, unique is False, but items is a list of integers
-    items = [1, 2, 3]
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 17: items is a list, length is 0, unique is False, but items is a list of mixed types
-    items = [1, 'a', True]
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 18: items is a list, length is 0, unique is False, but items is a list of lists
-    items = [[1, 2], [3, 4], [5, 6]]
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 19: items is a list, length is 0, unique is False, but items is a list of dictionaries
-    items = [{'a': 1}, {'b': 2}, {'c': 3}]
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 20: items is a list, length is 0, unique is False, but items is a list of custom objects
-    class CustomObject:
-        def __init__(self, value):
-            self.value = value
-
-    items = [CustomObject(1), CustomObject(2), CustomObject(3)]
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 21: items is a list, length is 0, unique is False, but items is a list of None values
-    items = [None, None, None]
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 22: items is a list, length is 0, unique is False, but items is a list of empty strings
-    items = ['', '', '']
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 23: items is a list, length is 0, unique is False, but items is a list of whitespace strings
-    items = [' ', '  ', '   ']
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 24: items is a list, length is 0, unique is False, but items is a list of special characters
-    items = ['!', '@', '#']
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 25: items is a list, length is 0, unique is False, but items is a list of emojis
-    items = ['😀', '😃', '😄']
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 26: items is a list, length is 0, unique is False, but items is a list of mixed characters
-    items = ['a', 1, '!', '😀']
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 27: items is a list, length is 0, unique is False, but items is a list of long strings
-    items = ['abcdefghijklmnopqrstuvwxyz', '1234567890', '!@#$%^&*()']
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 28: items is a list, length is 0, unique is False, but items is a list of very long strings
-    items = ['a' * 1000, 'b' * 1000, 'c' * 1000]
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 29: items is a list, length is 0, unique is False, but items is a list of very large integers
-    items = [10**100, 10**200, 10**300]
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 30: items is a list, length is 0, unique is False, but items is a list of very small floats
-    items = [1e-100, 1e-200, 1e-300]
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 31: items is a list, length is 0, unique is False, but items is a list of very large floats
-    items = [1e100, 1e200, 1e300]
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test
+# Unit test for constructor of class Choice
+def test_Choice():choice = Choice()
+    assert isinstance(choice, Choice)
 
 
 # LLM-generated content at query #19
 #--------------------------
 
-# Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    """Unit test for method __call__ of class Choice."""
     choice = Choice()
-    assert isinstance(choice, Choice)
 
+    # Test with list
+    assert choice(items=['a', 'b', 'c']) in ['a', 'b', 'c']
+    assert len(choice(items=['a', 'b', 'c'], length=2)) == 2
+    assert len(set(choice(items=['a', 'b', 'c'], length=2, unique=True))) == 2
+
+    # Test with tuple
+    assert choice(items=('a', 'b', 'c')) in ('a', 'b', 'c')
+    assert len(choice(items=('a', 'b', 'c'), length=3)) == 3
+    assert len(set(choice(items=('a', 'b', 'c'), length=3, unique=True))) == 3
+
+    # Test with string
+    assert choice(items='abc') in 'abc'
+    assert len(choice(items='abc', length=2)) == 2
+    assert len(set(choice(items='abc', length=2, unique=True))) == 2
+
+    # Test edge cases
+    try:
+        choice(items=[], length=1)
+        assert False, "Expected ValueError for empty items"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+        assert False, "Expected ValueError for negative length"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=['a', 'a', 'a'], length=2, unique=True)
+        assert False, "Expected ValueError for insufficient unique items"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=123, length=1)
+        assert False, "Expected TypeError for non-sequence items"
+    except TypeError:
+        pass
 
 
 # LLM-generated content at query #20
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
+def test_Choice():
     choice = Choice()
     assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
+    assert choice._seed is None
+    assert choice._random is not None
 
-
-
-# LLM-generated content at query #21
-#--------------------------
-
-# Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
-    choice = Choice()
+    choice = Choice(seed=42)
     assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
-
-
-
-# LLM-generated content at query #22
-#--------------------------
-
-# Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    # Test with list
-    choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items)
-    assert result in items
-
-    # Test with tuple
-    items = ('a', 'b', 'c')
-    result = choice(items)
-    assert result in items
-
-    # Test with string
-    items = 'abc'
-    result = choice(items)
-    assert result in items
-
-    # Test with length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with unique
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with empty sequence
-    try:
-        choice([])
-        assert False
-    except ValueError:
-        assert True
-
-    # Test with negative length
-    try:
-        choice(['a', 'b', 'c'], length=-1)
-        assert False
-    except ValueError:
-        assert True
-
-    # Test with insufficient unique elements
-    try:
-        choice(['a', 'a', 'b'], length=3, unique=True)
-        assert False
-    except ValueError:
-        assert True
-
-    # Test with non-sequence items
-    try:
-        choice(123)
-        assert False
-    except TypeError:
-        assert True
-
-    # Test with length 0
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with length 1
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with length greater than items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with unique and length equal to unique items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with unique and length less than unique items length
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with unique and length greater than unique items length
-    try:
-        choice(['a', 'a', 'b'], length=3, unique=True)
-        assert False
-    except ValueError:
-        assert True
-
-    # Test with string and length
-    items = 'abc'
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with string and unique
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
-    assert len(result) == 4
-    assert len(set(result)) == 4
-
-    # Test with tuple and length
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with tuple and unique
-    items = ('a', 'b', 'c')
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique and length less than unique items length
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with list and unique and length greater than unique items length
-    try:
-        choice(['a', 'a', 'b'], length=3, unique=True)
-        assert False
-    except ValueError:
-        assert True
-
-    # Test with list and unique and length equal to unique items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique and length 0
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=True)
-    assert result in items
-
-    # Test with list and unique and length 1
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with list and unique and length greater than items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=5, unique=True)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with list and unique and length greater than unique items length
-    try:
-        choice(['a', 'a', 'b'], length=3, unique=True)
-        assert False
-    except ValueError:
-        assert True
-
-    # Test with list and unique and length less than unique items length
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with list and unique and length equal to unique items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique and length 0
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=True)
-    assert result in items
-
-    # Test with list and unique and length 1
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with list and unique and length greater than items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=5, unique=True)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with list and unique and length greater than unique items length
-    try:
-        choice(['a', 'a', 'b'], length=3, unique=True)
-        assert False
-    except ValueError:
-        assert True
-
-    # Test with list and unique and length less than unique items length
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with list and unique and length equal to unique items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique and length 0
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=True)
-    assert result in items
-
-    # Test with list and unique and length 1
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with list and unique and length greater than items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=5, unique=True)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with list and unique and length greater than unique items length
-    try:
-        choice(['a', 'a', 'b'], length=3, unique=True)
-        assert False
-    except ValueError:
-        assert True
-
-    # Test with list and unique and length less than unique items length
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with list and unique and length equal to unique items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique and length 0
-    items = ['a', 'b', 'c']
-    result
+    assert choice._seed == 42
+    assert choice._random is not None
 
 
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -1833,1322 +554,116 @@ def test_Choice___call__():  # noqa: N802
 #--------------------------
 
 # Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    # Test with list
+def test_Choice___call__():
+    """Unit test for method __call__ of class Choice."""
     choice = Choice()
+
+    # Test with a list of strings
     items = ['a', 'b', 'c']
-    result = choice(items=items)
+    result = choice(items)
     assert result in items
 
-    # Test with tuple
-    items = ('a', 'b', 'c')
-    result = choice(items=items)
-    assert result in items
+    # Test with a list of strings and length
+    result = choice(items, length=1)
+    assert isinstance(result, list)
+    assert len(result) == 1
+    assert result[0] in items
 
-    # Test with string
+    # Test with a string and length
     items = 'abc'
-    result = choice(items=items)
-    assert result in items
-
-    # Test with length
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=2)
+    result = choice(items, length=2)
+    assert isinstance(result, str)
     assert len(result) == 2
-    assert all(item in items for item in result)
+    for char in result:
+        assert char in items
 
-    # Test with unique
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
+    # Test with a tuple and length
+    items = ('a', 'b', 'c')
+    result = choice(items, length=5)
+    assert isinstance(result, tuple)
+    assert len(result) == 5
+    for item in result:
+        assert item in items
+
+    # Test with unique=True
+    items = 'aabbbccccddddd'
+    result = choice(items, length=4, unique=True)
+    assert isinstance(result, str)
+    assert len(result) == 4
+    assert len(set(result)) == 4
+    for char in result:
+        assert char in items
 
     # Test with empty sequence
     try:
-        choice(items=[])
-    except ValueError as e:
-        assert str(e) == "**items** must be a non-empty sequence."
-
-    # Test with negative length
-    try:
-        choice(items=['a', 'b', 'c'], length=-1)
-    except ValueError as e:
-        assert str(e) == "**length** should be a positive integer."
-
-    # Test with insufficient unique elements
-    try:
-        choice(items=['a', 'a', 'b'], length=3, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
+        choice([])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
     # Test with non-sequence items
     try:
-        choice(items=123)
-    except TypeError as e:
-        assert str(e) == "**items** must be non-empty sequence."
+        choice(123)
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
 
-    # Test with length 0
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=0)
-    assert result in items
-
-    # Test with length 1
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with length greater than items length
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with unique and length equal to unique items
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with unique and length less than unique items
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items=items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with string and length
-    items = 'abc'
-    result = choice(items=items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with string and unique
-    items = 'aabbbccccddddd'
-    result = choice(items=items, length=4, unique=True)
-    assert len(result) == 4
-    assert len(set(result)) == 4
-
-    # Test with tuple and length
-    items = ('a', 'b', 'c')
-    result = choice(items=items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with tuple and unique
-    items = ('a', 'b', 'c')
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique and length less than unique items
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items=items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with list and unique and length greater than unique items
+    # Test with negative length
     try:
-        choice(items=['a', 'a', 'b'], length=3, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
+        choice(items, length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-    # Test with string and unique and length less than unique items
-    items = 'abcd'
-    result = choice(items=items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with string and unique and length greater than unique items
+    # Test with insufficient unique elements
+    items = ['a', 'a', 'a']
     try:
-        choice(items='aab', length=3, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
-
-    # Test with tuple and unique and length less than unique items
-    items = ('a', 'b', 'c', 'd')
-    result = choice(items=items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with tuple and unique and length greater than unique items
-    try:
-        choice(items=('a', 'a', 'b'), length=3, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
-
-    # Test with list and length 0
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=0)
-    assert result in items
-
-    # Test with tuple and length 0
-    items = ('a', 'b', 'c')
-    result = choice(items=items, length=0)
-    assert result in items
-
-    # Test with string and length 0
-    items = 'abc'
-    result = choice(items=items, length=0)
-    assert result in items
-
-    # Test with list and length 1
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with tuple and length 1
-    items = ('a', 'b', 'c')
-    result = choice(items=items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with string and length 1
-    items = 'abc'
-    result = choice(items=items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with list and length greater than items length
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with tuple and length greater than items length
-    items = ('a', 'b', 'c')
-    result = choice(items=items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with string and length greater than items length
-    items = 'abc'
-    result = choice(items=items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with list and unique and length equal to unique items
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with tuple and unique and length equal to unique items
-    items = ('a', 'b', 'c')
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with string and unique and length equal to unique items
-    items = 'abc'
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique and length less than unique items
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items=items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with tuple and unique and length less than unique items
-    items = ('a', 'b', 'c', 'd')
-    result = choice(items=items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with string and unique and length less than unique items
-    items = 'abcd'
-    result = choice(items=items, length=2, unique=True
+        choice(items, length=2, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice(): 
-    # Test that the class can be instantiated
+def test_Choice():
     choice = Choice()
-    assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
-    print("test_Choice passed")
-
+    assert choice is not None
 
 
 # LLM-generated content at query #3
 #--------------------------
 
 # Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    """Test method __call__ of class Choice."""
-    # Test with list
+def test_Choice___call__():
     choice = Choice()
-    items = ["a", "b", "c"]
-    result = choice(items)
-    assert result in items
-    # Test with tuple
-    items = ("a", "b", "c")
-    result = choice(items)
-    assert result in items
-    # Test with string
-    items = "abc"
-    result = choice(items)
-    assert result in items
-    # Test with length
-    items = ["a", "b", "c"]
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-    # Test with unique
-    items = ["a", "b", "c"]
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-    # Test with empty sequence
-    try:
-        choice([])
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with negative length
-    try:
-        choice(["a", "b", "c"], length=-1)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with insufficient unique elements
-    try:
-        choice(["a", "a", "b"], length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with non-sequence items
-    try:
-        choice(123)
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError"
-    # Test with non-integer length
-    try:
-        choice(["a", "b", "c"], length="1")
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError"
-    # Test with length 0
-    items = ["a", "b", "c"]
-    result = choice(items, length=0)
-    assert result in items
-    # Test with length 1
-    items = ["a", "b", "c"]
-    result = choice(items, length=1)
+
+    # Test with list input and default parameters
+    result = choice(items=['a', 'b', 'c'])
+    assert result in ['a', 'b', 'c']
+
+    # Test with list input and length=1
+    result = choice(items=['a', 'b', 'c'], length=1)
     assert len(result) == 1
-    assert result[0] in items
-    # Test with length greater than items length
-    items = ["a", "b", "c"]
-    result = choice(items, length=5)
+    assert result[0] in ['a', 'b', 'c']
+
+    # Test with string input and length=2
+    result = choice(items='abc', length=2)
+    assert len(result) == 2
+    assert all(c in 'abc' for c in result)
+
+    # Test with tuple input and length=5
+    result = choice(items=('a', 'b', 'c'), length=5)
     assert len(result) == 5
-    assert all(item in items for item in result)
-    # Test with unique and length equal to items length
-    items = ["a", "b", "c"]
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-    # Test with unique and length less than items length
-    items = ["a", "b", "c", "d"]
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-    assert all(item in items for item in result)
-    # Test with unique and length greater than items length
-    items = ["a", "b", "c"]
-    try:
-        choice(items, length=4, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with unique and length equal to items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-    # Test with unique and length less than items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-    assert all(item in items for item in result)
-    # Test with unique and length greater than items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    try:
-        choice(items, length=5, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with unique and length 0
-    items = ["a", "b", "c"]
-    result = choice(items, length=0, unique=True)
-    assert result in items
-    # Test with unique and length 1
-    items = ["a", "b", "c"]
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-    # Test with unique and length greater than items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    try:
-        choice(items, length=5, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with unique and length equal to items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-    # Test with unique and length less than items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-    assert all(item in items for item in result)
-    # Test with unique and length greater than items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    try:
-        choice(items, length=5, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with unique and length 0
-    items = ["a", "b", "c"]
-    result = choice(items, length=0, unique=True)
-    assert result in items
-    # Test with unique and length 1
-    items = ["a", "b", "c"]
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-    # Test with unique and length greater than items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    try:
-        choice(items, length=5, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with unique and length equal to items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-    # Test with unique and length less than items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-    assert all(item in items for item in result)
-    # Test with unique and length greater than items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    try:
-        choice(items, length=5, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with unique and length 0
-    items = ["a", "b", "c"]
-    result = choice(items, length=0, unique=True)
-    assert result in items
-    # Test with unique and length 1
-    items = ["a", "b", "c"]
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-    # Test with unique and length greater than items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    try:
-        choice(items, length=5, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-    # Test with unique and length equal to items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    assert all(item in items for item in result)
-    # Test with unique and length less than items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-    assert all(item in items for item in result)
-    # Test with unique and length greater than items length but duplicates in items
-    items = ["a", "a", "b", "c"]
-    try:
-        choice(items, length=5, unique=True)
-    except ValueError:
+    assert all(c in ('a', 'b', 'c') for c in result)
 
-
-
-# LLM-generated content at query #4
-#--------------------------
-
-# Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    """Test method __call__ of class Choice."""
-    # Test with list
-    choice = Choice()
-    items = ["a", "b", "c"]
-    result = choice(items)
-    assert result in items
-
-    # Test with tuple
-    items = ("a", "b", "c")
-    result = choice(items)
-    assert result in items
-
-    # Test with string
-    items = "abc"
-    result = choice(items)
-    assert result in items
-
-    # Test with length
-    items = ["a", "b", "c"]
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with unique
-    items = ["a", "b", "c"]
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with empty sequence
-    try:
-        choice([])
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-
-    # Test with negative length
-    try:
-        choice(["a", "b", "c"], length=-1)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-
-    # Test with insufficient unique elements
-    try:
-        choice(["a", "a", "a"], length=2, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-
-    # Test with non-sequence items
-    try:
-        choice(123)
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError"
-
-    # Test with non-integer length
-    try:
-        choice(["a", "b", "c"], length="invalid")
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError"
-
-    # Test with length 0
-    items = ["a", "b", "c"]
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with length 1
-    items = ["a", "b", "c"]
-    result = choice(items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with length greater than items length
-    items = ["a", "b", "c"]
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with unique and length equal to unique items length
-    items = ["a", "b", "c"]
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with unique and length less than unique items length
-    items = ["a", "b", "c", "d"]
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with unique and length greater than unique items length
-    items = ["a", "a", "b", "b"]
-    try:
-        choice(items, length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-
-    # Test with string items and length
-    items = "abc"
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with string items and unique
-    items = "aabbbccccddddd"
-    result = choice(items, length=4, unique=True)
+    # Test with unique=True
+    result = choice(items='aabbbccccddddd', length=4, unique=True)
     assert len(result) == 4
     assert len(set(result)) == 4
-
-    # Test with tuple items and length
-    items = ("a", "b", "c")
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with tuple items and unique
-    items = ("a", "b", "c")
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list items and unique
-    items = ["a", "b", "c"]
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list items and length
-    items = ["a", "b", "c"]
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with list items and length 0
-    items = ["a", "b", "c"]
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with list items and length 1
-    items = ["a", "b", "c"]
-    result = choice(items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with list items and length greater than items length
-    items = ["a", "b", "c"]
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with list items and unique and length equal to unique items length
-    items = ["a", "b", "c"]
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list items and unique and length less than unique items length
-    items = ["a", "b", "c", "d"]
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with list items and unique and length greater than unique items length
-    items = ["a", "a", "b", "b"]
-    try:
-        choice(items, length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-
-    # Test with string items and length 0
-    items = "abc"
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with string items and length 1
-    items = "abc"
-    result = choice(items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with string items and length greater than items length
-    items = "abc"
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with string items and unique and length equal to unique items length
-    items = "abc"
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with string items and unique and length less than unique items length
-    items = "abcd"
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with string items and unique and length greater than unique items length
-    items = "aabb"
-    try:
-        choice(items, length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-
-    # Test with tuple items and length 0
-    items = ("a", "b", "c")
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with tuple items and length 1
-    items = ("a", "b", "c")
-    result = choice(items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with tuple items and length greater than items length
-    items = ("a", "b", "c")
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with tuple items and unique and length equal to unique items length
-    items = ("a", "b", "c")
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with tuple items and unique and length less than unique items length
-    items = ("a", "b", "c", "d")
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with tuple items and unique and length greater than unique items length
-    items = ("a", "a", "b", "b")
-    try:
-        choice(items, length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-
-    # Test with list items and unique and length equal to unique items length
-    items = ["a", "b", "c"]
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list items and unique and length less
-
-
-# LLM-generated content at query #5
-#--------------------------
-
-# Unit test for constructor of class Choice
-def test_Choice(): 
-    # Test that the Choice class can be instantiated
-    choice = Choice()
-    assert choice is not None
-    assert isinstance(choice, Choice)
-
-
-
-# LLM-generated content at query #6
-#--------------------------
-
-# Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
-    choice = Choice()
-    assert choice is not None
-    assert choice.__class__.__name__ == "Choice"
-
-
-
-# LLM-generated content at query #7
-#--------------------------
-
-# Unit test for method __call__ of class Choice
-def test_Choice___call__():  
-    # Test with a list of items and length=0
-    choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with a tuple of items and length=0
-    items = ('a', 'b', 'c')
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with a string of items and length=0
-    items = 'abc'
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with a list of items and length=1
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1)
-    assert isinstance(result, list)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with a tuple of items and length=1
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1)
-    assert isinstance(result, tuple)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with a string of items and length=1
-    items = 'abc'
-    result = choice(items, length=1)
-    assert isinstance(result, str)
-    assert len(result) == 1
-    assert result in items
-
-    # Test with a list of items and length=5
-    items = ['a', 'b', 'c']
-    result = choice(items, length=5)
-    assert isinstance(result, list)
-    assert len(result) == 5
-    for item in result:
-        assert item in items
-
-    # Test with a tuple of items and length=5
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5)
-    assert isinstance(result, tuple)
-    assert len(result) == 5
-    for item in result:
-        assert item in items
-
-    # Test with a string of items and length=5
-    items = 'abc'
-    result = choice(items, length=5)
-    assert isinstance(result, str)
-    assert len(result) == 5
-    for item in result:
-        assert item in items
-
-    # Test with a list of items, length=5, and unique=True
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert isinstance(result, list)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    for item in result:
-        assert item in items
-
-    # Test with a tuple of items, length=5, and unique=True
-    items = ('a', 'b', 'c')
-    result = choice(items, length=3, unique=True)
-    assert isinstance(result, tuple)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    for item in result:
-        assert item in items
-
-    # Test with a string of items, length=5, and unique=True
-    items = 'abc'
-    result = choice(items, length=3, unique=True)
-    assert isinstance(result, str)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    for item in result:
-        assert item in items
-
-    # Test with a list of items, length=5, and unique=True, but not enough unique elements
-    items = ['a', 'a', 'b']
-    try:
-        choice(items, length=3, unique=True)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test with a tuple of items, length=5, and unique=True, but not enough unique elements
-    items = ('a', 'a', 'b')
-    try:
-        choice(items, length=3, unique=True)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test with a string of items, length=5, and unique=True, but not enough unique elements
-    items = 'aab'
-    try:
-        choice(items, length=3, unique=True)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test with a list of items and length=-1
-    items = ['a', 'b', 'c']
-    try:
-        choice(items, length=-1)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test with a tuple of items and length=-1
-    items = ('a', 'b', 'c')
-    try:
-        choice(items, length=-1)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test with a string of items and length=-1
-    items = 'abc'
-    try:
-        choice(items, length=-1)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test with a non-sequence items
-    items = 123
-    try:
-        choice(items, length=0)
-        assert False, "Expected TypeError"
-    except TypeError:
-        pass
-
-    # Test with an empty sequence items
-    items = []
-    try:
-        choice(items, length=0)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test with a tuple of items and length=0
-    items = ()
-    try:
-        choice(items, length=0)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test with a string of items and length=0
-    items = ''
-    try:
-        choice(items, length=0)
-        assert False, "Expected ValueError"
-    except ValueError:
-        pass
-
-    # Test with a list of items and length=0, but items is a list of lists
-    items = [['a', 'b'], ['c', 'd']]
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with a tuple of items and length=0, but items is a tuple of tuples
-    items = (('a', 'b'), ('c', 'd'))
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with a string of items and length=0, but items is a string of strings
-    items = 'ab cd'
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with a list of items and length=1, but items is a list of lists
-    items = [['a', 'b'], ['c', 'd']]
-    result = choice(items, length=1)
-    assert isinstance(result, list)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with a tuple of items and length=1, but items is a tuple of tuples
-    items = (('a', 'b'), ('c', 'd'))
-    result = choice(items, length=1)
-    assert isinstance(result, tuple)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with a string of items and length=1, but items is a string of strings
-    items = 'ab cd'
-    result = choice(items, length=1)
-    assert isinstance(result, str)
-    assert len(result) == 1
-    assert result in items
-
-    # Test with a list of items and length=5, but items is a list of lists
-    items = [['a', 'b'], ['c', 'd']]
-    result = choice(items, length=5)
-    assert isinstance(result, list)
-    assert len(result) == 5
-    for item in result:
-        assert item in items
-
-    # Test with a tuple of items and length=5, but items is a tuple of tuples
-    items = (('a', 'b'), ('c', 'd'))
-    result = choice(items, length=5)
-    assert isinstance(result, tuple)
-    assert len(result) == 5
-    for item in result:
-        assert item in items
-
-    # Test with a string of items and length=5, but items is a string of strings
-    items = 'ab cd'
-    result = choice(items, length=5)
-    assert isinstance(result, str)
-    assert len(result) == 5
-    for item in result:
-        assert item in items
-
-    # Test with a list of items, length=5, and unique=True, but items is a list of lists
-    items = [['a', 'b'], ['c', 'd'], ['e', 'f']]
-    result = choice(items, length=3, unique=True)
-    assert isinstance(result, list)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    for item in result:
-        assert item in items
-
-    # Test with a tuple of items, length=5, and unique=True, but items is a tuple of tuples
-    items = (('a', 'b'), ('c', 'd'), ('e', 'f'))
-    result = choice(items, length=3, unique=True)
-    assert isinstance(result, tuple)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    for item in result:
-        assert item in items
-
-    # Test with a string of items, length=5, and unique=True, but items is a string of strings
-    items = 'ab cd ef'
-    result = choice(items, length=3, unique=True)
-    assert isinstance(result, str)
-    assert len(result) == 3
-    assert len(set(result
-
-
-# LLM-generated content at query #8
-#--------------------------
-
-# Unit test for constructor of class Choice
-def test_Choice(): 
-    # Test 1: Check if the class Choice is instantiated correctly
-    choice = Choice()
-    assert choice is not None
-    assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
-
-    # Test 2: Check if the method choice is callable
-    assert callable(choice.choice)
-
-    # Test 3: Check if the method __call__ is callable
-    assert callable(choice.__call__)
-
-    # Test 4: Check if the method __call__ returns a sequence or an element
-    items = ['a', 'b', 'c']
-    result = choice(items)
-    assert result in items
-
-    # Test 5: Check if the method __call__ returns a sequence of the correct length
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test 6: Check if the method __call__ returns a sequence of unique elements
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test 7: Check if the method __call__ raises TypeError for non-sequence items
-    try:
-        choice(123)
-    except TypeError as e:
-        assert str(e) == "**items** must be non-empty sequence."
-
-    # Test 8: Check if the method __call__ raises ValueError for empty sequence
-    try:
-        choice([])
-    except ValueError as e:
-        assert str(e) == "**items** must be a non-empty sequence."
-
-    # Test 9: Check if the method __call__ raises ValueError for negative length
-    try:
-        choice(items, length=-1)
-    except ValueError as e:
-        assert str(e) == "**length** should be a positive integer."
-
-    # Test 10: Check if the method __call__ raises ValueError for insufficient unique elements
-    try:
-        choice(items, length=4, unique=True)
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
-
-    # Test 11: Check if the method __call__ returns a list when items is a list
-    result = choice(items, length=2)
-    assert isinstance(result, list)
-
-    # Test 12: Check if the method __call__ returns a tuple when items is a tuple
-    items_tuple = ('a', 'b', 'c')
-    result = choice(items_tuple, length=2)
-    assert isinstance(result, tuple)
-
-    # Test 13: Check if the method __call__ returns a string when items is a string
-    items_string = 'abc'
-    result = choice(items_string, length=2)
-    assert isinstance(result, str)
-
-    # Test 14: Check if the method __call__ returns a single element when length is 0
-    result = choice(items)
-    assert isinstance(result, str)
-
-    # Test 15: Check if the method __call__ returns a sequence of the correct type
-    result = choice(items, length=2)
-    assert isinstance(result, list)
-
-    # Test 16: Check if the method __call__ returns a sequence of the correct type when items is a tuple
-    result = choice(items_tuple, length=2)
-    assert isinstance(result, tuple)
-
-    # Test 17: Check if the method __call__ returns a sequence of the correct type when items is a string
-    result = choice(items_string, length=2)
-    assert isinstance(result, str)
-
-    # Test 18: Check if the method __call__ returns a sequence of the correct length when items is a string
-    result = choice(items_string, length=2)
-    assert len(result) == 2
-
-    # Test 19: Check if the method __call__ returns a sequence of the correct length when items is a tuple
-    result = choice(items_tuple, length=2)
-    assert len(result) == 2
-
-    # Test 20: Check if the method __call__ returns a sequence of the correct length when items is a list
-    result = choice(items, length=2)
-    assert len(result) == 2
-
-    # Test 21: Check if the method __call__ returns a sequence of unique elements when items is a string
-    result = choice(items_string, length=2, unique=True)
-    assert len(set(result)) == 2
-
-    # Test 22: Check if the method __call__ returns a sequence of unique elements when items is a tuple
-    result = choice(items_tuple, length=2, unique=True)
-    assert len(set(result)) == 2
-
-    # Test 23: Check if the method __call__ returns a sequence of unique elements when items is a list
-    result = choice(items, length=2, unique=True)
-    assert len(set(result)) == 2
-
-    # Test 24: Check if the method __call__ returns a sequence of the correct type when items is a string and length is 0
-    result = choice(items_string)
-    assert isinstance(result, str)
-
-    # Test 25: Check if the method __call__ returns a sequence of the correct type when items is a tuple and length is 0
-    result = choice(items_tuple)
-    assert isinstance(result, str)
-
-    # Test 26: Check if the method __call__ returns a sequence of the correct type when items is a list and length is 0
-    result = choice(items)
-    assert isinstance(result, str)
-
-    # Test 27: Check if the method __call__ returns a sequence of the correct length when items is a string and length is 0
-    result = choice(items_string)
-    assert len(result) == 1
-
-    # Test 28: Check if the method __call__ returns a sequence of the correct length when items is a tuple and length is 0
-    result = choice(items_tuple)
-    assert len(result) == 1
-
-    # Test 29: Check if the method __call__ returns a sequence of the correct length when items is a list and length is 0
-    result = choice(items)
-    assert len(result) == 1
-
-    # Test 30: Check if the method __call__ returns a sequence of the correct type when items is a string and length is 1
-    result = choice(items_string, length=1)
-    assert isinstance(result, str)
-
-    # Test 31: Check if the method __call__ returns a sequence of the correct type when items is a tuple and length is 1
-    result = choice(items_tuple, length=1)
-    assert isinstance(result, tuple)
-
-    # Test 32: Check if the method __call__ returns a sequence of the correct type when items is a list and length is 1
-    result = choice(items, length=1)
-    assert isinstance(result, list)
-
-    # Test 33: Check if the method __call__ returns a sequence of the correct length when items is a string and length is 1
-    result = choice(items_string, length=1)
-    assert len(result) == 1
-
-    # Test 34: Check if the method __call__ returns a sequence of the correct length when items is a tuple and length is 1
-    result = choice(items_tuple, length=1)
-    assert len(result) == 1
-
-    # Test 35: Check if the method __call__ returns a sequence of the correct length when items is a list and length is 1
-    result = choice(items, length=1)
-    assert len(result) == 1
-
-    # Test 36: Check if the method __call__ returns a sequence of the correct type when items is a string and length is 2
-    result = choice(items_string, length=2)
-    assert isinstance(result, str)
-
-    # Test 37: Check if the method __call__ returns a sequence of the correct type when items is a tuple and length is 2
-    result = choice(items_tuple, length=2)
-    assert isinstance(result, tuple)
-
-    # Test 38: Check if the method __call__ returns a sequence of the correct type when items is a list and length is 2
-    result = choice(items, length=2)
-    assert isinstance(result, list)
-
-    # Test 39: Check if the method __call__ returns a sequence of the correct length when items is a string and length is 2
-    result = choice(items_string, length=2)
-    assert len(result) == 2
-
-    # Test 40: Check if the method __call__ returns a sequence of the correct length when items is a tuple and length is 2
-    result = choice(items_tuple, length=2)
-    assert len(result) == 2
-
-    # Test 41: Check if the method __call__ returns a sequence of the correct length when items is a list and length is 2
-    result = choice(items, length=2)
-    assert len(result) == 2
-
-    # Test 42: Check if the method __call__ returns a sequence of the correct type when items is a string and length is 5
-    result = choice(items_string, length=5)
-    assert isinstance(result, str)
-
-    # Test 43: Check if the method __call__ returns a sequence of the correct type when items is a tuple and length is 5
-    result = choice(items_tuple, length=5)
-    assert isinstance(result, tuple)
-
-    # Test 44: Check if the method __call__ returns a sequence of the correct type when items is a list and length is 5
-    result = choice(items
-
-
-# LLM-generated content at query #9
-#--------------------------
-
-# Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    """Test method __call__ of class Choice."""
-    # Test with list
-    choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items)
-    assert result in items
-    # Test with tuple
-    items = ('a', 'b', 'c')
-    result = choice(items)
-    assert result in items
-    # Test with string
-    items = 'abc'
-    result = choice(items)
-    assert result in items
-    # Test with length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-    # Test with unique
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-    # Test with empty sequence
-    try:
-        choice([])
-    except ValueError:
-        pass
-    else:
-        assert False
-    # Test with negative length
-    try:
-        choice(['a', 'b', 'c'], length=-1)
-    except ValueError:
-        pass
-    else:
-        assert False
-    # Test with non-sequence items
-    try:
-        choice(123)
-    except TypeError:
-        pass
-    else:
-        assert False
-    # Test with insufficient unique elements
-    try:
-        choice(['a', 'a', 'b'], length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False
-
-
-# LLM-generated content at query #10
-#--------------------------
-
-# Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    # Test with list
-    choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items=items)
-    assert result in items
-
-    # Test with tuple
-    items = ('a', 'b', 'c')
-    result = choice(items=items)
-    assert result in items
-
-    # Test with string
-    items = 'abc'
-    result = choice(items=items)
-    assert result in items
-
-    # Test with length
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with unique
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
+    assert all(c in 'abcd' for c in result)
 
     # Test with empty sequence
     try:
@@ -3157,6 +672,14 @@ def test_Choice___call__():  # noqa: N802
         pass
     else:
         assert False, "Expected ValueError for empty sequence"
+
+    # Test with non-sequence input
+    try:
+        choice(items=123)
+    except TypeError:
+        pass
+    else:
+        assert False, "Expected TypeError for non-sequence input"
 
     # Test with negative length
     try:
@@ -3168,234 +691,108 @@ def test_Choice___call__():  # noqa: N802
 
     # Test with insufficient unique elements
     try:
-        choice(items=['a', 'a', 'b'], length=3, unique=True)
+        choice(items=['a', 'a', 'a'], length=2, unique=True)
     except ValueError:
         pass
     else:
         assert False, "Expected ValueError for insufficient unique elements"
 
-    # Test with non-sequence items
+
+# LLM-generated content at query #4
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    # Test case 1: Check if a single element is returned when length is 0
+    choice = Choice()
+    items = ['a', 'b', 'c']
+    result = choice(items)
+    assert result in items
+
+    # Test case 2: Check if a list of elements is returned when length is greater than 0
+    length = 2
+    result = choice(items, length=length)
+    assert isinstance(result, list)
+    assert len(result) == length
+    for item in result:
+        assert item in items
+
+    # Test case 3: Check if a tuple of elements is returned when items is a tuple
+    items_tuple = ('a', 'b', 'c')
+    result = choice(items_tuple, length=length)
+    assert isinstance(result, tuple)
+    assert len(result) == length
+    for item in result:
+        assert item in items_tuple
+
+    # Test case 4: Check if a string is returned when items is a string
+    items_str = 'abc'
+    result = choice(items_str, length=length)
+    assert isinstance(result, str)
+    assert len(result) == length
+    for char in result:
+        assert char in items_str
+
+    # Test case 5: Check if unique elements are returned when unique is True
+    length = 2
+    result = choice(items, length=length, unique=True)
+    assert isinstance(result, list)
+    assert len(result) == length
+    assert len(set(result)) == length
+    for item in result:
+        assert item in items
+
+    # Test case 6: Check if ValueError is raised when unique is True and there are not enough unique elements
     try:
-        choice(items=123)
+        choice(items, length=4, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test case 7: Check if TypeError is raised when items is not a sequence
+    try:
+        choice(123)
+        assert False, "Expected TypeError"
     except TypeError:
         pass
-    else:
-        assert False, "Expected TypeError for non-sequence items"
 
-    # Test with length 0
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=0)
-    assert result in items
+    # Test case 8: Check if ValueError is raised when items is an empty sequence
+    try:
+        choice([])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-    # Test with length 1
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
+    # Test case 9: Check if ValueError is raised when length is negative
+    try:
+        choice(items, length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-    # Test with length greater than items length
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=5)
-    assert len(result) == 5
+    # Test case 10: Check if the returned elements are from the original items
+    result = choice(items, length=3)
     assert all(item in items for item in result)
 
-    # Test with unique and length equal to unique items length
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
 
-    # Test with unique and length less than unique items length
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items=items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with string and length
-    items = 'abc'
-    result = choice(items=items, length=2)
-    assert len(result) == 2
-    assert all(item in items for item in result)
-
-    # Test with string and unique
-    items = 'aabbbccccddddd'
-    result = choice(items=items, length=4, unique=True)
-    assert len(result) == 4
-    assert len(set(result)) == 4
-
-    # Test with tuple and length
-    items = ('a', 'b', 'c')
-    result = choice(items=items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with tuple and unique
-    items = ('a', 'b', 'c')
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique and length less than unique items length
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items=items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with list and unique and length greater than unique items length
-    try:
-        choice(items=['a', 'a', 'b'], length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError for insufficient unique elements"
-
-    # Test with string and unique and length less than unique items length
-    items = 'aabbbccccddddd'
-    result = choice(items=items, length=4, unique=True)
-    assert len(result) == 4
-    assert len(set(result)) == 4
-
-    # Test with string and unique and length greater than unique items length
-    try:
-        choice(items='aab', length=4, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError for insufficient unique elements"
-
-    # Test with tuple and unique and length less than unique items length
-    items = ('a', 'b', 'c', 'd')
-    result = choice(items=items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with tuple and unique and length greater than unique items length
-    try:
-        choice(items=('a', 'a', 'b'), length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError for insufficient unique elements"
-
-    # Test with list and unique and length equal to unique items length
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with string and unique and length equal to unique items length
-    items = 'abc'
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with tuple and unique and length equal to unique items length
-    items = ('a', 'b', 'c')
-    result = choice(items=items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with list and unique and length 0
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=0, unique=True)
-    assert result in items
-
-    # Test with string and unique and length 0
-    items = 'abc'
-    result = choice(items=items, length=0, unique=True)
-    assert result in items
-
-    # Test with tuple and unique and length 0
-    items = ('a', 'b', 'c')
-    result = choice(items=items, length=0, unique=True)
-    assert result in items
-
-    # Test with list and unique and length 1
-    items = ['a', 'b', 'c']
-    result = choice(items=items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with string and unique and length 1
-    items = 'abc'
-    result = choice(items=items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with tuple and unique and length 1
-    items = ('a', 'b', 'c')
-    result = choice(items=items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with list and unique and length greater than items length
-    items = ['a', 'b', 'c']
-    try:
-        choice(items=items, length=4, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError for insufficient unique elements"
-
-    # Test with string and unique and length greater than items length
-    items = 'abc'
-    try:
-        choice(items=items, length=4, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError for insufficient unique elements"
-
-    # Test with tuple and unique and length greater than items length
-    items = ('a', 'b', 'c')
-    try:
-        choice(items=items, length=4, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError for insufficient unique elements"
-
-    # Test with list and unique and length equal to items length but duplicates
-    items = ['a', 'a', 'b']
-    try:
-        choice(items=items, length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError for insufficient unique elements"
-
-    # Test with string and unique and length equal to items length but duplicates
-    items = 'aab'
-    try:
-        choice(items=items, length=3, unique=True)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError for insufficient unique elements"
-
-    #
-
-
-# LLM-generated content at query #11
+# LLM-generated content at query #5
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice(): 
-    # Test that the Choice class can be instantiated
+def test_Choice():
     choice = Choice()
     assert choice is not None
-    assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
 
 
+# LLM-generated content at query #6
+#--------------------------
 
-# LLM-generated content at query #12
+# Unit test for constructor of class Choice
+def test_Choice():
+    assert Choice().Meta.name == "choice"
+
+
+# LLM-generated content at query #7
 #--------------------------
 
 # Unit test for method __call__ of class Choice
@@ -3406,549 +803,1791 @@ def test_Choice___call__():  # noqa: N802
     items = ['a', 'b', 'c']
     result = choice(items)
     assert result in items
+    assert isinstance(result, str)
+
+    result = choice(items, length=2)
+    assert len(result) == 2
+    assert all(item in items for item in result)
+    assert isinstance(result, list)
+
+    result = choice(items, length=2, unique=True)
+    assert len(result) == 2
+    assert all(item in items for item in result)
+    assert isinstance(result, list)
+    assert len(set(result)) == 2
 
     # Test with tuple
     items = ('a', 'b', 'c')
     result = choice(items)
     assert result in items
+    assert isinstance(result, str)
+
+    result = choice(items, length=2)
+    assert len(result) == 2
+    assert all(item in items for item in result)
+    assert isinstance(result, tuple)
+
+    result = choice(items, length=2, unique=True)
+    assert len(result) == 2
+    assert all(item in items for item in result)
+    assert isinstance(result, tuple)
+    assert len(set(result)) == 2
 
     # Test with string
     items = 'abc'
     result = choice(items)
     assert result in items
+    assert isinstance(result, str)
 
-    # Test with length
-    items = ['a', 'b', 'c']
     result = choice(items, length=2)
     assert len(result) == 2
     assert all(item in items for item in result)
+    assert isinstance(result, str)
 
-    # Test with unique
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
+    result = choice(items, length=2, unique=True)
+    assert len(result) == 2
+    assert all(item in items for item in result)
+    assert isinstance(result, str)
+    assert len(set(result)) == 2
 
-    # Test with empty sequence
+    # Test with unique=True and insufficient unique elements
+    items = 'aabbbccccddddd'
     try:
-        choice([])
-    except ValueError:
-        pass
+        choice(items, length=5, unique=True)
+    except ValueError as e:
+        assert str(e) == (
+            "There are not enough unique elements in "
+            "**items** to provide the specified **number**."
+        )
     else:
         assert False, "Expected ValueError"
 
     # Test with negative length
     try:
-        choice(['a', 'b', 'c'], length=-1)
-    except ValueError:
-        pass
-    else:
-        assert False, "Expected ValueError"
-
-    # Test with insufficient unique elements
-    try:
-        choice(['a', 'a', 'b'], length=3, unique=True)
-    except ValueError:
-        pass
+        choice(items, length=-1)
+    except ValueError as e:
+        assert str(e) == "**length** should be a positive integer."
     else:
         assert False, "Expected ValueError"
 
     # Test with non-sequence items
     try:
         choice(123)
-    except TypeError:
-        pass
+    except TypeError as e:
+        assert str(e) == "**items** must be non-empty sequence."
     else:
         assert False, "Expected TypeError"
 
-    # Test with length 0
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with length 1
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with length greater than items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with unique and length equal to unique items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with unique and length less than unique items length
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with unique and length greater than unique items length
-    items = ['a', 'a', 'b']
+    # Test with empty sequence
     try:
-        choice(items, length=3, unique=True)
-    except ValueError:
-        pass
+        choice([])
+    except ValueError as e:
+        assert str(e) == "**items** must be a non-empty sequence."
     else:
         assert False, "Expected ValueError"
 
-    # Test with string and length
+
+# LLM-generated content at query #8
+#--------------------------
+
+# Unit test for constructor of class Choice
+def test_Choice():
+    """Test the constructor of the Choice class."""
+    choice = Choice()
+    assert isinstance(choice, Choice)
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():  # noqa: N802
+    # Test with a list of elements
+    choice = Choice()
+    items = ['a', 'b', 'c']
+    result = choice(items)
+    assert result in items
+
+    # Test with a list of elements and a specific length
+    result_list = choice(items, length=2)
+    assert isinstance(result_list, list)
+    assert len(result_list) == 2
+    assert all(item in items for item in result_list)
+
+    # Test with a tuple of elements and a specific length
+    items_tuple = ('a', 'b', 'c')
+    result_tuple = choice(items_tuple, length=3)
+    assert isinstance(result_tuple, tuple)
+    assert len(result_tuple) == 3
+    assert all(item in items_tuple for item in result_tuple)
+
+    # Test with a string and a specific length
+    items_str = 'abc'
+    result_str = choice(items_str, length=2)
+    assert isinstance(result_str, str)
+    assert len(result_str) == 2
+    assert all(char in items_str for char in result_str)
+
+    # Test with unique elements
+    items_unique = 'aabbbccccddddd'
+    result_unique = choice(items_unique, length=4, unique=True)
+    assert isinstance(result_unique, str)
+    assert len(result_unique) == 4
+    assert len(set(result_unique)) == 4
+
+    # Test with empty sequence
+    try:
+        choice([])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with non-sequence items
+    try:
+        choice(123)
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
+
+    # Test with negative length
+    try:
+        choice(items, length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with insufficient unique elements
+    try:
+        choice(items_unique, length=10, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #10
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    # Create an instance of Choice
+    choice_instance = Choice()
+
+    # Test case 1: Check single selection from list
+    result = choice_instance.__call__(items=['a', 'b', 'c'])
+    assert result in ['a', 'b', 'c']
+
+    # Test case 2: Check multiple selections from list
+    result = choice_instance.__call__(items=['a', 'b', 'c'], length=2)
+    assert len(result) == 2
+    assert all(item in ['a', 'b', 'c'] for item in result)
+
+    # Test case 3: Check single selection from tuple
+    result = choice_instance.__call__(items=('a', 'b', 'c'))
+    assert result in ('a', 'b', 'c')
+
+    # Test case 4: Check multiple selections from tuple
+    result = choice_instance.__call__(items=('a', 'b', 'c'), length=3)
+    assert len(result) == 3
+    assert all(item in ('a', 'b', 'c') for item in result)
+
+    # Test case 5: Check single selection from string
+    result = choice_instance.__call__(items='abc')
+    assert result in 'abc'
+
+    # Test case 6: Check multiple selections from string
+    result = choice_instance.__call__(items='abc', length=2)
+    assert len(result) == 2
+    assert all(item in 'abc' for item in result)
+
+    # Test case 7: Check unique selections from list
+    result = choice_instance.__call__(items=['a', 'b', 'c'], length=2, unique=True)
+    assert len(result) == 2
+    assert len(set(result)) == 2
+
+    # Test case 8: Check unique selections from string
+    result = choice_instance.__call__(items='aabbcc', length=3, unique=True)
+    assert len(result) == 3
+    assert len(set(result)) == 3
+
+    # Test case 9: Check TypeError for non-sequence items
+    try:
+        choice_instance.__call__(items=123)
+    except TypeError:
+        pass
+    else:
+        assert False, "Expected TypeError for non-sequence items"
+
+    # Test case 10: Check ValueError for empty items
+    try:
+        choice_instance.__call__(items=[])
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for empty items"
+
+    # Test case 11: Check ValueError for negative length
+    try:
+        choice_instance.__call__(items=['a', 'b', 'c'], length=-1)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for negative length"
+
+    # Test case 12: Check ValueError for insufficient unique elements
+    try:
+        choice_instance.__call__(items=['a', 'a', 'a'], length=2, unique=True)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for insufficient unique elements"
+
+
+# LLM-generated content at query #11
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    """Unit test for method __call__ of class Choice."""
+    choice = Choice()
+
+    # Test with list
+    assert choice(items=['a', 'b', 'c']) in ['a', 'b', 'c']
+    assert len(choice(items=['a', 'b', 'c'], length=2)) == 2
+    assert len(choice(items=['a', 'b', 'c'], length=3, unique=True)) == 3
+
+    # Test with tuple
+    assert choice(items=('a', 'b', 'c')) in ('a', 'b', 'c')
+    assert len(choice(items=('a', 'b', 'c'), length=2)) == 2
+    assert len(choice(items=('a', 'b', 'c'), length=3, unique=True)) == 3
+
+    # Test with string
+    assert choice(items='abc') in 'abc'
+    assert len(choice(items='abc', length=2)) == 2
+    assert len(choice(items='abc', length=3, unique=True)) == 3
+
+    # Test exceptions
+    try:
+        choice(items=123)
+        assert False, "TypeError should be raised"
+    except TypeError:
+        pass
+
+    try:
+        choice(items=[])
+        assert False, "ValueError should be raised"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+        assert False, "ValueError should be raised"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=['a', 'a', 'a'], length=2, unique=True)
+        assert False, "ValueError should be raised"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    """Test method __call__ of class Choice."""
+    choice = Choice()
+
+    # Test with list
+    items = ['a', 'b', 'c']
+    result = choice(items=items)
+    assert result in items
+
+    result = choice(items=items, length=1)
+    assert len(result) == 1
+    assert result[0] in items
+
+    result = choice(items=items, length=5)
+    assert len(result) == 5
+    for item in result:
+        assert item in items
+
+    # Test with tuple
+    items = ('a', 'b', 'c')
+    result = choice(items=items)
+    assert result in items
+
+    result = choice(items=items, length=1)
+    assert len(result) == 1
+    assert result[0] in items
+
+    result = choice(items=items, length=5)
+    assert len(result) == 5
+    for item in result:
+        assert item in items
+
+    # Test with string
     items = 'abc'
-    result = choice(items, length=2)
+    result = choice(items=items)
+    assert result in items
+
+    result = choice(items=items, length=1)
+    assert len(result) == 1
+    assert result in items
+
+    result = choice(items=items, length=5)
+    assert len(result) == 5
+    for item in result:
+        assert item in items
+
+    # Test with unique=True
+    items = ['a', 'b', 'c']
+    result = choice(items=items, length=3, unique=True)
+    assert len(result) == 3
+    assert len(set(result)) == 3
+    for item in result:
+        assert item in items
+
+    items = 'aabbbccccddddd'
+    result = choice(items=items, length=4, unique=True)
+    assert len(result) == 4
+    assert len(set(result)) == 4
+    for item in result:
+        assert item in items
+
+    # Test with empty sequence
+    try:
+        choice(items=[])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    try:
+        choice(items='')
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with non-sequence
+    try:
+        choice(items=123)
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
+
+    # Test with negative length
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with insufficient unique elements
+    try:
+        choice(items=['a', 'a', 'a'], length=2, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #13
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    choice = Choice()
+    
+    # Test with a list
+    items_list = ['a', 'b', 'c']
+    result = choice(items=items_list)
+    assert result in items_list
+    
+    # Test with a tuple
+    items_tuple = ('a', 'b', 'c')
+    result = choice(items=items_tuple)
+    assert result in items_tuple
+    
+    # Test with a string
+    items_str = 'abc'
+    result = choice(items=items_str)
+    assert result in items_str
+    
+    # Test with length parameter
+    result = choice(items=items_list, length=2)
+    assert len(result) == 2
+    assert all(item in items_list for item in result)
+    
+    # Test with unique parameter
+    result = choice(items=items_list, length=2, unique=True)
+    assert len(result) == 2
+    assert len(set(result)) == 2
+    
+    # Test with length greater than unique items
+    try:
+        choice(items=['a', 'a', 'b'], length=3, unique=True)
+    except ValueError:
+        assert True
+    else:
+        assert False
+    
+    # Test with negative length
+    try:
+        choice(items=items_list, length=-1)
+    except ValueError:
+        assert True
+    else:
+        assert False
+    
+    # Test with non-sequence items
+    try:
+        choice(items=123)
+    except TypeError:
+        assert True
+    else:
+        assert False
+    
+    # Test with empty sequence items
+    try:
+        choice(items=[])
+    except ValueError:
+        assert True
+    else:
+        assert False
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    choice = Choice()
+
+    # Test with list
+    assert choice(items=['a', 'b', 'c']) in ['a', 'b', 'c']
+    assert len(choice(items=['a', 'b', 'c'], length=2)) == 2
+    assert len(set(choice(items=['a', 'b', 'c'], length=2, unique=True))) == 2
+
+    # Test with tuple
+    assert choice(items=('a', 'b', 'c')) in ('a', 'b', 'c')
+    assert len(choice(items=('a', 'b', 'c'), length=3)) == 3
+    assert len(set(choice(items=('a', 'b', 'c'), length=3, unique=True))) == 3
+
+    # Test with string
+    assert choice(items='abc') in 'abc'
+    assert len(choice(items='abc', length=2)) == 2
+    assert len(set(choice(items='abc', length=2, unique=True))) == 2
+
+    # Test with empty sequence
+    try:
+        choice(items=[])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with non-sequence
+    try:
+        choice(items=123)
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
+
+    # Test with negative length
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with insufficient unique elements
+    try:
+        choice(items='aab', length=4, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    """Unit test for method __call__ of class Choice."""
+    choice = Choice()
+
+    # Test with list
+    assert choice(items=['a', 'b', 'c']) in ['a', 'b', 'c']
+    assert len(choice(items=['a', 'b', 'c'], length=2)) == 2
+    assert len(choice(items=['a', 'b', 'c'], length=5)) == 5
+    assert len(choice(items=['a', 'b', 'c'], length=1, unique=True)) == 1
+
+    # Test with tuple
+    assert choice(items=('a', 'b', 'c')) in ('a', 'b', 'c')
+    assert len(choice(items=('a', 'b', 'c'), length=2)) == 2
+    assert len(choice(items=('a', 'b', 'c'), length=5)) == 5
+    assert len(choice(items=('a', 'b', 'c'), length=1, unique=True)) == 1
+
+    # Test with string
+    assert choice(items='abc') in 'abc'
+    assert len(choice(items='abc', length=2)) == 2
+    assert len(choice(items='abc', length=5)) == 5
+    assert len(choice(items='abc', length=1, unique=True)) == 1
+
+    # Test with empty sequence
+    try:
+        choice(items=[])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with negative length
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with insufficient unique elements
+    try:
+        choice(items=['a', 'a', 'a'], length=2, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():  # noqa: N802
+    """Unit test for method __call__ of class Choice."""
+    choice = Choice()
+
+    # Test with a list
+    items_list = ['a', 'b', 'c']
+    result_list = choice(items_list)
+    assert result_list in items_list
+
+    result_list_length = choice(items_list, length=2)
+    assert len(result_list_length) == 2
+    assert all(item in items_list for item in result_list_length)
+
+    result_list_unique = choice(items_list, length=3, unique=True)
+    assert len(result_list_unique) == 3
+    assert len(set(result_list_unique)) == 3
+
+    # Test with a tuple
+    items_tuple = ('a', 'b', 'c')
+    result_tuple = choice(items_tuple)
+    assert result_tuple in items_tuple
+
+    result_tuple_length = choice(items_tuple, length=2)
+    assert len(result_tuple_length) == 2
+    assert all(item in items_tuple for item in result_tuple_length)
+
+    result_tuple_unique = choice(items_tuple, length=3, unique=True)
+    assert len(result_tuple_unique) == 3
+    assert len(set(result_tuple_unique)) == 3
+
+    # Test with a string
+    items_string = 'abc'
+    result_string = choice(items_string)
+    assert result_string in items_string
+
+    result_string_length = choice(items_string, length=2)
+    assert len(result_string_length) == 2
+    assert all(char in items_string for char in result_string_length)
+
+    result_string_unique = choice(items_string, length=3, unique=True)
+    assert len(result_string_unique) == 3
+    assert len(set(result_string_unique)) == 3
+
+    # Test edge cases
+    try:
+        choice(items=[])
+        assert False, "Expected ValueError for empty list"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=['a'], length=-1)
+        assert False, "Expected ValueError for negative length"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=['a', 'a'], length=2, unique=True)
+        assert False, "Expected ValueError for insufficient unique elements"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=123)  # type: ignore
+        assert False, "Expected TypeError for non-sequence items"
+    except TypeError:
+        pass
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    """Test method __call__ of class Choice."""
+    choice = Choice()
+
+    # Test with a list of items
+    items = ['a', 'b', 'c']
+    result = choice(items=items)
+    assert result in items
+
+    # Test with a list of items and a specified length
+    result = choice(items=items, length=2)
     assert len(result) == 2
     assert all(item in items for item in result)
 
-    # Test with string and unique
+    # Test with a string of items
+    items = 'abc'
+    result = choice(items=items, length=3)
+    assert len(result) == 3
+    assert all(item in items for item in result)
+
+    # Test with a tuple of items
+    items = ('a', 'b', 'c')
+    result = choice(items=items, length=4)
+    assert len(result) == 4
+    assert all(item in items for item in result)
+
+    # Test with unique=True
     items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
+    result = choice(items=items, length=4, unique=True)
+    assert len(result) == 4
+    assert len(set(result)) == 4
+    assert all(item in items for item in result)
+
+    # Test with an empty sequence
+    try:
+        choice(items=[])
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for empty sequence"
+
+    # Test with a non-sequence
+    try:
+        choice(items=123)
+    except TypeError:
+        pass
+    else:
+        assert False, "Expected TypeError for non-sequence"
+
+    # Test with negative length
+    try:
+        choice(items=items, length=-1)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for negative length"
+
+    # Test with insufficient unique elements
+    try:
+        choice(items='aab', length=4, unique=True)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for insufficient unique elements"
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():  # noqa: D103, N802
+    import pytest
+    from pytest import raises
+
+    from mimesis import Choice
+    from mimesis.enums import Gender
+    from mimesis.providers.person import Person
+
+    choice = Choice()
+
+    # Test with list
+    items = ['a', 'b', 'c']
+    assert choice(items=items) in items
+    assert len(choice(items=items, length=2)) == 2
+
+    # Test with tuple
+    items_tuple = ('a', 'b', 'c')
+    assert choice(items=items_tuple) in items_tuple
+    assert len(choice(items=items_tuple, length=3)) == 3
+
+    # Test with string
+    items_str = 'abc'
+    assert choice(items=items_str) in items_str
+    assert len(choice(items=items_str, length=2)) == 2
+
+    # Test unique=True
+    items_str_unique = 'aabbbccccddddd'
+    result = choice(items=items_str_unique, length=4, unique=True)
+    assert len(set(result)) == 4
+
+    # Test exceptions
+    with raises(TypeError):
+        choice(items=123)
+
+    with raises(ValueError):
+        choice(items=[])
+
+    with raises(ValueError):
+        choice(items=['a', 'b', 'c'], length=-1)
+
+    with raises(ValueError):
+        choice(items=['a', 'a', 'a'], length=2, unique=True)
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    choice = Choice()
+
+    # Test with list
+    items = ['a', 'b', 'c']
+    result = choice(items=items)
+    assert result in items
+
+    result = choice(items=items, length=1)
+    assert len(result) == 1
+    assert result[0] in items
+
+    result = choice(items=items, length=5)
+    assert len(result) == 5
+    for item in result:
+        assert item in items
+
+    # Test with tuple
+    items = ('a', 'b', 'c')
+    result = choice(items=items)
+    assert result in items
+
+    result = choice(items=items, length=1)
+    assert len(result) == 1
+    assert result[0] in items
+
+    result = choice(items=items, length=5)
+    assert len(result) == 5
+    for item in result:
+        assert item in items
+
+    # Test with string
+    items = 'abc'
+    result = choice(items=items)
+    assert result in items
+
+    result = choice(items=items, length=1)
+    assert len(result) == 1
+    assert result in items
+
+    result = choice(items=items, length=5)
+    assert len(result) == 5
+    for item in result:
+        assert item in items
+
+    # Test with unique=True
+    items = ['a', 'b', 'c']
+    result = choice(items=items, length=3, unique=True)
+    assert len(result) == 3
+    assert len(set(result)) == 3
+
+    items = 'aabbbccccddddd'
+    result = choice(items=items, length=4, unique=True)
     assert len(result) == 4
     assert len(set(result)) == 4
 
-    # Test with tuple and length
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
+    # Test exceptions
+    try:
+        choice(items=123)
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
 
-    # Test with tuple and unique
-    items = ('a', 'b', 'c')
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
+    try:
+        choice(items=[])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
-    # Test with list and length 0
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    try:
+        choice(items=['a', 'a', 'a'], length=2, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# LLM-generated content at query #1
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    """Test method __call__ of class Choice."""
+    choice = Choice()
+
+    # Test with a list of items
     items = ['a', 'b', 'c']
-    result = choice(items, length=0)
+    result = choice(items=items)
     assert result in items
 
-    # Test with list and length 1
-    items = ['a', 'b', 'c']
-    result = choice(items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with list and length greater than items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=5)
-    assert len(result) == 5
+    # Test with a list of items and length
+    result = choice(items=items, length=2)
+    assert len(result) == 2
     assert all(item in items for item in result)
 
-    # Test with list and unique and length equal to unique items length
-    items = ['a', 'b', 'c']
-    result = choice(items, length=3, unique=True)
+    # Test with a string of items
+    items = 'abc'
+    result = choice(items=items, length=3)
     assert len(result) == 3
-    assert len(set(result)) == 3
+    assert all(item in items for item in result)
 
-    # Test with list and unique and length less than unique items length
-    items = ['a', 'b', 'c', 'd']
-    result = choice(items, length=2, unique=True)
+    # Test with a tuple of items
+    items = ('a', 'b', 'c')
+    result = choice(items=items, length=4)
+    assert len(result) == 4
+    assert all(item in items for item in result)
+
+    # Test with unique=True
+    items = 'aabbbccccddddd'
+    result = choice(items=items, length=4, unique=True)
+    assert len(result) == 4
+    assert len(set(result)) == 4
+    assert all(item in items for item in result)
+
+    # Test with empty items
+    try:
+        choice(items=[], length=1)
+        assert False, "Expected ValueError for empty items"
+    except ValueError:
+        pass
+
+    # Test with negative length
+    try:
+        choice(items=items, length=-1)
+        assert False, "Expected ValueError for negative length"
+    except ValueError:
+        pass
+
+    # Test with insufficient unique items
+    try:
+        choice(items='aab', length=4, unique=True)
+        assert False, "Expected ValueError for insufficient unique items"
+    except ValueError:
+        pass
+
+    # Test with non-sequence items
+    try:
+        choice(items=123, length=1)
+        assert False, "Expected TypeError for non-sequence items"
+    except TypeError:
+        pass
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+# Unit test for constructor of class Choice
+def test_Choice():
+    # Test initialization
+    choice = Choice()
+    assert isinstance(choice, Choice)
+    assert choice._seed is None
+    assert choice._random is not None
+
+    # Test with seed
+    choice = Choice(seed=42)
+    assert choice._seed == 42
+    assert choice._random is not None
+
+    # Test Meta
+    assert Choice.Meta.name == "choice"
+
+
+# LLM-generated content at query #3
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    """Test method __call__ of class Choice."""
+    choice = Choice()
+
+    # Test with list
+    items = ['a', 'b', 'c']
+    result = choice(items=items)
+    assert result in items
+
+    # Test with tuple
+    items = ('a', 'b', 'c')
+    result = choice(items=items)
+    assert result in items
+
+    # Test with string
+    items = 'abc'
+    result = choice(items=items)
+    assert result in items
+
+    # Test with length
+    items = ['a', 'b', 'c']
+    result = choice(items=items, length=2)
+    assert len(result) == 2
+    assert all(item in items for item in result)
+
+    # Test with unique
+    items = ['a', 'b', 'c']
+    result = choice(items=items, length=2, unique=True)
     assert len(result) == 2
     assert len(set(result)) == 2
 
-    # Test with list and unique and length greater than unique items length
-    items = ['a', 'a', 'b']
+    # Test with string and unique
+    items = 'aabbbccccddddd'
+    result = choice(items=items, length=4, unique=True)
+    assert len(result) == 4
+    assert len(set(result)) == 4
+
+    # Test with empty sequence
     try:
-        choice(items, length=3, unique=True)
+        choice(items=[])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with negative length
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with insufficient unique elements
+    try:
+        choice(items=['a', 'a', 'a'], length=2, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with non-sequence items
+    try:
+        choice(items=123)
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    choice = Choice()
+
+    # Test with list
+    assert choice(items=['a', 'b', 'c']) in ['a', 'b', 'c']
+    assert len(choice(items=['a', 'b', 'c'], length=2)) == 2
+    assert len(set(choice(items=['a', 'b', 'c'], length=2, unique=True))) == 2
+
+    # Test with tuple
+    assert choice(items=('a', 'b', 'c')) in ('a', 'b', 'c')
+    assert len(choice(items=('a', 'b', 'c'), length=3)) == 3
+    assert len(set(choice(items=('a', 'b', 'c'), length=3, unique=True))) == 3
+
+    # Test with string
+    assert choice(items='abc') in 'abc'
+    assert len(choice(items='abc', length=2)) == 2
+    assert len(set(choice(items='abc', length=2, unique=True))) == 2
+
+    # Test edge cases
+    try:
+        choice(items=[])
     except ValueError:
         pass
     else:
-        assert False, "Expected ValueError"
+        assert False, "Expected ValueError for empty sequence"
 
-    # Test with string and length 0
-    items = 'abc'
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with string and length 1
-    items = 'abc'
-    result = choice(items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with string and length greater than items length
-    items = 'abc'
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with string and unique and length equal to unique items length
-    items = 'abc'
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with string and unique and length less than unique items length
-    items = 'abcd'
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with string and unique and length greater than unique items length
-    items = 'aab'
     try:
-        choice(items, length=3, unique=True)
+        choice(items=[1, 2, 3], length=-1)
     except ValueError:
         pass
     else:
-        assert False, "Expected ValueError"
+        assert False, "Expected ValueError for negative length"
 
-    # Test with tuple and length 0
-    items = ('a', 'b', 'c')
-    result = choice(items, length=0)
-    assert result in items
-
-    # Test with tuple and length 1
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test with tuple and length greater than items length
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5)
-    assert len(result) == 5
-    assert all(item in items for item in result)
-
-    # Test with tuple and unique and length equal to unique items length
-    items = ('a', 'b', 'c')
-    result = choice(items, length=3, unique=True)
-    assert len(result) == 3
-    assert len(set(result)) == 3
-
-    # Test with tuple and unique and length less than unique items length
-    items = ('a', 'b', 'c', 'd')
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with tuple and unique and length greater than unique items length
-    items = ('a', 'a', 'b')
     try:
-        choice(items, length=3, unique=True)
+        choice(items=[1, 2, 3], length=4, unique=True)
     except ValueError:
         pass
     else:
-        assert False, "Expected ValueError"
+        assert False, "Expected ValueError for insufficient unique elements"
 
-    # Test with list and length and unique
+    try:
+        choice(items=123)
+    except TypeError:
+        pass
+    else:
+        assert False, "Expected TypeError for non-sequence items"
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+# Unit test for constructor of class Choice
+def test_Choice(): 
+    choice = Choice()
+    assert isinstance(choice, Choice)
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    choice_instance = Choice()
+
+    # Test selecting a single element
+    result = choice_instance(['a', 'b', 'c'])
+    assert result in ['a', 'b', 'c']
+
+    # Test selecting a list of elements
+    result = choice_instance(['a', 'b', 'c'], length=2)
+    assert isinstance(result, list)
+    assert len(result) == 2
+    assert all(elem in ['a', 'b', 'c'] for elem in result)
+
+    # Test selecting a string of characters
+    result = choice_instance('abc', length=3)
+    assert isinstance(result, str)
+    assert len(result) == 3
+    assert all(char in 'abc' for char in result)
+
+    # Test selecting a tuple of elements
+    result = choice_instance(('a', 'b', 'c'), length=4)
+    assert isinstance(result, tuple)
+    assert len(result) == 4
+    assert all(elem in ('a', 'b', 'c') for elem in result)
+
+    # Test selecting unique elements
+    result = choice_instance('aabbbccccddddd', length=4, unique=True)
+    assert isinstance(result, str)
+    assert len(result) == 4
+    assert len(set(result)) == 4
+
+    # Test error for non-sequence input
+    try:
+        choice_instance(123)
+    except TypeError:
+        pass
+    else:
+        assert False, "Expected TypeError for non-sequence input"
+
+    # Test error for empty sequence
+    try:
+        choice_instance([])
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for empty sequence"
+
+    # Test error for negative length
+    try:
+        choice_instance(['a', 'b', 'c'], length=-1)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for negative length"
+
+    # Test error for insufficient unique elements
+    try:
+        choice_instance(['a', 'a', 'b'], length=3, unique=True)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError for insufficient unique elements"
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__(): 
+    # Setup
+    choice = Choice()
+    
+    # Test Case 1: Test with list and length=0
+    result = choice(['a', 'b', 'c'])
+    assert isinstance(result, str)  # Assuming it returns a single element
+    
+    # Test Case 2: Test with list and length=1
+    result = choice(['a', 'b', 'c'], length=1)
+    assert isinstance(result, list)
+    assert len(result) == 1
+    
+    # Test Case 3: Test with string and length=2
+    result = choice('abc', length=2)
+    assert isinstance(result, str)
+    assert len(result) == 2
+    
+    # Test Case 4: Test with tuple and length=5
+    result = choice(('a', 'b', 'c'), length=5)
+    assert isinstance(result, tuple)
+    assert len(result) == 5
+    
+    # Test Case 5: Test with unique=True
+    result = choice('aabbbccccddddd', length=4, unique=True)
+    assert isinstance(result, str)
+    assert len(set(result)) == 4
+    
+    # Test Case 6: Test with non-sequence items (should raise TypeError)
+    try:
+        choice(123)
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
+    
+    # Test Case 7: Test with empty sequence (should raise ValueError)
+    try:
+        choice([])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+    
+    # Test Case 8: Test with negative length (should raise ValueError)
+    try:
+        choice(['a', 'b', 'c'], length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+    
+    # Test Case 9: Test with insufficient unique elements (should raise ValueError)
+    try:
+        choice('aab', length=4, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+# Unit test for constructor of class Choice
+def test_Choice():
+    import pytest
+    from mimesis import Choice
+
+    choice = Choice()
+    assert isinstance(choice, Choice)
+
+    with pytest.raises(TypeError):
+        Choice(seed="not an integer")
+
+    assert choice.choice(items=['a', 'b', 'c']) in ['a', 'b', 'c']
+    assert isinstance(choice.choice(items=['a', 'b', 'c'], length=1), list)
+    assert isinstance(choice.choice(items='abc', length=2), str)
+    assert isinstance(choice.choice(items=('a', 'b', 'c'), length=5), tuple)
+    assert isinstance(choice.choice(items='aabbbccccddddd', length=4, unique=True), str)
+
+    with pytest.raises(TypeError):
+        choice.choice(items=123)
+
+    with pytest.raises(ValueError):
+        choice.choice(items=[])
+
+    with pytest.raises(ValueError):
+        choice.choice(items=['a', 'b', 'c'], length=-1)
+
+    with pytest.raises(ValueError):
+        choice.choice(items=['a', 'b', 'c'], length=4, unique=True)
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__(): # noqa
+    # Test with list
+    choice = Choice()
+    result = choice(items=['a', 'b', 'c'])
+    assert result in ['a', 'b', 'c']
+
+    result = choice(items=['a', 'b', 'c'], length=1)
+    assert isinstance(result, list)
+    assert len(result) == 1
+    assert result[0] in ['a', 'b', 'c']
+
+    result = choice(items=['a', 'b', 'c'], length=5)
+    assert isinstance(result, list)
+    assert len(result) == 5
+    assert all(item in ['a', 'b', 'c'] for item in result)
+
+    result = choice(items=['a', 'b', 'c'], length=2, unique=True)
+    assert isinstance(result, list)
+    assert len(result) == 2
+    assert len(set(result)) == 2
+
+    # Test with tuple
+    result = choice(items=('a', 'b', 'c'))
+    assert result in ('a', 'b', 'c')
+
+    result = choice(items=('a', 'b', 'c'), length=1)
+    assert isinstance(result, tuple)
+    assert len(result) == 1
+    assert result[0] in ('a', 'b', 'c')
+
+    result = choice(items=('a', 'b', 'c'), length=5)
+    assert isinstance(result, tuple)
+    assert len(result) == 5
+    assert all(item in ('a', 'b', 'c') for item in result)
+
+    result = choice(items=('a', 'b', 'c'), length=2, unique=True)
+    assert isinstance(result, tuple)
+    assert len(result) == 2
+    assert len(set(result)) == 2
+
+    # Test with string
+    result = choice(items='abc')
+    assert result in 'abc'
+
+    result = choice(items='abc', length=1)
+    assert isinstance(result, str)
+    assert len(result) == 1
+    assert result in 'abc'
+
+    result = choice(items='abc', length=5)
+    assert isinstance(result, str)
+    assert len(result) == 5
+    assert all(item in 'abc' for item in result)
+
+    result = choice(items='abc', length=2, unique=True)
+    assert isinstance(result, str)
+    assert len(result) == 2
+    assert len(set(result)) == 2
+
+    # Test with negative length
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+        assert False, "Should raise ValueError"
+    except ValueError:
+        pass
+
+    # Test with unique and insufficient unique elements
+    try:
+        choice(items=['a', 'a', 'b'], length=3, unique=True)
+        assert False, "Should raise ValueError"
+    except ValueError:
+        pass
+
+    # Test with non-sequence items
+    try:
+        choice(items=123)
+        assert False, "Should raise TypeError"
+    except TypeError:
+        pass
+
+    # Test with empty items
+    try:
+        choice(items=[])
+        assert False, "Should raise ValueError"
+    except ValueError:
+        pass
+
+    # Test with length 0
+    result = choice(items=['a', 'b', 'c'], length=0)
+    assert result in ['a', 'b', 'c']
+
+
+# LLM-generated content at query #10
+#--------------------------
+
+# Unit test for constructor of class Choice
+def test_Choice():
+    choice = Choice()
+    assert isinstance(choice, Choice)
+
+
+# LLM-generated content at query #11
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    import pytest
+    from mimesis import Choice
+
+    choice = Choice()
+
+    # Test with list
+    items_list = ['a', 'b', 'c']
+    result = choice(items=items_list)
+    assert result in items_list
+
+    # Test with length
+    result = choice(items=items_list, length=2)
+    assert len(result) == 2
+    assert all(item in items_list for item in result)
+
+    # Test with tuple
+    items_tuple = ('a', 'b', 'c')
+    result = choice(items=items_tuple, length=3)
+    assert len(result) == 3
+    assert all(item in items_tuple for item in result)
+
+    # Test with string
+    items_str = 'abc'
+    result = choice(items=items_str, length=2)
+    assert len(result) == 2
+    assert all(char in items_str for char in result)
+
+    # Test with unique=True
+    result = choice(items=items_str, length=2, unique=True)
+    assert len(result) == 2
+    assert len(set(result)) == 2
+
+    # Test with unique=True and not enough unique elements
+    with pytest.raises(ValueError):
+        choice(items='aab', length=3, unique=True)
+
+    # Test with empty sequence
+    with pytest.raises(ValueError):
+        choice(items=[])
+
+    # Test with negative length
+    with pytest.raises(ValueError):
+        choice(items=items_list, length=-1)
+
+    # Test with non-sequence items
+    with pytest.raises(TypeError):
+        choice(items=123)
+
+    # Test with zero length
+    result = choice(items=items_list, length=0)
+    assert result in items_list
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    # Test case 1: items is a list, length is 0
+    choice = Choice()
+    items = ['a', 'b', 'c']
+    result = choice(items)
+    assert result in items
+
+    # Test case 2: items is a list, length is 1
+    result = choice(items, length=1)
+    assert isinstance(result, list)
+    assert len(result) == 1
+    assert result[0] in items
+
+    # Test case 3: items is a string, length is 2
+    items = 'abc'
+    result = choice(items, length=2)
+    assert isinstance(result, str)
+    assert len(result) == 2
+    for char in result:
+        assert char in items
+
+    # Test case 4: items is a tuple, length is 5
+    items = ('a', 'b', 'c')
+    result = choice(items, length=5)
+    assert isinstance(result, tuple)
+    assert len(result) == 5
+    for item in result:
+        assert item in items
+
+    # Test case 5: items is a string, length is 4, unique is True
+    items = 'aabbbccccddddd'
+    result = choice(items, length=4, unique=True)
+    assert isinstance(result, str)
+    assert len(result) == 4
+    assert len(set(result)) == 4
+    for char in result:
+        assert char in items
+
+    # Test case 6: items is a list, length is 2, unique is True
     items = ['a', 'b', 'c']
     result = choice(items, length=2, unique=True)
+    assert isinstance(result, list)
     assert len(result) == 2
     assert len(set(result)) == 2
+    for item in result:
+        assert item in items
 
-    # Test with string and length and unique
-    items = 'abc'
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with tuple and length and unique
-    items = ('a', 'b', 'c')
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert len(set(result)) == 2
-
-    # Test with list and length and unique and length equal to unique items length
+    # Test case 7: items is a list, length is 3, unique is True
     items = ['a', 'b', 'c']
     result = choice(items, length=3, unique=True)
+    assert isinstance(result, list)
     assert len(result) == 3
     assert len(set(result)) == 3
+    for item in result:
+        assert item in items
 
-    # Test with string and length and unique and length equal to unique items length
-    items = 'abc'
-    result = choice(items, length=3, unique
+    # Test case 8: items is a list, length is 4, unique is True
+    # Should raise ValueError because there are not enough unique elements
+    try:
+        choice(items, length=4, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test case 9: items is a list, length is -1
+    # Should raise ValueError because length is negative
+    try:
+        choice(items, length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test case 10: items is not a sequence
+    # Should raise TypeError
+    try:
+        choice(123)
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
+
+    # Test case 11: items is an empty list
+    # Should raise ValueError
+    try:
+        choice([])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
 
 # LLM-generated content at query #13
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
+def test_Choice():
     choice = Choice()
     assert choice is not None
-    assert isinstance(choice, Choice)
-
 
 
 # LLM-generated content at query #14
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice(): 
-    # Test that the Choice class can be instantiated
-    choice = Choice()
-    assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
-
+def test_Choice():
+    class TestChoice(Choice):
+        pass
+    obj = TestChoice()
+    assert obj._model is not None
+    assert obj._seed is not None
+    assert obj.random is not None
 
 
 # LLM-generated content at query #15
 #--------------------------
 
-# Unit test for constructor of class Choice
-def test_Choice(): 
-    # Test that the Choice class can be instantiated
+# Unit test for method __call__ of class Choice
+def test_Choice___call__(): # noqa: N802
+    from mimesis import Choice
     choice = Choice()
-    assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
 
+    # Test with list
+    assert choice(items=['a', 'b', 'c']) in ['a', 'b', 'c']
+    assert len(choice(items=['a', 'b', 'c'], length=2)) == 2
+    assert len(set(choice(items=['a', 'b', 'c'], length=3, unique=True))) == 3
+
+    # Test with tuple
+    assert choice(items=('a', 'b', 'c')) in ('a', 'b', 'c')
+    assert len(choice(items=('a', 'b', 'c'), length=2)) == 2
+    assert len(set(choice(items=('a', 'b', 'c'), length=3, unique=True))) == 3
+
+    # Test with string
+    assert choice(items='abc') in 'abc'
+    assert len(choice(items='abc', length=2)) == 2
+    assert len(set(choice(items='abc', length=3, unique=True))) == 3
+
+    # Test with negative length
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with insufficient unique elements
+    try:
+        choice(items=['a', 'a', 'a'], length=2, unique=True)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+    # Test with non-sequence items
+    try:
+        choice(items=123)
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
+
+    # Test with empty sequence
+    try:
+        choice(items=[])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
 
 
 # LLM-generated content at query #16
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated
+def test_Choice():
     choice = Choice()
-    assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
-
+    assert choice is not None
 
 
 # LLM-generated content at query #17
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice():  
+def test_Choice():
     choice = Choice()
-    assert choice is not None
     assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
-    assert callable(choice.choice)
-    assert callable(choice.__call__)
-
 
 
 # LLM-generated content at query #18
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice():  
-    # Test that the Choice class can be instantiated without any arguments
+def test_Choice():
+    """Unit test for constructor of class Choice."""
     choice = Choice()
     assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
-
 
 
 # LLM-generated content at query #19
 #--------------------------
 
 # Unit test for constructor of class Choice
-def test_Choice(): 
-    # Test that the Choice class can be instantiated
+def test_Choice():
     choice = Choice()
-    assert isinstance(choice, Choice)
-    assert choice.meta.name == "choice"
-
+    assert choice is not None
 
 
 # LLM-generated content at query #20
 #--------------------------
 
-# Unit test for method __call__ of class Choice
-def test_Choice___call__():  # noqa: N802
-    """Unit test for method __call__ of class Choice."""
-    # Test case 1: items is a list, length is 0, unique is False
+# Unit test for constructor of class Choice
+def test_Choice():
+    """Test the constructor of the Choice class."""
     choice = Choice()
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=False)
-    assert result in items
+    assert isinstance(choice, Choice)
+    assert choice._seed is None
+    assert choice._random is not None
 
-    # Test case 2: items is a tuple, length is 1, unique is False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1, unique=False)
-    assert len(result) == 1
-    assert result[0] in items
+    choice = Choice(seed=42)
+    assert isinstance(choice, Choice)
+    assert choice._seed == 42
+    assert choice._random is not None
 
-    # Test case 3: items is a string, length is 2, unique is False
-    items = 'abc'
-    result = choice(items, length=2, unique=False)
-    assert len(result) == 2
-    assert all(c in items for c in result)
 
-    # Test case 4: items is a tuple, length is 5, unique is False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5, unique=False)
-    assert len(result) == 5
-    assert all(c in items for c in result)
+# LLM-generated content at query #21
+#--------------------------
 
-    # Test case 5: items is a string, length is 4, unique is True
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
-    assert len(result) == 4
-    assert all(c in items for c in result)
-    assert len(set(result)) == 4
+# Unit test for constructor of class Choice
+def test_Choice():
+    from mimesis import Choice
+    choice = Choice()
+    assert isinstance(choice, Choice)
 
-    # Test case 6: items is a list, length is 0, unique is True
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=True)
-    assert result in items
 
-    # Test case 7: items is a tuple, length is 1, unique is True
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
 
-    # Test case 8: items is a string, length is 2, unique is True
-    items = 'abc'
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert all(c in items for c in result)
-    assert len(set(result)) == 2
+# LLM-generated content at query #22
+#--------------------------
 
-    # Test case 9: items is a tuple, length is 5, unique is True
-    items = ('a', 'b', 'c')
+# Unit test for constructor of class Choice
+def test_Choice():
+    # Test constructor for class Choice
+    choice = Choice()
+
+    # Test constructor with seed
+    choice_with_seed = Choice(seed=12345)
+
+    assert choice is not None
+    assert choice_with_seed is not None
+    assert isinstance(choice, Choice)
+    assert isinstance(choice_with_seed, Choice)
+
+
+# LLM-generated content at query #23
+#--------------------------
+
+# Unit test for constructor of class Choice
+def test_Choice():
+    """Unit test for constructor of class Choice."""
+    choice = Choice()
+    assert isinstance(choice, Choice)
+
+
+# LLM-generated content at query #24
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():  
+    choice = Choice()
+
+    # Test that the function returns a single element when length is 0
+    assert choice(items=['a', 'b', 'c']) in ['a', 'b', 'c']
+
+    # Test that the function returns a list of length 1 when length is 1
+    assert len(choice(items=['a', 'b', 'c'], length=1)) == 1
+
+    # Test that the function returns a string of length 2 when items is a string and length is 2
+    assert len(choice(items='abc', length=2)) == 2
+
+    # Test that the function returns a tuple of length 5 when items is a tuple and length is 5
+    assert len(choice(items=('a', 'b', 'c'), length=5)) == 5
+
+    # Test that the function returns a string of unique characters when unique is True
+    result = choice(items='aabbbccccddddd', length=4, unique=True)
+    assert len(set(result)) == len(result)
+
+    # Test that the function raises a TypeError when items is not a sequence
     try:
-        choice(items, length=5, unique=True)
-        assert False, "Expected ValueError"
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
+        choice(items=123, length=1)
+    except TypeError:
+        pass
+    else:
+        assert False, "Expected TypeError"
 
-    # Test case 10: items is a string, length is 4, unique is True
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
-    assert len(result) == 4
-    assert all(c in items for c in result)
-    assert len(set(result)) == 4
-
-    # Test case 11: items is a list, length is 0, unique is False
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 12: items is a tuple, length is 1, unique is False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1, unique=False)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test case 13: items is a string, length is 2, unique is False
-    items = 'abc'
-    result = choice(items, length=2, unique=False)
-    assert len(result) == 2
-    assert all(c in items for c in result)
-
-    # Test case 14: items is a tuple, length is 5, unique is False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5, unique=False)
-    assert len(result) == 5
-    assert all(c in items for c in result)
-
-    # Test case 15: items is a string, length is 4, unique is True
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
-    assert len(result) == 4
-    assert all(c in items for c in result)
-    assert len(set(result)) == 4
-
-    # Test case 16: items is a list, length is 0, unique is True
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=True)
-    assert result in items
-
-    # Test case 17: items is a tuple, length is 1, unique is True
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test case 18: items is a string, length is 2, unique is True
-    items = 'abc'
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert all(c in items for c in result)
-    assert len(set(result)) == 2
-
-    # Test case 19: items is a tuple, length is 5, unique is True
-    items = ('a', 'b', 'c')
+    # Test that the function raises a ValueError when items is an empty sequence
     try:
-        choice(items, length=5, unique=True)
+        choice(items=[], length=1)
+    except ValueError:
+        pass
+    else:
         assert False, "Expected ValueError"
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
 
-    # Test case 20: items is a string, length is 4, unique is True
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
-    assert len(result) == 4
-    assert all(c in items for c in result)
-    assert len(set(result)) == 4
-
-    # Test case 21: items is a list, length is 0, unique is False
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=False)
-    assert result in items
-
-    # Test case 22: items is a tuple, length is 1, unique is False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1, unique=False)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test case 23: items is a string, length is 2, unique is False
-    items = 'abc'
-    result = choice(items, length=2, unique=False)
-    assert len(result) == 2
-    assert all(c in items for c in result)
-
-    # Test case 24: items is a tuple, length is 5, unique is False
-    items = ('a', 'b', 'c')
-    result = choice(items, length=5, unique=False)
-    assert len(result) == 5
-    assert all(c in items for c in result)
-
-    # Test case 25: items is a string, length is 4, unique is True
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
-    assert len(result) == 4
-    assert all(c in items for c in result)
-    assert len(set(result)) == 4
-
-    # Test case 26: items is a list, length is 0, unique is True
-    items = ['a', 'b', 'c']
-    result = choice(items, length=0, unique=True)
-    assert result in items
-
-    # Test case 27: items is a tuple, length is 1, unique is True
-    items = ('a', 'b', 'c')
-    result = choice(items, length=1, unique=True)
-    assert len(result) == 1
-    assert result[0] in items
-
-    # Test case 28: items is a string, length is 2, unique is True
-    items = 'abc'
-    result = choice(items, length=2, unique=True)
-    assert len(result) == 2
-    assert all(c in items for c in result)
-    assert len(set(result)) == 2
-
-    # Test case 29: items is a tuple, length is 5, unique is True
-    items = ('a', 'b', 'c')
+    # Test that the function raises a ValueError when length is negative
     try:
-        choice(items, length=5, unique=True)
+        choice(items=['a', 'b', 'c'], length=-1)
+    except ValueError:
+        pass
+    else:
         assert False, "Expected ValueError"
-    except ValueError as e:
-        assert str(e) == "There are not enough unique elements in **items** to provide the specified **number**."
 
-    # Test case 30: items is a string, length is 4, unique is True
-    items = 'aabbbccccddddd'
-    result = choice(items, length=4, unique=True)
-    assert len(result) == 4
-    assert all(c in items for c in result)
-    assert len(set(result)) == 4
+    # Test that the function raises a ValueError when unique is True and there are not enough unique elements
+    try:
+        choice(items='aaa', length=2, unique=True)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError"
 
-    # Test case 31: items is a list, length is 0, unique is False
-    items = ['a', 'b',
+
+# LLM-generated content at query #25
+#--------------------------
+
+# Unit test for method __call__ of class Choice
+def test_Choice___call__():
+    from mimesis import Choice
+    choice = Choice()
+
+    # Test basic functionality
+    assert choice(items=['a', 'b', 'c']) in ['a', 'b', 'c']
+    assert len(choice(items=['a', 'b', 'c'], length=2)) == 2
+    assert len(choice(items='abc', length=3)) == 3
+    assert len(choice(items=('a', 'b', 'c'), length=5)) == 5
+    assert len(choice(items='aabbbccccddddd', length=4, unique=True)) == 4
+
+    # Test unique constraint
+    unique_result = choice(items='aabbbccccddddd', length=4, unique=True)
+    assert len(set(unique_result)) == 4
+
+    # Test error cases
+    try:
+        choice(items=123, length=1)
+    except TypeError:
+        pass
+    else:
+        assert False, "Expected TypeError"
+
+    try:
+        choice(items=[], length=1)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError"
+
+    try:
+        choice(items=['a', 'b', 'c'], length=-1)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError"
+
+    try:
+        choice(items='aabbbccccddddd', length=20, unique=True)
+    except ValueError:
+        pass
+    else:
+        assert False, "Expected ValueError"
+
+
+# LLM-generated content at query #26
+#--------------------------
+
+# Unit test for constructor of class Choice
+def test_Choice():
+    choice = Choice()
+    assert choice.__class__.__name__ == "Choice"
+    assert choice._Choice__call__.__name__ == "__call__"
+    assert choice.choice.__name__ == "choice"
+    assert choice.Meta.name == "choice"
+
+
+# LLM-generated content at query #27
+#--------------------------
+
+# Unit test for constructor of class Choice
+def test_Choice():
+    choice = Choice()
+    assert isinstance(choice, Choice)
+
+
+# LLM-generated content at query #28
+#--------------------------
+
+# Unit test for constructor of class Choice
+def test_Choice():
+    # Test that constructor does not raise an exception
+    Choice()
+
+
+# LLM-generated content at query #29
+#--------------------------
+
+# Unit test for constructor of class Choice
+def test_Choice():
+    choice = Choice()
+    assert choice is not None
+
+
+# LLM-generated content at query #30
+#--------------------------
+
+# Unit test for constructor of class Choice
+def test_Choice():
+    choice = Choice()
+    assert choice is not None
 
 

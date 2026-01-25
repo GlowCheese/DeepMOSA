@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'typesystem.forms'</h1>
+<p>Achieved 86.89% branch coverage:
+6/7 branchless code objects covered.
+47/54 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="notRelevant">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notCovered" title="0/2 branches covered">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="notRelevant">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">33</span>
+                  <span class="notRelevant">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="notRelevant">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="notRelevant">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="fullyCovered" title="2/2 branches covered">47</span>
+                  <span class="notRelevant">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notRelevant">50</span>
+                  <span class="notRelevant">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="notCovered" title="0/2 branches covered">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notRelevant">56</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="notRelevant">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="fullyCovered" title="2/2 branches covered">62</span>
+                  <span class="notRelevant">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="fullyCovered" title="2/2 branches covered">66</span>
+                  <span class="fullyCovered" title="2/2 branches covered">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="fullyCovered" title="2/2 branches covered">69</span>
+                  <span class="fullyCovered" title="2/2 branches covered">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="notRelevant">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="notRelevant">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="notRelevant">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="fullyCovered" title="2/2 branches covered">85</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">86</span>
+                  <span class="fullyCovered" title="2/2 branches covered">87</span>
+                  <span class="notRelevant">88</span>
+                  <span class="notRelevant">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="fullyCovered" title="2/2 branches covered">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="notRelevant">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="notRelevant">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="fullyCovered" title="2/2 branches covered">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="notRelevant">109</span>
+                  <span class="fullyCovered" title="2/2 branches covered">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="fullyCovered" title="2/2 branches covered">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="fullyCovered" title="4/4 branches covered">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="notRelevant">118</span>
+                  <span class="notRelevant">119</span>
+                  <span class="fullyCovered" title="2/2 branches covered">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notRelevant">122</span>
+                  <span class="notRelevant">123</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="notRelevant">129</span>
+                  <span class="notRelevant">130</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">131</span>
+                  <span class="notRelevant">132</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="fullyCovered" title="4/4 branches covered">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="notRelevant">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notRelevant">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="notRelevant">141</span>
+                  <span class="fullyCovered" title="4/4 branches covered">142</span>
+                  <span class="notRelevant">143</span>
+                  <span class="fullyCovered" title="4/4 branches covered">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="fullyCovered" title="2/2 branches covered">147</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">jinja2</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">markupsafe</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="n">jinja2</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">typing</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">typesystem.fields</span><span class="w"> </span><span class="kn">import</span> <span class="n">Boolean</span><span class="p">,</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">Object</span><span class="p">,</span> <span class="n">String</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typesystem.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">Schema</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Form</span><span class="p">:</span>
+    <span class="c1"># Does not include &quot;checkbox&quot;, &quot;radio&quot;, &quot;file&quot;, &quot;image&quot;, &quot;reset&quot;, &quot;submit&quot;, &quot;button&quot;</span>
+    <span class="n">FORMAT_TO_INPUTTYPE</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;color&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;datetime&quot;</span><span class="p">:</span> <span class="s2">&quot;datetime-local&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="s2">&quot;date&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;email&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;hidden&quot;</span><span class="p">:</span> <span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="s2">&quot;month&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="s2">&quot;number&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;password&quot;</span><span class="p">:</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="s2">&quot;range&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;search&quot;</span><span class="p">:</span> <span class="s2">&quot;search&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tel&quot;</span><span class="p">:</span> <span class="s2">&quot;tel&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;url&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;week&quot;</span><span class="p">:</span> <span class="s2">&quot;week&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">env</span><span class="p">:</span> <span class="s2">&quot;jinja2.Environment&quot;</span><span class="p">,</span>
+        <span class="n">schema</span><span class="p">:</span> <span class="n">Schema</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="n">env</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_called</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_called</span><span class="p">,</span> <span class="s2">&quot;validate() has already been called.&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">validate_or_error</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_called</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_called</span><span class="p">,</span> <span class="s2">&quot;validate() has not been called.&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validated_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">render_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">errors</span>
+
+        <span class="n">html</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">read_only</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">field_name</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">errors</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">errors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">field_name</span><span class="p">)</span>
+            <span class="n">html</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_field</span><span class="p">(</span>
+                <span class="n">field_name</span><span class="o">=</span><span class="n">field_name</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="n">field</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">error</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">html</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">render_field</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">field_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">field</span><span class="p">:</span> <span class="n">Field</span><span class="p">,</span>
+        <span class="n">value</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">field_id</span> <span class="o">=</span> <span class="n">field_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">title</span> <span class="ow">or</span> <span class="n">field_name</span>
+        <span class="n">allow_empty</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">allow_null</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="s2">&quot;allow_blank&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">required</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">field</span><span class="o">.</span><span class="n">has_default</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">allow_empty</span>
+        <span class="n">input_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_type_for_field</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+        <span class="n">template_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_for_field</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;password&quot;</span> <span class="k">else</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;field_id&quot;</span><span class="p">:</span> <span class="n">field_id</span><span class="p">,</span>
+                <span class="s2">&quot;field_name&quot;</span><span class="p">:</span> <span class="n">field_name</span><span class="p">,</span>
+                <span class="s2">&quot;field&quot;</span><span class="p">:</span> <span class="n">field</span><span class="p">,</span>
+                <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
+                <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="n">required</span><span class="p">,</span>
+                <span class="s2">&quot;input_type&quot;</span><span class="p">:</span> <span class="n">input_type</span><span class="p">,</span>
+                <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">value</span><span class="p">,</span>
+                <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="n">error</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">template_for_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">Field</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+            <span class="n">field</span><span class="p">,</span> <span class="n">Object</span>
+        <span class="p">),</span> <span class="s2">&quot;Forms do not support rendering Object fields&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">Choice</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;forms/select.html&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">Boolean</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;forms/checkbox.html&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="n">String</span><span class="p">)</span> <span class="ow">and</span> <span class="n">field</span><span class="o">.</span><span class="n">format</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;forms/textarea.html&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;forms/input.html&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">input_type_for_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">:</span> <span class="n">Field</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="nb">format</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="s2">&quot;format&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">format</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;text&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">FORMAT_TO_INPUTTYPE</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_fields</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__html__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;markupsafe.Markup&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">markupsafe</span><span class="o">.</span><span class="n">Markup</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">render_fields</span><span class="p">())</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Jinja2Forms</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">package</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">jinja2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;jinja2 must be installed to use Jinja2Forms.&quot;</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">package</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">),</span> <span class="s2">&quot;Either &#39;directory&#39; or &#39;package&#39; must be specified.&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_template_env</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="n">directory</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="n">package</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_template_env</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">package</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;jinja2.Environment&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">package</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">loader</span><span class="p">:</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">BaseLoader</span> <span class="o">=</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">FileSystemLoader</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">directory</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">package</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">loader</span> <span class="o">=</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">PackageLoader</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="s2">&quot;templates&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">directory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">assert</span> <span class="n">package</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="n">loader</span> <span class="o">=</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">ChoiceLoader</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">jinja2</span><span class="o">.</span><span class="n">FileSystemLoader</span><span class="p">(</span><span class="n">directory</span><span class="p">),</span>
+                    <span class="n">jinja2</span><span class="o">.</span><span class="n">PackageLoader</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="s2">&quot;templates&quot;</span><span class="p">),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">Environment</span><span class="p">(</span><span class="n">loader</span><span class="o">=</span><span class="n">loader</span><span class="p">,</span> <span class="n">autoescape</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_form</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">:</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Form</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Form</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-01-24 19:06:40.452718</p>
+</footer>
+</body>
+</html>

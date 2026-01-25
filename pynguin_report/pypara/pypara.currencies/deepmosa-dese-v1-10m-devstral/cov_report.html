@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'pypara.currencies'</h1>
+<p>Achieved 83.33% branch coverage:
+16/18 branchless code objects covered.
+19/24 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="notRelevant">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="notRelevant">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="notRelevant">33</span>
+                  <span class="notRelevant">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="notRelevant">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="notRelevant">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notRelevant">50</span>
+                  <span class="notRelevant">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="notRelevant">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="notRelevant">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="notRelevant">66</span>
+                  <span class="notRelevant">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="notRelevant">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="notRelevant">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="notRelevant">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="notRelevant">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="notRelevant">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="notRelevant">88</span>
+                  <span class="notRelevant">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notRelevant">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="notRelevant">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="notRelevant">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="notRelevant">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="notRelevant">118</span>
+                  <span class="notRelevant">119</span>
+                  <span class="notRelevant">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notRelevant">122</span>
+                  <span class="notRelevant">123</span>
+                  <span class="notRelevant">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="fullyCovered" title="2/2 branches covered">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">129</span>
+                  <span class="notRelevant">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="notRelevant">132</span>
+                  <span class="notRelevant">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="notRelevant">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notRelevant">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="notRelevant">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="notRelevant">143</span>
+                  <span class="notRelevant">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="notRelevant">147</span>
+                  <span class="notRelevant">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">160</span>
+                  <span class="notRelevant">161</span>
+                  <span class="notRelevant">162</span>
+                  <span class="notRelevant">163</span>
+                  <span class="notRelevant">164</span>
+                  <span class="notRelevant">165</span>
+                  <span class="notRelevant">166</span>
+                  <span class="notRelevant">167</span>
+                  <span class="notRelevant">168</span>
+                  <span class="notRelevant">169</span>
+                  <span class="fullyCovered" title="2/2 branches covered">170</span>
+                  <span class="notRelevant">171</span>
+                  <span class="fullyCovered" title="2/2 branches covered">172</span>
+                  <span class="notRelevant">173</span>
+                  <span class="notRelevant">174</span>
+                  <span class="notRelevant">175</span>
+                  <span class="notRelevant">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notRelevant">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="notRelevant">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notRelevant">182</span>
+                  <span class="notRelevant">183</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">184</span>
+                  <span class="notRelevant">185</span>
+                  <span class="notRelevant">186</span>
+                  <span class="notRelevant">187</span>
+                  <span class="notRelevant">188</span>
+                  <span class="notRelevant">189</span>
+                  <span class="notRelevant">190</span>
+                  <span class="notRelevant">191</span>
+                  <span class="notRelevant">192</span>
+                  <span class="notRelevant">193</span>
+                  <span class="notRelevant">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="notRelevant">196</span>
+                  <span class="notRelevant">197</span>
+                  <span class="notRelevant">198</span>
+                  <span class="notRelevant">199</span>
+                  <span class="notRelevant">200</span>
+                  <span class="notRelevant">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notRelevant">206</span>
+                  <span class="notRelevant">207</span>
+                  <span class="notRelevant">208</span>
+                  <span class="notRelevant">209</span>
+                  <span class="notRelevant">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="notRelevant">213</span>
+                  <span class="notRelevant">214</span>
+                  <span class="notRelevant">215</span>
+                  <span class="notRelevant">216</span>
+                  <span class="notRelevant">217</span>
+                  <span class="notRelevant">218</span>
+                  <span class="notRelevant">219</span>
+                  <span class="fullyCovered" title="2/2 branches covered">220</span>
+                  <span class="notRelevant">221</span>
+                  <span class="notRelevant">222</span>
+                  <span class="notRelevant">223</span>
+                  <span class="notRelevant">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="notRelevant">226</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">227</span>
+                  <span class="notRelevant">228</span>
+                  <span class="notRelevant">229</span>
+                  <span class="notRelevant">230</span>
+                  <span class="notRelevant">231</span>
+                  <span class="notRelevant">232</span>
+                  <span class="notRelevant">233</span>
+                  <span class="notRelevant">234</span>
+                  <span class="notRelevant">235</span>
+                  <span class="notRelevant">236</span>
+                  <span class="notRelevant">237</span>
+                  <span class="notRelevant">238</span>
+                  <span class="notRelevant">239</span>
+                  <span class="notRelevant">240</span>
+                  <span class="notRelevant">241</span>
+                  <span class="notRelevant">242</span>
+                  <span class="notRelevant">243</span>
+                  <span class="notRelevant">244</span>
+                  <span class="notRelevant">245</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">246</span>
+                  <span class="notRelevant">247</span>
+                  <span class="notRelevant">248</span>
+                  <span class="notRelevant">249</span>
+                  <span class="notRelevant">250</span>
+                  <span class="notRelevant">251</span>
+                  <span class="notRelevant">252</span>
+                  <span class="notRelevant">253</span>
+                  <span class="notRelevant">254</span>
+                  <span class="notRelevant">255</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">256</span>
+                  <span class="notRelevant">257</span>
+                  <span class="notRelevant">258</span>
+                  <span class="notRelevant">259</span>
+                  <span class="notRelevant">260</span>
+                  <span class="fullyCovered" title="2/2 branches covered; 1/1 branchless code objects covered">261</span>
+                  <span class="notRelevant">262</span>
+                  <span class="notRelevant">263</span>
+                  <span class="notRelevant">264</span>
+                  <span class="notRelevant">265</span>
+                  <span class="notRelevant">266</span>
+                  <span class="fullyCovered" title="2/2 branches covered">267</span>
+                  <span class="notRelevant">268</span>
+                  <span class="notRelevant">269</span>
+                  <span class="fullyCovered" title="2/2 branches covered">270</span>
+                  <span class="notRelevant">271</span>
+                  <span class="notRelevant">272</span>
+                  <span class="notRelevant">273</span>
+                  <span class="notRelevant">274</span>
+                  <span class="notRelevant">275</span>
+                  <span class="notRelevant">276</span>
+                  <span class="notRelevant">277</span>
+                  <span class="notRelevant">278</span>
+                  <span class="notRelevant">279</span>
+                  <span class="notRelevant">280</span>
+                  <span class="notRelevant">281</span>
+                  <span class="notRelevant">282</span>
+                  <span class="notRelevant">283</span>
+                  <span class="notRelevant">284</span>
+                  <span class="notRelevant">285</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">286</span>
+                  <span class="notRelevant">287</span>
+                  <span class="notRelevant">288</span>
+                  <span class="notRelevant">289</span>
+                  <span class="notRelevant">290</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">291</span>
+                  <span class="notRelevant">292</span>
+                  <span class="notRelevant">293</span>
+                  <span class="notRelevant">294</span>
+                  <span class="notRelevant">295</span>
+                  <span class="notRelevant">296</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">297</span>
+                  <span class="notRelevant">298</span>
+                  <span class="notRelevant">299</span>
+                  <span class="notRelevant">300</span>
+                  <span class="notRelevant">301</span>
+                  <span class="notRelevant">302</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">303</span>
+                  <span class="notRelevant">304</span>
+                  <span class="notRelevant">305</span>
+                  <span class="notRelevant">306</span>
+                  <span class="notRelevant">307</span>
+                  <span class="notRelevant">308</span>
+                  <span class="notRelevant">309</span>
+                  <span class="notRelevant">310</span>
+                  <span class="notRelevant">311</span>
+                  <span class="notRelevant">312</span>
+                  <span class="notRelevant">313</span>
+                  <span class="notRelevant">314</span>
+                  <span class="notRelevant">315</span>
+                  <span class="notRelevant">316</span>
+                  <span class="notRelevant">317</span>
+                  <span class="notRelevant">318</span>
+                  <span class="notRelevant">319</span>
+                  <span class="notRelevant">320</span>
+                  <span class="notRelevant">321</span>
+                  <span class="fullyCovered" title="2/2 branches covered">322</span>
+                  <span class="notRelevant">323</span>
+                  <span class="notRelevant">324</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">325</span>
+                  <span class="notRelevant">326</span>
+                  <span class="notRelevant">327</span>
+                  <span class="notRelevant">328</span>
+                  <span class="notRelevant">329</span>
+                  <span class="notRelevant">330</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">331</span>
+                  <span class="notRelevant">332</span>
+                  <span class="notRelevant">333</span>
+                  <span class="notRelevant">334</span>
+                  <span class="notRelevant">335</span>
+                  <span class="notRelevant">336</span>
+                  <span class="notRelevant">337</span>
+                  <span class="notRelevant">338</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">339</span>
+                  <span class="notRelevant">340</span>
+                  <span class="notRelevant">341</span>
+                  <span class="notRelevant">342</span>
+                  <span class="notRelevant">343</span>
+                  <span class="notRelevant">344</span>
+                  <span class="notRelevant">345</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">346</span>
+                  <span class="notRelevant">347</span>
+                  <span class="notRelevant">348</span>
+                  <span class="notRelevant">349</span>
+                  <span class="notRelevant">350</span>
+                  <span class="notRelevant">351</span>
+                  <span class="notRelevant">352</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">353</span>
+                  <span class="notRelevant">354</span>
+                  <span class="notRelevant">355</span>
+                  <span class="notRelevant">356</span>
+                  <span class="notRelevant">357</span>
+                  <span class="notRelevant">358</span>
+                  <span class="notRelevant">359</span>
+                  <span class="notRelevant">360</span>
+                  <span class="notRelevant">361</span>
+                  <span class="notRelevant">362</span>
+                  <span class="notRelevant">363</span>
+                  <span class="notRelevant">364</span>
+                  <span class="notRelevant">365</span>
+                  <span class="notCovered" title="0/2 branches covered">366</span>
+                  <span class="notRelevant">367</span>
+                  <span class="notRelevant">368</span>
+                  <span class="notRelevant">369</span>
+                  <span class="notRelevant">370</span>
+                  <span class="notRelevant">371</span>
+                  <span class="notRelevant">372</span>
+                  <span class="notRelevant">373</span>
+                  <span class="notRelevant">374</span>
+                  <span class="notRelevant">375</span>
+                  <span class="notRelevant">376</span>
+                  <span class="notRelevant">377</span>
+                  <span class="notRelevant">378</span>
+                  <span class="notRelevant">379</span>
+                  <span class="notRelevant">380</span>
+                  <span class="notRelevant">381</span>
+                  <span class="notRelevant">382</span>
+                  <span class="notRelevant">383</span>
+                  <span class="notRelevant">384</span>
+                  <span class="notRelevant">385</span>
+                  <span class="notRelevant">386</span>
+                  <span class="notRelevant">387</span>
+                  <span class="notRelevant">388</span>
+                  <span class="notRelevant">389</span>
+                  <span class="notRelevant">390</span>
+                  <span class="notRelevant">391</span>
+                  <span class="notRelevant">392</span>
+                  <span class="notRelevant">393</span>
+                  <span class="notRelevant">394</span>
+                  <span class="notRelevant">395</span>
+                  <span class="notRelevant">396</span>
+                  <span class="notRelevant">397</span>
+                  <span class="notRelevant">398</span>
+                  <span class="notRelevant">399</span>
+                  <span class="notRelevant">400</span>
+                  <span class="notRelevant">401</span>
+                  <span class="notRelevant">402</span>
+                  <span class="notRelevant">403</span>
+                  <span class="notRelevant">404</span>
+                  <span class="notRelevant">405</span>
+                  <span class="notRelevant">406</span>
+                  <span class="notRelevant">407</span>
+                  <span class="notRelevant">408</span>
+                  <span class="notRelevant">409</span>
+                  <span class="notRelevant">410</span>
+                  <span class="notRelevant">411</span>
+                  <span class="notRelevant">412</span>
+                  <span class="notRelevant">413</span>
+                  <span class="notRelevant">414</span>
+                  <span class="notRelevant">415</span>
+                  <span class="notRelevant">416</span>
+                  <span class="notRelevant">417</span>
+                  <span class="notRelevant">418</span>
+                  <span class="notRelevant">419</span>
+                  <span class="notRelevant">420</span>
+                  <span class="notRelevant">421</span>
+                  <span class="notRelevant">422</span>
+                  <span class="notRelevant">423</span>
+                  <span class="notRelevant">424</span>
+                  <span class="notRelevant">425</span>
+                  <span class="notRelevant">426</span>
+                  <span class="notRelevant">427</span>
+                  <span class="notRelevant">428</span>
+                  <span class="notRelevant">429</span>
+                  <span class="notRelevant">430</span>
+                  <span class="notRelevant">431</span>
+                  <span class="notRelevant">432</span>
+                  <span class="notRelevant">433</span>
+                  <span class="notRelevant">434</span>
+                  <span class="notRelevant">435</span>
+                  <span class="notRelevant">436</span>
+                  <span class="notRelevant">437</span>
+                  <span class="notRelevant">438</span>
+                  <span class="notRelevant">439</span>
+                  <span class="notRelevant">440</span>
+                  <span class="notRelevant">441</span>
+                  <span class="notRelevant">442</span>
+                  <span class="notRelevant">443</span>
+                  <span class="notRelevant">444</span>
+                  <span class="notRelevant">445</span>
+                  <span class="notRelevant">446</span>
+                  <span class="notRelevant">447</span>
+                  <span class="notRelevant">448</span>
+                  <span class="notRelevant">449</span>
+                  <span class="notRelevant">450</span>
+                  <span class="notRelevant">451</span>
+                  <span class="notRelevant">452</span>
+                  <span class="notRelevant">453</span>
+                  <span class="notRelevant">454</span>
+                  <span class="notRelevant">455</span>
+                  <span class="notRelevant">456</span>
+                  <span class="notRelevant">457</span>
+                  <span class="notRelevant">458</span>
+                  <span class="notRelevant">459</span>
+                  <span class="notRelevant">460</span>
+                  <span class="notRelevant">461</span>
+                  <span class="notRelevant">462</span>
+                  <span class="notRelevant">463</span>
+                  <span class="notRelevant">464</span>
+                  <span class="notRelevant">465</span>
+                  <span class="notRelevant">466</span>
+                  <span class="notRelevant">467</span>
+                  <span class="notRelevant">468</span>
+                  <span class="notRelevant">469</span>
+                  <span class="notRelevant">470</span>
+                  <span class="notRelevant">471</span>
+                  <span class="notRelevant">472</span>
+                  <span class="notRelevant">473</span>
+                  <span class="notRelevant">474</span>
+                  <span class="notRelevant">475</span>
+                  <span class="notRelevant">476</span>
+                  <span class="notRelevant">477</span>
+                  <span class="notRelevant">478</span>
+                  <span class="notRelevant">479</span>
+                  <span class="notRelevant">480</span>
+                  <span class="notRelevant">481</span>
+                  <span class="notRelevant">482</span>
+                  <span class="notRelevant">483</span>
+                  <span class="notRelevant">484</span>
+                  <span class="notRelevant">485</span>
+                  <span class="notRelevant">486</span>
+                  <span class="notRelevant">487</span>
+                  <span class="notRelevant">488</span>
+                  <span class="notRelevant">489</span>
+                  <span class="notRelevant">490</span>
+                  <span class="notRelevant">491</span>
+                  <span class="notRelevant">492</span>
+                  <span class="notRelevant">493</span>
+                  <span class="notRelevant">494</span>
+                  <span class="notRelevant">495</span>
+                  <span class="notRelevant">496</span>
+                  <span class="notRelevant">497</span>
+                  <span class="notRelevant">498</span>
+                  <span class="notRelevant">499</span>
+                  <span class="notRelevant">500</span>
+                  <span class="notRelevant">501</span>
+                  <span class="notRelevant">502</span>
+                  <span class="notRelevant">503</span>
+                  <span class="notRelevant">504</span>
+                  <span class="notRelevant">505</span>
+                  <span class="notRelevant">506</span>
+                  <span class="notRelevant">507</span>
+                  <span class="notRelevant">508</span>
+                  <span class="notRelevant">509</span>
+                  <span class="notRelevant">510</span>
+                  <span class="notRelevant">511</span>
+                  <span class="notRelevant">512</span>
+                  <span class="notRelevant">513</span>
+                  <span class="notRelevant">514</span>
+                  <span class="notRelevant">515</span>
+                  <span class="notRelevant">516</span>
+                  <span class="notRelevant">517</span>
+                  <span class="notRelevant">518</span>
+                  <span class="notRelevant">519</span>
+                  <span class="notRelevant">520</span>
+                  <span class="notRelevant">521</span>
+                  <span class="notRelevant">522</span>
+                  <span class="notRelevant">523</span>
+                  <span class="notRelevant">524</span>
+                  <span class="notRelevant">525</span>
+                  <span class="notRelevant">526</span>
+                  <span class="notRelevant">527</span>
+                  <span class="notRelevant">528</span>
+                  <span class="notRelevant">529</span>
+                  <span class="notRelevant">530</span>
+                  <span class="notRelevant">531</span>
+                  <span class="notRelevant">532</span>
+                  <span class="notRelevant">533</span>
+                  <span class="notRelevant">534</span>
+                  <span class="notRelevant">535</span>
+                  <span class="notRelevant">536</span>
+                  <span class="notRelevant">537</span>
+                  <span class="notRelevant">538</span>
+                  <span class="notRelevant">539</span>
+                  <span class="notRelevant">540</span>
+                  <span class="notRelevant">541</span>
+                  <span class="notRelevant">542</span>
+                  <span class="notRelevant">543</span>
+                  <span class="notRelevant">544</span>
+                  <span class="notRelevant">545</span>
+                  <span class="notRelevant">546</span>
+                  <span class="notRelevant">547</span>
+                  <span class="notRelevant">548</span>
+                  <span class="notRelevant">549</span>
+                  <span class="notRelevant">550</span>
+                  <span class="notRelevant">551</span>
+                  <span class="notRelevant">552</span>
+                  <span class="notRelevant">553</span>
+                  <span class="notRelevant">554</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides currency definitions and related functionality.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Currencies&quot;</span><span class="p">,</span> <span class="s2">&quot;Currency&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrencyLookupError&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrencyRegistry&quot;</span><span class="p">,</span> <span class="s2">&quot;CurrencyType&quot;</span><span class="p">]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.commons.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProgrammingError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.commons.numbers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZERO</span><span class="p">,</span> <span class="n">MaxPrecisionQuantizer</span><span class="p">,</span> <span class="n">make_quantizer</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CurrencyLookupError</span><span class="p">(</span><span class="ne">LookupError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides a currency lookup error.</span>
+
+<span class="sd">    &gt;&gt;&gt; raise CurrencyLookupError(&quot;XYZ&quot;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">    ...</span>
+<span class="sd">    pypara.currencies.CurrencyLookupError: Currency identified by code &#39;XYZ&#39; does not exist</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a currency lookup error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## Keep the code:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+
+        <span class="c1">## Set the message:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Currency identified by code &#39;</span><span class="si">{</span><span class="n">code</span><span class="si">}</span><span class="s2">&#39; does not exist&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CurrencyType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines available currency types.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Defines money currency as in common legal tender.</span>
+    <span class="n">MONEY</span> <span class="o">=</span> <span class="s2">&quot;Money&quot;</span>
+
+    <span class="c1">#: Defines precious metals currency type.</span>
+    <span class="n">METAL</span> <span class="o">=</span> <span class="s2">&quot;Precious Metal&quot;</span>
+
+    <span class="c1">#: Defines crypto currency type.</span>
+    <span class="n">CRYPTO</span> <span class="o">=</span> <span class="s2">&quot;Crypto Currency&quot;</span>
+
+    <span class="c1">#: Defines alternative currency type.</span>
+    <span class="n">ALTERNATIVE</span> <span class="o">=</span> <span class="s2">&quot;Alternative&quot;</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Currency</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines currency value object model which is extending ISO 4217 to embrace</span>
+<span class="sd">    other currency types.</span>
+
+<span class="sd">    Note that you should not call :class:`Currency` constructor directly, but</span>
+<span class="sd">    instead use the :func:`Currency.of`. :func:`Currency.of` is responsible of</span>
+<span class="sd">    performing some checks before creating the currency.</span>
+
+<span class="sd">    Try with USD:</span>
+
+<span class="sd">    &gt;&gt;&gt; USD = Currency.of(&quot;USD&quot;, &quot;US Dollars&quot;, 2, CurrencyType.MONEY)</span>
+<span class="sd">    &gt;&gt;&gt; USD.quantize(Decimal(&quot;1.005&quot;))</span>
+<span class="sd">    Decimal(&#39;1.00&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; USD.quantize(Decimal(&quot;1.015&quot;))</span>
+<span class="sd">    Decimal(&#39;1.02&#39;)</span>
+
+<span class="sd">    Now, with JPY which has a different precision than USD:</span>
+
+<span class="sd">    &gt;&gt;&gt; JPY = Currency.of(&quot;JPY&quot;, &quot;Japanese Yen&quot;, 0, CurrencyType.MONEY)</span>
+<span class="sd">    &gt;&gt;&gt; JPY.quantize(Decimal(&quot;0.5&quot;))</span>
+<span class="sd">    Decimal(&#39;0&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; JPY.quantize(Decimal(&quot;1.5&quot;))</span>
+<span class="sd">    Decimal(&#39;2&#39;)</span>
+
+<span class="sd">    And with a weird currency which has no fixed precision.</span>
+
+<span class="sd">    &gt;&gt;&gt; ZZZ = Currency.of(&quot;ZZZ&quot;, &quot;Some weird currency&quot;, -1, CurrencyType.CRYPTO)</span>
+<span class="sd">    &gt;&gt;&gt; ZZZ.quantize(Decimal(&quot;1.0000000000005&quot;))</span>
+<span class="sd">    Decimal(&#39;1.000000000000&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ZZZ.quantize(Decimal(&quot;1.0000000000015&quot;))</span>
+<span class="sd">    Decimal(&#39;1.000000000002&#39;)</span>
+
+<span class="sd">    Equalities:</span>
+
+<span class="sd">    &gt;&gt;&gt; usd1 = Currency.of(&quot;USD&quot;, &quot;US Dollars&quot;, 2, CurrencyType.MONEY)</span>
+<span class="sd">    &gt;&gt;&gt; usd2 = Currency.of(&quot;USD&quot;, &quot;US Dollars&quot;, 2, CurrencyType.MONEY)</span>
+<span class="sd">    &gt;&gt;&gt; usdx = Currency.of(&quot;USD&quot;, &quot;UX Dollars&quot;, 2, CurrencyType.MONEY)</span>
+<span class="sd">    &gt;&gt;&gt; usd1 == usd2</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; usd1 == usdx</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; hash(usd1) == hash(usd2)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; hash(usd1) == hash(usdx)</span>
+<span class="sd">    False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Defines the code of the currency.</span>
+    <span class="n">code</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="c1">#: Defines the name of the currency.</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="c1">#: Defines the number of decimals of the currency.</span>
+    <span class="n">decimals</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="c1">#: Defines the type of the currency.</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">CurrencyType</span>
+
+    <span class="c1">#: Defines the quantiser of the currency.</span>
+    <span class="n">quantizer</span><span class="p">:</span> <span class="n">Decimal</span>
+
+    <span class="c1">#: Defines the pre-computed, cached hash.</span>
+    <span class="n">hashcache</span><span class="p">:</span> <span class="nb">int</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the `self` and `other` are same currencies.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Currency</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">hashcache</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">hashcache</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the pre-computed and cached hash.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hashcache</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">quantize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">qty</span><span class="p">:</span> <span class="n">Decimal</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Decimal</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Quantizes the decimal ``qty`` wrt to ccy&#39;s minor units fraction. Note that</span>
+<span class="sd">        the [ROUND HALF TO EVEN](https://en.wikipedia.org/wiki/Rounding) method</span>
+<span class="sd">        is used for rounding purposes.</span>
+
+<span class="sd">        **Note** that the HALF-TO-EVEN method is inherited from the default decimal context instead of</span>
+<span class="sd">        explicitly passing it. Therefore, if call-site application is making changes to the default</span>
+<span class="sd">        context, the rounding method may not be HALF-TO-EVEN anymore.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">qty</span><span class="o">.</span><span class="n">quantize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quantizer</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">of</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">decimals</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ctype</span><span class="p">:</span> <span class="n">CurrencyType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Currency&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attempts to create a currency instance and returns it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## Check the code:</span>
+        <span class="n">ProgrammingError</span><span class="o">.</span><span class="n">passert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="s2">&quot;Currency code must be a string&quot;</span><span class="p">)</span>
+        <span class="n">ProgrammingError</span><span class="o">.</span><span class="n">passert</span><span class="p">(</span><span class="n">code</span><span class="o">.</span><span class="n">isalpha</span><span class="p">(),</span> <span class="s2">&quot;Currency code must contain only alphabetic characters&quot;</span><span class="p">)</span>
+        <span class="n">ProgrammingError</span><span class="o">.</span><span class="n">passert</span><span class="p">(</span><span class="n">code</span><span class="o">.</span><span class="n">isupper</span><span class="p">(),</span> <span class="s2">&quot;Currency code must be all uppercase&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Check the name:</span>
+        <span class="n">ProgrammingError</span><span class="o">.</span><span class="n">passert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="s2">&quot;Currency name must be a string&quot;</span><span class="p">)</span>
+        <span class="n">ProgrammingError</span><span class="o">.</span><span class="n">passert</span><span class="p">(</span><span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Currency name can not be empty&quot;</span><span class="p">)</span>
+        <span class="n">ProgrammingError</span><span class="o">.</span><span class="n">passert</span><span class="p">(</span><span class="ow">not</span> <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)),</span> <span class="s2">&quot;Trim the currency name&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Check the decimals:</span>
+        <span class="n">ProgrammingError</span><span class="o">.</span><span class="n">passert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">decimals</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="s2">&quot;Number of decimals must be an integer&quot;</span><span class="p">)</span>
+        <span class="n">ProgrammingError</span><span class="o">.</span><span class="n">passert</span><span class="p">(</span><span class="n">decimals</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Number of decimals can not be less than -1&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Check the type:</span>
+        <span class="n">ProgrammingError</span><span class="o">.</span><span class="n">passert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">ctype</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="p">),</span> <span class="s2">&quot;Currency Type must be of type `CurrencyType`&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Define the quantizer:</span>
+        <span class="k">if</span> <span class="n">decimals</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">quantizer</span> <span class="o">=</span> <span class="n">make_quantizer</span><span class="p">(</span><span class="n">decimals</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">decimals</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">quantizer</span> <span class="o">=</span> <span class="n">MaxPrecisionQuantizer</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">quantizer</span> <span class="o">=</span> <span class="n">ZERO</span>
+
+        <span class="c1">## By now, we should have all required instance attributes. However, we want to compute and cache the hash.</span>
+        <span class="n">hashcode</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">((</span><span class="n">code</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">decimals</span><span class="p">,</span> <span class="n">ctype</span><span class="p">,</span> <span class="n">quantizer</span><span class="p">))</span>
+
+        <span class="c1">## Done, create the currency object and return:</span>
+        <span class="k">return</span> <span class="n">Currency</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">decimals</span><span class="p">,</span> <span class="n">ctype</span><span class="p">,</span> <span class="n">quantizer</span><span class="p">,</span> <span class="n">hashcode</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CurrencyRegistry</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines a currency registry model.</span>
+
+<span class="sd">    &gt;&gt;&gt; &quot;USD&quot; in Currencies</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; Currencies.has(&quot;USD&quot;)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; &quot;XXX&quot; in Currencies</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; Currencies.has(&quot;XXX&quot;)</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; Currencies[&quot;USD&quot;].code</span>
+<span class="sd">    &#39;USD&#39;</span>
+<span class="sd">    &gt;&gt;&gt; Currencies[&quot;USD&quot;].name</span>
+<span class="sd">    &#39;US Dollar&#39;</span>
+<span class="sd">    &gt;&gt;&gt; Currencies[&quot;USD&quot;].type.name</span>
+<span class="sd">    &#39;MONEY&#39;</span>
+<span class="sd">    &gt;&gt;&gt; Currencies.get(&quot;USD&quot;) == Currencies[&quot;USD&quot;]</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; Currencies.get(&quot;XXX&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; Currencies.get(&quot;XXX&quot;, default=Currencies[&quot;USD&quot;]) == Currencies[&quot;USD&quot;]</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; assert len(Currencies) == len(Currencies.all)</span>
+<span class="sd">    &gt;&gt;&gt; assert Currencies.codes == [currency.code for currency in Currencies.all]</span>
+<span class="sd">    &gt;&gt;&gt; assert Currencies.codenames == [(currency.code, currency.name) for currency in Currencies.all]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Defines the singleton instance.</span>
+    <span class="n">__instance</span><span class="p">:</span> <span class="s2">&quot;CurrencyRegistry&quot;</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CurrencyRegistry&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the singleton instance, or returns the existing one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## Do we have the singleton instance?</span>
+        <span class="k">if</span> <span class="n">CurrencyRegistry</span><span class="o">.</span><span class="n">__instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1">## Nope, not yet. Create one:</span>
+            <span class="n">CurrencyRegistry</span><span class="o">.</span><span class="n">__instance</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+
+        <span class="c1">## Return the singleton instance.</span>
+        <span class="k">return</span> <span class="n">CurrencyRegistry</span><span class="o">.</span><span class="n">__instance</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the currency registry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## Initialize the master registry container.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__registry</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Currency</span><span class="p">]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">([])</span>
+
+        <span class="c1">## Initialize the currencies buffer.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__currencies</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Currency</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1">## Initialize the currency codes buffer.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__codes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1">## Initialize the code/name tuples buffer.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__codenames</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1">## Define the registry population context open/close flag.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ctx_open</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Currency</span><span class="p">],</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enters the registry population context.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## Mark the context as open:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ctx_open</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1">## OK, return the add method:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__register</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="ne">Exception</span><span class="p">]],</span> <span class="n">exc_value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">tracebackx</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Exits the registry population context and performs some finalization tasks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## Re-sort the registry:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__registry</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="n">c</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">code</span><span class="p">)])</span>
+
+        <span class="c1">## Re-sort currencies buffer:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__currencies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+        <span class="c1">## Re-sort the currency codes buffer:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__codes</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">code</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__currencies</span><span class="p">]</span>
+
+        <span class="c1">## Re-sort the choices buffer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__codenames</span> <span class="o">=</span> <span class="p">[(</span><span class="n">c</span><span class="o">.</span><span class="n">code</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__currencies</span><span class="p">]</span>
+
+        <span class="c1">## Close the context:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ctx_open</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">currency</span><span class="p">:</span> <span class="n">Currency</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attempts to add the currency to the registry.</span>
+
+<span class="sd">        &gt;&gt;&gt; with Currencies as register:</span>
+<span class="sd">        ...    register(Currency.of(&quot;AED&quot;, &quot;UAE Dirham&quot;, 2, CurrencyType.MONEY))</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        ValueError: Currency AED is already registered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## Check of the registry population context is open:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ctx_open</span><span class="p">:</span>
+            <span class="c1">## Nope, raise error:</span>
+            <span class="k">raise</span> <span class="n">ProgrammingError</span><span class="p">(</span><span class="s2">&quot;Can not create currencies outside registry context.&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Check if the currency is already added:</span>
+        <span class="k">if</span> <span class="n">currency</span><span class="o">.</span><span class="n">code</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registry</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Currency </span><span class="si">{</span><span class="n">currency</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2"> is already registered.&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Add to the containers:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__registry</span><span class="p">[</span><span class="n">currency</span><span class="o">.</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">currency</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the number of registered currencies.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__registry</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if a given currency code is available.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">code</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registry</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Currency</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the currency identified by the code or raises lookup error.</span>
+
+<span class="sd">        &gt;&gt;&gt; Currencies[&quot;USD&quot;].code</span>
+<span class="sd">        &#39;USD&#39;</span>
+<span class="sd">        &gt;&gt;&gt; Currencies[&quot;NON-EXISTING&quot;].code</span>
+<span class="sd">        Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">        pypara.currencies.CurrencyLookupError: Currency identified by code &#39;NON-EXISTING&#39; does not exist</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registry</span><span class="p">[</span><span class="n">code</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CurrencyLookupError</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">has</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Indicates if the code is a valid currency code.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">code</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registry</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Currency</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Currency</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the currency for the given code.</span>
+
+<span class="sd">        Note that if the code is not a valid currency code, a currency lookup error is raised.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;Currency&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the list of currencies.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__currencies</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">codes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of codes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__codes</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">codenames</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of code/name tuples.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__codenames</span>
+
+
+<span class="c1">#: Defines the global currencies registry.</span>
+<span class="n">Currencies</span> <span class="o">=</span> <span class="n">CurrencyRegistry</span><span class="p">()</span>
+
+
+<span class="c1">## Create and register currencies in one go:</span>
+<span class="k">with</span> <span class="n">Currencies</span> <span class="k">as</span> <span class="n">register</span><span class="p">:</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;AED&quot;</span><span class="p">,</span> <span class="s2">&quot;UAE Dirham&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;AFN&quot;</span><span class="p">,</span> <span class="s2">&quot;Afghani&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ALL&quot;</span><span class="p">,</span> <span class="s2">&quot;Lek&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;AMD&quot;</span><span class="p">,</span> <span class="s2">&quot;Armenian Dram&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ANG&quot;</span><span class="p">,</span> <span class="s2">&quot;Netherlands Antillean Guilder&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;AOA&quot;</span><span class="p">,</span> <span class="s2">&quot;Kwanza&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ARS&quot;</span><span class="p">,</span> <span class="s2">&quot;Argentine Peso&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;AUD&quot;</span><span class="p">,</span> <span class="s2">&quot;Australian Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;AWG&quot;</span><span class="p">,</span> <span class="s2">&quot;Aruban Florin&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;AZN&quot;</span><span class="p">,</span> <span class="s2">&quot;Azerbaijani Manat&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BAM&quot;</span><span class="p">,</span> <span class="s2">&quot;Convertible Mark&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BBD&quot;</span><span class="p">,</span> <span class="s2">&quot;Barbados Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BCH&quot;</span><span class="p">,</span> <span class="s2">&quot;Bitcoin Cash&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BDT&quot;</span><span class="p">,</span> <span class="s2">&quot;Taka&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BGN&quot;</span><span class="p">,</span> <span class="s2">&quot;Bulgarian Lev&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BHD&quot;</span><span class="p">,</span> <span class="s2">&quot;Bahraini Dinar&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BIF&quot;</span><span class="p">,</span> <span class="s2">&quot;Burundi Franc&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BMD&quot;</span><span class="p">,</span> <span class="s2">&quot;Bermudian Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BND&quot;</span><span class="p">,</span> <span class="s2">&quot;Brunei Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BOB&quot;</span><span class="p">,</span> <span class="s2">&quot;Boliviano&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BOV&quot;</span><span class="p">,</span> <span class="s2">&quot;Mvdol&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BRL&quot;</span><span class="p">,</span> <span class="s2">&quot;Brazilian Real&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BSD&quot;</span><span class="p">,</span> <span class="s2">&quot;Bahamian Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BTC&quot;</span><span class="p">,</span> <span class="s2">&quot;Bitcoin&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BTN&quot;</span><span class="p">,</span> <span class="s2">&quot;Ngultrum&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BWP&quot;</span><span class="p">,</span> <span class="s2">&quot;Pula&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BYR&quot;</span><span class="p">,</span> <span class="s2">&quot;Belarusian Ruble&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;BZD&quot;</span><span class="p">,</span> <span class="s2">&quot;Belize Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CAD&quot;</span><span class="p">,</span> <span class="s2">&quot;Canadian Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CDF&quot;</span><span class="p">,</span> <span class="s2">&quot;Congolese Franc&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CHE&quot;</span><span class="p">,</span> <span class="s2">&quot;WIR Euro&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CHF&quot;</span><span class="p">,</span> <span class="s2">&quot;Swiss Franc&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CHW&quot;</span><span class="p">,</span> <span class="s2">&quot;WIR Franc&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CLF&quot;</span><span class="p">,</span> <span class="s2">&quot;Unidad de Fomento&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CLP&quot;</span><span class="p">,</span> <span class="s2">&quot;Chilean Peso&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CNH&quot;</span><span class="p">,</span> <span class="s2">&quot;Yuan Renminbi (Off-shore)&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CNY&quot;</span><span class="p">,</span> <span class="s2">&quot;Yuan Renminbi&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;COP&quot;</span><span class="p">,</span> <span class="s2">&quot;Colombian Peso&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;COU&quot;</span><span class="p">,</span> <span class="s2">&quot;Unidad de Valor Real&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CRC&quot;</span><span class="p">,</span> <span class="s2">&quot;Costa Rican Colon&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CUC&quot;</span><span class="p">,</span> <span class="s2">&quot;Peso Convertible&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CUP&quot;</span><span class="p">,</span> <span class="s2">&quot;Cuban Peso&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CVE&quot;</span><span class="p">,</span> <span class="s2">&quot;Cape Verdean Escudo&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;CZK&quot;</span><span class="p">,</span> <span class="s2">&quot;Czech Koruna&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;DASH&quot;</span><span class="p">,</span> <span class="s2">&quot;Dash&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;DJF&quot;</span><span class="p">,</span> <span class="s2">&quot;Djibouti Franc&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;DKK&quot;</span><span class="p">,</span> <span class="s2">&quot;Danish Krone&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;DOGE&quot;</span><span class="p">,</span> <span class="s2">&quot;Dogecoin&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;DOP&quot;</span><span class="p">,</span> <span class="s2">&quot;Dominican Peso&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;DZD&quot;</span><span class="p">,</span> <span class="s2">&quot;Algerian Dinar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;EGP&quot;</span><span class="p">,</span> <span class="s2">&quot;Egyptian Pound&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;EOS&quot;</span><span class="p">,</span> <span class="s2">&quot;EOSIO&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ERN&quot;</span><span class="p">,</span> <span class="s2">&quot;Nakfa&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ETB&quot;</span><span class="p">,</span> <span class="s2">&quot;Ethiopian Birr&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ETC&quot;</span><span class="p">,</span> <span class="s2">&quot;Ethereum Classic&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ETH&quot;</span><span class="p">,</span> <span class="s2">&quot;Ethereum&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;EUR&quot;</span><span class="p">,</span> <span class="s2">&quot;Euro&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;FJD&quot;</span><span class="p">,</span> <span class="s2">&quot;Fiji Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;FKP&quot;</span><span class="p">,</span> <span class="s2">&quot;Falkland Islands Pound&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;GBP&quot;</span><span class="p">,</span> <span class="s2">&quot;Pound Sterling&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;GEL&quot;</span><span class="p">,</span> <span class="s2">&quot;Lari&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;GHS&quot;</span><span class="p">,</span> <span class="s2">&quot;Ghana Cedi&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;GIP&quot;</span><span class="p">,</span> <span class="s2">&quot;Gibraltar Pound&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;GMD&quot;</span><span class="p">,</span> <span class="s2">&quot;Dalasi&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;GNF&quot;</span><span class="p">,</span> <span class="s2">&quot;Guinea Franc&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;GTQ&quot;</span><span class="p">,</span> <span class="s2">&quot;Quetzal&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;GYD&quot;</span><span class="p">,</span> <span class="s2">&quot;Guyana Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;HKD&quot;</span><span class="p">,</span> <span class="s2">&quot;Hong Kong Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;HNL&quot;</span><span class="p">,</span> <span class="s2">&quot;Lempira&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;HRK&quot;</span><span class="p">,</span> <span class="s2">&quot;Kuna&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;HTG&quot;</span><span class="p">,</span> <span class="s2">&quot;Gourde&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;HUF&quot;</span><span class="p">,</span> <span class="s2">&quot;Forint&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;IDR&quot;</span><span class="p">,</span> <span class="s2">&quot;Rupiah&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ILS&quot;</span><span class="p">,</span> <span class="s2">&quot;New Israeli Sheqel&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;INR&quot;</span><span class="p">,</span> <span class="s2">&quot;Indian Rupee&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;IOT&quot;</span><span class="p">,</span> <span class="s2">&quot;IOTA&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;IQD&quot;</span><span class="p">,</span> <span class="s2">&quot;Iraqi Dinar&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;IRR&quot;</span><span class="p">,</span> <span class="s2">&quot;Iranian Rial&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ISK&quot;</span><span class="p">,</span> <span class="s2">&quot;Iceland Krona&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;JMD&quot;</span><span class="p">,</span> <span class="s2">&quot;Jamaican Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;JOD&quot;</span><span class="p">,</span> <span class="s2">&quot;Jordanian Dinar&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;JPY&quot;</span><span class="p">,</span> <span class="s2">&quot;Yen&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;KES&quot;</span><span class="p">,</span> <span class="s2">&quot;Kenyan Shilling&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;KGS&quot;</span><span class="p">,</span> <span class="s2">&quot;Som&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;KHR&quot;</span><span class="p">,</span> <span class="s2">&quot;Riel&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;KMF&quot;</span><span class="p">,</span> <span class="s2">&quot;Comoro Franc&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;KPW&quot;</span><span class="p">,</span> <span class="s2">&quot;North Korean Won&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;KRW&quot;</span><span class="p">,</span> <span class="s2">&quot;Won&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;KWD&quot;</span><span class="p">,</span> <span class="s2">&quot;Kuwaiti Dinar&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;KYD&quot;</span><span class="p">,</span> <span class="s2">&quot;Cayman Islands Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;KZT&quot;</span><span class="p">,</span> <span class="s2">&quot;Tenge&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;LAK&quot;</span><span class="p">,</span> <span class="s2">&quot;Kip&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;LBP&quot;</span><span class="p">,</span> <span class="s2">&quot;Lebanese Pound&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;LINK&quot;</span><span class="p">,</span> <span class="s2">&quot;Chainlink&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;LKR&quot;</span><span class="p">,</span> <span class="s2">&quot;Sri Lanka Rupee&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;LRD&quot;</span><span class="p">,</span> <span class="s2">&quot;Liberian Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;LSL&quot;</span><span class="p">,</span> <span class="s2">&quot;Loti&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;LTC&quot;</span><span class="p">,</span> <span class="s2">&quot;Litecoin&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;LYD&quot;</span><span class="p">,</span> <span class="s2">&quot;Libyan Dinar&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MAD&quot;</span><span class="p">,</span> <span class="s2">&quot;Moroccan Dirham&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MDL&quot;</span><span class="p">,</span> <span class="s2">&quot;Moldovan Leu&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MGA&quot;</span><span class="p">,</span> <span class="s2">&quot;Malagasy Ariary&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MKD&quot;</span><span class="p">,</span> <span class="s2">&quot;Denar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MMK&quot;</span><span class="p">,</span> <span class="s2">&quot;Kyat&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MNT&quot;</span><span class="p">,</span> <span class="s2">&quot;Tugrik&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MOP&quot;</span><span class="p">,</span> <span class="s2">&quot;Pataca&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MRO&quot;</span><span class="p">,</span> <span class="s2">&quot;Ouguiya&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MUR&quot;</span><span class="p">,</span> <span class="s2">&quot;Mauritius Rupee&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MVR&quot;</span><span class="p">,</span> <span class="s2">&quot;Rufiyaa&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MWK&quot;</span><span class="p">,</span> <span class="s2">&quot;Kwacha&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MXN&quot;</span><span class="p">,</span> <span class="s2">&quot;Mexican Peso&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MXV&quot;</span><span class="p">,</span> <span class="s2">&quot;Mexican Unidad de Inversion (UDI)&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MYR&quot;</span><span class="p">,</span> <span class="s2">&quot;Malaysian Ringgit&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;MZN&quot;</span><span class="p">,</span> <span class="s2">&quot;Mozambique Metical&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;NAD&quot;</span><span class="p">,</span> <span class="s2">&quot;Namibia Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;NEO&quot;</span><span class="p">,</span> <span class="s2">&quot;NEO&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;NGN&quot;</span><span class="p">,</span> <span class="s2">&quot;Naira&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;NIO&quot;</span><span class="p">,</span> <span class="s2">&quot;Cordoba Oro&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;NOK&quot;</span><span class="p">,</span> <span class="s2">&quot;Norwegian Krone&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;NPR&quot;</span><span class="p">,</span> <span class="s2">&quot;Nepalese Rupee&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;NZD&quot;</span><span class="p">,</span> <span class="s2">&quot;New Zealand Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;OMG&quot;</span><span class="p">,</span> <span class="s2">&quot;OmiseGO&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;OMR&quot;</span><span class="p">,</span> <span class="s2">&quot;Rial Omani&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;PAB&quot;</span><span class="p">,</span> <span class="s2">&quot;Balboa&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;PEN&quot;</span><span class="p">,</span> <span class="s2">&quot;Nuevo Sol&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;PGK&quot;</span><span class="p">,</span> <span class="s2">&quot;Kina&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;PHP&quot;</span><span class="p">,</span> <span class="s2">&quot;Philippine Peso&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;PKR&quot;</span><span class="p">,</span> <span class="s2">&quot;Pakistan Rupee&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;PLN&quot;</span><span class="p">,</span> <span class="s2">&quot;Zloty&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;PYG&quot;</span><span class="p">,</span> <span class="s2">&quot;Guarani&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;QAR&quot;</span><span class="p">,</span> <span class="s2">&quot;Qatari Rial&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;RON&quot;</span><span class="p">,</span> <span class="s2">&quot;Romanian Leu&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;RSD&quot;</span><span class="p">,</span> <span class="s2">&quot;Serbian Dinar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;RUB&quot;</span><span class="p">,</span> <span class="s2">&quot;Russian Ruble&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;RWF&quot;</span><span class="p">,</span> <span class="s2">&quot;Rwanda Franc&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SAR&quot;</span><span class="p">,</span> <span class="s2">&quot;Saudi Riyal&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SBD&quot;</span><span class="p">,</span> <span class="s2">&quot;Solomon Islands Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SCR&quot;</span><span class="p">,</span> <span class="s2">&quot;Seychelles Rupee&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SDG&quot;</span><span class="p">,</span> <span class="s2">&quot;Sudanese Pound&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SEK&quot;</span><span class="p">,</span> <span class="s2">&quot;Swedish Krona&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SGD&quot;</span><span class="p">,</span> <span class="s2">&quot;Singapore Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SHP&quot;</span><span class="p">,</span> <span class="s2">&quot;Saint Helena Pound&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SLL&quot;</span><span class="p">,</span> <span class="s2">&quot;Leone&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SOS&quot;</span><span class="p">,</span> <span class="s2">&quot;Somali Shilling&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SRD&quot;</span><span class="p">,</span> <span class="s2">&quot;Surinam Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SSP&quot;</span><span class="p">,</span> <span class="s2">&quot;South Sudanese Pound&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;STD&quot;</span><span class="p">,</span> <span class="s2">&quot;Dobra&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SVC&quot;</span><span class="p">,</span> <span class="s2">&quot;El Salvador Colon&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SYP&quot;</span><span class="p">,</span> <span class="s2">&quot;Syrian Pound&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;SZL&quot;</span><span class="p">,</span> <span class="s2">&quot;Lilangeni&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;THB&quot;</span><span class="p">,</span> <span class="s2">&quot;Baht&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;TJS&quot;</span><span class="p">,</span> <span class="s2">&quot;Somoni&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;TMT&quot;</span><span class="p">,</span> <span class="s2">&quot;Turkmenistan New Manat&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;TND&quot;</span><span class="p">,</span> <span class="s2">&quot;Tunisian Dinar&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;TOP&quot;</span><span class="p">,</span> <span class="s2">&quot;Pa&#39;anga&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;TRY&quot;</span><span class="p">,</span> <span class="s2">&quot;Turkish Lira&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;TTD&quot;</span><span class="p">,</span> <span class="s2">&quot;Trinidad and Tobago Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;TWD&quot;</span><span class="p">,</span> <span class="s2">&quot;New Taiwan Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;TZS&quot;</span><span class="p">,</span> <span class="s2">&quot;Tanzanian Shilling&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;UAH&quot;</span><span class="p">,</span> <span class="s2">&quot;Hryvnia&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;UGX&quot;</span><span class="p">,</span> <span class="s2">&quot;Uganda Shilling&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;USD&quot;</span><span class="p">,</span> <span class="s2">&quot;US Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;USN&quot;</span><span class="p">,</span> <span class="s2">&quot;US Dollar (Next day)&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;UYI&quot;</span><span class="p">,</span> <span class="s2">&quot;Uruguay Peso en Unidades Indexadas&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;UYU&quot;</span><span class="p">,</span> <span class="s2">&quot;Uruguayan Peso&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;UZS&quot;</span><span class="p">,</span> <span class="s2">&quot;Uzbekistan Sum&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;VEF&quot;</span><span class="p">,</span> <span class="s2">&quot;Bolivar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;VND&quot;</span><span class="p">,</span> <span class="s2">&quot;Dong&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;VUV&quot;</span><span class="p">,</span> <span class="s2">&quot;Vatu&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;WST&quot;</span><span class="p">,</span> <span class="s2">&quot;Tala&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XAF&quot;</span><span class="p">,</span> <span class="s2">&quot;Central African CFA Franc BCEAO&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XAG&quot;</span><span class="p">,</span> <span class="s2">&quot;Silver&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">METAL</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XAU&quot;</span><span class="p">,</span> <span class="s2">&quot;Gold&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">METAL</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XCD&quot;</span><span class="p">,</span> <span class="s2">&quot;East Caribbean Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XLC&quot;</span><span class="p">,</span> <span class="s2">&quot;Ethereum Lite Cash&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XLM&quot;</span><span class="p">,</span> <span class="s2">&quot;Stellar&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XMR&quot;</span><span class="p">,</span> <span class="s2">&quot;Monero&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XOF&quot;</span><span class="p">,</span> <span class="s2">&quot;West African CFA Franc BCEAO&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XPD&quot;</span><span class="p">,</span> <span class="s2">&quot;Palladium&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">METAL</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XPT&quot;</span><span class="p">,</span> <span class="s2">&quot;Platinum&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">METAL</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XRP&quot;</span><span class="p">,</span> <span class="s2">&quot;Ripple&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XSU&quot;</span><span class="p">,</span> <span class="s2">&quot;Sucre&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;XUA&quot;</span><span class="p">,</span> <span class="s2">&quot;ADB Unit of Account&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;YER&quot;</span><span class="p">,</span> <span class="s2">&quot;Yemeni Rial&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ZAR&quot;</span><span class="p">,</span> <span class="s2">&quot;Rand&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ZEC&quot;</span><span class="p">,</span> <span class="s2">&quot;Zcash&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">CRYPTO</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ZMW&quot;</span><span class="p">,</span> <span class="s2">&quot;Zambian Kwacha&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+    <span class="n">register</span><span class="p">(</span><span class="n">Currency</span><span class="o">.</span><span class="n">of</span><span class="p">(</span><span class="s2">&quot;ZWL&quot;</span><span class="p">,</span> <span class="s2">&quot;Zimbabwe Dollar&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">CurrencyType</span><span class="o">.</span><span class="n">MONEY</span><span class="p">))</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-01-22 02:40:12.007675</p>
+</footer>
+</body>
+</html>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="1.0" lines-covered="0" lines-valid="0" branches-covered="7" branches-valid="7" complexity="0.0" version="pynguin-0.40.0" timestamp="1767785061">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="1.0" lines-covered="0" lines-valid="0" branches-covered="7" branches-valid="7" complexity="0.0" version="pynguin-0.40.0" timestamp="1768503392">
   <sources>
     <source>mimesis.shortcuts</source>
   </sources>

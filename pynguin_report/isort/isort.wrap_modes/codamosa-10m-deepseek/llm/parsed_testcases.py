@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -9,65 +9,23 @@
 
 import isort.wrap_modes as module_0
 
-
 def test_case_0():
-    var_0 = 'import'
-    var_1 = []
-    var_2 = '    '
-    var_3 = 80
-    var_4 = []
-    var_5 = '\n'
-    var_6 = '# '
-    var_7 = False
-    var_8 = module_0.vertical(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
-    assert var_8 == ''
-    var_9 = 'os'
-    var_10 = [var_9]
-    var_11 = []
-    var_12 = module_0.vertical(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    assert var_12 == 'import(os)'
-    var_13 = 'sys'
-    var_14 = 'math'
-    var_15 = [var_9, var_13, var_14]
-    var_16 = []
-    var_17 = module_0.vertical(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
-    assert var_17 == 'import(os,\n    sys,\n    math)'
-    var_18 = [var_9, var_13, var_14]
-    var_19 = []
-    var_20 = True
-    var_21 = module_0.vertical(var_0, var_18, var_2, var_2, var_3, var_19, var_5, var_6, var_20, var_7)
-    assert var_21 == 'import(os,\n    sys,\n    math,)'
-    var_22 = [var_9, var_13, var_14]
-    var_23 = 'comment1'
-    var_24 = 'comment2'
-    var_25 = [var_23, var_24]
-    var_26 = module_0.vertical(var_0, var_22, var_2, var_2, var_3, var_25, var_5, var_6, var_7, var_7)
-    assert var_26 == 'import(os,  # comment1 comment2\n    sys,\n    math)'
-    var_27 = [var_9, var_13, var_14]
-    var_28 = [var_23, var_24]
-    var_29 = module_0.vertical(var_0, var_27, var_2, var_2, var_3, var_28, var_5, var_6, var_7, var_20)
-    assert var_29 == 'import(os,\n    sys,\n    math)'
-    var_30 = [var_9, var_13, var_14]
-    var_31 = []
-    var_32 = '\r\n'
-    var_33 = module_0.vertical(var_0, var_30, var_2, var_2, var_3, var_31, var_32, var_6, var_7, var_7)
-    assert var_33 == 'import(os,\r\n    sys,\r\n    math)'
-    var_34 = [var_9, var_13, var_14]
-    var_35 = '  '
-    var_36 = []
-    var_37 = module_0.vertical(var_0, var_34, var_2, var_35, var_3, var_36, var_5, var_6, var_7, var_7)
-    assert var_37 == 'import(os,\n  sys,\n  math)'
-    var_38 = [var_9, var_13, var_14]
-    var_39 = []
-    var_40 = module_0.vertical(var_0, var_38, var_35, var_2, var_3, var_39, var_5, var_6, var_7, var_7)
-    assert var_40 == 'import(os,\n    sys,\n    math)'
-    var_41 = [var_9, var_13, var_14]
-    var_42 = [var_23, var_24]
-    var_43 = '// '
-    var_44 = module_0.vertical(var_0, var_41, var_2, var_2, var_3, var_42, var_5, var_43, var_7, var_7)
-    assert var_44 == 'import(os,  // comment1 comment2\n    sys,\n    math)'
-    var_45 = 'All tests passed!'
-    var_46 = print(var_45)
+    var_0 = 'from foo import'
+    var_1 = 'bar'
+    var_2 = 'baz'
+    var_3 = [var_1, var_2]
+    var_4 = '    '
+    var_5 = '    '
+    var_6 = 80
+    var_7 = '# comment1'
+    var_8 = '# comment2'
+    var_9 = [var_7, var_8]
+    var_10 = '\n'
+    var_11 = '#'
+    var_12 = True
+    var_13 = False
+    var_14 = module_0.vertical(var_0, var_3, var_4, var_5, var_6, var_9, var_10, var_11, var_12, var_13)
+    var_15 = 'from foo import(bar, # comment1\n    # comment2\n    baz,)'
 
 
 
@@ -75,75 +33,22 @@ def test_case_0():
 #--------------------------
 
 
+import isort.wrap_modes as module_0
 
 def test_case_0():
-    var_0 = 'import '
-    var_1 = []
-    var_2 = '    '
-    var_3 = '\t'
-    var_4 = 80
-    var_5 = []
-    var_6 = '\n'
-    var_7 = '# '
-    var_8 = False
-    var_9 = module_0.backslash_grid(var_0, var_1, var_2, var_3, var_4, var_5, var_6, var_7, var_8, var_8)
-    assert var_9 == ''
-    var_10 = 'module1'
-    var_11 = [var_10]
-    var_12 = []
-    var_13 = module_0.backslash_grid(var_0, var_11, var_2, var_3, var_4, var_12, var_6, var_7, var_8, var_8)
-    assert var_13 == 'import module1'
-    var_14 = 'module2'
-    var_15 = 'module3'
-    var_16 = [var_10, var_14, var_15]
-    var_17 = []
-    var_18 = module_0.backslash_grid(var_0, var_16, var_2, var_3, var_4, var_17, var_6, var_7, var_8, var_8)
-    assert var_18 == 'import module1, module2, module3'
-    var_19 = 'very_long_module_name_1'
-    var_20 = 'very_long_module_name_2'
-    var_21 = 'very_long_module_name_3'
-    var_22 = [var_19, var_20, var_21]
-    var_23 = 40
-    var_24 = []
-    var_25 = module_0.backslash_grid(var_0, var_22, var_2, var_3, var_23, var_24, var_6, var_7, var_8, var_8)
-    var_26 = 'import very_long_module_name_1, \\\n\tvery_long_module_name_2, \\\n\tvery_long_module_name_3'
-    var_27 = [var_10, var_14]
-    var_28 = 'comment1'
-    var_29 = 'comment2'
-    var_30 = [var_28, var_29]
-    var_31 = module_0.backslash_grid(var_0, var_27, var_2, var_3, var_4, var_30, var_6, var_7, var_8, var_8)
-    assert var_31 == 'import module1, module2# comment1 comment2'
-    var_32 = [var_10, var_14]
-    var_33 = []
-    var_34 = True
-    var_35 = module_0.backslash_grid(var_0, var_32, var_2, var_3, var_4, var_33, var_6, var_7, var_34, var_8)
-    assert var_35 == 'import module1, module2,'
-    var_36 = [var_10, var_14]
-    var_37 = [var_28, var_29]
-    var_38 = module_0.backslash_grid(var_0, var_36, var_2, var_3, var_4, var_37, var_6, var_7, var_8, var_34)
-    assert var_38 == 'import module1, module2'
-    var_39 = 'short'
-    var_40 = 'very_long_module_name_that_exceeds_line_length'
-    var_41 = 'medium_length_module'
-    var_42 = [var_39, var_40, var_41]
-    var_43 = 50
-    var_44 = []
-    var_45 = module_0.backslash_grid(var_0, var_42, var_2, var_3, var_43, var_44, var_6, var_7, var_8, var_8)
-    var_46 = 'import short, \\\n\tvery_long_module_name_that_exceeds_line_length, \\\n\tmedium_length_module'
-    var_47 = 'very_long_module_name'
-    var_48 = [var_47]
-    var_49 = 30
-    var_50 = 'This is a very long comment that should be wrapped'
-    var_51 = [var_50]
-    var_52 = module_0.backslash_grid(var_0, var_48, var_2, var_3, var_49, var_51, var_6, var_7, var_8, var_8)
-    var_53 = 'import very_long_module_name# This is a very long comment that should be wrapped'
-    var_54 = [var_10, var_14, var_15]
-    var_55 = 'comment3'
-    var_56 = [var_28, var_29, var_55]
-    var_57 = module_0.backslash_grid(var_0, var_54, var_2, var_3, var_49, var_56, var_6, var_7, var_8, var_8)
-    var_58 = 'import module1, \\\n\tmodule2, \\\n\tmodule3# comment1 comment2 comment3'
-    var_59 = 'All tests passed!'
-    var_60 = print(var_59)
+    var_0 = 'from foo import '
+    var_1 = 'bar'
+    var_2 = 'baz'
+    var_3 = [var_1, var_2]
+    var_4 = '    '
+    var_5 = 88
+    var_6 = []
+    var_7 = '\n'
+    var_8 = '#'
+    var_9 = True
+    var_10 = False
+    var_11 = module_0.backslash_grid(var_0, var_3, var_4, var_4, var_5, var_6, var_7, var_8, var_9, var_10)
+    assert var_11 == 'from foo import bar,\\    \n    baz,'
 
 
 
@@ -151,11 +56,48 @@ def test_case_0():
 #--------------------------
 
 
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from module import'
+    var_1 = 'import1'
+    var_2 = 'import2'
+    var_3 = 'import3'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = '    '
+    var_6 = '    '
+    var_7 = 80
+    var_8 = []
+    var_9 = '\n'
+    var_10 = '#'
+    var_11 = False
+    var_12 = False
+    var_13 = 'from module import(\n    import1,\n    import2,\n    import3\n)'
+    var_14 = module_0.vertical_hanging_indent(var_0, var_4, var_5, var_6, var_7, var_8, var_9, var_10, var_11, var_12)
+
 
 
 # Parsed testcases at query #4
 #--------------------------
 
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from foo import'
+    var_1 = 'bar'
+    var_2 = 'baz'
+    var_3 = [var_1, var_2]
+    var_4 = '    '
+    var_5 = '    '
+    var_6 = 80
+    var_7 = []
+    var_8 = '\n'
+    var_9 = '#'
+    var_10 = False
+    var_11 = False
+    var_12 = module_0.vertical_hanging_indent(var_0, var_3, var_4, var_5, var_6, var_7, var_8, var_9, var_10, var_11)
+    var_13 = 'from foo import(\n    bar,\n    baz\n)'
 
 
 
@@ -163,105 +105,21 @@ def test_case_0():
 #--------------------------
 
 
+import isort.wrap_modes as module_0
 
 def test_case_0():
-    var_0 = 'import'
-    var_1 = []
-    var_2 = '    '
-    var_3 = 80
-    var_4 = []
-    var_5 = '\n'
-    var_6 = '#'
-    var_7 = False
-    var_8 = module_0.vertical(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
-    assert var_8 == ''
-    var_9 = 'module1'
-    var_10 = [var_9]
-    var_11 = []
-    var_12 = module_0.vertical(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    assert var_12 == 'import(module1,)'
-    var_13 = 'module2'
-    var_14 = 'module3'
-    var_15 = [var_9, var_13, var_14]
-    var_16 = []
-    var_17 = module_0.vertical(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
-    assert var_17 == 'import(module1,\n    module2,\n    module3)'
-    var_18 = [var_9, var_13]
-    var_19 = 'comment1'
-    var_20 = 'comment2'
-    var_21 = [var_19, var_20]
-    var_22 = module_0.vertical(var_0, var_18, var_2, var_2, var_3, var_21, var_5, var_6, var_7, var_7)
-    assert var_22 == 'import(module1,\n    module2)'
-    var_23 = [var_9, var_13]
-    var_24 = []
-    var_25 = True
-    var_26 = module_0.vertical(var_0, var_23, var_2, var_2, var_3, var_24, var_5, var_6, var_25, var_7)
-    assert var_26 == 'import(module1,\n    module2,)'
-    var_27 = [var_9, var_13]
-    var_28 = [var_19, var_20]
-    var_29 = module_0.vertical(var_0, var_27, var_2, var_2, var_3, var_28, var_5, var_6, var_7, var_25)
-    assert var_29 == 'import(module1,\n    module2)'
-    var_30 = [var_9, var_13]
-    var_31 = []
-    var_32 = '\r\n'
-    var_33 = module_0.vertical(var_0, var_30, var_2, var_2, var_3, var_31, var_32, var_6, var_7, var_7)
-    assert var_33 == 'import(module1,\r\n    module2)'
-    var_34 = [var_9, var_13]
-    var_35 = []
-    var_36 = '//'
-    var_37 = module_0.vertical(var_0, var_34, var_2, var_2, var_3, var_35, var_5, var_36, var_7, var_7)
-    assert var_37 == 'import(module1,\n    module2)'
-    var_38 = [var_9, var_13]
-    var_39 = 200
-    var_40 = []
-    var_41 = module_0.vertical(var_0, var_38, var_2, var_2, var_39, var_40, var_5, var_6, var_7, var_7)
-    assert var_41 == 'import(module1,\n    module2)'
-    var_42 = [var_9, var_13]
-    var_43 = ''
-    var_44 = []
-    var_45 = module_0.vertical(var_0, var_42, var_43, var_43, var_3, var_44, var_5, var_6, var_7, var_7)
-    assert var_45 == 'import(module1,\nmodule2)'
-    var_46 = [var_9, var_13]
-    var_47 = []
-    var_48 = module_0.vertical(var_0, var_46, var_2, var_43, var_3, var_47, var_5, var_6, var_7, var_7)
-    assert var_48 == 'import(module1,\nmodule2)'
-    var_49 = [var_9, var_13]
-    var_50 = []
-    var_51 = module_0.vertical(var_0, var_49, var_43, var_43, var_3, var_50, var_5, var_6, var_7, var_7)
-    assert var_51 == 'import(module1,\nmodule2)'
-    var_52 = [var_9]
-    var_53 = [var_19]
-    var_54 = module_0.vertical(var_0, var_52, var_2, var_2, var_3, var_53, var_5, var_6, var_7, var_7)
-    assert var_54 == 'import(module1,)'
-    var_55 = [var_9]
-    var_56 = []
-    var_57 = module_0.vertical(var_0, var_55, var_2, var_2, var_3, var_56, var_5, var_6, var_25, var_7)
-    assert var_57 == 'import(module1,)'
-    var_58 = [var_9]
-    var_59 = [var_19]
-    var_60 = module_0.vertical(var_0, var_58, var_2, var_2, var_3, var_59, var_5, var_6, var_25, var_7)
-    assert var_60 == 'import(module1,)'
-    var_61 = [var_9, var_13, var_14]
-    var_62 = 'comment3'
-    var_63 = [var_19, var_20, var_62]
-    var_64 = module_0.vertical(var_0, var_61, var_2, var_2, var_3, var_63, var_5, var_6, var_25, var_7)
-    assert var_64 == 'import(module1,\n    module2,\n    module3,)'
-    var_65 = [var_9, var_13, var_14]
-    var_66 = [var_19, var_20, var_62]
-    var_67 = module_0.vertical(var_0, var_65, var_2, var_2, var_3, var_66, var_5, var_6, var_7, var_7)
-    assert var_67 == 'import(module1,\n    module2,\n    module3)'
-    var_68 = [var_9, var_13, var_14]
-    var_69 = []
-    var_70 = module_0.vertical(var_0, var_68, var_2, var_2, var_3, var_69, var_5, var_6, var_25, var_7)
-    assert var_70 == 'import(module1,\n    module2,\n    module3,)'
-    var_71 = [var_9, var_13, var_14]
-    var_72 = []
-    var_73 = module_0.vertical(var_0, var_71, var_2, var_2, var_3, var_72, var_5, var_6, var_7, var_7)
-    assert var_73 == 'import(module1,\n    module2,\n    module3)'
-    var_74 = [var_9, var_13, var_14]
-    var_75 = [var_19, var_20, var_62]
-    var_76 = module_0.vertical(var_0, var_74, var_2, var_2, var_3, var_75, var_5, var_6, var_25, var_25)
-    assert var_76 == 'import(module1,\n    module2,\n    module3,)'
+    var_0 = 'import '
+    var_1 = 'os'
+    var_2 = 'sys'
+    var_3 = [var_1, var_2]
+    var_4 = '    '
+    var_5 = 80
+    var_6 = []
+    var_7 = '\n'
+    var_8 = '# '
+    var_9 = False
+    var_10 = module_0.vertical(var_0, var_3, var_4, var_4, var_5, var_6, var_7, var_8, var_9, var_9)
+    assert var_10 == 'import (os,\n    sys)'
 
 
 
@@ -269,12 +127,32 @@ def test_case_0():
 #--------------------------
 
 
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from module import'
+    var_1 = 'import1'
+    var_2 = 'import2'
+    var_3 = 'import3'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = '    '
+    var_6 = '    '
+    var_7 = 80
+    var_8 = []
+    var_9 = '\n'
+    var_10 = '#'
+    var_11 = False
+    var_12 = False
+    var_13 = 'from module import(\n    import1,\n    import2,\n    import3\n    )'
+    var_14 = module_0.vertical_hanging_indent_bracket(var_0, var_4, var_5, var_6, var_7, var_8, var_9, var_10, var_11, var_12)
+
 
 
 # Parsed testcases at query #7
 #--------------------------
 
 
+import isort.wrap_modes as module_0
 
 def test_case_0():
     var_0 = 'import '
@@ -293,35 +171,32 @@ def test_case_0():
     var_12 = module_0.grid(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
     assert var_12 == 'import (os)'
     var_13 = 'sys'
-    var_14 = 'json'
+    var_14 = 'math'
     var_15 = [var_9, var_13, var_14]
     var_16 = []
     var_17 = module_0.grid(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
-    assert var_17 == 'import (os, sys, json)'
-    var_18 = 'very_long_import_name_that_exceeds_line_length'
-    var_19 = 'another_import'
-    var_20 = [var_18, var_19]
-    var_21 = 50
-    var_22 = []
-    var_23 = module_0.grid(var_0, var_20, var_2, var_2, var_21, var_22, var_5, var_6, var_7, var_7)
-    var_24 = 'import (very_long_import_name_that_exceeds_line_length,\n    another_import)'
-    var_25 = [var_9, var_13]
-    var_26 = 'comment1'
-    var_27 = 'comment2'
-    var_28 = [var_26, var_27]
-    var_29 = module_0.grid(var_0, var_25, var_2, var_2, var_3, var_28, var_5, var_6, var_7, var_7)
-    var_30 = 'import (os, sys)  # comment1 comment2'
-    var_31 = [var_9, var_13]
-    var_32 = []
-    var_33 = True
-    var_34 = module_0.grid(var_0, var_31, var_2, var_2, var_3, var_32, var_5, var_6, var_33, var_7)
-    assert var_34 == 'import (os, sys,)'
-    var_35 = [var_9, var_13]
-    var_36 = [var_26, var_27]
-    var_37 = module_0.grid(var_0, var_35, var_2, var_2, var_3, var_36, var_5, var_6, var_7, var_33)
-    var_38 = 'import (os, sys)'
-    var_39 = 'All grid tests passed!'
-    var_40 = print(var_39)
+    assert var_17 == 'import (os, sys, math)'
+    var_18 = 'a_very_long_import_name_that_will_exceed_line_length'
+    var_19 = [var_9, var_13, var_18]
+    var_20 = 30
+    var_21 = []
+    var_22 = module_0.grid(var_0, var_19, var_2, var_2, var_20, var_21, var_5, var_6, var_7, var_7)
+    assert var_22 == 'import (os, sys,\n    a_very_long_import_name_that_will_exceed_line_length)'
+    var_23 = [var_9, var_13]
+    var_24 = 'comment1'
+    var_25 = 'comment2'
+    var_26 = [var_24, var_25]
+    var_27 = module_0.grid(var_0, var_23, var_2, var_2, var_3, var_26, var_5, var_6, var_7, var_7)
+    assert var_27 == 'import (os, sys# comment1 # comment2)'
+    var_28 = [var_9, var_13]
+    var_29 = []
+    var_30 = True
+    var_31 = module_0.grid(var_0, var_28, var_2, var_2, var_3, var_29, var_5, var_6, var_30, var_7)
+    assert var_31 == 'import (os, sys,)'
+    var_32 = [var_9, var_13]
+    var_33 = [var_24, var_25]
+    var_34 = module_0.grid(var_0, var_32, var_2, var_2, var_3, var_33, var_5, var_6, var_30, var_7)
+    assert var_34 == 'import (os, sys,# comment1 # comment2)'
 
 
 
@@ -329,16 +204,11 @@ def test_case_0():
 #--------------------------
 
 
+import isort.wrap_modes as module_0
 
 def test_case_0():
-    var_0 = 'GRID'
-    var_1 = module_0.from_string(var_0)
-    var_2 = '0'
-    var_3 = module_0.from_string(var_2)
-    var_4 = 'INVALID'
-    var_5 = module_0.from_string(var_4)
-    var_6 = '999'
-    var_7 = module_0.from_string(var_6)
+    var_0 = 'Test that vertical_grid_grouped_no_comma raises NotImplementedError'
+    var_1 = module_0.vertical_grid_grouped_no_comma()
 
 
 
@@ -346,42 +216,26 @@ def test_case_0():
 #--------------------------
 
 
+import isort.wrap_modes as module_0
 
 def test_case_0():
-    var_0 = 'import os'
-    var_1 = 'sys'
-    var_2 = 'json'
-    var_3 = [var_1, var_2]
-    var_4 = ' '
+    var_0 = 'from module import'
+    var_1 = 'import1'
+    var_2 = 'import2'
+    var_3 = 'import3'
+    var_4 = [var_1, var_2, var_3]
     var_5 = '    '
-    var_6 = 80
-    var_7 = []
-    var_8 = '\n'
-    var_9 = '#'
-    var_10 = False
-    var_11 = module_0.noqa(var_0, var_3, var_4, var_5, var_6, var_7, var_8, var_9, var_10, var_10)
-    assert var_11 == 'import os sys, json'
-    var_12 = [var_1, var_2]
-    var_13 = 'This is a comment'
-    var_14 = [var_13]
-    var_15 = module_0.noqa(var_0, var_12, var_4, var_5, var_6, var_14, var_8, var_9, var_10, var_10)
-    assert var_15 == 'import os sys, json # This is a comment'
-    var_16 = [var_1, var_2]
-    var_17 = 20
-    var_18 = []
-    var_19 = module_0.noqa(var_0, var_16, var_4, var_5, var_17, var_18, var_8, var_9, var_10, var_10)
-    assert var_19 == 'import os sys, json # NOQA'
-    var_20 = [var_1, var_2]
-    var_21 = [var_13]
-    var_22 = module_0.noqa(var_0, var_20, var_4, var_5, var_17, var_21, var_8, var_9, var_10, var_10)
-    assert var_22 == 'import os sys, json # NOQA This is a comment'
-    var_23 = [var_1, var_2]
-    var_24 = 'NOQA'
-    var_25 = [var_24]
-    var_26 = module_0.noqa(var_0, var_23, var_4, var_5, var_6, var_25, var_8, var_9, var_10, var_10)
-    assert var_26 == 'import os sys, json # NOQA'
-    var_27 = 'All tests passed!'
-    var_28 = print(var_27)
+    var_6 = '   '
+    var_7 = 80
+    var_8 = '# comment1'
+    var_9 = '# comment2'
+    var_10 = [var_8, var_9]
+    var_11 = '\n'
+    var_12 = '#'
+    var_13 = False
+    var_14 = False
+    var_15 = 'from module import(import1,\n   import2,\n   import3)'
+    var_16 = module_0.backslash_grid(var_0, var_4, var_5, var_6, var_7, var_10, var_11, var_12, var_13, var_14)
 
 
 
@@ -389,51 +243,34 @@ def test_case_0():
 #--------------------------
 
 
+import isort.wrap_modes as module_0
 
 def test_case_0():
-    var_0 = 'import'
-    var_1 = []
-    var_2 = '    '
-    var_3 = 80
-    var_4 = []
-    var_5 = '\n'
-    var_6 = '#'
-    var_7 = False
-    var_8 = module_0.vertical_grid(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
-    assert var_8 == ''
-    var_9 = 'os'
-    var_10 = [var_9]
-    var_11 = []
-    var_12 = module_0.vertical_grid(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    assert var_12 == 'import(\n    os)'
-    var_13 = 'sys'
-    var_14 = [var_9, var_13]
-    var_15 = []
-    var_16 = module_0.vertical_grid(var_0, var_14, var_2, var_2, var_3, var_15, var_5, var_6, var_7, var_7)
-    assert var_16 == 'import(\n    os, sys)'
-    var_17 = 'very_long_import_name'
-    var_18 = [var_9, var_13, var_17]
-    var_19 = 30
-    var_20 = []
-    var_21 = module_0.vertical_grid(var_0, var_18, var_2, var_2, var_19, var_20, var_5, var_6, var_7, var_7)
-    assert var_21 == 'import(\n    os, sys,\n    very_long_import_name)'
-    var_22 = [var_9, var_13]
-    var_23 = []
-    var_24 = True
-    var_25 = module_0.vertical_grid(var_0, var_22, var_2, var_2, var_3, var_23, var_5, var_6, var_24, var_7)
-    assert var_25 == 'import(\n    os, sys,)'
-    var_26 = [var_9, var_13]
-    var_27 = 'comment1'
-    var_28 = 'comment2'
-    var_29 = [var_27, var_28]
-    var_30 = module_0.vertical_grid(var_0, var_26, var_2, var_2, var_3, var_29, var_5, var_6, var_7, var_7)
-    assert var_30 == 'import(# comment1 comment2\n    os, sys)'
-    var_31 = [var_9, var_13]
-    var_32 = [var_27, var_28]
-    var_33 = module_0.vertical_grid(var_0, var_31, var_2, var_2, var_3, var_32, var_5, var_6, var_7, var_24)
-    assert var_33 == 'import(\n    os, sys)'
-    var_34 = 'All tests passed!'
-    var_35 = print(var_34)
+    var_0 = []
+    var_1 = 'import '
+    var_2 = 80
+    var_3 = module_0.hanging_indent_with_parentheses(var_1, var_0, var_2)
+    assert var_3 == ''
+    var_4 = 'os'
+    var_5 = [var_4]
+    var_6 = module_0.hanging_indent_with_parentheses(var_1, var_5, var_2)
+    assert var_6 == 'import (os)'
+    var_7 = 'sys'
+    var_8 = 'math'
+    var_9 = [var_4, var_7, var_8]
+    var_10 = 15
+    var_11 = '    '
+    var_12 = module_0.hanging_indent_with_parentheses(var_1, var_9, var_11, var_10)
+    assert var_12 == 'import (os,\n    sys,\n    math)'
+    var_13 = [var_4, var_7]
+    var_14 = True
+    var_15 = module_0.hanging_indent_with_parentheses(var_1, var_13, var_11, var_10, var_14)
+    assert var_15 == 'import (os,\n    sys,)'
+    var_16 = [var_4, var_7]
+    var_17 = '# comment'
+    var_18 = [var_17]
+    var_19 = module_0.hanging_indent_with_parentheses(var_1, var_16, var_11, var_10, var_18)
+    assert var_19 == 'import (os,\n    sys# comment\n)'
 
 
 
@@ -441,66 +278,41 @@ def test_case_0():
 #--------------------------
 
 
+import isort.wrap_modes as module_0
 
 def test_case_0():
-    var_0 = 'import'
+    var_0 = 'import '
     var_1 = []
     var_2 = '    '
     var_3 = 80
     var_4 = []
     var_5 = '\n'
-    var_6 = '#'
+    var_6 = '# '
     var_7 = False
-    var_8 = module_0.vertical_hanging_indent_bracket(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    var_8 = module_0.vertical_hanging_indent(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
     assert var_8 == ''
-    var_9 = 'module1'
+    var_9 = 'os'
     var_10 = [var_9]
     var_11 = []
-    var_12 = module_0.vertical_hanging_indent_bracket(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    var_13 = 'import(\n    module1\n    )'
-    var_14 = 'module2'
-    var_15 = 'module3'
-    var_16 = [var_9, var_14, var_15]
-    var_17 = []
-    var_18 = module_0.vertical_hanging_indent_bracket(var_0, var_16, var_2, var_2, var_3, var_17, var_5, var_6, var_7, var_7)
-    var_19 = 'import(\n    module1,\n    module2,\n    module3\n    )'
-    var_20 = [var_9, var_14]
-    var_21 = 'comment1'
-    var_22 = 'comment2'
-    var_23 = [var_21, var_22]
-    var_24 = module_0.vertical_hanging_indent_bracket(var_0, var_20, var_2, var_2, var_3, var_23, var_5, var_6, var_7, var_7)
-    var_25 = 'import(# comment1 comment2\n    module1,\n    module2\n    )'
-    var_26 = [var_9, var_14]
-    var_27 = []
-    var_28 = True
-    var_29 = module_0.vertical_hanging_indent_bracket(var_0, var_26, var_2, var_2, var_3, var_27, var_5, var_6, var_28, var_7)
-    var_30 = 'import(\n    module1,\n    module2,\n    )'
-    var_31 = [var_9, var_14]
-    var_32 = [var_21, var_22]
-    var_33 = module_0.vertical_hanging_indent_bracket(var_0, var_31, var_2, var_2, var_3, var_32, var_5, var_6, var_7, var_28)
-    var_34 = 'import(\n    module1,\n    module2\n    )'
-    var_35 = [var_9, var_14, var_15]
-    var_36 = 20
-    var_37 = []
-    var_38 = module_0.vertical_hanging_indent_bracket(var_0, var_35, var_2, var_2, var_36, var_37, var_5, var_6, var_7, var_7)
-    var_39 = 'import(\n    module1,\n    module2,\n    module3\n    )'
-    var_40 = [var_9, var_14]
-    var_41 = '  '
-    var_42 = []
-    var_43 = module_0.vertical_hanging_indent_bracket(var_0, var_40, var_41, var_41, var_3, var_42, var_5, var_6, var_7, var_7)
-    var_44 = 'import(\n  module1,\n  module2\n  )'
-    var_45 = [var_9, var_14]
-    var_46 = []
-    var_47 = '\r\n'
-    var_48 = module_0.vertical_hanging_indent_bracket(var_0, var_45, var_2, var_2, var_3, var_46, var_47, var_6, var_7, var_7)
-    var_49 = 'import(\r\n    module1,\r\n    module2\r\n    )'
-    var_50 = [var_9, var_14]
-    var_51 = [var_21, var_22]
-    var_52 = '//'
-    var_53 = module_0.vertical_hanging_indent_bracket(var_0, var_50, var_2, var_2, var_3, var_51, var_5, var_52, var_7, var_7)
-    var_54 = 'import(// comment1 comment2\n    module1,\n    module2\n    )'
-    var_55 = 'All tests passed!'
-    var_56 = print(var_55)
+    var_12 = module_0.vertical_hanging_indent(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import (os\n)'
+    var_13 = 'sys'
+    var_14 = 'math'
+    var_15 = [var_9, var_13, var_14]
+    var_16 = []
+    var_17 = module_0.vertical_hanging_indent(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
+    assert var_17 == 'import (os,\n    sys,\n    math\n)'
+    var_18 = [var_9, var_13]
+    var_19 = 'comment1'
+    var_20 = 'comment2'
+    var_21 = [var_19, var_20]
+    var_22 = module_0.vertical_hanging_indent(var_0, var_18, var_2, var_2, var_3, var_21, var_5, var_6, var_7, var_7)
+    assert var_22 == 'import (os,\n    sys\n# comment1 comment2\n)'
+    var_23 = [var_9, var_13]
+    var_24 = []
+    var_25 = True
+    var_26 = module_0.vertical_hanging_indent(var_0, var_23, var_2, var_2, var_3, var_24, var_5, var_6, var_25, var_7)
+    assert var_26 == 'import (os,\n    sys,\n)'
 
 
 
@@ -508,69 +320,31 @@ def test_case_0():
 #--------------------------
 
 
-
 def test_case_0():
-    var_0 = 'import'
-    var_1 = []
-    var_2 = ' '
-    var_3 = '    '
-    var_4 = 80
-    var_5 = []
-    var_6 = '\n'
-    var_7 = '#'
-    var_8 = False
-    var_9 = module_0.grid(var_0, var_1, var_2, var_3, var_4, var_5, var_6, var_7, var_8, var_8)
-    assert var_9 == ''
-    var_10 = 'module1'
-    var_11 = [var_10]
-    var_12 = []
-    var_13 = module_0.grid(var_0, var_11, var_2, var_3, var_4, var_12, var_6, var_7, var_8, var_8)
-    assert var_13 == 'import(module1)'
-    var_14 = 'module2'
-    var_15 = 'module3'
-    var_16 = [var_10, var_14, var_15]
-    var_17 = []
-    var_18 = module_0.grid(var_0, var_16, var_2, var_3, var_4, var_17, var_6, var_7, var_8, var_8)
-    assert var_18 == 'import(module1, module2, module3)'
-    var_19 = [var_10, var_14, var_15]
-    var_20 = 20
-    var_21 = []
-    var_22 = module_0.grid(var_0, var_19, var_2, var_3, var_20, var_21, var_6, var_7, var_8, var_8)
-    assert var_22 == 'import(module1,\n    module2,\n    module3)'
-    var_23 = [var_10, var_14]
-    var_24 = 'comment1'
-    var_25 = 'comment2'
-    var_26 = [var_24, var_25]
-    var_27 = module_0.grid(var_0, var_23, var_2, var_3, var_4, var_26, var_6, var_7, var_8, var_8)
-    assert var_27 == 'import(module1, module2)# comment1 comment2'
-    var_28 = [var_10, var_14]
-    var_29 = []
-    var_30 = True
-    var_31 = module_0.grid(var_0, var_28, var_2, var_3, var_4, var_29, var_6, var_7, var_30, var_8)
-    assert var_31 == 'import(module1, module2,)'
-    var_32 = [var_10, var_14]
-    var_33 = [var_24, var_25]
-    var_34 = module_0.grid(var_0, var_32, var_2, var_3, var_4, var_33, var_6, var_7, var_8, var_30)
-    assert var_34 == 'import(module1, module2)'
-    var_35 = 'very_long_module_name_that_exceeds_line_length'
-    var_36 = [var_35]
-    var_37 = 30
-    var_38 = []
-    var_39 = module_0.grid(var_0, var_36, var_2, var_3, var_37, var_38, var_6, var_7, var_8, var_8)
-    assert var_39 == 'import(very_long_module_name_that_exceeds_line_length)'
-    var_40 = 'module1_with_long_name'
-    var_41 = 'module2_with_long_name'
-    var_42 = [var_40, var_41]
-    var_43 = []
-    var_44 = module_0.grid(var_0, var_42, var_2, var_3, var_37, var_43, var_6, var_7, var_8, var_8)
-    assert var_44 == 'import(module1_with_long_name,\n    module2_with_long_name)'
-    var_45 = 'short'
-    var_46 = [var_45, var_35]
-    var_47 = []
-    var_48 = module_0.grid(var_0, var_46, var_2, var_3, var_37, var_47, var_6, var_7, var_8, var_8)
-    assert var_48 == 'import(short,\n    very_long_module_name_that_exceeds_line_length)'
-    var_49 = 'All tests passed!'
-    var_50 = print(var_49)
+    var_0 = 'statement'
+    var_1 = 'imports'
+    var_2 = 'white_space'
+    var_3 = 'indent'
+    var_4 = 'line_length'
+    var_5 = 'comments'
+    var_6 = 'line_separator'
+    var_7 = 'comment_prefix'
+    var_8 = 'include_trailing_comma'
+    var_9 = 'remove_comments'
+    var_10 = 'from module import '
+    var_11 = 'import1'
+    var_12 = 'import2'
+    var_13 = 'import3'
+    var_14 = [var_11, var_12, var_13]
+    var_15 = '    '
+    var_16 = 80
+    var_17 = '# comment'
+    var_18 = [var_17]
+    var_19 = '\n'
+    var_20 = '#'
+    var_21 = False
+    var_22 = {var_0: var_10, var_1: var_14, var_2: var_15, var_3: var_15, var_4: var_16, var_5: var_18, var_6: var_19, var_7: var_20, var_8: var_21, var_9: var_21}
+    var_23 = 'from module import import1, import2, import3'
 
 
 
@@ -578,17 +352,71 @@ def test_case_0():
 #--------------------------
 
 
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import '
+    var_1 = []
+    var_2 = '    '
+    var_3 = 80
+    var_4 = []
+    var_5 = '\n'
+    var_6 = '# '
+    var_7 = False
+    var_8 = module_0.grid(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    assert var_8 == ''
+    var_9 = 'os'
+    var_10 = [var_9]
+    var_11 = []
+    var_12 = module_0.grid(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import (os)'
+    var_13 = 'sys'
+    var_14 = 'math'
+    var_15 = [var_9, var_13, var_14]
+    var_16 = []
+    var_17 = module_0.grid(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
+    assert var_17 == 'import (os, sys, math)'
+    var_18 = 'very_long_import_name_that_exceeds_line_length'
+    var_19 = [var_9, var_18]
+    var_20 = 30
+    var_21 = []
+    var_22 = module_0.grid(var_0, var_19, var_2, var_2, var_20, var_21, var_5, var_6, var_7, var_7)
+    assert var_22 == 'import (os,\n    very_long_import_name_that_exceeds_line_length)'
+    var_23 = [var_9, var_13]
+    var_24 = 'comment1'
+    var_25 = 'comment2'
+    var_26 = [var_24, var_25]
+    var_27 = module_0.grid(var_0, var_23, var_2, var_2, var_3, var_26, var_5, var_6, var_7, var_7)
+    assert var_27 == 'import (os, sys# comment1 comment2)'
+    var_28 = [var_9, var_13]
+    var_29 = []
+    var_30 = True
+    var_31 = module_0.grid(var_0, var_28, var_2, var_2, var_3, var_29, var_5, var_6, var_30, var_7)
+    assert var_31 == 'import (os, sys,)'
+    var_32 = [var_9, var_13]
+    var_33 = 'comment'
+    var_34 = [var_33]
+    var_35 = module_0.grid(var_0, var_32, var_2, var_2, var_3, var_34, var_5, var_6, var_30, var_7)
+    assert var_35 == 'import (os, sys,# comment)'
+
 
 
 # Parsed testcases at query #14
 #--------------------------
 
 
+import isort.wrap_modes as module_0
 
 def test_case_0():
-    var_0 = module_0.vertical_grid_grouped_no_comma()
-    var_1 = 'Expected NotImplementedError'
-    var_2 = AssertionError(var_1)
+    var_0 = 'GRID'
+    var_1 = module_0.from_string(var_0)
+    var_2 = '1'
+    var_3 = module_0.from_string(var_2)
+    var_4 = '10'
+    var_5 = module_0.from_string(var_4)
+    var_6 = 'invalid'
+    var_7 = module_0.from_string(var_6)
+    assert var_7 is None
 
 
 
@@ -596,123 +424,7 @@ def test_case_0():
 #--------------------------
 
 
-
-
-# Parsed testcases at query #16
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'Test grid wrap mode'
-    var_1 = 'import '
-    var_2 = 'os'
-    var_3 = 'sys'
-    var_4 = 'json'
-    var_5 = [var_2, var_3, var_4]
-    var_6 = '    '
-    var_7 = 80
-    var_8 = []
-    var_9 = '\n'
-    var_10 = '# '
-    var_11 = False
-    var_12 = module_0.grid(var_1, var_5, var_6, var_6, var_7, var_8, var_9, var_10, var_11, var_11)
-    assert var_12 == 'import (os, sys, json)'
-
-
-
-# Parsed testcases at query #17
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'import'
-    var_1 = []
-    var_2 = '    '
-    var_3 = '\t'
-    var_4 = 80
-    var_5 = []
-    var_6 = '\n'
-    var_7 = '#'
-    var_8 = False
-    var_9 = module_0.backslash_grid(var_0, var_1, var_2, var_3, var_4, var_5, var_6, var_7, var_8, var_8)
-    assert var_9 == ''
-    var_10 = 'os'
-    var_11 = [var_10]
-    var_12 = []
-    var_13 = module_0.backslash_grid(var_0, var_11, var_2, var_3, var_4, var_12, var_6, var_7, var_8, var_8)
-    var_14 = 'import os'
-    var_15 = 'sys'
-    var_16 = 'json'
-    var_17 = [var_10, var_15, var_16]
-    var_18 = []
-    var_19 = module_0.backslash_grid(var_0, var_17, var_2, var_3, var_4, var_18, var_6, var_7, var_8, var_8)
-    var_20 = 'import os, sys, json'
-    var_21 = 'very_long_import_name_1'
-    var_22 = 'very_long_import_name_2'
-    var_23 = 'very_long_import_name_3'
-    var_24 = [var_21, var_22, var_23]
-    var_25 = 30
-    var_26 = []
-    var_27 = module_0.backslash_grid(var_0, var_24, var_2, var_3, var_25, var_26, var_6, var_7, var_8, var_8)
-    var_28 = 'import very_long_import_name_1, \\\n\tvery_long_import_name_2, \\\n\tvery_long_import_name_3'
-    var_29 = [var_10, var_15]
-    var_30 = 'comment1'
-    var_31 = 'comment2'
-    var_32 = [var_30, var_31]
-    var_33 = module_0.backslash_grid(var_0, var_29, var_2, var_3, var_4, var_32, var_6, var_7, var_8, var_8)
-    var_34 = 'import os, sys  # comment1 comment2'
-    var_35 = [var_10, var_15]
-    var_36 = []
-    var_37 = True
-    var_38 = module_0.backslash_grid(var_0, var_35, var_2, var_3, var_4, var_36, var_6, var_7, var_37, var_8)
-    var_39 = 'import os, sys'
-    var_40 = [var_10, var_15]
-    var_41 = 'import os, sys'
-    var_42 = len(var_41)
-    var_43 = []
-    var_44 = module_0.backslash_grid(var_0, var_40, var_2, var_3, var_42, var_43, var_6, var_7, var_8, var_8)
-    var_45 = 'import os, sys'
-    var_46 = 'All tests passed!'
-    var_47 = print(var_46)
-
-
-
-# Parsed testcases at query #18
-#--------------------------
-
-
-
-
-# Parsed testcases at query #19
-#--------------------------
-
-
-
-
-# Parsed testcases at query #20
-#--------------------------
-
-
-
-
-# Parsed testcases at query #21
-#--------------------------
-
-
-
-
-# Parsed testcases at query #22
-#--------------------------
-
-
-
-
-# Parsed testcases at query #23
-#--------------------------
-
-
+import isort.wrap_modes as module_0
 
 def test_case_0():
     var_0 = 'import '
@@ -731,16 +443,16 @@ def test_case_0():
     var_12 = module_0.hanging_indent_with_parentheses(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
     assert var_12 == 'import (os)'
     var_13 = 'sys'
-    var_14 = 'json'
+    var_14 = 'math'
     var_15 = [var_9, var_13, var_14]
     var_16 = []
     var_17 = module_0.hanging_indent_with_parentheses(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
-    assert var_17 == 'import (os, sys, json)'
+    assert var_17 == 'import (os, sys, math)'
     var_18 = 'very_long_module_name_1'
     var_19 = 'very_long_module_name_2'
     var_20 = 'very_long_module_name_3'
     var_21 = [var_18, var_19, var_20]
-    var_22 = 40
+    var_22 = 30
     var_23 = []
     var_24 = module_0.hanging_indent_with_parentheses(var_0, var_21, var_2, var_2, var_22, var_23, var_5, var_6, var_7, var_7)
     var_25 = 'import (very_long_module_name_1,\n    very_long_module_name_2,\n    very_long_module_name_3)'
@@ -749,198 +461,23 @@ def test_case_0():
     var_28 = 'comment2'
     var_29 = [var_27, var_28]
     var_30 = module_0.hanging_indent_with_parentheses(var_0, var_26, var_2, var_2, var_3, var_29, var_5, var_6, var_7, var_7)
-    assert var_30 == 'import (os, sys# comment1 comment2)'
+    assert var_30 == 'import (os, sys# comment1 # comment2)'
     var_31 = [var_9, var_13]
     var_32 = []
     var_33 = True
     var_34 = module_0.hanging_indent_with_parentheses(var_0, var_31, var_2, var_2, var_3, var_32, var_5, var_6, var_33, var_7)
     assert var_34 == 'import (os, sys,)'
-    var_35 = [var_9, var_13]
-    var_36 = [var_27, var_28]
-    var_37 = module_0.hanging_indent_with_parentheses(var_0, var_35, var_2, var_2, var_3, var_36, var_5, var_6, var_7, var_33)
-    assert var_37 == 'import (os, sys)'
-    var_38 = 'All tests passed!'
-    var_39 = print(var_38)
 
 
 
-# Parsed testcases at query #24
+# Parsed testcases at query #16
 #--------------------------
 
 
+import isort.wrap_modes as module_0
 
 def test_case_0():
-    var_0 = 'import'
-    var_1 = []
-    var_2 = ' '
-    var_3 = '    '
-    var_4 = 80
-    var_5 = []
-    var_6 = '\n'
-    var_7 = '# '
-    var_8 = False
-    var_9 = module_0.grid(var_0, var_1, var_2, var_3, var_4, var_5, var_6, var_7, var_8, var_8)
-    assert var_9 == ''
-    var_10 = 'module1'
-    var_11 = [var_10]
-    var_12 = []
-    var_13 = module_0.grid(var_0, var_11, var_2, var_3, var_4, var_12, var_6, var_7, var_8, var_8)
-    assert var_13 == 'import(module1)'
-    var_14 = 'module2'
-    var_15 = 'module3'
-    var_16 = [var_10, var_14, var_15]
-    var_17 = []
-    var_18 = module_0.grid(var_0, var_16, var_2, var_3, var_4, var_17, var_6, var_7, var_8, var_8)
-    assert var_18 == 'import(module1, module2, module3)'
-    var_19 = 'very_long_module_name_that_exceeds_line_length'
-    var_20 = [var_19, var_14]
-    var_21 = 50
-    var_22 = []
-    var_23 = module_0.grid(var_0, var_20, var_2, var_3, var_21, var_22, var_6, var_7, var_8, var_8)
-    var_24 = 'import(very_long_module_name_that_exceeds_line_length,\n    module2)'
-    var_25 = [var_10, var_14]
-    var_26 = 'comment1'
-    var_27 = 'comment2'
-    var_28 = [var_26, var_27]
-    var_29 = module_0.grid(var_0, var_25, var_2, var_3, var_4, var_28, var_6, var_7, var_8, var_8)
-    assert var_29 == 'import(module1, module2# comment1 comment2)'
-    var_30 = [var_10, var_14]
-    var_31 = []
-    var_32 = True
-    var_33 = module_0.grid(var_0, var_30, var_2, var_3, var_4, var_31, var_6, var_7, var_32, var_8)
-    assert var_33 == 'import(module1, module2,)'
-    var_34 = [var_10, var_14]
-    var_35 = [var_26, var_27]
-    var_36 = module_0.grid(var_0, var_34, var_2, var_3, var_4, var_35, var_6, var_7, var_8, var_32)
-    assert var_36 == 'import(module1, module2)'
-    var_37 = 'module1 as m1'
-    var_38 = 'module2 as m2'
-    var_39 = [var_37, var_38]
-    var_40 = []
-    var_41 = module_0.grid(var_0, var_39, var_2, var_3, var_4, var_40, var_6, var_7, var_8, var_8)
-    assert var_41 == 'import(module1 as m1, module2 as m2)'
-    var_42 = 'extremely_long_module_name_that_will_need_to_be_split_into_multiple_lines'
-    var_43 = [var_42]
-    var_44 = 40
-    var_45 = []
-    var_46 = module_0.grid(var_0, var_43, var_2, var_3, var_44, var_45, var_6, var_7, var_8, var_8)
-    var_47 = 'import(extremely_long_module_name_that_will_need_to_be_split_into_multiple_lines)'
-    var_48 = [var_10, var_14, var_15]
-    var_49 = 30
-    var_50 = [var_26]
-    var_51 = module_0.grid(var_0, var_48, var_2, var_3, var_49, var_50, var_6, var_7, var_8, var_8)
-    var_52 = 'import(module1, module2,\n    module3# comment1)'
-    var_53 = 'All tests passed!'
-    var_54 = print(var_53)
-
-
-
-# Parsed testcases at query #25
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'import'
-    var_1 = []
-    var_2 = '    '
-    var_3 = 80
-    var_4 = []
-    var_5 = '\n'
-    var_6 = '#'
-    var_7 = False
-    var_8 = module_0.vertical_grid(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
-    assert var_8 == ')'
-    var_9 = 'os'
-    var_10 = [var_9]
-    var_11 = []
-    var_12 = module_0.vertical_grid(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    assert var_12 == 'import(\n    os)'
-    var_13 = 'sys'
-    var_14 = [var_9, var_13]
-    var_15 = []
-    var_16 = module_0.vertical_grid(var_0, var_14, var_2, var_2, var_3, var_15, var_5, var_6, var_7, var_7)
-    assert var_16 == 'import(\n    os, sys)'
-    var_17 = 'very_long_import_name'
-    var_18 = [var_9, var_13, var_17]
-    var_19 = 30
-    var_20 = []
-    var_21 = module_0.vertical_grid(var_0, var_18, var_2, var_2, var_19, var_20, var_5, var_6, var_7, var_7)
-    assert var_21 == 'import(\n    os, sys,\n    very_long_import_name)'
-    var_22 = [var_9, var_13]
-    var_23 = []
-    var_24 = True
-    var_25 = module_0.vertical_grid(var_0, var_22, var_2, var_2, var_3, var_23, var_5, var_6, var_24, var_7)
-    assert var_25 == 'import(\n    os, sys,)'
-    var_26 = [var_9, var_13]
-    var_27 = 'comment1'
-    var_28 = 'comment2'
-    var_29 = [var_27, var_28]
-    var_30 = module_0.vertical_grid(var_0, var_26, var_2, var_2, var_3, var_29, var_5, var_6, var_7, var_7)
-    assert var_30 == 'import(# comment1 comment2\n    os, sys)'
-    var_31 = [var_9, var_13]
-    var_32 = [var_27, var_28]
-    var_33 = module_0.vertical_grid(var_0, var_31, var_2, var_2, var_3, var_32, var_5, var_6, var_7, var_24)
-    assert var_33 == 'import(\n    os, sys)'
-    var_34 = 'All test cases passed!'
-    var_35 = print(var_34)
-
-
-
-# Parsed testcases at query #26
-#--------------------------
-
-
-
-
-# Parsed testcases at query #27
-#--------------------------
-
-
-
-
-# Parsed testcases at query #28
-#--------------------------
-
-
-
-
-# Parsed testcases at query #29
-#--------------------------
-
-
-
-
-# Parsed testcases at query #30
-#--------------------------
-
-
-
-
-####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
-####################################################################
-
-
-# Parsed testcases at query #1
-#--------------------------
-
-
-
-
-# Parsed testcases at query #2
-#--------------------------
-
-
-
-
-# Parsed testcases at query #3
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'import'
+    var_0 = 'import '
     var_1 = []
     var_2 = '    '
     var_3 = 80
@@ -948,73 +485,461 @@ def test_case_0():
     var_5 = '\n'
     var_6 = '# '
     var_7 = False
-    var_8 = module_0.vertical_hanging_indent(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    var_8 = module_0.vertical_grid_grouped(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
     assert var_8 == ''
     var_9 = 'os'
     var_10 = [var_9]
     var_11 = []
-    var_12 = module_0.vertical_hanging_indent(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    var_13 = 'import(\n    os\n)'
-    var_14 = 'sys'
-    var_15 = 'json'
-    var_16 = [var_9, var_14, var_15]
+    var_12 = module_0.vertical_grid_grouped(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import (\n    os\n)'
+    var_13 = 'sys'
+    var_14 = 'math'
+    var_15 = [var_9, var_13, var_14]
+    var_16 = []
+    var_17 = module_0.vertical_grid_grouped(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
+    assert var_17 == 'import (\n    os, sys, math\n)'
+    var_18 = [var_9, var_13, var_14]
+    var_19 = []
+    var_20 = True
+    var_21 = module_0.vertical_grid_grouped(var_0, var_18, var_2, var_2, var_3, var_19, var_5, var_6, var_20, var_7)
+    assert var_21 == 'import (\n    os, sys, math,\n)'
+    var_22 = [var_9, var_13, var_14]
+    var_23 = 'comment1'
+    var_24 = 'comment2'
+    var_25 = [var_23, var_24]
+    var_26 = module_0.vertical_grid_grouped(var_0, var_22, var_2, var_2, var_3, var_25, var_5, var_6, var_7, var_7)
+    assert var_26 == 'import (\n    os, sys, math\n)'
+    var_27 = [var_9, var_13, var_14]
+    var_28 = 10
+    var_29 = []
+    var_30 = module_0.vertical_grid_grouped(var_0, var_27, var_2, var_2, var_28, var_29, var_5, var_6, var_7, var_7)
+    assert var_30 == 'import (\n    os,\n    sys,\n    math\n)'
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import '
+    var_1 = []
+    var_2 = '    '
+    var_3 = 80
+    var_4 = []
+    var_5 = '\n'
+    var_6 = '# '
+    var_7 = False
+    var_8 = module_0.hanging_indent(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    assert var_8 == ''
+    var_9 = 'os'
+    var_10 = [var_9]
+    var_11 = []
+    var_12 = module_0.hanging_indent(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import os'
+    var_13 = 'from module import '
+    var_14 = 'function1'
+    var_15 = 'function2'
+    var_16 = 'function3'
+    var_17 = [var_14, var_15, var_16]
+    var_18 = 30
+    var_19 = []
+    var_20 = module_0.hanging_indent(var_13, var_17, var_2, var_2, var_18, var_19, var_5, var_6, var_7, var_7)
+    var_21 = 'from module import function1, function2, \\\n    function3'
+    var_22 = [var_14, var_15]
+    var_23 = 'comment'
+    var_24 = [var_23]
+    var_25 = module_0.hanging_indent(var_13, var_22, var_2, var_2, var_18, var_24, var_5, var_6, var_7, var_7)
+    var_26 = 'from module import function1, \\\n    function2 # comment'
+    var_27 = 'very_long_function_name_that_exceeds_line_length'
+    var_28 = [var_27]
+    var_29 = []
+    var_30 = module_0.hanging_indent(var_13, var_28, var_2, var_2, var_18, var_29, var_5, var_6, var_7, var_7)
+    var_31 = 'from module import very_long_function_name_that_exceeds_line_length'
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from module import '
+    var_1 = 'import1'
+    var_2 = 'import2'
+    var_3 = [var_1, var_2]
+    var_4 = '    '
+    var_5 = '    '
+    var_6 = 80
+    var_7 = 'comment1'
+    var_8 = 'comment2'
+    var_9 = [var_7, var_8]
+    var_10 = '\n'
+    var_11 = '# '
+    var_12 = False
+    var_13 = False
+    var_14 = 'from module import import1, import2# comment1 comment2'
+    var_15 = module_0.noqa(var_0, var_3, var_4, var_5, var_6, var_9, var_10, var_11, var_12, var_13)
+    var_16 = []
+    var_17 = 'from module import import1, import2'
+    var_18 = module_0.noqa(var_0, var_3, var_4, var_5, var_6, var_16, var_10, var_11, var_12, var_13)
+    var_19 = 'NOQA'
+    var_20 = [var_19]
+    var_21 = 'from module import import1, import2# NOQA'
+    var_22 = module_0.noqa(var_0, var_3, var_4, var_5, var_6, var_20, var_10, var_11, var_12, var_13)
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import'
+    var_1 = 'module1'
+    var_2 = 'module2'
+    var_3 = 'module3'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = '    '
+    var_6 = '    '
+    var_7 = 80
+    var_8 = '# comment1'
+    var_9 = '# comment2'
+    var_10 = [var_8, var_9]
+    var_11 = '\n'
+    var_12 = '#'
+    var_13 = True
+    var_14 = False
+    var_15 = 'import module1, \\\n    module2, \\\n    module3,'
+    var_16 = module_0.backslash_grid(var_0, var_4, var_5, var_6, var_7, var_10, var_11, var_12, var_13, var_14)
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import'
+    var_1 = 'module1'
+    var_2 = 'module2'
+    var_3 = [var_1, var_2]
+    var_4 = '    '
+    var_5 = 80
+    var_6 = []
+    var_7 = '\n'
+    var_8 = '#'
+    var_9 = False
+    var_10 = module_0.vertical_hanging_indent_bracket(var_0, var_3, var_4, var_4, var_5, var_6, var_7, var_8, var_9, var_9)
+    assert var_10 == 'import(\n    module1,\n    module2\n    )'
+    var_11 = 'from module import'
+    var_12 = 'function1'
+    var_13 = 'function2'
+    var_14 = [var_12, var_13]
+    var_15 = '  '
+    var_16 = 60
     var_17 = []
-    var_18 = module_0.vertical_hanging_indent(var_0, var_16, var_2, var_2, var_3, var_17, var_5, var_6, var_7, var_7)
-    var_19 = 'import(\n    os,\n    sys,\n    json\n)'
-    var_20 = [var_9, var_14]
-    var_21 = []
-    var_22 = True
-    var_23 = module_0.vertical_hanging_indent(var_0, var_20, var_2, var_2, var_3, var_21, var_5, var_6, var_22, var_7)
-    var_24 = 'import(\n    os,\n    sys,\n)'
-    var_25 = [var_9, var_14]
-    var_26 = 'comment1'
-    var_27 = 'comment2'
-    var_28 = [var_26, var_27]
-    var_29 = module_0.vertical_hanging_indent(var_0, var_25, var_2, var_2, var_3, var_28, var_5, var_6, var_7, var_7)
-    var_30 = 'import(# comment1 comment2\n    os,\n    sys\n)'
-    var_31 = [var_9, var_14]
-    var_32 = [var_26, var_27]
-    var_33 = module_0.vertical_hanging_indent(var_0, var_31, var_2, var_2, var_3, var_32, var_5, var_6, var_7, var_22)
-    var_34 = 'import(\n    os,\n    sys\n)'
-    var_35 = 'All tests passed!'
-    var_36 = print(var_35)
+    var_18 = True
+    var_19 = module_0.vertical_hanging_indent_bracket(var_11, var_14, var_15, var_15, var_16, var_17, var_7, var_8, var_18, var_9)
+    assert var_19 == 'from module import(\n  function1,\n  function2,\n  )'
 
 
 
-# Parsed testcases at query #4
+# Parsed testcases at query #21
 #--------------------------
 
 
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import'
+    var_1 = 'os'
+    var_2 = 'sys'
+    var_3 = [var_1, var_2]
+    var_4 = '    '
+    var_5 = 80
+    var_6 = []
+    var_7 = '\n'
+    var_8 = '# '
+    var_9 = False
+    var_10 = module_0.grid(var_0, var_3, var_4, var_4, var_5, var_6, var_7, var_8, var_9, var_9)
+    assert var_10 == 'import(os, sys)'
+    var_11 = 'from module import'
+    var_12 = 'function1'
+    var_13 = 'function2'
+    var_14 = [var_12, var_13]
+    var_15 = 20
+    var_16 = []
+    var_17 = module_0.grid(var_11, var_14, var_4, var_4, var_15, var_16, var_7, var_8, var_9, var_9)
+    assert var_17 == 'from module import(function1,\n    function2)'
+    var_18 = []
+    var_19 = []
+    var_20 = module_0.grid(var_0, var_18, var_4, var_4, var_5, var_19, var_7, var_8, var_9, var_9)
+    assert var_20 == ''
+    var_21 = 'very_long_module_name_that_exceeds_line_length'
+    var_22 = [var_21]
+    var_23 = []
+    var_24 = module_0.grid(var_0, var_22, var_4, var_4, var_15, var_23, var_7, var_8, var_9, var_9)
+    assert var_24 == 'import(very_long_module_name_that_exceeds_line_length)'
+    var_25 = 'mod1'
+    var_26 = 'mod2'
+    var_27 = 'mod3'
+    var_28 = [var_25, var_26, var_27]
+    var_29 = 15
+    var_30 = []
+    var_31 = True
+    var_32 = module_0.grid(var_0, var_28, var_4, var_4, var_29, var_30, var_7, var_8, var_31, var_9)
+    assert var_32 == 'import(mod1,\n    mod2,\n    mod3,)'
 
 
-# Parsed testcases at query #5
+
+# Parsed testcases at query #22
 #--------------------------
 
 
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import '
+    var_1 = []
+    var_2 = '    '
+    var_3 = 80
+    var_4 = []
+    var_5 = '\n'
+    var_6 = '# '
+    var_7 = False
+    var_8 = module_0.vertical(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    assert var_8 == ''
+    var_9 = 'os'
+    var_10 = [var_9]
+    var_11 = []
+    var_12 = module_0.vertical(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import (os)'
+    var_13 = 'sys'
+    var_14 = 'math'
+    var_15 = [var_9, var_13, var_14]
+    var_16 = []
+    var_17 = module_0.vertical(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
+    assert var_17 == 'import (os,\n    sys,\n    math)'
+    var_18 = [var_9, var_13, var_14]
+    var_19 = []
+    var_20 = True
+    var_21 = module_0.vertical(var_0, var_18, var_2, var_2, var_3, var_19, var_5, var_6, var_20, var_7)
+    assert var_21 == 'import (os,\n    sys,\n    math,)'
+    var_22 = [var_9, var_13, var_14]
+    var_23 = 'comment1'
+    var_24 = 'comment2'
+    var_25 = [var_23, var_24]
+    var_26 = module_0.vertical(var_0, var_22, var_2, var_2, var_3, var_25, var_5, var_6, var_7, var_7)
+    assert var_26 == 'import (os,\n    sys,\n    math)'
+    var_27 = [var_9, var_13, var_14]
+    var_28 = [var_23, var_24]
+    var_29 = module_0.vertical(var_0, var_27, var_2, var_2, var_3, var_28, var_5, var_6, var_7, var_20)
+    assert var_29 == 'import (os,\n    sys,\n    math)'
 
 
-# Parsed testcases at query #6
+
+# Parsed testcases at query #23
 #--------------------------
 
 
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from foo import'
+    var_1 = 'bar'
+    var_2 = 'baz'
+    var_3 = [var_1, var_2]
+    var_4 = ' '
+    var_5 = '    '
+    var_6 = 80
+    var_7 = []
+    var_8 = '\n'
+    var_9 = '#'
+    var_10 = False
+    var_11 = module_0.vertical_grid_grouped(var_0, var_3, var_4, var_5, var_6, var_7, var_8, var_9, var_10, var_10)
 
 
-# Parsed testcases at query #7
+
+# Parsed testcases at query #24
 #--------------------------
 
 
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import '
+    var_1 = []
+    var_2 = '    '
+    var_3 = 80
+    var_4 = []
+    var_5 = '\n'
+    var_6 = '# '
+    var_7 = False
+    var_8 = module_0.backslash_grid(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    assert var_8 == ''
+    var_9 = 'os'
+    var_10 = [var_9]
+    var_11 = []
+    var_12 = module_0.backslash_grid(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import os'
+    var_13 = 'sys'
+    var_14 = 'math'
+    var_15 = [var_9, var_13, var_14]
+    var_16 = []
+    var_17 = module_0.backslash_grid(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
+    assert var_17 == 'import os, sys, math'
+    var_18 = 'random'
+    var_19 = 'json'
+    var_20 = 're'
+    var_21 = [var_9, var_13, var_14, var_18, var_19, var_20]
+    var_22 = 20
+    var_23 = []
+    var_24 = module_0.backslash_grid(var_0, var_21, var_2, var_2, var_22, var_23, var_5, var_6, var_7, var_7)
+    assert var_24 == 'import os, sys, math, \\\n    random, json, re'
+    var_25 = [var_9, var_13]
+    var_26 = 'comment'
+    var_27 = [var_26]
+    var_28 = module_0.backslash_grid(var_0, var_25, var_2, var_2, var_3, var_27, var_5, var_6, var_7, var_7)
+    assert var_28 == 'import os, sys # comment'
+    var_29 = [var_9, var_13, var_14]
+    var_30 = [var_26]
+    var_31 = module_0.backslash_grid(var_0, var_29, var_2, var_2, var_22, var_30, var_5, var_6, var_7, var_7)
+    assert var_31 == 'import os, sys, \\\n    math # comment'
 
 
-# Parsed testcases at query #8
+
+# Parsed testcases at query #25
 #--------------------------
 
 
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from module import'
+    var_1 = 'item1'
+    var_2 = 'item2'
+    var_3 = 'item3'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = '    '
+    var_6 = '    '
+    var_7 = 80
+    var_8 = '# comment1'
+    var_9 = '# comment2'
+    var_10 = [var_8, var_9]
+    var_11 = '\n'
+    var_12 = '#'
+    var_13 = False
+    var_14 = False
+    var_15 = module_0.vertical(var_0, var_4, var_5, var_6, var_7, var_10, var_11, var_12, var_13, var_14)
+    var_16 = 'from module import(item1,\n    item2,\n    item3)'
 
 
-# Parsed testcases at query #9
+
+# Parsed testcases at query #26
 #--------------------------
 
 
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import'
+    var_1 = 'module1'
+    var_2 = 'module2'
+    var_3 = 'module3'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = ' '
+    var_6 = '    '
+    var_7 = 80
+    var_8 = '# comment'
+    var_9 = [var_8]
+    var_10 = '\n'
+    var_11 = '#'
+    var_12 = True
+    var_13 = False
+    var_14 = 'import(module1, module2, module3,)'
+    var_15 = module_0.grid(var_0, var_4, var_5, var_6, var_7, var_9, var_10, var_11, var_12, var_13)
+
+
+
+# Parsed testcases at query #27
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import'
+    var_1 = 'module1'
+    var_2 = 'module2'
+    var_3 = 'module3'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = '    '
+    var_6 = '    '
+    var_7 = 80
+    var_8 = '# comment1'
+    var_9 = '# comment2'
+    var_10 = [var_8, var_9]
+    var_11 = '\n'
+    var_12 = '# '
+    var_13 = True
+    var_14 = False
+    var_15 = 'import(# comment1\n    # comment2\n    module1,\n    module2,\n    module3,\n)'
+    var_16 = module_0.vertical_hanging_indent(var_0, var_4, var_5, var_6, var_7, var_10, var_11, var_12, var_13, var_14)
+
+
+
+# Parsed testcases at query #28
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import'
+    var_1 = 'module1'
+    var_2 = 'module2'
+    var_3 = [var_1, var_2]
+    var_4 = ' '
+    var_5 = 80
+    var_6 = []
+    var_7 = '\n'
+    var_8 = '#'
+    var_9 = False
+    var_10 = module_0.vertical_hanging_indent(var_0, var_3, var_4, var_4, var_5, var_6, var_7, var_8, var_9, var_9)
+    assert var_10 == 'import(\n module1,\n module2)'
+    var_11 = 'from package import'
+    var_12 = [var_1, var_2]
+    var_13 = []
+    var_14 = True
+    var_15 = module_0.vertical_hanging_indent(var_11, var_12, var_4, var_4, var_5, var_13, var_7, var_8, var_14, var_9)
+    assert var_15 == 'from package import(\n module1,\n module2,)'
+    var_16 = [var_1, var_2]
+    var_17 = 'comment1'
+    var_18 = 'comment2'
+    var_19 = [var_17, var_18]
+    var_20 = module_0.vertical_hanging_indent(var_0, var_16, var_4, var_4, var_5, var_19, var_7, var_8, var_9, var_9)
+    assert var_20 == 'import(\n module1,\n module2)'
+    var_21 = [var_1, var_2]
+    var_22 = [var_17, var_18]
+    var_23 = module_0.vertical_hanging_indent(var_0, var_21, var_4, var_4, var_5, var_22, var_7, var_8, var_14, var_14)
+    assert var_23 == 'import(\n module1,\n module2,)'
+
+
+
+# Parsed testcases at query #29
+#--------------------------
+
+
+import isort.wrap_modes as module_0
 
 def test_case_0():
     var_0 = 'import '
@@ -1033,31 +958,362 @@ def test_case_0():
     var_12 = module_0.grid(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
     assert var_12 == 'import (os)'
     var_13 = 'sys'
-    var_14 = 'json'
+    var_14 = 'math'
     var_15 = [var_9, var_13, var_14]
     var_16 = []
     var_17 = module_0.grid(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
-    assert var_17 == 'import (os, sys, json)'
-    var_18 = 'very_long_import_name'
-    var_19 = 'another_very_long_import_name'
-    var_20 = [var_18, var_19]
-    var_21 = 30
-    var_22 = []
-    var_23 = module_0.grid(var_0, var_20, var_2, var_2, var_21, var_22, var_5, var_6, var_7, var_7)
-    var_24 = 'import (very_long_import_name,\n    another_very_long_import_name)'
-    var_25 = [var_9, var_13]
-    var_26 = 'comment1'
-    var_27 = 'comment2'
-    var_28 = [var_26, var_27]
-    var_29 = module_0.grid(var_0, var_25, var_2, var_2, var_3, var_28, var_5, var_6, var_7, var_7)
-    assert var_29 == 'import (os, sys)# comment1 comment2'
-    var_30 = [var_9, var_13]
-    var_31 = []
-    var_32 = True
-    var_33 = module_0.grid(var_0, var_30, var_2, var_2, var_3, var_31, var_5, var_6, var_32, var_7)
-    assert var_33 == 'import (os, sys,)'
-    var_34 = 'All grid tests passed!'
-    var_35 = print(var_34)
+    assert var_17 == 'import (os, sys, math)'
+    var_18 = 'very_long_import_name_that_exceeds_line_length'
+    var_19 = [var_9, var_18, var_14]
+    var_20 = 30
+    var_21 = []
+    var_22 = module_0.grid(var_0, var_19, var_2, var_2, var_20, var_21, var_5, var_6, var_7, var_7)
+    assert var_22 == 'import (os,\n    very_long_import_name_that_exceeds_line_length,\n    math)'
+    var_23 = [var_9, var_13]
+    var_24 = 'comment1'
+    var_25 = 'comment2'
+    var_26 = [var_24, var_25]
+    var_27 = module_0.grid(var_0, var_23, var_2, var_2, var_3, var_26, var_5, var_6, var_7, var_7)
+    assert var_27 == 'import (os, sys# comment1 comment2)'
+    var_28 = [var_9, var_13]
+    var_29 = []
+    var_30 = True
+    var_31 = module_0.grid(var_0, var_28, var_2, var_2, var_3, var_29, var_5, var_6, var_30, var_7)
+    assert var_31 == 'import (os, sys,)'
+    var_32 = [var_9, var_13]
+    var_33 = [var_24, var_25]
+    var_34 = module_0.grid(var_0, var_32, var_2, var_2, var_3, var_33, var_5, var_6, var_30, var_7)
+    assert var_34 == 'import (os, sys,# comment1 comment2)'
+
+
+
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 'statement'
+    var_1 = 'imports'
+    var_2 = 'white_space'
+    var_3 = 'indent'
+    var_4 = 'line_length'
+    var_5 = 'comments'
+    var_6 = 'line_separator'
+    var_7 = 'comment_prefix'
+    var_8 = 'include_trailing_comma'
+    var_9 = 'remove_comments'
+    var_10 = 'import'
+    var_11 = []
+    var_12 = ' '
+    var_13 = '    '
+    var_14 = 80
+    var_15 = []
+    var_16 = '\n'
+    var_17 = '#'
+    var_18 = False
+    var_19 = {var_0: var_10, var_1: var_11, var_2: var_12, var_3: var_13, var_4: var_14, var_5: var_15, var_6: var_16, var_7: var_17, var_8: var_18, var_9: var_18}
+    var_20 = 'os'
+    var_21 = 'sys'
+    var_22 = 'math'
+    var_23 = 'Comment 1'
+    var_24 = 'Comment 2'
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 'statement'
+    var_1 = 'imports'
+    var_2 = 'white_space'
+    var_3 = 'indent'
+    var_4 = 'line_length'
+    var_5 = 'comments'
+    var_6 = 'line_separator'
+    var_7 = 'comment_prefix'
+    var_8 = 'include_trailing_comma'
+    var_9 = 'remove_comments'
+    var_10 = 'from module import '
+    var_11 = 'a'
+    var_12 = 'b'
+    var_13 = 'c'
+    var_14 = [var_11, var_12, var_13]
+    var_15 = ' '
+    var_16 = '    '
+    var_17 = 80
+    var_18 = []
+    var_19 = '\n'
+    var_20 = '#'
+    var_21 = False
+    var_22 = {var_0: var_10, var_1: var_14, var_2: var_15, var_3: var_16, var_4: var_17, var_5: var_18, var_6: var_19, var_7: var_20, var_8: var_21, var_9: var_21}
+    var_23 = 'from module import a, b, c'
+    var_24 = 100
+    var_25 = var_11 * var_24
+    var_26 = 'from module import aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nfrom module import b, c'
+    var_27 = var_12 * var_24
+    var_28 = 'from module import a, bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\nfrom module import c'
+    var_29 = 'comment1'
+    var_30 = 'comment2'
+    var_31 = 'from module import a, b, c# comment1 comment2'
+    var_32 = var_11 * var_24
+    var_33 = 'from module import aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\nfrom module import b, c# comment1 comment2'
+    var_34 = var_12 * var_24
+    var_35 = 'from module import a, bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\nfrom module import c# comment1 comment2'
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 'statement'
+    var_1 = 'imports'
+    var_2 = 'white_space'
+    var_3 = 'indent'
+    var_4 = 'line_length'
+    var_5 = 'comments'
+    var_6 = 'line_separator'
+    var_7 = 'comment_prefix'
+    var_8 = 'include_trailing_comma'
+    var_9 = 'remove_comments'
+    var_10 = 'from module import'
+    var_11 = 'item1'
+    var_12 = 'item2'
+    var_13 = 'item3'
+    var_14 = [var_11, var_12, var_13]
+    var_15 = '    '
+    var_16 = 80
+    var_17 = []
+    var_18 = '\n'
+    var_19 = '# '
+    var_20 = False
+    var_21 = {var_0: var_10, var_1: var_14, var_2: var_15, var_3: var_15, var_4: var_16, var_5: var_17, var_6: var_18, var_7: var_19, var_8: var_20, var_9: var_20}
+    var_22 = 'from module import(\n    item1,\n    item2,\n    item3\n)'
+    var_23 = 'from module import(\n    item1,\n)'
+    var_24 = 'comment1'
+    var_25 = 'comment2'
+    var_26 = 'from module import(\n    # comment1 comment2\n    item1,\n    item2\n)'
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import'
+    var_1 = 'module1'
+    var_2 = 'module2'
+    var_3 = 'module3'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = '    '
+    var_6 = '    '
+    var_7 = 80
+    var_8 = '# comment1'
+    var_9 = '# comment2'
+    var_10 = [var_8, var_9]
+    var_11 = '\n'
+    var_12 = '#'
+    var_13 = True
+    var_14 = False
+    var_15 = 'import(\n    module1,\n    module2,\n    module3,\n)'
+    var_16 = module_0.vertical_grid(var_0, var_4, var_5, var_6, var_7, var_10, var_11, var_12, var_13, var_14)
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import '
+    var_1 = []
+    var_2 = ' '
+    var_3 = '\t'
+    var_4 = 80
+    var_5 = []
+    var_6 = '\n'
+    var_7 = '# '
+    var_8 = False
+    var_9 = module_0.vertical_prefix_from_module_import(var_0, var_1, var_2, var_3, var_4, var_5, var_6, var_7, var_8, var_8)
+    assert var_9 == ''
+    var_10 = 'os'
+    var_11 = [var_10]
+    var_12 = []
+    var_13 = module_0.vertical_prefix_from_module_import(var_0, var_11, var_2, var_3, var_4, var_12, var_6, var_7, var_8, var_8)
+    assert var_13 == 'import os'
+    var_14 = 'sys'
+    var_15 = 'math'
+    var_16 = [var_10, var_14, var_15]
+    var_17 = []
+    var_18 = module_0.vertical_prefix_from_module_import(var_0, var_16, var_2, var_3, var_4, var_17, var_6, var_7, var_8, var_8)
+    assert var_18 == 'import os, sys, math'
+    var_19 = 'random'
+    var_20 = 'statistics'
+    var_21 = [var_10, var_14, var_15, var_19, var_20]
+    var_22 = 20
+    var_23 = []
+    var_24 = module_0.vertical_prefix_from_module_import(var_0, var_21, var_2, var_3, var_22, var_23, var_6, var_7, var_8, var_8)
+    assert var_24 == 'import os, sys, math\nimport random, statistics'
+    var_25 = [var_10, var_14]
+    var_26 = 'comment'
+    var_27 = [var_26]
+    var_28 = module_0.vertical_prefix_from_module_import(var_0, var_25, var_2, var_3, var_4, var_27, var_6, var_7, var_8, var_8)
+    assert var_28 == 'import os, sys# comment'
+    var_29 = [var_10, var_14]
+    var_30 = [var_26]
+    var_31 = module_0.vertical_prefix_from_module_import(var_0, var_29, var_2, var_3, var_22, var_30, var_6, var_7, var_8, var_8)
+    assert var_31 == 'import os\nimport sys# comment'
+
+
+
+# Parsed testcases at query #6
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 'statement'
+    var_1 = 'imports'
+    var_2 = 'white_space'
+    var_3 = 'indent'
+    var_4 = 'line_length'
+    var_5 = 'comments'
+    var_6 = 'line_separator'
+    var_7 = 'comment_prefix'
+    var_8 = 'include_trailing_comma'
+    var_9 = 'remove_comments'
+    var_10 = 'expected'
+    var_11 = 'import '
+    var_12 = 'module1'
+    var_13 = 'module2'
+    var_14 = 'module3'
+    var_15 = [var_12, var_13, var_14]
+    var_16 = '    '
+    var_17 = 80
+    var_18 = []
+    var_19 = '\n'
+    var_20 = '#'
+    var_21 = False
+    var_22 = 'import (\n    module1, module2, module3)'
+    var_23 = {var_0: var_11, var_1: var_15, var_2: var_16, var_3: var_16, var_4: var_17, var_5: var_18, var_6: var_19, var_7: var_20, var_8: var_21, var_9: var_21, var_10: var_22}
+    var_24 = 'from package import '
+    var_25 = 'function1'
+    var_26 = 'function2'
+    var_27 = 'function3'
+    var_28 = [var_25, var_26, var_27]
+    var_29 = []
+    var_30 = True
+    var_31 = 'from package import (\n    function1, function2, function3,)'
+    var_32 = {var_0: var_24, var_1: var_28, var_2: var_16, var_3: var_16, var_4: var_17, var_5: var_29, var_6: var_19, var_7: var_20, var_8: var_30, var_9: var_21, var_10: var_31}
+    var_33 = [var_12]
+    var_34 = []
+    var_35 = 'import (\n    module1)'
+    var_36 = {var_0: var_11, var_1: var_33, var_2: var_16, var_3: var_16, var_4: var_17, var_5: var_34, var_6: var_19, var_7: var_20, var_8: var_21, var_9: var_21, var_10: var_35}
+    var_37 = [var_23, var_32, var_36]
+
+
+
+# Parsed testcases at query #7
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from module import'
+    var_1 = 'function1'
+    var_2 = 'function2'
+    var_3 = 'function3'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = '    '
+    var_6 = '    '
+    var_7 = 80
+    var_8 = '# comment1'
+    var_9 = '# comment2'
+    var_10 = [var_8, var_9]
+    var_11 = '\n'
+    var_12 = '#'
+    var_13 = True
+    var_14 = False
+    var_15 = module_0.grid(var_0, var_4, var_5, var_6, var_7, var_10, var_11, var_12, var_13, var_14)
+    var_16 = 'from module import(function1, function2, function3,)'
+
+
+
+# Parsed testcases at query #8
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import '
+    var_1 = []
+    var_2 = '    '
+    var_3 = 80
+    var_4 = []
+    var_5 = '\n'
+    var_6 = '# '
+    var_7 = False
+    var_8 = module_0.vertical_hanging_indent_bracket(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    assert var_8 == ''
+    var_9 = 'os'
+    var_10 = [var_9]
+    var_11 = []
+    var_12 = module_0.vertical_hanging_indent_bracket(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import (os\n    )'
+    var_13 = 'sys'
+    var_14 = 'math'
+    var_15 = [var_9, var_13, var_14]
+    var_16 = []
+    var_17 = module_0.vertical_hanging_indent_bracket(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
+    assert var_17 == 'import (os,\n    sys,\n    math\n    )'
+    var_18 = [var_9, var_13]
+    var_19 = 'comment'
+    var_20 = [var_19]
+    var_21 = module_0.vertical_hanging_indent_bracket(var_0, var_18, var_2, var_2, var_3, var_20, var_5, var_6, var_7, var_7)
+    assert var_21 == 'import (os,\n    sys\n    )'
+    var_22 = [var_9, var_13]
+    var_23 = []
+    var_24 = True
+    var_25 = module_0.vertical_hanging_indent_bracket(var_0, var_22, var_2, var_2, var_3, var_23, var_5, var_6, var_24, var_7)
+    assert var_25 == 'import (os,\n    sys,\n    )'
+
+
+
+# Parsed testcases at query #9
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from foo import'
+    var_1 = 'bar'
+    var_2 = 'baz'
+    var_3 = [var_1, var_2]
+    var_4 = '    '
+    var_5 = '    '
+    var_6 = 80
+    var_7 = []
+    var_8 = '\n'
+    var_9 = '#'
+    var_10 = False
+    var_11 = False
+    var_12 = 'from foo import(bar,\n    baz)'
+    var_13 = module_0.vertical(var_0, var_3, var_4, var_5, var_6, var_7, var_8, var_9, var_10, var_11)
 
 
 
@@ -1065,175 +1321,7 @@ def test_case_0():
 #--------------------------
 
 
-
-
-# Parsed testcases at query #11
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = module_0.vertical_grid_grouped_no_comma()
-
-
-
-# Parsed testcases at query #12
-#--------------------------
-
-
-
-
-# Parsed testcases at query #13
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'import'
-    var_1 = []
-    var_2 = '    '
-    var_3 = 80
-    var_4 = []
-    var_5 = '\n'
-    var_6 = '#'
-    var_7 = False
-    var_8 = module_0.grid(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
-    assert var_8 == ''
-    var_9 = 'os'
-    var_10 = [var_9]
-    var_11 = []
-    var_12 = module_0.grid(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    assert var_12 == 'import(os)'
-    var_13 = 'sys'
-    var_14 = [var_9, var_13]
-    var_15 = []
-    var_16 = module_0.grid(var_0, var_14, var_2, var_2, var_3, var_15, var_5, var_6, var_7, var_7)
-    assert var_16 == 'import(os, sys)'
-    var_17 = 'very_long_import_name_that_exceeds_line_length'
-    var_18 = 'another_import'
-    var_19 = [var_17, var_18]
-    var_20 = 50
-    var_21 = []
-    var_22 = module_0.grid(var_0, var_19, var_2, var_2, var_20, var_21, var_5, var_6, var_7, var_7)
-    var_23 = [var_9, var_13]
-    var_24 = 'comment'
-    var_25 = [var_24]
-    var_26 = module_0.grid(var_0, var_23, var_2, var_2, var_3, var_25, var_5, var_6, var_7, var_7)
-    var_27 = [var_9, var_13]
-    var_28 = []
-    var_29 = True
-    var_30 = module_0.grid(var_0, var_27, var_2, var_2, var_3, var_28, var_5, var_6, var_29, var_7)
-    assert var_30 == 'import(os, sys,)'
-
-
-
-# Parsed testcases at query #14
-#--------------------------
-
-
-
-
-# Parsed testcases at query #15
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'GRID'
-    var_1 = module_0.from_string(var_0)
-    var_2 = '0'
-    var_3 = module_0.from_string(var_2)
-    var_4 = 'INVALID'
-    var_5 = module_0.from_string(var_4)
-    assert var_5 is None
-    var_6 = '999'
-    var_7 = module_0.from_string(var_6)
-
-
-
-# Parsed testcases at query #16
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'import '
-    var_1 = []
-    var_2 = '    '
-    var_3 = '\t'
-    var_4 = 80
-    var_5 = []
-    var_6 = '\n'
-    var_7 = '# '
-    var_8 = False
-    var_9 = module_0.backslash_grid(var_0, var_1, var_2, var_3, var_4, var_5, var_6, var_7, var_8, var_8)
-    assert var_9 == ''
-    var_10 = 'os'
-    var_11 = [var_10]
-    var_12 = []
-    var_13 = module_0.backslash_grid(var_0, var_11, var_2, var_3, var_4, var_12, var_6, var_7, var_8, var_8)
-    assert var_13 == 'import os'
-    var_14 = 'sys'
-    var_15 = 'json'
-    var_16 = [var_10, var_14, var_15]
-    var_17 = []
-    var_18 = module_0.backslash_grid(var_0, var_16, var_2, var_3, var_4, var_17, var_6, var_7, var_8, var_8)
-    assert var_18 == 'import os, sys, json'
-    var_19 = 'very_long_module_name_1'
-    var_20 = 'very_long_module_name_2'
-    var_21 = 'very_long_module_name_3'
-    var_22 = [var_19, var_20, var_21]
-    var_23 = 30
-    var_24 = []
-    var_25 = module_0.backslash_grid(var_0, var_22, var_2, var_3, var_23, var_24, var_6, var_7, var_8, var_8)
-    var_26 = 'import very_long_module_name_1, \\\n\tvery_long_module_name_2, \\\n\tvery_long_module_name_3'
-    var_27 = [var_10, var_14]
-    var_28 = 'comment1'
-    var_29 = 'comment2'
-    var_30 = [var_28, var_29]
-    var_31 = module_0.backslash_grid(var_0, var_27, var_2, var_3, var_4, var_30, var_6, var_7, var_8, var_8)
-    assert var_31 == 'import os, sys# comment1 comment2'
-    var_32 = [var_10, var_14]
-    var_33 = []
-    var_34 = True
-    var_35 = module_0.backslash_grid(var_0, var_32, var_2, var_3, var_4, var_33, var_6, var_7, var_34, var_8)
-    assert var_35 == 'import os, sys,'
-    var_36 = [var_10, var_14]
-    var_37 = [var_28, var_29]
-    var_38 = module_0.backslash_grid(var_0, var_36, var_2, var_3, var_4, var_37, var_6, var_7, var_8, var_34)
-    assert var_38 == 'import os, sys'
-    var_39 = 'from module import '
-    var_40 = 'function1'
-    var_41 = 'function2_with_long_name'
-    var_42 = 'function3'
-    var_43 = [var_40, var_41, var_42]
-    var_44 = 40
-    var_45 = []
-    var_46 = module_0.backslash_grid(var_39, var_43, var_2, var_3, var_44, var_45, var_6, var_7, var_8, var_8)
-    var_47 = 'from module import function1, \\\n\tfunction2_with_long_name, \\\n\tfunction3'
-    var_48 = 'extremely_long_module_name_that_exceeds_line_length_by_far'
-    var_49 = [var_48]
-    var_50 = []
-    var_51 = module_0.backslash_grid(var_0, var_49, var_2, var_3, var_23, var_50, var_6, var_7, var_8, var_8)
-    var_52 = 'import extremely_long_module_name_that_exceeds_line_length_by_far'
-    var_53 = 'mod1'
-    var_54 = 'mod2'
-    var_55 = 'mod3'
-    var_56 = [var_53, var_54, var_55]
-    var_57 = 20
-    var_58 = 'comment'
-    var_59 = [var_58]
-    var_60 = module_0.backslash_grid(var_0, var_56, var_2, var_3, var_57, var_59, var_6, var_7, var_8, var_8)
-    var_61 = 'import mod1, \\\n\tmod2, \\\n\tmod3# comment'
-    var_62 = 'All tests passed!'
-    var_63 = print(var_62)
-
-
-
-# Parsed testcases at query #17
-#--------------------------
-
-
+import isort.wrap_modes as module_0
 
 def test_case_0():
     var_0 = 'import '
@@ -1243,330 +1331,6 @@ def test_case_0():
     var_4 = []
     var_5 = '\n'
     var_6 = '# '
-    var_7 = False
-    var_8 = module_0.hanging_indent_with_parentheses(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
-    assert var_8 == ''
-    var_9 = 'os'
-    var_10 = [var_9]
-    var_11 = []
-    var_12 = module_0.hanging_indent_with_parentheses(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    var_13 = 'import (os)'
-    var_14 = 'sys'
-    var_15 = 'json'
-    var_16 = [var_9, var_14, var_15]
-    var_17 = []
-    var_18 = module_0.hanging_indent_with_parentheses(var_0, var_16, var_2, var_2, var_3, var_17, var_5, var_6, var_7, var_7)
-    var_19 = 'import (os, sys, json)'
-    var_20 = 'very_long_import_name_1'
-    var_21 = 'very_long_import_name_2'
-    var_22 = 'very_long_import_name_3'
-    var_23 = [var_20, var_21, var_22]
-    var_24 = 40
-    var_25 = []
-    var_26 = module_0.hanging_indent_with_parentheses(var_0, var_23, var_2, var_2, var_24, var_25, var_5, var_6, var_7, var_7)
-    var_27 = 'import (\n    very_long_import_name_1,\n    very_long_import_name_2,\n    very_long_import_name_3)'
-    var_28 = [var_9, var_14]
-    var_29 = 'comment1'
-    var_30 = 'comment2'
-    var_31 = [var_29, var_30]
-    var_32 = module_0.hanging_indent_with_parentheses(var_0, var_28, var_2, var_2, var_3, var_31, var_5, var_6, var_7, var_7)
-    var_33 = 'import (os, sys# comment1 comment2)'
-    var_34 = [var_9, var_14]
-    var_35 = []
-    var_36 = True
-    var_37 = module_0.hanging_indent_with_parentheses(var_0, var_34, var_2, var_2, var_3, var_35, var_5, var_6, var_36, var_7)
-    var_38 = 'import (os, sys,)'
-    var_39 = 'All tests passed!'
-    var_40 = print(var_39)
-
-
-
-# Parsed testcases at query #18
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'from module import '
-    var_1 = []
-    var_2 = '    '
-    var_3 = 80
-    var_4 = []
-    var_5 = '\n'
-    var_6 = '# '
-    var_7 = False
-    var_8 = module_0.vertical_prefix_from_module_import(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
-    assert var_8 == ''
-    var_9 = 'function1'
-    var_10 = [var_9]
-    var_11 = []
-    var_12 = module_0.vertical_prefix_from_module_import(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    assert var_12 == 'from module import function1'
-    var_13 = 'function2'
-    var_14 = 'function3'
-    var_15 = [var_9, var_13, var_14]
-    var_16 = []
-    var_17 = module_0.vertical_prefix_from_module_import(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
-    assert var_17 == 'from module import function1, function2, function3'
-    var_18 = 'function4'
-    var_19 = 'function5'
-    var_20 = [var_9, var_13, var_14, var_18, var_19]
-    var_21 = 30
-    var_22 = []
-    var_23 = module_0.vertical_prefix_from_module_import(var_0, var_20, var_2, var_2, var_21, var_22, var_5, var_6, var_7, var_7)
-    var_24 = 'from module import function1, function2, function3\nfrom module import function4, function5'
-    var_25 = [var_9, var_13]
-    var_26 = 'comment1'
-    var_27 = 'comment2'
-    var_28 = [var_26, var_27]
-    var_29 = module_0.vertical_prefix_from_module_import(var_0, var_25, var_2, var_2, var_3, var_28, var_5, var_6, var_7, var_7)
-    assert var_29 == 'from module import function1, function2  # comment1 comment2'
-    var_30 = [var_9, var_13, var_14]
-    var_31 = [var_26, var_27]
-    var_32 = module_0.vertical_prefix_from_module_import(var_0, var_30, var_2, var_2, var_21, var_31, var_5, var_6, var_7, var_7)
-    var_33 = 'from module import function1, function2  # comment1 comment2\nfrom module import function3'
-    var_34 = 'All tests passed!'
-    var_35 = print(var_34)
-
-
-
-# Parsed testcases at query #19
-#--------------------------
-
-
-
-
-# Parsed testcases at query #20
-#--------------------------
-
-
-
-
-# Parsed testcases at query #21
-#--------------------------
-
-
-
-
-# Parsed testcases at query #22
-#--------------------------
-
-
-
-
-# Parsed testcases at query #23
-#--------------------------
-
-
-
-
-# Parsed testcases at query #24
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'Test vertical wrap mode'
-    var_1 = 'import'
-    var_2 = []
-    var_3 = '    '
-    var_4 = 80
-    var_5 = []
-    var_6 = '\n'
-    var_7 = '# '
-    var_8 = False
-    var_9 = module_0.vertical(var_1, var_2, var_3, var_3, var_4, var_5, var_6, var_7, var_8, var_8)
-    assert var_9 == ''
-    var_10 = 'os'
-    var_11 = [var_10]
-    var_12 = []
-    var_13 = module_0.vertical(var_1, var_11, var_3, var_3, var_4, var_12, var_6, var_7, var_8, var_8)
-    var_14 = 'import(os,)'
-    var_15 = 'sys'
-    var_16 = 'json'
-    var_17 = [var_10, var_15, var_16]
-    var_18 = []
-    var_19 = module_0.vertical(var_1, var_17, var_3, var_3, var_4, var_18, var_6, var_7, var_8, var_8)
-    var_20 = 'import(os,\n    sys,\n    json)'
-    var_21 = [var_10, var_15]
-    var_22 = []
-    var_23 = True
-    var_24 = module_0.vertical(var_1, var_21, var_3, var_3, var_4, var_22, var_6, var_7, var_23, var_8)
-    var_25 = 'import(os,\n    sys,)'
-    var_26 = [var_10, var_15]
-    var_27 = 'comment1'
-    var_28 = 'comment2'
-    var_29 = [var_27, var_28]
-    var_30 = module_0.vertical(var_1, var_26, var_3, var_3, var_4, var_29, var_6, var_7, var_8, var_8)
-    var_31 = 'import# comment1 comment2(os,\n    sys)'
-    var_32 = [var_10, var_15]
-    var_33 = [var_27, var_28]
-    var_34 = module_0.vertical(var_1, var_32, var_3, var_3, var_4, var_33, var_6, var_7, var_8, var_23)
-    var_35 = 'import(os,\n    sys)'
-    var_36 = 'All tests passed!'
-    var_37 = print(var_36)
-
-
-
-# Parsed testcases at query #25
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'import os'
-    var_1 = 'sys'
-    var_2 = 'json'
-    var_3 = [var_1, var_2]
-    var_4 = ' '
-    var_5 = '    '
-    var_6 = 80
-    var_7 = []
-    var_8 = '\n'
-    var_9 = '#'
-    var_10 = False
-    var_11 = module_0.noqa(var_0, var_3, var_4, var_5, var_6, var_7, var_8, var_9, var_10, var_10)
-    assert var_11 == 'import os sys, json'
-    var_12 = [var_1, var_2]
-    var_13 = 'This is a comment'
-    var_14 = [var_13]
-    var_15 = module_0.noqa(var_0, var_12, var_4, var_5, var_6, var_14, var_8, var_9, var_10, var_10)
-    assert var_15 == 'import os sys, json # This is a comment'
-    var_16 = 'math'
-    var_17 = 'random'
-    var_18 = 'collections'
-    var_19 = 'itertools'
-    var_20 = [var_1, var_2, var_16, var_17, var_18, var_19]
-    var_21 = 30
-    var_22 = [var_13]
-    var_23 = module_0.noqa(var_0, var_20, var_4, var_5, var_21, var_22, var_8, var_9, var_10, var_10)
-    assert var_23 == 'import os sys, json, math, random, collections, itertools # NOQA This is a comment'
-    var_24 = [var_1, var_2, var_16, var_17, var_18, var_19]
-    var_25 = 'NOQA'
-    var_26 = [var_25]
-    var_27 = module_0.noqa(var_0, var_24, var_4, var_5, var_21, var_26, var_8, var_9, var_10, var_10)
-    assert var_27 == 'import os sys, json, math, random, collections, itertools # NOQA'
-    var_28 = []
-    var_29 = []
-    var_30 = module_0.noqa(var_0, var_28, var_4, var_5, var_6, var_29, var_8, var_9, var_10, var_10)
-    assert var_30 == 'import os'
-    var_31 = [var_1]
-    var_32 = 'import os sys'
-    var_33 = len(var_32)
-    var_34 = ' # comment'
-    var_35 = len(var_34)
-    var_36 = var_33 + var_35
-    var_37 = 'comment'
-    var_38 = [var_37]
-    var_39 = module_0.noqa(var_0, var_31, var_4, var_5, var_36, var_38, var_8, var_9, var_10, var_10)
-    assert var_39 == 'import os sys # comment'
-    var_40 = [var_1]
-    var_41 = len(var_32)
-    var_42 = len(var_34)
-    var_43 = var_41 + var_42
-    var_44 = 1
-    var_45 = var_43 - var_44
-    var_46 = [var_37]
-    var_47 = module_0.noqa(var_0, var_40, var_4, var_5, var_45, var_46, var_8, var_9, var_10, var_10)
-    assert var_47 == 'import os sys # NOQA comment'
-    var_48 = [var_1, var_2]
-    var_49 = 'comment1'
-    var_50 = 'comment2'
-    var_51 = [var_49, var_50]
-    var_52 = module_0.noqa(var_0, var_48, var_4, var_5, var_6, var_51, var_8, var_9, var_10, var_10)
-    assert var_52 == 'import os sys, json # comment1 comment2'
-    var_53 = [var_1, var_2]
-    var_54 = ''
-    var_55 = [var_54]
-    var_56 = module_0.noqa(var_0, var_53, var_4, var_5, var_6, var_55, var_8, var_9, var_10, var_10)
-    assert var_56 == 'import os sys, json # '
-    var_57 = 'a'
-    var_58 = 100
-    var_59 = var_57 * var_58
-    var_60 = 'b'
-    var_61 = var_60 * var_58
-    var_62 = [var_59, var_61]
-    var_63 = 50
-    var_64 = []
-    var_65 = module_0.noqa(var_0, var_62, var_4, var_5, var_63, var_64, var_8, var_9, var_10, var_10)
-    var_66 = 'All tests passed!'
-    var_67 = print(var_66)
-
-
-
-# Parsed testcases at query #26
-#--------------------------
-
-
-
-
-# Parsed testcases at query #27
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'import'
-    var_1 = []
-    var_2 = '    '
-    var_3 = 80
-    var_4 = []
-    var_5 = '\n'
-    var_6 = '# '
-    var_7 = False
-    var_8 = module_0.hanging_indent(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
-    assert var_8 == ''
-    var_9 = 'os'
-    var_10 = [var_9]
-    var_11 = []
-    var_12 = module_0.hanging_indent(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    var_13 = 'importos'
-    var_14 = 'sys'
-    var_15 = 'json'
-    var_16 = [var_9, var_14, var_15]
-    var_17 = []
-    var_18 = module_0.hanging_indent(var_0, var_16, var_2, var_2, var_3, var_17, var_5, var_6, var_7, var_7)
-    var_19 = 'importos, sys, json'
-    var_20 = 'very_long_import_name_that_exceeds_line_length'
-    var_21 = 'another_import'
-    var_22 = [var_20, var_21]
-    var_23 = 50
-    var_24 = []
-    var_25 = module_0.hanging_indent(var_0, var_22, var_2, var_2, var_23, var_24, var_5, var_6, var_7, var_7)
-    var_26 = 'importvery_long_import_name_that_exceeds_line_length, \n    another_import'
-    var_27 = [var_9, var_14]
-    var_28 = 'comment1'
-    var_29 = 'comment2'
-    var_30 = [var_28, var_29]
-    var_31 = module_0.hanging_indent(var_0, var_27, var_2, var_2, var_3, var_30, var_5, var_6, var_7, var_7)
-    var_32 = 'importos, sys# comment1 comment2'
-    var_33 = [var_9, var_14]
-    var_34 = []
-    var_35 = True
-    var_36 = module_0.hanging_indent(var_0, var_33, var_2, var_2, var_3, var_34, var_5, var_6, var_35, var_7)
-    var_37 = 'importos, sys,'
-    var_38 = [var_9, var_14]
-    var_39 = [var_28, var_29]
-    var_40 = module_0.hanging_indent(var_0, var_38, var_2, var_2, var_3, var_39, var_5, var_6, var_7, var_35)
-    var_41 = 'importos, sys'
-    var_42 = 'All tests passed!'
-    var_43 = print(var_42)
-
-
-
-# Parsed testcases at query #28
-#--------------------------
-
-
-
-def test_case_0():
-    var_0 = 'import'
-    var_1 = []
-    var_2 = '    '
-    var_3 = 80
-    var_4 = []
-    var_5 = '\n'
-    var_6 = '#'
     var_7 = False
     var_8 = module_0.vertical(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
     assert var_8 == ''
@@ -1574,63 +1338,446 @@ def test_case_0():
     var_10 = [var_9]
     var_11 = []
     var_12 = module_0.vertical(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    assert var_12 == 'import(os)'
+    assert var_12 == 'import (os)'
     var_13 = 'sys'
-    var_14 = 'json'
+    var_14 = 'math'
+    var_15 = [var_9, var_13, var_14]
+    var_16 = []
+    var_17 = True
+    var_18 = module_0.vertical(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_17, var_7)
+    assert var_18 == 'import (os,\n    sys,\n    math,)'
+    var_19 = [var_9, var_13]
+    var_20 = 'comment1'
+    var_21 = 'comment2'
+    var_22 = [var_20, var_21]
+    var_23 = module_0.vertical(var_0, var_19, var_2, var_2, var_3, var_22, var_5, var_6, var_7, var_7)
+    assert var_23 == 'import (os,\n    sys# comment1 comment2)'
+    var_24 = [var_9, var_13]
+    var_25 = [var_20, var_21]
+    var_26 = module_0.vertical(var_0, var_24, var_2, var_2, var_3, var_25, var_5, var_6, var_7, var_17)
+    assert var_26 == 'import (os,\n    sys)'
+
+
+
+# Parsed testcases at query #11
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import '
+    var_1 = []
+    var_2 = '    '
+    var_3 = 80
+    var_4 = []
+    var_5 = '\n'
+    var_6 = '# '
+    var_7 = False
+    var_8 = module_0.vertical_hanging_indent(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    assert var_8 == ''
+    var_9 = 'os'
+    var_10 = [var_9]
+    var_11 = []
+    var_12 = module_0.vertical_hanging_indent(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import (os)'
+    var_13 = 'sys'
+    var_14 = 'math'
+    var_15 = [var_9, var_13, var_14]
+    var_16 = []
+    var_17 = True
+    var_18 = module_0.vertical_hanging_indent(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_17, var_7)
+    assert var_18 == 'import (os,\n    sys,\n    math,)'
+    var_19 = [var_9, var_13]
+    var_20 = 'comment1'
+    var_21 = 'comment2'
+    var_22 = [var_20, var_21]
+    var_23 = module_0.vertical_hanging_indent(var_0, var_19, var_2, var_2, var_3, var_22, var_5, var_6, var_7, var_7)
+    assert var_23 == 'import (os,\n    sys# comment1\n# comment2\n)'
+
+
+
+# Parsed testcases at query #12
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from x import '
+    var_1 = 'a'
+    var_2 = 'b'
+    var_3 = 'c'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = '    '
+    var_6 = 80
+    var_7 = []
+    var_8 = '\n'
+    var_9 = '# '
+    var_10 = False
+    var_11 = module_0.vertical_grid(var_0, var_4, var_5, var_5, var_6, var_7, var_8, var_9, var_10, var_10)
+    assert var_11 == 'from x import (\n    a, b, c)'
+
+
+
+# Parsed testcases at query #13
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from module import '
+    var_1 = 'import1'
+    var_2 = 'import2'
+    var_3 = 'import3'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = ' '
+    var_6 = '    '
+    var_7 = 80
+    var_8 = 'comment1'
+    var_9 = 'comment2'
+    var_10 = [var_8, var_9]
+    var_11 = '\n'
+    var_12 = '#'
+    var_13 = False
+    var_14 = False
+    var_15 = module_0.vertical_prefix_from_module_import(var_0, var_4, var_5, var_6, var_7, var_10, var_11, var_12, var_13, var_14)
+    var_16 = 'from module import import1, import2, import3'
+
+
+
+# Parsed testcases at query #14
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import '
+    var_1 = []
+    var_2 = '    '
+    var_3 = 80
+    var_4 = []
+    var_5 = '\n'
+    var_6 = '# '
+    var_7 = False
+    var_8 = module_0.vertical(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    assert var_8 == ''
+    var_9 = 'os'
+    var_10 = [var_9]
+    var_11 = []
+    var_12 = module_0.vertical(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import (os)'
+    var_13 = 'sys'
+    var_14 = 'math'
     var_15 = [var_9, var_13, var_14]
     var_16 = []
     var_17 = module_0.vertical(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
-    assert var_17 == 'import(os,\n    sys,\n    json)'
-    var_18 = [var_9, var_13]
+    assert var_17 == 'import (os,\n    sys,\n    math)'
+    var_18 = [var_9, var_13, var_14]
     var_19 = []
     var_20 = True
     var_21 = module_0.vertical(var_0, var_18, var_2, var_2, var_3, var_19, var_5, var_6, var_20, var_7)
-    assert var_21 == 'import(os,\n    sys,)'
-    var_22 = [var_9, var_13]
+    assert var_21 == 'import (os,\n    sys,\n    math,)'
+    var_22 = [var_9, var_13, var_14]
     var_23 = 'comment1'
     var_24 = 'comment2'
     var_25 = [var_23, var_24]
     var_26 = module_0.vertical(var_0, var_22, var_2, var_2, var_3, var_25, var_5, var_6, var_7, var_7)
-    assert var_26 == 'import(os,\n    sys)'
-    var_27 = [var_9, var_13]
-    var_28 = [var_23, var_24]
-    var_29 = module_0.vertical(var_0, var_27, var_2, var_2, var_3, var_28, var_5, var_6, var_7, var_20)
-    assert var_29 == 'import(os,\n    sys)'
-    var_30 = [var_9, var_13]
-    var_31 = []
-    var_32 = '\r\n'
-    var_33 = module_0.vertical(var_0, var_30, var_2, var_2, var_3, var_31, var_32, var_6, var_7, var_7)
-    assert var_33 == 'import(os,\r\n    sys)'
-    var_34 = [var_9, var_13]
-    var_35 = []
-    var_36 = '//'
-    var_37 = module_0.vertical(var_0, var_34, var_2, var_2, var_3, var_35, var_5, var_36, var_7, var_7)
-    assert var_37 == 'import(os,\n    sys)'
-    var_38 = 'very_long_import_name_1'
-    var_39 = 'very_long_import_name_2'
-    var_40 = [var_38, var_39]
-    var_41 = []
-    var_42 = module_0.vertical(var_0, var_40, var_2, var_2, var_3, var_41, var_5, var_6, var_7, var_7)
-    assert var_42 == 'import(very_long_import_name_1,\n    very_long_import_name_2)'
-    var_43 = 'from module import'
-    var_44 = 'function1'
-    var_45 = 'function2'
-    var_46 = [var_44, var_45]
-    var_47 = []
-    var_48 = module_0.vertical(var_43, var_46, var_2, var_2, var_3, var_47, var_5, var_6, var_7, var_7)
-    assert var_48 == 'from module import(function1,\n    function2)'
-    var_49 = 'All tests passed!'
-    var_50 = print(var_49)
+    assert var_26 == 'import (os,  # comment1 # comment2\n    sys,\n    math)'
 
 
 
-# Parsed testcases at query #29
+# Parsed testcases at query #15
 #--------------------------
 
 
+def test_case_0():
+    var_0 = 'statement'
+    var_1 = 'imports'
+    var_2 = 'white_space'
+    var_3 = 'indent'
+    var_4 = 'line_length'
+    var_5 = 'comments'
+    var_6 = 'line_separator'
+    var_7 = 'comment_prefix'
+    var_8 = 'include_trailing_comma'
+    var_9 = 'remove_comments'
+    var_10 = 'from module import '
+    var_11 = 'import1'
+    var_12 = 'import2'
+    var_13 = 'import3'
+    var_14 = [var_11, var_12, var_13]
+    var_15 = '    '
+    var_16 = 80
+    var_17 = []
+    var_18 = '\n'
+    var_19 = '# '
+    var_20 = False
+    var_21 = {var_0: var_10, var_1: var_14, var_2: var_15, var_3: var_15, var_4: var_16, var_5: var_17, var_6: var_18, var_7: var_19, var_8: var_20, var_9: var_20}
+    var_22 = 'from module import import1, \\\n    import2, \\\n    import3'
+    var_23 = 'from module import import1, \\\n    import2, \\\n    import3,'
+    var_24 = 'comment1'
+    var_25 = 'comment2'
+    var_26 = 'from module import import1, \\\n    import2, \\\n    import3,'
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+
+import isort.wrap_modes as module_0
 
 def test_case_0():
     var_0 = 'import'
+    var_1 = []
+    var_2 = '    '
+    var_3 = 80
+    var_4 = []
+    var_5 = '\n'
+    var_6 = '#'
+    var_7 = False
+    var_8 = module_0.hanging_indent_with_parentheses(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    assert var_8 == ''
+    var_9 = 'os'
+    var_10 = [var_9]
+    var_11 = []
+    var_12 = module_0.hanging_indent_with_parentheses(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import(os)'
+    var_13 = 'sys'
+    var_14 = 'math'
+    var_15 = [var_9, var_13, var_14]
+    var_16 = []
+    var_17 = module_0.hanging_indent_with_parentheses(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
+    assert var_17 == 'import(os, sys, math)'
+    var_18 = 'very_long_import_name_1'
+    var_19 = 'very_long_import_name_2'
+    var_20 = 'very_long_import_name_3'
+    var_21 = [var_18, var_19, var_20]
+    var_22 = 30
+    var_23 = []
+    var_24 = module_0.hanging_indent_with_parentheses(var_0, var_21, var_2, var_2, var_22, var_23, var_5, var_6, var_7, var_7)
+    assert var_24 == 'import(very_long_import_name_1,\n    very_long_import_name_2,\n    very_long_import_name_3)'
+    var_25 = [var_9, var_13]
+    var_26 = 'comment'
+    var_27 = [var_26]
+    var_28 = module_0.hanging_indent_with_parentheses(var_0, var_25, var_2, var_2, var_3, var_27, var_5, var_6, var_7, var_7)
+    assert var_28 == 'import(os, sys# comment)'
+    var_29 = [var_18, var_19]
+    var_30 = [var_26]
+    var_31 = module_0.hanging_indent_with_parentheses(var_0, var_29, var_2, var_2, var_22, var_30, var_5, var_6, var_7, var_7)
+    assert var_31 == 'import(very_long_import_name_1,\n    very_long_import_name_2# comment)'
+    var_32 = [var_9, var_13]
+    var_33 = []
+    var_34 = True
+    var_35 = module_0.hanging_indent_with_parentheses(var_0, var_32, var_2, var_2, var_3, var_33, var_5, var_6, var_34, var_7)
+    assert var_35 == 'import(os, sys,)'
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import x'
+    var_1 = []
+    var_2 = ' '
+    var_3 = '    '
+    var_4 = 80
+    var_5 = []
+    var_6 = '\n'
+    var_7 = '#'
+    var_8 = False
+    var_9 = module_0.noqa(var_0, var_1, var_2, var_3, var_4, var_5, var_6, var_7, var_8, var_8)
+    assert var_9 == 'import x'
+    var_10 = 'from module import '
+    var_11 = 'x'
+    var_12 = 'y'
+    var_13 = 'z'
+    var_14 = [var_11, var_12, var_13]
+    var_15 = []
+    var_16 = module_0.noqa(var_10, var_14, var_2, var_3, var_4, var_15, var_6, var_7, var_8, var_8)
+    assert var_16 == 'from module import x, y, z'
+    var_17 = 100
+    var_18 = var_11 * var_17
+    var_19 = [var_18, var_12, var_13]
+    var_20 = []
+    var_21 = module_0.noqa(var_10, var_19, var_2, var_3, var_4, var_20, var_6, var_7, var_8, var_8)
+    assert var_21 == 'from module import xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx# NOQA'
+    var_22 = [var_11, var_12, var_13]
+    var_23 = 'comment'
+    var_24 = [var_23]
+    var_25 = module_0.noqa(var_10, var_22, var_2, var_3, var_4, var_24, var_6, var_7, var_8, var_8)
+    assert var_25 == 'from module import x, y, z# comment'
+    var_26 = var_11 * var_17
+    var_27 = [var_26, var_12, var_13]
+    var_28 = [var_23]
+    var_29 = module_0.noqa(var_10, var_27, var_2, var_3, var_4, var_28, var_6, var_7, var_8, var_8)
+    assert var_29 == 'from module import xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx# NOQA comment'
+    var_30 = var_11 * var_17
+    var_31 = [var_30, var_12, var_13]
+    var_32 = 'NOQA'
+    var_33 = [var_32]
+    var_34 = module_0.noqa(var_10, var_31, var_2, var_3, var_4, var_33, var_6, var_7, var_8, var_8)
+    assert var_34 == 'from module import xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx# NOQA'
+    var_35 = var_11 * var_17
+    var_36 = [var_35, var_12, var_13]
+    var_37 = 'comment1'
+    var_38 = 'comment2'
+    var_39 = [var_37, var_32, var_38]
+    var_40 = module_0.noqa(var_10, var_36, var_2, var_3, var_4, var_39, var_6, var_7, var_8, var_8)
+    assert var_40 == 'from module import xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx# NOQA comment1 comment2'
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from module import'
+    var_1 = 'import1'
+    var_2 = 'import2'
+    var_3 = 'import3'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = '    '
+    var_6 = 80
+    var_7 = []
+    var_8 = '\n'
+    var_9 = '#'
+    var_10 = False
+    var_11 = module_0.hanging_indent_with_parentheses(var_0, var_4, var_5, var_5, var_6, var_7, var_8, var_9, var_10, var_10)
+    assert var_11 == 'from module import(import1, import2, import3)'
+    var_12 = [var_1, var_2, var_3]
+    var_13 = 20
+    var_14 = []
+    var_15 = module_0.hanging_indent_with_parentheses(var_0, var_12, var_5, var_5, var_13, var_14, var_8, var_9, var_10, var_10)
+    assert var_15 == 'from module import(import1,\n    import2,\n    import3)'
+    var_16 = [var_1, var_2, var_3]
+    var_17 = 'comment1'
+    var_18 = [var_17]
+    var_19 = True
+    var_20 = module_0.hanging_indent_with_parentheses(var_0, var_16, var_5, var_5, var_13, var_18, var_8, var_9, var_19, var_10)
+    assert var_20 == 'from module import(import1,\n    import2,\n    import3,)'
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = module_0.vertical_grid_grouped_no_comma()
+    var_1 = 'Expected NotImplementedError'
+    var_2 = AssertionError(var_1)
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 'statement'
+    var_1 = 'imports'
+    var_2 = 'white_space'
+    var_3 = 'indent'
+    var_4 = 'line_length'
+    var_5 = 'comments'
+    var_6 = 'line_separator'
+    var_7 = 'comment_prefix'
+    var_8 = 'include_trailing_comma'
+    var_9 = 'remove_comments'
+    var_10 = 'from module import '
+    var_11 = 'import1'
+    var_12 = 'import2'
+    var_13 = 'import3'
+    var_14 = [var_11, var_12, var_13]
+    var_15 = '    '
+    var_16 = 80
+    var_17 = []
+    var_18 = '\n'
+    var_19 = '#'
+    var_20 = False
+    var_21 = {var_0: var_10, var_1: var_14, var_2: var_15, var_3: var_15, var_4: var_16, var_5: var_17, var_6: var_18, var_7: var_19, var_8: var_20, var_9: var_20}
+    var_22 = 'from module import import1, import2, import3'
+    var_23 = 30
+    var_24 = var_11 * var_23
+    var_25 = 'from module import import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1import1\nfrom module import import2, import3'
+    var_26 = var_12 * var_23
+    var_27 = 'from module import import1\nfrom module import import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2import2, import3'
+    var_28 = var_13 * var_23
+    var_29 = 'from module import import1, import2\nfrom module import import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3import3'
+    var_30 = 'comment1'
+    var_31 = 'comment2'
+    var_32 = 'from module import import1, import2, import3# comment1 comment2'
+
+
+
+# Parsed testcases at query #21
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import'
+    var_1 = 'a'
+    var_2 = 'b'
+    var_3 = 'c'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = ' '
+    var_6 = '    '
+    var_7 = 80
+    var_8 = []
+    var_9 = '\n'
+    var_10 = '#'
+    var_11 = False
+    var_12 = module_0.vertical(var_0, var_4, var_5, var_6, var_7, var_8, var_9, var_10, var_11, var_11)
+    assert var_12 == 'import(a,\n    b,\n    c)'
+
+
+
+# Parsed testcases at query #22
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'from x import'
+    var_1 = 'a'
+    var_2 = 'b'
+    var_3 = 'c'
+    var_4 = [var_1, var_2, var_3]
+    var_5 = '    '
+    var_6 = 80
+    var_7 = []
+    var_8 = '\n'
+    var_9 = '#'
+    var_10 = False
+    var_11 = module_0.grid(var_0, var_4, var_5, var_5, var_6, var_7, var_8, var_9, var_10, var_10)
+    assert var_11 == 'from x import(a, b, c)'
+
+
+
+# Parsed testcases at query #23
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import '
     var_1 = []
     var_2 = '    '
     var_3 = 80
@@ -1644,54 +1791,123 @@ def test_case_0():
     var_10 = [var_9]
     var_11 = []
     var_12 = module_0.grid(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
-    assert var_12 == 'import(os)'
+    assert var_12 == 'import (os)'
     var_13 = 'sys'
-    var_14 = 'json'
+    var_14 = 'math'
     var_15 = [var_9, var_13, var_14]
     var_16 = []
     var_17 = module_0.grid(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
-    assert var_17 == 'import(os, sys, json)'
-    var_18 = 'very_long_import_name_1'
-    var_19 = 'very_long_import_name_2'
-    var_20 = 'very_long_import_name_3'
-    var_21 = [var_18, var_19, var_20]
-    var_22 = 40
+    assert var_17 == 'import (os, sys, math)'
+    var_18 = 'a_very_long_import_name_that_exceeds_line_length'
+    var_19 = [var_9, var_13, var_18]
+    var_20 = 30
+    var_21 = []
+    var_22 = module_0.grid(var_0, var_19, var_2, var_2, var_20, var_21, var_5, var_6, var_7, var_7)
+    var_23 = 'import (os, sys,\n    a_very_long_import_name_that_exceeds_line_length)'
+    var_24 = [var_9, var_13]
+    var_25 = 'comment1'
+    var_26 = 'comment2'
+    var_27 = [var_25, var_26]
+    var_28 = module_0.grid(var_0, var_24, var_2, var_2, var_3, var_27, var_5, var_6, var_7, var_7)
+    assert var_28 == 'import (os, sys) # comment1 comment2'
+    var_29 = [var_9, var_13]
+    var_30 = []
+    var_31 = True
+    var_32 = module_0.grid(var_0, var_29, var_2, var_2, var_3, var_30, var_5, var_6, var_31, var_7)
+    assert var_32 == 'import (os, sys,)'
+
+
+
+# Parsed testcases at query #24
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import '
+    var_1 = []
+    var_2 = '    '
+    var_3 = 80
+    var_4 = []
+    var_5 = '\n'
+    var_6 = '# '
+    var_7 = False
+    var_8 = module_0.backslash_grid(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    assert var_8 == ''
+    var_9 = 'os'
+    var_10 = [var_9]
+    var_11 = []
+    var_12 = module_0.backslash_grid(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import (os)'
+    var_13 = 'sys'
+    var_14 = 'math'
+    var_15 = [var_9, var_13, var_14]
+    var_16 = []
+    var_17 = module_0.backslash_grid(var_0, var_15, var_2, var_2, var_3, var_16, var_5, var_6, var_7, var_7)
+    assert var_17 == 'import (os, sys, math)'
+    var_18 = 'random'
+    var_19 = 'collections'
+    var_20 = 'itertools'
+    var_21 = [var_9, var_13, var_14, var_18, var_19, var_20]
+    var_22 = 20
     var_23 = []
-    var_24 = module_0.grid(var_0, var_21, var_2, var_2, var_22, var_23, var_5, var_6, var_7, var_7)
-    var_25 = 'import(very_long_import_name_1,\n    very_long_import_name_2\n    very_long_import_name_3)'
-    var_26 = [var_9, var_13]
-    var_27 = 'comment1'
-    var_28 = 'comment2'
-    var_29 = [var_27, var_28]
-    var_30 = module_0.grid(var_0, var_26, var_2, var_2, var_3, var_29, var_5, var_6, var_7, var_7)
-    assert var_30 == 'import(os, sys)# comment1 comment2'
-    var_31 = [var_9, var_13]
-    var_32 = []
-    var_33 = True
-    var_34 = module_0.grid(var_0, var_31, var_2, var_2, var_3, var_32, var_5, var_6, var_33, var_7)
-    assert var_34 == 'import(os, sys,)'
-    var_35 = [var_9, var_13]
-    var_36 = [var_27, var_28]
-    var_37 = module_0.grid(var_0, var_35, var_2, var_2, var_3, var_36, var_5, var_6, var_7, var_33)
-    assert var_37 == 'import(os, sys)'
-    var_38 = 'from module import'
-    var_39 = 'function1'
-    var_40 = 'function2 as f2'
-    var_41 = [var_39, var_40]
-    var_42 = []
-    var_43 = module_0.grid(var_38, var_41, var_2, var_2, var_3, var_42, var_5, var_6, var_7, var_7)
-    assert var_43 == 'from module import(function1, function2 as f2)'
-    var_44 = 'a'
-    var_45 = 70
-    var_46 = var_44 * var_45
-    var_47 = [var_46]
-    var_48 = []
-    var_49 = module_0.grid(var_0, var_47, var_2, var_2, var_3, var_48, var_5, var_6, var_7, var_7)
-    var_50 = [var_18, var_19]
-    var_51 = 'comment'
-    var_52 = [var_51]
-    var_53 = module_0.grid(var_0, var_50, var_2, var_2, var_22, var_52, var_5, var_6, var_7, var_7)
-    var_54 = 'import(very_long_import_name_1,# comment\n    very_long_import_name_2)'
+    var_24 = module_0.backslash_grid(var_0, var_21, var_2, var_2, var_22, var_23, var_5, var_6, var_7, var_7)
+    assert var_24 == 'import (os, sys, math, \\\n    random, collections, \\\n    itertools)'
+    var_25 = [var_9, var_13]
+    var_26 = 'comment'
+    var_27 = [var_26]
+    var_28 = module_0.backslash_grid(var_0, var_25, var_2, var_2, var_3, var_27, var_5, var_6, var_7, var_7)
+    assert var_28 == 'import (os, # comment\n    sys)'
+    var_29 = [var_9, var_13]
+    var_30 = []
+    var_31 = True
+    var_32 = module_0.backslash_grid(var_0, var_29, var_2, var_2, var_3, var_30, var_5, var_6, var_31, var_7)
+    assert var_32 == 'import (os, sys,)'
+
+
+
+# Parsed testcases at query #25
+#--------------------------
+
+
+import isort.wrap_modes as module_0
+
+def test_case_0():
+    var_0 = 'import '
+    var_1 = []
+    var_2 = '    '
+    var_3 = 80
+    var_4 = []
+    var_5 = '\n'
+    var_6 = '#'
+    var_7 = False
+    var_8 = module_0.hanging_indent(var_0, var_1, var_2, var_2, var_3, var_4, var_5, var_6, var_7, var_7)
+    assert var_8 == ''
+    var_9 = 'os'
+    var_10 = [var_9]
+    var_11 = []
+    var_12 = module_0.hanging_indent(var_0, var_10, var_2, var_2, var_3, var_11, var_5, var_6, var_7, var_7)
+    assert var_12 == 'import os'
+    var_13 = 'sys'
+    var_14 = 'math'
+    var_15 = 'collections'
+    var_16 = [var_9, var_13, var_14, var_15]
+    var_17 = 20
+    var_18 = []
+    var_19 = module_0.hanging_indent(var_0, var_16, var_2, var_2, var_17, var_18, var_5, var_6, var_7, var_7)
+    assert var_19 == 'import os, sys, math, \\\n    collections'
+    var_20 = [var_9, var_13]
+    var_21 = 'comment'
+    var_22 = [var_21]
+    var_23 = module_0.hanging_indent(var_0, var_20, var_2, var_2, var_17, var_22, var_5, var_6, var_7, var_7)
+    assert var_23 == 'import os, sys # comment'
+    var_24 = [var_9, var_13]
+    var_25 = 15
+    var_26 = 'long comment that exceeds'
+    var_27 = [var_26]
+    var_28 = module_0.hanging_indent(var_0, var_24, var_2, var_2, var_25, var_27, var_5, var_6, var_7, var_7)
+    assert var_28 == 'import os, sys \\\n    #long comment that exceeds'
 
 
 

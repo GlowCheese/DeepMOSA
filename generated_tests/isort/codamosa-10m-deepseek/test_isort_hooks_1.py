@@ -27,9 +27,4 @@ def test_case_3():
 
 def test_case_4():
     var_0 = 'echo'
-    var_1 = 'Hello\nWorld'
-    var_2 = [var_0, var_1]
-    var_3 = module_0.get_lines(var_2)
-    var_4 = module_0.get_lines(var_2)
-    var_5 = 'All tests passed!'
-    var_6 = print(var_5)
+    var_1 = module_0.get_lines(var_0)

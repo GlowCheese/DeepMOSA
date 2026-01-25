@@ -1,7 +1,6 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import mimesis.random as module_0
 import pytest
-
+import mimesis.random as module_0
 
 def test_case_0():
     var_0 = None
@@ -151,37 +150,29 @@ def test_case_9():
     assert f'{type(module_0.global_seed).__module__}.{type(module_0.global_seed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_0.random).__module__}.{type(module_0.random).__qualname__}' == 'mimesis.random.Random'
     assert module_0.random.gauss_next is None
-    var_1 = '@@@'
-    var_2 = '@'
-    var_3 = '#'
-    var_4 = var_0.generate_string_by_mask(var_1, var_2, var_3)
-    var_5 = len(var_4)
-    assert var_5 == 3
-    var_6 = '###'
-    var_7 = var_0.generate_string_by_mask(var_6, var_2, var_3)
-    var_8 = len(var_7)
-    assert var_8 == 3
-    var_9 = '@#@#'
-    var_10 = var_0.generate_string_by_mask(var_9, var_2, var_3)
+    var_1 = var_0.generate_string_by_mask()
+    var_2 = len(var_1)
+    assert var_2 == 4
+    var_3 = 0
+    var_4 = var_1[var_3]
+    var_5 = 1
+    var_6 = var_1[var_5:]
+    var_7 = '@@##'
+    var_8 = '@'
+    var_9 = '#'
+    var_10 = var_0.generate_string_by_mask(var_7, var_8, var_9)
     var_11 = len(var_10)
     assert var_11 == 4
-    var_12 = 0
-    var_13 = var_10[var_12]
-    var_14 = 1
-    var_15 = var_10[var_14]
-    var_16 = 2
-    var_17 = var_10[var_16]
-    var_18 = var_10[var_16]
-    var_19 = 3
-    var_20 = var_10[var_19]
-    var_21 = 'A@B#C'
-    var_22 = var_0.generate_string_by_mask(var_21, var_2, var_3)
-    var_23 = len(var_22)
-    assert var_23 == 5
-    var_24 = var_22[var_14]
-    var_25 = var_22[var_14]
-    var_26 = var_22[var_19]
-    var_27 = '@@@'
-    var_28 = '@'
+    var_12 = 2
+    var_13 = var_10[:var_12]
+    var_14 = var_10[var_12:]
+    var_15 = 'A###'
+    var_16 = 'A'
+    var_17 = var_0.generate_string_by_mask(var_15, var_16, var_9)
+    var_18 = len(var_17)
+    assert var_18 == 4
+    var_19 = var_17[var_5:]
+    var_20 = '@@@@'
+    var_21 = '@'
     with pytest.raises(ValueError):
-        var_0.generate_string_by_mask(var_27, var_28, var_28)
+        var_0.generate_string_by_mask(var_20, var_21, var_21)

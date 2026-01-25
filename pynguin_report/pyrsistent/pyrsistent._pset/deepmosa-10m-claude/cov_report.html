@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'pyrsistent._pset'</h1>
+<p>Achieved 100.00% branch coverage:
+20/20 branchless code objects covered.
+14/14 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="fullyCovered" title="1/1 branchless code objects covered">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="notRelevant">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="notRelevant">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">33</span>
+                  <span class="notRelevant">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="fullyCovered" title="2/2 branches covered">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notRelevant">50</span>
+                  <span class="notRelevant">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="fullyCovered" title="2/2 branches covered">65</span>
+                  <span class="notRelevant">66</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="notRelevant">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="notRelevant">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="notRelevant">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="notRelevant">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="notRelevant">85</span>
+                  <span class="fullyCovered" title="2/2 branches covered">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="notRelevant">88</span>
+                  <span class="notRelevant">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notRelevant">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="notRelevant">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="fullyCovered" title="2/2 branches covered">99</span>
+                  <span class="notRelevant">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="fullyCovered" title="2/2 branches covered">108</span>
+                  <span class="notRelevant">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="notRelevant">118</span>
+                  <span class="notRelevant">119</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notRelevant">122</span>
+                  <span class="notRelevant">123</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">128</span>
+                  <span class="notRelevant">129</span>
+                  <span class="notRelevant">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="fullyCovered" title="2/2 branches covered">132</span>
+                  <span class="notRelevant">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="notRelevant">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notRelevant">139</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">140</span>
+                  <span class="notRelevant">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">143</span>
+                  <span class="notRelevant">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="notRelevant">147</span>
+                  <span class="notRelevant">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  <span class="notRelevant">161</span>
+                  <span class="notRelevant">162</span>
+                  <span class="notRelevant">163</span>
+                  <span class="notRelevant">164</span>
+                  <span class="notRelevant">165</span>
+                  <span class="notRelevant">166</span>
+                  <span class="notRelevant">167</span>
+                  <span class="notRelevant">168</span>
+                  <span class="notRelevant">169</span>
+                  <span class="notRelevant">170</span>
+                  <span class="notRelevant">171</span>
+                  <span class="notRelevant">172</span>
+                  <span class="notRelevant">173</span>
+                  <span class="notRelevant">174</span>
+                  <span class="notRelevant">175</span>
+                  <span class="notRelevant">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notRelevant">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="notRelevant">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notRelevant">182</span>
+                  <span class="notRelevant">183</span>
+                  <span class="notRelevant">184</span>
+                  <span class="notRelevant">185</span>
+                  <span class="notRelevant">186</span>
+                  <span class="notRelevant">187</span>
+                  <span class="notRelevant">188</span>
+                  <span class="notRelevant">189</span>
+                  <span class="notRelevant">190</span>
+                  <span class="notRelevant">191</span>
+                  <span class="notRelevant">192</span>
+                  <span class="notRelevant">193</span>
+                  <span class="notRelevant">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="notRelevant">196</span>
+                  <span class="notRelevant">197</span>
+                  <span class="notRelevant">198</span>
+                  <span class="notRelevant">199</span>
+                  <span class="notRelevant">200</span>
+                  <span class="notRelevant">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notRelevant">206</span>
+                  <span class="notRelevant">207</span>
+                  <span class="notRelevant">208</span>
+                  <span class="notRelevant">209</span>
+                  <span class="notRelevant">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="notRelevant">213</span>
+                  <span class="fullyCovered" title="2/2 branches covered">214</span>
+                  <span class="notRelevant">215</span>
+                  <span class="notRelevant">216</span>
+                  <span class="notRelevant">217</span>
+                  <span class="notRelevant">218</span>
+                  <span class="notRelevant">219</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">220</span>
+                  <span class="notRelevant">221</span>
+                  <span class="notRelevant">222</span>
+                  <span class="notRelevant">223</span>
+                  <span class="notRelevant">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="notRelevant">226</span>
+                  <span class="notRelevant">227</span>
+                  <span class="notRelevant">228</span>
+                  <span class="notRelevant">229</span>
+                  <span class="notRelevant">230</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Hashable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Generic</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyrsistent._pmap</span><span class="w"> </span><span class="kn">import</span> <span class="n">pmap</span>
+
+<span class="n">T_co</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T_co&#39;</span><span class="p">,</span> <span class="n">covariant</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PSet</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T_co</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Persistent set implementation. Built on top of the persistent map. The set supports all operations</span>
+<span class="sd">    in the Set protocol and is Hashable.</span>
+
+<span class="sd">    Do not instantiate directly, instead use the factory functions :py:func:`s` or :py:func:`pset`</span>
+<span class="sd">    to create an instance.</span>
+
+<span class="sd">    Random access and insert is log32(n) where n is the size of the set.</span>
+
+<span class="sd">    Some examples:</span>
+
+<span class="sd">    &gt;&gt;&gt; s = pset([1, 2, 3, 1])</span>
+<span class="sd">    &gt;&gt;&gt; s2 = s.add(4)</span>
+<span class="sd">    &gt;&gt;&gt; s3 = s2.remove(2)</span>
+<span class="sd">    &gt;&gt;&gt; s</span>
+<span class="sd">    pset([1, 2, 3])</span>
+<span class="sd">    &gt;&gt;&gt; s2</span>
+<span class="sd">    pset([1, 2, 3, 4])</span>
+<span class="sd">    &gt;&gt;&gt; s3</span>
+<span class="sd">    pset([1, 3, 4])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_map&#39;</span><span class="p">,</span> <span class="s1">&#39;__weakref__&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">PSet</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map</span> <span class="o">=</span> <span class="n">m</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;p&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="s1">&#39;pset([</span><span class="si">{0}</span><span class="s1">])&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="p">))[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Pickling support</span>
+        <span class="k">return</span> <span class="n">pset</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">),)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_from_iterable</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">it</span><span class="p">,</span> <span class="n">pre_size</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">PSet</span><span class="p">(</span><span class="n">pmap</span><span class="p">(</span><span class="nb">dict</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">it</span><span class="p">),</span> <span class="n">pre_size</span><span class="o">=</span><span class="n">pre_size</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a new PSet with element added</span>
+
+<span class="sd">        &gt;&gt;&gt; s1 = s(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; s1.add(3)</span>
+<span class="sd">        pset([1, 2, 3])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">element</span><span class="p">)</span><span class="o">.</span><span class="n">persistent</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a new PSet with elements in iterable added</span>
+
+<span class="sd">        &gt;&gt;&gt; s1 = s(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; s1.update([3, 4, 4])</span>
+<span class="sd">        pset([1, 2, 3, 4])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+            <span class="n">e</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="n">persistent</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a new PSet with element removed. Raises KeyError if element is not present.</span>
+
+<span class="sd">        &gt;&gt;&gt; s1 = s(1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; s1.remove(2)</span>
+<span class="sd">        pset([1])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">element</span><span class="p">)</span><span class="o">.</span><span class="n">persistent</span><span class="p">()</span>
+
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;Element &#39;</span><span class="si">%s</span><span class="s2">&#39; not present in PSet&quot;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">element</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">discard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a new PSet with element removed. Returns itself if element is not present.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">element</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">element</span><span class="p">)</span><span class="o">.</span><span class="n">persistent</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">_Evolver</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_original_pset&#39;</span><span class="p">,</span> <span class="s1">&#39;_pmap_evolver&#39;</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">original_pset</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_original_pset</span> <span class="o">=</span> <span class="n">original_pset</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pmap_evolver</span> <span class="o">=</span> <span class="n">original_pset</span><span class="o">.</span><span class="n">_map</span><span class="o">.</span><span class="n">evolver</span><span class="p">()</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_pmap_evolver</span><span class="p">[</span><span class="n">element</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pmap_evolver</span><span class="p">[</span><span class="n">element</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">is_dirty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pmap_evolver</span><span class="o">.</span><span class="n">is_dirty</span><span class="p">()</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">persistent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_dirty</span><span class="p">():</span>
+                <span class="k">return</span>  <span class="bp">self</span><span class="o">.</span><span class="n">_original_pset</span>
+
+            <span class="k">return</span> <span class="n">PSet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pmap_evolver</span><span class="o">.</span><span class="n">persistent</span><span class="p">())</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pmap_evolver</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">evolver</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new evolver for this pset. For a discussion on evolvers in general see the</span>
+<span class="sd">        documentation for the pvector evolver.</span>
+
+<span class="sd">        Create the evolver and perform various mutating updates to it:</span>
+
+<span class="sd">        &gt;&gt;&gt; s1 = s(1, 2, 3)</span>
+<span class="sd">        &gt;&gt;&gt; e = s1.evolver()</span>
+<span class="sd">        &gt;&gt;&gt; _ = e.add(4)</span>
+<span class="sd">        &gt;&gt;&gt; len(e)</span>
+<span class="sd">        4</span>
+<span class="sd">        &gt;&gt;&gt; _ = e.remove(1)</span>
+
+<span class="sd">        The underlying pset remains the same:</span>
+
+<span class="sd">        &gt;&gt;&gt; s1</span>
+<span class="sd">        pset([1, 2, 3])</span>
+
+<span class="sd">        The changes are kept in the evolver. An updated pmap can be created using the</span>
+<span class="sd">        persistent() function on the evolver.</span>
+
+<span class="sd">        &gt;&gt;&gt; s2 = e.persistent()</span>
+<span class="sd">        &gt;&gt;&gt; s2</span>
+<span class="sd">        pset([2, 3, 4])</span>
+
+<span class="sd">        The new pset will share data with the original pset in the same way that would have</span>
+<span class="sd">        been done if only using operations on the pset.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">PSet</span><span class="o">.</span><span class="n">_Evolver</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="c1"># All the operations and comparisons you would expect on a set.</span>
+    <span class="c1">#</span>
+    <span class="c1"># This is not very beautiful. If we avoid inheriting from PSet we can use the</span>
+    <span class="c1"># __slots__ concepts (which requires a new style class) and hopefully save some memory.</span>
+    <span class="fm">__le__</span> <span class="o">=</span> <span class="n">Set</span><span class="o">.</span><span class="fm">__le__</span>
+    <span class="fm">__lt__</span> <span class="o">=</span> <span class="n">Set</span><span class="o">.</span><span class="fm">__lt__</span>
+    <span class="fm">__gt__</span> <span class="o">=</span> <span class="n">Set</span><span class="o">.</span><span class="fm">__gt__</span>
+    <span class="fm">__ge__</span> <span class="o">=</span> <span class="n">Set</span><span class="o">.</span><span class="fm">__ge__</span>
+    <span class="fm">__eq__</span> <span class="o">=</span> <span class="n">Set</span><span class="o">.</span><span class="fm">__eq__</span>
+    <span class="fm">__ne__</span> <span class="o">=</span> <span class="n">Set</span><span class="o">.</span><span class="fm">__ne__</span>
+
+    <span class="fm">__and__</span> <span class="o">=</span> <span class="n">Set</span><span class="o">.</span><span class="fm">__and__</span>
+    <span class="fm">__or__</span> <span class="o">=</span> <span class="n">Set</span><span class="o">.</span><span class="fm">__or__</span>
+    <span class="fm">__sub__</span> <span class="o">=</span> <span class="n">Set</span><span class="o">.</span><span class="fm">__sub__</span>
+    <span class="fm">__xor__</span> <span class="o">=</span> <span class="n">Set</span><span class="o">.</span><span class="fm">__xor__</span>
+
+    <span class="n">issubset</span> <span class="o">=</span> <span class="fm">__le__</span>
+    <span class="n">issuperset</span> <span class="o">=</span> <span class="fm">__ge__</span>
+    <span class="n">union</span> <span class="o">=</span> <span class="fm">__or__</span>
+    <span class="n">intersection</span> <span class="o">=</span> <span class="fm">__and__</span>
+    <span class="n">difference</span> <span class="o">=</span> <span class="fm">__sub__</span>
+    <span class="n">symmetric_difference</span> <span class="o">=</span> <span class="fm">__xor__</span>
+
+    <span class="n">isdisjoint</span> <span class="o">=</span> <span class="n">Set</span><span class="o">.</span><span class="n">isdisjoint</span>
+
+<span class="n">Set</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">PSet</span><span class="p">)</span>
+<span class="n">Hashable</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">PSet</span><span class="p">)</span>
+
+<span class="n">_EMPTY_PSET</span> <span class="o">=</span> <span class="n">PSet</span><span class="p">(</span><span class="n">pmap</span><span class="p">())</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pset</span><span class="p">(</span><span class="n">iterable</span><span class="o">=</span><span class="p">(),</span> <span class="n">pre_size</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates a persistent set from iterable. Optionally takes a sizing parameter equivalent to that</span>
+<span class="sd">    used for :py:func:`pmap`.</span>
+
+<span class="sd">    &gt;&gt;&gt; s1 = pset([1, 2, 3, 2])</span>
+<span class="sd">    &gt;&gt;&gt; s1</span>
+<span class="sd">    pset([1, 2, 3])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">iterable</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_EMPTY_PSET</span>
+
+    <span class="k">return</span> <span class="n">PSet</span><span class="o">.</span><span class="n">_from_iterable</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">pre_size</span><span class="o">=</span><span class="n">pre_size</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">s</span><span class="p">(</span><span class="o">*</span><span class="n">elements</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a persistent set.</span>
+
+<span class="sd">    Takes an arbitrary number of arguments to insert into the new set.</span>
+
+<span class="sd">    &gt;&gt;&gt; s1 = s(1, 2, 3, 2)</span>
+<span class="sd">    &gt;&gt;&gt; s1</span>
+<span class="sd">    pset([1, 2, 3])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pset</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-01-18 09:25:03.390017</p>
+</footer>
+</body>
+</html>

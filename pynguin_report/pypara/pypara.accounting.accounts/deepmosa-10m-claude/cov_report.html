@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'pypara.accounting.accounts'</h1>
+<p>Achieved 81.82% branch coverage:
+16/25 branchless code objects covered.
+29/30 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="fullyCovered" title="1/1 branchless code objects covered">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="notRelevant">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="notRelevant">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="notRelevant">33</span>
+                  <span class="notRelevant">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="notRelevant">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="notRelevant">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="notRelevant">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notRelevant">50</span>
+                  <span class="notRelevant">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notRelevant">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="notRelevant">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="notRelevant">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="notRelevant">66</span>
+                  <span class="notRelevant">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="notRelevant">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="notRelevant">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="notRelevant">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="notRelevant">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="notRelevant">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">88</span>
+                  <span class="notRelevant">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notRelevant">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="notRelevant">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="notRelevant">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">108</span>
+                  <span class="notRelevant">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="notRelevant">118</span>
+                  <span class="notRelevant">119</span>
+                  <span class="notRelevant">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notRelevant">122</span>
+                  <span class="notRelevant">123</span>
+                  <span class="notRelevant">124</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="notRelevant">129</span>
+                  <span class="notRelevant">130</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">131</span>
+                  <span class="notRelevant">132</span>
+                  <span class="notRelevant">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="notRelevant">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="notRelevant">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="notRelevant">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="notRelevant">143</span>
+                  <span class="notRelevant">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">147</span>
+                  <span class="notRelevant">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  <span class="notRelevant">161</span>
+                  <span class="notRelevant">162</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">163</span>
+                  <span class="notRelevant">164</span>
+                  <span class="notRelevant">165</span>
+                  <span class="notRelevant">166</span>
+                  <span class="notRelevant">167</span>
+                  <span class="notRelevant">168</span>
+                  <span class="notRelevant">169</span>
+                  <span class="notRelevant">170</span>
+                  <span class="notRelevant">171</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">172</span>
+                  <span class="notRelevant">173</span>
+                  <span class="notRelevant">174</span>
+                  <span class="notRelevant">175</span>
+                  <span class="notRelevant">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notRelevant">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="notRelevant">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notRelevant">182</span>
+                  <span class="notRelevant">183</span>
+                  <span class="notRelevant">184</span>
+                  <span class="notRelevant">185</span>
+                  <span class="notRelevant">186</span>
+                  <span class="notRelevant">187</span>
+                  <span class="notRelevant">188</span>
+                  <span class="notRelevant">189</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">190</span>
+                  <span class="notRelevant">191</span>
+                  <span class="notRelevant">192</span>
+                  <span class="notRelevant">193</span>
+                  <span class="notRelevant">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="notRelevant">196</span>
+                  <span class="notRelevant">197</span>
+                  <span class="notRelevant">198</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">199</span>
+                  <span class="notRelevant">200</span>
+                  <span class="notRelevant">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notRelevant">206</span>
+                  <span class="notRelevant">207</span>
+                  <span class="notRelevant">208</span>
+                  <span class="notRelevant">209</span>
+                  <span class="notRelevant">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="notRelevant">213</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">214</span>
+                  <span class="notRelevant">215</span>
+                  <span class="notRelevant">216</span>
+                  <span class="notRelevant">217</span>
+                  <span class="notRelevant">218</span>
+                  <span class="notRelevant">219</span>
+                  <span class="notRelevant">220</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">221</span>
+                  <span class="notRelevant">222</span>
+                  <span class="notRelevant">223</span>
+                  <span class="notRelevant">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="notRelevant">226</span>
+                  <span class="notRelevant">227</span>
+                  <span class="notRelevant">228</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">229</span>
+                  <span class="notRelevant">230</span>
+                  <span class="notRelevant">231</span>
+                  <span class="notRelevant">232</span>
+                  <span class="notRelevant">233</span>
+                  <span class="notRelevant">234</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">235</span>
+                  <span class="notRelevant">236</span>
+                  <span class="notRelevant">237</span>
+                  <span class="notRelevant">238</span>
+                  <span class="notRelevant">239</span>
+                  <span class="notRelevant">240</span>
+                  <span class="notRelevant">241</span>
+                  <span class="notRelevant">242</span>
+                  <span class="notRelevant">243</span>
+                  <span class="notRelevant">244</span>
+                  <span class="notRelevant">245</span>
+                  <span class="notRelevant">246</span>
+                  <span class="notRelevant">247</span>
+                  <span class="notRelevant">248</span>
+                  <span class="notRelevant">249</span>
+                  <span class="notRelevant">250</span>
+                  <span class="notRelevant">251</span>
+                  <span class="notRelevant">252</span>
+                  <span class="notRelevant">253</span>
+                  <span class="notRelevant">254</span>
+                  <span class="notRelevant">255</span>
+                  <span class="notRelevant">256</span>
+                  <span class="notRelevant">257</span>
+                  <span class="notRelevant">258</span>
+                  <span class="notRelevant">259</span>
+                  <span class="notRelevant">260</span>
+                  <span class="fullyCovered" title="2/2 branches covered">261</span>
+                  <span class="notRelevant">262</span>
+                  <span class="notRelevant">263</span>
+                  <span class="fullyCovered" title="2/2 branches covered">264</span>
+                  <span class="notRelevant">265</span>
+                  <span class="notRelevant">266</span>
+                  <span class="notRelevant">267</span>
+                  <span class="notRelevant">268</span>
+                  <span class="notRelevant">269</span>
+                  <span class="notRelevant">270</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">271</span>
+                  <span class="notRelevant">272</span>
+                  <span class="notRelevant">273</span>
+                  <span class="notRelevant">274</span>
+                  <span class="fullyCovered" title="2/2 branches covered">275</span>
+                  <span class="notRelevant">276</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">277</span>
+                  <span class="notRelevant">278</span>
+                  <span class="notRelevant">279</span>
+                  <span class="notRelevant">280</span>
+                  <span class="notRelevant">281</span>
+                  <span class="notRelevant">282</span>
+                  <span class="notRelevant">283</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">284</span>
+                  <span class="notRelevant">285</span>
+                  <span class="notRelevant">286</span>
+                  <span class="notRelevant">287</span>
+                  <span class="notRelevant">288</span>
+                  <span class="fullyCovered" title="4/4 branches covered">289</span>
+                  <span class="notRelevant">290</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">291</span>
+                  <span class="notRelevant">292</span>
+                  <span class="notRelevant">293</span>
+                  <span class="notRelevant">294</span>
+                  <span class="notRelevant">295</span>
+                  <span class="notRelevant">296</span>
+                  <span class="notRelevant">297</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">298</span>
+                  <span class="notRelevant">299</span>
+                  <span class="notRelevant">300</span>
+                  <span class="notRelevant">301</span>
+                  <span class="notRelevant">302</span>
+                  <span class="notRelevant">303</span>
+                  <span class="notRelevant">304</span>
+                  <span class="notRelevant">305</span>
+                  <span class="notRelevant">306</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">307</span>
+                  <span class="notRelevant">308</span>
+                  <span class="notRelevant">309</span>
+                  <span class="notRelevant">310</span>
+                  <span class="notRelevant">311</span>
+                  <span class="notRelevant">312</span>
+                  <span class="notRelevant">313</span>
+                  <span class="notRelevant">314</span>
+                  <span class="notRelevant">315</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">316</span>
+                  <span class="notRelevant">317</span>
+                  <span class="notRelevant">318</span>
+                  <span class="notRelevant">319</span>
+                  <span class="notRelevant">320</span>
+                  <span class="notRelevant">321</span>
+                  <span class="notRelevant">322</span>
+                  <span class="fullyCovered" title="2/2 branches covered">323</span>
+                  <span class="notRelevant">324</span>
+                  <span class="notRelevant">325</span>
+                  <span class="notRelevant">326</span>
+                  <span class="notRelevant">327</span>
+                  <span class="notRelevant">328</span>
+                  <span class="notRelevant">329</span>
+                  <span class="notRelevant">330</span>
+                  <span class="notRelevant">331</span>
+                  <span class="notRelevant">332</span>
+                  <span class="notRelevant">333</span>
+                  <span class="notRelevant">334</span>
+                  <span class="fullyCovered" title="2/2 branches covered">335</span>
+                  <span class="notRelevant">336</span>
+                  <span class="notRelevant">337</span>
+                  <span class="notRelevant">338</span>
+                  <span class="notRelevant">339</span>
+                  <span class="notRelevant">340</span>
+                  <span class="notRelevant">341</span>
+                  <span class="fullyCovered" title="2/2 branches covered">342</span>
+                  <span class="notRelevant">343</span>
+                  <span class="notRelevant">344</span>
+                  <span class="notRelevant">345</span>
+                  <span class="fullyCovered" title="2/2 branches covered">346</span>
+                  <span class="notRelevant">347</span>
+                  <span class="notRelevant">348</span>
+                  <span class="notRelevant">349</span>
+                  <span class="notRelevant">350</span>
+                  <span class="partiallyCovered" title="5/6 branches covered">351</span>
+                  <span class="notRelevant">352</span>
+                  <span class="notRelevant">353</span>
+                  <span class="notRelevant">354</span>
+                  <span class="notRelevant">355</span>
+                  <span class="notRelevant">356</span>
+                  <span class="notRelevant">357</span>
+                  <span class="notRelevant">358</span>
+                  <span class="notRelevant">359</span>
+                  <span class="notRelevant">360</span>
+                  <span class="notRelevant">361</span>
+                  <span class="notRelevant">362</span>
+                  <span class="fullyCovered" title="2/2 branches covered">363</span>
+                  <span class="notRelevant">364</span>
+                  <span class="notRelevant">365</span>
+                  <span class="notRelevant">366</span>
+                  <span class="notRelevant">367</span>
+                  <span class="notRelevant">368</span>
+                  <span class="notRelevant">369</span>
+                  <span class="notRelevant">370</span>
+                  <span class="notRelevant">371</span>
+                  <span class="notRelevant">372</span>
+                  <span class="notRelevant">373</span>
+                  <span class="notRelevant">374</span>
+                  <span class="notRelevant">375</span>
+                  <span class="fullyCovered" title="2/2 branches covered">376</span>
+                  <span class="notRelevant">377</span>
+                  <span class="notRelevant">378</span>
+                  <span class="notRelevant">379</span>
+                  <span class="notRelevant">380</span>
+                  <span class="notRelevant">381</span>
+                  <span class="notRelevant">382</span>
+                  <span class="notRelevant">383</span>
+                  <span class="notRelevant">384</span>
+                  <span class="notRelevant">385</span>
+                  <span class="notRelevant">386</span>
+                  <span class="notRelevant">387</span>
+                  <span class="notRelevant">388</span>
+                  <span class="notRelevant">389</span>
+                  <span class="fullyCovered" title="2/2 branches covered">390</span>
+                  <span class="notRelevant">391</span>
+                  <span class="notRelevant">392</span>
+                  <span class="notRelevant">393</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">394</span>
+                  <span class="notRelevant">395</span>
+                  <span class="notRelevant">396</span>
+                  <span class="notRelevant">397</span>
+                  <span class="notRelevant">398</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">399</span>
+                  <span class="notRelevant">400</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides account types, accounts and a chart of accounts model definitions.</span>
+
+<span class="sd">Account&#39;s are identified by unique :py:class:`Code` instances which is a :py:class:`typing.NewType` of :py:class:`str`.</span>
+
+<span class="sd">A chart of accounts (:py:class:`COA`) is initialized with 5 core accounts of types:</span>
+
+<span class="sd">#. :py:attr:`AccountType.ASSETS`</span>
+<span class="sd">#. :py:attr:`AccountType.LIABILITIES`</span>
+<span class="sd">#. :py:attr:`AccountType.EQUITIES`</span>
+<span class="sd">#. :py:attr:`AccountType.REVENUES`</span>
+<span class="sd">#. :py:attr:`AccountType.EXPENSES`</span>
+
+<span class="sd">A simple chart of accounts can be initialized as follows:</span>
+
+<span class="sd">&gt;&gt;&gt; coa = COA()</span>
+<span class="sd">&gt;&gt;&gt; for code, acct in coa:</span>
+<span class="sd">...     print((code, acct.name))</span>
+<span class="sd">(&#39;1&#39;, &#39;Assets&#39;)</span>
+<span class="sd">(&#39;2&#39;, &#39;Liabilities&#39;)</span>
+<span class="sd">(&#39;3&#39;, &#39;Equities&#39;)</span>
+<span class="sd">(&#39;4&#39;, &#39;Revenues&#39;)</span>
+<span class="sd">(&#39;5&#39;, &#39;Expenses&#39;)</span>
+
+<span class="sd">We can retrieve accounts by account code:</span>
+
+<span class="sd">&gt;&gt;&gt; coa.find(Code(&quot;1&quot;)).name</span>
+<span class="sd">&#39;Assets&#39;</span>
+<span class="sd">&gt;&gt;&gt; coa.find(Code(&quot;2&quot;)).name</span>
+<span class="sd">&#39;Liabilities&#39;</span>
+<span class="sd">&gt;&gt;&gt; coa.find(Code(&quot;3&quot;)).name</span>
+<span class="sd">&#39;Equities&#39;</span>
+<span class="sd">&gt;&gt;&gt; coa.find(Code(&quot;4&quot;)).name</span>
+<span class="sd">&#39;Revenues&#39;</span>
+<span class="sd">&gt;&gt;&gt; coa.find(Code(&quot;5&quot;)).name</span>
+<span class="sd">&#39;Expenses&#39;</span>
+<span class="sd">&gt;&gt;&gt; coa.find(Code(&quot;boguscode&quot;)) is None</span>
+<span class="sd">True</span>
+
+<span class="sd">We can add further accounts:</span>
+
+<span class="sd">&gt;&gt;&gt; liquidity = coa.add(Code(&quot;1&quot;), Code(&quot;1000&quot;), &quot;Liquidity&quot;)</span>
+<span class="sd">&gt;&gt;&gt; bankaccnt = coa.add(liquidity.code, Code(&quot;1001&quot;), &quot;Bank Account&quot;)</span>
+<span class="sd">&gt;&gt;&gt; for code, acct in coa:</span>
+<span class="sd">...     print((code, acct.name))</span>
+<span class="sd">(&#39;1&#39;, &#39;Assets&#39;)</span>
+<span class="sd">(&#39;2&#39;, &#39;Liabilities&#39;)</span>
+<span class="sd">(&#39;3&#39;, &#39;Equities&#39;)</span>
+<span class="sd">(&#39;4&#39;, &#39;Revenues&#39;)</span>
+<span class="sd">(&#39;5&#39;, &#39;Expenses&#39;)</span>
+<span class="sd">(&#39;1000&#39;, &#39;Liquidity&#39;)</span>
+<span class="sd">(&#39;1001&#39;, &#39;Bank Account&#39;)</span>
+<span class="sd">&gt;&gt;&gt; coa.find(Code(&quot;1001&quot;)).parent.name</span>
+<span class="sd">&#39;Liquidity&#39;</span>
+<span class="sd">&gt;&gt;&gt; coa.find(Code(&quot;1001&quot;)).name</span>
+<span class="sd">&#39;Bank Account&#39;</span>
+
+<span class="sd">We can also print the chart of accounts in a tree-like structure.</span>
+
+<span class="sd">&gt;&gt;&gt; coa.print()</span>
+<span class="sd">[1] Assets</span>
+<span class="sd">    [1000] Liquidity</span>
+<span class="sd">        [1001] Bank Account</span>
+<span class="sd">[2] Liabilities</span>
+<span class="sd">[3] Equities</span>
+<span class="sd">[4] Revenues</span>
+<span class="sd">[5] Expenses</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;Account&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;AccountType&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;COA&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Code&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ReadChartOfAccounts&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">InitVar</span><span class="p">,</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NewType</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Protocol</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">runtime_checkable</span>
+
+<span class="c1">#: Defines a new-type for account codes.</span>
+<span class="n">Code</span> <span class="o">=</span> <span class="n">NewType</span><span class="p">(</span><span class="s2">&quot;Code&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AccountType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides an enumeration of types of accounts in balance sheet and income statement.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Indicates asset accounts related to economic resources which are beneficial to the entity.</span>
+    <span class="n">ASSETS</span> <span class="o">=</span> <span class="s2">&quot;ASSETS&quot;</span>
+
+    <span class="c1">#: Indicates liability accounts related to debts and future obligations to the entity.</span>
+    <span class="n">LIABILITIES</span> <span class="o">=</span> <span class="s2">&quot;LIABILITIES&quot;</span>
+
+    <span class="c1">#: Indicates equity accounts related to claims of owners and/or shareholders of the entity.</span>
+    <span class="n">EQUITIES</span> <span class="o">=</span> <span class="s2">&quot;EQUITIES&quot;</span>
+
+    <span class="c1">#: Indicates accounts for revenues resulting in increase in :py:attr:`AccountType.EQUITIES`.</span>
+    <span class="n">REVENUES</span> <span class="o">=</span> <span class="s2">&quot;REVENUES&quot;</span>
+
+    <span class="c1">#: Indicates accounts for expenses resulting in decrease in :py:attr:`AccountType.EQUITIES`.</span>
+    <span class="n">EXPENSES</span> <span class="o">=</span> <span class="s2">&quot;EXPENSES&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s2">&quot;AccountType&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides a comparison for account type enums.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## Provides the order of enums:</span>
+        <span class="n">order</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="s2">&quot;AccountType&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">AccountType</span><span class="o">.</span><span class="n">ASSETS</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">AccountType</span><span class="o">.</span><span class="n">LIABILITIES</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">AccountType</span><span class="o">.</span><span class="n">EQUITIES</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">AccountType</span><span class="o">.</span><span class="n">REVENUES</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="n">AccountType</span><span class="o">.</span><span class="n">EXPENSES</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="c1">## Compare and return the order of enums:</span>
+        <span class="k">return</span> <span class="n">order</span><span class="p">[</span><span class="bp">self</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">order</span><span class="p">[</span><span class="n">other</span><span class="p">]</span>
+
+
+<span class="nd">@runtime_checkable</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Account</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides a base account model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">code</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Code</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Code of the account.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Name of the account.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AccountType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Type of the account.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">coa</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;COA&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Chart of accounts of the account.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Account&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parent of the account, if any.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="o">...</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RootAccount</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides root account model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Code of the account.</span>
+    <span class="n">code</span><span class="p">:</span> <span class="n">Code</span>
+
+    <span class="c1">#: Name of the account.</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="c1">#: Type of the account.</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">AccountType</span>
+
+    <span class="c1">#: Chart of accounts the account belongs to.</span>
+    <span class="n">coa</span><span class="p">:</span> <span class="s2">&quot;COA&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">parent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Account&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parent account.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## I wish I could do `parent: ClassVar[Optional[&quot;Account&quot;]] = None` instead!</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SubAccount</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides sub-account model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: Code of the account.</span>
+    <span class="n">code</span><span class="p">:</span> <span class="n">Code</span>
+
+    <span class="c1">#: Name of the account.</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="c1">#: Parent account.</span>
+    <span class="n">parent</span><span class="p">:</span> <span class="s2">&quot;Account&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AccountType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Type of the account.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">type</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">coa</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;COA&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Chart of accounts the account belongs to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">coa</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">COA</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides a model of chart of accounts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@dataclass</span>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Node</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Provides a node definition for the chart of accounts tree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1">#: Account of the node.</span>
+        <span class="n">account</span><span class="p">:</span> <span class="n">Account</span>
+
+        <span class="c1">#: Sub-accounts of the account of the node.</span>
+        <span class="n">children</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;COA.Node&quot;</span><span class="p">]</span>
+
+    <span class="c1">#: Internal buffer for accounts.</span>
+    <span class="n">_accounts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Code</span><span class="p">,</span> <span class="n">Account</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="nb">hash</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1">#: Internal buffer for sub-accounts.</span>
+    <span class="n">_subaccounts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Account</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Account</span><span class="p">]]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="nb">hash</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1">#: Specification to initialize root accounts.</span>
+    <span class="n">rootspec</span><span class="p">:</span> <span class="n">InitVar</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">AccountType</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Code</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rootspec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">AccountType</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Code</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the root accounts buffer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## Do we have a rootspec?</span>
+        <span class="n">rootspec</span> <span class="o">=</span> <span class="n">rootspec</span> <span class="ow">or</span> <span class="p">{}</span>
+
+        <span class="c1">## Iterate over account types and initialize root accounts:</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">AccountType</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+            <span class="c1">## Attempt to get or initialize code/name tuple for the type:</span>
+            <span class="n">code</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">rootspec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="p">(</span><span class="n">Code</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">)),</span> <span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()))</span>
+
+            <span class="c1">## Create the account and add to the buffer:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">[</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">RootAccount</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Code</span><span class="p">,</span> <span class="n">Account</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an iterable of account code and account tuples.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">((</span><span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">accounts</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Account</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        All accounts of the chart of accounts.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">toplevel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">Account</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Top-level accounts (balance sheet and income statement accounts) of the chart of accounts.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">accounts</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="s2">&quot;COA.Node&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tree-like structure of the chart of accounts.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodify</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">toplevel</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Code</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Account</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attempts to find and return the account by the given code.</span>
+
+<span class="sd">        :param code: Code of the account we want to retrieve.</span>
+<span class="sd">        :return: :py:class:`Account` identified by the given code if found, ``None`` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">subaccounts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Account</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attempts to find and return sub-accounts of the given account.</span>
+
+<span class="sd">        :param account: Account we want to retrieve sub-accounts of.</span>
+<span class="sd">        :return: List of sub-accounts.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subaccounts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">account</span><span class="p">,</span> <span class="p">[])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">nodify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">:</span> <span class="n">Account</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;COA.Node&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compiles a :py:class:`Node` instance for the given account.</span>
+
+<span class="sd">        :param account: Account we want to compile the :py:class:`Node` for.</span>
+<span class="sd">        :return: Account :py:class:`Node` within the chart of accounts.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Node</span><span class="p">(</span><span class="n">account</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nodify</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subaccounts</span><span class="p">(</span><span class="n">account</span><span class="p">)])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">Code</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Code</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Account</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Attempts to add a new account to the chart of accounts.</span>
+
+<span class="sd">        :param parent: Code of the parent account.</span>
+<span class="sd">        :param code: Account code.</span>
+<span class="sd">        :param name: Account name.</span>
+<span class="sd">        :return: Newly created account (or existing one).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## Check if parent and code are same:</span>
+        <span class="k">if</span> <span class="n">parent</span> <span class="o">==</span> <span class="n">code</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;An account can not be the parent of itself.&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Attempt to get the parent instance:</span>
+        <span class="n">parentinstance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+
+        <span class="c1">## Check if we have a parent instance:</span>
+        <span class="k">if</span> <span class="n">parentinstance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parent account is not (yet) defined.&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Check if we already have an account:</span>
+        <span class="k">if</span> <span class="n">code</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">:</span>
+            <span class="c1">## Get the account:</span>
+            <span class="n">account</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">[</span><span class="n">code</span><span class="p">]</span>
+
+            <span class="c1">## Check account information is consistent:</span>
+            <span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">parent</span> <span class="o">==</span> <span class="n">parentinstance</span> <span class="ow">and</span> <span class="n">account</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span> <span class="ow">and</span> <span class="n">account</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="n">code</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">account</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Account name, code and parent do not match existing chart of accounts member.&quot;</span><span class="p">)</span>
+
+        <span class="c1">## Create the account:</span>
+        <span class="n">account</span> <span class="o">=</span> <span class="n">SubAccount</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">[</span><span class="n">parent</span><span class="p">])</span>
+
+        <span class="c1">## Add to the COA:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_accounts</span><span class="p">[</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">account</span>
+
+        <span class="c1">## Add the account to children buffer:</span>
+        <span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">parent</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_subaccounts</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_subaccounts</span><span class="p">[</span><span class="n">account</span><span class="o">.</span><span class="n">parent</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_subaccounts</span><span class="p">[</span><span class="n">account</span><span class="o">.</span><span class="n">parent</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">account</span><span class="p">)</span>
+
+        <span class="c1">## Done, return the new account:</span>
+        <span class="k">return</span> <span class="n">account</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints the chart of accounts in a tree-like form.</span>
+
+<span class="sd">        :param coa: Chart of accounts to print.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">tree</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">structure</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_print_node</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_print_node</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="s2">&quot;COA.Node&quot;</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints a node.</span>
+
+<span class="sd">        This is an auxiliary function to :py:func:`print_coa`.</span>
+
+<span class="sd">        :param node: Node to print.</span>
+<span class="sd">        :param level: Level to print node at.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">&#39;    &#39;</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">level</span><span class="p">)</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">code</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># noqa: T201</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_print_node</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ReadChartOfAccounts</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Type of functions which read chart-of-accounts from a source.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">COA</span><span class="p">:</span>
+        <span class="o">...</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-01-19 15:03:26.265634</p>
+</footer>
+</body>
+</html>

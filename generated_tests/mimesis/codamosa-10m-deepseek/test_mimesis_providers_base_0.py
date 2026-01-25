@@ -1,11 +1,9 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-import re as module_1
-
-import mimesis.exceptions as module_2
-import mimesis.providers.base as module_0
-import mimesis.random as module_3
 import pytest
-
+import mimesis.providers.base as module_0
+import re as module_1
+import mimesis.exceptions as module_2
+import mimesis.random as module_3
 
 def test_case_0():
     var_0 = module_0.BaseProvider()
@@ -52,9 +50,13 @@ def test_case_3():
     assert module_0.LOCALE_SEP == '-'
     assert f'{type(module_0.MissingSeed).__module__}.{type(module_0.MissingSeed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_0.Seed).__module__}.{type(module_0.Seed).__qualname__}' == 'types.UnionType'
-    var_1 = {var_0: var_0}
-    var_2 = var_0.update_dataset(var_1)
-    var_0.validate_enum(var_1, var_2)
+    var_1 = var_0.reseed()
+    var_2 = var_0.get_current_locale()
+    assert var_2 == 'en'
+    var_3 = {var_2: var_1}
+    var_4 = var_0.reseed()
+    var_5 = var_0.update_dataset(var_3)
+    var_0.validate_enum(var_3, var_5)
 
 @pytest.mark.xfail(strict=True)
 def test_case_4():
@@ -67,8 +69,10 @@ def test_case_4():
     assert module_0.LOCALE_SEP == '-'
     assert f'{type(module_0.MissingSeed).__module__}.{type(module_0.MissingSeed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_0.Seed).__module__}.{type(module_0.Seed).__qualname__}' == 'types.UnionType'
-    var_1 = {var_0: var_0, var_0: var_0}
-    var_0.validate_enum(var_1, var_0)
+    var_1 = var_0.get_current_locale()
+    assert var_1 == 'en'
+    var_2 = {var_1: var_0}
+    var_0.validate_enum(var_2, var_1)
 
 @pytest.mark.xfail(strict=True)
 def test_case_5():
@@ -81,10 +85,11 @@ def test_case_5():
     assert module_0.LOCALE_SEP == '-'
     assert f'{type(module_0.MissingSeed).__module__}.{type(module_0.MissingSeed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_0.Seed).__module__}.{type(module_0.Seed).__qualname__}' == 'types.UnionType'
-    var_1 = var_0.__str__()
-    assert var_1 == 'BaseDataProvider <Locale.EN>'
-    var_2 = {var_1: var_0, var_1: var_1, var_1: var_1}
-    var_0.validate_enum(var_2, var_0)
+    var_1 = var_0.reseed()
+    var_2 = var_0.__str__()
+    assert var_2 == 'BaseDataProvider <Locale.EN>'
+    var_3 = {var_2: var_1}
+    var_0.validate_enum(var_3, var_2)
 
 def test_case_6():
     var_0 = module_0.BaseProvider()
@@ -98,21 +103,19 @@ def test_case_6():
     var_1 = var_0.__str__()
     assert var_1 == 'BaseProvider'
 
-@pytest.mark.xfail(strict=True)
 def test_case_7():
-    var_0 = module_0.BaseDataProvider()
-    assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'mimesis.providers.base.BaseDataProvider'
-    assert f'{type(var_0.random).__module__}.{type(var_0.random).__qualname__}' == 'mimesis.random.Random'
-    assert f'{type(var_0.seed).__module__}.{type(var_0.seed).__qualname__}' == 'mimesis.types._MissingSeed'
-    assert var_0.locale == 'en'
+    var_0 = 'en'
+    var_1 = module_0.BaseDataProvider(var_0)
+    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'mimesis.providers.base.BaseDataProvider'
+    assert f'{type(var_1.random).__module__}.{type(var_1.random).__qualname__}' == 'mimesis.random.Random'
+    assert f'{type(var_1.seed).__module__}.{type(var_1.seed).__qualname__}' == 'mimesis.types._MissingSeed'
+    assert var_1.locale == 'en'
     assert f'{type(module_0.DATADIR).__module__}.{type(module_0.DATADIR).__qualname__}' == 'pathlib.PosixPath'
     assert module_0.LOCALE_SEP == '-'
     assert f'{type(module_0.MissingSeed).__module__}.{type(module_0.MissingSeed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_0.Seed).__module__}.{type(module_0.Seed).__qualname__}' == 'types.UnionType'
-    var_1 = var_0.get_current_locale()
-    assert var_1 == 'en'
-    var_2 = {var_1: var_1, var_1: var_1}
-    var_0.validate_enum(var_2, var_0)
+    var_2 = var_1.get_current_locale()
+    assert var_2 == 'en'
 
 @pytest.mark.xfail(strict=True)
 def test_case_8():
@@ -168,12 +171,20 @@ def test_case_10():
     assert module_0.LOCALE_SEP == '-'
     assert f'{type(module_0.MissingSeed).__module__}.{type(module_0.MissingSeed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_0.Seed).__module__}.{type(module_0.Seed).__qualname__}' == 'types.UnionType'
-    var_1 = {}
-    var_2 = var_0.update_dataset(var_1)
+    var_1 = var_0.reseed()
+    var_2 = var_0.get_current_locale()
+    assert var_2 == 'en'
+    var_3 = {}
     with pytest.raises(module_2.NonEnumerableError):
-        var_0.validate_enum(var_1, var_2)
+        var_0.validate_enum(var_3, var_2)
 
 def test_case_11():
+    var_0 = 1
+    var_1 = 'KyjhT'
+    with pytest.raises(TypeError):
+        module_0.BaseProvider(seed=var_0, random=var_1)
+
+def test_case_12():
     var_0 = module_0.BaseProvider()
     assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'mimesis.providers.base.BaseProvider'
     assert f'{type(var_0.random).__module__}.{type(var_0.random).__qualname__}' == 'mimesis.random.Random'
@@ -182,32 +193,33 @@ def test_case_11():
     assert module_0.LOCALE_SEP == '-'
     assert f'{type(module_0.MissingSeed).__module__}.{type(module_0.MissingSeed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_0.Seed).__module__}.{type(module_0.Seed).__qualname__}' == 'types.UnionType'
-    var_1 = 42
+    var_1 = module_0.BaseProvider()
+    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'mimesis.providers.base.BaseProvider'
+    assert f'{type(var_1.random).__module__}.{type(var_1.random).__qualname__}' == 'mimesis.random.Random'
+    assert f'{type(var_1.seed).__module__}.{type(var_1.seed).__qualname__}' == 'mimesis.types._MissingSeed'
     var_2 = module_0.BaseProvider(seed=var_1)
     assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'mimesis.providers.base.BaseProvider'
     assert f'{type(var_2.random).__module__}.{type(var_2.random).__qualname__}' == 'mimesis.random.Random'
-    assert var_2.seed == 42
-    with pytest.raises(TypeError):
-        module_0.BaseProvider(random=var_2)
-
-def test_case_12():
-    var_0 = module_3.Random()
-    assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'mimesis.random.Random'
-    assert var_0.gauss_next is None
+    assert f'{type(var_2.seed).__module__}.{type(var_2.seed).__qualname__}' == 'mimesis.providers.base.BaseProvider'
+    var_3 = 43
+    var_4 = var_2.reseed(var_3)
+    assert var_2.seed == 43
+    var_5 = module_3.Random()
+    assert f'{type(var_5).__module__}.{type(var_5).__qualname__}' == 'mimesis.random.Random'
+    assert var_5.gauss_next is None
     assert f'{type(module_3.MissingSeed).__module__}.{type(module_3.MissingSeed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_3.Seed).__module__}.{type(module_3.Seed).__qualname__}' == 'types.UnionType'
     assert f'{type(module_3.global_seed).__module__}.{type(module_3.global_seed).__qualname__}' == 'mimesis.types._MissingSeed'
     assert f'{type(module_3.random).__module__}.{type(module_3.random).__qualname__}' == 'mimesis.random.Random'
     assert module_3.random.gauss_next is None
-    var_1 = module_0.BaseProvider(random=var_0)
-    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'mimesis.providers.base.BaseProvider'
-    assert f'{type(var_1.random).__module__}.{type(var_1.random).__qualname__}' == 'mimesis.random.Random'
-    assert f'{type(var_1.seed).__module__}.{type(var_1.seed).__qualname__}' == 'mimesis.types._MissingSeed'
-    assert f'{type(module_0.DATADIR).__module__}.{type(module_0.DATADIR).__qualname__}' == 'pathlib.PosixPath'
-    assert module_0.LOCALE_SEP == '-'
-    assert f'{type(module_0.MissingSeed).__module__}.{type(module_0.MissingSeed).__qualname__}' == 'mimesis.types._MissingSeed'
-    assert f'{type(module_0.Seed).__module__}.{type(module_0.Seed).__qualname__}' == 'types.UnionType'
-    var_2 = module_0.BaseProvider()
-    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'mimesis.providers.base.BaseProvider'
-    assert f'{type(var_2.random).__module__}.{type(var_2.random).__qualname__}' == 'mimesis.random.Random'
-    assert f'{type(var_2.seed).__module__}.{type(var_2.seed).__qualname__}' == 'mimesis.types._MissingSeed'
+    var_6 = module_0.BaseProvider(random=var_5)
+    assert f'{type(var_6).__module__}.{type(var_6).__qualname__}' == 'mimesis.providers.base.BaseProvider'
+    assert f'{type(var_6.random).__module__}.{type(var_6.random).__qualname__}' == 'mimesis.random.Random'
+    assert f'{type(var_6.seed).__module__}.{type(var_6.seed).__qualname__}' == 'mimesis.types._MissingSeed'
+    var_7 = None
+    var_8 = module_0.BaseProvider(seed=var_7)
+    assert f'{type(var_8).__module__}.{type(var_8).__qualname__}' == 'mimesis.providers.base.BaseProvider'
+    assert f'{type(var_8.random).__module__}.{type(var_8.random).__qualname__}' == 'mimesis.random.Random'
+    assert var_8.seed is None
+    var_9 = str(var_0)
+    assert var_9 == 'BaseProvider'

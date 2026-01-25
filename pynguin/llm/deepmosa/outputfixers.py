@@ -9,8 +9,8 @@ import ast
 import copy
 from typing import Any, Dict, List, Optional, Set
 
-from pynguin.configuration import config
 from libs.custom_logger import getLogger
+from pynguin.configuration import config
 
 logger = getLogger(__name__)
 
@@ -714,7 +714,7 @@ def rewrite_test(fn_def_node: ast.FunctionDef):
     return fn_def_node
 
 
-def fixup_result(result):
+def fixup_result(result: str):
     """
     In case we aborted generation early (due to running out of tokens), remove
     any lingering syntax errors that prevent parsing by the `ast` module.
@@ -726,6 +726,9 @@ def fixup_result(result):
     Returns:
         source code that parses with ast.pasrse
     """
+    if (result := result.strip()).startswith("```"):
+        result = "\n".join(result.split("\n")[1:])
+
     try:
         ast.parse(result)
         return result
@@ -750,6 +753,7 @@ def rewrite_tests(source: str) -> Dict[str, str]:
         that test function
     """
     source = fixup_result(source)
+
     module_node: ast.Module = ast.parse(source)
     assert isinstance(module_node, ast.Module)
     # Rewrite the tests

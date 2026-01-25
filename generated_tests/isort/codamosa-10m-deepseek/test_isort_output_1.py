@@ -1,6 +1,6 @@
 # Check out: https://github.com/GlowCheese/deepmosa
 import datetime as module_2
-import re as module_4
+import enum as module_4
 
 import isort.output as module_0
 import isort.parse as module_3
@@ -8,9 +8,8 @@ import isort.wrap_modes as module_1
 import pytest
 
 
-@pytest.mark.xfail(strict=True)
 def test_case_0():
-    module_0._LineWithComments()
+    pass
 
 @pytest.mark.xfail(strict=True)
 def test_case_1():
@@ -150,7 +149,7 @@ def test_case_1():
     var_2.__new__(var_3, var_0, var_0)
 
 def test_case_2():
-    var_0 = "'8\x0c^t\rdP"
+    var_0 = '%Jf8RGS4;R:\nE['
     var_1 = module_3.file_contents(var_0)
     assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'isort.parse.ParsedContent'
     assert len(var_1) == 14
@@ -296,7 +295,7 @@ def test_case_2():
     assert f'{type(module_3.ParsedContent.verbose_output).__module__}.{type(module_3.ParsedContent.verbose_output).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_3.ParsedContent.trailing_commas).__module__}.{type(module_3.ParsedContent.trailing_commas).__qualname__}' == '_collections._tuplegetter'
     var_2 = module_0.sorted_imports(var_1)
-    assert var_2 == "'8\r^t\rdP\r"
+    assert var_2 == '%Jf8RGS4;R:\nE[\n'
     assert module_0.STATEMENT_DECLARATIONS == ('def ', 'cdef ', 'cpdef ', 'class ', '@', 'async def')
     assert f'{type(module_0.DEFAULT_CONFIG).__module__}.{type(module_0.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
     assert module_0.DEFAULT_CONFIG.py_version == 'py3'
@@ -425,13 +424,11 @@ def test_case_2():
     assert module_0.DEFAULT_CONFIG.sort_reexports is False
     assert module_0.DEFAULT_CONFIG.split_on_trailing_comma is False
 
-@pytest.mark.xfail(strict=True)
 def test_case_3():
-    var_0 = None
-    var_1 = "'8\x0c^t\rdPE"
-    var_2 = module_3.file_contents(var_1)
-    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'isort.parse.ParsedContent'
-    assert len(var_2) == 14
+    var_0 = 'I'
+    var_1 = module_3.file_contents(var_0)
+    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'isort.parse.ParsedContent'
+    assert len(var_1) == 14
     assert module_3.TYPE_CHECKING is False
     assert f'{type(module_3.DEFAULT_CONFIG).__module__}.{type(module_3.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
     assert module_3.DEFAULT_CONFIG.py_version == 'py3'
@@ -573,8 +570,8 @@ def test_case_3():
     assert f'{type(module_3.ParsedContent.sections).__module__}.{type(module_3.ParsedContent.sections).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_3.ParsedContent.verbose_output).__module__}.{type(module_3.ParsedContent.verbose_output).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_3.ParsedContent.trailing_commas).__module__}.{type(module_3.ParsedContent.trailing_commas).__qualname__}' == '_collections._tuplegetter'
-    var_3 = module_0.sorted_imports(var_2, import_type=var_0)
-    assert var_3 == "'8\r^t\rdPE\r"
+    var_2 = module_0.sorted_imports(var_1)
+    assert var_2 == 'I\n'
     assert module_0.STATEMENT_DECLARATIONS == ('def ', 'cdef ', 'cpdef ', 'class ', '@', 'async def')
     assert f'{type(module_0.DEFAULT_CONFIG).__module__}.{type(module_0.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
     assert module_0.DEFAULT_CONFIG.py_version == 'py3'
@@ -702,17 +699,15 @@ def test_case_3():
     assert module_0.DEFAULT_CONFIG.sort_order == 'natural'
     assert module_0.DEFAULT_CONFIG.sort_reexports is False
     assert module_0.DEFAULT_CONFIG.split_on_trailing_comma is False
-    var_4 = module_0.sorted_imports(var_2, import_type=var_0)
-    assert var_4 == "'8\r^t\rdPE\r"
-    var_3.__new__(var_3, var_3, var_0)
+    var_3 = module_0.sorted_imports(var_1, var_0, import_type=var_0)
+    assert var_3 == 'I\n'
 
 @pytest.mark.xfail(strict=True)
 def test_case_4():
-    var_0 = None
-    var_1 = '\n'
-    var_2 = module_3.file_contents(var_1)
-    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'isort.parse.ParsedContent'
-    assert len(var_2) == 14
+    var_0 = ';'
+    var_1 = module_3.file_contents(var_0)
+    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'isort.parse.ParsedContent'
+    assert len(var_1) == 14
     assert module_3.TYPE_CHECKING is False
     assert f'{type(module_3.DEFAULT_CONFIG).__module__}.{type(module_3.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
     assert module_3.DEFAULT_CONFIG.py_version == 'py3'
@@ -854,8 +849,8 @@ def test_case_4():
     assert f'{type(module_3.ParsedContent.sections).__module__}.{type(module_3.ParsedContent.sections).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_3.ParsedContent.verbose_output).__module__}.{type(module_3.ParsedContent.verbose_output).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_3.ParsedContent.trailing_commas).__module__}.{type(module_3.ParsedContent.trailing_commas).__qualname__}' == '_collections._tuplegetter'
-    var_3 = module_0.sorted_imports(var_2, import_type=var_0)
-    assert var_3 == ''
+    var_2 = module_0.sorted_imports(var_1)
+    assert var_2 == ''
     assert module_0.STATEMENT_DECLARATIONS == ('def ', 'cdef ', 'cpdef ', 'class ', '@', 'async def')
     assert f'{type(module_0.DEFAULT_CONFIG).__module__}.{type(module_0.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
     assert module_0.DEFAULT_CONFIG.py_version == 'py3'
@@ -983,20 +978,17 @@ def test_case_4():
     assert module_0.DEFAULT_CONFIG.sort_order == 'natural'
     assert module_0.DEFAULT_CONFIG.sort_reexports is False
     assert module_0.DEFAULT_CONFIG.split_on_trailing_comma is False
-    var_4 = module_0.sorted_imports(var_2, import_type=var_0)
+    var_3 = None
+    var_4 = module_0.sorted_imports(var_1, var_3, import_type=var_2)
     assert var_4 == ''
-    var_5 = 'u&'
-    var_6 = module_0.sorted_imports(var_2, import_type=var_3)
-    assert var_6 == ''
-    module_0.sorted_imports(var_0, import_type=var_5)
+    module_0.sorted_imports(var_3)
 
 @pytest.mark.xfail(strict=True)
 def test_case_5():
-    var_0 = None
-    var_1 = ''
-    var_2 = module_3.file_contents(var_1)
-    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'isort.parse.ParsedContent'
-    assert len(var_2) == 14
+    var_0 = ''
+    var_1 = module_3.file_contents(var_0)
+    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'isort.parse.ParsedContent'
+    assert len(var_1) == 14
     assert module_3.TYPE_CHECKING is False
     assert f'{type(module_3.DEFAULT_CONFIG).__module__}.{type(module_3.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
     assert module_3.DEFAULT_CONFIG.py_version == 'py3'
@@ -1138,34 +1130,8 @@ def test_case_5():
     assert f'{type(module_3.ParsedContent.sections).__module__}.{type(module_3.ParsedContent.sections).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_3.ParsedContent.verbose_output).__module__}.{type(module_3.ParsedContent.verbose_output).__qualname__}' == '_collections._tuplegetter'
     assert f'{type(module_3.ParsedContent.trailing_commas).__module__}.{type(module_3.ParsedContent.trailing_commas).__qualname__}' == '_collections._tuplegetter'
-    var_3 = module_4.fullmatch(var_1, var_1)
-    assert f'{type(var_3).__module__}.{type(var_3).__qualname__}' == 're.Match'
-    assert module_4.ASCII == module_4.RegexFlag.ASCII
-    assert module_4.A == module_4.RegexFlag.ASCII
-    assert module_4.IGNORECASE == module_4.RegexFlag.IGNORECASE
-    assert module_4.I == module_4.RegexFlag.IGNORECASE
-    assert module_4.LOCALE == module_4.RegexFlag.LOCALE
-    assert module_4.L == module_4.RegexFlag.LOCALE
-    assert module_4.UNICODE == module_4.RegexFlag.UNICODE
-    assert module_4.U == module_4.RegexFlag.UNICODE
-    assert module_4.MULTILINE == module_4.RegexFlag.MULTILINE
-    assert module_4.M == module_4.RegexFlag.MULTILINE
-    assert module_4.DOTALL == module_4.RegexFlag.DOTALL
-    assert module_4.S == module_4.RegexFlag.DOTALL
-    assert module_4.VERBOSE == module_4.RegexFlag.VERBOSE
-    assert module_4.X == module_4.RegexFlag.VERBOSE
-    assert module_4.TEMPLATE == module_4.RegexFlag.TEMPLATE
-    assert module_4.T == module_4.RegexFlag.TEMPLATE
-    assert module_4.DEBUG == module_4.RegexFlag.DEBUG
-    assert f'{type(module_4.Match.string).__module__}.{type(module_4.Match.string).__qualname__}' == 'builtins.member_descriptor'
-    assert f'{type(module_4.Match.re).__module__}.{type(module_4.Match.re).__qualname__}' == 'builtins.member_descriptor'
-    assert f'{type(module_4.Match.pos).__module__}.{type(module_4.Match.pos).__qualname__}' == 'builtins.member_descriptor'
-    assert f'{type(module_4.Match.endpos).__module__}.{type(module_4.Match.endpos).__qualname__}' == 'builtins.member_descriptor'
-    assert f'{type(module_4.Match.lastindex).__module__}.{type(module_4.Match.lastindex).__qualname__}' == 'builtins.getset_descriptor'
-    assert f'{type(module_4.Match.lastgroup).__module__}.{type(module_4.Match.lastgroup).__qualname__}' == 'builtins.getset_descriptor'
-    assert f'{type(module_4.Match.regs).__module__}.{type(module_4.Match.regs).__qualname__}' == 'builtins.getset_descriptor'
-    var_4 = module_0.sorted_imports(var_2, import_type=var_0)
-    assert var_4 == ''
+    var_2 = module_0.sorted_imports(var_1)
+    assert var_2 == ''
     assert module_0.STATEMENT_DECLARATIONS == ('def ', 'cdef ', 'cpdef ', 'class ', '@', 'async def')
     assert f'{type(module_0.DEFAULT_CONFIG).__module__}.{type(module_0.DEFAULT_CONFIG).__qualname__}' == 'isort.settings.Config'
     assert module_0.DEFAULT_CONFIG.py_version == 'py3'
@@ -1293,6 +1259,10 @@ def test_case_5():
     assert module_0.DEFAULT_CONFIG.sort_order == 'natural'
     assert module_0.DEFAULT_CONFIG.sort_reexports is False
     assert module_0.DEFAULT_CONFIG.split_on_trailing_comma is False
-    var_5 = module_4.purge()
-    var_6 = module_4.purge()
-    var_6.__getitem__(var_0, var_0)
+    var_3 = None
+    var_4 = 'h}\nk\x0b{45^]xeLil:{'
+    var_5 = module_0.sorted_imports(var_1, extension=var_4)
+    assert var_5 == ''
+    var_6 = module_0.sorted_imports(var_1, var_3)
+    assert var_6 == ''
+    module_4.unique(var_3)

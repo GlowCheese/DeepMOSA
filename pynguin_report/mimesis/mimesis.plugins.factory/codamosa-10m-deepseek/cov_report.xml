@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.26666666666666666" lines-covered="0" lines-valid="0" branches-covered="4" branches-valid="15" complexity="0.0" version="pynguin-0.40.0" timestamp="1767817370">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.26666666666666666" lines-covered="0" lines-valid="0" branches-covered="4" branches-valid="15" complexity="0.0" version="pynguin-0.40.0" timestamp="1768470687">
   <sources>
     <source>mimesis.plugins.factory</source>
   </sources>

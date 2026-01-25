@@ -1,5 +1,5 @@
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -7,271 +7,193 @@
 #--------------------------
 
 # Unit test for function process
-def test_process(): 
-    # Test case 1: Empty input stream
-    input_stream = StringIO("")
+def test_process():
+    # Test case 1: No imports, no changes
+    input_stream = StringIO("print('Hello, World!')")
     output_stream = StringIO()
-    assert process(input_stream, output_stream) == False
-    assert output_stream.getvalue() == ""
+    assert not process(input_stream, output_stream)
+    assert output_stream.getvalue() == "print('Hello, World!')"
 
-    # Test case 2: Input stream with unsorted imports
-    input_stream = StringIO("import b\nimport a\n")
+    # Test case 2: Simple import, no changes
+    input_stream = StringIO("import os")
     output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "import a\nimport b\n"
+    assert not process(input_stream, output_stream)
+    assert output_stream.getvalue() == "import os"
 
-    # Test case 3: Input stream with sorted imports
-    input_stream = StringIO("import a\nimport b\n")
+    # Test case 3: Unsorted imports, changes made
+    input_stream = StringIO("import sys\nimport os")
     output_stream = StringIO()
-    assert process(input_stream, output_stream) == False
-    assert output_stream.getvalue() == "import a\nimport b\n"
+    assert process(input_stream, output_stream)
+    assert output_stream.getvalue() == "import os\nimport sys"
 
-    # Test case 4: Input stream with comments and imports
-    input_stream = StringIO("# comment\nimport b\nimport a\n")
+    # Test case 4: Multiple sections, changes made
+    input_stream = StringIO("import sys\n\nimport os")
     output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "# comment\nimport a\nimport b\n"
+    assert process(input_stream, output_stream)
+    assert output_stream.getvalue() == "import os\n\nimport sys"
 
-    # Test case 5: Input stream with shebang and imports
-    input_stream = StringIO("#!/usr/bin/env python\nimport b\nimport a\n")
+    # Test case 5: Skip file comment, no changes
+    input_stream = StringIO("# isort: skip_file\nimport os")
     output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "#!/usr/bin/env python\nimport a\nimport b\n"
+    assert not process(input_stream, output_stream, raise_on_skip=False)
+    assert output_stream.getvalue() == "# isort: skip_file\nimport os"
 
-    # Test case 6: Input stream with docstring and imports
-    input_stream = StringIO('"""docstring"""\nimport b\nimport a\n')
-    output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == '"""docstring"""\nimport a\nimport b\n'
-
-    # Test case 7: Input stream with multiple import sections
-    input_stream = StringIO("import b\nimport a\n\nimport d\nimport c\n")
-    output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "import a\nimport b\n\nimport c\nimport d\n"
-
-    # Test case 8: Input stream with from imports
-    input_stream = StringIO("from b import foo\nfrom a import bar\n")
-    output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "from a import bar\nfrom b import foo\n"
-
-    # Test case 9: Input stream with relative imports
-    input_stream = StringIO("from .b import foo\nfrom .a import bar\n")
-    output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "from .a import bar\nfrom .b import foo\n"
-
-    # Test case 10: Input stream with mixed imports
-    input_stream = StringIO("import b\nfrom a import foo\n")
-    output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "from a import foo\nimport b\n"
-
-    # Test case 11: Input stream with trailing whitespace
-    input_stream = StringIO("import b  \nimport a  \n")
-    output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "import a  \nimport b  \n"
-
-    # Test case 12: Input stream with line continuations
-    input_stream = StringIO("import b, \\\n    c\nimport a\n")
-    output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "import a\nimport b, \\\n    c\n"
-
-    # Test case 13: Input stream with parentheses
-    input_stream = StringIO("import b, c\nimport a\n")
-    output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "import a\nimport b, c\n"
-
-    # Test case 14: Input stream with comments on import lines
-    input_stream = StringIO("import b  # comment\nimport a  # another comment\n")
-    output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "import a  # another comment\nimport b  # comment\n"
-
-    # Test case 15: Input stream with shebang and encoding
-    input_stream = StringIO("#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nimport b\nimport a\n")
-    output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nimport a\nimport b\n"
-
-    # Test case 16: Input stream with isort: off comment
-    input_stream = StringIO("# isort: off\nimport b\nimport a\n# isort: on\n")
-    output_stream = StringIO()
-    assert process(input_stream, output_stream) == False
-    assert output_stream.getvalue() == "# isort: off\nimport b\nimport a\n# isort: on\n"
-
-    # Test case 17: Input stream with isort: skip comment
-    input_stream = StringIO("# isort: skip_file\nimport b\nimport a\n")
+    # Test case 6: Skip file comment, raise on skip
+    input_stream = StringIO("# isort: skip_file\nimport os")
     output_stream = StringIO()
     try:
         process(input_stream, output_stream, raise_on_skip=True)
+        assert False, "Expected FileSkipComment"
     except FileSkipComment:
         pass
-    else:
-        assert False, "Expected FileSkipComment"
 
-    # Test case 18: Input stream with isort: split comment
-    input_stream = StringIO("import b\n# isort: split\nimport a\n")
+    # Test case 7: Add imports
+    input_stream = StringIO("import os")
     output_stream = StringIO()
-    assert process(input_stream, output_stream) == True
-    assert output_stream.getvalue() == "import b\n# isort: split\nimport a\n"
+    config = Config(add_imports=["import sys"])
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import os\nimport sys"
 
-    # Test case 19: Input stream with isort: dont-add-imports comment
-    input_stream = StringIO("# isort: dont-add-imports\nimport b\nimport a\n")
+    # Test case 8: Add imports, append only
+    input_stream = StringIO("import os")
     output_stream = StringIO()
-    config = Config(add_imports=["import added"])
-    assert process(input_stream, output_stream, config=config) == True
-    assert output_stream.getvalue() == "# isort: dont-add-imports\nimport a\nimport b\n"
+    config = Config(add_imports=["import sys"], append_only=True)
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import os\nimport sys"
 
-    # Test case 20: Input stream with isort: dont-add-import comment
-    input_stream = StringIO("# isort: dont-add-import: import added\nimport b\nimport a\n")
-    output_stream = StringIO()
-    config = Config(add_imports=["import added", "import another"])
-    assert process(input_stream, output_stream, config=config) == True
-    assert output_stream.getvalue() == "# isort: dont-add-import: import added\nimport a\nimport b\nimport another\n"
-
-    # Test case 21: Input stream with float_to_top option
-    input_stream = StringIO("print('hello')\nimport b\nimport a\n")
+    # Test case 9: Float to top
+    input_stream = StringIO("print('Hello, World!')\nimport os")
     output_stream = StringIO()
     config = Config(float_to_top=True)
-    assert process(input_stream, output_stream, config=config) == True
-    assert output_stream.getvalue() == "import a\nimport b\nprint('hello')\n"
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import os\nprint('Hello, World!')"
 
-    # Test case 22: Input stream with force_adds option
-    input_stream = StringIO("")
+    # Test case 10: Sort re-exports
+    input_stream = StringIO("__all__ = ['b', 'a']")
     output_stream = StringIO()
-    config = Config(add_imports=["import added"], force_adds=True)
-    assert process(input_stream, output_stream, config=config) == True
-    assert output_stream.getvalue() == "import added\n"
+    config = Config(sort_reexports=True)
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "__all__ = ['a', 'b']"
 
-    # Test case 23: Input stream with append_only option
-    input_stream = StringIO("import b\nimport a\n")
-    output_stream = StringIO()
-    config = Config(add_imports=["import added"], append_only=True)
-    assert process(input_stream, output_stream, config=config) == True
-    assert output_stream.getvalue() == "import a\nimport b\nimport added\n"
-
-    # Test case 24: Input stream with lines_before_imports option
-    input_stream = StringIO("\n\nimport b\nimport a\n")
+    # Test case 11: Lines before imports
+    input_stream = StringIO("\n\nimport os")
     output_stream = StringIO()
     config = Config(lines_before_imports=2)
-    assert process(input_stream, output_stream, config=config) == True
-    assert output_stream.getvalue() == "\n\nimport a\nimport b\n"
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "\n\nimport os"
 
-    # Test case 25: Input stream with treat_all_comments_as_code option
-    input_stream = StringIO("# comment\nimport b\nimport a\n")
+    # Test case 12: Lines before imports, fewer lines
+    input_stream = StringIO("\n\nimport os")
+    output_stream = StringIO()
+    config = Config(lines_before_imports=1)
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "\nimport os"
+
+    # Test case 13: Lines before imports, more lines
+    input_stream = StringIO("\n\nimport os")
+    output_stream = StringIO()
+    config = Config(lines_before_imports=3)
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "\n\n\nimport os"
+
+    # Test case 14: Lines before imports, negative value
+    input_stream = StringIO("\n\nimport os")
+    output_stream = StringIO()
+    config = Config(lines_before_imports=-1)
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "\n\nimport os"
+
+    # Test case 15: Lines before imports, zero lines
+    input_stream = StringIO("\n\nimport os")
+    output_stream = StringIO()
+    config = Config(lines_before_imports=0)
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import os"
+
+    # Test case 16: Comments treated as code
+    input_stream = StringIO("import os\n# comment\nimport sys")
+    output_stream = StringIO()
+    config = Config(treat_comments_as_code=["comment"])
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import os\n# comment\nimport sys"
+
+    # Test case 17: Comments treated as code, multiple comments
+    input_stream = StringIO("import os\n# comment1\n# comment2\nimport sys")
+    output_stream = StringIO()
+    config = Config(treat_comments_as_code=["comment1", "comment2"])
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import os\n# comment1\n# comment2\nimport sys"
+
+    # Test case 18: Comments treated as code, all comments
+    input_stream = StringIO("import os\n# comment\nimport sys")
     output_stream = StringIO()
     config = Config(treat_all_comments_as_code=True)
-    assert process(input_stream, output_stream, config=config) == True
-    assert output_stream.getvalue() == "# comment\nimport a\nimport b\n"
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import os\n# comment\nimport sys"
 
-    # Test case 26: Input stream with treat_comments_as_code option
-    input_stream = StringIO("# special\nimport b\nimport a\n")
+    # Test case 19: Comments treated as code, all comments, multiple comments
+    input_stream = StringIO("import os\n# comment1\n# comment2\nimport sys")
     output_stream = StringIO()
-    config = Config(treat_comments_as_code=["# special"])
-    assert process(input_stream, output_stream, config=config) == True
-    assert output_stream.getvalue() == "# special\nimport a\nimport b\n"
+    config = Config(treat_all_comments_as_code=True)
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import os\n# comment1\n# comment2\nimport sys"
 
-    # Test case 27
+    # Test case 20: Comments treated as code, all comments, no comments
+    input_stream = StringIO("import os\nimport sys")
+    output_stream = StringIO()
+    config = Config(treat_all_comments_as_code=True)
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import os\nimport sys"
 
+    # Test case 21: Comments treated as code, all comments, no imports
+    input_stream = StringIO("print('Hello, World!')")
+    output_stream = StringIO()
+    config = Config(treat_all_comments_as_code=True)
+    assert not process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "print('Hello, World!')"
 
-# LLM-generated content at query #2
-#--------------------------
+    # Test case 22: Comments treated as code, all comments, no imports, comments
+    input_stream = StringIO("# comment\nprint('Hello, World!')")
+    output_stream = StringIO()
+    config = Config(treat_all_comments_as_code=True)
+    assert not process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "# comment\nprint('Hello, World!')"
 
-# Unit test for function process
-def test_process():  
-    # Test case 1: Simple import sorting  
-    input_stream = StringIO("import b\nimport a\n")  
-    output_stream = StringIO()  
-    config = Config()  
-    result = process(input_stream, output_stream, config=config)  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\n"  
+    # Test case 23: Comments treated as code, all comments, no imports, multiple comments
+    input_stream = StringIO("# comment1\n# comment2\nprint('Hello, World!')")
+    output_stream = StringIO()
+    config = Config(treat_all_comments_as_code=True)
+    assert not process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "# comment1\n# comment2\nprint('Hello, World!')"
 
-    # Test case 2: No changes needed  
-    input_stream = StringIO("import a\nimport b\n")  
-    output_stream = StringIO()  
-    config = Config()  
-    result = process(input_stream, output_stream, config=config)  
-    assert result == False  
-    assert output_stream.getvalue() == "import a\nimport b\n"  
+    # Test case 24: Comments treated as code, all comments, no imports, no comments
+    input_stream = StringIO("print('Hello, World!')")
+    output_stream = StringIO()
+    config = Config(treat_all_comments_as_code=True)
+    assert not process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "print('Hello, World!')"
 
-    # Test case 3: With add_imports  
-    input_stream = StringIO("import b\n")  
-    output_stream = StringIO()  
-    config = Config(add_imports=["import a"])  
-    result = process(input_stream, output_stream, config=config)  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\n"  
+    # Test case 25: Comments treated as code, all comments, imports, comments
+    input_stream = StringIO("import os\n# comment\nimport sys")
+    output_stream = StringIO()
+    config = Config(treat_all_comments_as_code=True)
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import os\n# comment\nimport sys"
 
-    # Test case 4: With isort: off comment  
-    input_stream = StringIO("# isort: off\nimport b\nimport a\n# isort: on\n")  
-    output_stream = StringIO()  
-    config = Config()  
-    result = process(input_stream, output_stream, config=config)  
-    assert result == False  
-    assert output_stream.getvalue() == "# isort: off\nimport b\nimport a\n# isort: on\n"  
+    # Test case 26: Comments treated as code, all comments, imports, multiple comments
+    input_stream = StringIO("import os\n# comment1\n# comment2\nimport sys")
+    output_stream = StringIO()
+    config = Config(treat_all_comments_as_code=True)
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import os\n# comment1\n# comment2\nimport sys"
 
-    # Test case 5: With code sorting comment  
-    input_stream = StringIO("# isort: list\nb = [3, 1, 2]\n")  
-    output_stream = StringIO()  
-    config = Config()  
-    result = process(input_stream, output_stream, config=config)  
-    assert result == True  
-    assert output_stream.getvalue() == "# isort: list\nb = [1, 2, 3]\n"  
-
-    # Test case 6: With re-exports  
-    input_stream = StringIO("__all__ = ['b', 'a']\n")  
-    output_stream = StringIO()  
-    config = Config(sort_reexports=True)  
-    result = process(input_stream, output_stream, config=config)  
-    assert result == True  
-    assert output_stream.getvalue() == "__all__ = ['a', 'b']\n"  
-
-    # Test case 7: With float_to_top  
-    input_stream = StringIO("print('hello')\nimport b\nimport a\n")  
-    output_stream = StringIO()  
-    config = Config(float_to_top=True)  
-    result = process(input_stream, output_stream, config=config)  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\nprint('hello')\n"  
-
-    # Test case 8: With lines_before_imports  
-    input_stream = StringIO("\n\nimport b\nimport a\n")  
-    output_stream = StringIO()  
-    config = Config(lines_before_imports=2)  
-    result = process(input_stream, output_stream, config=config)  
-    assert result == True  
-    assert output_stream.getvalue() == "\n\nimport a\nimport b\n"  
-
-    # Test case 9: With treat_all_comments_as_code  
-    input_stream = StringIO("# comment\nimport b\nimport a\n")  
-    output_stream = StringIO()  
-    config = Config(treat_all_comments_as_code=True)  
-    result = process(input_stream, output_stream, config=config)  
-    assert result == True  
-    assert output_stream.getvalue() == "# comment\nimport a\nimport b\n"  
-
-    # Test case 10: With only_modified flag  
-    input_stream = StringIO("import b\nimport a\n")  
-    output_stream = StringIO()  
-    config = Config(only_modified=True)  
-    result = process(input_stream, output_stream, config=config)  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\n"  
-
-    print("All tests passed!")  
-
-if __name__ == "__main__":  
-    test_process()
+    # Test case 27: Comments treated as code, all comments, imports, no comments
+    input_stream = StringIO("import os\nimport sys")
+   
 
 
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -279,361 +201,310 @@ if __name__ == "__main__":
 #--------------------------
 
 # Unit test for function process
-def test_process():  
-    # Test case 1: Empty input stream  
-    input_stream = StringIO("")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream)  
-    assert result == False  
-    assert output_stream.getvalue() == ""  
+def test_process():
+    input_stream = StringIO("import b\nimport a\n")
+    output_stream = StringIO()
+    assert process(input_stream, output_stream) == True
+    assert output_stream.getvalue() == "import a\nimport b\n"
 
-    # Test case 2: Input stream with unsorted imports  
-    input_stream = StringIO("import b\nimport a\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream)  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\n"  
+    input_stream = StringIO("import a\nimport b\n")
+    output_stream = StringIO()
+    assert process(input_stream, output_stream) == False
+    assert output_stream.getvalue() == "import a\nimport b\n"
 
-    # Test case 3: Input stream with sorted imports  
-    input_stream = StringIO("import a\nimport b\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream)  
-    assert result == False  
-    assert output_stream.getvalue() == "import a\nimport b\n"  
+    input_stream = StringIO("import b\n# isort: off\nimport a\n")
+    output_stream = StringIO()
+    assert process(input_stream, output_stream) == True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n"
 
-    # Test case 4: Input stream with comments and imports  
-    input_stream = StringIO("# Comment\nimport b\nimport a\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream)  
-    assert result == True  
-    assert output_stream.getvalue() == "# Comment\nimport a\nimport b\n"  
-
-    # Test case 5: Input stream with multiple import sections  
-    input_stream = StringIO("import b\nimport a\n\nimport d\nimport c\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream)  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\n\nimport c\nimport d\n"  
-
-    # Test case 6: Input stream with from imports  
-    input_stream = StringIO("from module import b, a\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream)  
-    assert result == True  
-    assert output_stream.getvalue() == "from module import a, b\n"  
-
-    # Test case 7: Input stream with relative imports  
-    input_stream = StringIO("from .module import b, a\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream)  
-    assert result == True  
-    assert output_stream.getvalue() == "from .module import a, b\n"  
-
-    # Test case 8: Input stream with import statements and code  
-    input_stream = StringIO("import b\nprint('Hello')\nimport a\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream)  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\nprint('Hello')\n"  
-
-    # Test case 9: Input stream with import statements and code, but no changes needed  
-    input_stream = StringIO("import a\nprint('Hello')\nimport b\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream)  
-    assert result == False  
-    assert output_stream.getvalue() == "import a\nprint('Hello')\nimport b\n"  
-
-    # Test case 10: Input stream with import statements and code, with changes needed  
-    input_stream = StringIO("import b\nprint('Hello')\nimport a\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream)  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\nprint('Hello')\n"  
-
-    # Test case 11: Input stream with import statements and code, with changes needed and line separator  
-    input_stream = StringIO("import b\r\nprint('Hello')\r\nimport a\r\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream)  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\r\nimport b\r\nprint('Hello')\r\n"  
-
-    # Test case 12: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\nprint('Hello')\nimport a\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream, line_separator="\r\n")  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\r\nimport b\r\nprint('Hello')\r\n"  
-
-    # Test case 13: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\r\nprint('Hello')\r\nimport a\r\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream, line_separator="\n")  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\nprint('Hello')\n"  
-
-    # Test case 14: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\r\nprint('Hello')\r\nimport a\r\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream, line_separator="\r\n")  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\r\nimport b\r\nprint('Hello')\r\n"  
-
-    # Test case 15: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\nprint('Hello')\nimport a\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream, line_separator="\r\n")  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\r\nimport b\r\nprint('Hello')\r\n"  
-
-    # Test case 16: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\r\nprint('Hello')\r\nimport a\r\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream, line_separator="\n")  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\nprint('Hello')\n"  
-
-    # Test case 17: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\nprint('Hello')\nimport a\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream, line_separator="\r\n")  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\r\nimport b\r\nprint('Hello')\r\n"  
-
-    # Test case 18: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\r\nprint('Hello')\r\nimport a\r\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream, line_separator="\n")  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\nprint('Hello')\n"  
-
-    # Test case 19: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\nprint('Hello')\nimport a\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream, line_separator="\r\n")  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\r\nimport b\r\nprint('Hello')\r\n"  
-
-    # Test case 20: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\r\nprint('Hello')\r\nimport a\r\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream, line_separator="\n")  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\nprint('Hello')\n"  
-
-    # Test case 21: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\nprint('Hello')\nimport a\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream, line_separator="\r\n")  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\r\nimport b\r\nprint('Hello')\r\n"  
-
-    # Test case 22: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\r\nprint('Hello')\r\nimport a\r\n")  
-    output_stream = StringIO()  
-    result = process(input_stream, output_stream, line_separator="\n")  
-    assert result == True  
-    assert output_stream.getvalue() == "import a\nimport b\nprint('Hello')\n"  
-
-    # Test case 23: Input stream with import statements and code, with changes needed and different line separator  
-    input_stream = StringIO("import b\nprint('Hello')\nimport a\n")  
-   
+    input_stream = StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = StringIO()
+    assert process(input_stream, output_stream) == True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n# isort: on\nimport c\n"
 
 
 # LLM-generated content at query #2
 #--------------------------
 
 # Unit test for function process
-def test_process(): 
-    # Test case 1: Empty input stream
+def test_process():
+    from io import StringIO
+    from isort.settings import Config
+
+    # Test case 1: Empty input
     input_stream = StringIO("")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == False
+    assert not process(input_stream, output_stream)
     assert output_stream.getvalue() == ""
 
-    # Test case 2: Input stream with unsorted imports
+    # Test case 2: Input with only comments
+    input_stream = StringIO("# comment\n# another comment")
+    output_stream = StringIO()
+    assert not process(input_stream, output_stream)
+    assert output_stream.getvalue() == "# comment\n# another comment"
+
+    # Test case 3: Input with unsorted imports
     input_stream = StringIO("import b\nimport a\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
+    assert process(input_stream, output_stream)
     assert output_stream.getvalue() == "import a\nimport b\n"
 
-    # Test case 3: Input stream with sorted imports
+    # Test case 4: Input with sorted imports
     input_stream = StringIO("import a\nimport b\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == False
+    assert not process(input_stream, output_stream)
     assert output_stream.getvalue() == "import a\nimport b\n"
 
-    # Test case 4: Input stream with comments and imports
-    input_stream = StringIO("# Comment\nimport b\nimport a\n")
+    # Test case 5: Input with imports and other code
+    input_stream = StringIO("import b\nimport a\ndef foo():\n    pass\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "# Comment\nimport a\nimport b\n"
+    assert process(input_stream, output_stream)
+    assert output_stream.getvalue() == "import a\nimport b\ndef foo():\n    pass\n"
 
-    # Test case 5: Input stream with shebang and imports
-    input_stream = StringIO("#!/usr/bin/env python\nimport b\nimport a\n")
+    # Test case 6: Input with isort: off comment
+    input_stream = StringIO("# isort: off\nimport b\nimport a\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "#!/usr/bin/env python\nimport a\nimport b\n"
+    assert not process(input_stream, output_stream, raise_on_skip=False)
+    assert output_stream.getvalue() == "# isort: off\nimport b\nimport a\n"
 
-    # Test case 6: Input stream with docstring and imports
-    input_stream = StringIO('"""Docstring"""\nimport b\nimport a\n')
+    # Test case 7: Input with add_imports
+    config = Config(add_imports=["import x", "import y"])
+    input_stream = StringIO("import b\nimport a\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == '"""Docstring"""\nimport a\nimport b\n'
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import a\nimport b\nimport x\nimport y\n"
 
-    # Test case 7: Input stream with multiple import sections
-    input_stream = StringIO("import b\nimport a\n\nimport d\nimport c\n")
+    # Test case 8: Input with float_to_top=True
+    config = Config(float_to_top=True)
+    input_stream = StringIO("def foo():\n    pass\nimport b\nimport a\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import a\nimport b\n\nimport c\nimport d\n"
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "import a\nimport b\ndef foo():\n    pass\n"
 
-    # Test case 8: Input stream with from imports
-    input_stream = StringIO("from b import something\nfrom a import something\n")
+    # Test case 9: Input with code sorting
+    input_stream = StringIO("# isort: list\nb = [2, 1]\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "from a import something\nfrom b import something\n"
+    assert process(input_stream, output_stream)
+    assert output_stream.getvalue() == "# isort: list\nb = [1, 2]\n"
 
-    # Test case 9: Input stream with mixed imports
-    input_stream = StringIO("import b\nfrom a import something\n")
+    # Test case 10: Input with re-exports
+    config = Config(sort_reexports=True)
+    input_stream = StringIO("__all__ = ['b', 'a']\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "from a import something\nimport b\n"
+    assert process(input_stream, output_stream, config=config)
+    assert output_stream.getvalue() == "__all__ = ['a', 'b']\n"
 
-    # Test case 10: Input stream with line continuation
-    input_stream = StringIO("import b, \\\n    a\n")
+
+# LLM-generated content at query #3
+#--------------------------
+
+# Unit test for function process
+def test_process():
+    from io import StringIO
+
+    input_stream = StringIO("import b\nimport a\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import a, \\\n    b\n"
+    assert process(input_stream, output_stream) is True
+    assert output_stream.getvalue() == "import a\nimport b\n"
 
-    # Test case 11: Input stream with parentheses
-    input_stream = StringIO("import (b,\n    a)\n")
+    input_stream = StringIO("import b\nimport a\n# isort: off\nimport c\nimport d\n# isort: on\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import (a,\n    b)\n"
+    assert process(input_stream, output_stream) is True
+    assert output_stream.getvalue() == "import a\nimport b\n# isort: off\nimport c\nimport d\n# isort: on\n"
 
-    # Test case 12: Input stream with trailing comments
-    input_stream = StringIO("import b  # comment\nimport a  # comment\n")
+    input_stream = StringIO("import b\nimport a\n# isort: skip_file\nimport c\nimport d\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import a  # comment\nimport b  # comment\n"
+    assert process(input_stream, output_stream, raise_on_skip=False) is False
+    assert output_stream.getvalue() == "import b\nimport a\n# isort: skip_file\nimport c\nimport d\n"
 
-    # Test case 13: Input stream with inline comments
-    input_stream = StringIO("import b  # inline comment\nimport a  # inline comment\n")
+    input_stream = StringIO("import b\nimport a\n# isort: split\nimport c\nimport d\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import a  # inline comment\nimport b  # inline comment\n"
+    assert process(input_stream, output_stream) is True
+    assert output_stream.getvalue() == "import a\nimport b\n# isort: split\nimport c\nimport d\n"
 
-    # Test case 14: Input stream with no imports
-    input_stream = StringIO("print('Hello, world!')\n")
+    input_stream = StringIO("import b\nimport a\n# isort: dont-add-imports\nimport c\nimport d\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == False
-    assert output_stream.getvalue() == "print('Hello, world!')\n"
+    assert process(input_stream, output_stream) is True
+    assert output_stream.getvalue() == "import a\nimport b\n# isort: dont-add-imports\nimport c\nimport d\n"
 
-    # Test case 15: Input stream with only comments
-    input_stream = StringIO("# Comment 1\n# Comment 2\n")
+    input_stream = StringIO("import b\nimport a\n# isort: dont-add-import: c\nimport c\nimport d\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == False
-    assert output_stream.getvalue() == "# Comment 1\n# Comment 2\n"
+    assert process(input_stream, output_stream) is True
+    assert output_stream.getvalue() == "import a\nimport b\n# isort: dont-add-import: c\nimport c\nimport d\n"
 
-    # Test case 16: Input stream with shebang, encoding, and imports
-    input_stream = StringIO("#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nimport b\nimport a\n")
+
+# LLM-generated content at query #4
+#--------------------------
+
+# Unit test for function process
+def test_process():
+    input_stream = StringIO("import b\nimport a\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\nimport a\nimport b\n"
+    config = Config()
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import a\nimport b\n"
 
-    # Test case 17: Input stream with multiple line separators
-    input_stream = StringIO("import b\r\nimport a\r\n")
+    input_stream = StringIO("import a\nimport b\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import a\r\nimport b\r\n"
+    assert process(input_stream, output_stream, config=config) is False
+    assert output_stream.getvalue() == "import a\nimport b\n"
 
-    # Test case 18: Input stream with Windows line endings
-    input_stream = StringIO("import b\r\nimport a\r\n")
+    input_stream = StringIO("import a\n# isort: off\nimport b\n")
     output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import a\r\nimport b\r\n"
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import a\n# isort: off\nimport b\n"
 
-    # Test case 19: Input stream with mixed line endings
-    input_stream = StringIO("import b\r\nimport a\n")
-    output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import a\r\nimport b\n"
 
-    # Test case 20: Input stream with trailing whitespace
-    input_stream = StringIO("import b   \nimport a   \n")
-    output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import a   \nimport b   \n"
+# LLM-generated content at query #5
+#--------------------------
 
-    # Test case 21: Input stream with leading whitespace
-    input_stream = StringIO("   import b\n   import a\n")
-    output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "   import a\n   import b\n"
+# Unit test for function process
+def test_process():
+    import io
+    from isort.settings import Config
 
-    # Test case 22: Input stream with mixed whitespace
-    input_stream = StringIO("\timport b\n    import a\n")
-    output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "\timport a\n    import b\n"
+    input_stream = io.StringIO("import b\nimport a\n")
+    output_stream = io.StringIO()
+    config = Config()
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import a\nimport b\n"
 
-    # Test case 23: Input stream with empty lines between imports
-    input_stream = StringIO("import b\n\nimport a\n")
-    output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import a\n\nimport b\n"
+    input_stream = io.StringIO("import a\nimport b\n")
+    output_stream = io.StringIO()
+    assert process(input_stream, output_stream, config=config) is False
+    assert output_stream.getvalue() == "import a\nimport b\n"
 
-    # Test case 24: Input stream with multiple empty lines
-    input_stream = StringIO("import b\n\n\nimport a\n")
-    output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import a\n\n\nimport b\n"
+    input_stream = io.StringIO("import b\n# isort: split\nimport a\n")
+    output_stream = io.StringIO()
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: split\nimport a\n"
 
-    # Test case 25: Input stream with imports and code mixed
-    input_stream = StringIO("import b\nprint('Hello')\nimport a\n")
-    output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "import a\nimport b\nprint('Hello')\n"
+    input_stream = io.StringIO("# isort: off\nimport b\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "# isort: off\nimport b\nimport a\n# isort: on\nimport c\n"
 
-    # Test case 26: Input stream with imports at the end
-    input_stream = StringIO("print('Hello')\nimport b\nimport a\n")
-    output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "print('Hello')\nimport a\nimport b\n"
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n")
+    output_stream = io.StringIO()
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n"
 
-    # Test case 27: Input stream with imports in the middle
-    input_stream = StringIO("print('Hello')\nimport b\nprint('World')\nimport a\n")
-    output_stream = StringIO()
-    result = process(input_stream, output_stream)
-    assert result == True
-    assert output_stream.getvalue() == "print('Hello')\nimport a\nimport b\nprint('World')\n"
+    input_stream = io.StringIO("import b\n# isort: dont-add-imports\nimport a\n")
+    output_stream = io.StringIO()
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: dont-add-imports\nimport a\n"
 
-    # Test case 28: Input stream with multiple import blocks
-    input_stream = StringIO("import b\nprint('Hello')\nimport d\nimport c\n
+    input_stream = io.StringIO("import b\n# isort: dont-add-import: a\nimport a\n")
+    output_stream = io.StringIO()
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: dont-add-import: a\nimport a\n"
+
+    input_stream = io.StringIO("import b\n# isort: skip-file\nimport a\n")
+    output_stream = io.StringIO()
+    assert process(input_stream, output_stream, config=config) is False
+    assert output_stream.getvalue() == "import b\n# isort: skip-file\nimport a\n"
+
+    input_stream = io.StringIO("import b\n# isort: skip-file\nimport a\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=True)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: skip-file\nimport a\n"
+
+    input_stream = io.StringIO("import b\n# isort: skip-file\nimport a\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=True, raise_on_skip=True)
+    try:
+        process(input_stream, output_stream, config=config)
+    except FileSkipComment:
+        pass
+    else:
+        assert False, "Expected FileSkipComment exception"
+
+    input_stream = io.StringIO("import b\n# isort: skip-file\nimport a\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=True, raise_on_skip=False)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: skip-file\nimport a\n"
+
+    input_stream = io.StringIO("import b\n# isort: skip-file\nimport a\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=False, raise_on_skip=True)
+    try:
+        process(input_stream, output_stream, config=config)
+    except FileSkipComment:
+        pass
+    else:
+        assert False, "Expected FileSkipComment exception"
+
+    input_stream = io.StringIO("import b\n# isort: skip-file\nimport a\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=False, raise_on_skip=False)
+    assert process(input_stream, output_stream, config=config) is False
+    assert output_stream.getvalue() == "import b\n# isort: skip-file\nimport a\n"
+
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=True)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n# isort: on\nimport c\n"
+
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=False)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n# isort: on\nimport c\n"
+
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=True, raise_on_skip=True)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n# isort: on\nimport c\n"
+
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=False, raise_on_skip=True)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n# isort: on\nimport c\n"
+
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=True, raise_on_skip=False)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n# isort: on\nimport c\n"
+
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=False, raise_on_skip=False)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n# isort: on\nimport c\n"
+
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=True, raise_on_skip=True)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n# isort: on\nimport c\n"
+
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=False, raise_on_skip=True)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n# isort: on\nimport c\n"
+
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=True, raise_on_skip=False)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n# isort: on\nimport c\n"
+
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=False, raise_on_skip=False)
+    assert process(input_stream, output_stream, config=config) is True
+    assert output_stream.getvalue() == "import b\n# isort: off\nimport a\n# isort: on\nimport c\n"
+
+    input_stream = io.StringIO("import b\n# isort: off\nimport a\n# isort: on\nimport c\n")
+    output_stream = io.StringIO()
+    config = Config(force_adds=True, raise_on_skip=True)
+    assert process(input_stream, output_stream, config=config
 
 

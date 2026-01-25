@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.5483870967741935" lines-covered="0" lines-valid="0" branches-covered="17" branches-valid="31" complexity="0.0" version="pynguin-0.40.0" timestamp="1768134889">
+  <sources>
+    <source>cookiecutter.extensions</source>
+  </sources>
+  <packages>
+    <package name="" line-rate="None" branch-rate="0.5483870967741935" complexity="0.0">
+      <classes>
+        <class name="" filename="cookiecutter.extensions" line-rate="None" branch-rate="0.5483870967741935" complexity="0.0">
+          <methods />
+          <lines>
+            <line number="18" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="24" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="27" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="31" hits="0" branch="true" condition-coverage="0% (0/1)" />
+            <line number="37" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="40" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="45" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="49" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="54" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="57" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="61" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="96" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="99" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="103" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="110" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="115" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="132" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="137" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="142" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="152" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="157" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="163" hits="0" branch="true" condition-coverage="0% (0/2)" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

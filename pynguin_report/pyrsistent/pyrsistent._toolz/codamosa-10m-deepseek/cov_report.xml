@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.8" lines-covered="0" lines-valid="0" branches-covered="4" branches-valid="5" complexity="0.0" version="pynguin-0.40.0" timestamp="1766936876">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.8" lines-covered="0" lines-valid="0" branches-covered="4" branches-valid="5" complexity="0.0" version="pynguin-0.40.0" timestamp="1768384015">
   <sources>
     <source>pyrsistent._toolz</source>
   </sources>

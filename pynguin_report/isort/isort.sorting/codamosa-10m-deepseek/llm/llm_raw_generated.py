@@ -1,1087 +1,68 @@
-####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
-####################################################################
-
-
-# LLM-generated content at query #1
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        constants = set()  
-        classes = set()  
-        variables = set()  
-        force_to_top = set()  
-        case_sensitive = True  
-        length_sort = False  
-        length_sort_straight = False  
-        length_sort_sections = set()  
-        reverse_relative = False  
-        order_by_type = False  
-        group_by_package = False  
-        lexicographical = False  
-        sort_relative_in_force_sorted_sections = False  
-        honor_case_in_force_sorted_sections = False  
-        sorting_function = sorted  
-
-    config = MockConfig()  
-    config.constants = {"CONSTANT"}  
-    config.classes = {"MyClass"}  
-    config.variables = {"my_var"}  
-    config.force_to_top = {"top_module"}  
-
-    # Test basic module name  
-    assert module_key("my_module", config) == "Bmy_module"  
-
-    # Test module in force_to_top  
-    assert module_key("top_module", config) == "Atop_module"  
-
-    # Test with sub_imports and order_by_type  
-    config.order_by_type = True  
-    assert module_key("CONSTANT", config, sub_imports=True) == "AAconstant"  
-    assert module_key("MyClass", config, sub_imports=True) == "BBmyclass"  
-    assert module_key("my_var", config, sub_imports=True) == "CCmy_var"  
-    assert module_key("Other", config, sub_imports=True) == "BCother"  
-
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    assert module_key("MyModule", config) == "Bmymodule"  
-
-    # Test length_sort  
-    config.length_sort = True  
-    assert module_key("abc", config) == "B3:abc"  
-
-    # Test relative imports  
-    config.reverse_relative = True  
-    assert module_key("..module", config) == "B .. module"  
-
-    config.reverse_relative = False  
-    assert module_key("..module", config) == "B__module"  
-
-    print("All tests passed!")  
-
-
-
-# LLM-generated content at query #2
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        reverse_relative = False  
-        order_by_type = False  
-        constants = set()  
-        classes = set()  
-        variables = set()  
-        case_sensitive = True  
-        length_sort = False  
-        length_sort_straight = False  
-        length_sort_sections = set()  
-        force_to_top = set()  
-      
-    config = MockConfig()  
-      
-    # Test basic module name  
-    assert module_key("os", config) == "Bos"  
-      
-    # Test with relative import  
-    config.reverse_relative = True  
-    assert module_key(".os", config) == "B . os"  
-    config.reverse_relative = False  
-    assert module_key(".os", config) == "B_os"  
-      
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    assert module_key("OS", config) == "Bos"  
-    config.case_sensitive = True  
-      
-    # Test force_to_top  
-    config.force_to_top = {"os"}  
-    assert module_key("os", config) == "Aos"  
-    config.force_to_top = set()  
-      
-    # Test order_by_type with constants  
-    config.order_by_type = True  
-    config.constants = {"MAX_SIZE"}  
-    assert module_key("MAX_SIZE", config, sub_imports=True) == "BAmax_size"  
-    config.constants = set()  
-      
-    # Test order_by_type with classes  
-    config.classes = {"MyClass"}  
-    assert module_key("MyClass", config, sub_imports=True) == "BBmyclass"  
-    config.classes = set()  
-      
-    # Test order_by_type with variables  
-    config.variables = {"my_var"}  
-    assert module_key("my_var", config, sub_imports=True) == "BCmy_var"  
-    config.variables = set()  
-      
-    # Test uppercase module name (length > 1)  
-    assert module_key("CONST", config, sub_imports=True) == "BAconst"  
-      
-    # Test class-like module name (first letter uppercase)  
-    assert module_key("MyModule", config, sub_imports=True) == "BBmymodule"  
-      
-    # Test regular module name  
-    assert module_key("my_module", config, sub_imports=True) == "BCmy_module"  
-      
-    # Test length_sort  
-    config.length_sort = True  
-    assert module_key("os", config) == "B2:os"  
-    config.length_sort = False  
-      
-    # Test length_sort_straight  
-    config.length_sort_straight = True  
-    assert module_key("os", config, straight_import=True) == "B2:os"  
-    config.length_sort_straight = False  
-      
-    # Test length_sort_sections  
-    config.length_sort_sections = {"standard_library"}  
-    assert module_key("os", config, section_name="standard_library") == "B2:os"  
-      
-    print("All tests passed!")  
-  
-# Run the unit test  
-test_module_key()
-
-
-# LLM-generated content at query #3
-#--------------------------
-
-# Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
-
-    config = Config()
-    # Test case 1: Basic import line
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
-
-    # Test case 2: From import line
-    line = "from sys import path"
-    result = section_key(line, config)
-    assert result == "Bfrom sys import path", f"Expected 'Bfrom sys import path', got {result}"
-
-    # Test case 3: Force to top
-    config.force_to_top = ["sys"]
-    line = "import sys"
-    result = section_key(line, config)
-    assert result == "Aimport sys", f"Expected 'Aimport sys', got {result}"
-
-    # Test case 4: Case sensitivity
-    config.case_sensitive = False
-    line = "import OS"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
-
-    # Test case 5: Length sort
-    config.length_sort = True
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "B9import os", f"Expected 'B9import os', got {result}"
-
-    print("All tests passed!")
-
-# Run the unit test
-test_section_key()
-
-
-# LLM-generated content at query #4
-#--------------------------
-
-# Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
-
-    config = Config()
-    # Test basic import line
-    assert section_key("import os", config) == "Bimport os"
-    # Test from import line
-    assert section_key("from sys import path", config) == "Bfrom sys import path"
-    # Test force_to_top
-    config.force_to_top = ["os"]
-    assert section_key("import os", config) == "Aimport os"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert section_key("import OS", config) == "Aimport os"
-    # Test length_sort
-    config.length_sort = True
-    assert section_key("import os", config) == "A11import os"
-    print("All tests passed!")
-
-if __name__ == "__main__":
-    test_section_key()
-
-
-# LLM-generated content at query #5
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        def __init__(self):  
-            self.reverse_relative = False  
-            self.order_by_type = False  
-            self.constants = set()  
-            self.classes = set()  
-            self.variables = set()  
-            self.case_sensitive = True  
-            self.length_sort = False  
-            self.length_sort_straight = False  
-            self.length_sort_sections = set()  
-            self.force_to_top = set()  
-  
-    config = MockConfig()  
-    # Test basic module name  
-    assert module_key("os", config) == "Bos"  
-    # Test with sub_imports and order_by_type  
-    config.order_by_type = True  
-    assert module_key("CONST", config, sub_imports=True) == "BCONST"  
-    config.constants.add("CONST")  
-    assert module_key("CONST", config, sub_imports=True) == "ACONST"  
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    assert module_key("OS", config) == "Bos"  
-    # Test length sort  
-    config.length_sort = True  
-    assert module_key("os", config) == "B3:os"  
-    # Test force_to_top  
-    config.force_to_top.add("os")  
-    assert module_key("os", config) == "A3:os"  
-  
-
-
-# LLM-generated content at query #6
-#--------------------------
-
-# Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
-
-    config = Config()
-    # Test basic import line
-    assert section_key("import os", config) == "Bimport os"
-    # Test from import line
-    assert section_key("from sys import path", config) == "Bfrom sys import path"
-    # Test force_to_top
-    config.force_to_top = ["os"]
-    assert section_key("import os", config) == "Aimport os"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert section_key("import OS", config) == "Aimport os"
-    # Test length_sort
-    config.length_sort = True
-    assert section_key("import os", config) == "A9import os"
-
-
-
-# LLM-generated content at query #7
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    # Mock config object with required attributes
-    class MockConfig:
-        def __init__(self):
-            self.reverse_relative = False
-            self.constants = set()
-            self.classes = set()
-            self.variables = set()
-            self.order_by_type = False
-            self.case_sensitive = True
-            self.length_sort = False
-            self.length_sort_straight = False
-            self.length_sort_sections = []
-            self.force_to_top = set()
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.honor_case_in_force_sorted_sections = False
-            self.sorting_function = sorted
-
-    config = MockConfig()
-    
-    # Test basic module name
-    assert module_key("os", config) == "Bos"
-    
-    # Test with sub_imports and order_by_type
-    config.order_by_type = True
-    config.constants = {"MAX_SIZE"}
-    config.classes = {"MyClass"}
-    config.variables = {"my_var"}
-    
-    assert module_key("MAX_SIZE", config, sub_imports=True) == "AA0:max_size"
-    assert module_key("MyClass", config, sub_imports=True) == "BB0:myclass"
-    assert module_key("my_var", config, sub_imports=True) == "CC0:my_var"
-    
-    # Test case insensitive
-    config.case_sensitive = False
-    assert module_key("OS", config) == "Bos"
-    
-    # Test length sort
-    config.length_sort = True
-    assert module_key("os", config) == "B2:os"
-    
-    # Test force_to_top
-    config.force_to_top = {"os"}
-    assert module_key("os", config) == "A2:os"
-
-
-
-# LLM-generated content at query #8
-#--------------------------
-
-# Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
-
-    config = Config()
-    # Test basic import line
-    assert section_key("import os", config) == "Bimport os"
-    # Test from import line
-    assert section_key("from sys import path", config) == "Bfrom sys import path"
-    # Test force_to_top
-    config.force_to_top = ["os"]
-    assert section_key("import os", config) == "Aimport os"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert section_key("import OS", config) == "Aimport os"
-    # Test length_sort
-    config.length_sort = True
-    assert section_key("import os", config) == "A9import os"
-    # Test reverse_relative
-    config.reverse_relative = True
-    config.sort_relative_in_force_sorted_sections = True
-    assert section_key("from . import module", config) == "A17from . import module"
-    # Test group_by_package
-    config.group_by_package = True
-    assert section_key("from package import module", config) == "A23from package"
-    # Test lexicographical
-    config.lexicographical = True
-    assert section_key("from a import b", config) == "A9a.b"
-
-
-
-# LLM-generated content at query #9
-#--------------------------
-
-# Unit test for function section_key
-def test_section_key():
-
-
-# LLM-generated content at query #10
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        def __init__(self):  
-            self.reverse_relative = False  
-            self.order_by_type = False  
-            self.constants = set()  
-            self.classes = set()  
-            self.variables = set()  
-            self.case_sensitive = True  
-            self.length_sort = False  
-            self.length_sort_straight = False  
-            self.length_sort_sections = set()  
-            self.force_to_top = set()  
-
-    config = MockConfig()  
-    config.reverse_relative = True  
-    config.order_by_type = True  
-    config.constants = {"CONSTANT"}  
-    config.classes = {"MyClass"}  
-    config.variables = {"my_var"}  
-    config.case_sensitive = False  
-    config.length_sort = True  
-    config.length_sort_straight = True  
-    config.length_sort_sections = {"stdlib"}  
-    config.force_to_top = {"top_module"}  
-
-    # Test case 1: module_name with relative import  
-    module_name = "..my_module"  
-    result = module_key(module_name, config, sub_imports=True, ignore_case=True, section_name="stdlib", straight_import=True)  
-    expected = "BC6:  .. my_module"  # Note: prefix 'C' because 'my_module' is not in constants, classes, or variables  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-
-    # Test case 2: module_name in constants  
-    module_name = "CONSTANT"  
-    result = module_key(module_name, config, sub_imports=True, ignore_case=True, section_name="stdlib", straight_import=True)  
-    expected = "BA8:constant"  # prefix 'A' because module_name in constants  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-
-    # Test case 3: module_name in classes  
-    module_name = "MyClass"  
-    result = module_key(module_name, config, sub_imports=True, ignore_case=True, section_name="stdlib", straight_import=True)  
-    expected = "BB7:myclass"  # prefix 'B' because module_name in classes  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-
-    # Test case 4: module_name in variables  
-    module_name = "my_var"  
-    result = module_key(module_name, config, sub_imports=True, ignore_case=True, section_name="stdlib", straight_import=True)  
-    expected = "BC6:my_var"  # prefix 'C' because module_name in variables  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-
-    # Test case 5: module_name in force_to_top  
-    module_name = "top_module"  
-    result = module_key(module_name, config, sub_imports=True, ignore_case=True, section_name="stdlib", straight_import=True)  
-    expected = "AC10:top_module"  # 'A' because module_name in force_to_top  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-
-    # Test case 6: module_name is uppercase and length > 1  
-    module_name = "MY_MODULE"  
-    result = module_key(module_name, config, sub_imports=True, ignore_case=True, section_name="stdlib", straight_import=True)  
-    expected = "BA9:my_module"  # prefix 'A' because module_name is uppercase and length > 1  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-
-    # Test case 7: module_name starts with uppercase  
-    module_name = "MyModule"  
-    result = module_key(module_name, config, sub_imports=True, ignore_case=True, section_name="stdlib", straight_import=True)  
-    expected = "BB8:mymodule"  # prefix 'B' because module_name starts with uppercase  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-
-    # Test case 8: module_name is lowercase  
-    module_name = "mymodule"  
-    result = module_key(module_name, config, sub_imports=True, ignore_case=True, section_name="stdlib", straight_import=True)  
-    expected = "BC8:mymodule"  # prefix 'C' because module_name is lowercase  
-    assert result == expected, f"Expected {expected}, but got {result}"  
-
-    print("All tests passed!")  
-
-# Run the unit test  
-test_module_key()
-
-
-# LLM-generated content at query #11
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.order_by_type = False
-            self.constants = set()
-            self.classes = set()
-            self.variables = set()
-            self.force_to_top = set()
-            self.case_sensitive = True
-            self.length_sort = False
-            self.length_sort_straight = False
-            self.length_sort_sections = set()
-    
-    config = Config()
-    # Test basic module name
-    assert module_key("os", config) == "Bos"
-    # Test relative import
-    config.reverse_relative = True
-    assert module_key(".os", config) == "B . os"
-    config.reverse_relative = False
-    assert module_key(".os", config) == "B_os"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert module_key("OS", config) == "Bos"
-    config.case_sensitive = True
-    # Test force_to_top
-    config.force_to_top = {"os"}
-    assert module_key("os", config) == "Aos"
-    # Test length_sort
-    config.length_sort = True
-    assert module_key("os", config) == "A2:os"
-    config.length_sort = False
-    # Test order_by_type with sub_imports
-    config.order_by_type = True
-    config.constants = {"MAX_SIZE"}
-    config.classes = {"MyClass"}
-    config.variables = {"my_var"}
-    assert module_key("MAX_SIZE", config, sub_imports=True) == "Amax_size"
-    assert module_key("MyClass", config, sub_imports=True) == "Bmyclass"
-    assert module_key("my_var", config, sub_imports=True) == "Cmy_var"
-    assert module_key("unknown", config, sub_imports=True) == "Cunknown"
-    # Test uppercase module (issue #376)
-    assert module_key("UNKNOWN", config, sub_imports=True) == "Aunknown"
-    config.order_by_type = False
-    config.force_to_top = set()
-
-
-
-# LLM-generated content at query #12
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        reverse_relative = False  
-        order_by_type = False  
-        constants = set()  
-        classes = set()  
-        variables = set()  
-        force_to_top = set()  
-        case_sensitive = True  
-        length_sort = False  
-        length_sort_straight = False  
-        length_sort_sections = set()  
-
-    config = MockConfig()  
-    # Test basic module name  
-    assert module_key("os", config) == "Bos"  
-    # Test relative import  
-    config.reverse_relative = True  
-    assert module_key(".os", config) == "B . os"  
-    config.reverse_relative = False  
-    assert module_key(".os", config) == "B_os"  
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    assert module_key("OS", config) == "Bos"  
-    config.case_sensitive = True  
-    # Test force_to_top  
-    config.force_to_top = {"os"}  
-    assert module_key("os", config) == "Aos"  
-    config.force_to_top = set()  
-    # Test length_sort  
-    config.length_sort = True  
-    assert module_key("os", config) == "B2:os"  
-    config.length_sort = False  
-    # Test sub_imports with order_by_type  
-    config.order_by_type = True  
-    config.constants = {"MAX_SIZE"}  
-    config.classes = {"MyClass"}  
-    config.variables = {"my_var"}  
-    assert module_key("MAX_SIZE", config, sub_imports=True) == "BAMAX_SIZE"  
-    assert module_key("MyClass", config, sub_imports=True) == "BBMyClass"  
-    assert module_key("my_var", config, sub_imports=True) == "BCmy_var"  
-    assert module_key("unknown", config, sub_imports=True) == "BCunknown"  
-    config.order_by_type = False  
-    # Test uppercase module name (issue #376)  
-    assert module_key("MAX", config, sub_imports=True) == "BCMAX"  
-    assert module_key("MAX_SIZE", config, sub_imports=True) == "BAMAX_SIZE"  
-    print("All tests passed!")  
-
-
-
-# LLM-generated content at query #13
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class Config:  
-        constants = {"os"}  
-        classes = {"MyClass"}  
-        variables = {"my_var"}  
-        force_to_top = {"sys"}  
-        reverse_relative = False  
-        order_by_type = True  
-        case_sensitive = True  
-        length_sort = False  
-        length_sort_straight = False  
-        length_sort_sections = []  
-      
-    config = Config()  
-      
-    # Test case 1: module_name is in constants  
-    result = module_key("os", config, sub_imports=True)  
-    assert result == "BAos", f"Expected 'BAos', but got {result}"  
-      
-    # Test case 2: module_name is in classes  
-    result = module_key("MyClass", config, sub_imports=True)  
-    assert result == "BBMyClass", f"Expected 'BBMyClass', but got {result}"  
-      
-    # Test case 3: module_name is in variables  
-    result = module_key("my_var", config, sub_imports=True)  
-    assert result == "BCmy_var", f"Expected 'BCmy_var', but got {result}"  
-      
-    # Test case 4: module_name is in force_to_top  
-    result = module_key("sys", config, sub_imports=True)  
-    assert result == "AA0:sys", f"Expected 'AA0:sys', but got {result}"  
-      
-    # Test case 5: module_name is uppercase and length > 1  
-    result = module_key("CONST", config, sub_imports=True)  
-    assert result == "BACONST", f"Expected 'BACONST', but got {result}"  
-      
-    # Test case 6: module_name starts with uppercase (class-like)  
-    result = module_key("MyModule", config, sub_imports=True)  
-    assert result == "BBMyModule", f"Expected 'BBMyModule', but got {result}"  
-      
-    # Test case 7: regular module name  
-    result = module_key("my_module", config, sub_imports=True)  
-    assert result == "BCmy_module", f"Expected 'BCmy_module', but got {result}"  
-      
-    # Test case 8: with relative imports and reverse_relative=False  
-    result = module_key(".my_module", config, sub_imports=True)  
-    assert result == "BC my_module", f"Expected 'BC my_module', but got {result}"  
-      
-    # Test case 9: with relative imports and reverse_relative=True  
-    config.reverse_relative = True  
-    result = module_key(".my_module", config, sub_imports=True)  
-    assert result == "BC_my_module", f"Expected 'BC_my_module', but got {result}"  
-      
-    # Test case 10: case_sensitive=False  
-    config.case_sensitive = False  
-    result = module_key("MyModule", config, sub_imports=True)  
-    assert result == "BBmymodule", f"Expected 'BBmymodule', but got {result}"  
-      
-    # Test case 11: length_sort=True  
-    config.length_sort = True  
-    result = module_key("my_module", config, sub_imports=True)  
-    assert result == "BC10:my_module", f"Expected 'BC10:my_module', but got {result}"  
-      
-    print("All tests passed!")  
-  
-# Run the unit test  
-test_module_key()
-
-
-# LLM-generated content at query #14
-#--------------------------
-
-# Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
-
-    config = Config()
-    # Test basic functionality
-    assert section_key("import os", config) == "Bimport os"
-    assert section_key("from sys import path", config) == "Bfrom sys import path"
-    
-    # Test force_to_top
-    config.force_to_top = ["os"]
-    assert section_key("import os", config) == "Aimport os"
-    assert section_key("import sys", config) == "Bimport sys"
-    
-    # Test case sensitivity
-    config.case_sensitive = False
-    config.force_to_top = []
-    assert section_key("import OS", config) == "Bimport os"
-    assert section_key("import os", config) == "Bimport os"
-    
-    # Test length_sort
-    config.length_sort = True
-    config.case_sensitive = True
-    assert section_key("import os", config) == "B10import os"
-    assert section_key("import sys", config) == "B11import sys"
-    
-    # Test reverse_relative
-    config.reverse_relative = True
-    config.sort_relative_in_force_sorted_sections = True
-    assert section_key("from . import module", config) == "Bfrom . import module"
-    
-    # Test group_by_package
-    config.group_by_package = True
-    assert section_key("from package import module", config) == "Bfrom package"
-    
-    # Test lexicographical
-    config.lexicographical = True
-    assert section_key("from package import module", config) == "Bpackage"
-    
-    print("All tests passed!")
-
-# Run the test
-test_section_key()
-
-
-# LLM-generated content at query #15
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        def __init__(self):  
-            self.reverse_relative = False  
-            self.order_by_type = False  
-            self.constants = set()  
-            self.classes = set()  
-            self.variables = set()  
-            self.case_sensitive = True  
-            self.length_sort = False  
-            self.length_sort_straight = False  
-            self.length_sort_sections = set()  
-            self.force_to_top = set()  
-            self.group_by_package = False  
-            self.lexicographical = False  
-            self.sort_relative_in_force_sorted_sections = False  
-            self.honor_case_in_force_sorted_sections = False  
-            self.sorting_function = sorted  
-
-    config = MockConfig()  
-    # Test basic module name  
-    assert module_key("os", config) == "Bos"  
-    # Test with sub_imports and order_by_type  
-    config.order_by_type = True  
-    assert module_key("CONST", config, sub_imports=True) == "BCONST"  
-    config.constants.add("CONST")  
-    assert module_key("CONST", config, sub_imports=True) == "ACONST"  
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    assert module_key("OS", config) == "Bos"  
-    # Test length sort  
-    config.length_sort = True  
-    assert module_key("os", config) == "B3:os"  
-    # Test force_to_top  
-    config.force_to_top.add("os")  
-    assert module_key("os", config) == "A3:os"  
-
-
-
-# LLM-generated content at query #16
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    # Mock config object with necessary attributes
-    class MockConfig:
-        def __init__(self):
-            self.reverse_relative = False
-            self.order_by_type = False
-            self.constants = set()
-            self.classes = set()
-            self.variables = set()
-            self.force_to_top = set()
-            self.case_sensitive = True
-            self.length_sort = False
-            self.length_sort_straight = False
-            self.length_sort_sections = set()
-
-    config = MockConfig()
-    
-    # Test basic module name
-    assert module_key("os", config) == "Bos"
-    
-    # Test with relative import
-    config.reverse_relative = True
-    assert module_key(".os", config) == "B . os"
-    config.reverse_relative = False
-    assert module_key(".os", config) == "B_os"
-    
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert module_key("OS", config) == "Bos"
-    config.case_sensitive = True
-    
-    # Test force_to_top
-    config.force_to_top = {"os"}
-    assert module_key("os", config) == "Aos"
-    
-    # Test order_by_type with sub_imports
-    config.order_by_type = True
-    config.constants = {"MAX_SIZE"}
-    config.classes = {"MyClass"}
-    config.variables = {"my_var"}
-    
-    assert module_key("MAX_SIZE", config, sub_imports=True) == "Amax_size"
-    assert module_key("MyClass", config, sub_imports=True) == "Bmyclass"
-    assert module_key("my_var", config, sub_imports=True) == "Cmy_var"
-    assert module_key("unknown", config, sub_imports=True) == "Cunknown"
-    
-    # Test uppercase module (issue #376)
-    assert module_key("XML", config, sub_imports=True) == "Axml"
-    
-    # Test length_sort
-    config.length_sort = True
-    assert module_key("very_long_module_name", config) == "B24:very_long_module_name"
-    
-    # Test length_sort_straight
-    config.length_sort = False
-    config.length_sort_straight = True
-    assert module_key("module", config, straight_import=True) == "B6:module"
-    
-    # Test length_sort_sections
-    config.length_sort_straight = False
-    config.length_sort_sections = {"standard_library"}
-    assert module_key("os", config, section_name="standard_library") == "B2:os"
-
-
-
-# LLM-generated content at query #17
-#--------------------------
-
-# Unit test for function section_key
-def test_section_key():  
-    # Mock config object with necessary attributes  
-    class MockConfig:  
-        def __init__(self):  
-            self.reverse_relative = False  
-            self.group_by_package = False  
-            self.lexicographical = False  
-            self.sort_relative_in_force_sorted_sections = False  
-            self.force_to_top = []  
-            self.honor_case_in_force_sorted_sections = False  
-            self.case_sensitive = True  
-            self.order_by_type = False  
-            self.length_sort = False  
-
-    config = MockConfig()  
-
-    # Test case 1: Simple import line  
-    line = "import os"  
-    result = section_key(line, config)  
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"  
-
-    # Test case 2: From import line  
-    line = "from sys import path"  
-    result = section_key(line, config)  
-    assert result == "Bfrom sys import path", f"Expected 'Bfrom sys import path', got {result}"  
-
-    # Test case 3: Force to top  
-    config.force_to_top = ["sys"]  
-    line = "import sys"  
-    result = section_key(line, config)  
-    assert result == "Aimport sys", f"Expected 'Aimport sys', got {result}"  
-
-    # Test case 4: Case sensitivity  
-    config.case_sensitive = False  
-    line = "import OS"  
-    result = section_key(line, config)  
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"  
-
-    # Test case 5: Length sort  
-    config.length_sort = True  
-    line = "import os"  
-    result = section_key(line, config)  
-    assert result == "B9import os", f"Expected 'B9import os', got {result}"  
-
-    print("All tests passed!")  
-
-# Run the unit test  
-test_section_key()
-
-
-# LLM-generated content at query #18
-#--------------------------
-
-# Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
-
-    config = Config()
-    line = "import numpy as np"
-    result = section_key(line, config)
-    assert result == "Bimport numpy as np", f"Expected 'Bimport numpy as np', got {result}"
-    print("Test passed: section_key returns correct key for import line")
-
-# Run the unit test
-test_section_key()
-
-
-# LLM-generated content at query #19
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        constants = {"CONSTANT"}  
-        classes = {"ClassName"}  
-        variables = {"variable_name"}  
-        force_to_top = {"top_module"}  
-        reverse_relative = False  
-        order_by_type = True  
-        case_sensitive = True  
-        length_sort = False  
-        length_sort_straight = False  
-        length_sort_sections = []  
-  
-    config = MockConfig()  
-    # Test case 1: module in constants  
-    assert module_key("CONSTANT", config, sub_imports=True) == "AACONSTANT"  
-    # Test case 2: module in classes  
-    assert module_key("ClassName", config, sub_imports=True) == "BBClassName"  
-    # Test case 3: module in variables  
-    assert module_key("variable_name", config, sub_imports=True) == "CCvariable_name"  
-    # Test case 4: module in force_to_top  
-    assert module_key("top_module", config, sub_imports=True) == "ABCtop_module"  
-    # Test case 5: module with relative import  
-    config.reverse_relative = True  
-    assert module_key("..module", config) == "B .. module"  
-    config.reverse_relative = False  
-    assert module_key("..module", config) == "B__module"  
-    # Test case 6: case sensitivity  
-    config.case_sensitive = False  
-    assert module_key("Module", config) == "bmodule"  
-    config.case_sensitive = True  
-    # Test case 7: length sort  
-    config.length_sort = True  
-    assert module_key("module", config) == "B7:module"  
-    config.length_sort = False  
-    # Test case 8: straight import with length_sort_straight  
-    config.length_sort_straight = True  
-    assert module_key("module", config, straight_import=True) == "B7:module"  
-    config.length_sort_straight = False  
-    # Test case 9: section name in length_sort_sections  
-    config.length_sort_sections = ["test_section"]  
-    assert module_key("module", config, section_name="test_section") == "B7:module"  
-    config.length_sort_sections = []  
-    print("All tests passed!")  
-  
-
-
-# LLM-generated content at query #20
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        reverse_relative = False  
-        order_by_type = False  
-        constants = set()  
-        classes = set()  
-        variables = set()  
-        case_sensitive = True  
-        length_sort = False  
-        length_sort_straight = False  
-        length_sort_sections = []  
-        force_to_top = set()  
-        group_by_package = False  
-        lexicographical = False  
-        sort_relative_in_force_sorted_sections = False  
-        honor_case_in_force_sorted_sections = False  
-        sorting_function = sorted  
-
-    config = MockConfig()  
-    # Test basic module name  
-    assert module_key("os", config) == "Bos"  
-    # Test with sub_imports and order_by_type  
-    config.order_by_type = True  
-    assert module_key("CONST", config, sub_imports=True) == "BCONST"  
-    config.constants.add("CONST")  
-    assert module_key("CONST", config, sub_imports=True) == "ACONST"  
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    assert module_key("OS", config) == "Bos"  
-    # Test length sort  
-    config.length_sort = True  
-    assert module_key("os", config) == "B3:os"  
-    # Test force_to_top  
-    config.force_to_top.add("os")  
-    assert module_key("os", config) == "A3:os"  
-    # Test relative imports  
-    config.reverse_relative = True  
-    assert module_key("..module", config) == "B.. module"  
-    config.reverse_relative = False  
-    assert module_key("..module", config) == "B.._module"  
-    print("All tests passed!")  
-
-
-
 # LLM-generated content at query #21
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    class Config:
+def test_section_key():
+    class ConfigMock:
         def __init__(self):
             self.reverse_relative = False
+            self.sort_relative_in_force_sorted_sections = False
             self.group_by_package = False
             self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
             self.force_to_top = []
             self.honor_case_in_force_sorted_sections = False
             self.case_sensitive = True
             self.order_by_type = False
             self.length_sort = False
 
-    config = Config()
-    # Test case 1: Basic import line
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
+    config = ConfigMock()
 
-    # Test case 2: From import line
-    line = "from sys import path"
-    result = section_key(line, config)
-    assert result == "Bfrom sys import path", f"Expected 'Bfrom sys import path', got {result}"
+    # Test case 1: Basic import statement without any special conditions
+    line1 = "import os"
+    assert section_key(line1, config) == "Bimport os"
 
-    # Test case 3: Force to top
-    config.force_to_top = ["sys"]
-    line = "import sys"
-    result = section_key(line, config)
-    assert result == "Aimport sys", f"Expected 'Aimport sys', got {result}"
+    # Test case 2: Import statement with 'from' and in force_to_top
+    config.force_to_top = ["os"]
+    line2 = "from os import path"
+    assert section_key(line2, config) == "Afrom os import path"
 
-    # Test case 4: Case sensitivity
+    # Test case 3: Import statement with reversed relative
+    config.reverse_relative = True
+    line3 = "from . import os"
+    assert section_key(line3, config) == "Bfrom . import os"
+
+    # Test case 4: Import statement with group_by_package enabled
+    config.group_by_package = True
+    line4 = "from os import path"
+    assert section_key(line4, config) == "Afrom os"
+
+    # Test case 5: Import statement with lexicographical sorting
+    config.lexicographical = True
+    line5 = "from os import path"
+    assert section_key(line5, config) == "Aos.path"
+
+    # Test case 6: Import statement with honor_case_in_force_sorted_sections enabled
+    config.honor_case_in_force_sorted_sections = True
     config.case_sensitive = False
-    line = "import OS"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
+    line6 = "from OS import path"
+    assert section_key(line6, config) == "Afrom os import path"
 
-    # Test case 5: Length sort
+    # Test case 7: Import statement with length_sort enabled
     config.length_sort = True
-    line = "import a"
-    result = section_key(line, config)
-    assert result == "B10import a", f"Expected 'B10import a', got {result}"
+    line7 = "import os"
+    assert section_key(line7, config) == "B8import os"
 
-    print("All tests passed!")
-
-# Run the unit test
-test_section_key()
+    # Test case 8: Import statement with order_by_type enabled
+    config.order_by_type = True
+    line8 = "import os"
+    assert section_key(line8, config) == "B8import os"
 
 
 # LLM-generated content at query #22
 #--------------------------
 
 # Unit test for function module_key
-def test_module_key():  
-    # Mock config object with required attributes
+def test_module_key():
     class MockConfig:
         def __init__(self):
             self.reverse_relative = False
@@ -1096,310 +77,242 @@ def test_module_key():
             self.length_sort_sections = set()
 
     config = MockConfig()
-    
-    # Test basic module name
-    assert module_key("os", config) == "Bos"
-    
-    # Test with relative import
-    config.reverse_relative = True
-    assert module_key(".os", config) == "B . os"
-    config.reverse_relative = False
-    assert module_key(".os", config) == "B_os"
-    
-    # Test case sensitivity
+    assert module_key("module1", config) == "Bmodule1"
+    assert module_key("Module1", config) == "BModule1"
+    assert module_key("module2", config) == "Bmodule2"
     config.case_sensitive = False
-    assert module_key("OS", config) == "Bos"
-    config.case_sensitive = True
-    
-    # Test force_to_top
-    config.force_to_top = {"os"}
-    assert module_key("os", config) == "Aos"
-    
-    # Test order_by_type with constants
+    assert module_key("Module1", config) == "Bmodule1"
     config.order_by_type = True
-    config.constants = {"MAX_SIZE"}
-    assert module_key("MAX_SIZE", config, sub_imports=True) == "BAmax_size"
-    
-    # Test length_sort
+    config.classes = {"Module1"}
+    assert module_key("Module1", config, sub_imports=True) == "BBmodule1"
+    config.force_to_top = {"module1"}
+    assert module_key("module1", config) == "Amodule1"
     config.length_sort = True
-    assert module_key("very_long_module_name", config) == "B24:very_long_module_name"
-    
-    print("All module_key tests passed!")
-
+    assert module_key("module1", config) == "A7:module1"
+    config.reverse_relative = True
+    assert module_key(".. module1", config) == "A10:.. module1"
 
 
 # LLM-generated content at query #23
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
+def test_section_key():
+    class MockConfig:
+        def __init__(
+            self,
+            reverse_relative=False,
+            sort_relative_in_force_sorted_sections=False,
+            lexicographical=False,
+            group_by_package=False,
+            force_to_top=set(),
+            honor_case_in_force_sorted_sections=False,
+            case_sensitive=True,
+            order_by_type=True,
+            length_sort=False,
+        ):
+            self.reverse_relative = reverse_relative
+            self.sort_relative_in_force_sorted_sections = sort_relative_in_force_sorted_sections
+            self.lexicographical = lexicographical
+            self.group_by_package = group_by_package
+            self.force_to_top = force_to_top
+            self.honor_case_in_force_sorted_sections = honor_case_in_force_sorted_sections
+            self.case_sensitive = case_sensitive
+            self.order_by_type = order_by_type
+            self.length_sort = length_sort
 
-    config = Config()
-    # Test basic import line
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
-    
-    # Test from import line
-    line = "from sys import path"
-    result = section_key(line, config)
-    assert result == "Bfrom sys import path", f"Expected 'Bfrom sys import path', got {result}"
-    
-    # Test force_to_top
-    config.force_to_top = ["sys"]
-    line = "import sys"
-    result = section_key(line, config)
-    assert result == "Aimport sys", f"Expected 'Aimport sys', got {result}"
-    
-    # Test case sensitivity
+    # Test with default config
+    config = MockConfig()
+    assert section_key("import os", config) == "Bimport os"
+    assert section_key("from . import foo", config) == "Bfrom . import foo"
+
+    # Test with reverse_relative=True
+    config.reverse_relative = True
+    assert section_key("from . import foo", config) == "Bfrom . import foo"
+
+    # Test with sort_relative_in_force_sorted_sections=True
+    config.sort_relative_in_force_sorted_sections = True
+    assert section_key("from .. import foo", config) == "Bfrom .. import foo"
+
+    # Test with lexicographical=True
+    config.lexicographical = True
+    assert section_key("import os", config) == "Bimport os"
+    assert section_key("from . import foo", config) == "Bfrom foo"
+
+    # Test with group_by_package=True
+    config.group_by_package = True
+    assert section_key("from package import module", config) == "Bfrom package"
+
+    # Test with force_to_top
+    config.force_to_top = {"os"}
+    assert section_key("import os", config) == "Aimport os"
+
+    # Test with honor_case_in_force_sorted_sections=True
+    config.honor_case_in_force_sorted_sections = True
     config.case_sensitive = False
-    line = "import OS"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
-    
-    # Test length_sort
-    config.length_sort = True
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "B8import os", f"Expected 'B8import os', got {result}"
-    
-    print("All tests passed!")
+    config.order_by_type = False
+    assert section_key("import OS", config) == "Bimport os"
 
-# Run the unit test
-test_section_key()
+    # Test with length_sort=True
+    config.length_sort = True
+    assert section_key("import os", config) == "B11import os"
+
+    # Test with case_sensitive=False and order_by_type=True
+    config.case_sensitive = False
+    config.order_by_type = True
+    assert section_key("import OS.path", config) == "Bimport os.path"
 
 
 # LLM-generated content at query #24
 #--------------------------
 
-# Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = True
-            self.length_sort = False
-            self.length_sort_straight = False
-            self.length_sort_sections = []
+# Unit test for function module_key
+def test_module_key():
+    from .settings import Config
 
-    config = Config()
-    # Test case 1: Basic import line
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
+    config = Config(
+        constants={"os"},
+        classes={"ClassA", "ClassB"},
+        variables={"var1", "var2"},
+        force_to_top={"sys"},
+        reverse_relative=True,
+        order_by_type=True,
+        length_sort=True,
+        length_sort_straight=True,
+        length_sort_sections={"test_section"},
+        case_sensitive=False,
+    )
 
-    # Test case 2: From import line
-    line = "from sys import path"
-    result = section_key(line, config)
-    assert result == "Bfrom sys import path", f"Expected 'Bfrom sys import path', got {result}"
+    # Test basic functionality
+    assert module_key("os", config) == "CA1:os"
+    assert module_key("ClassA", config) == "BB6:classa"
+    assert module_key("var1", config) == "CC4:var1"
 
-    # Test case 3: Force to top
-    config.force_to_top = ["sys"]
-    line = "import sys"
-    result = section_key(line, config)
-    assert result == "Aimport sys", f"Expected 'Aimport sys', got {result}"
+    # Test force_to_top
+    assert module_key("sys", config) == "AA3:sys"
 
-    # Test case 4: Relative import
-    config.reverse_relative = True
-    line = "from . import module"
-    result = section_key(line, config)
-    assert result == "Bfrom . import module", f"Expected 'Bfrom . import module', got {result}"
+    # Test relative imports
+    assert module_key("..module", config) == "CB .. module"
 
-    # Test case 5: Case sensitivity
-    config.case_sensitive = False
-    line = "import OS"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
+    # Test case sensitivity
+    assert module_key("Os", config) == "CA1:os"
 
-    # Test case 6: Length sort
-    config.length_sort = True
-    line = "import a"
-    result = section_key(line, config)
-    assert result == "B9import a", f"Expected 'B9import a', got {result}"
+    # Test sub_imports and type ordering
+    assert module_key("os", config, sub_imports=True) == "CA1:os"
+    assert module_key("ClassA", config, sub_imports=True) == "BB6:classa"
+    assert module_key("var1", config, sub_imports=True) == "CC4:var1"
 
-    print("All tests passed!")
+    # Test section_name and straight_import
+    assert module_key("module", config, section_name="test_section", straight_import=True) == "BC6:module"
 
-# Run the unit test
-test_section_key()
 
 
 # LLM-generated content at query #25
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    class Config:
+def test_section_key():
+    class MockConfig:
         def __init__(self):
-            self.reverse_relative = False
+            self.sort_relative_in_force_sorted_sections = False
+            self.reverse_relative = True
             self.group_by_package = False
             self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
             self.length_sort = False
+            self.honor_case_in_force_sorted_sections = False
+            self.case_sensitive = False
+            self.order_by_type = False
+            self.force_to_top = set()
 
-    config = Config()
-    # Test basic import line
-    assert section_key("import os", config) == "Bimport os"
-    # Test from import line
-    assert section_key("from sys import path", config) == "Bfrom sys import path"
-    # Test force_to_top
-    config.force_to_top = ["os"]
-    assert section_key("import os", config) == "Aimport os"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert section_key("import OS", config) == "Aimport os"
-    # Test length_sort
-    config.length_sort = True
-    assert section_key("import os", config) == "A10import os"
-    # Test reverse_relative
-    config.reverse_relative = True
+    config = MockConfig()
+    assert section_key("from . import module", config) == "Bfrom . import module"
     config.sort_relative_in_force_sorted_sections = True
     assert section_key("from . import module", config) == "Bfrom . import module"
-    # Test group_by_package
+    config.reverse_relative = False
+    assert section_key("from . import module", config) == "Bfrom ._import module"
     config.group_by_package = True
-    assert section_key("from package import module", config) == "Bfrom package"
-    # Test lexicographical
+    assert section_key("from . import module", config) == "Bfrom ."
     config.lexicographical = True
-    assert section_key("from a import b", config) == "Ba.b"
-
+    assert section_key("from . import module", config) == "Bfrom..module"
+    config.length_sort = True
+    assert section_key("from . import module", config) == "B12from..module"
+    config.honor_case_in_force_sorted_sections = True
+    config.case_sensitive = True
+    config.order_by_type = True
+    assert section_key("from . import module", config) == "B12from..module"
+    config.force_to_top = {"from ."}
+    assert section_key("from . import module", config) == "A12from..module"
+    config.case_sensitive = False
+    assert section_key("from . import module", config) == "A12from..module"
+    config.order_by_type = False
+    assert section_key("from . import module", config) == "A12from..module"
+    config.honor_case_in_force_sorted_sections = False
+    assert section_key("from . import module", config) == "A12from..module"
 
 
 # LLM-generated content at query #26
 #--------------------------
 
-# Unit test for function section_key
-def test_section_key():  
-    # Mock config object with necessary attributes  
-    class MockConfig:  
-        def __init__(self):  
-            self.reverse_relative = False  
-            self.group_by_package = False  
-            self.lexicographical = False  
-            self.sort_relative_in_force_sorted_sections = False  
-            self.force_to_top = []  
-            self.honor_case_in_force_sorted_sections = False  
-            self.case_sensitive = True  
-            self.order_by_type = False  
-            self.length_sort = False  
-            self.length_sort_straight = False  
-            self.length_sort_sections = []  
-  
-    config = MockConfig()  
-  
-    # Test case 1: Simple import line  
-    line = "import os"  
-    result = section_key(line, config)  
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"  
-  
-    # Test case 2: From import line  
-    line = "from sys import path"  
-    result = section_key(line, config)  
-    assert result == "Bfrom sys import path", f"Expected 'Bfrom sys import path', got {result}"  
-  
-    # Test case 3: Force to top  
-    config.force_to_top = ["sys"]  
-    line = "import sys"  
-    result = section_key(line, config)  
-    assert result == "Aimport sys", f"Expected 'Aimport sys', got {result}"  
-  
-    # Test case 4: Case sensitivity  
-    config.case_sensitive = False  
-    line = "import OS"  
-    result = section_key(line, config)  
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"  
-  
-    # Test case 5: Length sort  
-    config.length_sort = True  
-    line = "import os"  
-    result = section_key(line, config)  
-    assert result == "B9import os", f"Expected 'B9import os', got {result}"  
-  
-    # Test case 6: Reverse relative  
-    config.reverse_relative = True  
-    config.sort_relative_in_force_sorted_sections = True  
-    line = "from . import module"  
-    result = section_key(line, config)  
-    assert result == "Bfrom . import module", f"Expected 'Bfrom . import module', got {result}"  
-  
-    # Test case 7: Group by package  
-    config.group_by_package = True  
-    line = "from package import module"  
-    result = section_key(line, config)  
-    assert result == "Bfrom package", f"Expected 'Bfrom package', got {result}"  
-  
-    # Test case 8: Lexicographical  
-    config.lexicographical = True  
-    line = "from package import module"  
-    result = section_key(line, config)  
-    assert result == "Bpackage", f"Expected 'Bpackage', got {result}"  
-  
-    print("All tests passed!")  
-  
-# Run the unit test  
-test_section_key()
+# Unit test for function module_key
+def test_module_key():    
+    class MockConfig:
+        def __init__(self):
+            self.reverse_relative = False
+            self.constants = {"CONSTANT"}
+            self.classes = {"MyClass"}
+            self.variables = {"my_var"}
+            self.force_to_top = {"top_module"}
+            self.order_by_type = True
+            self.case_sensitive = True
+            self.length_sort = False
+            self.length_sort_straight = False
+            self.length_sort_sections = set()
+    
+    config = MockConfig()
+    assert module_key("module_name", config) == "Bmodule_name"
+    assert module_key("top_module", config) == "Atop_module"
+    assert module_key(".relative", config) == "Brelative"
+    assert module_key("CONSTANT", config, sub_imports=True) == "AACONSTANT"
+    assert module_key("MyClass", config, sub_imports=True) == "BBMyClass"
+    assert module_key("my_var", config, sub_imports=True) == "CCmy_var"
+    assert module_key("module_name", config, ignore_case=True) == "Bmodule_name"
+    assert module_key("MODULE_NAME", config, ignore_case=True) == "Bmodule_name"
 
 
 # LLM-generated content at query #27
 #--------------------------
 
 # Unit test for function module_key
-def test_module_key():  
+def test_module_key():
     class MockConfig:
-        constants = {"CONSTANT_MODULE"}
-        classes = {"ClassModule"}
-        variables = {"variable_module"}
-        force_to_top = {"top_module"}
-        reverse_relative = False
-        order_by_type = True
-        length_sort = False
-        length_sort_straight = False
-        length_sort_sections = []
-        case_sensitive = True
-        group_by_package = False
-        lexicographical = False
-        sort_relative_in_force_sorted_sections = False
-        honor_case_in_force_sorted_sections = False
+        def __init__(self):
+            self.reverse_relative = False
+            self.order_by_type = False
+            self.constants = set()
+            self.classes = set()
+            self.variables = set()
+            self.case_sensitive = False
+            self.length_sort = False
+            self.length_sort_straight = False
+            self.length_sort_sections = []
+            self.force_to_top = set()
+            self.group_by_package = False
+            self.lexicographical = False
+            self.sort_relative_in_force_sorted_sections = False
+            self.honor_case_in_force_sorted_sections = False
+            self.sorting_function = naturally
 
     config = MockConfig()
-    # Test case for constants
-    assert module_key("CONSTANT_MODULE", config, sub_imports=True) == "BA CONSTANT_MODULE"
-    # Test case for classes
-    assert module_key("ClassModule", config, sub_imports=True) == "BB ClassModule"
-    # Test case for variables
-    assert module_key("variable_module", config, sub_imports=True) == "BC variable_module"
-    # Test case for force_to_top
-    assert module_key("top_module", config, sub_imports=True) == "AA top_module"
-    # Test case for relative imports with reverse_relative=False
-    assert module_key(".relative", config) == "B .relative"
-    # Test case for case_sensitive=False
-    config.case_sensitive = False
-    assert module_key("MixedCase", config) == "B mixedcase"
-    config.case_sensitive = True
-    # Test case for length_sort=True
+    assert module_key("module_name", config) == "Bmodule_name"
+    config.reverse_relative = True
+    assert module_key(".module_name", config) == "B module_name"
+    config.order_by_type = True
+    config.classes = {"module_name"}
+    assert module_key("module_name", config, sub_imports=True) == "BBmodule_name"
     config.length_sort = True
-    assert module_key("long_module_name", config) == "B 17:long_module_name"
-    config.length_sort = False
-    print("All tests passed!")
+    assert module_key("module_name", config) == "B11:module_name"
+    config.force_to_top = {"module_name"}
+    assert module_key("module_name", config) == "A11:module_name"
 
 
 
@@ -1407,96 +320,282 @@ def test_module_key():
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    # Mock config object with necessary attributes
-    class MockConfig:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
+def test_section_key():
+    class Config:
+        reverse_relative = False
+        sort_relative_in_force_sorted_sections = False
+        group_by_package = False
+        lexicographical = False
+        force_to_top = []
+        honor_case_in_force_sorted_sections = False
+        case_sensitive = False
+        order_by_type = False
+        length_sort = False
+        length_sort_straight = False
+        length_sort_sections = []
 
-    config = MockConfig()
-    
-    # Test case 1: Basic import line
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "Bos", f"Expected 'Bos', got {result}"
-    
-    # Test case 2: From import line
-    line = "from sys import path"
-    result = section_key(line, config)
-    assert result == "Bsys import path", f"Expected 'Bsys import path', got {result}"
-    
-    # Test case 3: Force to top
-    config.force_to_top = ["sys"]
-    line = "from sys import path"
-    result = section_key(line, config)
-    assert result == "Asys import path", f"Expected 'Asys import path', got {result}"
-    
-    # Test case 4: Case sensitivity
-    config.case_sensitive = False
-    line = "import OS"
-    result = section_key(line, config)
-    assert result == "Bos", f"Expected 'Bos', got {result}"
-    
-    print("All tests passed!")
+    config = Config()
+    assert section_key("from . import module", config) == "Bfrom . import module"
+    assert section_key("from package import module", config) == "Bfrom package import module"
+    assert section_key("import module", config) == "Bimport module"
+    assert section_key("from .module import func", config) == "Bfrom .module import func"
+    assert section_key("from package.module import func", config) == "Bfrom package.module import func"
+    config.force_to_top = ["package"]
+    assert section_key("from package import module", config) == "Afrom package import module"
+    config.honor_case_in_force_sorted_sections = True
+    config.case_sensitive = True
+    assert section_key("from Package import module", config) == "Afrom Package import module"
+    config.length_sort = True
+    assert section_key("from package import module", config) == "A22from package import module"
 
-# Run the test
-test_section_key()
 
 
 # LLM-generated content at query #29
 #--------------------------
 
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        reverse_relative = False  
-        order_by_type = False  
-        constants = set()  
-        classes = set()  
-        variables = set()  
-        case_sensitive = True  
-        length_sort = False  
-        length_sort_straight = False  
-        length_sort_sections = set()  
-        force_to_top = set()  
-  
-    config = MockConfig()  
-    # Test basic module name  
-    assert module_key("os", config) == "Bos"  
-    # Test with sub_imports and order_by_type  
-    config.order_by_type = True  
-    assert module_key("CONST", config, sub_imports=True) == "BCONST"  
-    config.constants.add("CONST")  
-    assert module_key("CONST", config, sub_imports=True) == "ACONST"  
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    assert module_key("OS", config) == "Bos"  
-    # Test length sort  
-    config.length_sort = True  
-    assert module_key("os", config) == "B3:os"  
-    # Test force_to_top  
-    config.force_to_top.add("os")  
-    assert module_key("os", config) == "A3:os"  
-  
+# Unit test for function section_key
+def test_section_key():
+    config = Config()
+    config.group_by_package = False
+    config.lexicographical = False
+    config.sort_relative_in_force_sorted_sections = False
+    config.case_sensitive = True
+    config.order_by_type = False
+    config.force_to_top = set()
+    config.length_sort = False
+    config.honor_case_in_force_sorted_sections = False
 
 
 # LLM-generated content at query #30
 #--------------------------
 
+# Unit test for function module_key
+def test_module_key():
+    class MockConfig:
+        def __init__(self):
+            self.reverse_relative = False
+            self.order_by_type = False
+            self.constants = set()
+            self.classes = set()
+            self.variables = set()
+            self.force_to_top = set()
+            self.case_sensitive = True
+            self.length_sort = False
+            self.length_sort_straight = False
+            self.length_sort_sections = set()
+
+    config = MockConfig()
+    assert module_key("module", config) == "Bmodule"
+    config.reverse_relative = True
+    assert module_key(".module", config) == "B. module"
+    config.reverse_relative = False
+    config.order_by_type = True
+    config.constants = {"module"}
+    assert module_key("module", config) == "BAmodule"
+    config.constants = set()
+    config.classes = {"module"}
+    assert module_key("module", config) == "BBmodule"
+    config.classes = set()
+    config.variables = {"module"}
+    assert module_key("module", config) == "BCmodule"
+    config.variables = set()
+    assert module_key("MODULE", config) == "BAMODULE"
+    assert module_key("Module", config) == "BBModule"
+    assert module_key("module", config) == "BCmodule"
+    config.case_sensitive = False
+    assert module_key("Module", config) == "BCmodule"
+    config.length_sort = True
+    assert module_key("module", config) == "BC6:module"
+    config.force_to_top = {"module"}
+    assert module_key("module", config) == "AC6:module"
+
+
+# LLM-generated content at query #31
+#--------------------------
+
 # Unit test for function section_key
 def test_section_key():
+    from .settings import Config
+
+    config = Config(
+        force_to_top=["django"],
+        group_by_package=True,
+        lexicographical=False,
+        length_sort=False,
+        case_sensitive=True,
+        order_by_type=False,
+        reverse_relative=False,
+        sort_relative_in_force_sorted_sections=False,
+        honor_case_in_force_sorted_sections=False,
+        length_sort_straight=False,
+        length_sort_sections=[],
+        constants=[],
+        classes=[],
+        variables=[],
+    )
+
+    assert section_key("import django", config) == "Aimport django"
+    assert section_key("from django import settings", config) == "Afrom django import settings"
+    assert section_key("import os", config) == "Bimport os"
+    assert section_key("from os import path", config) == "Bfrom os import path"
+
+    config.case_sensitive = False
+    assert section_key("import Django", config) == "Aimport django"
+    assert section_key("from Django import settings", config) == "Afrom django import settings"
+    assert section_key("import OS", config) == "Bimport os"
+    assert section_key("from OS import path", config) == "Bfrom os import path"
+
+    config.lexicographical = True
+    assert section_key("import django", config) == "Aimport django"
+    assert section_key("from django import settings", config) == "Adjango.settings"
+    assert section_key("import os", config) == "Bimport os"
+    assert section_key("from os import path", config) == "Bos.path"
+
+    config.length_sort = True
+    assert section_key("import django", config) == "A12import django"
+    assert section_key("from django import settings", config) == "Adjango.settings"
+    assert section_key("import os", config) == "B8import os"
+    assert section_key("from os import path", config) == "Bos.path"
+
+
+# LLM-generated content at query #32
+#--------------------------
+
+# Unit test for function module_key
+def test_module_key():
+    class MockConfig:
+        def __init__(self):
+            self.constants = {'CONSTANT'}
+            self.classes = {'ClassName'}
+            self.variables = {'variable'}
+            self.force_to_top = {'top_module'}
+            self.reverse_relative = False
+            self.order_by_type = True
+            self.length_sort = False
+            self.length_sort_straight = False
+            self.length_sort_sections = []
+            self.case_sensitive = True
+
+    config = MockConfig()
+
+    assert module_key('CONSTANT', config, sub_imports=True) == 'AAconstant'
+    assert module_key('ClassName', config, sub_imports=True) == 'BBclassname'
+    assert module_key('variable', config, sub_imports=True) == 'CCvariable'
+    assert module_key('top_module', config, sub_imports=True) == 'Atop_module'
+
+    config.reverse_relative = True
+    assert module_key('.relative', config) == '. relative'
+    assert module_key('..relative', config) == '.. relative'
+
+    config.length_sort = True
+    assert module_key('long_module_name', config) == 'B15:long_module_name'
+
+    config.case_sensitive = False
+    assert module_key('CamelCase', config) == 'Bcamelcase'
+
+
+# LLM-generated content at query #33
+#--------------------------
+
+# Unit test for function section_key
+def test_section_key():
+    from .settings import Config
+
+    config = Config(
+        force_to_top=["django"],
+        group_by_package=True,
+        lexicographical=True,
+        reverse_relative=True,
+        sort_relative_in_force_sorted_sections=True,
+        honor_case_in_force_sorted_sections=True,
+        case_sensitive=True,
+        order_by_type=True,
+        length_sort=True,
+        length_sort_sections=[],
+        length_sort_straight=False,
+    )
+
+    # Test case 1: Force to top section
+    line = "from django import forms"
+    assert section_key(line, config) == "A0django.forms"
+
+    # Test case 2: Regular section
+    line = "from requests import get"
+    assert section_key(line, config) == "B0requests.get"
+
+    # Test case 3: Relative import with reverse_relative
+    line = "from ..utils import helper"
+    assert section_key(line, config) == "B0.. helper"
+
+    # Test case 4: Relative import with sort_relative_in_force_sorted_sections
+    config.sort_relative_in_force_sorted_sections = True
+    line = "from .models import User"
+    assert section_key(line, config) == "B0._models"
+
+    # Test case 5: Honor case in force sorted sections
+    line = "from Django import forms"
+    assert section_key(line, config) == "B0Django.forms"
+
+    # Test case 6: Length sort
+    line = "from long_module_name import something"
+    assert section_key(line, config) == "B0long_module_name.something"
+
+    # Test case 7: Case sensitive and order_by_type
+    config.case_sensitive = False
+    line = "from REQUESTS import GET"
+    assert section_key(line, config) == "B0requests.get"
+
+    # Test case 8: Without lexicographical
+    config.lexicographical = False
+    line = "from requests import get"
+    assert section_key(line, config) == "B0requests import get"
+
+    # Test case 9: Without group_by_package
+    config.group_by_package = False
+    line = "from requests import get"
+    assert section_key(line, config) == "B0requests import get"
+
+    # Test case 10: Without length_sort
+    config.length_sort = False
+    line = "from requests import get"
+    assert section_key(line, config) == "Brequests import get"
+
+
+# LLM-generated content at query #34
+#--------------------------
+
+# Unit test for function section_key
+def test_section_key():
+    class Config:
+        def __init__(self):
+            self.sort_relative_in_force_sorted_sections = False
+            self.reverse_relative = False
+            self.group_by_package = False
+            self.lexicographical = False
+            self.force_to_top = ["from"]
+            self.honor_case_in_force_sorted_sections = False
+            self.case_sensitive = False
+            self.order_by_type = False
+            self.length_sort = False
+
+    config = Config()
+    assert section_key("from module import something", config) == "Bfrom module import something"
+    config.force_to_top = ["module"]
+    assert section_key("from module import something", config) == "Afrom module import something"
+    config.honor_case_in_force_sorted_sections = True
+    assert section_key("from Module import something", config) == "Afrom module import something"
+    config.case_sensitive = True
+    assert section_key("from Module import something", config) == "Afrom Module import something"
+    config.order_by_type = True
+    assert section_key("from Module import something", config) == "Afrom Module import something"
+    config.length_sort = True
+    assert section_key("from Module import something", config) == "A26from Module import something"
+
+test_section_key()
 
 
 ####################################################################
-#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
 ####################################################################
 
 
@@ -1504,7 +603,200 @@ def test_section_key():
 #--------------------------
 
 # Unit test for function module_key
-def test_module_key():  
+def test_module_key():
+    class MockConfig:
+        def __init__(self):
+            self.reverse_relative = False
+            self.order_by_type = False
+            self.constants = set()
+            self.classes = set()
+            self.variables = set()
+            self.force_to_top = set()
+            self.case_sensitive = True
+            self.length_sort = False
+            self.length_sort_straight = False
+            self.length_sort_sections = set()
+
+    config = MockConfig()
+    assert module_key("module1", config) == "Bmodule1"
+    assert module_key("Module1", config) == "BModule1"
+    assert module_key("module2", config) == "Bmodule2"
+    assert module_key("MODULE", config) == "BMODULE"
+    assert module_key(".module", config) == "B.module"
+    
+    config.reverse_relative = True
+    assert module_key(".module", config) == "B.module"
+    
+    config.order_by_type = True
+    config.constants = {"MODULE"}
+    assert module_key("MODULE", config) == "BAMODULE"
+    config.classes = {"MyClass"}
+    assert module_key("MyClass", config) == "BBMyClass"
+    config.variables = {"my_var"}
+    assert module_key("my_var", config) == "BCmy_var"
+    assert module_key("OtherClass", config) == "BBOtherClass"
+    assert module_key("other_var", config) == "BCother_var"
+    
+    config.force_to_top = {"special"}
+    assert module_key("special", config) == "Aspecial"
+    
+    config.case_sensitive = False
+    assert module_key("Module1", config) == "Bmodule1"
+    
+    config.length_sort = True
+    assert module_key("long_module_name", config) == "B19:long_module_name"
+    
+    config.length_sort_sections = {"test"}
+    assert module_key("module", config, section_name="test") == "B6:module"
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+# Unit test for function section_key
+def test_section_key():
+    config = Config(
+        reverse_relative=False,
+        group_by_package=False,
+        lexicographical=False,
+        force_to_top=["django"],
+        sort_relative_in_force_sorted_sections=False,
+        honor_case_in_force_sorted_sections=False,
+        case_sensitive=False,
+        order_by_type=False,
+        length_sort=False,
+        length_sort_straight=False,
+        length_sort_sections=[],
+    )
+    assert section_key("from django import forms", config) == "Afrom django import forms"
+    assert section_key("import django", config) == "Bimport django"
+    assert section_key("from . import forms", config) == "Bfrom . import forms"
+    assert section_key("from .forms import fields", config) == "Bfrom .forms import fields"
+    assert section_key("from django.contrib import admin", config) == "Bfrom django.contrib import admin"
+
+
+# LLM-generated content at query #3
+#--------------------------
+
+# Unit test for function section_key
+def test_section_key():
+    config = Config(
+        reverse_relative=True,
+        sort_relative_in_force_sorted_sections=False,
+        group_by_package=False,
+        lexicographical=False,
+        force_to_top=["django"],
+        honor_case_in_force_sorted_sections=True,
+        case_sensitive=True,
+        order_by_type=False,
+        length_sort=False,
+    )
+    
+    # Test with force_to_top
+    assert section_key("from django import models", config) == "Afrom django import models"
+    assert section_key("import django", config) == "Bimport django"
+    
+    # Test relative imports
+    assert section_key("from . import models", config) == "Bfrom . import models"
+    assert section_key("from .. import models", config) == "Bfrom .. import models"
+    
+    # Test case sensitivity
+    config.case_sensitive = False
+    assert section_key("from DJANGO import models", config) == "Afrom django import models"
+    assert section_key("import DJANGO", config) == "Bimport django"
+    
+    # Test length sort
+    config.length_sort = True
+    assert section_key("from a import b", config) == "B22from a import b"
+    assert section_key("from aa import bb", config) == "B24from aa import bb"
+    
+    # Test lexicographical sort
+    config.lexicographical = True
+    assert section_key("from a import b", config) == "Ba.b"
+    assert section_key("from a import c", config) == "Ba.c"
+    
+    print("All section_key tests passed!")
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+# Unit test for function section_key
+def test_section_key():
+    class MockConfig:
+        def __init__(self):
+            self.sort_relative_in_force_sorted_sections = False
+            self.reverse_relative = False
+            self.group_by_package = False
+            self.lexicographical = False
+            self.force_to_top = set()
+            self.honor_case_in_force_sorted_sections = False
+            self.case_sensitive = False
+            self.order_by_type = False
+            self.length_sort = False
+
+    config = MockConfig()
+    assert section_key("from module import name", config) == "Bfrommodule importname"
+    config.force_to_top = {"module"}
+    assert section_key("from module import name", config) == "Afrommodule importname"
+    config.honor_case_in_force_sorted_sections = True
+    config.case_sensitive = True
+    assert section_key("from Module import Name", config) == "AfromModule importName"
+    config.order_by_type = True
+    assert section_key("from Module import Name", config) == "AfromModule importName"
+    config.length_sort = True
+    assert section_key("from Module import Name", config) == "A20fromModule importName"
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+# Unit test for function module_key
+def test_module_key():
+    class MockConfig:
+        def __init__(self):
+            self.reverse_relative = False
+            self.order_by_type = False
+            self.constants = set()
+            self.classes = set()
+            self.variables = set()
+            self.force_to_top = set()
+            self.case_sensitive = True
+            self.length_sort = False
+            self.length_sort_straight = False
+            self.length_sort_sections = set()
+
+    config = MockConfig()
+    assert module_key("module", config) == "Bmodule"
+    config.reverse_relative = True
+    assert module_key(".module", config) == "B. module"
+    config.reverse_relative = False
+    config.order_by_type = True
+    config.constants = {"module"}
+    assert module_key("module", config) == "BAmodule"
+    config.constants = set()
+    config.classes = {"module"}
+    assert module_key("module", config) == "BBmodule"
+    config.classes = set()
+    config.variables = {"module"}
+    assert module_key("module", config) == "BCmodule"
+    config.variables = set()
+    assert module_key("MODULE", config) == "BAMODULE"
+    assert module_key("Module", config) == "BBModule"
+    assert module_key("module", config) == "BCmodule"
+    config.case_sensitive = False
+    assert module_key("Module", config) == "BBmodule"
+    config.length_sort = True
+    assert module_key("module", config) == "BC6:module"
+    config.force_to_top = {"module"}
+    assert module_key("module", config) == "AC6:module"
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+# Unit test for function module_key
+def test_module_key():
     class Config:
         reverse_relative = False
         order_by_type = False
@@ -1518,315 +810,28 @@ def test_module_key():
         length_sort_sections = set()
     
     config = Config()
-    
-    # Test basic module name
-    assert module_key("os", config) == "Bos"
-    
-    # Test with sub_imports and order_by_type
-    config.order_by_type = True
-    assert module_key("CONSTANT", config, sub_imports=True) == "BCONSTANT"
-    assert module_key("ClassName", config, sub_imports=True) == "BClassName"
-    assert module_key("variable", config, sub_imports=True) == "Cvariable"
-    
-    # Test force_to_top
-    config.force_to_top = {"os"}
-    assert module_key("os", config) == "Aos"
-    
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert module_key("OS", config) == "Bos"
-    
-    # Test length_sort
-    config.length_sort = True
-    assert module_key("os", config) == "B2:os"
-    
-    # Test relative imports
+    assert module_key("module_name", config) == "Bmodule_name"
+    assert module_key(".relative_module", config) == "B.relative_module"
+    assert module_key("CONSTANT", config) == "BCONSTANT"
+    assert module_key("Class", config) == "BClass"
+    assert module_key("variable", config) == "Bvariable"
     config.reverse_relative = True
-    assert module_key("..module", config) == "B.. module"
-    
-    print("All tests passed!")
-
-
-
-# LLM-generated content at query #2
-#--------------------------
-
-# Unit test for function section_key
-def test_section_key():  
-    # Mock config object with necessary attributes
-    class MockConfig:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
-
-    config = MockConfig()
-    
-    # Test basic import line
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
-    
-    # Test from import line
-    line = "from sys import path"
-    result = section_key(line, config)
-    assert result == "Bfrom sys import path", f"Expected 'Bfrom sys import path', got {result}"
-    
-    # Test force_to_top
-    config.force_to_top = ["sys"]
-    line = "from sys import path"
-    result = section_key(line, config)
-    assert result == "Afrom sys import path", f"Expected 'Afrom sys import path', got {result}"
-    
-    # Test case sensitivity
+    assert module_key(".relative_module", config) == "B. relative_module"
+    config.order_by_type = True
+    config.constants = {"CONSTANT"}
+    config.classes = {"Class"}
+    config.variables = {"variable"}
+    assert module_key("CONSTANT", config, sub_imports=True) == "BACONSTANT"
+    assert module_key("Class", config, sub_imports=True) == "BBClass"
+    assert module_key("variable", config, sub_imports=True) == "BCvariable"
+    config.force_to_top = {"module_name"}
+    assert module_key("module_name", config) == "Amodule_name"
     config.case_sensitive = False
-    line = "import OS"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
-    
-    # Test length sort
+    assert module_key("Module_Name", config) == "Bmodule_name"
     config.length_sort = True
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "B8import os", f"Expected 'B8import os', got {result}"
-    
-    print("All tests passed!")
-
-# Run the test
-test_section_key()
-
-
-# LLM-generated content at query #3
-#--------------------------
-
-# Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
-
-    config = Config()
-    # Test case 1: Basic import line
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
-
-    # Test case 2: From import line
-    line = "from sys import path"
-    result = section_key(line, config)
-    assert result == "Bfrom sys import path", f"Expected 'Bfrom sys import path', got {result}"
-
-    # Test case 3: Force to top
-    config.force_to_top = ["sys"]
-    line = "import sys"
-    result = section_key(line, config)
-    assert result == "Aimport sys", f"Expected 'Aimport sys', got {result}"
-
-    # Test case 4: Case sensitivity
-    config.case_sensitive = False
-    line = "import OS"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
-
-    # Test case 5: Length sort
-    config.length_sort = True
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "B9import os", f"Expected 'B9import os', got {result}"
-
-    print("All tests passed!")
-
-# Run the unit test
-test_section_key()
-
-
-# LLM-generated content at query #4
-#--------------------------
-
-# Unit test for function section_key
-def test_section_key():  
-    class MockConfig:  
-        def __init__(self):  
-            self.reverse_relative = False  
-            self.group_by_package = False  
-            self.lexicographical = False  
-            self.sort_relative_in_force_sorted_sections = False  
-            self.force_to_top = []  
-            self.honor_case_in_force_sorted_sections = False  
-            self.case_sensitive = True  
-            self.order_by_type = False  
-            self.length_sort = False  
-
-    config = MockConfig()  
-    # Test basic import line  
-    line = "import os"  
-    result = section_key(line, config)  
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"  
-
-    # Test from import line  
-    line = "from sys import path"  
-    result = section_key(line, config)  
-    assert result == "Bfrom sys import path", f"Expected 'Bfrom sys import path', got {result}"  
-
-    # Test force_to_top  
-    config.force_to_top = ["sys"]  
-    line = "from sys import path"  
-    result = section_key(line, config)  
-    assert result == "Afrom sys import path", f"Expected 'Afrom sys import path', got {result}"  
-
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    line = "import OS"  
-    result = section_key(line, config)  
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"  
-
-    print("All tests passed!")  
-
-# Run the test  
-test_section_key()
-
-
-# LLM-generated content at query #5
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        def __init__(self):  
-            self.reverse_relative = False  
-            self.order_by_type = False  
-            self.constants = set()  
-            self.classes = set()  
-            self.variables = set()  
-            self.case_sensitive = True  
-            self.length_sort = False  
-            self.length_sort_straight = False  
-            self.length_sort_sections = set()  
-            self.force_to_top = set()  
-      
-    config = MockConfig()  
-    config.reverse_relative = False  
-    config.order_by_type = False  
-    config.constants = {"MAX_SIZE"}  
-    config.classes = {"MyClass"}  
-    config.variables = {"my_var"}  
-    config.case_sensitive = True  
-    config.length_sort = False  
-    config.length_sort_straight = False  
-    config.length_sort_sections = set()  
-    config.force_to_top = {"os"}  
-      
-    # Test basic module name  
-    assert module_key("sys", config) == "Bsys"  
-      
-    # Test module in force_to_top  
-    assert module_key("os", config) == "Aos"  
-      
-    # Test relative import  
-    config.reverse_relative = False  
-    assert module_key("..mypackage", config) == "B.. mypackage"  
-      
-    config.reverse_relative = True  
-    assert module_key("..mypackage", config) == "B..mypackage"  
-      
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    assert module_key("MyModule", config) == "Bmymodule"  
-      
-    config.case_sensitive = True  
-    assert module_key("MyModule", config) == "BMyModule"  
-      
-    # Test order_by_type with sub_imports  
-    config.order_by_type = True  
-    config.constants = {"MAX_SIZE"}  
-    config.classes = {"MyClass"}  
-    config.variables = {"my_var"}  
-      
-    # Constant  
-    assert module_key("MAX_SIZE", config, sub_imports=True) == "BAMAX_SIZE"  
-      
-    # Class  
-    assert module_key("MyClass", config, sub_imports=True) == "BBMyClass"  
-      
-    # Variable  
-    assert module_key("my_var", config, sub_imports=True) == "BCmy_var"  
-      
-    # Uppercase module (treated as constant)  
-    assert module_key("CONFIG", config, sub_imports=True) == "BACONFIG"  
-      
-    # Class-like module (starts with uppercase)  
-    assert module_key("MyModule", config, sub_imports=True) == "BBMyModule"  
-      
-    # Regular module  
-    assert module_key("my_module", config, sub_imports=True) == "BCmy_module"  
-      
-    # Test length_sort  
-    config.length_sort = True  
-    assert module_key("abc", config) == "B3:abc"  
-    assert module_key("abcd", config) == "B4:abcd"  
-      
-    # Test length_sort_straight with straight_import  
-    config.length_sort = False  
-    config.length_sort_straight = True  
-    assert module_key("abc", config, straight_import=True) == "B3:abc"  
-    assert module_key("abc", config, straight_import=False) == "Babc"  
-      
-    # Test length_sort_sections  
-    config.length_sort = False  
-    config.length_sort_straight = False  
-    config.length_sort_sections = {"mypackage"}  
-    assert module_key("abc", config, section_name="mypackage") == "B3:abc"  
-    assert module_key("abc", config, section_name="other") == "Babc"  
-      
-    print("All tests passed!")  
-  
-
-
-# LLM-generated content at query #6
-#--------------------------
-
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        reverse_relative = False  
-        order_by_type = False  
-        constants = set()  
-        classes = set()  
-        variables = set()  
-        force_to_top = set()  
-        case_sensitive = True  
-        length_sort = False  
-        length_sort_straight = False  
-        length_sort_sections = set()  
-
-    config = MockConfig()  
-    # Test basic module name  
-    assert module_key("os", config) == "Bos"  
-    # Test with sub_imports and order_by_type  
-    config.order_by_type = True  
-    assert module_key("CONST", config, sub_imports=True) == "BCONST"  
-    config.constants.add("CONST")  
-    assert module_key("CONST", config, sub_imports=True) == "ACONST"  
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    assert module_key("OS", config) == "Bos"  
-    # Test length sort  
-    config.length_sort = True  
-    assert module_key("os", config) == "B3:os"  
+    assert module_key("module_name", config) == "B8:module_name"
+    config.length_sort_sections = {"section_name"}
+    assert module_key("module_name", config, section_name="section_name") == "B8:module_name"
 
 
 
@@ -1834,268 +839,209 @@ def test_module_key():
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    class MockConfig:  
-        def __init__(self):  
-            self.reverse_relative = False  
-            self.group_by_package = False  
-            self.lexicographical = False  
-            self.sort_relative_in_force_sorted_sections = False  
-            self.force_to_top = []  
-            self.honor_case_in_force_sorted_sections = False  
-            self.case_sensitive = True  
-            self.order_by_type = True  
-            self.length_sort = False  
+def test_section_key():
+    class MockConfig:
+        def __init__(self):
+            self.force_to_top = {"top_module"}
+            self.group_by_package = True
+            self.sort_relative_in_force_sorted_sections = True
+            self.reverse_relative = False
+            self.case_sensitive = True
+            self.order_by_type = False
+            self.honor_case_in_force_sorted_sections = True
+            self.lexicographical = False
+            self.length_sort = False
 
-    config = MockConfig()  
-    line = "import numpy as np"  
-    result = section_key(line, config)  
-    assert result == "Bimport numpy as np", f"Expected 'Bimport numpy as np', got {result}"  
+    config = MockConfig()
 
-    config.reverse_relative = True  
-    line = "from . import module"  
-    result = section_key(line, config)  
-    assert result == "Bfrom . import module", f"Expected 'Bfrom . import module', got {result}"  
+    # Test case where module is in force_to_top
+    line = "import top_module"
+    assert section_key(line, config) == "Aimport top_module"
 
-    config.group_by_package = True  
-    line = "from package import module"  
-    result = section_key(line, config)  
-    assert result == "Bfrom package", f"Expected 'Bfrom package', got {result}"  
+    # Test case where module is not in force_to_top
+    line = "import another_module"
+    assert section_key(line, config) == "Bimport another_module"
 
-    config.lexicographical = True  
-    line = "from package import module"  
-    result = section_key(line, config)  
-    assert result == "Bpackage", f"Expected 'Bpackage', got {result}"  
+    # Test case with relative import
+    line = "from . import module"
+    assert section_key(line, config) == "Bfrom . import module"
 
-    config.force_to_top = ["numpy"]  
-    line = "import numpy as np"  
-    result = section_key(line, config)  
-    assert result == "Aimport numpy as np", f"Expected 'Aimport numpy as np', got {result}"  
+    # Test case with from import and group_by_package
+    line = "from package import module"
+    assert section_key(line, config) == "Bfrom package"
 
-    config.honor_case_in_force_sorted_sections = True  
-    config.case_sensitive = False  
-    line = "import numpy as np"  
-    result = section_key(line, config)  
-    assert result == "Aimport numpy as np", f"Expected 'Aimport numpy as np', got {result}"  
+    # Test case with lexicographical sorting
+    config.lexicographical = True
+    line = "from package import module"
+    assert section_key(line, config) == "Bpackage.module"
 
-    config.length_sort = True  
-    line = "import numpy as np"  
-    result = section_key(line, config)  
-    assert result == "A17import numpy as np", f"Expected 'A17import numpy as np', got {result}"  
-
-    print("All tests passed!")  
-
-if __name__ == "__main__":  
-    test_section_key()
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for function section_key
-def test_section_key():  
+# Unit test for function module_key
+def test_module_key():
+    # Test case 1: Test with a module name and default config
     class Config:
-        group_by_package = False
-        lexicographical = False
-        sort_relative_in_force_sorted_sections = False
         reverse_relative = False
-        force_to_top = []
-        honor_case_in_force_sorted_sections = False
-        case_sensitive = True
         order_by_type = False
+        constants = []
+        classes = []
+        variables = []
+        case_sensitive = False
         length_sort = False
-
+        length_sort_straight = False
+        length_sort_sections = []
+        force_to_top = []
     config = Config()
-    # Test basic import line
-    assert section_key("import os", config) == "Bimport os"
-    # Test from import line
-    assert section_key("from sys import path", config) == "Bsys import path"
-    # Test force_to_top
-    config.force_to_top = ["sys"]
-    assert section_key("from sys import path", config) == "Asys import path"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert section_key("import OS", config) == "Bimport os"
-    # Test length_sort
-    config.length_sort = True
-    assert section_key("import os", config) == "B11import os"
-    # Test lexicographical
-    config.lexicographical = True
-    assert section_key("from a import b", config) == "Ba.b"
-    # Test group_by_package
-    config.group_by_package = True
-    assert section_key("from a.b import c", config) == "Ba.b"
-    # Test reverse_relative
-    config.reverse_relative = True
-    config.sort_relative_in_force_sorted_sections = True
-    assert section_key("from .. import module", config) == "Bfrom .. import module"
-    # Test honor_case_in_force_sorted_sections
-    config.honor_case_in_force_sorted_sections = True
-    config.case_sensitive = True
-    config.order_by_type = False
-    assert section_key("import OS", config) == "Bimport os"
-    # Test with order_by_type True
-    config.order_by_type = True
-    assert section_key("import OS", config) == "Bimport OS"
-    print("All tests passed!")
+    module_name = "test_module"
+    assert module_key(module_name, config) == "Btest_module"
 
-test_section_key()
+    # Test case 2: Test with a module name and config with case sensitive
+    config.case_sensitive = True
+    assert module_key(module_name, config) == "Btest_module"
+
+    # Test case 3: Test with a module name and config with length sort
+    config.length_sort = True
+    assert module_key(module_name, config) == "B12:test_module"
+
+    # Test case 4: Test with a module name and config with force to top
+    config.force_to_top = ["test_module"]
+    assert module_key(module_name, config) == "A12:test_module"
+
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for function module_key
-def test_module_key():  
-    from .settings import Config  
-    config = Config()  
-    config.constants = {"CONSTANT"}  
-    config.classes = {"ClassName"}  
-    config.variables = {"variable"}  
-    config.force_to_top = {"top_module"}  
-    config.length_sort = False  
-    config.length_sort_straight = False  
-    config.length_sort_sections = []  
-    config.case_sensitive = True  
-    config.order_by_type = True  
-    config.reverse_relative = False  
-    
-    # Test case 1: module_name is a constant  
-    result = module_key("CONSTANT", config, sub_imports=True)  
-    assert result == "BA" + "CONSTANT", f"Expected 'BACONSTANT', got {result}"  
-    
-    # Test case 2: module_name is a class  
-    result = module_key("ClassName", config, sub_imports=True)  
-    assert result == "BB" + "ClassName", f"Expected 'BBClassName', got {result}"  
-    
-    # Test case 3: module_name is a variable  
-    result = module_key("variable", config, sub_imports=True)  
-    assert result == "BC" + "variable", f"Expected 'BCvariable', got {result}"  
-    
-    # Test case 4: module_name is in force_to_top  
-    result = module_key("top_module", config, sub_imports=True)  
-    assert result == "A" + "C" + "top_module", f"Expected 'ACtop_module', got {result}"  
-    
-    # Test case 5: module_name with relative import  
-    result = module_key(".relative", config, sub_imports=True)  
-    assert result == "B" + "C" + "relative", f"Expected 'BCrelative', got {result}"  
-    
-    # Test case 6: length_sort enabled  
-    config.length_sort = True  
-    result = module_key("module", config, sub_imports=True)  
-    assert result == "B" + "C" + "6:module", f"Expected 'BC6:module', got {result}"  
-    
-    # Test case 7: case_sensitive disabled  
-    config.case_sensitive = False  
-    result = module_key("Module", config, sub_imports=True)  
-    assert result == "B" + "C" + "6:module", f"Expected 'BC6:module', got {result}"  
-    
-    print("All tests passed!")  
+# Unit test for function section_key
+def test_section_key():
+    from unittest.mock import MagicMock
 
-# Run the unit test  
-if __name__ == "__main__":  
-    test_module_key()
+    # Test case 1: Basic import line
+    config = MagicMock()
+    config.force_to_top = []
+    config.group_by_package = False
+    config.lexicographical = False
+    config.sort_relative_in_force_sorted_sections = False
+    config.reverse_relative = False
+    config.length_sort = False
+    config.honor_case_in_force_sorted_sections = False
+    config.case_sensitive = True
+    config.order_by_type = False
+    line = "import os"
+    assert section_key(line, config) == "Bimport os"
+
+    # Test case 2: Force to top
+    config.force_to_top = ["os"]
+    assert section_key(line, config) == "Aimport os"
+
+    # Test case 3: Length sort
+    config.length_sort = True
+    assert section_key(line, config) == "A9import os"
+
+    # Test case 4: Case sensitivity
+    config.case_sensitive = False
+    assert section_key(line, config) == "A9import os"
+
+    # Test case 5: Lexicographical
+    config.lexicographical = True
+    assert section_key(line, config) == "A9os"
+
+    # Test case 6: Relative import
+    line = "from . import module"
+    config.lexicographical = False
+    config.sort_relative_in_force_sorted_sections = True
+    assert section_key(line, config) == "Bfrom . import module"
+
+    # Test case 7: Reverse relative
+    config.reverse_relative = True
+    assert section_key(line, config) == "Bfrom . import module"
+
+    # Test case 8: Group by package
+    config.group_by_package = True
+    line = "from package import module"
+    assert section_key(line, config) == "Bfrom package"
+
+    # Test case 9: Honor case in force sorted sections
+    config.honor_case_in_force_sorted_sections = True
+    config.case_sensitive = True
+    config.order_by_type = True
+    line = "from Package import Module"
+    assert section_key(line, config) == "Bfrom Package"
+
+    # Test case 10: Mixed case with order_by_type
+    config.order_by_type = False
+    line = "from Package import module"
+    assert section_key(line, config) == "Bfrom package import module"
 
 
 # LLM-generated content at query #10
 #--------------------------
 
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        constants = set()  
-        classes = set()  
-        variables = set()  
-        force_to_top = set()  
-        reverse_relative = False  
-        order_by_type = False  
-        length_sort = False  
-        length_sort_straight = False  
-        length_sort_sections = []  
-        case_sensitive = True  
-        group_by_package = False  
-        lexicographical = False  
-        sort_relative_in_force_sorted_sections = False  
-        honor_case_in_force_sorted_sections = False  
-        sorting_function = sorted  
+# Unit test for function section_key
+def test_section_key():
+    class ConfigMock:
+        def __init__(self):
+            self.sort_relative_in_force_sorted_sections = False
+            self.reverse_relative = False
+            self.group_by_package = False
+            self.lexicographical = False
+            self.force_to_top = []
+            self.honor_case_in_force_sorted_sections = False
+            self.case_sensitive = False
+            self.order_by_type = False
+            self.length_sort = False
 
-    config = MockConfig()  
-    config.constants = {"CONSTANT"}  
-    config.classes = {"MyClass"}  
-    config.variables = {"my_var"}  
-    config.force_to_top = {"top_module"}  
+    config_mock = ConfigMock()
 
-    # Test basic module name  
-    assert module_key("my_module", config) == "Bmy_module"  
+    assert section_key("import os", config_mock) == "Bimport os"
+    assert section_key("from . import os", config_mock) == "Bfrom . import os"
+    assert section_key("from os import path", config_mock) == "Bfrom os import path"
 
-    # Test with force_to_top  
-    assert module_key("top_module", config) == "Atop_module"  
+    config_mock.force_to_top = ["os"]
+    assert section_key("import os", config_mock) == "Aimport os"
+    assert section_key("from os import path", config_mock) == "Bfrom os import path"
 
-    # Test with order_by_type and sub_imports  
-    config.order_by_type = True  
-    assert module_key("CONSTANT", config, sub_imports=True) == "AACONSTANT"  
-    assert module_key("MyClass", config, sub_imports=True) == "BBMyClass"  
-    assert module_key("my_var", config, sub_imports=True) == "CCmy_var"  
-    assert module_key("OtherClass", config, sub_imports=True) == "BBOtherClass"  
-    assert module_key("other_var", config, sub_imports=True) == "CCother_var"  
-
-    # Test with length_sort  
-    config.length_sort = True  
-    assert module_key("long_module_name", config) == "B18:long_module_name"  
-
-    # Test with case_sensitive=False  
-    config.case_sensitive = False  
-    assert module_key("MyModule", config) == "Bmymodule"  
-
-    # Test with reverse_relative and relative import  
-    config.reverse_relative = True  
-    assert module_key("..my_module", config) == "B.. my_module"  
-
-    print("All tests passed!")  
-
+    config_mock.length_sort = True
+    assert section_key("import os", config_mock) == "A9import os"
+    assert section_key("from os import path", config_mock) == "B17from os import path"
 
 
 # LLM-generated content at query #11
 #--------------------------
 
-# Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
+# Unit test for function module_key
+def test_module_key():
+    from .settings import Config
 
-    config = Config()
-    # Test basic import line
-    assert section_key("import os", config) == "Bimport os"
-    # Test from import line
-    assert section_key("from sys import path", config) == "Bfrom sys import path"
-    # Test force_to_top
-    config.force_to_top = ["os"]
-    assert section_key("import os", config) == "Aimport os"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert section_key("import OS", config) == "Bimport os"
-    # Test length sort
-    config.length_sort = True
-    assert section_key("import os", config) == "B10import os"
-    # Test reverse relative
-    config.reverse_relative = True
-    config.sort_relative_in_force_sorted_sections = True
-    assert section_key("from . import module", config) == "Bfrom . import module"
-    # Test group_by_package
-    config.group_by_package = True
-    assert section_key("from package import module", config) == "Bfrom package"
-    # Test lexicographical
-    config.lexicographical = True
-    assert section_key("from a import b", config) == "Ba.b"
+    config = Config(
+        constants={"const1", "const2"},
+        classes={"Class1", "Class2"},
+        variables={"var1", "var2"},
+        force_to_top={"top1", "top2"},
+        case_sensitive=True,
+        length_sort=True,
+        length_sort_straight=True,
+        length_sort_sections={"section1", "section2"},
+        sort_relative_in_force_sorted_sections=True,
+        reverse_relative=True,
+        order_by_type=True,
+        group_by_package=True,
+        lexicographical=True,
+        honor_case_in_force_sorted_sections=True,
+    )
+
+    assert module_key("module1", config) == "BCmodule1"
+    assert module_key("top1", config) == "ACtop1"
+    assert module_key("const1", config, sub_imports=True) == "AAconst1"
+    assert module_key("Class1", config, sub_imports=True) == "BBClass1"
+    assert module_key("var1", config, sub_imports=True) == "CCvar1"
+    assert module_key("VAR1", config, sub_imports=True) == "CVAR1"
+    assert module_key(".module1", config) == "B module1"
+    assert module_key("module1", config, ignore_case=True) == "BCmodule1"
+    assert module_key("module1", config, section_name="section1", straight_import=True) == "BC6:module1"
 
 
 
@@ -2103,364 +1049,343 @@ def test_section_key():
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    class MockConfig:  
-        reverse_relative = False  
-        group_by_package = False  
-        lexicographical = False  
-        force_to_top = []  
-        sort_relative_in_force_sorted_sections = False  
-        honor_case_in_force_sorted_sections = False  
-        case_sensitive = True  
-        order_by_type = False  
-        length_sort = False  
+def test_section_key():
+    from unittest import TestCase
 
-    config = MockConfig()  
-    # Test basic import line  
-    assert section_key("import os", config) == "Bos"  
-    # Test from import line  
-    assert section_key("from sys import path", config) == "Bsys import path"  
-    # Test force_to_top  
-    config.force_to_top = ["os"]  
-    assert section_key("import os", config) == "Aos"  
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    assert section_key("import OS", config) == "Aos"  
-    # Test length sort  
-    config.length_sort = True  
-    assert section_key("import os", config) == "A2os"  
-    # Test relative imports  
-    config.reverse_relative = True  
-    config.sort_relative_in_force_sorted_sections = True  
-    assert section_key("from . import module", config) == "B. import module"  
+    class TestSectionKey(TestCase):
+        def test_section_key(self):
+            from .settings import Config
 
+            config = Config()
+            line = "from module import something"
+            self.assertEqual(section_key(line, config), "Bfrom module import something")
+
+            config.force_to_top = ["module"]
+            self.assertEqual(section_key(line, config), "Afrom module import something")
+
+            config.length_sort = True
+            self.assertEqual(section_key(line, config), "A27from module import something")
+
+            config.reverse_relative = True
+            line = "from .module import something"
+            self.assertEqual(section_key(line, config), "A29from . module import something")
+
+            config.sort_relative_in_force_sorted_sections = True
+            self.assertEqual(section_key(line, config), "A29from . module import something")
+
+            config.honor_case_in_force_sorted_sections = True
+            config.case_sensitive = False
+            config.order_by_type = True
+            line = "from Module import Something"
+            self.assertEqual(section_key(line, config), "A26from module import Something")
+
+            config.case_sensitive = True
+            self.assertEqual(section_key(line, config), "A26from Module import Something")
+
+            config.order_by_type = False
+            self.assertEqual(section_key(line, config), "A26from Module import something")
+
+            config.group_by_package = True
+            self.assertEqual(section_key(line, config), "A15from Module")
+
+            config.lexicographical = True
+            self.assertEqual(section_key(line, config), "A15from.Module")
 
 
 # LLM-generated content at query #13
 #--------------------------
 
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        def __init__(self):  
-            self.reverse_relative = False  
-            self.order_by_type = False  
-            self.constants = set()  
-            self.classes = set()  
-            self.variables = set()  
-            self.case_sensitive = True  
-            self.length_sort = False  
-            self.length_sort_straight = False  
-            self.length_sort_sections = set()  
-            self.force_to_top = set()  
+# Unit test for function section_key
+def test_section_key():
+    config = Config(
+        reverse_relative=True,
+        sort_relative_in_force_sorted_sections=False,
+        group_by_package=False,
+        lexicographical=False,
+        force_to_top=["django"],
+        honor_case_in_force_sorted_sections=True,
+        case_sensitive=True,
+        order_by_type=False,
+        length_sort=False,
+    )
+    assert section_key("from django import forms", config) == "Afrom django import forms"
+    assert section_key("from . import forms", config) == "Bfrom . import forms"
+    assert section_key("import django", config) == "Bimport django"
+    assert section_key("from .forms import fields", config) == "Bfrom .forms import fields"
+    assert section_key("from .forms import CharField", config) == "Bfrom .forms import CharField"
+    assert section_key("from django.forms import fields", config) == "Bfrom django.forms import fields"
+    assert section_key("from django.forms import CharField", config) == "Bfrom django.forms import CharField"
 
-    config = MockConfig()  
-    # Test basic module name  
-    assert module_key("os", config) == "Bos"  
-    # Test with sub_imports and order_by_type  
-    config.order_by_type = True  
-    assert module_key("CONST", config, sub_imports=True) == "BCONST"  
-    config.constants.add("CONST")  
-    assert module_key("CONST", config, sub_imports=True) == "ACONST"  
-    # Test case sensitivity  
-    config.case_sensitive = False  
-    assert module_key("OS", config) == "Bos"  
-    # Test length sort  
-    config.length_sort = True  
-    assert module_key("os", config) == "B3:os"  
-    # Test force_to_top  
-    config.force_to_top.add("os")  
-    assert module_key("os", config) == "A3:os"  
+    config.case_sensitive = False
+    assert section_key("from django import forms", config) == "Afrom django import forms"
+    assert section_key("from . import forms", config) == "Bfrom . import forms"
+    assert section_key("import django", config) == "Bimport django"
+    assert section_key("from .forms import fields", config) == "Bfrom .forms import fields"
+    assert section_key("from .forms import CharField", config) == "Bfrom .forms import charfield"
+    assert section_key("from django.forms import fields", config) == "Bfrom django.forms import fields"
+    assert section_key("from django.forms import CharField", config) == "Bfrom django.forms import charfield"
 
+    config.order_by_type = True
+    assert section_key("from django import forms", config) == "Afrom django import forms"
+    assert section_key("from . import forms", config) == "Bfrom . import forms"
+    assert section_key("import django", config) == "Bimport django"
+    assert section_key("from .forms import fields", config) == "Bfrom .forms import fields"
+    assert section_key("from .forms import CharField", config) == "Bfrom .forms import CharField"
+    assert section_key("from django.forms import fields", config) == "Bfrom django.forms import fields"
+    assert section_key("from django.forms import CharField", config) == "Bfrom django.forms import CharField"
 
 
 # LLM-generated content at query #14
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    class Config:  
-        reverse_relative = False  
-        group_by_package = False  
-        lexicographical = False  
-        force_to_top = ["os", "sys"]  
-        sort_relative_in_force_sorted_sections = False  
-        honor_case_in_force_sorted_sections = False  
-        case_sensitive = True  
-        order_by_type = False  
-        length_sort = False  
+def test_section_key():
+    class ConfigMock:
+        def __init__(self):
+            self.sort_relative_in_force_sorted_sections = False
+            self.reverse_relative = False
+            self.group_by_package = False
+            self.lexicographical = False
+            self.length_sort = False
+            self.case_sensitive = True
+            self.order_by_type = False
+            self.honor_case_in_force_sorted_sections = False
+            self.force_to_top = []
 
-    config = Config()  
+    config = ConfigMock()
+    assert section_key("import module", config) == "Bimport module"
+    assert section_key("from module import something", config) == "Bfrom module import something"
+    assert section_key("from .module import something", config) == "Bfrom .module import something"
+    assert section_key("from .module import something", config) == "Bfrom .module import something"
 
-    # Test case 1: line starts with "from ." and reverse_relative is False  
-    line = "from . import module"  
-    expected = "Bfrom . import module"  
-    assert section_key(line, config) == expected, f"Expected {expected}, got {section_key(line, config)}"  
+    config.group_by_package = True
+    assert section_key("from module import something", config) == "Bfrom module"
 
-    # Test case 2: line starts with "import" and is in force_to_top  
-    line = "import os"  
-    expected = "Aimport os"  
-    assert section_key(line, config) == expected, f"Expected {expected}, got {section_key(line, config)}"  
+    config.lexicographical = True
+    assert section_key("from module import something", config) == "Bmodule.something"
 
-    # Test case 3: line starts with "from" and group_by_package is False  
-    line = "from package import module"  
-    expected = "Bfrom package import module"  
-    assert section_key(line, config) == expected, f"Expected {expected}, got {section_key(line, config)}"  
+    config.reverse_relative = True
+    config.sort_relative_in_force_sorted_sections = True
+    assert section_key("from .module import something", config) == "Bfrom . module import something"
 
-    # Test case 4: line starts with "import" and not in force_to_top  
-    line = "import numpy"  
-    expected = "Bimport numpy"  
-    assert section_key(line, config) == expected, f"Expected {expected}, got {section_key(line, config)}"  
+    config.length_sort = True
+    assert section_key("import module", config) == "B12import module"
 
-    # Test case 5: line with lexicographical True  
-    config.lexicographical = True  
-    line = "from package import module"  
-    expected = "Bpackage.module"  
-    assert section_key(line, config) == expected, f"Expected {expected}, got {section_key(line, config)}"  
-    config.lexicographical = False  
+    config.case_sensitive = False
+    assert section_key("import Module", config) == "B12import module"
 
-    # Test case 6: line with sort_relative_in_force_sorted_sections True  
-    config.sort_relative_in_force_sorted_sections = True  
-    line = "from . import module"  
-    expected = "Bfrom . import module"  
-    assert section_key(line, config) == expected, f"Expected {expected}, got {section_key(line, config)}"  
-    config.sort_relative_in_force_sorted_sections = False  
+    config.honor_case_in_force_sorted_sections = True
+    config.order_by_type = True
+    assert section_key("from Module import Something", config) == "Bfrom Module import something"
 
-    # Test case 7: line with honor_case_in_force_sorted_sections True and case_sensitive != order_by_type  
-    config.honor_case_in_force_sorted_sections = True  
-    config.case_sensitive = True  
-    config.order_by_type = False  
-    line = "from Package import Module"  
-    expected = "Bfrom Package import module"  
-    assert section_key(line, config) == expected, f"Expected {expected}, got {section_key(line, config)}"  
-    config.honor_case_in_force_sorted_sections = False  
-
-    # Test case 8: line with order_by_type False (line should be lowercased)  
-    config.order_by_type = False  
-    line = "FROM PACKAGE IMPORT MODULE"  
-    expected = "Bfrom package import module"  
-    assert section_key(line, config) == expected, f"Expected {expected}, got {section_key(line, config)}"  
-
-    print("All test cases passed!")  
-
-# Run the unit test  
-test_section_key()
+    config.force_to_top = ["module"]
+    assert section_key("import module", config) == "A12import module"
 
 
 # LLM-generated content at query #15
 #--------------------------
 
-# Unit test for function module_key
-def test_module_key():  
-    class Config:
-        constants = set()
-        classes = set()
-        variables = set()
-        force_to_top = set()
-        reverse_relative = False
-        order_by_type = False
-        case_sensitive = True
-        length_sort = False
-        length_sort_straight = False
-        length_sort_sections = set()
-        group_by_package = False
-        lexicographical = False
-        sort_relative_in_force_sorted_sections = False
-        honor_case_in_force_sorted_sections = False
-        sorting_function = sorted
+# Unit test for function section_key
+def test_section_key():
+    class ConfigMock:
+        def __init__(self):
+            self.sort_relative_in_force_sorted_sections = False
+            self.reverse_relative = False
+            self.group_by_package = False
+            self.lexicographical = False
+            self.force_to_top = []
+            self.honor_case_in_force_sorted_sections = False
+            self.case_sensitive = False
+            self.order_by_type = False
+            self.length_sort = False
 
-    config = Config()
-    # Test basic module name
-    assert module_key("os", config) == "Bos"
-    # Test with sub_imports and order_by_type
+    config = ConfigMock()
+    assert section_key("import os", config) == "Bimport os"
+    assert section_key("from . import module", config) == "Bfrom . import module"
+    assert section_key("from package import module", config) == "Bfrom package import module"
+    assert section_key("from .package import module", config) == "Bfrom .package import module"
+    assert section_key("from .package.module import func", config) == "Bfrom .package.module import func"
+    config.force_to_top = ["os"]
+    assert section_key("import os", config) == "Aimport os"
+    config.honor_case_in_force_sorted_sections = True
+    config.case_sensitive = True
+    assert section_key("import OS", config) == "Bimport OS"
     config.order_by_type = True
-    config.constants = {"MAX_SIZE"}
-    assert module_key("MAX_SIZE", config, sub_imports=True) == "AA9:max_size"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert module_key("OS", config) == "Bos"
-    # Test force_to_top
-    config.force_to_top = {"os"}
-    assert module_key("os", config) == "Aos"
-    # Test length_sort
+    assert section_key("import OS", config) == "Bimport OS"
     config.length_sort = True
-    assert module_key("os", config) == "A2:os"
-    # Test relative imports
+    assert section_key("import os", config) == "A9import os"
     config.reverse_relative = True
-    assert module_key("..os", config) == "A .. os"
-    print("All tests passed!")
-
+    assert section_key("from . import module", config) == "Bfrom . import module"
 
 
 # LLM-generated content at query #16
 #--------------------------
 
-# Unit test for function module_key
-def test_module_key():  
+# Unit test for function section_key
+def test_section_key():
     class MockConfig:
-        constants = {"os"}
-        classes = {"MyClass"}
-        variables = {"my_var"}
-        force_to_top = {"sys"}
-        length_sort = False
-        length_sort_straight = False
-        length_sort_sections = []
-        reverse_relative = False
-        order_by_type = True
-        case_sensitive = True
-        group_by_package = False
-        lexicographical = False
-        sort_relative_in_force_sorted_sections = False
-        honor_case_in_force_sorted_sections = False
+        def __init__(self):
+            self.force_to_top = ["os"]
+            self.length_sort = False
+            self.reverse_relative = False
+            self.group_by_package = False
+            self.lexicographical = False
+            self.sort_relative_in_force_sorted_sections = False
+            self.honor_case_in_force_sorted_sections = False
+            self.case_sensitive = True
+            self.order_by_type = False
 
     config = MockConfig()
-    # Test basic module name
-    assert module_key("os", config) == "BCos"
-    # Test force_to_top
-    assert module_key("sys", config) == "ABsys"
-    # Test with sub_imports and order_by_type
-    assert module_key("os", config, sub_imports=True) == "AAos"  # constant
-    assert module_key("MyClass", config, sub_imports=True) == "BBMyClass"  # class
-    assert module_key("my_var", config, sub_imports=True) == "CCmy_var"  # variable
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert module_key("OS", config) == "BCos"
-    config.case_sensitive = True
-    # Test length_sort
-    config.length_sort = True
-    assert module_key("os", config) == "BC3:os"
-    config.length_sort = False
+    
+    # Test with force_to_top module
+    assert section_key("import os", config) == "Aimport os"
+    assert section_key("from os import path", config) == "Afrom os import path"
+    
+    # Test non-force_to-top module
+    assert section_key("import sys", config) == "Bimport sys"
+    assert section_key("from sys import path", config) == "Bfrom sys import path"
+    
     # Test relative imports
     config.reverse_relative = True
-    assert module_key("..os", config) == "BC .. os"
+    assert section_key("from . import module", config) == "Bfrom . import module"
     config.reverse_relative = False
-    assert module_key("..os", config) == "BC_.._os"
-
+    
+    # Test length_sort
+    config.length_sort = True
+    assert section_key("import a", config) == "B9import a"
+    assert section_key("import abc", config) == "B11import abc"
+    config.length_sort = False
+    
+    # Test case sensitivity
+    config.case_sensitive = False
+    assert section_key("import OS", config) == "Aimport os"
+    assert section_key("import Sys", config) == "Bimport sys"
+    config.case_sensitive = True
+    
+    # Test lexicographical
+    config.lexicographical = True
+    assert section_key("from x import y", config) == "Bx.y"
+    config.lexicographical = False
 
 
 # LLM-generated content at query #17
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    class MockConfig:
+def test_section_key():
+    class Config:
         def __init__(self):
-            self.reverse_relative = False
+            self.force_to_top = ["os", "sys"]
+            self.length_sort = False
             self.group_by_package = False
             self.lexicographical = False
             self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
+            self.reverse_relative = False
             self.case_sensitive = True
             self.order_by_type = False
-            self.length_sort = False
+            self.honor_case_in_force_sorted_sections = False
 
-    config = MockConfig()
-    # Test basic import line
-    assert section_key("import os", config) == "Bimport os"
-    # Test from import line
-    assert section_key("from sys import path", config) == "Bfrom sys import path"
-    # Test force_to_top
-    config.force_to_top = ["os"]
+    config = Config()
     assert section_key("import os", config) == "Aimport os"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert section_key("import OS", config) == "Aimport os"
-    # Test length sort
-    config.length_sort = True
-    assert section_key("import os", config) == "A10import os"
-    # Test reverse relative
-    config.reverse_relative = True
-    config.sort_relative_in_force_sorted_sections = True
-    assert section_key("from . import module", config) == "A17from . import module"
-    # Test group_by_package
-    config.group_by_package = True
-    assert section_key("from package import module", config) == "A23from package"
-    # Test lexicographical
-    config.lexicographical = True
-    assert section_key("from package import module", config) == "A7package"
+    assert section_key("import sys", config) == "Aimport sys"
+    assert section_key("import math", config) == "Bimport math"
+    assert section_key("from os import path", config) == "Afrom os import path"
+    assert section_key("from . import module", config) == "Bfrom . import module"
 
+    config.length_sort = True
+    assert section_key("import os", config) == "A9import os"
+    assert section_key("import sys", config) == "A9import sys"
+    assert section_key("import math", config) == "B10import math"
+
+    config.lexicographical = True
+    assert section_key("from os import path", config) == "Aos.path"
+    assert section_key("from . import module", config) == "B..module"
+
+    config.sort_relative_in_force_sorted_sections = True
+    config.reverse_relative = True
+    assert section_key("from . import module", config) == "Bfrom . import module"
+
+    config.honor_case_in_force_sorted_sections = True
+    config.case_sensitive = False
+    assert section_key("from OS import PATH", config) == "Afrom os import PATH"
 
 
 # LLM-generated content at query #18
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    class Config:
+def test_section_key():
+    class MockConfig:
         def __init__(self):
+            self.sort_relative_in_force_sorted_sections = False
             self.reverse_relative = False
             self.group_by_package = False
             self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
+            self.force_to_top = set()
             self.honor_case_in_force_sorted_sections = False
             self.case_sensitive = True
             self.order_by_type = False
             self.length_sort = False
 
-    config = Config()
-    # Test basic import line
-    assert section_key("import os", config) == "Bimport os"
-    # Test from import line
-    assert section_key("from os import path", config) == "Bfrom os import path"
-    # Test force_to_top
-    config.force_to_top = ["os"]
-    assert section_key("import os", config) == "Aimport os"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert section_key("import OS", config) == "Aimport os"
-    # Test length_sort
-    config.length_sort = True
-    assert section_key("import os", config) == "A11import os"
-    # Test reverse_relative
-    config.reverse_relative = True
+    config = MockConfig()
+
+    assert section_key('import os', config) == 'Bimport os'
+    assert section_key('from . import module', config) == 'Bfrom . import module'
+    assert section_key('from package import module', config) == 'Bfrom package import module'
+
+    config.force_to_top = {'os'}
+    assert section_key('import os', config) == 'Aimport os'
+    assert section_key('import sys', config) == 'Bimport sys'
+
     config.sort_relative_in_force_sorted_sections = True
-    assert section_key("from . import module", config) == "Bfrom . import module"
-    # Test group_by_package
-    config.group_by_package = True
-    assert section_key("from package import module", config) == "Bfrom package"
-    # Test lexicographical
+    config.reverse_relative = True
+    assert section_key('from . import module', config) == 'Bfrom . import module'
+
     config.lexicographical = True
-    assert section_key("from os import path", config) == "Bos.path"
+    assert section_key('from package import module', config) == 'Bfrom package.module'
 
-    print("All tests passed!")
+    config.case_sensitive = False
+    assert section_key('import OS', config) == 'Aimport os'
+    assert section_key('import sys', config) == 'Bimport sys'
 
-if __name__ == "__main__":
-    test_section_key()
+    config.honor_case_in_force_sorted_sections = True
+    config.order_by_type = True
+    assert section_key('import OS', config) == 'Aimport OS'
+    assert section_key('from package import Module', config) == 'Bfrom package import Module'
+
+    config.length_sort = True
+    assert section_key('import os', config) == 'A10import os'
+    assert section_key('import sys', config) == 'B10import sys'
 
 
 # LLM-generated content at query #19
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
-
-    config = Config()
-    # Test basic import line
-    assert section_key("import os", config) == "Bimport os"
-    # Test from import line
-    assert section_key("from sys import path", config) == "Bfrom sys import path"
-    # Test force_to_top
-    config.force_to_top = ["os"]
-    assert section_key("import os", config) == "Aimport os"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert section_key("import OS", config) == "Aimport os"
-    # Test length sort
-    config.length_sort = True
-    assert section_key("import os", config) == "A9import os"
+def test_section_key():
+    config = Config(
+        force_to_top={"my_module"},
+        length_sort=True,
+        group_by_package=True,
+        lexicographical=True,
+        reverse_relative=True,
+        sort_relative_in_force_sorted_sections=True,
+        honor_case_in_force_sorted_sections=True,
+        case_sensitive=True,
+        order_by_type=True,
+    )
+    # Test with force_to_top module
+    assert section_key("from my_module import something", config) == "A27from my_module import something"
+    # Test with non-force_to-top module
+    assert section_key("from other_module import something", config) == "B29from other_module import something"
+    # Test with relative import
+    assert section_key("from .my_module import something", config) == "A28from . my_module import something"
+    # Test with case sensitivity
+    assert section_key("from My_Module import something", config) == "A27from My_Module import something"
+    # Test with lexicographical sorting
+    assert section_key("from . import module", config) == "B18from . import module"
+    # Test with length sort
+    assert section_key("from long_module_name import something", config) == "B37from long_module_name import something"
 
 
 
@@ -2468,268 +1393,278 @@ def test_section_key():
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    class Config:
+def test_section_key():
+    class MockConfig:
         def __init__(self):
+            self.sort_relative_in_force_sorted_sections = False
             self.reverse_relative = False
             self.group_by_package = False
             self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
             self.force_to_top = []
             self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
+            self.case_sensitive = False
             self.order_by_type = False
             self.length_sort = False
 
-    config = Config()
-    # Test case 1: Basic import line
-    line = "import os"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
-
-    # Test case 2: From import line
-    line = "from sys import path"
-    result = section_key(line, config)
-    assert result == "Bfrom sys import path", f"Expected 'Bfrom sys import path', got {result}"
-
-    # Test case 3: Force to top
-    config.force_to_top = ["sys"]
-    line = "import sys"
-    result = section_key(line, config)
-    assert result == "Aimport sys", f"Expected 'Aimport sys', got {result}"
-
-    # Test case 4: Case sensitivity
-    config.case_sensitive = False
-    line = "import OS"
-    result = section_key(line, config)
-    assert result == "Bimport os", f"Expected 'Bimport os', got {result}"
-
-    # Test case 5: Length sort
+    config = MockConfig()
+    assert section_key("import os", config) == "Bimport os"
+    assert section_key("from . import module", config) == "Bfrom . import module"
+    assert section_key("from package import module", config) == "Bfrom package import module"
+    config.force_to_top = ["os"]
+    assert section_key("import os", config) == "Aimport os"
+    config.case_sensitive = True
+    assert section_key("import OS", config) == "Bimport OS"
+    config.honor_case_in_force_sorted_sections = True
+    assert section_key("import OS", config) == "Bimport OS"
+    config.order_by_type = True
+    assert section_key("import OS", config) == "Bimport OS"
     config.length_sort = True
-    line = "import a"
-    result = section_key(line, config)
-    assert result == "B9import a", f"Expected 'B9import a', got {result}"
-
-    print("All tests passed!")
-
-# Run the unit test
-test_section_key()
+    assert section_key("import os", config) == "A9import os"
+    config.reverse_relative = True
+    assert section_key("from . import module", config) == "B19from . import module"
 
 
 # LLM-generated content at query #21
 #--------------------------
 
 # Unit test for function section_key
-def test_section_key():  
-    class Config:  
-        group_by_package = False  
-        lexicographical = False  
-        sort_relative_in_force_sorted_sections = False  
-        reverse_relative = False  
-        force_to_top = []  
-        honor_case_in_force_sorted_sections = False  
-        case_sensitive = True  
-        order_by_type = False  
-        length_sort = False  
-
-    config = Config()  
-    line = "import numpy as np"  
-    result = section_key(line, config)  
-    assert result == "Bimport numpy as np", f"Expected 'Bimport numpy as np', got {result}"  
-
-    config.lexicographical = True  
-    result = section_key(line, config)  
-    assert result == "Bnumpy as np", f"Expected 'Bnumpy as np', got {result}"  
-
-    config.force_to_top = ["numpy"]  
-    result = section_key(line, config)  
-    assert result == "Anumpy as np", f"Expected 'Anumpy as np', got {result}"  
-
-    config.honor_case_in_force_sorted_sections = True  
-    config.case_sensitive = False  
-    result = section_key(line, config)  
-    assert result == "Anumpy as np", f"Expected 'Anumpy as np', got {result}"  
-
-    config.order_by_type = True  
-    result = section_key(line, config)  
-    assert result == "Anumpy as np", f"Expected 'Anumpy as np', got {result}"  
-
-    print("All tests passed!")  
-
-# Run the unit test  
-test_section_key()
+def test_section_key():
+    from collections import namedtuple
+    Config = namedtuple('Config', ['reverse_relative', 'group_by_package', 'lexicographical', 'force_to_top', 'honor_case_in_force_sorted_sections', 'case_sensitive', 'order_by_type', 'length_sort', 'length_sort_straight', 'length_sort_sections', 'sort_relative_in_force_sorted_sections', 'sorting_function'])
+    config = Config(
+        reverse_relative=False,
+        group_by_package=True,
+        lexicographical=True,
+        force_to_top={'top'},
+        honor_case_in_force_sorted_sections=True,
+        case_sensitive=True,
+        order_by_type=True,
+        length_sort=True,
+        length_sort_straight=False,
+        length_sort_sections={'section'},
+        sort_relative_in_force_sorted_sections=True,
+        sorting_function=sorted,
+    )
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('import something', config) == 'B15import something'
+    assert section_key('from . import something', config) == 'B20from. import something'
+    assert section_key('from .. import something', config) == 'B21from.. import something'
+    assert section_key('from top import Something', config) == 'A18from top.Something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import SOMETHING', config) == 'A18from top.SOMETHING'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something', config) == 'A18from top.something'
+    assert section_key('from top import something',
 
 
 # LLM-generated content at query #22
 #--------------------------
 
-# Unit test for function module_key
-def test_module_key():  
-    class Config:
-        constants = {"CONSTANT"}
-        classes = {"MyClass"}
-        variables = {"my_var"}
-        force_to_top = {"top_module"}
-        reverse_relative = False
-        order_by_type = True
-        case_sensitive = True
-        length_sort = False
-        length_sort_straight = False
-        length_sort_sections = set()
-
-    config = Config()
-    # Test case 1: module name with relative import
-    assert module_key(".my_module", config) == "BCmy_module"
-    # Test case 2: module name in constants
-    assert module_key("CONSTANT", config, sub_imports=True) == "AACONSTANT"
-    # Test case 3: module name in classes
-    assert module_key("MyClass", config, sub_imports=True) == "BBMyClass"
-    # Test case 4: module name in variables
-    assert module_key("my_var", config, sub_imports=True) == "CCmy_var"
-    # Test case 5: module name in force_to_top
-    assert module_key("top_module", config) == "ABCtop_module"
-    # Test case 6: module name with uppercase and length > 1
-    assert module_key("UPPER", config, sub_imports=True) == "AAUPPER"
-    # Test case 7: module name with first letter uppercase
-    assert module_key("MyModule", config, sub_imports=True) == "BBMyModule"
-    # Test case 8: module name with all lowercase
-    assert module_key("mymodule", config, sub_imports=True) == "CCmymodule"
-    # Test case 9: module name with reverse_relative
-    config.reverse_relative = True
-    assert module_key(".my_module", config) == "BC my_module"
-    # Test case 10: module name with length_sort
-    config.length_sort = True
-    assert module_key("my_module", config, straight_import=True) == "BCC10:my_module"
-    # Test case 11: module name with length_sort_sections
-    config.length_sort_sections = {"test_section"}
-    assert module_key("my_module", config, section_name="test_section") == "BCC10:my_module"
-    # Test case 12: module name with case_sensitive=False
-    config.case_sensitive = False
-    assert module_key("MyModule", config) == "BCmymodule"
-    print("All tests passed!")
-
-
-
-# LLM-generated content at query #23
-#--------------------------
-
 # Unit test for function section_key
-def test_section_key():  
-    class Config:
-        def __init__(self):
-            self.reverse_relative = False
-            self.group_by_package = False
-            self.lexicographical = False
-            self.sort_relative_in_force_sorted_sections = False
-            self.force_to_top = []
-            self.honor_case_in_force_sorted_sections = False
-            self.case_sensitive = True
-            self.order_by_type = False
-            self.length_sort = False
+def test_section_key():
+    from unittest.mock import Mock
 
-    config = Config()
-    # Test basic import line
-    assert section_key("import os", config) == "Bimport os"
-    # Test from import line
-    assert section_key("from sys import path", config) == "Bfrom sys import path"
-    # Test force_to_top
+    config = Mock()
+    config.sort_relative_in_force_sorted_sections = False
+    config.reverse_relative = False
+    config.group_by_package = False
+    config.lexicographical = False
+    config.force_to_top = []
+    config.honor_case_in_force_sorted_sections = False
+    config.case_sensitive = True
+    config.order_by_type = False
+    config.length_sort = False
+
+    # Test case 1: Simple import statement
+    line = "import os"
+    result = section_key(line, config)
+    assert result == "Bimport os"
+
+    # Test case 2: From import statement
+    line = "from os import path"
+    result = section_key(line, config)
+    assert result == "Bfrom os import path"
+
+    # Test case 3: Import statement with force_to_top
     config.force_to_top = ["os"]
-    assert section_key("import os", config) == "Aimport os"
-    # Test case sensitivity
-    config.case_sensitive = False
-    assert section_key("import OS", config) == "Aimport os"
-    # Test length_sort
-    config.length_sort = True
-    assert section_key("import os", config) == "A9import os"
-    # Test reverse_relative
-    config.reverse_relative = True
-    config.sort_relative_in_force_sorted_sections = True
-    assert section_key("from . import module", config) == "Bfrom . import module"
-    # Test group_by_package
-    config.group_by_package = True
-    assert section_key("from package import module", config) == "Bfrom package"
-    # Test lexicographical
+    line = "import os"
+    result = section_key(line, config)
+    assert result == "Aimport os"
+
+    # Test case 4: From import statement with force_to_top
+    config.force_to_top = ["os"]
+    line = "from os import path"
+    result = section_key(line, config)
+    assert result == "Afrom os import path"
+
+    # Test case 5: Import statement with lexicographical
     config.lexicographical = True
-    assert section_key("from a import b", config) == "Ba.b"
+    line = "import os"
+    result = section_key(line, config)
+    assert result == "Bos"
 
+    # Test case 6: From import statement with lexicographical
+    config.lexicographical = True
+    line = "from os import path"
+    result = section_key(line, config)
+    assert result == "Bos.path"
 
+    # Test case 7: Import statement with length_sort
+    config.length_sort = True
+    line = "import os"
+    result = section_key(line, config)
+    assert result == "B7:import os"
 
-# LLM-generated content at query #24
-#--------------------------
+    # Test case 8: From import statement with length_sort
+    config.length_sort = True
+    line = "from os import path"
+    result = section_key(line, config)
+    assert result == "B17:from os import path"
 
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        def __init__(self):  
-            self.reverse_relative = False  
-            self.order_by_type = False  
-            self.constants = set()  
-            self.classes = set()  
-            self.variables = set()  
-            self.force_to_top = set()  
-            self.case_sensitive = True  
-            self.length_sort = False  
-            self.length_sort_straight = False  
-            self.length_sort_sections = set()  
-      
-    config = MockConfig()  
-    # Test basic module name  
-    assert module_key("os", config) == "Bos"  
-    # Test with force_to_top  
-    config.force_to_top = {"os"}  
-    assert module_key("os", config) == "Aos"  
-    # Test with sub_imports and order_by_type  
-    config.order_by_type = True  
-    config.constants = {"MAX_SIZE"}  
-    config.classes = {"MyClass"}  
-    config.variables = {"my_var"}  
-    assert module_key("MAX_SIZE", config, sub_imports=True) == "AAmax_size"  
-    assert module_key("MyClass", config, sub_imports=True) == "BBmyclass"  
-    assert module_key("my_var", config, sub_imports=True) == "CCmy_var"  
-    # Test case insensitive  
-    config.case_sensitive = False  
-    assert module_key("OS", config) == "Bos"  
-    # Test length_sort  
-    config.length_sort = True  
-    assert module_key("os", config) == "B2:os"  
-    print("All tests passed!")  
-  
+    # Test case 9: Import statement with case_sensitive False
+    config.case_sensitive = False
+    line = "import OS"
+    result = section_key(line, config)
+    assert result == "Bimport os"
 
+    # Test case 10: From import statement with case_sensitive False
+    config.case_sensitive = False
+    line = "from OS import path"
+    result = section_key(line, config)
+    assert result == "Bfrom os import path"
 
-# LLM-generated content at query #25
-#--------------------------
+    # Test case 11: Import statement with honor_case_in_force_sorted_sections
+    config.honor_case_in_force_sorted_sections = True
+    config.order_by_type = True
+    line = "import OS"
+    result = section_key(line, config)
+    assert result == "Bimport OS"
 
-# Unit test for function module_key
-def test_module_key():  
-    class MockConfig:  
-        def __init__(self):  
-            self.reverse_relative = False  
-            self.order_by_type = False  
-            self.constants = set()  
-            self.classes = set()  
-            self.variables = set()  
-            self.case_sensitive = True  
-            self.length_sort = False  
-            self.length_sort_straight = False  
-            self.length_sort_sections = set()  
-            self.force_to_top = set()  
-  
-    config = MockConfig()  
-    # Test basic module name  
-    assert module_key("os", config) == "Bos"  
-    # Test with force_to_top  
-    config.force_to_top = {"os"}  
-    assert module_key("os", config) == "Aos"  
-    # Test relative import  
-    config.reverse_relative = True  
-    assert module_key(".os", config) == "B . os"  
-    # Test case insensitivity  
-    config.case_sensitive = False  
-    assert module_key("OS", config) == "Bos"  
-    # Test length sort  
-    config.length_sort = True  
-    assert module_key("os", config) == "B2:os"  
-    print("All tests passed!")  
-  
+    # Test case 12: From import statement with honor_case_in_force_sorted_sections
+    config.honor_case_in_force_sorted_sections = True
+    config.order_by_type = True
+    line = "from OS import path"
+    result = section_key(line, config)
+    assert result == "Bfrom OS import path"
+
+    # Test case 13: Import statement with sort_relative_in_force_sorted_sections
+    config.sort_relative_in_force_sorted_sections = True
+    line = "from . import os"
+    result = section_key(line, config)
+    assert result == "Bfrom . import os"
+
+    # Test case 14: From import statement with sort_relative_in_force_sorted_sections
+    config.sort_relative_in_force_sorted_sections = True
+    line = "from .os import path"
+    result = section_key(line, config)
+    assert result == "Bfrom .os import path"
+
+    # Test case 15: Import statement with reverse_relative True
+    config.reverse_relative = True
+    line = "from . import os"
+    result = section_key(line, config)
+    assert result == "Bfrom . import os"
+
+    # Test case 16: From import statement with reverse_relative True
+    config.reverse_relative = True
+    line = "from .os import path"
+    result = section_key(line, config)
+    assert result == "Bfrom .os import path"
+
+    # Test case 17: Import statement with group_by_package True
+    config.group_by_package = True
+    line = "from os import path"
+    result = section_key(line, config)
+    assert result == "Bfrom os"
+
+    # Test case 18: From import statement with group_by_package True
+    config.group_by_package = True
+    line = "from os.path import join"
+    result = section_key(line, config)
+    assert result == "Bfrom os.path"
+
+    print("All test cases passed!")
+
+# Run the unit test
+test_section_key()
 
 

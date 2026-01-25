@@ -1,0 +1,5525 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def _known_pattern(name: str, config: Config) -> tuple[str, str] | None:
+    parts = name.split(".")
+    module_names_to_check = (".".join(parts[:first_k]) for first_k in range(len(parts), 0, -1))
+    for module_name_to_check in module_names_to_check:
+        for pattern, placement in config.known_patterns:
+            if placement in config.sections and pattern.match(module_name_to_check):
+                return (placement, f"Matched configured known pattern {pattern}")
+
+    return None
+
+```
+Write unit test for function _known_pattern
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 | def _known_pattern(name: str, config: Config) -> tuple[str, str] | None:
+2 |     parts = name.split(".")
+3 |     module_names_to_check = (".".join(parts[:first_k]) for first_k in range(len(parts), 0, -1))
+4 |     for module_name_to_check in module_names_to_check:
+5 |         for pattern, placement in config.known_patterns:
+6 |             if placement in config.sections and pattern.match(module_name_to_check):
+7 |                 return (placement, f"Matched configured known pattern {pattern}")
+8 | 
+9 |     return None
+```
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def _forced_separate(name: str, config: Config) -> tuple[str, str] | None:
+    for forced_separate in config.forced_separate:
+        # Ensure all forced_separate patterns will match to end of string
+        path_glob = forced_separate
+        if not forced_separate.endswith("*"):
+            path_glob = f"{forced_separate}*"
+
+        if fnmatch(name, path_glob) or fnmatch(name, "." + path_glob):
+            return (forced_separate, f"Matched forced_separate ({forced_separate}) config value.")
+
+    return None
+
+```
+Write unit test for function _forced_separate
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to True.
+```
+ 1 | def _forced_separate(name: str, config: Config) -> tuple[str, str] | None:
+ 2 |     for forced_separate in config.forced_separate:
+ 3 |         # Ensure all forced_separate patterns will match to end of string
+ 4 |         path_glob = forced_separate
+ 5 |         if not forced_separate.endswith("*"):
+ 6 |             path_glob = f"{forced_separate}*"
+ 7 | 
+ 8 |         if fnmatch(name, path_glob) or fnmatch(name, "." + path_glob):
+ 9 |             return (forced_separate, f"Matched forced_separate ({forced_separate}) config value.")
+10 | 
+11 |     return None
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+```
+Write unit test for function _src_path_is_module
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+```
+Write unit test for function _is_module
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 | def _known_pattern(name: str, config: Config) -> tuple[str, str] | None:
+2 |     parts = name.split(".")
+3 |     module_names_to_check = (".".join(parts[:first_k]) for first_k in range(len(parts), 0, -1))
+4 |     for module_name_to_check in module_names_to_check:
+5 |         for pattern, placement in config.known_patterns:
+6 |             if placement in config.sections and pattern.match(module_name_to_check):
+7 |                 return (placement, f"Matched configured known pattern {pattern}")
+8 | 
+9 |     return None
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _is_module(path: Path) -> bool:
+2 |     return (
+3 |         exists_case_sensitive(str(path.with_suffix(".py")))
+4 |         or any(
+5 |             exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+6 |             for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+7 |         )
+8 |         or exists_case_sensitive(str(path / "__init__.py"))
+9 |     )
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _is_module(path: Path) -> bool:
+2 |     return (
+3 |         exists_case_sensitive(str(path.with_suffix(".py")))
+4 |         or any(
+5 |             exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+6 |             for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+7 |         )
+8 |         or exists_case_sensitive(str(path / "__init__.py"))
+9 |     )
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+```
+Write unit test for function _is_module
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 | def _known_pattern(name: str, config: Config) -> tuple[str, str] | None:
+2 |     parts = name.split(".")
+3 |     module_names_to_check = (".".join(parts[:first_k]) for first_k in range(len(parts), 0, -1))
+4 |     for module_name_to_check in module_names_to_check:
+5 |         for pattern, placement in config.known_patterns:
+6 |             if placement in config.sections and pattern.match(module_name_to_check):
+7 |                 return (placement, f"Matched configured known pattern {pattern}")
+8 | 
+9 |     return None
+```
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _is_module(path: Path) -> bool:
+2 |     return (
+3 |         exists_case_sensitive(str(path.with_suffix(".py")))
+4 |         or any(
+5 |             exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+6 |             for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+7 |         )
+8 |         or exists_case_sensitive(str(path / "__init__.py"))
+9 |     )
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to False.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+```
+Write unit test for function _is_module
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #31
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #32
+#--------------------------
+
+```
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+```
+Write unit test for function _is_module
+
+
+# Prompt used at query #33
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #34
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+2 |     return (
+3 |         module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+4 |     )
+```
+
+
+# Prompt used at query #36
+#--------------------------
+
+```
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #37
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #38
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #39
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 | def _known_pattern(name: str, config: Config) -> tuple[str, str] | None:
+2 |     parts = name.split(".")
+3 |     module_names_to_check = (".".join(parts[:first_k]) for first_k in range(len(parts), 0, -1))
+4 |     for module_name_to_check in module_names_to_check:
+5 |         for pattern, placement in config.known_patterns:
+6 |             if placement in config.sections and pattern.match(module_name_to_check):
+7 |                 return (placement, f"Matched configured known pattern {pattern}")
+8 | 
+9 |     return None
+```
+
+
+# Prompt used at query #40
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #41
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to False.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #42
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to False.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #43
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #44
+#--------------------------
+
+```
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+```
+Write unit test for function _src_path_is_module
+
+
+# Prompt used at query #45
+#--------------------------
+
+```
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+```
+Write unit test for function _src_path_is_module
+
+
+# Prompt used at query #46
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #47
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _is_module(path: Path) -> bool:
+2 |     return (
+3 |         exists_case_sensitive(str(path.with_suffix(".py")))
+4 |         or any(
+5 |             exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+6 |             for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+7 |         )
+8 |         or exists_case_sensitive(str(path / "__init__.py"))
+9 |     )
+```
+
+
+# Prompt used at query #48
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #49
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #50
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #51
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #52
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #53
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #54
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #55
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #56
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to False.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #57
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _is_module(path: Path) -> bool:
+2 |     return (
+3 |         exists_case_sensitive(str(path.with_suffix(".py")))
+4 |         or any(
+5 |             exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+6 |             for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+7 |         )
+8 |         or exists_case_sensitive(str(path / "__init__.py"))
+9 |     )
+```
+
+
+# Prompt used at query #58
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #59
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+2 |     return (
+3 |         module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+4 |     )
+```
+
+
+# Prompt used at query #60
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #61
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #62
+#--------------------------
+
+```
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+```
+Write unit test for function _is_module
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+```
+Write unit test for function _is_module
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def _forced_separate(name: str, config: Config) -> tuple[str, str] | None:
+    for forced_separate in config.forced_separate:
+        # Ensure all forced_separate patterns will match to end of string
+        path_glob = forced_separate
+        if not forced_separate.endswith("*"):
+            path_glob = f"{forced_separate}*"
+
+        if fnmatch(name, path_glob) or fnmatch(name, "." + path_glob):
+            return (forced_separate, f"Matched forced_separate ({forced_separate}) config value.")
+
+    return None
+
+```
+Write unit test for function _forced_separate
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def _forced_separate(name: str, config: Config) -> tuple[str, str] | None:
+    for forced_separate in config.forced_separate:
+        # Ensure all forced_separate patterns will match to end of string
+        path_glob = forced_separate
+        if not forced_separate.endswith("*"):
+            path_glob = f"{forced_separate}*"
+
+        if fnmatch(name, path_glob) or fnmatch(name, "." + path_glob):
+            return (forced_separate, f"Matched forced_separate ({forced_separate}) config value.")
+
+    return None
+
+```
+Write unit test for function _forced_separate
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+```
+Write unit test for function _src_path_is_module
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+2 |     return (
+3 |         module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+4 |     )
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _is_module(path: Path) -> bool:
+2 |     return (
+3 |         exists_case_sensitive(str(path.with_suffix(".py")))
+4 |         or any(
+5 |             exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+6 |             for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+7 |         )
+8 |         or exists_case_sensitive(str(path / "__init__.py"))
+9 |     )
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+```
+Write unit test for function _is_module
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _is_module(path: Path) -> bool:
+2 |     return (
+3 |         exists_case_sensitive(str(path.with_suffix(".py")))
+4 |         or any(
+5 |             exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+6 |             for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+7 |         )
+8 |         or exists_case_sensitive(str(path / "__init__.py"))
+9 |     )
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+def _known_pattern(name: str, config: Config) -> tuple[str, str] | None:
+    parts = name.split(".")
+    module_names_to_check = (".".join(parts[:first_k]) for first_k in range(len(parts), 0, -1))
+    for module_name_to_check in module_names_to_check:
+        for pattern, placement in config.known_patterns:
+            if placement in config.sections and pattern.match(module_name_to_check):
+                return (placement, f"Matched configured known pattern {pattern}")
+
+    return None
+
+```
+Write unit test for function _known_pattern
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _is_module(path: Path) -> bool:
+2 |     return (
+3 |         exists_case_sensitive(str(path.with_suffix(".py")))
+4 |         or any(
+5 |             exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+6 |             for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+7 |         )
+8 |         or exists_case_sensitive(str(path / "__init__.py"))
+9 |     )
+```
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _is_module(path: Path) -> bool:
+2 |     return (
+3 |         exists_case_sensitive(str(path.with_suffix(".py")))
+4 |         or any(
+5 |             exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+6 |             for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+7 |         )
+8 |         or exists_case_sensitive(str(path / "__init__.py"))
+9 |     )
+```
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #31
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to False.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #32
+#--------------------------
+
+```
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #33
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #34
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+```
+Write unit test for function _is_module
+
+
+# Prompt used at query #36
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #37
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _is_module(path: Path) -> bool:
+2 |     return (
+3 |         exists_case_sensitive(str(path.with_suffix(".py")))
+4 |         or any(
+5 |             exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+6 |             for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+7 |         )
+8 |         or exists_case_sensitive(str(path / "__init__.py"))
+9 |     )
+```
+
+
+# Prompt used at query #38
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+2 |     return (
+3 |         module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+4 |     )
+```
+
+
+# Prompt used at query #39
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #40
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #41
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #42
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #43
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #44
+#--------------------------
+
+```
+def _known_pattern(name: str, config: Config) -> tuple[str, str] | None:
+    parts = name.split(".")
+    module_names_to_check = (".".join(parts[:first_k]) for first_k in range(len(parts), 0, -1))
+    for module_name_to_check in module_names_to_check:
+        for pattern, placement in config.known_patterns:
+            if placement in config.sections and pattern.match(module_name_to_check):
+                return (placement, f"Matched configured known pattern {pattern}")
+
+    return None
+
+```
+Write unit test for function _known_pattern
+
+
+# Prompt used at query #45
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+
+def _is_module(path: Path) -> bool:
+    return (
+        exists_case_sensitive(str(path.with_suffix(".py")))
+        or any(
+            exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+            for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+        )
+        or exists_case_sensitive(str(path / "__init__.py"))
+    )
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+
+def _src_path(
+    name: str,
+    config: Config,
+    src_paths: Iterable[Path] | None = None,
+    prefix: tuple[str, ...] = (),
+) -> tuple[str, str] | None:
+    if src_paths is None:
+        src_paths = config.src_paths
+
+    root_module_name, *nested_module = name.split(".", 1)
+    new_prefix = (*prefix, root_module_name)
+    namespace = ".".join(new_prefix)
+
+    for src_path in src_paths:
+        module_path = (src_path / root_module_name).resolve()
+        if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+            module_path = src_path.resolve()
+        if nested_module and (
+            namespace in config.namespace_packages
+            or (
+                config.auto_identify_namespace_packages
+                and _is_namespace_package(module_path, config.supported_extensions)
+            )
+        ):
+            return _src_path(nested_module[0], config, (module_path,), new_prefix)
+        if (
+            _is_module(module_path)
+            or _is_package(module_path)
+            or _src_path_is_module(src_path, root_module_name)
+        ):
+            return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+
+    return None
+
+```
+Write unit test for function _src_path
+
+
+# Prompt used at query #46
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #47
+#--------------------------
+
+```
+def _src_path_is_module(src_path: Path, module_name: str) -> bool:
+    return (
+        module_name == src_path.name and src_path.is_dir() and exists_case_sensitive(str(src_path))
+    )
+
+```
+Write unit test for function _src_path_is_module
+
+
+# Prompt used at query #48
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #49
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #50
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #51
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #52
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #53
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 13 evaluates to False.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #54
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #55
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #56
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #57
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+ 1 | def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+ 2 |     if not _is_package(path):
+ 3 |         return False
+ 4 | 
+ 5 |     init_file = path / "__init__.py"
+ 6 |     if not init_file.exists():
+ 7 |         filenames = [
+ 8 |             filepath
+ 9 |             for filepath in path.iterdir()
+10 |             if filepath.suffix.lstrip(".") in src_extensions
+11 |             or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+12 |         ]
+13 |         if filenames:
+14 |             return False
+15 |     else:
+16 |         with init_file.open("rb") as open_init_file:
+17 |             file_start = open_init_file.read(4096)
+18 |             if (
+19 |                 b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+20 |                 and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+21 |                 and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+22 |                 not in file_start
+23 |                 and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+24 |                 not in file_start
+25 |             ):
+26 |                 return False
+27 |     return True
+```
+
+
+# Prompt used at query #58
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 19 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #59
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #60
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
+# Prompt used at query #61
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 | def _known_pattern(name: str, config: Config) -> tuple[str, str] | None:
+2 |     parts = name.split(".")
+3 |     module_names_to_check = (".".join(parts[:first_k]) for first_k in range(len(parts), 0, -1))
+4 |     for module_name_to_check in module_names_to_check:
+5 |         for pattern, placement in config.known_patterns:
+6 |             if placement in config.sections and pattern.match(module_name_to_check):
+7 |                 return (placement, f"Matched configured known pattern {pattern}")
+8 | 
+9 |     return None
+```
+
+
+# Prompt used at query #62
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 26 evaluates to True.
+```
+ 1 | def _src_path(
+ 2 |     name: str,
+ 3 |     config: Config,
+ 4 |     src_paths: Iterable[Path] | None = None,
+ 5 |     prefix: tuple[str, ...] = (),
+ 6 | ) -> tuple[str, str] | None:
+ 7 |     if src_paths is None:
+ 8 |         src_paths = config.src_paths
+ 9 | 
+10 |     root_module_name, *nested_module = name.split(".", 1)
+11 |     new_prefix = (*prefix, root_module_name)
+12 |     namespace = ".".join(new_prefix)
+13 | 
+14 |     for src_path in src_paths:
+15 |         module_path = (src_path / root_module_name).resolve()
+16 |         if not prefix and not module_path.is_dir() and src_path.name == root_module_name:
+17 |             module_path = src_path.resolve()
+18 |         if nested_module and (
+19 |             namespace in config.namespace_packages
+20 |             or (
+21 |                 config.auto_identify_namespace_packages
+22 |                 and _is_namespace_package(module_path, config.supported_extensions)
+23 |             )
+24 |         ):
+25 |             return _src_path(nested_module[0], config, (module_path,), new_prefix)
+26 |         if (
+27 |             _is_module(module_path)
+28 |             or _is_package(module_path)
+29 |             or _src_path_is_module(src_path, root_module_name)
+30 |         ):
+31 |             return (sections.FIRSTPARTY, f"Found in one of the configured src_paths: {src_path}.")
+32 | 
+33 |     return None
+```
+
+
+# Prompt used at query #63
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 | def _known_pattern(name: str, config: Config) -> tuple[str, str] | None:
+2 |     parts = name.split(".")
+3 |     module_names_to_check = (".".join(parts[:first_k]) for first_k in range(len(parts), 0, -1))
+4 |     for module_name_to_check in module_names_to_check:
+5 |         for pattern, placement in config.known_patterns:
+6 |             if placement in config.sections and pattern.match(module_name_to_check):
+7 |                 return (placement, f"Matched configured known pattern {pattern}")
+8 | 
+9 |     return None
+```
+
+
+# Prompt used at query #64
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+1 | def _is_module(path: Path) -> bool:
+2 |     return (
+3 |         exists_case_sensitive(str(path.with_suffix(".py")))
+4 |         or any(
+5 |             exists_case_sensitive(str(path.with_suffix(ext_suffix)))
+6 |             for ext_suffix in importlib.machinery.EXTENSION_SUFFIXES
+7 |         )
+8 |         or exists_case_sensitive(str(path / "__init__.py"))
+9 |     )
+```
+
+
+# Prompt used at query #65
+#--------------------------
+
+```
+def _is_package(path: Path) -> bool:
+    return exists_case_sensitive(str(path)) and path.is_dir()
+
+
+def _is_namespace_package(path: Path, src_extensions: frozenset[str]) -> bool:
+    if not _is_package(path):
+        return False
+
+    init_file = path / "__init__.py"
+    if not init_file.exists():
+        filenames = [
+            filepath
+            for filepath in path.iterdir()
+            if filepath.suffix.lstrip(".") in src_extensions
+            or filepath.name.lower() in ("setup.cfg", "pyproject.toml")
+        ]
+        if filenames:
+            return False
+    else:
+        with init_file.open("rb") as open_init_file:
+            file_start = open_init_file.read(4096)
+            if (
+                b"__import__('pkg_resources').declare_namespace(__name__)" not in file_start
+                and b'__import__("pkg_resources").declare_namespace(__name__)' not in file_start
+                and b"__path__ = __import__('pkgutil').extend_path(__path__, __name__)"
+                not in file_start
+                and b'__path__ = __import__("pkgutil").extend_path(__path__, __name__)'
+                not in file_start
+            ):
+                return False
+    return True
+
+```
+Write unit test for function _is_namespace_package
+
+
