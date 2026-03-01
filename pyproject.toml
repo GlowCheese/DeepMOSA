@@ -12,12 +12,12 @@ dependencies = [
     "colorama~=0.4.6",
     "jellyfish~=1.1.3",
     "jinja2~=3.1.6",
-    "litellm>=1.80.11",
+    "mistralai~=1.10.1",
     "networkx~=3.4.2",
     "openai~=2.14.0",
     "pytest~=9.0.2",
     "python-dotenv~=1.2.1",
-    "ruff~=0.14.9",
+    "scipy>=1.15.3",
     "setuptools~=80.9.0",
     "simple-parsing~=0.1.7",
     "transformers~=4.57.3",
@@ -26,10 +26,13 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "coverage>=7.13.2",
+    "matplotlib>=3.10.8",
     "pandas[excel]~=2.3.3",
     "pipdeptree>=2.30.0",
     "pre-commit~=4.5.0",
     "ruff>=0.14.9",
+    "seaborn>=0.13.2",
     "ty>=0.0.13",
 ]
 minbpe = [

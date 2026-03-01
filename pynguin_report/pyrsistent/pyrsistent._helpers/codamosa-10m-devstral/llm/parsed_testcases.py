@@ -1531,3 +1531,1156 @@ def test_case_0():
 
 
 
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+
+import pyrsistent._helpers as module_0
+import pyrsistent._pmap as module_1
+import pyrsistent._pset as module_2
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 'a'
+    var_2 = 3
+    var_3 = {var_1: var_2}
+    var_4 = [var_0, var_3]
+    var_5 = module_0.freeze(var_4)
+    var_6 = {var_1: var_2}
+    var_7 = module_1.pmap(var_6)
+    var_8 = [var_0, var_7]
+    var_9 = []
+    var_10 = (var_0, var_9)
+    var_11 = module_0.freeze(var_10)
+    var_12 = []
+    var_13 = 2
+    var_14 = [var_0, var_13]
+    var_15 = set(var_14)
+    var_16 = module_0.freeze(var_15)
+    var_17 = [var_0, var_13]
+    var_18 = module_2.pset(var_17)
+    var_19 = 'b'
+    var_20 = [var_13, var_2]
+    var_21 = {var_1: var_0, var_19: var_20}
+    var_22 = module_0.freeze(var_21)
+    var_23 = [var_13, var_2]
+    var_24 = [var_0, var_13]
+    var_25 = {var_1: var_2}
+    var_26 = [var_0, var_25]
+    var_27 = False
+    var_28 = module_0.freeze(var_26, var_27)
+    var_29 = {var_1: var_2}
+    var_30 = [var_0, var_29]
+    var_31 = [var_0, var_13, var_2]
+    var_32 = {var_1: var_0}
+    var_33 = module_1.pmap(var_32)
+    var_34 = module_0.freeze(var_33)
+    var_35 = [var_0, var_13]
+    var_36 = module_2.pset(var_35)
+    var_37 = module_0.freeze(var_36)
+    var_38 = 42
+    var_39 = module_0.freeze(var_38)
+    assert var_39 == 42
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+import pyrsistent._helpers as module_1
+import pyrsistent._pset as module_2
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = 5
+    var_6 = [var_4, var_5]
+    var_7 = 'a'
+    var_8 = 'b'
+    var_9 = {var_7: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = module_1.thaw(var_10)
+    var_12 = 'c'
+    var_13 = {var_12: var_2}
+    var_14 = module_0.pmap(var_13)
+    var_15 = {var_7: var_0, var_8: var_14}
+    var_16 = module_0.pmap(var_15)
+    var_17 = module_1.thaw(var_16)
+    var_18 = {var_0, var_1, var_2}
+    var_19 = module_2.pset(var_18)
+    var_20 = module_1.thaw(var_19)
+    var_21 = [var_1, var_2]
+    var_22 = [var_0, var_1]
+    var_23 = {var_2, var_4}
+    var_24 = module_2.pset(var_23)
+    var_25 = [var_0, var_1]
+    var_26 = False
+    var_27 = {var_7: var_0}
+    var_28 = module_0.pmap(var_27)
+    var_29 = module_1.thaw(var_28, var_26)
+    var_30 = 42
+    var_31 = module_1.thaw(var_30)
+    assert var_31 == 42
+    var_32 = 'hello'
+    var_33 = module_1.thaw(var_32)
+    assert var_33 == 'hello'
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+import pyrsistent._helpers as module_1
+import pyrsistent._pset as module_2
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = [var_1, var_2]
+    var_5 = 'a'
+    var_6 = 'b'
+    var_7 = {var_5: var_0, var_6: var_1}
+    var_8 = module_0.pmap(var_7)
+    var_9 = module_1.thaw(var_8)
+    var_10 = [var_0, var_1]
+    var_11 = [var_0, var_1, var_2]
+    var_12 = module_2.pset(var_11)
+    var_13 = module_1.thaw(var_12)
+    var_14 = (var_0, var_1, var_2)
+    var_15 = module_1.thaw(var_14)
+    var_16 = [var_1, var_2]
+    var_17 = [var_0, var_1, var_2]
+    var_18 = False
+    var_19 = [var_0, var_1, var_2]
+    var_20 = module_1.thaw(var_19, var_18)
+    var_21 = [var_0, var_1]
+    var_22 = 4
+    var_23 = [var_2, var_22]
+    var_24 = module_2.pset(var_23)
+    var_25 = module_1.thaw(var_0)
+    assert var_25 == 1
+    var_26 = 'hello'
+    var_27 = module_1.thaw(var_26)
+    assert var_27 == 'hello'
+    var_28 = None
+    var_29 = module_1.thaw(var_28)
+    assert var_29 is None
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = 'b'
+    var_9 = {var_6: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = 'list'
+    var_12 = 'nested'
+    var_13 = [var_0, var_1, var_2]
+    var_14 = 'value'
+    var_15 = 5
+    var_16 = {var_14: var_15}
+    var_17 = {var_11: var_13, var_12: var_16}
+    var_18 = [var_0, var_1, var_2, var_4]
+    var_19 = 10
+    var_20 = {var_14: var_19}
+    var_21 = module_0.pmap(var_20)
+    var_22 = 'x'
+    var_23 = 'y'
+    var_24 = 20
+    var_25 = {var_22: var_19, var_23: var_24}
+    var_26 = 100
+    var_27 = {var_22: var_26, var_23: var_24}
+    var_28 = module_0.pmap(var_27)
+    var_29 = [var_0, var_1]
+    var_30 = {var_6: var_0}
+    var_31 = [var_0, var_1, var_2]
+    var_32 = 'new'
+    var_33 = {var_6: var_0, var_32: var_2}
+    var_34 = module_0.pmap(var_33)
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+
+import pyrsistent._helpers as module_0
+import pyrsistent._pmap as module_1
+import pyrsistent._pset as module_2
+
+def test_case_0():
+    var_0 = 1
+    var_1 = module_0.thaw(var_0)
+    assert var_1 == 1
+    var_2 = 'hello'
+    var_3 = module_0.thaw(var_2)
+    assert var_3 == 'hello'
+    var_4 = None
+    var_5 = module_0.thaw(var_4)
+    assert var_5 is None
+    var_6 = 2
+    var_7 = 3
+    var_8 = [var_0, var_6, var_7]
+    var_9 = [var_6, var_7]
+    var_10 = 'a'
+    var_11 = 'b'
+    var_12 = {var_10: var_0, var_11: var_6}
+    var_13 = module_1.pmap(var_12)
+    var_14 = module_0.thaw(var_13)
+    var_15 = [var_0, var_6]
+    var_16 = [var_0, var_6, var_7]
+    var_17 = module_2.pset(var_16)
+    var_18 = module_0.thaw(var_17)
+    var_19 = (var_0, var_6, var_7)
+    var_20 = module_0.thaw(var_19)
+    var_21 = [var_6, var_7]
+    var_22 = 'c'
+    var_23 = [var_0, var_6]
+    var_24 = 4
+    var_25 = [var_7, var_24]
+    var_26 = module_2.pset(var_25)
+    var_27 = 5
+    var_28 = 6
+    var_29 = 7
+    var_30 = [var_28, var_29]
+    var_31 = [var_0, var_6]
+    var_32 = {var_7, var_24}
+    var_33 = [var_28, var_29]
+    var_34 = (var_27, var_33)
+    var_35 = {var_10: var_31, var_11: var_32, var_22: var_34}
+    var_36 = [var_0, var_6]
+    var_37 = True
+    var_38 = module_0.thaw(var_36, var_37)
+    var_39 = {var_10: var_37}
+    var_40 = True
+    var_41 = module_0.thaw(var_39, var_40)
+    var_42 = {var_10: var_40}
+    var_43 = module_1.pmap(var_42)
+    var_44 = [var_43]
+    var_45 = True
+    var_46 = module_0.thaw(var_44, var_45)
+    var_47 = [var_45, var_6]
+    var_48 = False
+    var_49 = [var_45, var_6]
+    var_50 = {var_10: var_45}
+    var_51 = module_1.pmap(var_50)
+    var_52 = module_0.thaw(var_51, var_48)
+    var_53 = {var_10: var_45}
+    var_54 = module_1.pmap(var_53)
+
+
+
+# Parsed testcases at query #6
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'nested'
+    var_7 = 'value'
+    var_8 = 5
+    var_9 = {var_7: var_8}
+    var_10 = {var_6: var_9}
+    var_11 = 10
+    var_12 = {var_7: var_11}
+    var_13 = module_0.pmap(var_12)
+    var_14 = {var_6: var_13}
+    var_15 = module_0.pmap(var_14)
+    var_16 = 'x'
+    var_17 = 'y'
+    var_18 = {var_16: var_0, var_17: var_1}
+    var_19 = 100
+    var_20 = {var_16: var_19, var_17: var_1}
+    var_21 = module_0.pmap(var_20)
+    var_22 = [var_0, var_1]
+    var_23 = 'a'
+    var_24 = {var_23: var_2}
+    var_25 = [var_0, var_1, var_4]
+    var_26 = 'new_key'
+    var_27 = {var_23: var_2, var_26: var_4}
+    var_28 = module_0.pmap(var_27)
+
+
+
+# Parsed testcases at query #7
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'list'
+    var_7 = 'nested'
+    var_8 = [var_0, var_1]
+    var_9 = 'value'
+    var_10 = 5
+    var_11 = {var_9: var_10}
+    var_12 = {var_6: var_8, var_7: var_11}
+    var_13 = [var_0, var_1, var_10]
+    var_14 = [var_0]
+    var_15 = 2
+    assert var_15 == 2
+    var_16 = 'c'
+    var_17 = [var_1]
+    var_18 = {var_16: var_17}
+    var_19 = [var_0, var_2]
+    var_20 = [var_1, var_4]
+    var_21 = 'a'
+    var_22 = [var_0, var_1]
+    var_23 = {var_21: var_22}
+    var_24 = 'new'
+
+
+
+# Parsed testcases at query #8
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'nested'
+    var_7 = 'value'
+    var_8 = 50
+    var_9 = {var_7: var_8}
+    var_10 = {var_6: var_9}
+    var_11 = 100
+    var_12 = {var_7: var_11}
+    var_13 = module_0.pmap(var_12)
+    var_14 = {var_6: var_13}
+    var_15 = module_0.pmap(var_14)
+    var_16 = 'x'
+    var_17 = 'y'
+    var_18 = {var_16: var_0, var_17: var_1}
+    var_19 = 999
+    var_20 = {var_16: var_19, var_17: var_1}
+    var_21 = module_0.pmap(var_20)
+    var_22 = {var_16: var_0}
+    var_23 = {var_17: var_1}
+    var_24 = {var_16: var_0, var_17: var_1}
+    var_25 = module_0.pmap(var_24)
+
+
+
+# Parsed testcases at query #9
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = 'b'
+    var_8 = {var_6: var_0, var_7: var_1}
+    var_9 = 'c'
+    var_10 = {var_6: var_0, var_7: var_1, var_9: var_2}
+    var_11 = module_0.pmap(var_10)
+    var_12 = 'list'
+    var_13 = 'dict'
+    var_14 = [var_0, var_1, var_2]
+    var_15 = 'key'
+    var_16 = 'value'
+    var_17 = {var_15: var_16}
+    var_18 = {var_12: var_14, var_13: var_17}
+    var_19 = [var_0, var_1, var_2, var_4]
+    var_20 = 'new_key'
+    var_21 = 'new_value'
+    var_22 = {var_15: var_16, var_20: var_21}
+    var_23 = module_0.pmap(var_22)
+    var_24 = [var_0, var_1]
+    var_25 = [var_0, var_1, var_2]
+
+
+
+# Parsed testcases at query #10
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = 'b'
+    var_9 = {var_6: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = 'nested'
+    var_12 = [var_0, var_1]
+    var_13 = {var_11: var_12}
+    var_14 = [var_0, var_1, var_0]
+    var_15 = {var_6: var_0}
+    var_16 = 'new_key'
+    var_17 = 'new_value'
+    var_18 = {var_6: var_0, var_16: var_17}
+    var_19 = module_0.pmap(var_18)
+    var_20 = [var_0, var_1, var_2]
+    var_21 = 5
+
+
+
+# Parsed testcases at query #11
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+import pyrsistent._pset as module_1
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = 'b'
+    var_9 = {var_6: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = {var_0, var_1}
+    var_12 = {var_2, var_4}
+    var_13 = {var_0, var_1, var_2, var_4}
+    var_14 = module_1.pset(var_13)
+    var_15 = (var_0, var_1)
+    var_16 = 'list'
+    var_17 = 'dict'
+    var_18 = [var_0, var_1]
+    var_19 = 'key'
+    var_20 = 'old'
+    var_21 = {var_19: var_20}
+    var_22 = {var_16: var_18, var_17: var_21}
+    var_23 = [var_0, var_1, var_0]
+    var_24 = 'value'
+    var_25 = {var_19: var_24}
+    var_26 = module_0.pmap(var_25)
+
+
+
+# Parsed testcases at query #12
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+import pyrsistent._pset as module_1
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = [var_0, var_1, var_2]
+    var_9 = 'new_key'
+    var_10 = 'value'
+    var_11 = {var_6: var_0, var_9: var_10}
+    var_12 = module_0.pmap(var_11)
+    var_13 = 5
+    var_14 = [var_0, var_1, var_2, var_4, var_13]
+    var_15 = 'nested'
+    var_16 = 'list'
+    var_17 = {var_10: var_13}
+    var_18 = [var_0, var_1, var_2]
+    var_19 = {var_15: var_17, var_16: var_18}
+    var_20 = 10
+    var_21 = {var_10: var_20}
+    var_22 = module_0.pmap(var_21)
+    var_23 = [var_0, var_1, var_2, var_4]
+    var_24 = 'b'
+    var_25 = {var_6: var_0, var_24: var_1}
+    var_26 = 'added'
+    var_27 = {var_6: var_0, var_24: var_1, var_9: var_26}
+    var_28 = module_0.pmap(var_27)
+    var_29 = (var_0, var_1, var_2)
+    var_30 = {var_0, var_1, var_2}
+    var_31 = {var_0, var_1, var_2, var_4}
+    var_32 = module_1.pset(var_31)
+    var_33 = 42
+    var_34 = 'string'
+    var_35 = None
+
+
+
+# Parsed testcases at query #13
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+import pyrsistent._pset as module_1
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = 'b'
+    var_9 = {var_6: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = 'list'
+    var_12 = 'set'
+    var_13 = [var_0, var_1]
+    var_14 = {var_2}
+    var_15 = {var_11: var_13, var_12: var_14}
+    var_16 = [var_0, var_1, var_0]
+    var_17 = {var_2, var_1}
+    var_18 = module_1.pset(var_17)
+    var_19 = [var_0, var_1]
+    var_20 = {var_6: var_19}
+
+
+
+# Parsed testcases at query #14
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = 'b'
+    var_9 = {var_6: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = 'lst'
+    var_12 = 'd'
+    var_13 = [var_0, var_1, var_2]
+    var_14 = {var_6: var_0}
+    var_15 = {var_11: var_13, var_12: var_14}
+    var_16 = [var_0, var_1, var_2, var_4]
+    var_17 = 'c'
+    var_18 = {var_6: var_0, var_17: var_2}
+    var_19 = module_0.pmap(var_18)
+    var_20 = 'y'
+    var_21 = 20
+    var_22 = {var_20: var_21}
+    var_23 = 'x'
+    var_24 = 10
+    var_25 = {var_20: var_21, var_23: var_24}
+    var_26 = module_0.pmap(var_25)
+
+
+
+# Parsed testcases at query #15
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+import pyrsistent._pset as module_1
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = 'b'
+    var_9 = {var_6: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = {var_0, var_1}
+    var_12 = {var_0, var_1, var_2}
+    var_13 = module_1.pset(var_12)
+    var_14 = (var_0, var_1, var_2)
+    var_15 = 'list'
+    var_16 = 'dict'
+    var_17 = [var_0, var_1, var_2]
+    var_18 = {var_6: var_0, var_8: var_1}
+    var_19 = {var_15: var_17, var_16: var_18}
+    var_20 = [var_0, var_1, var_2, var_4]
+    var_21 = 'c'
+    var_22 = {var_6: var_0, var_8: var_1, var_21: var_2}
+    var_23 = module_0.pmap(var_22)
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = 'b'
+    var_9 = {var_6: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = 'list'
+    var_12 = 'dict'
+    var_13 = [var_0, var_1, var_2]
+    var_14 = {var_6: var_0}
+    var_15 = {var_11: var_13, var_12: var_14}
+    var_16 = [var_0, var_1, var_2, var_4]
+    var_17 = 'c'
+    var_18 = {var_6: var_0, var_17: var_2}
+    var_19 = module_0.pmap(var_18)
+    var_20 = 'x'
+    var_21 = 10
+    var_22 = {var_6: var_0, var_8: var_1, var_20: var_21}
+    var_23 = module_0.pmap(var_22)
+    var_24 = [var_0, var_1, var_2]
+    var_25 = (var_0, var_1, var_2)
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = [var_0, var_1]
+    var_8 = {var_6: var_7}
+    var_9 = [var_2, var_4]
+    var_10 = [var_2, var_4]
+    var_11 = [var_0, var_1]
+    var_12 = [var_2, var_4]
+    var_13 = 99
+    var_14 = [var_0, var_1, var_2, var_4, var_13]
+    var_15 = 'x'
+    var_16 = {var_15: var_0}
+    var_17 = 'y'
+    var_18 = 'z'
+    var_19 = {var_15: var_0, var_17: var_1, var_18: var_2}
+    var_20 = module_0.pmap(var_19)
+    var_21 = [var_0, var_1, var_2]
+    var_22 = 'b'
+    var_23 = [var_0, var_1]
+    var_24 = [var_2, var_4]
+    var_25 = [var_0, var_1]
+    var_26 = [var_2, var_4]
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = 'b'
+    var_8 = [var_0, var_1]
+    var_9 = {var_6: var_8, var_7: var_2}
+    var_10 = 10
+    var_11 = [var_10, var_1]
+    var_12 = 'c'
+    var_13 = 'd'
+    var_14 = [var_0, var_1]
+    var_15 = {var_12: var_14, var_13: var_2}
+    var_16 = 5
+    var_17 = [var_0, var_1, var_16]
+    var_18 = [var_0, var_1, var_2]
+    var_19 = [var_0, var_1, var_2]
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+import pyrsistent._pset as module_1
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = [var_0, var_1]
+    var_8 = {var_6: var_7}
+    var_9 = 'b'
+    var_10 = [var_2, var_4]
+    var_11 = [var_0, var_1]
+    var_12 = [var_2, var_4]
+    var_13 = 'key1'
+    var_14 = 'value1'
+    var_15 = {var_13: var_14}
+    var_16 = 'new_key'
+    var_17 = 'new_value'
+    var_18 = {var_13: var_14, var_16: var_17}
+    var_19 = module_0.pmap(var_18)
+    var_20 = (var_0, var_1, var_2)
+    var_21 = {var_0, var_1, var_2}
+    var_22 = {var_0, var_1, var_2, var_4}
+    var_23 = module_1.pset(var_22)
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+import pyrsistent._pset as module_1
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = 'b'
+    var_8 = {var_6: var_0, var_7: var_1}
+    var_9 = 'c'
+    var_10 = {var_6: var_0, var_7: var_1, var_9: var_2}
+    var_11 = module_0.pmap(var_10)
+    var_12 = 'list'
+    var_13 = 'set'
+    var_14 = [var_0, var_1]
+    var_15 = {var_2, var_4}
+    var_16 = {var_12: var_14, var_13: var_15}
+    var_17 = [var_0, var_1, var_0]
+    var_18 = {var_2, var_4, var_1}
+    var_19 = module_1.pset(var_18)
+    var_20 = (var_0, var_1, var_2)
+    var_21 = [var_0, var_1, var_2]
+
+
+
+# Parsed testcases at query #21
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = 'b'
+    var_9 = {var_6: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = 'list'
+    var_12 = 'dict'
+    var_13 = [var_0, var_1, var_2]
+    var_14 = {var_6: var_0}
+    var_15 = {var_11: var_13, var_12: var_14}
+    var_16 = [var_0, var_1, var_2, var_4]
+    var_17 = 'c'
+    var_18 = {var_6: var_0, var_17: var_2}
+    var_19 = module_0.pmap(var_18)
+    var_20 = 'y'
+    var_21 = 20
+    var_22 = {var_20: var_21}
+    var_23 = 'x'
+    var_24 = 10
+    var_25 = {var_20: var_21, var_23: var_24}
+    var_26 = module_0.pmap(var_25)
+    var_27 = [var_0, var_1, var_2]
+    var_28 = {var_6: var_1}
+    var_29 = [var_2, var_4]
+    var_30 = {var_6: var_1}
+    var_31 = module_0.pmap(var_30)
+    var_32 = [var_2, var_4]
+
+
+
+# Parsed testcases at query #22
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = 'b'
+    var_9 = {var_6: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = 'list'
+    var_12 = 'nested'
+    var_13 = [var_0, var_1, var_2]
+    var_14 = 'value'
+    var_15 = 'original'
+    var_16 = {var_14: var_15}
+    var_17 = {var_11: var_13, var_12: var_16}
+    var_18 = [var_0, var_1, var_2, var_4]
+    var_19 = {var_6: var_0, var_8: var_1}
+    var_20 = 'new_key'
+    var_21 = 'new_value'
+    var_22 = {var_6: var_0, var_8: var_1, var_20: var_21}
+    var_23 = module_0.pmap(var_22)
+
+
+
+# Parsed testcases at query #23
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = [var_0, var_1, var_2]
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'key'
+    var_7 = 'value'
+    var_8 = {var_6: var_7}
+    var_9 = {var_6: var_7}
+    var_10 = [var_0, var_1, var_2]
+    var_11 = [var_9, var_10]
+    var_12 = [var_0, var_1, var_2]
+    var_13 = {var_6: var_7}
+    var_14 = 'a'
+    var_15 = [var_1, var_2]
+    var_16 = {var_14: var_15}
+    var_17 = [var_0, var_16]
+    var_18 = [var_1, var_2]
+    var_19 = {var_14: var_18}
+    var_20 = [var_1, var_2]
+    var_21 = {var_14: var_20}
+    var_22 = [var_0, var_21]
+    var_23 = [var_0, var_19, var_22]
+    var_24 = [var_0, var_1, var_2]
+    var_25 = [var_0, var_1, var_2]
+
+
+
+# Parsed testcases at query #24
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+import pyrsistent._pset as module_1
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = 'b'
+    var_9 = {var_6: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = 'list'
+    var_12 = 'dict'
+    var_13 = [var_0, var_1, var_2]
+    var_14 = {var_6: var_0, var_8: var_1}
+    var_15 = {var_11: var_13, var_12: var_14}
+    var_16 = [var_0, var_1, var_2, var_4]
+    var_17 = 'c'
+    var_18 = {var_6: var_0, var_8: var_1, var_17: var_2}
+    var_19 = module_0.pmap(var_18)
+    var_20 = 'x'
+    var_21 = 'y'
+    var_22 = {var_20: var_0, var_21: var_1}
+    var_23 = 10
+    var_24 = {var_20: var_23, var_21: var_1}
+    var_25 = module_0.pmap(var_24)
+    var_26 = (var_0, var_1, var_2)
+    var_27 = {var_0, var_1, var_2}
+    var_28 = {var_0, var_1, var_2, var_4}
+    var_29 = module_1.pset(var_28)
+    var_30 = [var_0, var_1, var_2]
+    var_31 = [var_0, var_1, var_2]
+    var_32 = [var_0, var_1, var_2, var_4]
+
+
+
+# Parsed testcases at query #25
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = [var_0, var_1]
+    var_9 = 'new_key'
+    var_10 = 'new_value'
+    var_11 = {var_6: var_0, var_9: var_10}
+    var_12 = module_0.pmap(var_11)
+    var_13 = 100
+    var_14 = [var_0, var_1, var_13]
+    var_15 = 'b'
+    var_16 = {var_6: var_0, var_15: var_1}
+    var_17 = {var_6: var_0, var_15: var_1, var_9: var_10}
+    var_18 = module_0.pmap(var_17)
+    var_19 = 'nested'
+    var_20 = 'list'
+    var_21 = 'value'
+    var_22 = 5
+    var_23 = {var_21: var_22}
+    var_24 = [var_0, var_1]
+    var_25 = {var_19: var_23, var_20: var_24}
+    var_26 = 10
+    var_27 = {var_21: var_26}
+    var_28 = module_0.pmap(var_27)
+    var_29 = 20
+    var_30 = [var_0, var_1, var_29]
+    var_31 = [var_0, var_1, var_2]
+    var_32 = [var_0, var_1, var_2]
+
+
+
+# Parsed testcases at query #26
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'nested'
+    var_7 = 'value'
+    var_8 = 50
+    var_9 = {var_7: var_8}
+    var_10 = {var_6: var_9}
+    var_11 = 100
+    var_12 = {var_7: var_11}
+    var_13 = module_0.pmap(var_12)
+    var_14 = {var_6: var_13}
+    var_15 = module_0.pmap(var_14)
+    var_16 = 'x'
+    var_17 = {var_16: var_0}
+    var_18 = 'y'
+    var_19 = {var_18: var_1}
+    var_20 = {var_16: var_0, var_18: var_1}
+    var_21 = module_0.pmap(var_20)
+    var_22 = 'existing'
+    var_23 = 'new_key'
+    var_24 = 'new_value'
+    var_25 = {var_22: var_7, var_23: var_24}
+    var_26 = module_0.pmap(var_25)
+    var_27 = [var_0, var_1, var_2]
+    var_28 = (var_0, var_1, var_2)
+
+
+
+# Parsed testcases at query #27
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+import pyrsistent._pset as module_1
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = 4
+    var_5 = [var_0, var_1, var_2, var_4]
+    var_6 = 'a'
+    var_7 = {var_6: var_0}
+    var_8 = 'b'
+    var_9 = {var_6: var_0, var_8: var_1}
+    var_10 = module_0.pmap(var_9)
+    var_11 = {var_0, var_1, var_2}
+    var_12 = {var_0, var_1, var_2, var_4}
+    var_13 = module_1.pset(var_12)
+    var_14 = (var_0, var_1, var_2)
+
+
+
+# Parsed testcases at query #28
+#--------------------------
+
+
+import pyrsistent._helpers as module_0
+import pyrsistent._pmap as module_1
+import pyrsistent._pset as module_2
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = module_0.freeze(var_3)
+    var_5 = [var_0, var_1, var_2]
+    var_6 = [var_1, var_2]
+    var_7 = [var_0, var_6]
+    var_8 = module_0.freeze(var_7)
+    var_9 = [var_1, var_2]
+    var_10 = 'a'
+    var_11 = 'b'
+    var_12 = {var_10: var_0, var_11: var_1}
+    var_13 = module_0.freeze(var_12)
+    var_14 = {var_10: var_0, var_11: var_1}
+    var_15 = module_1.pmap(var_14)
+    var_16 = {var_11: var_1}
+    var_17 = {var_10: var_16}
+    var_18 = module_0.freeze(var_17)
+    var_19 = {var_11: var_1}
+    var_20 = module_1.pmap(var_19)
+    var_21 = {var_10: var_20}
+    var_22 = module_1.pmap(var_21)
+    var_23 = {var_10: var_0, var_11: var_1}
+    var_24 = {var_10: var_0, var_11: var_1}
+    var_25 = module_1.pmap(var_24)
+    var_26 = {var_0, var_1, var_2}
+    var_27 = module_0.freeze(var_26)
+    var_28 = {var_0, var_1, var_2}
+    var_29 = module_2.pset(var_28)
+    var_30 = (var_0, var_1, var_2)
+    var_31 = module_0.freeze(var_30)
+    var_32 = [var_1, var_2]
+    var_33 = (var_0, var_32)
+    var_34 = module_0.freeze(var_33)
+    var_35 = [var_1, var_2]
+    var_36 = [var_0, var_1, var_2]
+    var_37 = {var_10: var_0, var_11: var_1}
+    var_38 = module_1.pmap(var_37)
+    var_39 = module_0.freeze(var_38)
+    var_40 = {var_0, var_1, var_2}
+    var_41 = module_2.pset(var_40)
+    var_42 = module_0.freeze(var_41)
+    var_43 = {var_10: var_2}
+    var_44 = [var_0, var_43]
+    var_45 = False
+    var_46 = module_0.freeze(var_44, var_45)
+    var_47 = {var_10: var_2}
+    var_48 = [var_0, var_47]
+    var_49 = [var_0, var_1]
+    var_50 = {var_10: var_49}
+    var_51 = module_0.freeze(var_50, var_45)
+    var_52 = [var_0, var_1]
+    var_53 = {var_10: var_52}
+    var_54 = module_1.pmap(var_53)
+    var_55 = {var_10: var_1}
+    var_56 = 4
+    var_57 = (var_2, var_56)
+    var_58 = 5
+    var_59 = 6
+    var_60 = {var_58, var_59}
+    var_61 = [var_0, var_55, var_57, var_60]
+    var_62 = {var_10: var_1}
+    var_63 = module_1.pmap(var_62)
+    var_64 = (var_2, var_56)
+    var_65 = {var_58, var_59}
+    var_66 = module_2.pset(var_65)
+    var_67 = [var_0, var_63, var_64, var_66]
+    var_68 = module_0.freeze(var_61)
+    var_69 = module_0.freeze(var_0)
+    assert var_69 == 1
+    var_70 = 'hello'
+    var_71 = module_0.freeze(var_70)
+    assert var_71 == 'hello'
+    var_72 = None
+    var_73 = module_0.freeze(var_72)
+    assert var_73 is None
+
+
+

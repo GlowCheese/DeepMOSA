@@ -1326,3 +1326,1101 @@ def test_map_structure_zip():
         pass
 
 
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# LLM-generated content at query #1
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with simple lists
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with nested lists
+    objs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [[6, 8], [10, 12]]
+
+    # Test with tuples
+    objs = [(1, 2, 3), (4, 5, 6)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == (5, 7, 9)
+
+    # Test with named tuples
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    objs = [Point(1, 2), Point(3, 4)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == Point(4, 6)
+
+    # Test with dictionaries
+    objs = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == {'a': 4, 'b': 6}
+
+    # Test with mixed types
+    objs = [[1, 2], (3, 4)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [4, 6]
+
+    # Test with registered no-map class
+    register_no_map_class(list)
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [1, 2, 3, 4, 5, 6]
+
+    # Test with no-map instance
+    lst = [1, 2, 3]
+    no_map_instance(lst)
+    objs = [lst, [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [1, 2, 3, 4, 5, 6]
+
+    # Test with sets (should raise ValueError)
+    objs = [{1, 2}, {3, 4}]
+    try:
+        map_structure_zip(lambda x, y: x + y, objs)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with simple lists
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with nested lists
+    objs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [[6, 8], [10, 12]]
+
+    # Test with tuples
+    objs = [(1, 2, 3), (4, 5, 6)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == (5, 7, 9)
+
+    # Test with namedtuples
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    objs = [Point(1, 2), Point(3, 4)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == Point(4, 6)
+
+    # Test with dictionaries
+    objs = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == {'a': 4, 'b': 6}
+
+    # Test with mixed structures
+    objs = [[1, {'a': 2}], [3, {'a': 4}]]
+    result = map_structure_zip(lambda x, y: x + y if isinstance(x, int) else {k: v + y[k] for k, v in x.items()}, objs)
+    assert result == [4, {'a': 6}]
+
+    # Test with registered no-map class
+    register_no_map_class(list)
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [1, 2, 3, 4, 5, 6]
+
+    # Test with no-map instance
+    obj1 = [1, 2, 3]
+    obj2 = [4, 5, 6]
+    no_map_instance(obj1)
+    no_map_instance(obj2)
+    result = map_structure_zip(lambda x, y: x + y, [obj1, obj2])
+    assert result == [1, 2, 3, 4, 5, 6]
+
+    # Test with sets (should raise ValueError)
+    objs = [{1, 2}, {3, 4}]
+    try:
+        map_structure_zip(lambda x, y: x + y, objs)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #3
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with simple lists
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with nested lists
+    objs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [[6, 8], [10, 12]]
+
+    # Test with tuples
+    objs = [(1, 2, 3), (4, 5, 6)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == (5, 7, 9)
+
+    # Test with namedtuples
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    objs = [Point(1, 2), Point(3, 4)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == Point(4, 6)
+
+    # Test with dictionaries
+    objs = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == {'a': 4, 'b': 6}
+
+    # Test with mixed structures
+    objs = [[{'a': 1}, {'b': 2}], [{'a': 3}, {'b': 4}]]
+    result = map_structure_zip(lambda x, y: {k: x[k] + y[k] for k in x}, objs)
+    assert result == [{'a': 4}, {'b': 6}]
+
+    # Test with no_map_instance
+    lst = [1, 2, 3]
+    no_map_lst = no_map_instance(lst)
+    objs = [no_map_lst, [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [1, 2, 3] + [4, 5, 6]
+
+    # Test with registered no_map class
+    register_no_map_class(type(lst))
+    objs = [lst, [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [1, 2, 3] + [4, 5, 6]
+
+    # Test with sets (should raise ValueError)
+    objs = [{1, 2}, {3, 4}]
+    try:
+        map_structure_zip(lambda x, y: x + y, objs)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with simple lists
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with nested lists
+    objs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [[6, 8], [10, 12]]
+
+    # Test with tuples
+    objs = [(1, 2, 3), (4, 5, 6)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == (5, 7, 9)
+
+    # Test with namedtuples
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    objs = [Point(1, 2), Point(3, 4)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == Point(4, 6)
+
+    # Test with dictionaries
+    objs = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == {'a': 4, 'b': 6}
+
+    # Test with mixed structures
+    objs = [[{'a': 1}, {'b': 2}], [{'a': 3}, {'b': 4}]]
+    result = map_structure_zip(lambda x, y: {k: x[k] + y[k] for k in x}, objs)
+    assert result == [{'a': 4}, {'b': 6}]
+
+    # Test with no_map_instance
+    lst = [1, 2, 3]
+    no_map_lst = no_map_instance(lst)
+    objs = [no_map_lst, [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [1, 2, 3, 4, 5, 6]
+
+    # Test with registered no_map_class
+    register_no_map_class(type)
+    objs = [int, str]
+    result = map_structure_zip(lambda x, y: x.__name__ + y.__name__, objs)
+    assert result == 'intstr'
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with simple lists
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with nested lists
+    objs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [[6, 8], [10, 12]]
+
+    # Test with tuples
+    objs = [((1, 2), (3, 4)), ((5, 6), (7, 8))]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == ((6, 8), (10, 12))
+
+    # Test with named tuples
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    objs = [Point(1, 2), Point(3, 4)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == Point(4, 6)
+
+    # Test with dictionaries
+    objs = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == {'a': 4, 'b': 6}
+
+    # Test with mixed structures
+    objs = [[{'a': 1}, {'b': 2}], [{'a': 3}, {'b': 4}]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [{'a': 4}, {'b': 6}]
+
+    # Test with no_map_instance
+    lst = [1, 2, 3]
+    no_map_lst = no_map_instance(lst)
+    objs = [no_map_lst, [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with registered no_map_class
+    register_no_map_class(type(lst))
+    objs = [lst, [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with sets (should raise ValueError)
+    objs = [{1, 2}, {3, 4}]
+    try:
+        map_structure_zip(lambda x, y: x + y, objs)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+```python
+def test_map_structure():
+    # Test with simple list
+    assert map_structure(lambda x: x * 2, [1, 2, 3]) == [2, 4, 6]
+
+    # Test with nested list
+    assert map_structure(lambda x: x * 2, [1, [2, 3], 4]) == [2, [4, 6], 8]
+
+    # Test with tuple
+    assert map_structure(lambda x: x * 2, (1, 2, 3)) == (2, 4, 6)
+
+    # Test with namedtuple
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    p = Point(1, 2)
+    assert map_structure(lambda x: x * 2, p) == Point(2, 4)
+
+    # Test with dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': 2}) == {'a': 2, 'b': 4}
+
+    # Test with set
+    assert map_structure(lambda x: x * 2, {1, 2, 3}) == {2, 4, 6}
+
+    # Test with no_map_instance
+    lst = [1, 2, 3]
+    no_map_lst = no_map_instance(lst)
+    assert map_structure(lambda x: x * 2, no_map_lst) == lst * 2
+
+    # Test with registered no_map_class
+    register_no_map_class(type(lst))
+    assert map_structure(lambda x: x * 2, lst) == lst * 2
+
+    # Test with mixed types
+    mixed = [1, (2, 3), {'a': 4}]
+    assert map_structure(lambda x: x * 2, mixed) == [2, (4, 6), {'a': 8}]
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+```python
+def test_map_structure():
+    # Test with simple list
+    assert map_structure(lambda x: x * 2, [1, 2, 3]) == [2, 4, 6]
+
+    # Test with nested list
+    assert map_structure(lambda x: x * 2, [1, [2, 3], 4]) == [2, [4, 6], 8]
+
+    # Test with tuple
+    assert map_structure(lambda x: x * 2, (1, 2, 3)) == (2, 4, 6)
+
+    # Test with namedtuple
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    p = Point(1, 2)
+    assert map_structure(lambda x: x * 2, p) == Point(2, 4)
+
+    # Test with dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': 2}) == {'a': 2, 'b': 4}
+
+    # Test with set
+    assert map_structure(lambda x: x * 2, {1, 2, 3}) == {2, 4, 6}
+
+    # Test with no_map_instance
+    lst = [1, 2, 3]
+    no_map_lst = no_map_instance(lst)
+    assert map_structure(lambda x: x * 2, no_map_lst) == lst * 2
+
+    # Test with registered no_map_class
+    register_no_map_class(list)
+    assert map_structure(lambda x: x * 2, [1, 2, 3]) == [1, 2, 3] * 2
+    _NO_MAP_TYPES.remove(list)  # Clean up for other tests
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+```python
+def test_map_structure():
+    # Test with simple list
+    assert map_structure(lambda x: x * 2, [1, 2, 3]) == [2, 4, 6]
+
+    # Test with nested list
+    assert map_structure(lambda x: x * 2, [1, [2, 3]]) == [2, [4, 6]]
+
+    # Test with tuple
+    assert map_structure(lambda x: x * 2, (1, 2, 3)) == (2, 4, 6)
+
+    # Test with nested tuple
+    assert map_structure(lambda x: x * 2, (1, (2, 3))) == (2, (4, 6))
+
+    # Test with dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': 2}) == {'a': 2, 'b': 4}
+
+    # Test with nested dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': {'c': 2}}) == {'a': 2, 'b': {'c': 4}}
+
+    # Test with set
+    assert map_structure(lambda x: x * 2, {1, 2, 3}) == {2, 4, 6}
+
+    # Test with mixed types
+    assert map_structure(lambda x: x * 2, [1, (2, {'a': 3})]) == [2, (4, {'a': 6})]
+
+    # Test with no_map_instance
+    no_map_list = no_map_instance([1, 2, 3])
+    assert map_structure(lambda x: x * 2, no_map_list) == [1, 2, 3] * 2
+
+    # Test with registered no_map_class
+    register_no_map_class(type([1, 2, 3]))
+    assert map_structure(lambda x: x * 2, [1, 2, 3]) == [1, 2, 3] * 2
+
+    # Test with namedtuple
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    p = Point(1, 2)
+    assert map_structure(lambda x: x * 2, p) == Point(2, 4)
+
+    # Test with empty collections
+    assert map_structure(lambda x: x * 2, []) == []
+    assert map_structure(lambda x: x * 2, ()) == ()
+    assert map_structure(lambda x: x * 2, {}) == {}
+    assert map_structure(lambda x: x * 2, set()) == set()
+
+    # Test with non-container types
+    assert map_structure(lambda x: x * 2, 5) == 10
+    assert map_structure(lambda x: x * 2, "a") == "aa"
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with simple lists
+    objs = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == [12, 15, 18]
+
+    # Test with nested lists
+    objs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == [[6, 8], [10, 12]]
+
+    # Test with tuples
+    objs = [((1, 2), (3, 4)), ((5, 6), (7, 8))]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == ((6, 8), (10, 12))
+
+    # Test with namedtuples
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    objs = [Point(1, 2), Point(3, 4)]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == Point(4, 6)
+
+    # Test with dictionaries
+    objs = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == {'a': 4, 'b': 6}
+
+    # Test with mixed structures
+    objs = [[{'a': 1, 'b': 2}, {'c': 3}], [{'a': 4, 'b': 5}, {'c': 6}]]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == [{'a': 5, 'b': 7}, {'c': 9}]
+
+    # Test with no_map_instance
+    obj1 = [1, 2, 3]
+    obj2 = [4, 5, 6]
+    no_map_obj1 = no_map_instance(obj1)
+    no_map_obj2 = no_map_instance(obj2)
+    objs = [no_map_obj1, no_map_obj2]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == sum([1, 2, 3, 4, 5, 6])
+
+    # Test with registered no_map class
+    register_no_map_class(list)
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == sum([1, 2, 3, 4, 5, 6])
+    _NO_MAP_TYPES.remove(list)  # Reset for other tests
+
+    # Test with sets (should raise ValueError)
+    objs = [{1, 2}, {3, 4}]
+    try:
+        map_structure_zip(lambda *x: sum(x), objs)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #10
+#--------------------------
+
+```python
+def test_map_structure():
+    # Test with simple list
+    assert map_structure(lambda x: x * 2, [1, 2, 3]) == [2, 4, 6]
+
+    # Test with nested list
+    assert map_structure(lambda x: x * 2, [1, [2, 3], 4]) == [2, [4, 6], 8]
+
+    # Test with tuple
+    assert map_structure(lambda x: x * 2, (1, 2, 3)) == (2, 4, 6)
+
+    # Test with nested tuple
+    assert map_structure(lambda x: x * 2, (1, (2, 3), 4)) == (2, (4, 6), 8)
+
+    # Test with dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': 2}) == {'a': 2, 'b': 4}
+
+    # Test with nested dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': {'c': 2}}) == {'a': 2, 'b': {'c': 4}}
+
+    # Test with set
+    assert map_structure(lambda x: x * 2, {1, 2, 3}) == {2, 4, 6}
+
+    # Test with mixed types
+    assert map_structure(lambda x: x * 2, [1, (2, {'a': 3})]) == [2, (4, {'a': 6})]
+
+    # Test with no_map_instance
+    lst = [1, 2, 3]
+    no_map_lst = no_map_instance(lst)
+    assert map_structure(lambda x: x * 2, no_map_lst) == lst * 2
+
+    # Test with registered no_map_class
+    register_no_map_class(type(lst))
+    assert map_structure(lambda x: x * 2, lst) == lst * 2
+
+
+# LLM-generated content at query #11
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with lists
+    objs = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == [12, 15, 18]
+
+    # Test with tuples
+    objs = [(1, 2), (3, 4), (5, 6)]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == (9, 12)
+
+    # Test with named tuples
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    objs = [Point(1, 2), Point(3, 4), Point(5, 6)]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == Point(9, 12)
+
+    # Test with dicts
+    objs = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4}, {'a': 5, 'b': 6}]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == {'a': 9, 'b': 12}
+
+    # Test with nested structures
+    objs = [[1, 2], [3, 4], [5, 6]]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == [9, 12]
+
+    # Test with non-mappable instance
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    p = Point(1, 2)
+    no_map_instance(p)
+    objs = [p, p, p]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == p
+
+    # Test with non-mappable class
+    register_no_map_class(list)
+    objs = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    result = map_structure_zip(lambda *x: sum(x), objs)
+    assert result == [12, 15, 18]
+
+    # Test with sets (should raise ValueError)
+    objs = [{1, 2}, {3, 4}, {5, 6}]
+    try:
+        map_structure_zip(lambda *x: sum(x), objs)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with simple lists
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with nested lists
+    objs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [[6, 8], [10, 12]]
+
+    # Test with tuples
+    objs = [((1, 2), (3, 4)), ((5, 6), (7, 8))]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == ((6, 8), (10, 12))
+
+    # Test with named tuples
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    objs = [Point(1, 2), Point(3, 4)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == Point(4, 6)
+
+    # Test with dictionaries
+    objs = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == {'a': 4, 'b': 6}
+
+    # Test with mixed structures
+    objs = [{'a': [1, 2], 'b': (3, 4)}, {'a': [5, 6], 'b': (7, 8)}]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == {'a': [6, 8], 'b': (10, 12)}
+
+    # Test with non-mappable instance
+    from collections import OrderedDict
+    od1 = OrderedDict([('a', 1), ('b', 2)])
+    od2 = OrderedDict([('a', 3), ('b', 4)])
+    no_map_instance(od1)
+    no_map_instance(od2)
+    objs = [od1, od2]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == OrderedDict([('a', 4), ('b', 6)])
+
+    # Test with registered non-mappable class
+    register_no_map_class(type(od1))
+    objs = [OrderedDict([('a', 1), ('b', 2)]), OrderedDict([('a', 3), ('b', 4)])]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == OrderedDict([('a', 4), ('b', 6)])
+
+    # Test with sets (should raise ValueError)
+    objs = [{1, 2}, {3, 4}]
+    try:
+        map_structure_zip(lambda x, y: x + y, objs)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #13
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with simple lists
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with nested lists
+    objs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [[6, 8], [10, 12]]
+
+    # Test with tuples
+    objs = [((1, 2), (3, 4)), ((5, 6), (7, 8))]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == ((6, 8), (10, 12))
+
+    # Test with namedtuple
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    objs = [Point(1, 2), Point(3, 4)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == Point(4, 6)
+
+    # Test with dictionaries
+    objs = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == {'a': 4, 'b': 6}
+
+    # Test with mixed structures
+    objs = [[{'a': 1}, {'b': 2}], [{'a': 3}, {'b': 4}]]
+    result = map_structure_zip(lambda x, y: {**x, **y}, objs)
+    assert result == [{'a': 1, 'a': 3}, {'b': 2, 'b': 4}]
+
+    # Test with no_map_instance
+    lst = [1, 2, 3]
+    no_map_lst = no_map_instance(lst)
+    objs = [no_map_lst, [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [1, 2, 3, 4, 5, 6]
+
+    # Test with registered no_map_class
+    register_no_map_class(type(lst))
+    objs = [lst, [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [1, 2, 3, 4, 5, 6]
+
+    # Test with sets (should raise ValueError)
+    objs = [{1, 2}, {3, 4}]
+    try:
+        map_structure_zip(lambda x, y: x + y, objs)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with simple lists
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with nested lists
+    objs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [[6, 8], [10, 12]]
+
+    # Test with tuples
+    objs = [((1, 2), (3, 4)), ((5, 6), (7, 8))]
+    result = map_structure_zip(lambda x, y: (x[0] + y[0], x[1] + y[1]), objs)
+    assert result == ((6, 8), (10, 12))
+
+    # Test with named tuples
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    objs = [Point(1, 2), Point(3, 4)]
+    result = map_structure_zip(lambda p1, p2: Point(p1.x + p2.x, p1.y + p2.y), objs)
+    assert result == Point(4, 6)
+
+    # Test with dictionaries
+    objs = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == {'a': 4, 'b': 6}
+
+    # Test with mixed structures
+    objs = [[1, {'a': 2}], [3, {'a': 4}]]
+    result = map_structure_zip(lambda x, y: x + y if isinstance(x, int) else {k: x[k] + y[k] for k in x}, objs)
+    assert result == [4, {'a': 6}]
+
+    # Test with no_map_instance
+    lst = [1, 2, 3]
+    no_map_lst = no_map_instance(lst)
+    objs = [no_map_lst, [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with registered no_map_class
+    register_no_map_class(type(lst))
+    objs = [lst, [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with sets should raise ValueError
+    objs = [{1, 2}, {3, 4}]
+    try:
+        map_structure_zip(lambda x, y: x + y, objs)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+```python
+def test_map_structure():
+    # Test with list
+    assert map_structure(lambda x: x + 1, [1, 2, 3]) == [2, 3, 4]
+
+    # Test with nested list
+    assert map_structure(lambda x: x + 1, [1, [2, 3]]) == [2, [3, 4]]
+
+    # Test with tuple
+    assert map_structure(lambda x: x + 1, (1, 2, 3)) == (2, 3, 4)
+
+    # Test with namedtuple
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    p = Point(1, 2)
+    assert map_structure(lambda x: x + 1, p) == Point(2, 3)
+
+    # Test with dict
+    assert map_structure(lambda x: x + 1, {'a': 1, 'b': 2}) == {'a': 2, 'b': 3}
+
+    # Test with nested dict
+    assert map_structure(lambda x: x + 1, {'a': 1, 'b': {'c': 2}}) == {'a': 2, 'b': {'c': 3}}
+
+    # Test with set
+    assert map_structure(lambda x: x + 1, {1, 2, 3}) == {2, 3, 4}
+
+    # Test with non-mappable instance
+    register_no_map_class(list)
+    assert map_structure(lambda x: x + 1, [1, 2, 3]) == [1, 2, 3] + 1
+
+    # Test with no_map_instance
+    lst = [1, 2, 3]
+    no_map_lst = no_map_instance(lst)
+    assert map_structure(lambda x: x + 1, no_map_lst) == lst + 1
+
+    # Test with mixed types
+    assert map_structure(lambda x: x + 1, [1, (2, 3), {'a': 4}]) == [2, (3, 4), {'a': 5}]
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with simple lists
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [5, 7, 9]
+
+    # Test with nested lists
+    objs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == [[6, 8], [10, 12]]
+
+    # Test with tuples
+    objs = [(1, 2), (3, 4)]
+    result = map_structure_zip(lambda x, y: x * y, objs)
+    assert result == (3, 8)
+
+    # Test with named tuples
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    objs = [Point(1, 2), Point(3, 4)]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == Point(4, 6)
+
+    # Test with dictionaries
+    objs = [{'a': 1, 'b': 2}, {'a': 3, 'b': 4}]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == {'a': 4, 'b': 6}
+
+    # Test with mixed structures
+    objs = [[{'a': 1}, {'b': 2}], [{'a': 3}, {'b': 4}]]
+    result = map_structure_zip(lambda x, y: {**x, **y}, objs)
+    assert result == [{'a': 1, 'a': 3}, {'b': 2, 'b': 4}]
+
+    # Test with registered no-map class
+    register_no_map_class(list)
+    objs = [[1, 2, 3], [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == 5  # First elements of each list
+
+    # Test with no-map instance
+    lst = [1, 2, 3]
+    no_map_instance(lst)
+    objs = [lst, [4, 5, 6]]
+    result = map_structure_zip(lambda x, y: x + y, objs)
+    assert result == 5  # First elements of each list
+
+    # Test with sets (should raise ValueError)
+    try:
+        objs = [{1, 2}, {3, 4}]
+        map_structure_zip(lambda x, y: x + y, objs)
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+```python
+def test_map_structure():
+    # Test with simple list
+    assert map_structure(lambda x: x * 2, [1, 2, 3]) == [2, 4, 6]
+
+    # Test with nested list
+    assert map_structure(lambda x: x * 2, [1, [2, 3]]) == [2, [4, 6]]
+
+    # Test with tuple
+    assert map_structure(lambda x: x * 2, (1, 2, 3)) == (2, 4, 6)
+
+    # Test with nested tuple
+    assert map_structure(lambda x: x * 2, (1, (2, 3))) == (2, (4, 6))
+
+    # Test with dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': 2}) == {'a': 2, 'b': 4}
+
+    # Test with nested dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': {'c': 2}}) == {'a': 2, 'b': {'c': 4}}
+
+    # Test with set
+    assert map_structure(lambda x: x * 2, {1, 2, 3}) == {2, 4, 6}
+
+    # Test with mixed nested structures
+    assert map_structure(lambda x: x * 2, [1, {'a': 2, 'b': (3, 4)}]) == [2, {'a': 4, 'b': (6, 8)}]
+
+    # Test with no_map_instance
+    no_map_list = no_map_instance([1, 2, 3])
+    assert map_structure(lambda x: x * 2, no_map_list) == [1, 2, 3] * 2
+
+    # Test with registered no_map_class
+    register_no_map_class(type(no_map_list))
+    assert map_structure(lambda x: x * 2, no_map_list) == [1, 2, 3] * 2
+
+    # Test with namedtuple
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    p = Point(1, 2)
+    assert map_structure(lambda x: x * 2, p) == Point(2, 4)
+
+    # Test with nested namedtuple
+    p_nested = Point(1, Point(2, 3))
+    assert map_structure(lambda x: x * 2, p_nested) == Point(2, Point(4, 6))
+
+    # Test with empty structures
+    assert map_structure(lambda x: x * 2, []) == []
+    assert map_structure(lambda x: x * 2, {}) == {}
+    assert map_structure(lambda x: x * 2, set()) == set()
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+```python
+def test_map_structure():
+    # Test with simple list
+    assert map_structure(lambda x: x * 2, [1, 2, 3]) == [2, 4, 6]
+
+    # Test with nested list
+    assert map_structure(lambda x: x * 2, [1, [2, 3], 4]) == [2, [4, 6], 8]
+
+    # Test with tuple
+    assert map_structure(lambda x: x * 2, (1, 2, 3)) == (2, 4, 6)
+
+    # Test with namedtuple
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    p = Point(1, 2)
+    assert map_structure(lambda x: x * 2, p) == Point(2, 4)
+
+    # Test with dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': 2}) == {'a': 2, 'b': 4}
+
+    # Test with nested dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': {'c': 2}}) == {'a': 2, 'b': {'c': 4}}
+
+    # Test with set
+    assert map_structure(lambda x: x * 2, {1, 2, 3}) == {2, 4, 6}
+
+    # Test with mixed nested structures
+    mixed = [1, {'a': (2, 3)}, {4, 5}]
+    expected = [2, {'a': (4, 6)}, {8, 10}]
+    assert map_structure(lambda x: x * 2, mixed) == expected
+
+    # Test with no_map_instance
+    lst = [1, 2, 3]
+    no_map_lst = no_map_instance(lst)
+    assert map_structure(lambda x: x * 2, no_map_lst) == lst * 2
+
+    # Test with registered no_map class
+    register_no_map_class(type(lst))
+    assert map_structure(lambda x: x * 2, lst) == lst * 2
+
+    # Test with non-container
+    assert map_structure(lambda x: x * 2, 5) == 10
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+```python
+def test_map_structure_zip():
+    # Test with lists
+    list1 = [1, 2, 3]
+    list2 = [4, 5, 6]
+    assert map_structure_zip(lambda x, y: x + y, [list1, list2]) == [5, 7, 9]
+
+    # Test with nested lists
+    nested_list1 = [[1, 2], [3, 4]]
+    nested_list2 = [[5, 6], [7, 8]]
+    assert map_structure_zip(lambda x, y: x + y, [nested_list1, nested_list2]) == [[6, 8], [10, 12]]
+
+    # Test with tuples
+    tuple1 = (1, 2, 3)
+    tuple2 = (4, 5, 6)
+    assert map_structure_zip(lambda x, y: x + y, [tuple1, tuple2]) == (5, 7, 9)
+
+    # Test with namedtuples
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    point1 = Point(1, 2)
+    point2 = Point(3, 4)
+    assert map_structure_zip(lambda x, y: x + y, [point1, point2]) == Point(4, 6)
+
+    # Test with dicts
+    dict1 = {'a': 1, 'b': 2}
+    dict2 = {'a': 3, 'b': 4}
+    assert map_structure_zip(lambda x, y: x + y, [dict1, dict2]) == {'a': 4, 'b': 6}
+
+    # Test with mixed structures
+    mixed1 = [1, {'a': 2, 'b': 3}]
+    mixed2 = [4, {'a': 5, 'b': 6}]
+    assert map_structure_zip(lambda x, y: x + y, [mixed1, mixed2]) == [5, {'a': 7, 'b': 9}]
+
+    # Test with no_map_instance
+    no_map_list = no_map_instance([1, 2, 3])
+    assert map_structure_zip(lambda x, y: x + y, [no_map_list, [4, 5, 6]]) == [1, 2, 3] + [4, 5, 6]
+
+    # Test with registered no_map_class
+    register_no_map_class(type([1, 2, 3]))
+    assert map_structure_zip(lambda x, y: x + y, [[1, 2, 3], [4, 5, 6]]) == [1, 2, 3] + [4, 5, 6]
+
+    # Test with sets (should raise ValueError)
+    try:
+        map_structure_zip(lambda x, y: x + y, [{1, 2}, {3, 4}])
+        assert False, "Expected ValueError"
+    except ValueError:
+        pass
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+```python
+def test_map_structure():
+    # Test with list
+    assert map_structure(lambda x: x + 1, [1, 2, 3]) == [2, 3, 4]
+
+    # Test with tuple
+    assert map_structure(lambda x: x + 1, (1, 2, 3)) == (2, 3, 4)
+
+    # Test with dict
+    assert map_structure(lambda x: x + 1, {'a': 1, 'b': 2}) == {'a': 2, 'b': 3}
+
+    # Test with set
+    assert map_structure(lambda x: x + 1, {1, 2, 3}) == {2, 3, 4}
+
+    # Test with nested structures
+    assert map_structure(lambda x: x + 1, [1, [2, 3], {'a': 4}]) == [2, [3, 4], {'a': 5}]
+
+    # Test with no_map_instance
+    instance = no_map_instance([1, 2, 3])
+    assert map_structure(lambda x: x + 1, instance) == [1, 2, 3]
+
+    # Test with registered no_map_class
+    register_no_map_class(type([1, 2, 3]))
+    assert map_structure(lambda x: x + 1, [1, 2, 3]) == [1, 2, 3]
+
+    # Test with namedtuple
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    p = Point(1, 2)
+    assert map_structure(lambda x: x + 1, p) == Point(2, 3)
+
+    # Test with empty structures
+    assert map_structure(lambda x: x + 1, []) == []
+    assert map_structure(lambda x: x + 1, ()) == ()
+    assert map_structure(lambda x: x + 1, {}) == {}
+    assert map_structure(lambda x: x + 1, set()) == set()
+
+
+# LLM-generated content at query #21
+#--------------------------
+
+```python
+def test_map_structure():
+    # Test with simple list
+    assert map_structure(lambda x: x * 2, [1, 2, 3]) == [2, 4, 6]
+
+    # Test with nested list
+    assert map_structure(lambda x: x * 2, [1, [2, 3]]) == [2, [4, 6]]
+
+    # Test with tuple
+    assert map_structure(lambda x: x * 2, (1, 2, 3)) == (2, 4, 6)
+
+    # Test with nested tuple
+    assert map_structure(lambda x: x * 2, (1, (2, 3))) == (2, (4, 6))
+
+    # Test with dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': 2}) == {'a': 2, 'b': 4}
+
+    # Test with nested dict
+    assert map_structure(lambda x: x * 2, {'a': 1, 'b': {'c': 2}}) == {'a': 2, 'b': {'c': 4}}
+
+    # Test with set
+    assert map_structure(lambda x: x * 2, {1, 2, 3}) == {2, 4, 6}
+
+    # Test with namedtuple
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    p = Point(1, 2)
+    assert map_structure(lambda x: x * 2, p) == Point(2, 4)
+
+    # Test with no_map_instance
+    lst = [1, 2, 3]
+    no_map_lst = no_map_instance(lst)
+    assert map_structure(lambda x: x * 2, no_map_lst) == lst * 2
+
+    # Test with registered no_map_class
+    register_no_map_class(type(lst))
+    assert map_structure(lambda x: x * 2, lst) == lst * 2
+
+

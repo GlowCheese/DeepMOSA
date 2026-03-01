@@ -29,12 +29,12 @@ def test_Token___eq__():
     token2 = Token(value="test", start_index=0, end_index=3, content="test")
     token3 = Token(value="test", start_index=1, end_index=4, content=" test")
     token4 = Token(value="test", start_index=0, end_index=3, content="test")
-    
+
     assert token1 == token2
     assert token1 == token4
     assert not (token1 == token3)
     assert not (token1 == "not a token")
-    
+
 test_Token___eq__()
 
 
@@ -78,7 +78,7 @@ def test_Token___eq__():
 #--------------------------
 
 # Unit test for method __eq__ of class Token
-def test_Token___eq__(): 
+def test_Token___eq__():
     token1 = Token(value="test", start_index=0, end_index=3, content="test")
     token2 = Token(value="test", start_index=0, end_index=3, content="test")
     token3 = Token(value="test", start_index=1, end_index=4, content="test")
@@ -214,25 +214,25 @@ def test_DictToken():
     dict_token = DictToken(
         {key_token1: value_token1, key_token2: value_token2}, 0, 24, "key1: value1\nkey2: value2"
     )
-    
+
     # Verify that child keys and tokens are correctly initialized
     assert dict_token._child_keys == {"key1": key_token1, "key2": key_token2}
     assert dict_token._child_tokens == {"key1": value_token1, "key2": value_token2}
-    
+
     # Verify the value property
     assert dict_token.value == {"key1": "value1", "key2": "value2"}
-    
+
     # Verify the start and end positions
     assert dict_token.start == Position(1, 1, 0)
     assert dict_token.end == Position(2, 12, 24)
-    
+
     # Verify the string property
     assert dict_token.string == "key1: value1\nkey2: value2"
-    
+
     # Verify child token lookup
     assert dict_token.lookup(["key1"]) == value_token1
     assert dict_token.lookup(["key2"]) == value_token2
-    
+
     # Verify key token lookup
     assert dict_token.lookup_key(["key1"]) == key_token1
     assert dict_token.lookup_key(["key2"]) == key_token2
@@ -324,7 +324,7 @@ def test_DictToken():
 #--------------------------
 
 # Unit test for constructor of class DictToken
-def test_DictToken(): 
+def test_DictToken():
     # Test initialization of DictToken
     token1 = ScalarToken("key1", 0, 3, "key1")
     token2 = ScalarToken("value1", 5, 10, "value1")
@@ -437,10 +437,10 @@ def test_DictToken():
     key_token = ScalarToken("key1", 0, 4, "key1")
     value_token = ScalarToken("value1", 6, 12, "value1")
     dict_token = DictToken({key_token: value_token}, 0, 12, "key1:value1")
-    
+
     # Act
     actual_value = dict_token.value
-    
+
     # Assert
     assert actual_value == {"key1": "value1"}
 
@@ -715,7 +715,7 @@ def test_DictToken():
 #--------------------------
 
 # Unit test for constructor of class DictToken
-def test_DictToken(): 
+def test_DictToken():
     # Test dictionary tokens
     dict_token = DictToken({'key': 'value'}, 0, 5, content='{"key": "value"}')
     assert dict_token.string == '{"key": "value"}'
@@ -818,7 +818,7 @@ def test_DictToken():
     assert dict_token != DictToken({key_token: value_token}, 0, 9, "key: value")
     assert dict_token != DictToken({key_token: value_token}, 0, 9, "key: value")
     assert dict_token != DictToken({key_token: value_token}, 0, 9, "key: value")
-    assert dict_token != DictToken({key_token: value_token}, 0, 9, "key: value
+    assert dict_token != DictToken({key_token: value_token}, 0, 9, "key: value")
 
 
 # LLM-generated content at query #20
@@ -1116,7 +1116,7 @@ def test_Token___eq__():
 #--------------------------
 
 # Unit test for method __eq__ of class Token
-def test_Token___eq__(): 
+def test_Token___eq__():
     token1 = Token('value', 0, 4, 'value')
     token2 = Token('value', 0, 4, 'value')
     assert token1 == token2
@@ -1390,7 +1390,7 @@ def test_Token___eq__():
     key_token1 = ScalarToken("key", 0, 2, '"key"')
     value_token1 = ScalarToken("value", 4, 8, '"value"')
     dict_token1 = DictToken({key_token1: value_token1}, 0, 8, '{"key": "value"}')
-    
+
     key_token2 = ScalarToken("key", 0, 2, '"key"')
     value_token2 = ScalarToken("value", 4, 8, '"value"')
     dict_token2 = DictToken({key_token2: value_token2}, 0, 8, '{"key": "value"}')
@@ -1659,7 +1659,7 @@ def test_DictToken():
     assert dict_token.value == {"key": "value"}
 
     # Check the start property
-    assert dict_token.start == Position(1, 1, 
+    assert dict_token.start == Position(1, 1,
 
 
 # LLM-generated content at query #12
@@ -1827,7 +1827,7 @@ def test_ScalarToken():
 def test_ScalarToken___hash__():
     # Create a ScalarToken instance
     token = ScalarToken(value="test", start_index=0, end_index=3, content="test")
-    
+
     # Verify that hash method returns the expected hash value
     assert hash(token) == hash("test")
 
@@ -1858,7 +1858,7 @@ def test_Token_lookup_key():
     key_token = ScalarToken("key", 1, 4, content)
     value_token = ScalarToken("value", 7, 13, content)
     dict_token = DictToken({key_token: value_token}, 0, 14, content)
-    
+
     result = dict_token.lookup_key([0])
     assert result == key_token
 
@@ -2185,7 +2185,7 @@ def test_DictToken():
     value_token = ScalarToken('value', 4, 8, 'key: value')
     dict_value = {key_token: value_token}
     dict_token = DictToken(dict_value, 0, 8, 'key: value')
-    
+
     assert dict_token._value == dict_value
     assert dict_token._start_index == 0
     assert dict_token._end_index == 8
@@ -2272,7 +2272,7 @@ def test_Token___eq__():
     token4 = ScalarToken("value1", 8, 14, '{"key1": "value1", "key2": "value2"}')
     token5 = ScalarToken("value1", 8, 14, '{"key1": "value1", "key2": "value2"}')
     token6 = ScalarToken("value1", 8, 14, '{"key1": "value1", "key2": "value3"}')
-    
+
     assert token1 == token2
     assert token1 != token3
     assert token4 == token5
@@ -2371,10 +2371,10 @@ def test_DictToken():
     start_index = 0
     end_index = len(content) - 1
     value = {ScalarToken("key", 1, 3, content): ScalarToken("value", 7, 11, content)}
-    
+
     # Create DictToken instance
     dict_token = DictToken(value, start_index, end_index, content)
-    
+
     # Assertions to verify the constructor
     assert dict_token._value == value
     assert dict_token._start_index == start_index
@@ -2556,7 +2556,7 @@ def test_DictToken():
     key_token = ScalarToken("key", 0, 2)
     value_token = ScalarToken("value", 4, 8)
     dict_token = DictToken({key_token: value_token}, 0, 8)
-    
+
     assert dict_token._child_keys == {"key": key_token}
     assert dict_token._child_tokens == {"key": value_token}
     assert dict_token.string == "keyvalue"
@@ -2688,5 +2688,3 @@ def test_DictToken():
     dict_token = DictToken({"key": ScalarToken("value", 0, 4)}, 0, 10)
     assert dict_token._child_keys == {"key": ScalarToken("key", 0, 2)}
     assert dict_token._child_tokens == {"key": ScalarToken("value", 0, 4)}
-
-

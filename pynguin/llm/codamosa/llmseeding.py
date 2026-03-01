@@ -9,7 +9,7 @@ from __future__ import annotations
 import ast
 import inspect
 import random
-from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Sequence, Set, Tuple
+from typing import TYPE_CHECKING, Callable, Dict, List, Optional, Set, Tuple
 
 import pynguin.utils.statistics.stats as stat
 from libs.custom_logger import getLogger
@@ -82,44 +82,21 @@ class _CodaMOSASeeding:
         self._parsable_statements = 0
         self._uninterp_statements = 0
 
-    @property
-    def seeded_testcase(self) -> Optional[tc.TestCase]:
-        """
-        Generate a new test case. Prompt the language model with a generic accessible
-        object to test.
-
-        Returns:
-            A new generated test case, or None if a test case could not be parsed
-        """
-        assert self._prompt_gaos is not None
-        assert len(self._prompt_gaos) > 0
-        prompt_gao = random.choice(list(self._prompt_gaos.keys()))
-        if not config.seeding.sample_with_replacement:
-            self._prompt_gaos[prompt_gao] -= 1
-            if self._prompt_gaos[prompt_gao] == 0:
-                self._prompt_gaos.pop(prompt_gao)
-        testcases = self._get_targeted_testcase(prompt_gao)
-        if len(testcases) > 0:
-            return testcases[0]
-        return None
-
-    def get_random_targeted_testcase(self) -> Sequence[tc.TestCase]:
+    async def get_random_targeted_testcase(self):
         """
         Generate a new test case (or multiple) aimed at a gao to be selected randomly
 
         Returns:
-            A sequence of generated test cases
+            A a sequence of generated test cases
         """
 
         if self._prompt_gaos is None:
             self._setup_gaos()
             assert self._prompt_gaos is not None
         prompt_gao = random.choice(list(self._prompt_gaos.keys()))
-        return self._get_targeted_testcase(prompt_gao)
+        return await self._get_targeted_testcase(prompt_gao)
 
-    def _get_targeted_testcase(
-        self, prompt_gao: GenericCallableAccessibleObject, context=""
-    ) -> Sequence[tc.TestCase]:
+    async def _get_targeted_testcase(self, prompt_gao: GenericCallableAccessibleObject, context=""):
         """
         Generate a new test case aimed at prompt_gao
 
@@ -130,7 +107,7 @@ class _CodaMOSASeeding:
         Returns:
             A sequence of generated test cases
         """
-        llm_response = codamosalanguagemodel.target_test_case(prompt_gao, context=context)
+        llm_response = await codamosalanguagemodel.target_test_case(prompt_gao, context=context)
         use_uninterp_tuple = config.seeding.uninterpreted_statements.value
         ret_testcases: Set[tc.TestCase] = set()
 
@@ -197,12 +174,9 @@ class _CodaMOSASeeding:
             if issubclass(type(gao), GenericCallableAccessibleObject)
         }
 
-    def target_uncovered_functions(
-        self,
-        test_suite: tsc.TestSuiteChromosome,
-        num_samples: int,
-        resources_left: Callable[[], bool],
-    ) -> List[tc.TestCase]:
+    async def target_uncovered_functions(
+        self, test_suite: tsc.TestSuiteChromosome, resources_left: Callable[[], bool]
+    ):
         # pylint: disable=R0914,R0912
         """Generate test cases for functions that are less covered by `test_suite`
 
@@ -213,7 +187,7 @@ class _CodaMOSASeeding:
                 in the search algorithm
 
         Returns:
-            a list of Codex-generated test cases.
+            a list of LLM-generated test cases.
         """
         assert self.executor is not None
         if self._prompt_gaos is None:
@@ -289,7 +263,9 @@ class _CodaMOSASeeding:
             ctx_test_cases.sort(key=lambda x: x[1])
 
         targeted_test_cases: List[tc.TestCase] = []
-        for gao in random.choices(ordered_gaos, ordered_selection_probabilities, k=num_samples):
+        for gao in random.choices(
+            ordered_gaos, ordered_selection_probabilities, k=config.codamosa.num_seeds_to_inject
+        ):
             if not resources_left():
                 break
             if (
@@ -304,7 +280,7 @@ class _CodaMOSASeeding:
                 context = random.choice(ctx_test_cases)[0] + "\n\n"
             else:
                 context = ""
-            test_cases = self._get_targeted_testcase(gao, context)
+            test_cases = await self._get_targeted_testcase(gao, context)
             targeted_test_cases.extend(test_cases)
         return targeted_test_cases
 

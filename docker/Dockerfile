@@ -19,7 +19,7 @@ COPY uv.lock pyproject.toml .python-version ./
 # install dependencies
 RUN --mount=type=cache,target=/tmp/uv-cache \
     UV_CACHE_DIR=/tmp/uv-cache \
-    uv pip install --system -e .
+    uv pip install --group dev --system -e .
 
 # add entrypoint
 COPY docker/entrypoint.sh /entrypoint.sh

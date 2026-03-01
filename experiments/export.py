@@ -1,6 +1,6 @@
+import math
 import sys
 from collections import defaultdict
-from functools import lru_cache
 from typing import Any
 
 from libs.custom_logger import getLogger
@@ -9,27 +9,7 @@ from . import utils
 
 _logger = getLogger("export")
 
-
-@lru_cache(maxsize=None)
-def find_all_modules(project_name: str, *, fully_run: bool = False):
-    """Similar to utils.find_all_modules, except that it doesn't
-    include modules where all baselines achieved 100% coverage."""
-
-    all_modules = utils.find_all_modules(project_name)
-
-    fully_covered_modules: set[str] = set()
-    for module_name in all_modules.copy():
-        should_exclude = True
-        for config in utils.RUN_CONFIGS:
-            rows = utils.read_module_statistics(project_name, module_name, config.config_id)
-            if rows is not None:
-                should_exclude &= all(r.branch_coverage > 0.99 for r in rows)
-                if fully_run:
-                    should_exclude &= len(rows) != utils.NUM_RUNS_PER_MODULE
-        if should_exclude:
-            fully_covered_modules.add(module_name)
-
-    return all_modules.difference(fully_covered_modules)
+N = utils.NUM_RUNS_PER_MODULE
 
 
 def remove_10m(name: str):
@@ -46,6 +26,7 @@ def print_metric_table(
     formatter=lambda v: str(v),
 ):
     projects = set(k[0] for k in data.keys() if k[0] != OVERALL)
+    projects = list(sorted(projects))
 
     metric_table = []
     metric_table.append(["", *projects, "Overall"])
@@ -79,7 +60,9 @@ def print_metric_table(
 
 if len(sys.argv) >= 2:
     project_name = sys.argv[1]
-    all_modules = find_all_modules(project_name) if len(sys.argv) == 2 else [sys.argv[2]]
+    all_modules = (
+        utils.find_all_filtered_modules(project_name) if len(sys.argv) == 2 else [sys.argv[2]]
+    )
 
     _logger.info("==============================")
     _logger.info("Showing module statistics")
@@ -116,13 +99,13 @@ if len(sys.argv) >= 2:
             if (num_runs := len(rows)) == 0:
                 continue
 
-            avg_cvrg = sum(r.branch_coverage for r in rows) / num_runs
+            sum_cvrg = sum(r.branch_coverage for r in rows) / num_runs
             cvrgs = ", ".join(f"{100 * r.branch_coverage:.1f}" for r in rows)
             table.append(
                 [
                     f"{config_id}:",
                     f"{num_runs} runs,",
-                    f"{100 * avg_cvrg:.1f} cvrg   ({cvrgs})",
+                    f"{100 * sum_cvrg:.1f} cvrg   ({cvrgs})",
                 ]
             )
 
@@ -143,7 +126,7 @@ else:
     all_projects = list(sorted(all_projects))
 
     for project_name in all_projects:
-        modules = find_all_modules(project_name, fully_run=True)
+        modules = utils.find_all_filtered_modules(project_name, fully_run=True)
         num_modules = len(modules)
 
         total_num_modules += num_modules
@@ -165,30 +148,53 @@ else:
     metrics: dict[str, dict[tuple[str, str], float]] = defaultdict(lambda: defaultdict(float))
 
     for project_name in all_projects:
-        modules = find_all_modules(project_name, fully_run=True)
+        modules = utils.find_all_filtered_modules(project_name, fully_run=True)
         for run_config in utils.RUN_CONFIGS:
             config_id = run_config.config_id
             pair = (project_name, config_id)
             for module in modules:
                 rows = utils.read_module_statistics(project_name, module, config_id) or []
+                sum_cvrg = 0
                 for r in rows:
                     metrics["num_runs"][pair] += 1
                     metrics["goals"][pair] += r.goals
+                    sum_cvrg += r.branch_coverage
                     metrics["sum_cvrg"][pair] += r.goals * r.branch_coverage
                     metrics["llm_calls"][pair] += r.llm_calls
                     metrics["query_time"][pair] += r.llm_query_time
                     metrics["input_toks"][pair] += r.llm_input_tokens
                     metrics["output_toks"][pair] += r.llm_output_tokens
-            if metrics["num_runs"][pair] != len(modules) * utils.NUM_RUNS_PER_MODULE:
-                # metrics["avg_cvrg"][pair] = (
-                #     metrics["num_runs"][pair] - len(modules) * utils.NUM_RUNS_PER_MODULE
-                # )
-                metrics["avg_cvrg"][pair] = -1
+                    metrics["parsed_stmt"][pair] += r.parsed_statements
+                    metrics["parsable_stmt"][pair] += r.parsable_statements
+                metrics["sum_sd_cvrg"][pair] += r.goals * (N * r.branch_coverage - sum_cvrg) ** 2
+
+            if metrics["num_runs"][pair] != len(modules) * N:
+                metrics["sum_sd_cvrg"][pair] = metrics["sd_cvrg"][pair] = -1
+                metrics["sd_avg_cvrg"][pair] = "-"  # pyright: ignore[reportArgumentType]
                 metrics["goals"][pair] = metrics["sum_cvrg"][pair] = -1
                 metrics["llm_calls"][pair] = metrics["query_time"][pair] = -1
                 metrics["input_toks"][pair] = metrics["output_toks"][pair] = -1
-            elif metrics["goals"][pair]:
-                metrics["avg_cvrg"][pair] = metrics["sum_cvrg"][pair] / metrics["goals"][pair]
+                metrics["parsed_stmt"][pair] = metrics["parsable_stmt"][pair] = -1
+                metrics["parse_ratio"][pair] = -1
+
+            else:
+                if metrics["llm_calls"][pair]:
+                    metrics["input_toks"][pair] /= N
+                    metrics["output_toks"][pair] /= N
+
+                if metrics["parsable_stmt"][pair]:
+                    metrics["parse_ratio"][pair] = (
+                        metrics["parsed_stmt"][pair] / metrics["parsable_stmt"][pair]
+                    )
+
+                if metrics["goals"][pair]:
+                    avg_cvrg = metrics["sum_cvrg"][pair] / metrics["goals"][pair]
+                    metrics["sd_cvrg"][pair] = math.sqrt(
+                        metrics["sum_sd_cvrg"][pair] / (N * N * metrics["goals"][pair])
+                    )
+                    metrics["sd_avg_cvrg"][pair] = (  # pyright: ignore[reportArgumentType]
+                        f"{100 * avg_cvrg:.1f} (±{100 * metrics['sd_cvrg'][pair]:.1f})"
+                    )
 
     for run_config in utils.RUN_CONFIGS:
         config_id = run_config.config_id
@@ -197,12 +203,28 @@ else:
             metrics[met][pair] = 0
             for project_name in all_projects:
                 v = metrics[met][(project_name, config_id)]
+                if isinstance(v, str):
+                    continue
                 if v < 0:
                     metrics[met][pair] = -1
                     break
                 metrics[met][pair] += v
-        if metrics["goals"][pair] and metrics["sum_cvrg"][pair] != -1:
-            metrics["avg_cvrg"][pair] = metrics["sum_cvrg"][pair] / metrics["goals"][pair]
+
+        if metrics["parsable_stmt"][pair] and metrics["parsable_stmt"][pair] != -1:
+            metrics["parse_ratio"][pair] = (
+                metrics["parsed_stmt"][pair] / metrics["parsable_stmt"][pair]
+            )
+
+        if metrics["goals"][pair] and metrics["goals"][pair] != -1:
+            avg_cvrg = metrics["sum_cvrg"][pair] / metrics["goals"][pair]
+            metrics["sd_cvrg"][pair] = math.sqrt(
+                metrics["sum_sd_cvrg"][pair] / (N * N * metrics["goals"][pair])
+            )
+            metrics["sd_avg_cvrg"][pair] = (  # pyright: ignore[reportArgumentType]
+                f"{100 * avg_cvrg:.1f} (±{100 * metrics['sd_cvrg'][pair]:.1f})"
+            )
+        else:
+            metrics["sd_avg_cvrg"][pair] = "-"  # pyright: ignore[reportArgumentType]
 
     _logger.info("")
     _logger.info("")
@@ -212,8 +234,7 @@ else:
 
     print_metric_table(
         "Branch coverage:",
-        metrics["avg_cvrg"],
-        lambda v: "-" if v == -1 else f"{100 * v:.1f}",
+        metrics["sd_avg_cvrg"],
     )
     print_metric_table(
         "Num LLM calls:",
@@ -235,6 +256,11 @@ else:
         metrics["output_toks"],
         lambda v: "-" if v == -1 else f"{v:.0f}",
     )
+    print_metric_table(
+        "Statement parse ratio:",
+        metrics["parse_ratio"],
+        lambda v: "-" if v == -1 else f"{100 * v:.1f}",
+    )
 
     _logger.info("")
     _logger.info("")
@@ -246,8 +272,8 @@ else:
     total_completed = 0
 
     for project_name in all_projects:
-        modules = find_all_modules(project_name)
-        total_requires += len(modules) * len(utils.RUN_CONFIGS) * utils.NUM_RUNS_PER_MODULE
+        modules = utils.find_all_filtered_modules(project_name)
+        total_requires += len(modules) * len(utils.RUN_CONFIGS) * N
 
         for module_name in modules:
             inconsistencies = []
@@ -256,8 +282,8 @@ else:
                 rows = utils.read_module_statistics(project_name, module_name, config_id) or []
                 num_runs = len(rows)
                 total_completed += num_runs
-                if num_runs != utils.NUM_RUNS_PER_MODULE:
-                    # if num_runs != 2 and num_runs != 0:
+                if num_runs != N:
+                    # if num_runs != N and num_runs != 0:
                     inconsistencies.append((config_id, num_runs))
             if inconsistencies:
                 _logger.info(

@@ -476,6 +476,9 @@ class DeepMosaConfiguration:
     deserializer_version: int = 2
     """Deserializer version to be used for deserializing test cases."""
 
+    use_codamosa_seeding: bool = False
+    """Whether DeepMOSA should invoke codamodaseeding for LLM seeding."""
+
 
 @dataclasses.dataclass
 class MIOPhaseConfiguration:

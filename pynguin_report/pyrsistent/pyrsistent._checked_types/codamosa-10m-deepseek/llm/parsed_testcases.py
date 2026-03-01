@@ -1,4 +1,9 @@
-# Parsed testcases at query #5
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Parsed testcases at query #1
 #--------------------------
 
 
@@ -9,538 +14,48 @@ def test_case_0():
     var_1 = 2
     var_2 = 3
     var_3 = [var_0, var_1, var_2]
-    var_4 = True
-    var_5 = True
-    var_6 = {var_0: var_4, var_1: var_5}
-    var_7 = module_0.pmap(var_6)
+    var_4 = [var_0, var_1, var_1, var_2, var_2, var_2]
+    var_5 = 'hello'
+    var_6 = 'world'
+    var_7 = [var_0, var_5, var_1, var_6]
     var_8 = 1
-    var_9 = 'a'
-    var_10 = 3
+    var_9 = 2
+    var_10 = 'invalid'
     var_11 = [var_8, var_9, var_10]
-    var_12 = lambda x: (x > 0, 'Negative')
-    var_13 = 1
-    var_14 = -2
-    var_15 = 3
-    var_16 = [var_13, var_14, var_15]
-    var_17 = lambda x: (x > 0, 'Negative')
-    var_18 = [var_5, var_16, var_2]
-    var_19 = [var_5, var_16, var_2]
-    var_20 = [var_5, var_16, var_2]
-    var_21 = 'a'
-    var_22 = 'b'
-    var_23 = 'c'
-    var_24 = [var_21, var_22, var_23]
-    var_25 = [var_5, var_24, var_2]
-    var_26 = 'a'
-    var_27 = 'b'
-    var_28 = 'c'
-    var_29 = [var_26, var_27, var_28]
-    var_30 = [var_5, var_29, var_2]
-    var_31 = True
-    var_32 = 'a'
-    var_33 = 'b'
-    var_34 = 'c'
-    var_35 = [var_32, var_33, var_34]
-    var_36 = True
-    var_37 = [var_31, var_35, var_36]
-    var_38 = set()
-    var_39 = 'a'
-    var_40 = 'b'
-    var_41 = 'c'
-    var_42 = [var_39, var_40, var_41]
-    var_43 = set()
-    var_44 = [var_31, var_42, var_43]
-    var_45 = True
-    var_46 = set()
-    var_47 = 'a'
-    var_48 = 'b'
-    var_49 = 'c'
-    var_50 = [var_47, var_48, var_49]
-    var_51 = True
-    var_52 = set()
-    var_53 = lambda format, value: value
-    var_54 = [var_45, var_50, var_51]
-    var_55 = True
-    var_56 = set()
-    var_57 = lambda format, value: value
-    var_58 = 'a'
-    var_59 = 'b'
-    var_60 = 'c'
-    var_61 = [var_58, var_59, var_60]
-    var_62 = True
-    var_63 = set()
-    var_64 = lambda format, value: str(value)
-    var_65 = [var_55, var_61, var_62]
-    var_66 = True
-    var_67 = set()
-    var_68 = lambda format, value: str(value)
-
-
-
-# Parsed testcases at query #6
-#--------------------------
-
-
-
-
-# Parsed testcases at query #7
-#--------------------------
-
-
-
-
-# Parsed testcases at query #8
-#--------------------------
-
-
-
-
-# Parsed testcases at query #9
-#--------------------------
-
-
-
-
-# Parsed testcases at query #10
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -1
-    var_2 = 4
-    var_3 = 3
-    var_4 = -2
-    var_5 = -1
-    var_6 = 'All tests passed!'
-    var_7 = print(var_6)
-
-
-
-# Parsed testcases at query #11
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -1
-    var_2 = 4
-    var_3 = 3
-    var_4 = -2
-    var_5 = -1
-    var_6 = 'All tests passed.'
-    var_7 = print(var_6)
-
-
-
-# Parsed testcases at query #12
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -5
-    var_2 = 15
-    var_3 = 'All tests passed.'
-    var_4 = print(var_3)
-
-
-
-# Parsed testcases at query #13
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -5
-    var_2 = 4
-    var_3 = 3
-    var_4 = 'All tests passed'
-    var_5 = print(var_4)
-
-
-
-# Parsed testcases at query #14
-#--------------------------
-
-
-
-
-# Parsed testcases at query #15
-#--------------------------
-
-
-import pyrsistent._checked_types as module_0
-import builtins as module_1
-
-def test_case_0():
-    var_0 = module_0.InvariantException()
-    var_1 = str(var_0)
-    assert var_1 == ', invariant_errors=[], missing_fields=[]'
-    var_2 = 1
-    var_3 = 2
-    var_4 = 3
-    var_5 = [var_2, var_3, var_4]
-    var_6 = module_0.InvariantException(var_5)
-    var_7 = str(var_6)
-    assert var_7 == ', invariant_errors=[1, 2, 3], missing_fields=[]'
-    var_8 = 'a'
-    var_9 = 'b'
-    var_10 = [var_8, var_9]
-    var_11 = module_0.InvariantException(missing_fields=var_10)
-    var_12 = str(var_11)
-    assert var_12 == ', invariant_errors=[], missing_fields=[a, b]'
-    var_13 = [var_2, var_3, var_4]
-    var_14 = [var_8, var_9]
-    var_15 = module_0.InvariantException(var_13, var_14)
-    var_16 = str(var_15)
-    assert var_16 == ', invariant_errors=[1, 2, 3], missing_fields=[a, b]'
-    var_17 = lambda : var_2
-    var_18 = lambda : var_3
-    var_19 = [var_17, var_18]
-    var_20 = module_0.InvariantException(var_19)
-    var_21 = str(var_20)
-    assert var_21 == ', invariant_errors=[1, 2], missing_fields=[]'
-    var_22 = lambda : var_2
-    var_23 = [var_22, var_3]
-    var_24 = module_0.InvariantException(var_23)
-    var_25 = str(var_24)
-    assert var_25 == ', invariant_errors=[1, 2], missing_fields=[]'
-    var_26 = []
-    var_27 = []
-    var_28 = module_0.InvariantException(var_26, var_27)
-    var_29 = str(var_28)
-    assert var_29 == ', invariant_errors=[], missing_fields=[]'
-    var_30 = (var_2, var_3, var_4)
-    var_31 = (var_8, var_9)
-    var_32 = module_0.InvariantException(var_30, var_31)
-    var_33 = str(var_32)
-    assert var_33 == ', invariant_errors=[1, 2, 3], missing_fields=[a, b]'
-    var_34 = {var_2, var_3, var_4}
-    var_35 = {var_8, var_9}
-    var_36 = module_0.InvariantException(var_34, var_35)
-    var_37 = str(var_36)
-    assert var_37 == ', invariant_errors=[1, 2, 3], missing_fields=[a, b]'
-    var_38 = [var_2, var_3, var_4]
-    var_39 = [var_8, var_9]
-    var_40 = str(var_36)
-    assert var_40 == ', invariant_errors=[1, 2, 3], missing_fields=[a, b]'
-    var_41 = []
-    var_42 = []
-    var_43 = str(var_36)
-    assert var_43 == ', invariant_errors=[], missing_fields=[]'
-    var_44 = set()
-    var_45 = set()
-    var_46 = module_0.InvariantException(var_44, var_45)
-    var_47 = str(var_46)
-    assert var_47 == ', invariant_errors=[], missing_fields=[]'
-    var_48 = ()
-    var_49 = ()
-    var_50 = module_0.InvariantException(var_48, var_49)
-    var_51 = str(var_50)
-    assert var_51 == ', invariant_errors=[], missing_fields=[]'
-    var_52 = []
-    var_53 = []
-    var_54 = module_0.InvariantException(var_52, var_53)
-    var_55 = str(var_54)
-    assert var_55 == ', invariant_errors=[], missing_fields=[]'
-    var_56 = {}
-    var_57 = {}
-    var_58 = module_0.InvariantException(var_56, var_57)
-    var_59 = str(var_58)
-    assert var_59 == ', invariant_errors=[], missing_fields=[]'
-    var_60 = ''
-    var_61 = module_0.InvariantException(var_60, var_60)
-    var_62 = str(var_61)
-    assert var_62 == ', invariant_errors=[], missing_fields=[]'
-    var_63 = b''
-    var_64 = module_0.InvariantException(var_63, var_63)
-    var_65 = str(var_64)
-    assert var_65 == ', invariant_errors=[], missing_fields=[]'
-    var_66 = bytearray()
-    var_67 = bytearray()
-    var_68 = module_0.InvariantException(var_66, var_67)
-    var_69 = str(var_68)
-    assert var_69 == ', invariant_errors=[], missing_fields=[]'
-    var_70 = memoryview(var_63)
-    var_71 = memoryview(var_63)
-    var_72 = module_0.InvariantException(var_70, var_71)
-    var_73 = str(var_72)
-    assert var_73 == ', invariant_errors=[], missing_fields=[]'
-    var_74 = 0
-    var_75 = range(var_74)
-    var_76 = range(var_74)
-    var_77 = module_0.InvariantException(var_75, var_76)
-    var_78 = str(var_77)
-    assert var_78 == ', invariant_errors=[], missing_fields=[]'
-    var_79 = zip()
-    var_80 = zip()
-    var_81 = module_0.InvariantException(var_79, var_80)
-    var_82 = str(var_81)
-    assert var_82 == ', invariant_errors=[], missing_fields=[]'
-    var_83 = lambda x: x
-    var_84 = []
-    var_85 = map(var_83, var_84)
-    var_86 = lambda x: x
-    var_87 = []
-    var_88 = map(var_86, var_87)
-    var_89 = module_0.InvariantException(var_85, var_88)
-    var_90 = str(var_89)
-    assert var_90 == ', invariant_errors=[], missing_fields=[]'
-    var_91 = lambda x: x
-    var_92 = []
-    var_93 = filter(var_91, var_92)
-    var_94 = lambda x: x
-    var_95 = []
-    var_96 = filter(var_94, var_95)
-    var_97 = module_0.InvariantException(var_93, var_96)
-    var_98 = str(var_97)
-    assert var_98 == ', invariant_errors=[], missing_fields=[]'
-    var_99 = []
-    var_100 = enumerate(var_99)
-    var_101 = []
-    var_102 = enumerate(var_101)
-    var_103 = module_0.InvariantException(var_100, var_102)
-    var_104 = str(var_103)
-    assert var_104 == ', invariant_errors=[], missing_fields=[]'
-    var_105 = []
-    var_106 = reversed(var_105)
-    var_107 = []
-    var_108 = reversed(var_107)
-    var_109 = module_0.InvariantException(var_106, var_108)
-    var_110 = str(var_109)
-    assert var_110 == ', invariant_errors=[], missing_fields=[]'
-    var_111 = slice(var_74)
-    var_112 = slice(var_74)
-    var_113 = module_0.InvariantException(var_111, var_112)
-    var_114 = str(var_113)
-    assert var_114 == ', invariant_errors=[], missing_fields=[]'
-    var_115 = complex()
-    var_116 = complex()
-    var_117 = module_0.InvariantException(var_115, var_116)
-    var_118 = str(var_117)
-    assert var_118 == ', invariant_errors=[], missing_fields=[]'
-    var_119 = float()
-    var_120 = float()
-    var_121 = module_0.InvariantException(var_119, var_120)
-    var_122 = str(var_121)
-    assert var_122 == ', invariant_errors=[], missing_fields=[]'
-    var_123 = int()
-    var_124 = int()
-    var_125 = module_0.InvariantException(var_123, var_124)
-    var_126 = str(var_125)
-    assert var_126 == ', invariant_errors=[], missing_fields=[]'
-    var_127 = bool()
-    var_128 = bool()
-    var_129 = module_0.InvariantException(var_127, var_128)
-    var_130 = str(var_129)
-    assert var_130 == ', invariant_errors=[], missing_fields=[]'
-    var_131 = None
-    var_132 = module_0.InvariantException(var_131, var_131)
-    var_133 = str(var_132)
-    assert var_133 == ', invariant_errors=[], missing_fields=[]'
-    var_134 = module_1.object()
-    var_135 = module_1.object()
-    var_136 = module_0.InvariantException(var_134, var_135)
-    var_137 = str(var_136)
-    assert var_137 == ', invariant_errors=[], missing_fields=[]'
-    var_138 = str(var_136)
-    assert var_138 == ', invariant_errors=[], missing_fields=[]'
-    var_139 = lambda : var_131
-    var_140 = lambda : var_131
-    var_141 = module_0.InvariantException(var_139, var_140)
-    var_142 = str(var_141)
-    assert var_142 == ', invariant_errors=[], missing_fields=[]'
-    var_143 = str(var_141)
-    assert var_143 == ', invariant_errors=[], missing_fields=[]'
-    var_144 = 'sys'
-    var_145 = __import__(var_144)
-    var_146 = __import__(var_144)
-    var_147 = module_0.InvariantException(var_145, var_146)
-    var_148 = str(var_147)
-    assert var_148 == ', invariant_errors=[], missing_fields=[]'
-    var_149 = property()
-    var_150 = property()
-    var_151 = module_0.InvariantException(var_149, var_150)
-    var_152 = str(var_151)
-    assert var_152 == ', invariant_errors=[], missing_fields=[]'
-    var_153 = lambda : var_131
-    var_154 = staticmethod(var_153)
-    var_155 = lambda : var_131
-    var_156 = staticmethod(var_155)
-    var_157 = module_0.InvariantException(var_154, var_156)
-    var_158 = str(var_157)
-    assert var_158 == ', invariant_errors=[], missing_fields=[]'
-    var_159 = lambda : var_131
-    var_160 = classmethod(var_159)
-    var_161 = lambda : var_131
-    var_162 = classmethod(var_161)
-    var_163 = module_0.InvariantException(var_160, var_162)
-
-
-
-# Parsed testcases at query #16
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -1
-    var_2 = 4
-    var_3 = 3
-    var_4 = -2
-    var_5 = 'All tests passed.'
-    var_6 = print(var_5)
-
-
-
-# Parsed testcases at query #17
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -1
-    var_2 = 4
-    var_3 = 3
-    var_4 = -2
-    var_5 = -1
-    var_6 = -5
-    var_7 = 'All tests passed!'
-    var_8 = print(var_7)
-
-
-
-# Parsed testcases at query #18
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -5
-    var_2 = -5
-    var_3 = 15
-    var_4 = 'All tests passed.'
-    var_5 = print(var_4)
-
-
-
-# Parsed testcases at query #19
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -1
-    var_2 = 4
-    var_3 = 3
-    var_4 = 1
-    var_5 = -2
-    var_6 = 12
-    var_7 = 'All wrap_invariant tests passed!'
-    var_8 = print(var_7)
-
-
-
-# Parsed testcases at query #20
-#--------------------------
-
-
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 'int'
-    var_1 = module_0.maybe_parse_user_type(var_0)
-    var_2 = 1
-    var_3 = 2
-    var_4 = 3
-    var_5 = 123
-    var_6 = module_0.maybe_parse_user_type(var_5)
-    var_7 = 'All tests passed!'
-    var_8 = print(var_7)
-
-
-
-# Parsed testcases at query #21
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -5
-    var_2 = 15
-    var_3 = 'All tests passed!'
-    var_4 = print(var_3)
-
-
-
-# Parsed testcases at query #22
-#--------------------------
-
-
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 'int'
-    var_1 = module_0.maybe_parse_user_type(var_0)
-    var_2 = 1
-    var_3 = 2
-    var_4 = 3
-    var_5 = 'str'
-    var_6 = [var_0, var_5]
-    var_7 = module_0.maybe_parse_user_type(var_6)
-    var_8 = 123
-    var_9 = module_0.maybe_parse_user_type(var_8)
-    var_10 = 'All tests passed!'
-    var_11 = print(var_10)
-
-
-
-# Parsed testcases at query #23
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -1
-    var_2 = 4
-    var_3 = 3
-    var_4 = -2
-    var_5 = 'All tests passed.'
-    var_6 = print(var_5)
-
-
-
-# Parsed testcases at query #24
-#--------------------------
-
-
-
-
-# Parsed testcases at query #25
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -5
-    var_2 = 15
-    var_3 = 'All tests passed'
-    var_4 = print(var_3)
-
-
-
-####################################################################
-# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
-####################################################################
-
-
-# Parsed testcases at query #1
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 1
+    var_12 = lambda n: (n > 0, 'Not positive')
+    var_13 = [var_10, var_11, var_2]
+    var_14 = 1
+    var_15 = -2
+    var_16 = 3
+    var_17 = [var_14, var_15, var_16]
+    var_18 = True
+    var_19 = True
+    var_20 = {var_16: var_18, var_17: var_19}
+    var_21 = module_0.pmap(var_20)
+    var_22 = [var_19, var_17, var_2]
+    var_23 = lambda n: (n > 0, 'Not positive')
+    var_24 = lambda n: (n < 100, 'Too large')
+    var_25 = [var_23, var_24]
+    var_26 = 50
+    var_27 = 99
+    var_28 = [var_19, var_26, var_27]
+    var_29 = 1
+    var_30 = 150
+    var_31 = 99
+    var_32 = [var_29, var_30, var_31]
+    var_33 = 'builtins.int'
+    var_34 = [var_19, var_32, var_2]
+    var_35 = None
+    var_36 = [var_19, var_5, var_35, var_32]
+    var_37 = lambda n: (n > 0, 'Not positive')
+    var_38 = [var_19, var_32, var_2]
+    var_39 = -1
+    var_40 = [var_39]
+    var_41 = 1
+    var_42 = 2
+    var_43 = 3
+    var_44 = 'test'
+    var_45 = [var_19, var_44]
 
 
 
@@ -548,21 +63,38 @@ def test_case_0():
 #--------------------------
 
 
+import pyrsistent._pmap as module_0
+
 def test_case_0():
     var_0 = 1
+    var_1 = 2
+    var_2 = 'a'
+    var_3 = 'b'
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 3
+    var_6 = 'c'
+    var_7 = {var_5: var_6}
+    var_8 = 5
+    var_9 = 'test'
+    var_10 = 'value'
+    var_11 = {var_0: var_9, var_8: var_10}
+    var_12 = 10
+    var_13 = 'internal'
+    var_14 = {var_12: var_13}
+    var_15 = module_0.pmap(var_14)
+    var_16 = 'key'
+    var_17 = 1.5
+    var_18 = {var_0: var_17, var_16: var_1}
+    var_19 = 'inherited'
+    var_20 = {var_0: var_19}
+    var_21 = module_0.pmap()
+    var_22 = 0
 
 
 
 # Parsed testcases at query #3
 #--------------------------
 
-
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 'str'
-    var_1 = module_0.maybe_parse_user_type(var_0)
-    var_2 = 'float'
 
 
 
@@ -571,13 +103,27 @@ def test_case_0():
 
 
 import pyrsistent._checked_types as module_0
+import builtins as module_1
 
 def test_case_0():
-    var_0 = 'unittest.TestCase'
-    var_1 = module_0.get_type(var_0)
-    var_2 = 'unittest'
-    var_3 = __import__(var_2)
-    var_4 = var_3.TestCase
+    var_0 = 'int'
+    var_1 = module_0.maybe_parse_user_type(var_0)
+    var_2 = 'custom_type'
+    var_3 = module_0.maybe_parse_user_type(var_2)
+    var_4 = 1
+    var_5 = 2
+    var_6 = 3
+    var_7 = 'str'
+    var_8 = []
+    var_9 = module_0.maybe_parse_user_type(var_8)
+    var_10 = 42
+    var_11 = module_0.maybe_parse_user_type(var_10)
+    var_12 = None
+    var_13 = module_0.maybe_parse_user_type(var_12)
+    var_14 = module_1.object()
+    var_15 = module_0.maybe_parse_user_type(var_14)
+    var_16 = 'List[int]'
+    var_17 = module_0.maybe_parse_user_type(var_16)
 
 
 
@@ -585,12 +131,49 @@ def test_case_0():
 #--------------------------
 
 
+import pyrsistent._checked_types as module_0
+
 def test_case_0():
-    var_0 = 5
-    var_1 = 15
-    var_2 = -5
-    var_3 = 25
-    var_4 = -5
+    var_0 = module_0.InvariantException()
+    var_1 = str(var_0)
+    assert var_1 == ', invariant_errors=[], missing_fields=[]'
+    var_2 = 'error1'
+    var_3 = 'error2'
+    var_4 = [var_2, var_3]
+    var_5 = module_0.InvariantException(var_4)
+    var_6 = str(var_5)
+    assert var_6 == ', invariant_errors=[error1, error2], missing_fields=[]'
+    var_7 = 'field1'
+    var_8 = 'field2'
+    var_9 = [var_7, var_8]
+    var_10 = module_0.InvariantException(missing_fields=var_9)
+    var_11 = str(var_10)
+    assert var_11 == ', invariant_errors=[], missing_fields=[field1, field2]'
+    var_12 = 'err1'
+    var_13 = 'err2'
+    var_14 = [var_12, var_13]
+    var_15 = 'f1'
+    var_16 = 'f2'
+    var_17 = 'f3'
+    var_18 = [var_15, var_16, var_17]
+    var_19 = module_0.InvariantException(var_14, var_18)
+    var_20 = str(var_19)
+    assert var_20 == ', invariant_errors=[err1, err2], missing_fields=[f1, f2, f3]'
+    var_21 = 'static_error'
+    var_22 = str(var_19)
+    assert var_22 == ', invariant_errors=[dynamic_error, static_error], missing_fields=[]'
+    var_23 = []
+    var_24 = []
+    var_25 = module_0.InvariantException(var_23, var_24)
+    var_26 = str(var_25)
+    assert var_26 == ', invariant_errors=[], missing_fields=[]'
+    var_27 = 'single_error'
+    var_28 = [var_27]
+    var_29 = 'single_field'
+    var_30 = [var_29]
+    var_31 = module_0.InvariantException(var_28, var_30)
+    var_32 = str(var_31)
+    assert var_32 == ', invariant_errors=[single_error], missing_fields=[single_field]'
 
 
 
@@ -601,23 +184,43 @@ def test_case_0():
 import pyrsistent._pmap as module_0
 
 def test_case_0():
-    var_0 = lambda k, v: (int(v) == k, 'Invalid mapping')
-    var_1 = 1
-    var_2 = 2
-    var_3 = {var_1: var_1, var_2: var_2}
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
     var_4 = 'a'
-    var_5 = 1.0
-    var_6 = {var_4: var_5}
-    var_7 = 1
-    var_8 = 'a'
-    var_9 = {var_7: var_8}
-    var_10 = 1
-    var_11 = 1.5
-    var_12 = {var_10: var_11}
-    var_13 = 3
-    var_14 = {var_13: var_13}
-    var_15 = {var_10: var_10, var_11: var_11}
-    var_16 = module_0.pmap(var_15)
+    var_5 = 'b'
+    var_6 = 'c'
+    var_7 = [var_4, var_5, var_6]
+    var_8 = 1
+    var_9 = 'invalid'
+    var_10 = 3
+    var_11 = [var_8, var_9, var_10]
+    var_12 = lambda n: (n > 0, 'Not positive')
+    var_13 = [var_10, var_11, var_2]
+    var_14 = 1
+    var_15 = -2
+    var_16 = 3
+    var_17 = [var_14, var_15, var_16]
+    var_18 = 'two'
+    var_19 = [var_16, var_18, var_2]
+    var_20 = [var_16, var_17, var_2]
+    var_21 = True
+    var_22 = True
+    var_23 = {var_16: var_21, var_17: var_22}
+    var_24 = module_0.pmap(var_23)
+    var_25 = [var_22, var_17, var_17, var_2, var_22]
+    var_26 = None
+    var_27 = [var_22, var_26, var_2]
+    var_28 = 'int'
+    var_29 = [var_22, var_17, var_2]
+    var_30 = [var_22, var_17, var_2]
+    var_31 = 'invalid'
+    var_32 = [var_31]
+    var_33 = lambda n: (n > 0, 'Not positive')
+    var_34 = [var_22, var_17, var_2]
+    var_35 = -1
+    var_36 = [var_35]
 
 
 
@@ -625,22 +228,21 @@ def test_case_0():
 #--------------------------
 
 
+import pyrsistent._checked_types as module_0
+
 def test_case_0():
-    var_0 = lambda k, v: (int(v) == k, 'Invalid mapping')
-    var_1 = 1
-    var_2 = 2
-    var_3 = 1.5
-    var_4 = 2.25
-    var_5 = {var_1: var_3, var_2: var_4}
-    var_6 = 'a'
-    var_7 = 1.5
-    var_8 = {var_6: var_7}
-    var_9 = 1
-    var_10 = 'a'
-    var_11 = {var_9: var_10}
-    var_12 = 1
-    var_13 = 2.5
-    var_14 = {var_12: var_13}
+    var_0 = 'builtins.int'
+    var_1 = module_0.get_type(var_0)
+    var_2 = 'collections.OrderedDict'
+    var_3 = module_0.get_type(var_2)
+    var_4 = 'dummy_module'
+    var_5 = 'SomeClass'
+    var_6 = ()
+    var_7 = {}
+    var_8 = 'dummy_module.SomeClass'
+    var_9 = module_0.get_type(var_8)
+    var_10 = 'os.path'
+    var_11 = module_0.get_type(var_10)
 
 
 
@@ -648,20 +250,50 @@ def test_case_0():
 #--------------------------
 
 
-import pyrsistent._checked_types as module_0
+import pyrsistent._pmap as module_0
 
 def test_case_0():
-    var_0 = 'error1'
-    var_1 = lambda : var_0
-    var_2 = 'error2'
-    var_3 = lambda : var_2
-    var_4 = [var_1, var_3]
-    var_5 = 'field1'
-    var_6 = 'field2'
-    var_7 = [var_5, var_6]
-    var_8 = module_0.InvariantException(var_4, var_7)
-    var_9 = str(var_8)
-    assert var_9 == "InvariantException(invariant_errors=['error1', 'error2'], missing_fields=['field1', 'field2'])"
+    var_0 = 1
+    var_1 = 2
+    var_2 = 'a'
+    var_3 = 'b'
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 3
+    var_6 = 4
+    var_7 = 'c'
+    var_8 = 'd'
+    var_9 = {var_5: var_7, var_6: var_8}
+    var_10 = module_0.pmap(var_9)
+    var_11 = 'invalid'
+    var_12 = 'value'
+    var_13 = {var_11: var_12}
+    var_14 = 1
+    var_15 = 123
+    var_16 = {var_14: var_15}
+    var_17 = lambda k, v: (v > 0, 'Value must be positive')
+    var_18 = 1
+    var_19 = -1
+    var_20 = {var_18: var_19}
+    var_21 = lambda k, v: (v > 0, 'Positive')
+    var_22 = lambda k, v: (v < 10, 'Less than 10')
+    var_23 = 5
+    var_24 = {var_20: var_23}
+    var_25 = 1
+    var_26 = 15
+    var_27 = {var_25: var_26}
+    var_28 = 'test'
+    var_29 = {var_27: var_28}
+    var_30 = 'invalid'
+    var_31 = 'test'
+    var_32 = {var_30: var_31}
+    var_33 = {var_32: var_28}
+    var_34 = None
+    var_35 = {var_32: var_34}
+    var_36 = {var_32: var_2}
+    var_37 = {var_32: var_2}
+    var_38 = 'int'
+    var_39 = 'str'
+    var_40 = {var_32: var_28}
 
 
 
@@ -669,28 +301,18 @@ def test_case_0():
 #--------------------------
 
 
-import pyrsistent._checked_types as module_0
-
 def test_case_0():
-    var_0 = 'msg'
-    var_1 = 'args'
-    var_2 = 'Invariant failed'
-    var_3 = 1
-    var_4 = 2
-    var_5 = 3
-    var_6 = (var_3, var_4, var_5)
-    var_7 = {var_0: var_2, var_1: var_6}
-    var_8 = 'a'
-    var_9 = 'b'
-    var_10 = 'c'
-    var_11 = (var_8, var_9, var_10)
-    var_12 = [var_7]
-    var_13 = module_0.InvariantException(var_12, var_11)
-    var_14 = str(var_13)
-    assert var_14 == ", invariant_errors=[{'msg': 'Invariant failed', 'args': (1, 2, 3)}], missing_fields=[a, b, c]"
-    var_15 = module_0.InvariantException()
-    var_16 = str(var_15)
-    assert var_16 == ', invariant_errors=[], missing_fields=[]'
+    var_0 = 5
+    var_1 = -1
+    var_2 = 4
+    var_3 = 11
+    var_4 = 1
+    var_5 = -1
+    var_6 = -1
+    var_7 = 25
+    var_8 = 10
+    var_9 = 15
+    var_10 = -5
 
 
 
@@ -700,10 +322,11 @@ def test_case_0():
 
 def test_case_0():
     var_0 = 5
-    var_1 = -3
-    var_2 = -3
-    var_3 = 15
-    var_4 = -5
+    var_1 = 1
+    var_2 = 3
+    var_3 = 4
+    var_4 = 10
+    var_5 = 6
 
 
 
@@ -712,21 +335,17 @@ def test_case_0():
 
 
 def test_case_0():
-    var_0 = {}
-    var_1 = 'invariants'
-    var_2 = 'invariant_derived'
-    var_3 = var_0[var_1]
-    var_4 = len(var_3)
-    assert var_4 == 1
-    var_5 = 'invariant_base'
-    var_6 = var_0[var_1]
-    var_7 = len(var_6)
-    assert var_7 == 2
-    var_8 = 0
-    var_9 = var_0[var_1][var_8]
-    var_10 = None
-    var_11 = 1
-    var_12 = var_0[var_1][var_11]
+    var_0 = 1
+    var_1 = 'error1'
+    var_2 = 'error2'
+    var_3 = 'error3'
+    var_4 = (var_1, var_2, var_3)
+    var_5 = 5
+    var_6 = 3
+    var_7 = 2
+    var_8 = 4
+    var_9 = 15
+    var_10 = 10
 
 
 
@@ -736,6 +355,571 @@ def test_case_0():
 
 def test_case_0():
     var_0 = 5
+    var_1 = -1
+    var_2 = 15
+    var_3 = -5
+    var_4 = 50
+    var_5 = 150
+    var_6 = -3
+
+
+
+# Parsed testcases at query #13
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 5
+    var_1 = -1
+    var_2 = 4
+    var_3 = 11
+    var_4 = -2
+    var_5 = 1
+    var_6 = True
+    var_7 = False
+
+
+
+# Parsed testcases at query #14
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 'one'
+    var_3 = 'two'
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'a'
+    var_6 = 'b'
+    var_7 = {var_5: var_0, var_6: var_1}
+    var_8 = 1
+    var_9 = 'one'
+    var_10 = {var_8: var_9}
+    var_11 = 'a'
+    var_12 = 'not_an_int'
+    var_13 = {var_11: var_12}
+    var_14 = lambda k, v: (v > 0, 'Value must be positive')
+    var_15 = 5
+    var_16 = 10
+    var_17 = {var_13: var_15, var_1: var_16}
+    var_18 = 1
+    var_19 = -5
+    var_20 = {var_18: var_19}
+    var_21 = {var_20: var_5}
+    var_22 = lambda k, v: (v > 0, 'Positive')
+    var_23 = lambda k, v: (v < 100, 'Less than 100')
+    var_24 = 50
+    var_25 = {var_20: var_24}
+    var_26 = 'x'
+    var_27 = {var_26: var_20}
+    var_28 = 1
+    var_29 = {var_28: var_28}
+    var_30 = None
+    var_31 = {var_5: var_20, var_6: var_30}
+    var_32 = {var_20: var_5, var_1: var_6}
+    var_33 = module_0.pmap(var_32)
+
+
+
+# Parsed testcases at query #15
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 5
+    var_1 = -1
+    var_2 = 4
+    var_3 = 15
+    var_4 = -3
+    var_5 = 10
+    var_6 = 7
+    var_7 = 3
+    var_8 = 1
+    var_9 = 42
+    var_10 = 50
+    var_11 = 150
+    var_12 = 999
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 5
+    var_1 = -1
+    var_2 = 6
+    var_3 = 11
+    var_4 = -2
+    var_5 = 10
+    var_6 = 7
+    var_7 = 3
+    var_8 = 1
+    var_9 = 0
+    var_10 = 99
+    var_11 = 101
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+
+import pyrsistent._checked_types as module_0
+import builtins as module_1
+
+def test_case_0():
+    var_0 = 'int'
+    var_1 = module_0.maybe_parse_user_type(var_0)
+    var_2 = 'custom_type'
+    var_3 = module_0.maybe_parse_user_type(var_2)
+    var_4 = 1
+    var_5 = 2
+    var_6 = 3
+    var_7 = 'str'
+    var_8 = []
+    var_9 = module_0.maybe_parse_user_type(var_8)
+    var_10 = ()
+    var_11 = module_0.maybe_parse_user_type(var_10)
+    var_12 = 42
+    var_13 = module_0.maybe_parse_user_type(var_12)
+    var_14 = None
+    var_15 = module_0.maybe_parse_user_type(var_14)
+    var_16 = module_1.object()
+    var_17 = module_0.maybe_parse_user_type(var_16)
+    var_18 = 1
+    var_19 = 2
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 5
+    var_1 = -5
+    var_2 = -5
+    var_3 = 15
+    var_4 = 10
+    var_5 = -5
+    var_6 = -5
+    var_7 = -10
+    var_8 = 0
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 5
+    var_1 = 1
+    var_2 = True
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = '_invariants'
+    var_1 = ()
+    var_2 = '_checked_invariants'
+    var_3 = 0
+    var_4 = {}
+    var_5 = module_0.store_invariants(var_4, var_1, var_2, var_0)
+    var_6 = var_4[var_2]
+    var_7 = len(var_6)
+    assert var_7 == 1
+    var_8 = {}
+    var_9 = module_0.store_invariants(var_8, var_1, var_2, var_0)
+    var_10 = var_8[var_2]
+    var_11 = len(var_10)
+    assert var_11 == 2
+    var_12 = module_0.store_invariants(var_8, var_1, var_2, var_0)
+    var_13 = var_8[var_2]
+    var_14 = len(var_13)
+    assert var_14 == 2
+    var_15 = {}
+    var_16 = module_0.store_invariants(var_15, var_1, var_2, var_0)
+    var_17 = var_15[var_2]
+    var_18 = len(var_17)
+    assert var_18 == 2
+    var_19 = {}
+    var_20 = module_0.store_invariants(var_19, var_1, var_2, var_0)
+    var_21 = var_19[var_2]
+    var_22 = len(var_21)
+    assert var_22 == 1
+    var_23 = module_0.store_invariants(var_19, var_1, var_2, var_0)
+    var_24 = var_19[var_2][var_3]
+    var_25 = None
+    var_26 = 1
+    var_27 = 'not a callable'
+    var_28 = {var_0: var_27}
+    var_29 = '_checked_invariants'
+    var_30 = '_invariants'
+    var_31 = module_0.store_invariants(var_28, var_1, var_29, var_30)
+    var_32 = {}
+    var_33 = ()
+    var_34 = module_0.store_invariants(var_32, var_33, var_30, var_29)
+    var_35 = module_0.store_invariants(var_32, var_33, var_30, var_29)
+    var_36 = var_32[var_30][var_3]
+
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+
+def test_case_0():
+    var_0 = '__serializer__'
+    var_1 = None
+    var_2 = 'builtins.str'
+    var_3 = 'builtins.int'
+    var_4 = '__wrapped__'
+    var_5 = 1
+    var_6 = 2
+    var_7 = 'not callable'
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 5
+    var_1 = -1
+    var_2 = 4
+    var_3 = -2
+    var_4 = 1
+    var_5 = 11
+    var_6 = 'less than 10'
+    var_7 = 'even'
+    var_8 = 10
+    var_9 = 20
+    var_10 = -10
+    var_11 = 200
+    var_12 = 15
+    var_13 = -5
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = 'int'
+    var_1 = module_0.maybe_parse_user_type(var_0)
+    var_2 = 'custom_type'
+    var_3 = module_0.maybe_parse_user_type(var_2)
+    var_4 = 1
+    var_5 = 2
+    var_6 = 'custom'
+    var_7 = []
+    var_8 = module_0.maybe_parse_user_type(var_7)
+    var_9 = ()
+    var_10 = module_0.maybe_parse_user_type(var_9)
+    var_11 = 42
+    var_12 = module_0.maybe_parse_user_type(var_11)
+    var_13 = None
+    var_14 = module_0.maybe_parse_user_type(var_13)
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = 'collections.OrderedDict'
+    var_1 = module_0.get_type(var_0)
+    var_2 = 'collections.abc.Iterable'
+    var_3 = module_0.get_type(var_2)
+    var_4 = 'enum.Enum'
+    var_5 = module_0.get_type(var_4)
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+
+import pyrsistent._checked_types as module_0
+import builtins as module_1
+
+def test_case_0():
+    var_0 = 'int'
+    var_1 = module_0.maybe_parse_user_type(var_0)
+    var_2 = 'custom_type'
+    var_3 = module_0.maybe_parse_user_type(var_2)
+    var_4 = 1
+    var_5 = 2
+    var_6 = 3
+    var_7 = 'custom'
+    var_8 = []
+    var_9 = module_0.maybe_parse_user_type(var_8)
+    var_10 = ()
+    var_11 = module_0.maybe_parse_user_type(var_10)
+    var_12 = 42
+    var_13 = module_0.maybe_parse_user_type(var_12)
+    var_14 = None
+    var_15 = module_0.maybe_parse_user_type(var_14)
+    var_16 = module_1.object()
+    var_17 = module_0.maybe_parse_user_type(var_16)
+
+
+
+# Parsed testcases at query #6
+#--------------------------
+
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = 'int'
+    var_1 = module_0.maybe_parse_user_type(var_0)
+    var_2 = 'custom_type'
+    var_3 = module_0.maybe_parse_user_type(var_2)
+    var_4 = 1
+    var_5 = 2
+    var_6 = 'str'
+    var_7 = []
+    var_8 = module_0.maybe_parse_user_type(var_7)
+    var_9 = ()
+    var_10 = module_0.maybe_parse_user_type(var_9)
+    var_11 = 123
+    var_12 = module_0.maybe_parse_user_type(var_11)
+    var_13 = None
+    var_14 = module_0.maybe_parse_user_type(var_13)
+    var_15 = 'key'
+    var_16 = 'value'
+    var_17 = {var_15: var_16}
+    var_18 = module_0.maybe_parse_user_type(var_17)
+
+
+
+# Parsed testcases at query #7
+#--------------------------
+
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = 'int'
+    var_1 = module_0.maybe_parse_user_type(var_0)
+    var_2 = 'custom_type'
+    var_3 = module_0.maybe_parse_user_type(var_2)
+    var_4 = 1
+    var_5 = 2
+    var_6 = 3
+    var_7 = 'custom'
+    var_8 = 123
+    var_9 = module_0.maybe_parse_user_type(var_8)
+    var_10 = 'key'
+    var_11 = 'value'
+    var_12 = {var_10: var_11}
+    var_13 = module_0.maybe_parse_user_type(var_12)
+    var_14 = []
+    var_15 = module_0.maybe_parse_user_type(var_14)
+    var_16 = ()
+    var_17 = module_0.maybe_parse_user_type(var_16)
+
+
+
+# Parsed testcases at query #8
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 'a'
+    var_3 = 'b'
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = {var_0: var_2}
+    var_6 = 'valid'
+    var_7 = {var_0: var_6}
+    var_8 = 'invalid'
+    var_9 = 'value'
+    var_10 = {var_8: var_9}
+    var_11 = {var_10: var_6}
+    var_12 = 1
+    var_13 = 123
+    var_14 = {var_12: var_13}
+    var_15 = lambda k, v: (v > 0, 'Value must be positive')
+    var_16 = 5
+    var_17 = {var_14: var_16}
+    var_18 = 1
+    var_19 = -5
+    var_20 = {var_18: var_19}
+    var_21 = 3.14
+    var_22 = {var_20: var_21}
+    var_23 = 'key'
+    var_24 = 42
+    var_25 = {var_23: var_24}
+    var_26 = 'test'
+    var_27 = {var_20: var_26}
+    var_28 = 3
+    var_29 = [var_20, var_1, var_28]
+    var_30 = {var_20: var_2, var_1: var_3}
+    var_31 = module_0.pmap(var_30)
+
+
+
+# Parsed testcases at query #9
+#--------------------------
+
+
+
+
+# Parsed testcases at query #10
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 3
+    var_3 = [var_0, var_1, var_2]
+    var_4 = [var_0, var_1]
+    var_5 = [var_0, var_1, var_2]
+    var_6 = [var_0, var_1, var_2]
+    var_7 = 'double'
+    var_8 = set()
+    var_9 = 'hello'
+    var_10 = None
+    var_11 = [var_0, var_9, var_10]
+    var_12 = [var_0, var_1]
+
+
+
+# Parsed testcases at query #11
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 'a'
+    var_3 = 'b'
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = {var_0: var_2}
+    var_6 = {var_2: var_0, var_3: var_1}
+    var_7 = {var_2: var_0, var_3: var_1}
+    var_8 = 1.5
+    var_9 = {var_0: var_8, var_2: var_1}
+    var_10 = lambda k, v: (v > 0, 'Value must be positive')
+    var_11 = 5
+    var_12 = 10
+    var_13 = {var_0: var_11, var_1: var_12}
+    var_14 = 'test'
+    var_15 = {var_0: var_2, var_1: var_3}
+    var_16 = module_0.pmap(var_15)
+    var_17 = {}
+
+
+
+# Parsed testcases at query #12
+#--------------------------
+
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = ()
+    var_2 = (var_0, var_1)
+    var_3 = False
+    var_4 = 'error1'
+    var_5 = (var_4,)
+    var_6 = (var_3, var_5)
+    var_7 = ()
+    var_8 = (var_0, var_7)
+    var_9 = [var_2, var_6, var_8]
+    var_10 = ()
+    var_11 = 0
+    var_12 = None
+    var_13 = 'not a callable'
+    var_14 = {var_1: var_13}
+    var_15 = ()
+    var_16 = '_invariants'
+    var_17 = '__invariant__'
+    var_18 = module_0.store_invariants(var_14, var_15, var_16, var_17)
+    var_19 = {}
+    var_20 = module_0.store_invariants(var_19, var_15, var_16, var_17)
+    var_21 = var_19[var_16]
+    var_22 = len(var_21)
+    assert var_22 == 4
+    var_23 = {}
+    var_24 = ()
+    var_25 = module_0.store_invariants(var_23, var_24, var_16, var_17)
+    var_26 = ()
+    var_27 = module_0.store_invariants(var_23, var_26, var_16, var_17)
+    var_28 = var_23[var_16][var_11]
+    var_29 = ()
+    var_30 = module_0.store_invariants(var_23, var_29, var_16, var_17)
+    var_31 = var_23[var_16][var_11]
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = ()
+    var_2 = (var_0, var_1)
+    var_3 = False
+    var_4 = 'error1'
+    var_5 = (var_4,)
+    var_6 = (var_3, var_5)
+    var_7 = ()
+    var_8 = (var_0, var_7)
+    var_9 = [var_2, var_6, var_8]
+    var_10 = ()
+    var_11 = 0
+    var_12 = None
+    var_13 = 'not a callable'
+    var_14 = {var_1: var_13}
+    var_15 = ()
+    var_16 = '_invariants'
+    var_17 = '__invariant__'
+    var_18 = module_0.store_invariants(var_14, var_15, var_16, var_17)
+    var_19 = {}
+    var_20 = module_0.store_invariants(var_19, var_15, var_16, var_17)
+    var_21 = var_19[var_16]
+    var_22 = len(var_21)
+    assert var_22 == 4
+    var_23 = {}
+    var_24 = ()
+    var_25 = module_0.store_invariants(var_23, var_24, var_16, var_17)
+    var_26 = ()
+    var_27 = module_0.store_invariants(var_23, var_26, var_16, var_17)
+    var_28 = var_23[var_16][var_11]
+    var_29 = ()
+    var_30 = module_0.store_invariants(var_23, var_29, var_16, var_17)
+    var_31 = var_23[var_16][var_11]
 
 
 
@@ -749,17 +933,18 @@ def test_case_0():
 #--------------------------
 
 
-import pyrsistent._checked_types as module_0
-
 def test_case_0():
-    var_0 = 'int'
-    var_1 = module_0.maybe_parse_user_type(var_0)
-    var_2 = 1
-    var_3 = 'str'
-    var_4 = (var_0, var_3)
-    var_5 = module_0.maybe_parse_user_type(var_4)
-    var_6 = 123
-    var_7 = module_0.maybe_parse_user_type(var_6)
+    var_0 = 5
+    var_1 = -1
+    var_2 = 4
+    var_3 = 11
+    var_4 = 1
+    var_5 = -2
+    var_6 = 3
+    var_7 = 2
+    var_8 = 8
+    var_9 = 0
+    var_10 = -5
 
 
 
@@ -767,488 +952,83 @@ def test_case_0():
 #--------------------------
 
 
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 'builtins.int'
-    var_1 = module_0.get_type(var_0)
-    var_2 = 'os.path'
-    var_3 = module_0.get_type(var_2)
-    var_4 = []
-    var_5 = __import__(var_2, fromlist=var_4)
-
 
 
 # Parsed testcases at query #16
 #--------------------------
 
 
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = 'test_ok'
+    var_2 = (var_0, var_1)
+    var_3 = ()
+    var_4 = 0
+    var_5 = 'not a callable'
+    var_6 = {var_1: var_5}
+    var_7 = ()
+    var_8 = '_invariants'
+    var_9 = '_invariant'
+    var_10 = module_0.store_invariants(var_6, var_7, var_8, var_9)
+    var_11 = True
+    var_12 = 'dct_inv'
+    var_13 = (var_11, var_12)
+    var_14 = lambda self: var_13
+    var_15 = {var_9: var_14}
+    var_16 = module_0.store_invariants(var_15, var_7, var_8, var_9)
+    var_17 = var_15[var_8]
+    var_18 = len(var_17)
+    assert var_18 == 3
+    var_19 = ()
+    var_20 = module_0.store_invariants(var_15, var_19, var_8, var_9)
+    var_21 = var_15[var_8][var_4]
+    var_22 = None
+    var_23 = ()
+    var_24 = module_0.store_invariants(var_15, var_23, var_8, var_9)
+    var_25 = var_15[var_8][var_4]
+    var_26 = {}
+    var_27 = ()
+    var_28 = module_0.store_invariants(var_26, var_27, var_8, var_9)
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = 'test_ok'
+    var_2 = (var_0, var_1)
+    var_3 = ()
+    var_4 = 0
+    var_5 = 'not a callable'
+    var_6 = {var_1: var_5}
+    var_7 = ()
+    var_8 = '_invariants'
+    var_9 = '_invariant'
+    var_10 = module_0.store_invariants(var_6, var_7, var_8, var_9)
+    var_11 = True
+    var_12 = 'dct_inv'
+    var_13 = (var_11, var_12)
+    var_14 = lambda self: var_13
+    var_15 = {var_9: var_14}
+    var_16 = module_0.store_invariants(var_15, var_7, var_8, var_9)
+    var_17 = var_15[var_8]
+    var_18 = len(var_17)
+    assert var_18 == 3
+    var_19 = ()
+    var_20 = module_0.store_invariants(var_15, var_19, var_8, var_9)
+    var_21 = var_15[var_8][var_4]
+    var_22 = None
+    var_23 = ()
+    var_24 = module_0.store_invariants(var_15, var_23, var_8, var_9)
+    var_25 = var_15[var_8][var_4]
+    var_26 = {}
+    var_27 = ()
+    var_28 = module_0.store_invariants(var_26, var_27, var_8, var_9)
+
 
 
 # Parsed testcases at query #17
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-
-
-
-# Parsed testcases at query #18
-#--------------------------
-
-
-def test_case_0():
-    var_0 = {}
-    var_1 = 'invariants'
-    var_2 = 'invariant1'
-    var_3 = var_0[var_1]
-    var_4 = len(var_3)
-    assert var_4 == 1
-    var_5 = 'invariant2'
-    var_6 = var_0[var_1]
-    var_7 = len(var_6)
-    assert var_7 == 1
-    var_8 = 'invariant3'
-    var_9 = var_0[var_1]
-    var_10 = len(var_9)
-    assert var_10 == 1
-
-
-
-# Parsed testcases at query #19
-#--------------------------
-
-
-
-
-# Parsed testcases at query #20
-#--------------------------
-
-
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 'int'
-    var_1 = module_0.get_type(var_0)
-    var_2 = 'math.sqrt'
-    var_3 = module_0.get_type(var_2)
-    var_4 = var_3.__name__
-    assert var_4 == 'sqrt'
-    var_5 = 'nonexistent.module.Class'
-    var_6 = module_0.get_type(var_5)
-    var_7 = 'All get_type tests passed'
-    var_8 = print(var_7)
-
-
-
-# Parsed testcases at query #21
-#--------------------------
-
-
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 'builtins.int'
-    var_1 = module_0.get_type(var_0)
-    var_2 = 'builtins.str'
-    var_3 = module_0.get_type(var_2)
-    var_4 = 'nonexistent.module.NonExistentClass'
-    var_5 = module_0.get_type(var_4)
-
-
-
-# Parsed testcases at query #22
-#--------------------------
-
-
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 'TestTuple'
-    var_1 = 'field1 field2'
-    var_2 = 'non_existent_module.NonExistentClass'
-    var_3 = module_0.get_type(var_2)
-    var_4 = 'not_a_valid_type_name'
-    var_5 = module_0.get_type(var_4)
-
-
-
-# Parsed testcases at query #23
-#--------------------------
-
-
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 'str'
-    var_1 = module_0.maybe_parse_user_type(var_0)
-    var_2 = 1
-    var_3 = 123
-    var_4 = module_0.maybe_parse_user_type(var_3)
-
-
-
-# Parsed testcases at query #24
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -1
-    var_2 = 4
-    var_3 = 3
-    var_4 = -2
-    var_5 = -1
-
-
-
-# Parsed testcases at query #25
-#--------------------------
-
-
-def test_case_0():
-    var_0 = {}
-    var_1 = 'invariants'
-    var_2 = 'invariant'
-    var_3 = 0
-    var_4 = var_0[var_1][var_3]
-    var_5 = callable(var_4)
-    var_6 = var_0[var_1][var_3]
-    var_7 = {}
-    var_8 = var_7[var_1]
-    var_9 = len(var_8)
-    assert var_9 == 2
-    var_10 = var_7[var_1][var_3]
-    var_11 = 1
-    var_12 = var_7[var_1][var_11]
-
-
-
-# Parsed testcases at query #26
-#--------------------------
-
-
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 'foo'
-    var_1 = module_0.maybe_parse_user_type(var_0)
-    var_2 = 123
-    var_3 = module_0.maybe_parse_user_type(var_2)
-    var_4 = 'All tests passed!'
-    var_5 = print(var_4)
-
-
-
-# Parsed testcases at query #27
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 15
-    var_1 = 5
-    var_2 = 25
-
-
-
-# Parsed testcases at query #28
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 1
-    var_1 = 2
-    var_2 = 1.5
-    var_3 = 2.25
-    var_4 = {var_0: var_2, var_1: var_3}
-    var_5 = 'a'
-    var_6 = 1.5
-    var_7 = {var_5: var_6}
-    var_8 = 1
-    var_9 = 'a'
-    var_10 = {var_8: var_9}
-    var_11 = {}
-    var_12 = 0
-
-
-
-# Parsed testcases at query #29
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -1
-    var_2 = 4
-    var_3 = 3
-    var_4 = -2
-    var_5 = 'All tests passed!'
-    var_6 = print(var_5)
-
-
-
-# Parsed testcases at query #30
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -1
-    var_2 = 4
-    var_3 = -2
-    var_4 = 3
-    var_5 = -3
-    var_6 = 'All tests passed!'
-    var_7 = print(var_6)
-
-
-
-# Parsed testcases at query #31
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -1
-    var_2 = 15
-    var_3 = -1
-    var_4 = -1
-    var_5 = 'All test cases passed!'
-    var_6 = print(var_5)
-
-
-
-# Parsed testcases at query #32
-#--------------------------
-
-
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 'str'
-    var_1 = module_0.maybe_parse_user_type(var_0)
-    var_2 = 123
-    var_3 = module_0.maybe_parse_user_type(var_2)
-    var_4 = 123
-    var_5 = [var_4]
-    var_6 = module_0.maybe_parse_user_type(var_5)
-
-
-
-# Parsed testcases at query #33
-#--------------------------
-
-
-def test_case_0():
-    var_0 = lambda k, v: (int(v) == k, 'Invalid mapping')
-    var_1 = 1
-    var_2 = 2
-    var_3 = 1.5
-    var_4 = 2.25
-    var_5 = {var_1: var_3, var_2: var_4}
-    var_6 = 'a'
-    var_7 = 1.5
-    var_8 = {var_6: var_7}
-    var_9 = 1
-    var_10 = 'a'
-    var_11 = {var_9: var_10}
-    var_12 = 1
-    var_13 = 2.5
-    var_14 = {var_12: var_13}
-
-
-
-# Parsed testcases at query #34
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -5
-    var_2 = 15
-    var_3 = -5
-    var_4 = -5
-
-
-
-# Parsed testcases at query #35
-#--------------------------
-
-
-def test_case_0():
-    var_0 = {}
-    var_1 = 'invariants'
-    var_2 = 'invariant1'
-    var_3 = var_0[var_1]
-    var_4 = len(var_3)
-    assert var_4 == 1
-    var_5 = 'invariant2'
-    var_6 = var_0[var_1]
-    var_7 = len(var_6)
-    assert var_7 == 2
-    var_8 = 'invariants'
-    var_9 = 'invalid_invariant'
-    var_10 = {}
-    var_11 = var_10[var_8]
-    var_12 = len(var_11)
-    assert var_12 == 1
-    var_13 = var_10[var_8]
-    var_14 = len(var_13)
-    assert var_14 == 2
-    var_15 = 'invariant3'
-    var_16 = var_10[var_8]
-    var_17 = len(var_16)
-    assert var_17 == 3
-    var_18 = {}
-    var_19 = 'invariant4'
-    var_20 = var_18[var_8]
-    var_21 = len(var_20)
-    assert var_21 == 1
-
-
-
-# Parsed testcases at query #36
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 1
-
-
-
-# Parsed testcases at query #37
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 1
-
-
-
-# Parsed testcases at query #38
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 1
-
-
-
-# Parsed testcases at query #39
-#--------------------------
-
-
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 1
-    var_1 = 2
-    var_2 = 'int'
-    var_3 = module_0.maybe_parse_user_type(var_2)
-    var_4 = 123
-    var_5 = module_0.maybe_parse_user_type(var_4)
-    var_6 = ()
-    var_7 = module_0.maybe_parse_user_type(var_6)
-    var_8 = 'All test cases passed!'
-    var_9 = print(var_8)
-
-
-
-# Parsed testcases at query #40
-#--------------------------
-
-
-def test_case_0():
-    var_0 = {}
-    var_1 = 'invariants'
-    var_2 = 'invariant1'
-    var_3 = var_0[var_1]
-    var_4 = len(var_3)
-    assert var_4 == 1
-    var_5 = 'invariant2'
-    var_6 = var_0[var_1]
-    var_7 = len(var_6)
-    assert var_7 == 2
-    var_8 = {}
-    var_9 = 0
-    var_10 = var_8[var_1][var_9]
-    var_11 = None
-    var_12 = {}
-    var_13 = var_12[var_1][var_9]
-    var_14 = {}
-    var_15 = var_14[var_1][var_9]
-    var_16 = 1
-    var_17 = var_14[var_1][var_16]
-    var_18 = {}
-    var_19 = 'invariant3'
-    var_20 = var_18[var_1]
-    var_21 = len(var_20)
-    assert var_21 == 3
-    var_22 = var_18[var_1][var_9]
-    var_23 = var_18[var_1][var_16]
-    var_24 = 2
-    var_25 = var_18[var_1][var_24]
-    var_26 = {}
-    var_27 = 'invariant'
-    var_28 = var_26[var_1][var_9]
-    var_29 = {}
-    var_30 = var_29[var_1][var_9]
-    var_31 = {}
-    var_32 = var_31[var_1][var_9]
-    var_33 = {}
-    var_34 = var_33[var_1][var_9]
-    var_35 = {}
-    var_36 = var_35[var_1][var_9]
-    var_37 = {}
-    var_38 = var_37[var_1][var_9]
-    var_39 = {}
-    var_40 = var_39[var_1][var_9]
-    var_41 = {}
-    var_42 = var_41[var_1][var_9]
-    var_43 = {}
-    var_44 = var_43[var_1][var_9]
-    var_45 = {}
-    var_46 = var_45[var_1][var_9]
-    var_47 = {}
-    var_48 = var_47[var_1][var_9]
-    var_49 = {}
-    var_50 = var_49[var_1][var_9]
-    var_51 = {}
-    var_52 = var_51[var_1][var_9]
-    var_53 = {}
-
-
-
-# Parsed testcases at query #41
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-
-
-
-# Parsed testcases at query #42
-#--------------------------
-
-
-
-
-# Parsed testcases at query #43
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 6
-    var_1 = 4
-    var_2 = 7
-    var_3 = 11
-    var_4 = 3
-
-
-
-# Parsed testcases at query #44
 #--------------------------
 
 
@@ -1257,203 +1037,230 @@ import pyrsistent._checked_types as module_0
 def test_case_0():
     var_0 = {}
     var_1 = '_invariants'
-    var_2 = 'invariant1'
+    var_2 = 'invariant'
     var_3 = var_0[var_1]
     var_4 = len(var_3)
     assert var_4 == 1
-    var_5 = {}
-    var_6 = 'invariant2'
-    var_7 = var_5[var_1]
-    var_8 = len(var_7)
-    assert var_8 == 1
-    var_9 = {}
-    var_10 = var_9[var_1]
-    var_11 = len(var_10)
-    assert var_11 == 1
-    var_12 = {}
-    var_13 = var_12[var_1]
-    var_14 = len(var_13)
-    assert var_14 == 1
-    var_15 = 'not_callable'
-    var_16 = {}
-    var_17 = '_invariants'
-    var_18 = 'invariant3'
-    var_19 = {}
-    var_20 = 'invariant4'
-    var_21 = var_19[var_17]
-    var_22 = len(var_21)
-    assert var_22 == 1
-    var_23 = {}
+    var_5 = 0
+    var_6 = var_0[var_1][var_5]
+    var_7 = callable(var_6)
+    var_8 = 'invariant3'
+    var_9 = True
+    var_10 = ()
+    var_11 = (var_9, var_10)
+    var_12 = lambda self: var_11
+    var_13 = {var_8: var_12}
+    var_14 = var_13[var_1]
+    var_15 = len(var_14)
+    assert var_15 == 3
+    var_16 = var_13[var_1]
+    var_17 = {}
+    var_18 = var_17[var_1]
+    var_19 = [inv.__name__ for inv in var_18]
+    var_20 = ()
+    var_21 = module_0.store_invariants(var_17, var_20, var_1, var_2)
+    var_22 = var_17[var_1][var_5]
+    var_23 = None
     var_24 = ()
-    var_25 = 'invariant'
-    var_26 = module_0.store_invariants(var_23, var_24, var_17, var_25)
-    var_27 = {}
-    var_28 = 'invariant5'
-    var_29 = var_27[var_17]
-    var_30 = len(var_29)
-    assert var_30 == 1
-    var_31 = {}
-    var_32 = 'invariant6'
-    var_33 = var_31[var_17]
-    var_34 = len(var_33)
-    assert var_34 == 1
-    var_35 = {}
-    var_36 = 'invariant7'
-    var_37 = var_35[var_17]
-    var_38 = len(var_37)
-    assert var_38 == 1
-    var_39 = {}
-    var_40 = 'invariant8'
-    var_41 = var_39[var_17]
-    var_42 = len(var_41)
-    assert var_42 == 1
-    var_43 = {}
-    var_44 = 'invariant9'
-    var_45 = var_43[var_17]
-    var_46 = len(var_45)
-    assert var_46 == 1
-    var_47 = {}
-    var_48 = 'invariant10'
-    var_49 = var_47[var_17]
-    var_50 = len(var_49)
-    assert var_50 == 1
-    var_51 = {}
-    var_52 = 'invariant11'
-    var_53 = var_51[var_17]
-    var_54 = len(var_53)
-    assert var_54 == 1
-    var_55 = {}
-    var_56 = 'invariant12'
-    var_57 = var_55[var_17]
-    var_58 = len(var_57)
-    assert var_58 == 1
-    var_59 = {}
-    var_60 = 'invariant13'
-    var_61 = var_59[var_17]
-    var_62 = len(var_61)
-    assert var_62 == 1
-    var_63 = {}
-    var_64 = 'invariant14'
-    var_65 = var_63[var_17]
-    var_66 = len(var_65)
-    assert var_66 == 1
-    var_67 = {}
-    var_68 = 'invariant15'
-    var_69 = var_67[var_17]
-    var_70 = len(var_69)
-    assert var_70 == 1
-    var_71 = {}
-    var_72 = 'invariant16'
-    var_73 = var_71[var_17]
-    var_74 = len(var_73)
-    assert var_74 == 1
-    var_75 = {}
-    var_76 = 'invariant17'
-    var_77 = var_75[var_17]
-    var_78 = len(var_77)
-    assert var_78 == 1
-    var_79 = {}
-    var_80 = 'invariant18'
-    var_81 = var_79[var_17]
-    var_82 = len(var_81)
-    assert var_82 == 1
-    var_83 = {}
-    var_84 = 'invariant19'
-    var_85 = var_83[var_17]
-    var_86 = len(var_85)
-    assert var_86 == 1
-    var_87 = {}
-    var_88 = 'invariant20'
-    var_89 = var_87[var_17]
-    var_90 = len(var_89)
-    assert var_90 == 1
-    var_91 = {}
-    var_92 = 'invariant21'
-    var_93 = var_91[var_17]
-    var_94 = len(var_93)
-    assert var_94 == 1
+    var_25 = module_0.store_invariants(var_17, var_24, var_1, var_2)
+    var_26 = var_17[var_1][var_5]
+    var_27 = 'not callable'
+    var_28 = {}
+    var_29 = '_invariants'
+    var_30 = 'invariant'
+    var_31 = module_0.store_invariants(var_28, var_24, var_29, var_30)
+    var_32 = {}
+    var_33 = module_0.store_invariants(var_32, var_24, var_29, var_30)
+    var_34 = var_32[var_29]
+    var_35 = [inv.__name__ for inv in var_34]
+    var_36 = 'invariant_a'
+    var_37 = 'invariant_d'
+    var_38 = {}
+    var_39 = ()
+    var_40 = module_0.store_invariants(var_38, var_39, var_29, var_30)
 
 
 
-# Parsed testcases at query #45
+# Parsed testcases at query #18
 #--------------------------
 
 
 def test_case_0():
     var_0 = 5
     var_1 = -1
-    var_2 = 15
-    var_3 = -5
-
-
-
-# Parsed testcases at query #46
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 5
-    var_1 = -1
-    var_2 = -1
-    var_3 = 15
-    var_4 = -1
-
-
-
-# Parsed testcases at query #47
-#--------------------------
-
-
-def test_case_0():
-    var_0 = 15
-    var_1 = 5
-    var_2 = 12
+    var_2 = 6
     var_3 = 11
-    var_4 = 9
+    var_4 = 1
+    var_5 = -2
+    var_6 = 3
+    var_7 = 2
+    var_8 = 0
+    var_9 = -5
 
 
 
-# Parsed testcases at query #48
+# Parsed testcases at query #19
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 'a'
+    var_3 = 'b'
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 10
+    var_6 = 20
+    var_7 = {var_0: var_5, var_1: var_6}
+    var_8 = 'wrong'
+    var_9 = 10
+    var_10 = {var_8: var_9}
+    var_11 = 1
+    var_12 = 'wrong'
+    var_13 = {var_11: var_12}
+    var_14 = lambda k, v: (v > 0, 'Value must be positive')
+    var_15 = {var_13: var_5, var_1: var_6}
+    var_16 = 1
+    var_17 = -10
+    var_18 = {var_16: var_17}
+    var_19 = {var_18: var_2}
+    var_20 = {var_18: var_2, var_1: var_3}
+    var_21 = module_0.pmap(var_20)
+    var_22 = 3.14
+    var_23 = None
+    var_24 = {var_18: var_5, var_2: var_22, var_1: var_23}
+    var_25 = 3
+    var_26 = [var_18, var_1, var_25]
+    var_27 = 'test'
+    var_28 = {var_18: var_27}
+    var_29 = 'c'
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+
+import pyrsistent._pmap as module_0
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 2
+    var_2 = 'a'
+    var_3 = 'b'
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = {var_0: var_2}
+    var_6 = 'invalid'
+    var_7 = 'value'
+    var_8 = {var_6: var_7}
+    var_9 = 1
+    var_10 = 123
+    var_11 = {var_9: var_10}
+    var_12 = lambda k, v: (v > 0, 'Value must be positive')
+    var_13 = 1
+    var_14 = -1
+    var_15 = {var_13: var_14}
+    var_16 = lambda k, v: (v > 0, 'Positive')
+    var_17 = lambda k, v: (v < 10, 'Less than 10')
+    var_18 = 1
+    var_19 = 15
+    var_20 = {var_18: var_19}
+    var_21 = lambda k, v: (k > 0, 'Key positive')
+    var_22 = {var_20: var_2}
+    var_23 = -1
+    var_24 = 'a'
+    var_25 = {var_23: var_24}
+    var_26 = {var_25: var_2, var_1: var_3}
+    var_27 = module_0.pmap(var_26)
+    var_28 = {var_25: var_2}
+
+
+
+# Parsed testcases at query #21
 #--------------------------
 
 
 def test_case_0():
-    var_0 = 'test_arg'
+    var_0 = 1
+    var_1 = 2
+    var_2 = 'one'
+    var_3 = 'two'
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'a'
+    var_6 = 'b'
+    var_7 = {var_5: var_0, var_6: var_1}
+    var_8 = 1
+    var_9 = {var_8: var_8}
+    var_10 = 'a'
+    var_11 = 'not_an_int'
+    var_12 = {var_10: var_11}
+    var_13 = 1.5
+    var_14 = {var_12: var_13, var_3: var_1}
+    var_15 = lambda k, v: (v > 0, 'Value must be positive')
+    var_16 = 5
+    var_17 = 10
+    var_18 = {var_12: var_16, var_1: var_17}
+    var_19 = 1
+    var_20 = -5
+    var_21 = {var_19: var_20}
+    var_22 = {var_21: var_2}
+    var_23 = {var_21: var_2}
+    var_24 = lambda self, _, k, v: (str(k), v.upper())
+    var_25 = 'hello'
+    var_26 = {var_21: var_25}
+    var_27 = 'test'
+    var_28 = {var_21: var_27}
+    var_29 = 1
+    var_30 = 'one'
+    var_31 = (var_29, var_30)
+    var_32 = [var_31]
+    var_33 = None
+    var_34 = {var_5: var_31, var_6: var_33}
 
 
 
-# Parsed testcases at query #49
+# Parsed testcases at query #22
 #--------------------------
 
+
+import pyrsistent._pmap as module_0
 
 def test_case_0():
-    var_0 = 5
-    var_1 = 15
-    var_2 = -5
-
-
-
-# Parsed testcases at query #50
-#--------------------------
-
-
-
-
-# Parsed testcases at query #51
-#--------------------------
-
-
-import pyrsistent._checked_types as module_0
-
-def test_case_0():
-    var_0 = 'str'
-    var_1 = module_0.maybe_parse_user_type(var_0)
-    var_2 = 1
-    var_3 = 'int'
-    var_4 = [var_3, var_0]
-    var_5 = module_0.maybe_parse_user_type(var_4)
-    var_6 = 123
-    var_7 = module_0.maybe_parse_user_type(var_6)
+    var_0 = 1
+    var_1 = 2
+    var_2 = 'one'
+    var_3 = 'two'
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = 'a'
+    var_6 = 'b'
+    var_7 = {var_5: var_0, var_6: var_1}
+    var_8 = 1
+    var_9 = {var_8: var_8}
+    var_10 = 'a'
+    var_11 = 'not_int'
+    var_12 = {var_10: var_11}
+    var_13 = 1.5
+    var_14 = {var_12: var_13, var_3: var_1}
+    var_15 = lambda k, v: (v > 0, 'Value must be positive')
+    var_16 = 5
+    var_17 = 10
+    var_18 = {var_12: var_16, var_1: var_17}
+    var_19 = 1
+    var_20 = -5
+    var_21 = {var_19: var_20}
+    var_22 = {var_21: var_5, var_1: var_6}
+    var_23 = module_0.pmap(var_22)
+    var_24 = 'test'
+    var_25 = {var_21: var_24}
+    var_26 = 'string_key'
+    var_27 = 'value'
+    var_28 = {var_26: var_27}
+    var_29 = 'hello'
+    var_30 = None
+    var_31 = {var_28: var_29, var_1: var_30}
+    var_32 = {var_28: var_5}
 
 
 

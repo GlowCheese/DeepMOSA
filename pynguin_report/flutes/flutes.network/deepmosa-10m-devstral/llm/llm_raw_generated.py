@@ -810,3 +810,310 @@ def test_download_from_google_drive():
     assert result == os.path.join(path, filename)
 
 
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# LLM-generated content at query #1
+#--------------------------
+
+```python
+def test__download_without_progress_bar():
+    url = "http://example.com/file.txt"
+    filename = "file.txt"
+    path = "/tmp"
+    result = _download(url, filename, path)
+    assert result == os.path.join(path, filename)
+
+def test__download_with_progress_bar():
+    url = "http://example.com/file.txt"
+    filename = "file.txt"
+    path = "/tmp"
+    bar_fn = lambda: MagicMock()
+    result = _download(url, filename, path, bar_fn)
+    assert result == os.path.join(path, filename)
+    bar_fn().close.assert_called_once()
+
+def test__download_progress_hook_with_total_size():
+    url = "http://example.com/file.txt"
+    filename = "file.txt"
+    path = "/tmp"
+    bar_fn = lambda: MagicMock()
+    bar_fn().total = None
+    _download(url, filename, path, bar_fn)
+    bar_fn().refresh.assert_called_once()
+
+def test__download_progress_hook_without_total_size():
+    url = "http://example.com/file.txt"
+    filename = "file.txt"
+    path = "/tmp"
+    bar_fn = lambda: MagicMock()
+    _download(url, filename, path, bar_fn)
+    bar_fn().refresh.assert_not_called()
+
+def test__download_progress_hook_updates_progress():
+    url = "http://example.com/file.txt"
+    filename = "file.txt"
+    path = "/tmp"
+    bar_fn = lambda: MagicMock()
+    _download(url, filename, path, bar_fn)
+    bar_fn().update.assert_called()
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+```python
+def test__download_from_google_drive():
+    url = "https://drive.google.com/file/d/123456789/view?usp=sharing"
+    filename = "test_file.txt"
+    path = "/tmp"
+    bar_fn = None
+    result = _download_from_google_drive(url, filename, path, bar_fn)
+    assert result == "/tmp/test_file.txt"
+    assert os.path.exists(result)
+
+
+# LLM-generated content at query #3
+#--------------------------
+
+```python
+def test__download_from_google_drive():
+    url = "https://drive.google.com/file/d/123456789/view?usp=sharing"
+    filename = "test_file.txt"
+    path = "/tmp"
+    bar_fn = lambda: None
+
+    result = _download_from_google_drive(url, filename, path, bar_fn)
+
+    assert result == "/tmp/test_file.txt"
+    assert os.path.exists("/tmp/test_file.txt")
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+```python
+def test_download_with_none_save_dir():
+    assert download("https://example.com/file.txt") == os.path.join(tempfile.gettempdir(), "file.txt")
+
+def test_download_with_custom_save_dir():
+    save_dir = "/tmp/test"
+    assert download("https://example.com/file.txt", save_dir=save_dir) == os.path.join(save_dir, "file.txt")
+
+def test_download_with_custom_filename():
+    assert download("https://example.com/file.txt", filename="custom.txt") == os.path.join(tempfile.gettempdir(), "custom.txt")
+
+def test_download_with_extract_false():
+    assert download("https://example.com/file.tar.gz", extract=False) == os.path.join(tempfile.gettempdir(), "file.tar.gz")
+
+def test_download_with_progress_false():
+    assert download("https://example.com/file.txt", progress=False) == os.path.join(tempfile.gettempdir(), "file.txt")
+
+def test_download_with_google_drive_url():
+    url = "https://drive.google.com/file/d/123456789/view"
+    assert download(url) == os.path.join(tempfile.gettempdir(), "123456789")
+
+def test_download_with_github_raw_url():
+    url = "https://github.com/user/repo/raw/main/file.txt?raw=true"
+    assert download(url) == os.path.join(tempfile.gettempdir(), "file.txt")
+
+def test_download_with_existing_file():
+    save_dir = "/tmp/test"
+    filepath = os.path.join(save_dir, "file.txt")
+    os.makedirs(save_dir, exist_ok=True)
+    with open(filepath, "w") as f:
+        f.write("test")
+    assert download("https://example.com/file.txt", save_dir=save_dir) == filepath
+
+def test_download_with_unknown_compression():
+    save_dir = "/tmp/test"
+    filepath = os.path.join(save_dir, "file.unknown")
+    os.makedirs(save_dir, exist_ok=True)
+    with open(filepath, "w") as f:
+        f.write("test")
+    assert download("https://example.com/file.unknown", save_dir=save_dir, extract=True) == filepath
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+```python
+def test_extract_tarfile():
+    assert tarfile.is_tarfile("test.tar.gz") is True
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+```python
+def test__download_from_google_drive():
+    url = "https://drive.google.com/file/d/1abc123xyz/view?usp=sharing"
+    filename = "test_file.txt"
+    path = "/tmp"
+    bar_fn = None
+
+    result = _download_from_google_drive(url, filename, path, bar_fn)
+
+    assert os.path.exists(result)
+    assert result == os.path.join(path, filename)
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+```python
+def test__download_from_google_drive():
+    url = "https://drive.google.com/file/d/123456789/view"
+    filename = "test_file.txt"
+    path = "/tmp"
+    result = _download_from_google_drive(url, filename, path)
+    assert os.path.exists(result)
+    assert result == os.path.join(path, filename)
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+```python
+def test_token_present_when_download_warning_cookie_exists():
+    resp = type('Response', (), {'cookies': {'download_warning_123': 'token_value'}})
+    token = _get_confirm_token(resp)
+    assert token == 'token_value'
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+```python
+def test_predicate_at_line_2():
+    assert True
+
+
+# LLM-generated content at query #10
+#--------------------------
+
+```python
+def test__download_from_google_drive():
+    url = "https://drive.google.com/file/d/123456789/view?usp=sharing"
+    filename = "test_file.txt"
+    path = "/tmp"
+    bar_fn = None
+    result = _download_from_google_drive(url, filename, path, bar_fn)
+    assert result == "/tmp/test_file.txt"
+
+
+# LLM-generated content at query #11
+#--------------------------
+
+```python
+def test_chunk_is_empty():
+    chunk = b""
+    assert not chunk
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+```python
+def test_progress_close_is_called():
+    class MockProgress:
+        def __init__(self):
+            self.closed = False
+
+        def update(self, size):
+            pass
+
+        def close(self):
+            self.closed = True
+
+    class MockResponse:
+        def iter_content(self, chunk_size):
+            yield b"test data"
+
+    mock_bar_fn = lambda: MockProgress()
+    mock_response = MockResponse()
+    mock_sess = type('MockSession', (), {'get': lambda *args, **kwargs: mock_response})()
+    mock_file_id = "test_id"
+    mock_url = f"https://drive.google.com/file/d/{mock_file_id}/view"
+    mock_filename = "test_file.txt"
+    mock_path = "/tmp"
+
+    with patch('requests.Session', return_value=mock_sess), \
+         patch('os.path.join', return_value=f"{mock_path}/{mock_filename}"):
+        _download_from_google_drive(mock_url, mock_filename, mock_path, mock_bar_fn)
+
+    assert mock_bar_fn().closed
+
+
+# LLM-generated content at query #13
+#--------------------------
+
+```python
+def test_predicate_at_line_27_evaluates_to_false():
+    chunk = b''
+    assert not chunk
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+```python
+def test_extract_predicate():
+    assert extract is True
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+```python
+def test_progress_is_not_none():
+    progress = object()
+    assert progress is not None
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+```python
+def test_predicate_at_line_27_evaluates_to_false():
+    chunk = None
+    assert not chunk
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+```python
+def test_progress_is_not_none():
+    url = "http://example.com/file"
+    filename = "test_file"
+    path = "/tmp"
+    bar_fn = lambda: type('MockBar', (), {'total': None, 'refresh': lambda: None, 'update': lambda x: None, 'close': lambda: None})()
+    _download(url, filename, path, bar_fn)
+    assert progress is not None
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+```python
+def test__download_without_progress_bar():
+    url = "http://example.com/file.txt"
+    filename = "file.txt"
+    path = "/tmp"
+    result = _download(url, filename, path)
+    assert os.path.exists(os.path.join(path, filename))
+    assert result == os.path.join(path, filename)
+
+def test__download_with_progress_bar():
+    url = "http://example.com/file.txt"
+    filename = "file.txt"
+    path = "/tmp"
+    bar_fn = lambda: MagicMock()
+    result = _download(url, filename, path, bar_fn)
+    assert os.path.exists(os.path.join(path, filename))
+    assert result == os.path.join(path, filename)
+
+

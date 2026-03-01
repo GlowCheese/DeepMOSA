@@ -342,7 +342,7 @@ class StatementDeserializerV2(StatementDeserializer):
 
         remainings: Dict[str, Parameter] = dict(parameters)
         if args_name is not None:
-            remainings.pop(args_name)
+            remainings.pop(args_name, None)
 
         for call_keyword in call_keywords:
             kw_arg, kw_value = call_keyword.arg, call_keyword.value

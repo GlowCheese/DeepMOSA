@@ -27,4 +27,11 @@ fi
 export PYTHONPATH="$TARGET_DIR:${PYTHONPATH:-}"
 
 echo "[entrypoint] Running pynguin..."
-exec pynguin "$@"
+"$@" || TEST_EXIT_CODE=$?
+
+if [ "${RUN_COVERAGE_JSON:-0}" = "1" ]; then
+    echo "[entrypoint] Exporting coverage json report..."
+    coverage json -o /workspace/.coverage-data/coverage.json
+fi
+
+exit ${TEST_EXIT_CODE:-0}

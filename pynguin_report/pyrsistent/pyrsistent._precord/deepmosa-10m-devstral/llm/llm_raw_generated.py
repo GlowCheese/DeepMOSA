@@ -2321,3 +2321,1817 @@ def test_persistent_with_field_invariant_errors():
         assert 'FIELD_INVARIANT_FAILED' in e.invariant_errors
 
 
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# LLM-generated content at query #1
+#--------------------------
+
+```python
+def test_precord_new_with_precord_size_and_buckets():
+    size = 2
+    buckets = [None, [(1, 2)]]
+    result = PRecord.__new__(PRecord, _precord_size=size, _precord_buckets=buckets)
+    assert result._size == size
+    assert result._buckets == buckets
+
+def test_precord_new_without_precord_size_and_buckets():
+    class TestRecord(PRecord):
+        pass
+    TestRecord._precord_fields = {'a': None, 'b': None}
+    TestRecord._precord_initial_values = {}
+    TestRecord._precord_mandatory_fields = set()
+
+    result = TestRecord(a=1, b=2)
+    assert result['a'] == 1
+    assert result['b'] == 2
+
+def test_precord_new_with_initial_values():
+    class TestRecord(PRecord):
+        pass
+    TestRecord._precord_fields = {'a': None, 'b': None}
+    TestRecord._precord_initial_values = {'a': 10, 'b': 20}
+    TestRecord._precord_mandatory_fields = set()
+
+    result = TestRecord()
+    assert result['a'] == 10
+    assert result['b'] == 20
+
+def test_precord_new_with_callable_initial_values():
+    class TestRecord(PRecord):
+        pass
+    TestRecord._precord_fields = {'a': None, 'b': None}
+    TestRecord._precord_initial_values = {'a': lambda: 10, 'b': lambda: 20}
+    TestRecord._precord_mandatory_fields = set()
+
+    result = TestRecord()
+    assert result['a'] == 10
+    assert result['b'] == 20
+
+def test_precord_new_with_factory_fields():
+    class TestRecord(PRecord):
+        pass
+    TestRecord._precord_fields = {'a': None, 'b': None}
+    TestRecord._precord_initial_values = {}
+    TestRecord._precord_mandatory_fields = set()
+
+    result = TestRecord(a=1, b=2, _factory_fields={'a'})
+    assert result['a'] == 1
+    assert result['b'] == 2
+
+def test_precord_new_with_ignore_extra():
+    class TestRecord(PRecord):
+        pass
+    TestRecord._precord_fields = {'a': None, 'b': None}
+    TestRecord._precord_initial_values = {}
+    TestRecord._precord_mandatory_fields = set()
+
+    result = TestRecord(a=1, b=2, c=3, _ignore_extra=True)
+    assert result['a'] == 1
+    assert result['b'] == 2
+    assert 'c' not in result
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+```python
+def test_serialize_without_custom_serializers():
+    class TestRecord(PRecord):
+        field1 = field()
+        field2 = field()
+
+    record = TestRecord(field1="value1", field2="value2")
+    result = record.serialize()
+    assert result == {"field1": "value1", "field2": "value2"}
+
+def test_serialize_with_custom_serializers():
+    class TestRecord(PRecord):
+        field1 = field(serializer=lambda x, fmt: x.upper())
+        field2 = field(serializer=lambda x, fmt: str(x).lower())
+
+    record = TestRecord(field1="value1", field2="VALUE2")
+    result = record.serialize()
+    assert result == {"field1": "VALUE1", "field2": "value2"}
+
+def test_serialize_with_format_parameter():
+    class TestRecord(PRecord):
+        field1 = field(serializer=lambda x, fmt: f"{fmt}:{x}")
+
+    record = TestRecord(field1="value1")
+    result = record.serialize(format="custom")
+    assert result == {"field1": "custom:value1"}
+
+
+# LLM-generated content at query #3
+#--------------------------
+
+```python
+def test_predicate_false():
+    class TestRecord(PRecord):
+        pass
+
+    result = TestRecord.__new__(TestRecord)
+    assert result is not None
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+```python
+def test_repr_returns_correct_string_representation():
+    class TestRecord(PRecord):
+        field1 = None
+        field2 = None
+
+    record = TestRecord(field1=10, field2="test")
+    assert repr(record) == "TestRecord(field1=10, field2='test')"
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+```python
+def test_persistent_with_dirty_and_non_cls_instance():
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    original_pmap = type('MockPMap', (), {'_buckets': {}, '_size': 0})()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    evolver._buckets = {'key': 'value'}
+    evolver._size = 1
+    result = evolver.persistent()
+    assert isinstance(result, cls)
+    assert result._precord_buckets == {'key': 'value'}
+    assert result._precord_size == 1
+
+def test_persistent_with_clean_and_cls_instance():
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    original_pmap = type('MockPMap', (), {'_buckets': {}, '_size': 0})()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    evolver._buckets = {}
+    evolver._size = 0
+    result = evolver.persistent()
+    assert isinstance(result, cls)
+    assert result._precord_buckets == {}
+    assert result._precord_size == 0
+
+def test_persistent_with_missing_mandatory_fields():
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': {'mandatory_field'}, '_precord_invariants': []})
+    original_pmap = type('MockPMap', (), {'_buckets': {}, '_size': 0})()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.missing_fields == ('MockClass.mandatory_field',)
+
+def test_persistent_with_invariant_errors():
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    original_pmap = type('MockPMap', (), {'_buckets': {}, '_size': 0})()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    evolver._invariant_error_codes = ['error_code']
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.invariant_errors == ('error_code',)
+
+def test_persistent_with_global_invariant_failure():
+    def failing_invariant(subject):
+        return (False, 'global_error')
+
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': [failing_invariant]})
+    original_pmap = type('MockPMap', (), {'_buckets': {}, '_size': 0})()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.invariant_errors == ('global_error',)
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+```python
+def test_predicate_evaluates_to_false():
+    assert not ('_precord_size' in {} and '_precord_buckets' in {})
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+```python
+def test_precord_constructor_with_special_attributes():
+    kwargs = {'_precord_size': 1, '_precord_buckets': [('field1', 'value1')]}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'value1'
+
+def test_precord_constructor_with_factory_fields():
+    kwargs = {'field1': 'value1', '_factory_fields': ['field1']}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'value1'
+
+def test_precord_constructor_with_ignore_extra():
+    kwargs = {'field1': 'value1', 'extra_field': 'extra_value', '_ignore_extra': True}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'value1'
+    assert 'extra_field' not in result
+
+def test_precord_constructor_with_initial_values():
+    PRecord._precord_initial_values = {'field1': 'default_value'}
+    kwargs = {'field1': 'new_value'}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'new_value'
+
+def test_precord_constructor_with_callable_initial_values():
+    PRecord._precord_initial_values = {'field1': lambda: 'default_value'}
+    kwargs = {}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'default_value'
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+```python
+def test_persistent_raises_when_invariant_errors_or_missing_fields():
+    class TestClass:
+        _precord_fields = {}
+        _precord_mandatory_fields = set()
+        _precord_invariants = []
+
+    evolver = _PRecordEvolver(TestClass, PMap())
+    evolver._invariant_error_codes = ['error1']
+    evolver._missing_fields = ['field1']
+
+    with pytest.raises(InvariantException) as exc_info:
+        evolver.persistent()
+
+    assert exc_info.value.invariant_errors == ('error1',)
+    assert exc_info.value.missing_fields == ('field1',)
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+```python
+def test_set_with_valid_field_and_factory():
+    field = Mock(name='field', type={str}, factory=lambda x: x.upper(), invariant=lambda x: (True, None))
+    cls = Mock(name='cls', _precord_fields={'name': field})
+    evolver = _PRecordEvolver(cls, PMap(), _factory_fields={field})
+    result = evolver.set('name', 'test')
+    assert result['name'] == 'TEST'
+    assert evolver._invariant_error_codes == []
+    assert evolver._missing_fields == []
+
+def test_set_with_invalid_type():
+    field = Mock(name='field', type={int}, factory=lambda x: x, invariant=lambda x: (True, None))
+    cls = Mock(name='cls', _precord_fields={'age': field})
+    evolver = _PRecordEvolver(cls, PMap(), _factory_fields={field})
+    with pytest.raises(PTypeError):
+        evolver.set('age', 'not an int')
+
+def test_set_with_invariant_failure():
+    field = Mock(name='field', type={int}, factory=lambda x: x, invariant=lambda x: (False, 'INVALID'))
+    cls = Mock(name='cls', _precord_fields={'value': field})
+    evolver = _PRecordEvolver(cls, PMap(), _factory_fields={field})
+    result = evolver.set('value', 10)
+    assert evolver._invariant_error_codes == ['INVALID']
+    assert result['value'] == 10
+
+def test_set_with_missing_field():
+    cls = Mock(name='cls', _precord_fields={})
+    evolver = _PRecordEvolver(cls, PMap())
+    with pytest.raises(AttributeError):
+        evolver.set('unknown', 'value')
+
+def test_set_with_ignore_extra_compliant_factory():
+    field = Mock(name='field', type={dict}, factory=lambda x, ignore_extra=False: x, invariant=lambda x: (True, None))
+    cls = Mock(name='cls', _precord_fields={'data': field})
+    evolver = _PRecordEvolver(cls, PMap(), _factory_fields={field}, _ignore_extra=True)
+    result = evolver.set('data', {'a': 1, 'b': 2})
+    assert result['data'] == {'a': 1, 'b': 2}
+    assert evolver._invariant_error_codes == []
+    assert evolver._missing_fields == []
+
+def test_set_with_non_factory_field():
+    field = Mock(name='field', type={str}, factory=None, invariant=lambda x: (True, None))
+    cls = Mock(name='cls', _precord_fields={'name': field})
+    evolver = _PRecordEvolver(cls, PMap(), _factory_fields=None)
+    result = evolver.set('name', 'test')
+    assert result['name'] == 'test'
+    assert evolver._invariant_error_codes == []
+    assert evolver._missing_fields == []
+
+def test_set_with_invariant_exception():
+    field = Mock(name='field', type={int}, factory=lambda x: x, invariant=lambda x: (False, 'ERROR'))
+    cls = Mock(name='cls', _precord_fields={'value': field})
+    evolver = _PRecordEvolver(cls, PMap(), _factory_fields={field})
+    result = evolver.set('value', 5)
+    assert evolver._invariant_error_codes == ['ERROR']
+    assert result['value'] == 5
+
+
+# LLM-generated content at query #10
+#--------------------------
+
+```python
+def test_serialize_returns_dict():
+    class TestRecord(PRecord):
+        field1 = field()
+        field2 = field()
+
+    record = TestRecord(field1="value1", field2="value2")
+    result = record.serialize()
+    assert isinstance(result, dict)
+
+
+# LLM-generated content at query #11
+#--------------------------
+
+```python
+def test_precord_initial_values_used():
+    class TestRecord(PRecord):
+        _precord_initial_values = {'a': 1, 'b': lambda: 2}
+
+    result = TestRecord()
+    assert result['a'] == 1
+    assert result['b'] == 2
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+```python
+def test_persistent_creates_new_instance_when_dirty_or_not_instance():
+    class TestClass:
+        _precord_fields = {}
+        _precord_mandatory_fields = set()
+        _precord_invariants = []
+
+    evolver = _PRecordEvolver(TestClass, PMap())
+    evolver.set('test', 'value')
+    pm = evolver.persistent()
+    assert isinstance(pm, TestClass)
+
+
+# LLM-generated content at query #13
+#--------------------------
+
+```python
+def test_persistent_with_dirty_and_non_cls_instance():
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    evolver = _PRecordEvolver(cls, PMap())
+    evolver.set('key', 'value')
+    result = evolver.persistent()
+    assert isinstance(result, cls)
+    assert result._precord_buckets == evolver._buckets
+    assert result._precord_size == evolver._size
+
+def test_persistent_with_clean_and_cls_instance():
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    pm = cls(_precord_buckets=PMap()._buckets, _precord_size=PMap()._size)
+    evolver = _PRecordEvolver(cls, pm)
+    result = evolver.persistent()
+    assert result is pm
+
+def test_persistent_with_missing_mandatory_fields():
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': {'mandatory_field'}, '_precord_invariants': []})
+    evolver = _PRecordEvolver(cls, PMap())
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.missing_fields == ("MockClass.mandatory_field",)
+
+def test_persistent_with_invariant_errors():
+    def failing_invariant(subject):
+        return False, "INVARIANT_FAILED"
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': [failing_invariant]})
+    evolver = _PRecordEvolver(cls, PMap())
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.invariant_errors == ("INVARIANT_FAILED",)
+
+def test_persistent_with_global_invariant_failure():
+    def failing_global_invariant(subject):
+        return False, "GLOBAL_INVARIANT_FAILED"
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': [failing_global_invariant]})
+    evolver = _PRecordEvolver(cls, PMap())
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.invariant_errors == ("GLOBAL_INVARIANT_FAILED",)
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+```python
+def test_new_with_no_bases_and_no_fields():
+    class TestRecord(metaclass=_PRecordMeta):
+        pass
+    assert hasattr(TestRecord, '_precord_fields')
+    assert TestRecord._precord_fields == {}
+    assert hasattr(TestRecord, '_precord_invariants')
+    assert TestRecord._precord_invariants == ()
+    assert hasattr(TestRecord, '_precord_mandatory_fields')
+    assert TestRecord._precord_mandatory_fields == set()
+    assert hasattr(TestRecord, '_precord_initial_values')
+    assert TestRecord._precord_initial_values == {}
+    assert hasattr(TestRecord, '__slots__')
+    assert TestRecord.__slots__ == ()
+
+def test_new_with_fields():
+    class TestRecord(metaclass=_PRecordMeta):
+        field1 = _PField()
+        field2 = _PField(mandatory=True)
+        field3 = _PField(initial=42)
+
+    assert TestRecord._precord_fields == {'field1': _PField(), 'field2': _PField(mandatory=True), 'field3': _PField(initial=42)}
+    assert TestRecord._precord_mandatory_fields == {'field2'}
+    assert TestRecord._precord_initial_values == {'field3': 42}
+
+def test_new_with_inherited_fields():
+    class BaseRecord(metaclass=_PRecordMeta):
+        field1 = _PField()
+
+    class TestRecord(BaseRecord):
+        field2 = _PField()
+
+    assert TestRecord._precord_fields == {'field1': _PField(), 'field2': _PField()}
+    assert TestRecord._precord_mandatory_fields == set()
+    assert TestRecord._precord_initial_values == {}
+
+def test_new_with_invariants():
+    def invariant1(obj):
+        return True, "OK"
+
+    def invariant2(obj):
+        return False, "Error"
+
+    class TestRecord(metaclass=_PRecordMeta):
+        __invariant__ = invariant1
+
+    assert len(TestRecord._precord_invariants) == 1
+    assert callable(TestRecord._precord_invariants[0])
+
+def test_new_with_inherited_invariants():
+    def invariant1(obj):
+        return True, "OK"
+
+    def invariant2(obj):
+        return False, "Error"
+
+    class BaseRecord(metaclass=_PRecordMeta):
+        __invariant__ = invariant1
+
+    class TestRecord(BaseRecord):
+        __invariant__ = invariant2
+
+    assert len(TestRecord._precord_invariants) == 2
+    assert callable(TestRecord._precord_invariants[0])
+    assert callable(TestRecord._precord_invariants[1])
+
+def test_new_with_non_callable_invariant():
+    with pytest.raises(TypeError):
+        class TestRecord(metaclass=_PRecordMeta):
+            __invariant__ = "not callable"
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+```python
+def test_persistent_with_dirty_and_non_cls_instance():
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    evolver = _PRecordEvolver(cls, PMap())
+    evolver.set('key', 'value')
+    result = evolver.persistent()
+    assert isinstance(result, cls)
+    assert 'key' in result
+
+def test_persistent_with_clean_and_cls_instance():
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    evolver = _PRecordEvolver(cls, PMap())
+    result = evolver.persistent()
+    assert isinstance(result, cls)
+    assert len(result) == 0
+
+def test_persistent_with_missing_mandatory_fields():
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': {'mandatory_field'}, '_precord_invariants': []})
+    evolver = _PRecordEvolver(cls, PMap())
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert 'mandatory_field' in e.missing_fields
+
+def test_persistent_with_invariant_errors():
+    def failing_invariant(value):
+        return (False, 'INVARIANT_FAILED')
+
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': [failing_invariant]})
+    evolver = _PRecordEvolver(cls, PMap())
+    evolver.set('key', 'value')
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert 'INVARIANT_FAILED' in e.invariant_errors
+
+def test_persistent_with_global_invariant_failure():
+    def global_invariant(subject):
+        return (False, 'GLOBAL_INVARIANT_FAILED')
+
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': [global_invariant]})
+    evolver = _PRecordEvolver(cls, PMap())
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert 'GLOBAL_INVARIANT_FAILED' in e.invariant_errors
+
+def test_persistent_with_successful_validation():
+    cls = type('MockClass', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    evolver = _PRecordEvolver(cls, PMap())
+    evolver.set('key', 'value')
+    result = evolver.persistent()
+    assert isinstance(result, cls)
+    assert 'key' in result
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+```python
+def test__new__creates_precord_fields():
+    class TestRecord(metaclass=_PRecordMeta):
+        pass
+    assert hasattr(TestRecord, '_precord_fields')
+    assert isinstance(TestRecord._precord_fields, dict)
+
+def test__new__creates_precord_mandatory_fields():
+    class TestRecord(metaclass=_PRecordMeta):
+        pass
+    assert hasattr(TestRecord, '_precord_mandatory_fields')
+    assert isinstance(TestRecord._precord_mandatory_fields, set)
+
+def test__new__creates_precord_initial_values():
+    class TestRecord(metaclass=_PRecordMeta):
+        pass
+    assert hasattr(TestRecord, '_precord_initial_values')
+    assert isinstance(TestRecord._precord_initial_values, dict)
+
+def test__new__creates_empty_slots():
+    class TestRecord(metaclass=_PRecordMeta):
+        pass
+    assert hasattr(TestRecord, '__slots__')
+    assert TestRecord.__slots__ == ()
+
+def test__new__inherits_fields():
+    class BaseRecord(metaclass=_PRecordMeta):
+        pass
+    class DerivedRecord(BaseRecord):
+        pass
+    assert hasattr(DerivedRecord, '_precord_fields')
+    assert isinstance(DerivedRecord._precord_fields, dict)
+
+def test__new__inherits_invariants():
+    class BaseRecord(metaclass=_PRecordMeta):
+        __invariant__ = lambda self: True
+    class DerivedRecord(BaseRecord):
+        pass
+    assert hasattr(DerivedRecord, '_precord_invariants')
+    assert isinstance(DerivedRecord._precord_invariants, tuple)
+    assert len(DerivedRecord._precord_invariants) == 1
+
+def test__new__stores_mandatory_fields():
+    class TestRecord(metaclass=_PRecordMeta):
+        x = _PField(mandatory=True)
+        y = _PField(mandatory=False)
+    assert TestRecord._precord_mandatory_fields == {'x'}
+
+def test__new__stores_initial_values():
+    class TestRecord(metaclass=_PRecordMeta):
+        x = _PField(initial=1)
+        y = _PField(initial=PFIELD_NO_INITIAL)
+    assert TestRecord._precord_initial_values == {'x': 1}
+
+def test__new__wraps_invariants():
+    def test_invariant(self):
+        return True
+    class TestRecord(metaclass=_PRecordMeta):
+        __invariant__ = test_invariant
+    assert len(TestRecord._precord_invariants) == 1
+    assert callable(TestRecord._precord_invariants[0])
+
+def test__new__raises_type_error_for_non_callable_invariant():
+    try:
+        class TestRecord(metaclass=_PRecordMeta):
+            __invariant__ = "not callable"
+        assert False, "Expected TypeError"
+    except TypeError:
+        pass
+
+def test__new__merges_invariant_results():
+    def test_invariant(self):
+        return [(True, "test"), (False, "error")]
+    class TestRecord(metaclass=_PRecordMeta):
+        __invariant__ = test_invariant
+    assert len(TestRecord._precord_invariants) == 1
+    result = TestRecord._precord_invariants[0](None)
+    assert result == (False, ("error",))
+
+def test__new__handles_multiple_invariants():
+    def invariant1(self):
+        return True
+    def invariant2(self):
+        return True
+    class TestRecord(metaclass=_PRecordMeta):
+        __invariant__ = invariant1
+    class DerivedRecord(TestRecord):
+        __invariant__ = invariant2
+    assert len(DerivedRecord._precord_invariants) == 2
+
+def test__new__handles_no_invariants():
+    class TestRecord(metaclass=_PRecordMeta):
+        pass
+    assert hasattr(TestRecord, '_precord_invariants')
+    assert TestRecord._precord_invariants == ()
+
+def test__new__handles_empty_bases():
+    class TestRecord(metaclass=_PRecordMeta):
+        pass
+    assert hasattr(TestRecord, '_precord_fields')
+    assert TestRecord._precord_fields == {}
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+```python
+def test_precord_constructor_with_special_attributes():
+    kwargs = {'_precord_size': 2, '_precord_buckets': [('a', 1), ('b', 2)]}
+    result = PRecord(**kwargs)
+    assert result['a'] == 1
+    assert result['b'] == 2
+
+def test_precord_constructor_with_factory_fields():
+    kwargs = {'field1': 'value1', '_factory_fields': ['field1']}
+    result = PRecord(**kwargs)
+    assert result['field1'] == 'value1'
+
+def test_precord_constructor_with_ignore_extra():
+    kwargs = {'field1': 'value1', 'extra_field': 'extra_value', '_ignore_extra': True}
+    result = PRecord(**kwargs)
+    assert result['field1'] == 'value1'
+    assert 'extra_field' not in result
+
+def test_precord_constructor_with_initial_values():
+    PRecord._precord_initial_values = {'field1': 'initial_value1', 'field2': 'initial_value2'}
+    kwargs = {'field1': 'updated_value1'}
+    result = PRecord(**kwargs)
+    assert result['field1'] == 'updated_value1'
+    assert result['field2'] == 'initial_value2'
+
+def test_precord_constructor_with_callable_initial_values():
+    PRecord._precord_initial_values = {'field1': lambda: 'computed_value'}
+    result = PRecord()
+    assert result['field1'] == 'computed_value'
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+```python
+def test_precord_constructor_with_special_attributes():
+    kwargs = {'_precord_size': 1, '_precord_buckets': [('key', 'value')]}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['key'] == 'value'
+
+def test_precord_constructor_with_factory_fields():
+    kwargs = {'field1': 'value1', '_factory_fields': ['field1']}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'value1'
+
+def test_precord_constructor_with_ignore_extra():
+    kwargs = {'field1': 'value1', 'extra_field': 'extra_value', '_ignore_extra': True}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'value1'
+    assert 'extra_field' not in result
+
+def test_precord_constructor_with_initial_values():
+    PRecord._precord_initial_values = {'field1': 'initial_value'}
+    kwargs = {'field1': 'new_value'}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'new_value'
+
+def test_precord_constructor_with_callable_initial_values():
+    PRecord._precord_initial_values = {'field1': lambda: 'computed_value'}
+    result = PRecord()
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'computed_value'
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+```python
+def test_missing_mandatory_fields_are_detected():
+    class TestRecord(PRecord):
+        __attr_names__ = ('a', 'b')
+        _precord_mandatory_fields = {'a', 'b'}
+
+    evolver = _PRecordEvolver(TestRecord, PMap())
+    evolver.set('a', 1)
+
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert 'TestRecord.b' in e.missing_fields
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+```python
+def test_missing_fields_added_when_mandatory_fields_exist():
+    class TestClass:
+        _precord_mandatory_fields = {'field1', 'field2'}
+        __name__ = 'TestClass'
+
+    evolver = _PRecordEvolver(TestClass, PMap())
+    evolver._missing_fields = []
+    evolver.persistent()
+    assert evolver._missing_fields == ('TestClass.field1', 'TestClass.field2')
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# LLM-generated content at query #1
+#--------------------------
+
+```python
+def test_precord_new_with_precord_size_and_buckets():
+    buckets = [(('a', 1),), (('b', 2),)]
+    size = 2
+    result = PRecord.__new__(PRecord, _precord_size=size, _precord_buckets=buckets)
+    assert result == {'a': 1, 'b': 2}
+    assert result._size == size
+    assert result._buckets == pvector().extend(buckets)
+
+def test_precord_new_without_precord_size_and_buckets():
+    class TestRecord(PRecord):
+        pass
+    result = TestRecord(a=1, b=2)
+    assert result == {'a': 1, 'b': 2}
+
+def test_precord_new_with_factory_fields():
+    class TestRecord(PRecord):
+        pass
+    result = TestRecord(a=1, b=2, _factory_fields=['a'])
+    assert result == {'a': 1, 'b': 2}
+
+def test_precord_new_with_ignore_extra():
+    class TestRecord(PRecord):
+        pass
+    result = TestRecord(a=1, b=2, _ignore_extra=True)
+    assert result == {'a': 1, 'b': 2}
+
+def test_precord_new_with_initial_values():
+    class TestRecord(PRecord):
+        _precord_initial_values = {'a': 1, 'b': 2}
+    result = TestRecord()
+    assert result == {'a': 1, 'b': 2}
+
+def test_precord_new_with_initial_values_and_kwargs():
+    class TestRecord(PRecord):
+        _precord_initial_values = {'a': 1, 'b': 2}
+    result = TestRecord(b=3, c=4)
+    assert result == {'a': 1, 'b': 3, 'c': 4}
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+```python
+def test_new_with_no_bases_and_empty_dict():
+    result = _PRecordMeta.__new__(_PRecordMeta, 'TestClass', (), {})
+    assert result._precord_fields == {}
+    assert result._precord_invariants == ()
+    assert result._precord_mandatory_fields == set()
+    assert result._precord_initial_values == {}
+    assert result.__slots__ == ()
+
+def test_new_with_inherited_fields():
+    class Parent:
+        x = _PField(mandatory=True, initial=1)
+    result = _PRecordMeta.__new__(_PRecordMeta, 'TestClass', (Parent,), {})
+    assert 'x' in result._precord_fields
+    assert result._precord_fields['x'].mandatory is True
+    assert result._precord_fields['x'].initial == 1
+    assert 'x' in result._precord_mandatory_fields
+    assert result._precord_initial_values == {'x': 1}
+
+def test_new_with_inherited_invariants():
+    def test_inv():
+        return True
+    class Parent:
+        __invariant__ = test_inv
+    result = _PRecordMeta.__new__(_PRecordMeta, 'TestClass', (Parent,), {})
+    assert len(result._precord_invariants) == 1
+    assert result._precord_invariants[0]() == (True, ())
+
+def test_new_with_multiple_inherited_invariants():
+    def test_inv1():
+        return True
+    def test_inv2():
+        return False, "error"
+    class Parent1:
+        __invariant__ = test_inv1
+    class Parent2:
+        __invariant__ = test_inv2
+    result = _PRecordMeta.__new__(_PRecordMeta, 'TestClass', (Parent1, Parent2), {})
+    assert len(result._precord_invariants) == 2
+    assert result._precord_invariants[0]() == (True, ())
+    assert result._precord_invariants[1]() == (False, ("error",))
+
+def test_new_with_non_callable_invariant():
+    class Parent:
+        __invariant__ = "not callable"
+    try:
+        _PRecordMeta.__new__(_PRecordMeta, 'TestClass', (Parent,), {})
+        assert False, "Expected TypeError"
+    except TypeError as e:
+        assert str(e) == "Invariants must be callable"
+
+def test_new_with_field_in_dict():
+    result = _PRecordMeta.__new__(_PRecordMeta, 'TestClass', (), {'x': _PField(mandatory=True)})
+    assert 'x' in result._precord_fields
+    assert 'x' not in result.__dict__
+    assert 'x' in result._precord_mandatory_fields
+
+def test_new_with_initial_value():
+    result = _PRecordMeta.__new__(_PRecordMeta, 'TestClass', (), {'x': _PField(initial=42)})
+    assert result._precord_initial_values == {'x': 42}
+
+def test_new_with_no_initial_value():
+    result = _PRecordMeta.__new__(_PRecordMeta, 'TestClass', (), {'x': _PField()})
+    assert 'x' not in result._precord_initial_values
+
+def test_new_with_multiple_bases():
+    class Parent1:
+        x = _PField(mandatory=True)
+    class Parent2:
+        y = _PField(initial=10)
+    result = _PRecordMeta.__new__(_PRecordMeta, 'TestClass', (Parent1, Parent2), {})
+    assert 'x' in result._precord_fields
+    assert 'y' in result._precord_fields
+    assert 'x' in result._precord_mandatory_fields
+    assert result._precord_initial_values == {'y': 10}
+
+
+# LLM-generated content at query #3
+#--------------------------
+
+```python
+def test_precord_constructor_with_special_attributes():
+    kwargs = {'_precord_size': 2, '_precord_buckets': [('a', 1), ('b', 2)]}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['a'] == 1
+    assert result['b'] == 2
+
+def test_precord_constructor_with_factory_fields():
+    kwargs = {'field1': 'value1', '_factory_fields': ['field1']}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'value1'
+
+def test_precord_constructor_with_ignore_extra():
+    kwargs = {'field1': 'value1', 'extra_field': 'extra_value', '_ignore_extra': True}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'value1'
+    assert 'extra_field' not in result
+
+def test_precord_constructor_with_initial_values():
+    PRecord._precord_initial_values = {'field1': 'initial_value'}
+    kwargs = {'field1': 'updated_value'}
+    result = PRecord(**kwargs)
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'updated_value'
+
+def test_precord_constructor_with_callable_initial_values():
+    PRecord._precord_initial_values = {'field1': lambda: 'computed_value'}
+    result = PRecord()
+    assert isinstance(result, PRecord)
+    assert result['field1'] == 'computed_value'
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+```python
+def test_precord_meta_new_sets_slots_to_empty_tuple():
+    class TestClass(metaclass=_PRecordMeta):
+        pass
+
+    assert TestClass.__slots__ == ()
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+```python
+def test_precord_constructor_with_special_attributes():
+    kwargs = {'_precord_size': 2, '_precord_buckets': [('a', 1), ('b', 2)]}
+    result = PRecord(**kwargs)
+    assert result['a'] == 1
+    assert result['b'] == 2
+    assert len(result) == 2
+
+def test_precord_constructor_with_factory_fields():
+    kwargs = {'field1': 'value1', 'field2': 'value2', '_factory_fields': ['field1']}
+    result = PRecord(**kwargs)
+    assert result['field1'] == 'value1'
+    assert result['field2'] == 'value2'
+
+def test_precord_constructor_with_ignore_extra():
+    kwargs = {'field1': 'value1', 'extra_field': 'extra_value', '_ignore_extra': True}
+    result = PRecord(**kwargs)
+    assert result['field1'] == 'value1'
+    assert 'extra_field' not in result
+
+def test_precord_constructor_with_initial_values():
+    PRecord._precord_initial_values = {'field1': 'default1', 'field2': lambda: 'default2'}
+    kwargs = {'field1': 'override1'}
+    result = PRecord(**kwargs)
+    assert result['field1'] == 'override1'
+    assert result['field2'] == 'default2'
+
+def test_precord_constructor_empty():
+    result = PRecord()
+    assert len(result) == 0
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+```python
+def test_persistent_returns_same_instance_when_not_dirty_and_correct_type():
+    cls = type('MockPRecord', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    original_pmap = PMap()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    result = evolver.persistent()
+    assert result is original_pmap
+
+def test_persistent_creates_new_instance_when_dirty():
+    cls = type('MockPRecord', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    original_pmap = PMap()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    evolver.set('test_key', 'test_value')
+    result = evolver.persistent()
+    assert result is not original_pmap
+    assert isinstance(result, cls)
+
+def test_persistent_raises_invariant_exception_for_missing_mandatory_fields():
+    cls = type('MockPRecord', (), {'_precord_fields': {}, '_precord_mandatory_fields': {'mandatory_field'}, '_precord_invariants': []})
+    original_pmap = PMap()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert 'mandatory_field' in e.missing_fields
+
+def test_persistent_raises_invariant_exception_for_field_invariant_failure():
+    def failing_invariant(value):
+        return False, 'INVARIANT_FAILED'
+
+    field = type('MockField', (), {'invariant': failing_invariant, 'factory': lambda x: x})()
+    cls = type('MockPRecord', (), {'_precord_fields': {'test_field': field}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    original_pmap = PMap()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    evolver.set('test_field', 'test_value')
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert 'INVARIANT_FAILED' in e.invariant_errors
+
+def test_persistent_raises_invariant_exception_for_global_invariant_failure():
+    def global_invariant(subject):
+        return False, 'GLOBAL_INVARIANT_FAILED'
+
+    cls = type('MockPRecord', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': [global_invariant]})
+    original_pmap = PMap()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert 'GLOBAL_INVARIANT_FAILED' in e.invariant_errors
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+```python
+def test_serialize_without_custom_serializer():
+    class TestRecord(PRecord):
+        field1 = None
+        field2 = None
+
+    record = TestRecord(field1="value1", field2="value2")
+    result = record.serialize()
+    assert result == {"field1": "value1", "field2": "value2"}
+
+def test_serialize_with_custom_serializer():
+    class TestRecord(PRecord):
+        field1 = FieldType(serializer=lambda x: x.upper())
+        field2 = FieldType(serializer=lambda x: str(x))
+
+    record = TestRecord(field1="value1", field2=123)
+    result = record.serialize()
+    assert result == {"field1": "VALUE1", "field2": "123"}
+
+def test_serialize_with_format_parameter():
+    class TestRecord(PRecord):
+        field1 = FieldType(serializer=lambda x, fmt: x.upper() if fmt == "upper" else x.lower())
+
+    record = TestRecord(field1="Value1")
+    result = record.serialize(format="upper")
+    assert result == {"field1": "VALUE1"}
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+```python
+def test_invariant_exception_raised_when_error_codes_or_missing_fields_exist():
+    evolver = _PRecordEvolver.__new__(_PRecordEvolver)
+    evolver._invariant_error_codes = ['error1']
+    evolver._missing_fields = ['field1']
+    evolver._destination_cls = type('MockClass', (), {'_precord_invariants': [], '_precord_mandatory_fields': set()})
+    evolver.is_dirty = lambda: False
+    evolver.persistent = lambda: evolver
+
+    with pytest.raises(InvariantException):
+        evolver.persistent()
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+```python
+def test__new__sets_fields_and_invariants():
+    class TestClass(metaclass=_PRecordMeta):
+        __invariant__ = lambda self: True
+        field1 = _PField()
+        field2 = _PField(initial=1)
+
+    assert hasattr(TestClass, '_precord_fields')
+    assert hasattr(TestClass, '_precord_invariants')
+    assert hasattr(TestClass, '_precord_mandatory_fields')
+    assert hasattr(TestClass, '_precord_initial_values')
+    assert TestClass._precord_fields == {'field1': TestClass.field1, 'field2': TestClass.field2}
+    assert TestClass._precord_invariants == (wrap_invariant(TestClass.__invariant__),)
+    assert TestClass._precord_mandatory_fields == {'field1'}
+    assert TestClass._precord_initial_values == {'field2': 1}
+    assert TestClass.__slots__ == ()
+
+
+# LLM-generated content at query #10
+#--------------------------
+
+```python
+def test_persistent_creates_new_instance_when_dirty_or_not_instance():
+    class MockPRecord:
+        _precord_fields = {}
+        _precord_mandatory_fields = set()
+        _precord_invariants = []
+
+    evolver = _PRecordEvolver(MockPRecord, PMap())
+    evolver.set('test', 'value')
+    assert evolver.is_dirty() is True
+
+    pm = evolver.persistent()
+    assert isinstance(pm, MockPRecord) is True
+
+    evolver2 = _PRecordEvolver(MockPRecord, PMap())
+    evolver2._map = PMap({'test': 'value'})
+    assert evolver2.is_dirty() is False
+
+    pm2 = evolver2.persistent()
+    assert isinstance(pm2, MockPRecord) is True
+
+
+# LLM-generated content at query #11
+#--------------------------
+
+```python
+def test_precord_constructor_with_special_attributes():
+    kwargs = {'_precord_size': 2, '_precord_buckets': [('a', 1), ('b', 2)]}
+    result = PRecord(**kwargs)
+    assert result['a'] == 1
+    assert result['b'] == 2
+
+def test_precord_constructor_with_factory_fields():
+    kwargs = {'field1': 'value1', '_factory_fields': ['field1']}
+    result = PRecord(**kwargs)
+    assert result['field1'] == 'value1'
+
+def test_precord_constructor_with_ignore_extra():
+    kwargs = {'field1': 'value1', 'extra_field': 'extra_value', '_ignore_extra': True}
+    result = PRecord(**kwargs)
+    assert result['field1'] == 'value1'
+    assert 'extra_field' not in result
+
+def test_precord_constructor_with_initial_values():
+    PRecord._precord_initial_values = {'field1': 'initial_value'}
+    kwargs = {'field1': 'new_value'}
+    result = PRecord(**kwargs)
+    assert result['field1'] == 'new_value'
+
+def test_precord_constructor_with_callable_initial_values():
+    PRecord._precord_initial_values = {'field1': lambda: 'computed_value'}
+    result = PRecord()
+    assert result['field1'] == 'computed_value'
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+```python
+def test_missing_fields_added_when_mandatory_fields_exist():
+    class TestRecord:
+        _precord_mandatory_fields = {'field1', 'field2'}
+        __name__ = 'TestRecord'
+
+    evolver = _PRecordEvolver(TestRecord, PMap())
+    evolver._missing_fields = []
+    evolver.persistent()
+    assert evolver._missing_fields == ('TestRecord.field1', 'TestRecord.field2')
+
+
+# LLM-generated content at query #13
+#--------------------------
+
+```python
+def test_predicate_false():
+    class TestRecord(PRecord):
+        pass
+
+    result = TestRecord.__new__(TestRecord)
+    assert result is not None
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+```python
+def test_persistent_with_dirty_and_valid_fields():
+    cls = type('MockClass', (), {
+        '_precord_fields': {},
+        '_precord_mandatory_fields': set(),
+        '_precord_invariants': [],
+        '__name__': 'MockClass'
+    })
+    evolver = _PRecordEvolver(cls, PMap())
+    evolver.set('field1', 'value1')
+    result = evolver.persistent()
+    assert isinstance(result, cls)
+    assert result['field1'] == 'value1'
+
+def test_persistent_with_clean_and_valid_fields():
+    cls = type('MockClass', (), {
+        '_precord_fields': {},
+        '_precord_mandatory_fields': set(),
+        '_precord_invariants': [],
+        '__name__': 'MockClass'
+    })
+    pm = cls(_precord_buckets=PMap()._buckets, _precord_size=PMap()._size)
+    evolver = _PRecordEvolver(cls, pm)
+    result = evolver.persistent()
+    assert result is pm
+
+def test_persistent_with_missing_mandatory_fields():
+    cls = type('MockClass', (), {
+        '_precord_fields': {},
+        '_precord_mandatory_fields': {'field1'},
+        '_precord_invariants': [],
+        '__name__': 'MockClass'
+    })
+    evolver = _PRecordEvolver(cls, PMap())
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert 'MockClass.field1' in e.missing_fields
+
+def test_persistent_with_invariant_errors():
+    def failing_invariant(value):
+        return (False, 'INVARIANT_FAILED')
+
+    cls = type('MockClass', (), {
+        '_precord_fields': {},
+        '_precord_mandatory_fields': set(),
+        '_precord_invariants': [lambda x: failing_invariant(x)],
+        '__name__': 'MockClass'
+    })
+    evolver = _PRecordEvolver(cls, PMap())
+    evolver.set('field1', 'value1')
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert 'INVARIANT_FAILED' in e.invariant_errors
+
+def test_persistent_with_global_invariant_failure():
+    def failing_global_invariant(subject):
+        return (False, 'GLOBAL_INVARIANT_FAILED')
+
+    cls = type('MockClass', (), {
+        '_precord_fields': {},
+        '_precord_mandatory_fields': set(),
+        '_precord_invariants': [failing_global_invariant],
+        '__name__': 'MockClass'
+    })
+    evolver = _PRecordEvolver(cls, PMap())
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert 'Global invariant failed' in str(e)
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+```python
+def test_precord_constructor_with_valid_fields():
+    class TestRecord(PRecord):
+        field1 = field()
+        field2 = field()
+
+    record = TestRecord(field1=10, field2="test")
+    assert record.field1 == 10
+    assert record.field2 == "test"
+
+def test_precord_constructor_with_ignore_extra():
+    class TestRecord(PRecord):
+        field1 = field()
+        field2 = field()
+
+    record = TestRecord.create({"field1": 10, "field2": "test", "extra": "ignored"}, ignore_extra=True)
+    assert record.field1 == 10
+    assert record.field2 == "test"
+    assert "extra" not in record
+
+def test_precord_constructor_with_factory_fields():
+    class TestRecord(PRecord):
+        field1 = field()
+        field2 = field()
+
+    record = TestRecord.create({"field1": 10, "field2": "test"}, _factory_fields={"field1": 20})
+    assert record.field1 == 10
+    assert record.field2 == "test"
+
+def test_precord_constructor_with_initial_values():
+    class TestRecord(PRecord):
+        field1 = field(initial=5)
+        field2 = field()
+
+    record = TestRecord(field2="test")
+    assert record.field1 == 5
+    assert record.field2 == "test"
+
+def test_precord_constructor_with_callable_initial():
+    class TestRecord(PRecord):
+        field1 = field(initial=lambda: 10)
+        field2 = field()
+
+    record = TestRecord(field2="test")
+    assert record.field1 == 10
+    assert record.field2 == "test"
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+```python
+def test_set_with_valid_field_and_factory():
+    field = Mock(name='field', type={str}, factory=lambda x: x.upper(), invariant=lambda x: (True, None))
+    destination_cls = Mock(name='destination_cls', _precord_fields={'name': field})
+    evolver = _PRecordEvolver(destination_cls, PMap(), _factory_fields={field}, _ignore_extra=False)
+    result = evolver.set('name', 'test')
+    assert result['name'] == 'TEST'
+    assert evolver._invariant_error_codes == []
+    assert evolver._missing_fields == []
+
+def test_set_with_invalid_type():
+    field = Mock(name='field', type={int}, factory=lambda x: x, invariant=lambda x: (True, None))
+    destination_cls = Mock(name='destination_cls', _precord_fields={'age': field})
+    evolver = _PRecordEvolver(destination_cls, PMap(), _factory_fields=None, _ignore_extra=False)
+    with pytest.raises(PTypeError):
+        evolver.set('age', 'not an int')
+
+def test_set_with_invariant_failure():
+    field = Mock(name='field', type={int}, factory=lambda x: x, invariant=lambda x: (False, 'INVALID'))
+    destination_cls = Mock(name='destination_cls', _precord_fields={'value': field})
+    evolver = _PRecordEvolver(destination_cls, PMap(), _factory_fields=None, _ignore_extra=False)
+    result = evolver.set('value', 10)
+    assert evolver._invariant_error_codes == ['INVALID']
+    assert result['value'] == 10
+
+def test_set_with_nonexistent_field():
+    destination_cls = Mock(name='destination_cls', _precord_fields={})
+    evolver = _PRecordEvolver(destination_cls, PMap(), _factory_fields=None, _ignore_extra=False)
+    with pytest.raises(AttributeError):
+        evolver.set('invalid_field', 'value')
+
+def test_set_with_ignore_extra_complaint():
+    field = Mock(name='field', type={dict}, factory=lambda x, ignore_extra=False: x, invariant=lambda x: (True, None))
+    destination_cls = Mock(name='destination_cls', _precord_fields={'data': field})
+    evolver = _PRecordEvolver(destination_cls, PMap(), _factory_fields={field}, _ignore_extra=True)
+    result = evolver.set('data', {'key': 'value'})
+    assert result['data'] == {'key': 'value'}
+    assert evolver._invariant_error_codes == []
+    assert evolver._missing_fields == []
+
+def test_set_with_factory_field_not_in_factory_fields():
+    field = Mock(name='field', type={str}, factory=lambda x: x, invariant=lambda x: (True, None))
+    destination_cls = Mock(name='destination_cls', _precord_fields={'name': field})
+    evolver = _PRecordEvolver(destination_cls, PMap(), _factory_fields=set(), _ignore_extra=False)
+    result = evolver.set('name', 'test')
+    assert result['name'] == 'test'
+    assert evolver._invariant_error_codes == []
+    assert evolver._missing_fields == []
+
+def test_set_with_invariant_exception():
+    field = Mock(name='field', type={int}, factory=lambda x: 1/0, invariant=lambda x: (True, None))
+    destination_cls = Mock(name='destination_cls', _precord_fields={'value': field})
+    evolver = _PRecordEvolver(destination_cls, PMap(), _factory_fields=None, _ignore_extra=False)
+    with pytest.raises(ZeroDivisionError):
+        evolver.set('value', 10)
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+```python
+def test_repr_empty_record():
+    class EmptyRecord(PRecord):
+        pass
+    record = EmptyRecord()
+    assert repr(record) == "EmptyRecord()"
+
+def test_repr_single_field():
+    class SingleFieldRecord(PRecord):
+        field1 = Field()
+    record = SingleFieldRecord(field1="value1")
+    assert repr(record) == "SingleFieldRecord(field1='value1')"
+
+def test_repr_multiple_fields():
+    class MultiFieldRecord(PRecord):
+        field1 = Field()
+        field2 = Field()
+    record = MultiFieldRecord(field1="value1", field2=42)
+    assert repr(record) == "MultiFieldRecord(field1='value1', field2=42)"
+
+def test_repr_with_special_characters():
+    class SpecialCharRecord(PRecord):
+        name = Field()
+        value = Field()
+    record = SpecialCharRecord(name="test'name", value='test"value')
+    assert repr(record) == "SpecialCharRecord(name=\"test'name\", value='test\"value')"
+
+def test_repr_with_complex_values():
+    class ComplexRecord(PRecord):
+        data = Field()
+    record = ComplexRecord(data={"nested": [1, 2, 3]})
+    assert repr(record) == "ComplexRecord(data={nested: [1, 2, 3]})"
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+```python
+def test_serialize_with_custom_serializer():
+    class TestRecord(PRecord):
+        field1 = field(serializer=lambda x: f"serialized_{x}")
+        field2 = field()
+
+    record = TestRecord(field1="value1", field2="value2")
+    result = record.serialize()
+    assert result == {"field1": "serialized_value1", "field2": "value2"}
+
+def test_serialize_without_custom_serializer():
+    class TestRecord(PRecord):
+        field1 = field()
+        field2 = field()
+
+    record = TestRecord(field1="value1", field2="value2")
+    result = record.serialize()
+    assert result == {"field1": "value1", "field2": "value2"}
+
+def test_serialize_with_format_parameter():
+    class TestRecord(PRecord):
+        field1 = field(serializer=lambda x, fmt: f"{fmt}_{x}" if fmt else x)
+        field2 = field()
+
+    record = TestRecord(field1="value1", field2="value2")
+    result = record.serialize(format="custom_format")
+    assert result == {"field1": "custom_format_value1", "field2": "value2"}
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+```python
+def test_set_fields_called_with_correct_arguments():
+    dct = {}
+    bases = (object,)
+    name = 'TestClass'
+    set_fields(dct, bases, name='_precord_fields')
+    assert '_precord_fields' in dct
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+```python
+def test_serialize_with_no_custom_serializers():
+    class TestRecord(PRecord):
+        field1 = field()
+        field2 = field()
+
+    record = TestRecord(field1='value1', field2='value2')
+    assert record.serialize() == {'field1': 'value1', 'field2': 'value2'}
+
+def test_serialize_with_custom_serializers():
+    class TestRecord(PRecord):
+        field1 = field(serializer=lambda x: x.upper())
+        field2 = field(serializer=lambda x: x * 2)
+
+    record = TestRecord(field1='value1', field2='value2')
+    assert record.serialize() == {'field1': 'VALUE1', 'field2': 'value2value2'}
+
+def test_serialize_with_format_parameter():
+    class TestRecord(PRecord):
+        field1 = field(serializer=lambda x, fmt: f"{x}-{fmt}")
+        field2 = field(serializer=lambda x, fmt: f"{x}-{fmt}")
+
+    record = TestRecord(field1='value1', field2='value2')
+    assert record.serialize(format='json') == {'field1': 'value1-json', 'field2': 'value2-json'}
+
+
+# LLM-generated content at query #21
+#--------------------------
+
+```python
+def test_missing_fields_added_when_mandatory_fields_exist():
+    class TestClass:
+        _precord_mandatory_fields = {'field1', 'field2'}
+        __name__ = 'TestClass'
+
+    evolver = _PRecordEvolver(TestClass, PMap())
+    evolver._missing_fields = []
+    result = PMap({'field1': 'value1'})
+
+    evolver._destination_cls = TestClass
+    evolver.persistent = lambda: result
+
+    evolver.persistent()
+
+    assert 'TestClass.field2' in evolver._missing_fields
+
+
+# LLM-generated content at query #22
+#--------------------------
+
+```python
+def test_persistent_creates_new_instance_when_dirty_or_not_instance():
+    class MockPMap:
+        class _Evolver:
+            def __init__(self, original_pmap):
+                self._original_pmap = original_pmap
+
+            def is_dirty(self):
+                return True
+
+            def persistent(self):
+                return self._original_pmap
+
+    class MockPRecord:
+        _precord_fields = {}
+        _precord_mandatory_fields = set()
+        _precord_invariants = []
+
+        def __init__(self, _precord_buckets=None, _precord_size=None):
+            self._buckets = _precord_buckets
+            self._size = _precord_size
+
+    original_pmap = MockPMap()
+    evolver = _PRecordEvolver(MockPRecord, original_pmap)
+    evolver._invariant_error_codes = []
+    evolver._missing_fields = []
+
+    result = evolver.persistent()
+
+    assert isinstance(result, MockPRecord)
+    assert result._buckets == original_pmap._buckets
+    assert result._size == original_pmap._size
+
+
+# LLM-generated content at query #23
+#--------------------------
+
+```python
+def test_persistent_with_dirty_and_non_cls_instance():
+    cls = type('MockPRecord', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    evolver = _PRecordEvolver(cls, PMap())
+    evolver.set('key', 'value')
+    result = evolver.persistent()
+    assert isinstance(result, cls)
+    assert result._precord_buckets == evolver._buckets
+    assert result._precord_size == evolver._size
+
+def test_persistent_with_clean_and_cls_instance():
+    cls = type('MockPRecord', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    pm = cls(_precord_buckets=PMap()._buckets, _precord_size=PMap()._size)
+    evolver = _PRecordEvolver(cls, pm)
+    result = evolver.persistent()
+    assert result is pm
+
+def test_persistent_with_missing_mandatory_fields():
+    cls = type('MockPRecord', (), {'_precord_fields': {}, '_precord_mandatory_fields': {'field1'}, '_precord_invariants': []})
+    evolver = _PRecordEvolver(cls, PMap())
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.missing_fields == ('MockPRecord.field1',)
+
+def test_persistent_with_invariant_errors():
+    cls = type('MockPRecord', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': []})
+    evolver = _PRecordEvolver(cls, PMap())
+    evolver._invariant_error_codes = ['ERROR1']
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.invariant_errors == ('ERROR1',)
+
+def test_persistent_with_global_invariant_failure():
+    def failing_invariant(subject):
+        return (False, 'GLOBAL_ERROR')
+
+    cls = type('MockPRecord', (), {'_precord_fields': {}, '_precord_mandatory_fields': set(), '_precord_invariants': [failing_invariant]})
+    evolver = _PRecordEvolver(cls, PMap())
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.invariant_errors == ('GLOBAL_ERROR',)
+
+
+# LLM-generated content at query #24
+#--------------------------
+
+```python
+def test_missing_fields_added_when_mandatory_fields_exist():
+    class MockField:
+        def __init__(self, name):
+            self.name = name
+
+    class MockPRecord:
+        _precord_fields = {}
+        _precord_mandatory_fields = {'field1', 'field2'}
+        __name__ = 'MockPRecord'
+
+    evolver = _PRecordEvolver(MockPRecord, PMap())
+    evolver._missing_fields = []
+    evolver._invariant_error_codes = []
+    evolver._destination_cls = MockPRecord
+
+    result = PMap({'field3': 'value3'})
+    evolver._is_dirty = lambda: False
+    evolver._buckets = result._buckets
+    evolver._size = result._size
+
+    with pytest.raises(InvariantException) as exc_info:
+        evolver.persistent()
+
+    assert 'MockPRecord.field1' in exc_info.value.missing_fields
+    assert 'MockPRecord.field2' in exc_info.value.missing_fields
+
+
+# LLM-generated content at query #25
+#--------------------------
+
+```python
+def test_missing_fields_added_when_mandatory_fields_are_missing():
+    class TestRecord:
+        _precord_mandatory_fields = {'field1', 'field2'}
+        _precord_fields = {}
+        _precord_invariants = []
+        __name__ = 'TestRecord'
+
+    evolver = _PRecordEvolver(TestRecord, PMap())
+    evolver._missing_fields = []
+    result = evolver.persistent()
+    assert 'TestRecord.field1' in evolver._missing_fields
+    assert 'TestRecord.field2' in evolver._missing_fields
+
+
+# LLM-generated content at query #26
+#--------------------------
+
+```python
+def test_set_fields_called_before_store_invariants():
+    class TestClass(metaclass=_PRecordMeta):
+        pass
+
+    assert '_precord_fields' in TestClass.__dict__
+    assert '_precord_invariants' in TestClass.__dict__
+
+
+# LLM-generated content at query #27
+#--------------------------
+
+```python
+def test_repr_contains_class_name_and_fields():
+    class TestRecord(PRecord):
+        field1 = field()
+        field2 = field()
+
+    record = TestRecord(field1=10, field2="test")
+    repr_str = repr(record)
+    assert repr_str.startswith("TestRecord(")
+    assert "field1=10" in repr_str
+    assert "field2='test'" in repr_str
+
+
+# LLM-generated content at query #28
+#--------------------------
+
+```python
+def test_persistent_raises_when_invariant_error_codes_or_missing_fields():
+    class TestClass:
+        _precord_fields = {}
+        _precord_mandatory_fields = set()
+        _precord_invariants = []
+
+    evolver = _PRecordEvolver(TestClass, PMap())
+    evolver._invariant_error_codes = ['error1']
+    evolver._missing_fields = ['field1']
+
+    with pytest.raises(InvariantException):
+        evolver.persistent()
+
+
+# LLM-generated content at query #29
+#--------------------------
+
+```python
+def test_persistent_raises_when_invariant_errors_or_missing_fields():
+    class TestPRecord:
+        _precord_fields = {}
+        _precord_mandatory_fields = set()
+        _precord_invariants = []
+
+    evolver = _PRecordEvolver(TestPRecord, PMap())
+    evolver._invariant_error_codes = ['error1']
+    evolver._missing_fields = ['field1']
+
+    with pytest.raises(InvariantException):
+        evolver.persistent()
+
+
+# LLM-generated content at query #30
+#--------------------------
+
+```python
+def test_persistent_with_dirty_and_invalid_type():
+    cls = type('MockClass', (), {
+        '_precord_fields': {},
+        '_precord_mandatory_fields': set(),
+        '_precord_invariants': [],
+        '__name__': 'MockClass'
+    })
+    original_pmap = PMap()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    evolver.set('key', 'value')
+    assert isinstance(evolver.persistent(), cls)
+
+def test_persistent_with_clean_and_valid_type():
+    cls = type('MockClass', (), {
+        '_precord_fields': {},
+        '_precord_mandatory_fields': set(),
+        '_precord_invariants': [],
+        '__name__': 'MockClass'
+    })
+    original_pmap = PMap()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    assert isinstance(evolver.persistent(), cls)
+
+def test_persistent_with_missing_mandatory_fields():
+    cls = type('MockClass', (), {
+        '_precord_fields': {},
+        '_precord_mandatory_fields': {'field1'},
+        '_precord_invariants': [],
+        '__name__': 'MockClass'
+    })
+    original_pmap = PMap()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.missing_fields == ('MockClass.field1',)
+
+def test_persistent_with_invariant_errors():
+    def failing_invariant(subject):
+        return (False, 'INVARIANT_FAILED')
+
+    cls = type('MockClass', (), {
+        '_precord_fields': {},
+        '_precord_mandatory_fields': set(),
+        '_precord_invariants': [failing_invariant],
+        '__name__': 'MockClass'
+    })
+    original_pmap = PMap()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.invariant_errors == ('INVARIANT_FAILED',)
+
+def test_persistent_with_global_invariant_failure():
+    def failing_global_invariant(subject):
+        return (False, 'GLOBAL_INVARIANT_FAILED')
+
+    cls = type('MockClass', (), {
+        '_precord_fields': {},
+        '_precord_mandatory_fields': set(),
+        '_precord_invariants': [failing_global_invariant],
+        '__name__': 'MockClass'
+    })
+    original_pmap = PMap()
+    evolver = _PRecordEvolver(cls, original_pmap)
+    try:
+        evolver.persistent()
+        assert False, "Expected InvariantException"
+    except InvariantException as e:
+        assert e.invariant_errors == ('GLOBAL_INVARIANT_FAILED',)
+
+
+# LLM-generated content at query #31
+#--------------------------
+
+```python
+def test_repr_format():
+    class TestRecord(PRecord):
+        pass
+
+    record = TestRecord(a=1, b=2)
+    result = repr(record)
+    assert result == "TestRecord(a=1, b=2)"
+
+
+# LLM-generated content at query #32
+#--------------------------
+
+```python
+def test_precord_initial_values_are_used():
+    class TestRecord(PRecord):
+        _precord_fields = {'a': Field(), 'b': Field()}
+        _precord_initial_values = {'a': lambda: 1, 'b': 2}
+
+    result = TestRecord()
+    assert result['a'] == 1
+    assert result['b'] == 2
+
+

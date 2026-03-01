@@ -1,0 +1,766 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+```
+Write unit test for the constructor of class ExtensionLoaderMixin
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+```
+Write unit test for the constructor of class ExtensionLoaderMixin
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+```
+Write unit test to ensure that the predicate at line 23 evaluates to True.
+```
+ 1 |     def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+ 2 |         """Initialize the Jinja2 Environment object while loading extensions.
+ 3 | 
+ 4 |         Does the following:
+ 5 | 
+ 6 |         1. Establishes default_extensions (currently just a Time feature)
+ 7 |         2. Reads extensions set in the cookiecutter.json _extensions key.
+ 8 |         3. Attempts to load the extensions. Provides useful error if fails.
+ 9 |         """
+10 |         context = context or {}
+11 | 
+12 |         default_extensions = [
+13 |             'cookiecutter.extensions.JsonifyExtension',
+14 |             'cookiecutter.extensions.RandomStringExtension',
+15 |             'cookiecutter.extensions.SlugifyExtension',
+16 |             'cookiecutter.extensions.TimeExtension',
+17 |             'cookiecutter.extensions.UUIDExtension',
+18 |         ]
+19 |         extensions = default_extensions + self._read_extensions(context)
+20 | 
+21 |         try:
+22 |             super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+23 |         except ImportError as err:
+24 |             msg = f'Unable to load extension: {err}'
+25 |             raise UnknownExtension(msg) from err
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+```
+Write unit test to ensure that the predicate at line 23 evaluates to True.
+```
+ 1 |     def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+ 2 |         """Initialize the Jinja2 Environment object while loading extensions.
+ 3 | 
+ 4 |         Does the following:
+ 5 | 
+ 6 |         1. Establishes default_extensions (currently just a Time feature)
+ 7 |         2. Reads extensions set in the cookiecutter.json _extensions key.
+ 8 |         3. Attempts to load the extensions. Provides useful error if fails.
+ 9 |         """
+10 |         context = context or {}
+11 | 
+12 |         default_extensions = [
+13 |             'cookiecutter.extensions.JsonifyExtension',
+14 |             'cookiecutter.extensions.RandomStringExtension',
+15 |             'cookiecutter.extensions.SlugifyExtension',
+16 |             'cookiecutter.extensions.TimeExtension',
+17 |             'cookiecutter.extensions.UUIDExtension',
+18 |         ]
+19 |         extensions = default_extensions + self._read_extensions(context)
+20 | 
+21 |         try:
+22 |             super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+23 |         except ImportError as err:
+24 |             msg = f'Unable to load extension: {err}'
+25 |             raise UnknownExtension(msg) from err
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+```
+Write unit test to ensure that the predicate at line 23 evaluates to True.
+```
+ 1 |     def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+ 2 |         """Initialize the Jinja2 Environment object while loading extensions.
+ 3 | 
+ 4 |         Does the following:
+ 5 | 
+ 6 |         1. Establishes default_extensions (currently just a Time feature)
+ 7 |         2. Reads extensions set in the cookiecutter.json _extensions key.
+ 8 |         3. Attempts to load the extensions. Provides useful error if fails.
+ 9 |         """
+10 |         context = context or {}
+11 | 
+12 |         default_extensions = [
+13 |             'cookiecutter.extensions.JsonifyExtension',
+14 |             'cookiecutter.extensions.RandomStringExtension',
+15 |             'cookiecutter.extensions.SlugifyExtension',
+16 |             'cookiecutter.extensions.TimeExtension',
+17 |             'cookiecutter.extensions.UUIDExtension',
+18 |         ]
+19 |         extensions = default_extensions + self._read_extensions(context)
+20 | 
+21 |         try:
+22 |             super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+23 |         except ImportError as err:
+24 |             msg = f'Unable to load extension: {err}'
+25 |             raise UnknownExtension(msg) from err
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+```
+Write unit test to ensure that the predicate at line 23 evaluates to True.
+```
+ 1 |     def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+ 2 |         """Initialize the Jinja2 Environment object while loading extensions.
+ 3 | 
+ 4 |         Does the following:
+ 5 | 
+ 6 |         1. Establishes default_extensions (currently just a Time feature)
+ 7 |         2. Reads extensions set in the cookiecutter.json _extensions key.
+ 8 |         3. Attempts to load the extensions. Provides useful error if fails.
+ 9 |         """
+10 |         context = context or {}
+11 | 
+12 |         default_extensions = [
+13 |             'cookiecutter.extensions.JsonifyExtension',
+14 |             'cookiecutter.extensions.RandomStringExtension',
+15 |             'cookiecutter.extensions.SlugifyExtension',
+16 |             'cookiecutter.extensions.TimeExtension',
+17 |             'cookiecutter.extensions.UUIDExtension',
+18 |         ]
+19 |         extensions = default_extensions + self._read_extensions(context)
+20 | 
+21 |         try:
+22 |             super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+23 |         except ImportError as err:
+24 |             msg = f'Unable to load extension: {err}'
+25 |             raise UnknownExtension(msg) from err
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+```
+Write unit test for the constructor of class ExtensionLoaderMixin
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+```
+Write unit test to ensure that the predicate at line 23 evaluates to True.
+```
+ 1 |     def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+ 2 |         """Initialize the Jinja2 Environment object while loading extensions.
+ 3 | 
+ 4 |         Does the following:
+ 5 | 
+ 6 |         1. Establishes default_extensions (currently just a Time feature)
+ 7 |         2. Reads extensions set in the cookiecutter.json _extensions key.
+ 8 |         3. Attempts to load the extensions. Provides useful error if fails.
+ 9 |         """
+10 |         context = context or {}
+11 | 
+12 |         default_extensions = [
+13 |             'cookiecutter.extensions.JsonifyExtension',
+14 |             'cookiecutter.extensions.RandomStringExtension',
+15 |             'cookiecutter.extensions.SlugifyExtension',
+16 |             'cookiecutter.extensions.TimeExtension',
+17 |             'cookiecutter.extensions.UUIDExtension',
+18 |         ]
+19 |         extensions = default_extensions + self._read_extensions(context)
+20 | 
+21 |         try:
+22 |             super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+23 |         except ImportError as err:
+24 |             msg = f'Unable to load extension: {err}'
+25 |             raise UnknownExtension(msg) from err
+```
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+```
+Write unit test for the constructor of class ExtensionLoaderMixin
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+```
+Write unit test to ensure that the predicate at line 23 evaluates to True.
+```
+ 1 |     def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+ 2 |         """Initialize the Jinja2 Environment object while loading extensions.
+ 3 | 
+ 4 |         Does the following:
+ 5 | 
+ 6 |         1. Establishes default_extensions (currently just a Time feature)
+ 7 |         2. Reads extensions set in the cookiecutter.json _extensions key.
+ 8 |         3. Attempts to load the extensions. Provides useful error if fails.
+ 9 |         """
+10 |         context = context or {}
+11 | 
+12 |         default_extensions = [
+13 |             'cookiecutter.extensions.JsonifyExtension',
+14 |             'cookiecutter.extensions.RandomStringExtension',
+15 |             'cookiecutter.extensions.SlugifyExtension',
+16 |             'cookiecutter.extensions.TimeExtension',
+17 |             'cookiecutter.extensions.UUIDExtension',
+18 |         ]
+19 |         extensions = default_extensions + self._read_extensions(context)
+20 | 
+21 |         try:
+22 |             super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+23 |         except ImportError as err:
+24 |             msg = f'Unable to load extension: {err}'
+25 |             raise UnknownExtension(msg) from err
+```
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+```
+Write unit test for the constructor of class ExtensionLoaderMixin
+
+

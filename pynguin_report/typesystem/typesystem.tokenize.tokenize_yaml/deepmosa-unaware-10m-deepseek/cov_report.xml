@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.76" lines-covered="0" lines-valid="0" branches-covered="19" branches-valid="25" complexity="0.0" version="pynguin-0.40.0" timestamp="1769576159">
+  <sources>
+    <source>typesystem.tokenize.tokenize_yaml</source>
+  </sources>
+  <packages>
+    <package name="" line-rate="None" branch-rate="0.76" complexity="0.0">
+      <classes>
+        <class name="" filename="typesystem.tokenize.tokenize_yaml" line-rate="None" branch-rate="0.76" complexity="0.0">
+          <methods />
+          <lines>
+            <line number="4" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="17" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="26" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="28" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="33" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="38" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="41" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="47" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="53" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="59" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="65" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="71" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="77" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="105" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="107" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="108" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="127" hits="1" branch="true" condition-coverage="50% (1/2)" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

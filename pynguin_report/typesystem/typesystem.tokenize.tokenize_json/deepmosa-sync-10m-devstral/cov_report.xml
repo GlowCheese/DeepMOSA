@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.8888888888888888" lines-covered="0" lines-valid="0" branches-covered="64" branches-valid="72" complexity="0.0" version="pynguin-0.40.0" timestamp="1769272901">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.8888888888888888" lines-covered="0" lines-valid="0" branches-covered="64" branches-valid="72" complexity="0.0" version="pynguin-0.40.0" timestamp="1769364262">
   <sources>
     <source>typesystem.tokenize.tokenize_json</source>
   </sources>
@@ -17,8 +17,8 @@
             <line number="58" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="63" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="65" hits="1" branch="true" condition-coverage="100% (2/2)" />
-            <line number="67" hits="0" branch="true" condition-coverage="0% (0/2)" />
-            <line number="72" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="67" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="72" hits="1" branch="true" condition-coverage="50% (1/2)" />
             <line number="77" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="80" hits="1" branch="true" condition-coverage="50% (1/2)" />
             <line number="84" hits="1" branch="true" condition-coverage="100% (2/2)" />

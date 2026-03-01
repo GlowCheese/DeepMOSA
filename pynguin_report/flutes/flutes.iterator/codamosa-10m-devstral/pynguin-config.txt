@@ -17,7 +17,7 @@
  'CodeObjects, AccessibleObjectsUnderTest, LLMCalls, LLMQueryTime, '
  'LLMStageSavedTests, LLMInputTokens, LLMOutputTokens, ParsedStatements, '
  'ParsableStatements, FinalSize, FinalLength, LineCoverage, BranchCoverage, '
- "CoverageTimeline], configuration_id='codamosa-10m-devstral', run_id='0', "
+ "CoverageTimeline], configuration_id='codamosa-10m-devstral', run_id='1', "
  "project_name='flutes', create_coverage_report=True, type_guess_top_n=10), "
  'stopping=StoppingConfiguration(maximum_search_time=600, '
  'maximum_test_executions=-1, maximum_statement_executions=-1, '
@@ -25,7 +25,7 @@
  'maximum_test_execution_timeout=5, maximum_coverage=100, '
  'maximum_coverage_plateau=-1, minimum_coverage=100, '
  'minimum_plateau_iterations=-1, test_execution_time_per_statement=1), '
- 'seeding=SeedingConfiguration(seed=42, constant_seeding=True, '
+ 'seeding=SeedingConfiguration(seed=1302, constant_seeding=True, '
  'large_language_model_mutation=False, initial_population_seeding=False, '
  "initial_population_data='', sample_with_replacement=True, "
  'allow_expandable_cluster=True, expand_cluster=False, '

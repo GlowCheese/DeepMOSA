@@ -3652,3 +3652,2058 @@ def test_case_0():
 
 
 
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+# Partially parsed test_pclass_constructor_with_valid_fields. Retrieved 4/7 statements.
+# Partially parsed test_pclass_constructor_with_mandatory_field. Retrieved 4/7 statements.
+# Partially parsed test_pclass_constructor_with_missing_mandatory_field. Retrieved 3/8 statements.
+# Partially parsed test_pclass_constructor_with_initial_value. Retrieved 3/6 statements.
+# Partially parsed test_pclass_constructor_with_callable_initial. Retrieved 3/6 statements.
+# Partially parsed test_pclass_constructor_with_extra_fields. Retrieved 5/9 statements.
+# Partially parsed test_pclass_constructor_with_ignore_extra. Retrieved 10/14 statements.
+# Partially parsed test_pclass_constructor_with_factory_fields. Retrieved 5/9 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = module_0.field()
+    var_3 = 1
+    var_4 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+    var_4 = bool(False)
+    assert var_4 is True
+    var_5 = 'TestClass.x'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = module_0.field(initial=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda : 10
+    var_1 = module_0.field(initial=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+    var_5 = bool(False)
+    assert var_5 is True
+    var_6 = 'z'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 'z'
+    var_5 = 1
+    var_6 = 2
+    var_7 = 3
+    var_8 = {var_2: var_5, var_3: var_6, var_4: var_7}
+    var_9 = True
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+# Partially parsed test_pclass_hash_returns_consistent_value. Retrieved 4/13 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+# Partially parsed test_pclassmeta_new_with_single_checkedtype_base. Retrieved 3/8 statements.
+# Partially parsed test_pclassmeta_new_with_multiple_bases. Retrieved 3/12 statements.
+# Failed to parse test_pclassmeta_new_with_field_inheritance.
+# Failed to parse test_pclassmeta_new_with_invariant_inheritance.
+# Failed to parse test_pclassmeta_new_with_slots_includes_fields.
+
+
+def test_case_0():
+    var_0 = '_pclass_fields'
+    var_1 = '_pclass_invariants'
+    var_2 = '__slots__'
+    var_3 = '__weakref__'
+
+def test_case_0():
+    var_0 = '_pclass_fields'
+    var_1 = '_pclass_invariants'
+    var_2 = '__slots__'
+    var_3 = '__weakref__'
+
+def test_case_0():
+    var_0 = 'not callable'
+    var_1 = bool(False)
+    assert var_1 is True
+
+def test_case_0():
+    var_0 = '__weakref__'
+
+def test_case_0():
+    var_0 = '__weakref__'
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+# Failed to parse test__is_pclass_returns_true_for_pclass_bases.
+
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+# Failed to parse test__is_pclass_bases_returns_false.
+
+
+
+
+# Parsed testcases at query #6
+#--------------------------
+
+# Partially parsed test_pclass_new_with_valid_fields. Retrieved 4/7 statements.
+# Partially parsed test_pclass_new_with_missing_mandatory_field. Retrieved 1/5 statements.
+# Partially parsed test_pclass_new_with_extra_fields. Retrieved 3/7 statements.
+# Partially parsed test_pclass_new_with_initial_value. Retrieved 1/4 statements.
+# Partially parsed test_pclass_new_with_callable_initial. Retrieved 1/4 statements.
+# Partially parsed test_pclass_new_with_factory. Retrieved 2/5 statements.
+# Partially parsed test_pclass_new_with_invariant. Retrieved 2/6 statements.
+# Partially parsed test_pclass_new_with_global_invariant. Retrieved 4/8 statements.
+# Partially parsed test_pclass_new_with_ignore_extra. Retrieved 7/11 statements.
+# Partially parsed test_pclass_new_with_factory_fields. Retrieved 6/9 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = bool(False)
+    assert var_2 is True
+    var_3 = 'Field invariant failed'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'are not among the specified fields'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = 42
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda : 42
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: v * 2
+    var_1 = module_0.field(factory=var_0)
+    var_2 = 21
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: (v > 0, 'must be positive')
+    var_1 = module_0.field(invariant=var_0)
+    var_2 = -1
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'Field invariant failed'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 5
+    var_3 = 4
+    var_4 = bool(False)
+    assert var_4 is True
+    var_5 = 'Global invariant failed'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 'x'
+    var_2 = 'y'
+    var_3 = 1
+    var_4 = 2
+    var_5 = {var_1: var_3, var_2: var_4}
+    var_6 = True
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: v * 2
+    var_1 = module_0.field(factory=var_0)
+    var_2 = module_0.field()
+    var_3 = 21
+    var_4 = 3
+    var_5 = 'x'
+    var_6 = {var_5}
+
+
+
+# Parsed testcases at query #7
+#--------------------------
+
+# Partially parsed test_pclass_eq_same_instance. Retrieved 4/7 statements.
+# Partially parsed test_pclass_eq_different_instances_same_values. Retrieved 4/8 statements.
+# Partially parsed test_pclass_eq_different_values. Retrieved 5/9 statements.
+# Partially parsed test_pclass_eq_different_class. Retrieved 3/8 statements.
+# Partially parsed test_pclass_eq_non_pclass_instance. Retrieved 2/5 statements.
+# Partially parsed test_pclass_eq_missing_fields. Retrieved 4/8 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = False
+    var_2 = module_0.field(mandatory=var_1)
+    var_3 = 1
+    var_4 = 2
+
+
+
+# Parsed testcases at query #8
+#--------------------------
+
+# Partially parsed test_pclass_new_with_valid_fields. Retrieved 2/6 statements.
+# Partially parsed test_pclass_new_with_missing_mandatory_field. Retrieved 3/6 statements.
+# Partially parsed test_pclass_new_with_invalid_type. Retrieved 1/5 statements.
+# Partially parsed test_pclass_new_with_extra_fields. Retrieved 3/6 statements.
+# Partially parsed test_pclass_new_with_initial_value. Retrieved 1/3 statements.
+# Partially parsed test_pclass_new_with_callable_initial. Retrieved 1/3 statements.
+# Partially parsed test_pclass_new_with_factory. Retrieved 2/4 statements.
+# Partially parsed test_pclass_new_with_ignore_extra. Retrieved 7/9 statements.
+# Partially parsed test_pclass_new_with_invariant_failure. Retrieved 2/5 statements.
+# Partially parsed test_pclass_new_with_global_invariant_failure. Retrieved 3/9 statements.
+
+
+def test_case_0():
+    var_0 = 1
+    var_1 = 'test'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = module_0.field()
+    var_3 = 1
+    var_4 = bool(False)
+    assert var_4 is True
+    var_5 = 'TestClass.x'
+
+def test_case_0():
+    var_0 = 'not an int'
+    var_1 = bool(False)
+    assert var_1 is True
+    var_2 = 'Invalid type for field TestClass.x'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'y'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = 42
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda : 42
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: v * 2
+    var_1 = module_0.field(factory=var_0)
+    var_2 = 21
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v, ignore_extra=False: v if ignore_extra else v * 2
+    var_1 = module_0.field(factory=var_0)
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 1
+    var_5 = 2
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = True
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: (v > 0, 'must be positive')
+    var_1 = module_0.field(invariant=var_0)
+    var_2 = -1
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'must be positive'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'Global invariant failed'
+
+
+
+# Parsed testcases at query #9
+#--------------------------
+
+
+
+
+def test_case_0():
+    var_0 = '__weakref__'
+
+
+
+# Parsed testcases at query #10
+#--------------------------
+
+# Partially parsed test_pclass_constructor_with_valid_fields. Retrieved 4/7 statements.
+# Partially parsed test_pclass_constructor_with_missing_mandatory_field. Retrieved 3/7 statements.
+# Partially parsed test_pclass_constructor_with_extra_fields. Retrieved 5/9 statements.
+# Partially parsed test_pclass_constructor_with_initial_values. Retrieved 2/5 statements.
+# Partially parsed test_pclass_constructor_with_factory_fields. Retrieved 8/11 statements.
+# Partially parsed test_pclass_constructor_with_ignore_extra. Retrieved 10/14 statements.
+# Partially parsed test_pclass_constructor_with_invariant_check. Retrieved 4/10 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+    var_4 = bool(False)
+    assert var_4 is True
+    var_5 = 'Field invariant failed'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+    var_5 = bool(False)
+    assert var_5 is True
+    var_6 = 'z'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = 0
+    var_1 = module_0.field(initial=var_0)
+    var_2 = lambda : 'default'
+    var_3 = module_0.field(initial=var_2)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 1
+    var_5 = 2
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = {var_2}
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 'z'
+    var_5 = 1
+    var_6 = 2
+    var_7 = 3
+    var_8 = {var_2: var_5, var_3: var_6, var_4: var_7}
+    var_9 = True
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = -1
+    var_3 = 2
+    var_4 = bool(False)
+    assert var_4 is True
+    var_5 = 'Field invariant failed'
+
+
+
+# Parsed testcases at query #11
+#--------------------------
+
+# Partially parsed test_repr_returns_correct_string. Retrieved 4/8 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+
+
+# Parsed testcases at query #12
+#--------------------------
+
+# Partially parsed test_pclass_constructor_with_valid_fields. Retrieved 4/7 statements.
+# Partially parsed test_pclass_constructor_with_mandatory_field_missing. Retrieved 3/7 statements.
+# Partially parsed test_pclass_constructor_with_extra_fields. Retrieved 5/9 statements.
+# Partially parsed test_pclass_constructor_with_initial_value. Retrieved 3/6 statements.
+# Partially parsed test_pclass_constructor_with_callable_initial. Retrieved 3/6 statements.
+# Partially parsed test_pclass_constructor_with_ignore_extra. Retrieved 10/14 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+    var_4 = bool(False)
+    assert var_4 is True
+    var_5 = 'TestClass.x'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+    var_5 = bool(False)
+    assert var_5 is True
+    var_6 = 'z'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = module_0.field(initial=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda : 10
+    var_1 = module_0.field(initial=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 'z'
+    var_5 = 1
+    var_6 = 2
+    var_7 = 3
+    var_8 = {var_2: var_5, var_3: var_6, var_4: var_7}
+    var_9 = True
+
+
+
+# Parsed testcases at query #13
+#--------------------------
+
+# Partially parsed test_pclass_new_with_valid_fields. Retrieved 4/6 statements.
+# Partially parsed test_pclass_new_with_missing_mandatory_field. Retrieved 1/4 statements.
+# Partially parsed test_pclass_new_with_invalid_field_type. Retrieved 1/5 statements.
+# Partially parsed test_pclass_new_with_extra_fields. Retrieved 3/6 statements.
+# Partially parsed test_pclass_new_with_ignore_extra. Retrieved 7/10 statements.
+# Partially parsed test_pclass_new_with_factory_fields. Retrieved 4/6 statements.
+# Partially parsed test_pclass_new_with_initial_value. Retrieved 1/3 statements.
+# Partially parsed test_pclass_new_with_callable_initial. Retrieved 1/3 statements.
+# Partially parsed test_pclass_new_with_invariant_failure. Retrieved 2/5 statements.
+# Partially parsed test_pclass_new_with_global_invariant_failure. Retrieved 3/9 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = bool(False)
+    assert var_2 is True
+    var_3 = 'TestClass.x'
+
+def test_case_0():
+    var_0 = 'not an int'
+    var_1 = bool(False)
+    assert var_1 is True
+    var_2 = 'Invalid type for field TestClass.x'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'y'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 'x'
+    var_2 = 'y'
+    var_3 = 1
+    var_4 = 2
+    var_5 = {var_1: var_3, var_2: var_4}
+    var_6 = True
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 'x'
+    var_3 = {var_2}
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = 0
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda : 42
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: (v > 0, 'must be positive')
+    var_1 = module_0.field(invariant=var_0)
+    var_2 = -1
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'must be positive'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'Global invariant failed'
+
+
+
+# Parsed testcases at query #14
+#--------------------------
+
+# Partially parsed test_pclass_eq_same_instance. Retrieved 4/7 statements.
+# Partially parsed test_pclass_eq_different_instances_same_values. Retrieved 4/8 statements.
+# Partially parsed test_pclass_eq_different_values. Retrieved 6/10 statements.
+# Partially parsed test_pclass_eq_different_types. Retrieved 3/8 statements.
+# Partially parsed test_pclass_eq_non_pclass_instance. Retrieved 2/5 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+    var_5 = 4
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+
+
+
+# Parsed testcases at query #15
+#--------------------------
+
+# Partially parsed test_pclassmeta_new_with_checkedtype_base. Retrieved 4/9 statements.
+# Partially parsed test_pclassmeta_new_without_checkedtype_base. Retrieved 4/11 statements.
+# Failed to parse test_pclassmeta_new_with_inherited_fields.
+# Partially parsed test_pclassmeta_new_with_inherited_invariants. Retrieved 2/6 statements.
+# Partially parsed test_pclassmeta_new_with_no_invariant. Retrieved 1/6 statements.
+
+
+def test_case_0():
+    var_0 = lambda self: True
+    var_1 = '_pclass_fields'
+    var_2 = '_pclass_invariants'
+    var_3 = '__slots__'
+    var_4 = '__weakref__'
+    var_5 = '_pclass_frozen'
+    var_6 = 'field1'
+
+def test_case_0():
+    var_0 = lambda self: True
+    var_1 = '_pclass_fields'
+    var_2 = '_pclass_invariants'
+    var_3 = '__slots__'
+    var_4 = '__weakref__'
+    var_5 = '_pclass_frozen'
+    var_6 = 'field1'
+
+def test_case_0():
+    var_0 = lambda self: True
+    var_1 = lambda self: True
+
+def test_case_0():
+    var_0 = 'not callable'
+    var_1 = bool(False)
+    assert var_1 is True
+
+def test_case_0():
+    var_0 = '_pclass_invariants'
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+# Partially parsed test_pclass_reduce. Retrieved 4/9 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+# Partially parsed test_invariant_errors_or_missing_fields_raises_exception. Retrieved 1/6 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+# Partially parsed test_serialize_with_custom_serializer. Retrieved 2/5 statements.
+# Partially parsed test_serialize_without_custom_serializer. Retrieved 2/5 statements.
+# Partially parsed test_serialize_with_multiple_fields. Retrieved 4/7 statements.
+# Partially parsed test_serialize_with_missing_field. Retrieved 3/6 statements.
+# Partially parsed test_serialize_with_format. Retrieved 4/8 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: v * 2
+    var_1 = module_0.field(serializer=var_0)
+    var_2 = 5
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 5
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: v * 2
+    var_1 = module_0.field(serializer=var_0)
+    var_2 = module_0.field()
+    var_3 = 5
+    var_4 = 10
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 5
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v, fmt: v * 2 if fmt == 'double' else v
+    var_1 = module_0.field(serializer=var_0)
+    var_2 = 5
+    var_3 = 'double'
+    var_4 = 'other'
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+# Partially parsed test_invariant_errors_or_missing_fields_raises_exception. Retrieved 1/6 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = bool(False)
+    assert var_2 is True
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+# Partially parsed test_repr_returns_correct_string. Retrieved 4/7 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+
+
+# Parsed testcases at query #21
+#--------------------------
+
+# Partially parsed test_serialize_returns_dict_with_correct_keys. Retrieved 4/9 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 'x'
+    var_5 = 'y'
+
+
+
+# Parsed testcases at query #22
+#--------------------------
+
+# Partially parsed test_set_with_keyword_arguments. Retrieved 5/9 statements.
+# Partially parsed test_set_with_positional_arguments. Retrieved 6/10 statements.
+# Partially parsed test_set_with_multiple_fields. Retrieved 8/12 statements.
+# Partially parsed test_set_with_unknown_field. Retrieved 3/8 statements.
+# Partially parsed test_set_with_mandatory_field_missing. Retrieved 5/9 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 10
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 'x'
+    var_5 = 10
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = module_0.field()
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = 10
+    var_7 = 20
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+    var_3 = bool(False)
+    assert var_3 is True
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = module_0.field()
+    var_3 = 1
+    var_4 = 2
+    var_5 = 20
+
+
+
+# Parsed testcases at query #23
+#--------------------------
+
+# Partially parsed test_pclass_hash_equality. Retrieved 5/14 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+
+
+
+# Parsed testcases at query #24
+#--------------------------
+
+# Partially parsed test_equality_with_same_class_instance. Retrieved 4/7 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+
+
+# Parsed testcases at query #25
+#--------------------------
+
+# Partially parsed test_set_preserves_existing_fields. Retrieved 5/9 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 10
+
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+# Partially parsed test_pclass_constructor_with_valid_fields. Retrieved 4/6 statements.
+# Partially parsed test_pclass_constructor_with_missing_mandatory_field. Retrieved 3/6 statements.
+# Partially parsed test_pclass_constructor_with_extra_fields. Retrieved 3/6 statements.
+# Partially parsed test_pclass_constructor_with_initial_value. Retrieved 3/5 statements.
+# Partially parsed test_pclass_constructor_with_callable_initial. Retrieved 3/5 statements.
+# Partially parsed test_pclass_constructor_with_ignore_extra. Retrieved 7/10 statements.
+# Partially parsed test_pclass_constructor_with_factory_fields. Retrieved 5/8 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+    var_4 = bool(False)
+    assert var_4 is True
+    var_5 = 'TestPClass.x'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 3
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'z'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = 10
+    var_1 = module_0.field(initial=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda : 10
+    var_1 = module_0.field(initial=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 'x'
+    var_2 = 'z'
+    var_3 = 1
+    var_4 = 3
+    var_5 = {var_1: var_3, var_2: var_4}
+    var_6 = True
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+# Failed to parse test_is_pclass_with_checked_type_base.
+# Failed to parse test_is_pclass_with_multiple_bases.
+# Failed to parse test_is_pclass_with_non_checked_type_base.
+
+
+import pyrsistent._pclass as module_0
+
+def test_case_0():
+    var_0 = ()
+    var_1 = module_0._is_pclass(var_0)
+    assert var_1 is False
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+# Partially parsed test_pclass_meta_new_with_checked_type_base. Retrieved 9/16 statements.
+# Partially parsed test_pclass_meta_new_without_checked_type_base. Retrieved 9/18 statements.
+# Partially parsed test_pclass_meta_new_with_inherited_fields_and_invariants. Retrieved 10/19 statements.
+
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = lambda self: True
+    var_1 = '_pclass_fields'
+    var_2 = '_pclass_invariants'
+    var_3 = '__slots__'
+    var_4 = '__weakref__'
+    var_5 = '_pclass_frozen'
+    var_6 = 'field1'
+    var_7 = True
+    var_8 = lambda self: var_7
+    var_9 = module_0.wrap_invariant(var_8)
+    var_10 = (var_9,)
+    var_11 = 'field1'
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = lambda self: True
+    var_1 = '_pclass_fields'
+    var_2 = '_pclass_invariants'
+    var_3 = '__slots__'
+    var_4 = '__weakref__'
+    var_5 = '_pclass_frozen'
+    var_6 = 'field1'
+    var_7 = True
+    var_8 = lambda self: var_7
+    var_9 = module_0.wrap_invariant(var_8)
+    var_10 = (var_9,)
+    var_11 = 'field1'
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = lambda self: True
+    var_1 = lambda self: False
+    var_2 = 'field1'
+    var_3 = 'field2'
+    var_4 = True
+    var_5 = lambda self: var_4
+    var_6 = module_0.wrap_invariant(var_5)
+    var_7 = False
+    var_8 = lambda self: var_7
+    var_9 = module_0.wrap_invariant(var_8)
+
+def test_case_0():
+    var_0 = 'not callable'
+    var_1 = bool(False)
+    assert var_1 is True
+
+def test_case_0():
+    pass
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+# Partially parsed test_pclass_new_with_valid_fields. Retrieved 3/7 statements.
+# Partially parsed test_pclass_new_with_mandatory_missing_field. Retrieved 1/5 statements.
+# Partially parsed test_pclass_new_with_invalid_type. Retrieved 1/6 statements.
+# Partially parsed test_pclass_new_with_initial_value. Retrieved 1/4 statements.
+# Partially parsed test_pclass_new_with_callable_initial. Retrieved 1/4 statements.
+# Partially parsed test_pclass_new_with_extra_fields. Retrieved 3/7 statements.
+# Partially parsed test_pclass_new_with_ignore_extra. Retrieved 7/11 statements.
+# Partially parsed test_pclass_new_with_factory_fields. Retrieved 4/7 statements.
+# Partially parsed test_pclass_new_with_invariant_failure. Retrieved 2/6 statements.
+# Partially parsed test_pclass_new_with_global_invariant_failure. Retrieved 3/8 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = bool(False)
+    assert var_2 is True
+    var_3 = 'TestClass.x'
+
+def test_case_0():
+    var_0 = 'not an int'
+    var_1 = bool(False)
+    assert var_1 is True
+    var_2 = 'Invalid type'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = 42
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda : 42
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'y'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 'x'
+    var_2 = 'y'
+    var_3 = 1
+    var_4 = 2
+    var_5 = {var_1: var_3, var_2: var_4}
+    var_6 = True
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 'x'
+    var_2 = {var_1}
+    var_3 = 1
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: (v > 0, 'must be positive')
+    var_1 = module_0.field(invariant=var_0)
+    var_2 = -1
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'must be positive'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'Global invariant failed'
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+# Partially parsed test_pclass_fields_iteration. Retrieved 2/6 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+
+
+
+# Parsed testcases at query #6
+#--------------------------
+
+# Partially parsed test_pclass_repr_with_single_field. Retrieved 2/6 statements.
+# Partially parsed test_pclass_repr_with_multiple_fields. Retrieved 4/8 statements.
+# Failed to parse test_pclass_repr_with_no_fields.
+# Partially parsed test_pclass_repr_with_missing_optional_field. Retrieved 1/5 statements.
+# Partially parsed test_pclass_repr_with_complex_types. Retrieved 7/12 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 42
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 'hello'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = False
+    var_1 = module_0.field(mandatory=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+    var_5 = 'a'
+    var_6 = {var_5: var_2}
+
+
+
+# Parsed testcases at query #7
+#--------------------------
+
+# Partially parsed test_pclass_hash_consistency. Retrieved 5/14 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+
+
+
+# Parsed testcases at query #8
+#--------------------------
+
+# Partially parsed test_set_with_keyword_arguments. Retrieved 5/9 statements.
+# Partially parsed test_set_with_positional_arguments. Retrieved 6/10 statements.
+# Partially parsed test_set_creates_new_instance. Retrieved 3/7 statements.
+# Partially parsed test_set_with_multiple_fields. Retrieved 8/12 statements.
+# Partially parsed test_set_with_missing_field. Retrieved 5/9 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 'x'
+    var_5 = 3
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = module_0.field()
+    var_3 = 1
+    var_4 = 2
+    var_5 = 3
+    var_6 = 10
+    var_7 = 20
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+
+
+
+# Parsed testcases at query #9
+#--------------------------
+
+# Partially parsed test_repr_returns_correct_string. Retrieved 4/7 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+
+
+# Parsed testcases at query #10
+#--------------------------
+
+# Partially parsed test_equality_with_same_class_and_values. Retrieved 4/8 statements.
+# Partially parsed test_inequality_with_same_class_different_values. Retrieved 6/10 statements.
+# Partially parsed test_equality_with_different_class. Retrieved 3/8 statements.
+# Partially parsed test_equality_with_non_pclass_object. Retrieved 2/5 statements.
+# Partially parsed test_equality_with_missing_fields. Retrieved 4/8 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+    var_5 = 4
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+
+
+# Parsed testcases at query #11
+#--------------------------
+
+# Partially parsed test_serialize_with_no_serializer. Retrieved 4/8 statements.
+# Partially parsed test_serialize_with_custom_serializer. Retrieved 3/10 statements.
+# Partially parsed test_serialize_with_format. Retrieved 5/9 statements.
+# Partially parsed test_serialize_with_missing_fields. Retrieved 3/7 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 'json'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+
+
+
+# Parsed testcases at query #12
+#--------------------------
+
+# Partially parsed test_eq_returns_true_when_all_fields_are_equal. Retrieved 4/7 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+
+
+# Parsed testcases at query #13
+#--------------------------
+
+# Partially parsed test_pclass_reduce. Retrieved 4/9 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+
+
+# Parsed testcases at query #14
+#--------------------------
+
+# Partially parsed test_pclass_pickling_returns_correct_tuple. Retrieved 4/8 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+
+
+# Parsed testcases at query #15
+#--------------------------
+
+# Partially parsed test_pclass_new_with_valid_fields. Retrieved 4/7 statements.
+# Partially parsed test_pclass_new_with_missing_mandatory_field. Retrieved 3/7 statements.
+# Partially parsed test_pclass_new_with_extra_fields. Retrieved 3/7 statements.
+# Partially parsed test_pclass_new_with_initial_value. Retrieved 3/6 statements.
+# Partially parsed test_pclass_new_with_callable_initial. Retrieved 3/6 statements.
+# Partially parsed test_pclass_new_with_factory. Retrieved 3/7 statements.
+# Partially parsed test_pclass_new_with_invalid_type. Retrieved 3/8 statements.
+# Partially parsed test_pclass_new_with_invariant_failure. Retrieved 4/8 statements.
+# Partially parsed test_pclass_new_with_global_invariant_failure. Retrieved 4/10 statements.
+# Partially parsed test_pclass_new_with_ignore_extra. Retrieved 7/11 statements.
+# Partially parsed test_pclass_new_with_factory_fields. Retrieved 7/11 statements.
+# Partially parsed test_pclass_new_with_ignore_extra_and_factory. Retrieved 7/12 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+    var_4 = bool(False)
+    assert var_4 is True
+    var_5 = 'TestClass.x'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 3
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'z'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = 5
+    var_1 = module_0.field(initial=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda : 10
+    var_1 = module_0.field(initial=var_0)
+    var_2 = module_0.field()
+    var_3 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = '123'
+    var_2 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 'not_an_int'
+    var_2 = 2
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'Invalid type'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: (v > 0, 'must_be_positive')
+    var_1 = module_0.field(invariant=var_0)
+    var_2 = module_0.field()
+    var_3 = -1
+    var_4 = 2
+    var_5 = bool(False)
+    assert var_5 is True
+    var_6 = 'must_be_positive'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = -1
+    var_3 = -2
+    var_4 = bool(False)
+    assert var_4 is True
+    var_5 = 'Global invariant failed'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 'x'
+    var_2 = 'z'
+    var_3 = 1
+    var_4 = 3
+    var_5 = {var_1: var_3, var_2: var_4}
+    var_6 = True
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 'x'
+    var_2 = 'y'
+    var_3 = '123'
+    var_4 = 2
+    var_5 = {var_1: var_3, var_2: var_4}
+    var_6 = {var_1}
+
+def test_case_0():
+    var_0 = 'x'
+    var_1 = 'z'
+    var_2 = '123'
+    var_3 = 3
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = True
+    var_6 = {var_0}
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+# Partially parsed test_pclass_equality. Retrieved 6/11 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+    var_4 = 3
+    var_5 = 4
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+# Partially parsed test_repr_format. Retrieved 4/7 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = module_0.field()
+    var_2 = 1
+    var_3 = 2
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+# Partially parsed test_invariant_errors_or_missing_fields_raises_exception. Retrieved 2/7 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = lambda v: (False, 'error')
+    var_3 = module_0.field(invariant=var_2)
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+# Partially parsed test_pclass_new_with_valid_fields. Retrieved 3/7 statements.
+# Partially parsed test_pclass_new_with_missing_mandatory_field. Retrieved 1/5 statements.
+# Partially parsed test_pclass_new_with_invalid_type. Retrieved 1/6 statements.
+# Partially parsed test_pclass_new_with_extra_fields. Retrieved 3/7 statements.
+# Partially parsed test_pclass_new_with_initial_value. Retrieved 1/4 statements.
+# Partially parsed test_pclass_new_with_callable_initial. Retrieved 1/4 statements.
+# Partially parsed test_pclass_new_with_factory. Retrieved 2/5 statements.
+# Partially parsed test_pclass_new_with_ignore_extra. Retrieved 7/10 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = bool(False)
+    assert var_2 is True
+    var_3 = 'TestClass.x'
+
+def test_case_0():
+    var_0 = 'not an int'
+    var_1 = bool(False)
+    assert var_1 is True
+    var_2 = 'Invalid type'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'y'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = 42
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda : 42
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: v * 2
+    var_1 = module_0.field(factory=var_0)
+    var_2 = 21
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v, ignore_extra=False: v * 2
+    var_1 = module_0.field(factory=var_0)
+    var_2 = 'x'
+    var_3 = 'y'
+    var_4 = 21
+    var_5 = 99
+    var_6 = {var_2: var_4, var_3: var_5}
+    var_7 = True
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+# Partially parsed test_pclassmeta_new_with_single_checkedtype_base. Retrieved 9/16 statements.
+# Partially parsed test_pclassmeta_new_with_multiple_bases. Retrieved 9/19 statements.
+# Partially parsed test_pclassmeta_new_with_no_invariant. Retrieved 4/11 statements.
+# Partially parsed test_pclassmeta_new_with_inherited_fields. Retrieved 2/9 statements.
+
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = lambda self: True
+    var_1 = '_pclass_fields'
+    var_2 = '_pclass_invariants'
+    var_3 = '__slots__'
+    var_4 = '__weakref__'
+    var_5 = '_pclass_frozen'
+    var_6 = 'field'
+    var_7 = 'field'
+    var_8 = True
+    var_9 = lambda self: var_8
+    var_10 = module_0.wrap_invariant(var_9)
+    var_11 = (var_10,)
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = lambda self: True
+    var_1 = '_pclass_fields'
+    var_2 = '_pclass_invariants'
+    var_3 = '__slots__'
+    var_4 = '__weakref__'
+    var_5 = '_pclass_frozen'
+    var_6 = 'field'
+    var_7 = 'field'
+    var_8 = True
+    var_9 = lambda self: var_8
+    var_10 = module_0.wrap_invariant(var_9)
+    var_11 = (var_10,)
+
+def test_case_0():
+    var_0 = 'not callable'
+    var_1 = bool(False)
+    assert var_1 is True
+
+def test_case_0():
+    var_0 = '_pclass_fields'
+    var_1 = '_pclass_invariants'
+    var_2 = '__slots__'
+    var_3 = '__weakref__'
+    var_4 = '_pclass_frozen'
+    var_5 = 'field'
+    var_6 = 'field'
+
+def test_case_0():
+    var_0 = 'field1'
+    var_1 = 'field2'
+    var_2 = 'field1'
+    var_3 = 'field2'
+
+import pyrsistent._checked_types as module_0
+
+def test_case_0():
+    var_0 = lambda self: True
+    var_1 = True
+    var_2 = lambda self: var_1
+    var_3 = module_0.wrap_invariant(var_2)
+    var_4 = (var_3,)
+
+
+
+# Parsed testcases at query #21
+#--------------------------
+
+# Failed to parse test__is_pclass_returns_false_for_non_pclass_bases.
+
+
+
+
+# Parsed testcases at query #22
+#--------------------------
+
+# Partially parsed test_pclass_new_with_valid_fields. Retrieved 3/7 statements.
+# Partially parsed test_pclass_new_with_missing_mandatory_field. Retrieved 1/5 statements.
+# Partially parsed test_pclass_new_with_invalid_type. Retrieved 1/6 statements.
+# Partially parsed test_pclass_new_with_initial_value. Retrieved 1/4 statements.
+# Partially parsed test_pclass_new_with_callable_initial. Retrieved 1/4 statements.
+# Partially parsed test_pclass_new_with_extra_fields. Retrieved 3/7 statements.
+# Partially parsed test_pclass_new_with_ignore_extra. Retrieved 7/11 statements.
+# Partially parsed test_pclass_new_with_factory_fields. Retrieved 4/7 statements.
+# Partially parsed test_pclass_new_with_invariant_failure. Retrieved 2/6 statements.
+# Partially parsed test_pclass_new_with_global_invariant_failure. Retrieved 2/9 statements.
+
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.field(mandatory=var_0)
+    var_2 = bool(False)
+    assert var_2 is True
+    var_3 = 'Field invariant failed'
+
+def test_case_0():
+    var_0 = 'not an int'
+    var_1 = bool(False)
+    assert var_1 is True
+    var_2 = 'Invalid type'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = 42
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda : 42
+    var_1 = module_0.field(initial=var_0)
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 1
+    var_2 = 2
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'not among the specified fields'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 'x'
+    var_2 = 'y'
+    var_3 = 1
+    var_4 = 2
+    var_5 = {var_1: var_3, var_2: var_4}
+    var_6 = True
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = 'x'
+    var_2 = {var_1}
+    var_3 = 1
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = lambda v: (v > 0, 'must be positive')
+    var_1 = module_0.field(invariant=var_0)
+    var_2 = -1
+    var_3 = bool(False)
+    assert var_3 is True
+    var_4 = 'Field invariant failed'
+
+import pyrsistent._field_common as module_0
+
+def test_case_0():
+    var_0 = module_0.field()
+    var_1 = -1
+    var_2 = bool(False)
+    assert var_2 is True
+    var_3 = 'Global invariant failed'
+
+
+

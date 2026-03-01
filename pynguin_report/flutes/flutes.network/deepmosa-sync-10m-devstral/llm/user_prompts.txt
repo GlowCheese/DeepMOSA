@@ -1,0 +1,2286 @@
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+flutes/fs.py:
+```
+def remove_suffix(s: str, suffix: str, fully_match: bool = True) -> str:
+    r"""Remove the specified suffix from a string. If only parts of the suffix match and :attr:`fully_match` is
+    ``False``, then only that part is removed.
+
+    .. code:: python
+
+        >>> remove_suffix("https://github.com/huzecong/flutes", "/flutes")
+        "https://github.com/huzecong"
+
+        >>> remove_suffix("bugfix", "suffix", fully_match=False)
+        "bug"
+
+    :param s: The string whose suffix we want to remove.
+    :param suffix: The suffix to remove.
+    :param fully_match: If ``True``, the suffix is only removed if it fully matches. Defaults to ``False``.
+    """
+    length = min(len(s), len(suffix))
+    suffix_len = next((idx for idx in range(1, length + 1) if s[-idx] != suffix[-idx]), length + 1) - 1
+    if not fully_match or suffix_len == len(suffix):
+        return s[:-suffix_len] if suffix_len > 0 else s
+    return s
+
+```
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/network.py (module to test):
+```
+def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    # Credit: https://github.com/saurabhshri/gdrive-downloader
+    import requests
+
+    def _get_confirm_token(resp):
+        for key, value in resp.cookies.items():
+            if key.startswith('download_warning'):
+                return value
+        return None
+
+    file_id = _extract_google_drive_file_id(url)
+
+    gurl = "https://docs.google.com/uc?export=download"
+    sess = requests.Session()
+    response = sess.get(gurl, params={'id': file_id}, stream=True)
+    token = _get_confirm_token(response)
+
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = sess.get(gurl, params=params, stream=True)
+
+    filepath = os.path.join(path, filename)
+    CHUNK_SIZE = 32768
+    progress = bar_fn() if bar_fn is not None else None
+    with open(filepath, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk:
+                if progress is not None:
+                    progress.update(len(chunk))
+                f.write(chunk)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    if bar_fn is None:
+        progress = _progress_hook = None
+    else:
+        progress = None
+        prev_count = 0
+
+        def _progress_hook(count, block_size, total_size):
+            nonlocal progress, prev_count
+            if progress is None:
+                progress = bar_fn()
+            if total_size != -1 and progress.total is None:
+                progress.total = total_size
+                progress.refresh()
+            if count > prev_count:
+                progress.update((count - prev_count) * block_size)
+                prev_count = count
+
+    filepath = os.path.join(path, filename)
+    filepath, _ = urllib.request.urlretrieve(url, filepath, _progress_hook)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+
+def download(url: str, save_dir: Optional[PathType] = None, filename: Optional[str] = None, extract: bool = False,
+             progress: bool = False, bar_fn: Optional[BarFn] = None, **kwargs) -> str:
+    r"""Download a file from the given URL. If the given file already exists in the save directory, download is skipped.
+    Supported URL types include:
+
+    - Any direct URL to files.
+    - Google Drive shared file URLs in the form of ``https://drive.google.com/file/d/<file_id>/view``.
+
+    :param url: The URL from which to download.
+    :param save_dir: The directory to save the file. The directory is created if it doesn't exist. If ``None``, a
+        temporary directory is used, and the user is responsible for removing the file.
+    :param filename: The name of the downloaded file. If ``None``, the default filename from the URL is used.
+    :param extract: Whether to extract compressed files. Defaults to ``False``.
+    :param progress: Whether to show download progress as a progress bar. Defaults to ``False``. Note that files
+        from Google Drive does not contain file size estimates during downloading.
+    :param bar_fn: An optional callable that constructs a progress bar when called. This is useful when you want to
+        override the default progress bar, for instance, to use with :class:`~flutes.ProgressBarManager`:
+
+        .. code:: python
+
+            def process(path: str, bar: flutes.ProgressBarManager.Proxy):
+                with flutes.progress_open(path, bar_fn=bar.new) as f:
+                    ...
+
+    :param kwargs: Additional arguments to pass to `tqdm <https://tqdm.github.io/>`_ initializer.
+    :returns: Path to the downloaded file.
+    """
+    if save_dir is None:
+        save_dir_str = tempfile.gettempdir()
+    else:
+        save_dir_str = str(save_dir)
+        os.makedirs(save_dir_str, exist_ok=True)
+
+    if filename is None:
+        if 'drive.google.com' in url:
+            filename = _extract_google_drive_file_id(url)
+        else:
+            filename = url.split('/')[-1]
+            # If downloading from GitHub, remove suffix ?raw=true from local filename.
+            filename = remove_suffix(filename, "?raw=true")
+
+    if progress:
+        if bar_fn is None:
+            from tqdm import tqdm
+            bar_fn = tqdm
+        bar_fn = functools.partial(bar_fn, **kwargs)
+    else:
+        bar_fn = None
+
+    filepath = os.path.join(save_dir_str, filename)
+    if not os.path.exists(filepath):
+        if 'drive.google.com' in url:
+            filepath = _download_from_google_drive(url, filename, save_dir_str, bar_fn)
+        else:
+            filepath = _download(url, filename, save_dir_str, bar_fn)
+
+        if extract:
+            if tarfile.is_tarfile(filepath):
+                with tarfile.open(filepath, 'r') as tfile:
+                    tfile.extractall(save_dir_str)
+            elif zipfile.is_zipfile(filepath):
+                with zipfile.ZipFile(filepath) as zfile:
+                    zfile.extractall(save_dir_str)
+            else:
+                log("Unknown compression type. Only .tar.gz, .tar.bz2, .tar, and .zip are supported", "warning")
+
+    return filepath
+
+```
+Write unit test for function download
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    # Credit: https://github.com/saurabhshri/gdrive-downloader
+    import requests
+
+    def _get_confirm_token(resp):
+        for key, value in resp.cookies.items():
+            if key.startswith('download_warning'):
+                return value
+        return None
+
+    file_id = _extract_google_drive_file_id(url)
+
+    gurl = "https://docs.google.com/uc?export=download"
+    sess = requests.Session()
+    response = sess.get(gurl, params={'id': file_id}, stream=True)
+    token = _get_confirm_token(response)
+
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = sess.get(gurl, params=params, stream=True)
+
+    filepath = os.path.join(path, filename)
+    CHUNK_SIZE = 32768
+    progress = bar_fn() if bar_fn is not None else None
+    with open(filepath, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk:
+                if progress is not None:
+                    progress.update(len(chunk))
+                f.write(chunk)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+```
+Write unit test for function _download_from_google_drive
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 24 evaluates to True.
+```
+ 1 | def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+ 2 |     # Credit: https://github.com/saurabhshri/gdrive-downloader
+ 3 |     import requests
+ 4 | 
+ 5 |     def _get_confirm_token(resp):
+ 6 |         for key, value in resp.cookies.items():
+ 7 |             if key.startswith('download_warning'):
+ 8 |                 return value
+ 9 |         return None
+10 | 
+11 |     file_id = _extract_google_drive_file_id(url)
+12 | 
+13 |     gurl = "https://docs.google.com/uc?export=download"
+14 |     sess = requests.Session()
+15 |     response = sess.get(gurl, params={'id': file_id}, stream=True)
+16 |     token = _get_confirm_token(response)
+17 | 
+18 |     if token:
+19 |         params = {'id': file_id, 'confirm': token}
+20 |         response = sess.get(gurl, params=params, stream=True)
+21 | 
+22 |     filepath = os.path.join(path, filename)
+23 |     CHUNK_SIZE = 32768
+24 |     progress = bar_fn() if bar_fn is not None else None
+25 |     with open(filepath, "wb") as f:
+26 |         for chunk in response.iter_content(CHUNK_SIZE):
+27 |             if chunk:
+28 |                 if progress is not None:
+29 |                     progress.update(len(chunk))
+30 |                 f.write(chunk)
+31 |     if progress is not None:
+32 |         progress.close()
+33 |     return filepath
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    # Credit: https://github.com/saurabhshri/gdrive-downloader
+    import requests
+
+    def _get_confirm_token(resp):
+        for key, value in resp.cookies.items():
+            if key.startswith('download_warning'):
+                return value
+        return None
+
+    file_id = _extract_google_drive_file_id(url)
+
+    gurl = "https://docs.google.com/uc?export=download"
+    sess = requests.Session()
+    response = sess.get(gurl, params={'id': file_id}, stream=True)
+    token = _get_confirm_token(response)
+
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = sess.get(gurl, params=params, stream=True)
+
+    filepath = os.path.join(path, filename)
+    CHUNK_SIZE = 32768
+    progress = bar_fn() if bar_fn is not None else None
+    with open(filepath, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk:
+                if progress is not None:
+                    progress.update(len(chunk))
+                f.write(chunk)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+```
+Write unit test for function _download_from_google_drive
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 28 evaluates to True.
+```
+ 1 | def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+ 2 |     # Credit: https://github.com/saurabhshri/gdrive-downloader
+ 3 |     import requests
+ 4 | 
+ 5 |     def _get_confirm_token(resp):
+ 6 |         for key, value in resp.cookies.items():
+ 7 |             if key.startswith('download_warning'):
+ 8 |                 return value
+ 9 |         return None
+10 | 
+11 |     file_id = _extract_google_drive_file_id(url)
+12 | 
+13 |     gurl = "https://docs.google.com/uc?export=download"
+14 |     sess = requests.Session()
+15 |     response = sess.get(gurl, params={'id': file_id}, stream=True)
+16 |     token = _get_confirm_token(response)
+17 | 
+18 |     if token:
+19 |         params = {'id': file_id, 'confirm': token}
+20 |         response = sess.get(gurl, params=params, stream=True)
+21 | 
+22 |     filepath = os.path.join(path, filename)
+23 |     CHUNK_SIZE = 32768
+24 |     progress = bar_fn() if bar_fn is not None else None
+25 |     with open(filepath, "wb") as f:
+26 |         for chunk in response.iter_content(CHUNK_SIZE):
+27 |             if chunk:
+28 |                 if progress is not None:
+29 |                     progress.update(len(chunk))
+30 |                 f.write(chunk)
+31 |     if progress is not None:
+32 |         progress.close()
+33 |     return filepath
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+ 2 |     # Credit: https://github.com/saurabhshri/gdrive-downloader
+ 3 |     import requests
+ 4 | 
+ 5 |     def _get_confirm_token(resp):
+ 6 |         for key, value in resp.cookies.items():
+ 7 |             if key.startswith('download_warning'):
+ 8 |                 return value
+ 9 |         return None
+10 | 
+11 |     file_id = _extract_google_drive_file_id(url)
+12 | 
+13 |     gurl = "https://docs.google.com/uc?export=download"
+14 |     sess = requests.Session()
+15 |     response = sess.get(gurl, params={'id': file_id}, stream=True)
+16 |     token = _get_confirm_token(response)
+17 | 
+18 |     if token:
+19 |         params = {'id': file_id, 'confirm': token}
+20 |         response = sess.get(gurl, params=params, stream=True)
+21 | 
+22 |     filepath = os.path.join(path, filename)
+23 |     CHUNK_SIZE = 32768
+24 |     progress = bar_fn() if bar_fn is not None else None
+25 |     with open(filepath, "wb") as f:
+26 |         for chunk in response.iter_content(CHUNK_SIZE):
+27 |             if chunk:
+28 |                 if progress is not None:
+29 |                     progress.update(len(chunk))
+30 |                 f.write(chunk)
+31 |     if progress is not None:
+32 |         progress.close()
+33 |     return filepath
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py:
+```
+def remove_suffix(s: str, suffix: str, fully_match: bool = True) -> str:
+    r"""Remove the specified suffix from a string. If only parts of the suffix match and :attr:`fully_match` is
+    ``False``, then only that part is removed.
+
+    .. code:: python
+
+        >>> remove_suffix("https://github.com/huzecong/flutes", "/flutes")
+        "https://github.com/huzecong"
+
+        >>> remove_suffix("bugfix", "suffix", fully_match=False)
+        "bug"
+
+    :param s: The string whose suffix we want to remove.
+    :param suffix: The suffix to remove.
+    :param fully_match: If ``True``, the suffix is only removed if it fully matches. Defaults to ``False``.
+    """
+    length = min(len(s), len(suffix))
+    suffix_len = next((idx for idx in range(1, length + 1) if s[-idx] != suffix[-idx]), length + 1) - 1
+    if not fully_match or suffix_len == len(suffix):
+        return s[:-suffix_len] if suffix_len > 0 else s
+    return s
+
+```
+
+flutes/network.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 58 evaluates to True.
+```
+ 1 | def download(url: str, save_dir: Optional[PathType] = None, filename: Optional[str] = None, extract: bool = False,
+ 2 |              progress: bool = False, bar_fn: Optional[BarFn] = None, **kwargs) -> str:
+ 3 |     r"""Download a file from the given URL. If the given file already exists in the save directory, download is skipped.
+ 4 |     Supported URL types include:
+ 5 | 
+ 6 |     - Any direct URL to files.
+ 7 |     - Google Drive shared file URLs in the form of ``https://drive.google.com/file/d/<file_id>/view``.
+ 8 | 
+ 9 |     :param url: The URL from which to download.
+10 |     :param save_dir: The directory to save the file. The directory is created if it doesn't exist. If ``None``, a
+11 |         temporary directory is used, and the user is responsible for removing the file.
+12 |     :param filename: The name of the downloaded file. If ``None``, the default filename from the URL is used.
+13 |     :param extract: Whether to extract compressed files. Defaults to ``False``.
+14 |     :param progress: Whether to show download progress as a progress bar. Defaults to ``False``. Note that files
+15 |         from Google Drive does not contain file size estimates during downloading.
+16 |     :param bar_fn: An optional callable that constructs a progress bar when called. This is useful when you want to
+17 |         override the default progress bar, for instance, to use with :class:`~flutes.ProgressBarManager`:
+18 | 
+19 |         .. code:: python
+20 | 
+21 |             def process(path: str, bar: flutes.ProgressBarManager.Proxy):
+22 |                 with flutes.progress_open(path, bar_fn=bar.new) as f:
+23 |                     ...
+24 | 
+25 |     :param kwargs: Additional arguments to pass to `tqdm <https://tqdm.github.io/>`_ initializer.
+26 |     :returns: Path to the downloaded file.
+27 |     """
+28 |     if save_dir is None:
+29 |         save_dir_str = tempfile.gettempdir()
+30 |     else:
+31 |         save_dir_str = str(save_dir)
+32 |         os.makedirs(save_dir_str, exist_ok=True)
+33 | 
+34 |     if filename is None:
+35 |         if 'drive.google.com' in url:
+36 |             filename = _extract_google_drive_file_id(url)
+37 |         else:
+38 |             filename = url.split('/')[-1]
+39 |             # If downloading from GitHub, remove suffix ?raw=true from local filename.
+40 |             filename = remove_suffix(filename, "?raw=true")
+41 | 
+42 |     if progress:
+43 |         if bar_fn is None:
+44 |             from tqdm import tqdm
+45 |             bar_fn = tqdm
+46 |         bar_fn = functools.partial(bar_fn, **kwargs)
+47 |     else:
+48 |         bar_fn = None
+49 | 
+50 |     filepath = os.path.join(save_dir_str, filename)
+51 |     if not os.path.exists(filepath):
+52 |         if 'drive.google.com' in url:
+53 |             filepath = _download_from_google_drive(url, filename, save_dir_str, bar_fn)
+54 |         else:
+55 |             filepath = _download(url, filename, save_dir_str, bar_fn)
+56 | 
+57 |         if extract:
+58 |             if tarfile.is_tarfile(filepath):
+59 |                 with tarfile.open(filepath, 'r') as tfile:
+60 |                     tfile.extractall(save_dir_str)
+61 |             elif zipfile.is_zipfile(filepath):
+62 |                 with zipfile.ZipFile(filepath) as zfile:
+63 |                     zfile.extractall(save_dir_str)
+64 |             else:
+65 |                 log("Unknown compression type. Only .tar.gz, .tar.bz2, .tar, and .zip are supported", "warning")
+66 | 
+67 |     return filepath
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+flutes/fs.py:
+```
+def remove_suffix(s: str, suffix: str, fully_match: bool = True) -> str:
+    r"""Remove the specified suffix from a string. If only parts of the suffix match and :attr:`fully_match` is
+    ``False``, then only that part is removed.
+
+    .. code:: python
+
+        >>> remove_suffix("https://github.com/huzecong/flutes", "/flutes")
+        "https://github.com/huzecong"
+
+        >>> remove_suffix("bugfix", "suffix", fully_match=False)
+        "bug"
+
+    :param s: The string whose suffix we want to remove.
+    :param suffix: The suffix to remove.
+    :param fully_match: If ``True``, the suffix is only removed if it fully matches. Defaults to ``False``.
+    """
+    length = min(len(s), len(suffix))
+    suffix_len = next((idx for idx in range(1, length + 1) if s[-idx] != suffix[-idx]), length + 1) - 1
+    if not fully_match or suffix_len == len(suffix):
+        return s[:-suffix_len] if suffix_len > 0 else s
+    return s
+
+```
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/network.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 61 evaluates to True.
+```
+ 1 | def download(url: str, save_dir: Optional[PathType] = None, filename: Optional[str] = None, extract: bool = False,
+ 2 |              progress: bool = False, bar_fn: Optional[BarFn] = None, **kwargs) -> str:
+ 3 |     r"""Download a file from the given URL. If the given file already exists in the save directory, download is skipped.
+ 4 |     Supported URL types include:
+ 5 | 
+ 6 |     - Any direct URL to files.
+ 7 |     - Google Drive shared file URLs in the form of ``https://drive.google.com/file/d/<file_id>/view``.
+ 8 | 
+ 9 |     :param url: The URL from which to download.
+10 |     :param save_dir: The directory to save the file. The directory is created if it doesn't exist. If ``None``, a
+11 |         temporary directory is used, and the user is responsible for removing the file.
+12 |     :param filename: The name of the downloaded file. If ``None``, the default filename from the URL is used.
+13 |     :param extract: Whether to extract compressed files. Defaults to ``False``.
+14 |     :param progress: Whether to show download progress as a progress bar. Defaults to ``False``. Note that files
+15 |         from Google Drive does not contain file size estimates during downloading.
+16 |     :param bar_fn: An optional callable that constructs a progress bar when called. This is useful when you want to
+17 |         override the default progress bar, for instance, to use with :class:`~flutes.ProgressBarManager`:
+18 | 
+19 |         .. code:: python
+20 | 
+21 |             def process(path: str, bar: flutes.ProgressBarManager.Proxy):
+22 |                 with flutes.progress_open(path, bar_fn=bar.new) as f:
+23 |                     ...
+24 | 
+25 |     :param kwargs: Additional arguments to pass to `tqdm <https://tqdm.github.io/>`_ initializer.
+26 |     :returns: Path to the downloaded file.
+27 |     """
+28 |     if save_dir is None:
+29 |         save_dir_str = tempfile.gettempdir()
+30 |     else:
+31 |         save_dir_str = str(save_dir)
+32 |         os.makedirs(save_dir_str, exist_ok=True)
+33 | 
+34 |     if filename is None:
+35 |         if 'drive.google.com' in url:
+36 |             filename = _extract_google_drive_file_id(url)
+37 |         else:
+38 |             filename = url.split('/')[-1]
+39 |             # If downloading from GitHub, remove suffix ?raw=true from local filename.
+40 |             filename = remove_suffix(filename, "?raw=true")
+41 | 
+42 |     if progress:
+43 |         if bar_fn is None:
+44 |             from tqdm import tqdm
+45 |             bar_fn = tqdm
+46 |         bar_fn = functools.partial(bar_fn, **kwargs)
+47 |     else:
+48 |         bar_fn = None
+49 | 
+50 |     filepath = os.path.join(save_dir_str, filename)
+51 |     if not os.path.exists(filepath):
+52 |         if 'drive.google.com' in url:
+53 |             filepath = _download_from_google_drive(url, filename, save_dir_str, bar_fn)
+54 |         else:
+55 |             filepath = _download(url, filename, save_dir_str, bar_fn)
+56 | 
+57 |         if extract:
+58 |             if tarfile.is_tarfile(filepath):
+59 |                 with tarfile.open(filepath, 'r') as tfile:
+60 |                     tfile.extractall(save_dir_str)
+61 |             elif zipfile.is_zipfile(filepath):
+62 |                 with zipfile.ZipFile(filepath) as zfile:
+63 |                     zfile.extractall(save_dir_str)
+64 |             else:
+65 |                 log("Unknown compression type. Only .tar.gz, .tar.bz2, .tar, and .zip are supported", "warning")
+66 | 
+67 |     return filepath
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to True.
+```
+ 1 | def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+ 2 |     # Credit: https://github.com/saurabhshri/gdrive-downloader
+ 3 |     import requests
+ 4 | 
+ 5 |     def _get_confirm_token(resp):
+ 6 |         for key, value in resp.cookies.items():
+ 7 |             if key.startswith('download_warning'):
+ 8 |                 return value
+ 9 |         return None
+10 | 
+11 |     file_id = _extract_google_drive_file_id(url)
+12 | 
+13 |     gurl = "https://docs.google.com/uc?export=download"
+14 |     sess = requests.Session()
+15 |     response = sess.get(gurl, params={'id': file_id}, stream=True)
+16 |     token = _get_confirm_token(response)
+17 | 
+18 |     if token:
+19 |         params = {'id': file_id, 'confirm': token}
+20 |         response = sess.get(gurl, params=params, stream=True)
+21 | 
+22 |     filepath = os.path.join(path, filename)
+23 |     CHUNK_SIZE = 32768
+24 |     progress = bar_fn() if bar_fn is not None else None
+25 |     with open(filepath, "wb") as f:
+26 |         for chunk in response.iter_content(CHUNK_SIZE):
+27 |             if chunk:
+28 |                 if progress is not None:
+29 |                     progress.update(len(chunk))
+30 |                 f.write(chunk)
+31 |     if progress is not None:
+32 |         progress.close()
+33 |     return filepath
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+def _download(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    if bar_fn is None:
+        progress = _progress_hook = None
+    else:
+        progress = None
+        prev_count = 0
+
+        def _progress_hook(count, block_size, total_size):
+            nonlocal progress, prev_count
+            if progress is None:
+                progress = bar_fn()
+            if total_size != -1 and progress.total is None:
+                progress.total = total_size
+                progress.refresh()
+            if count > prev_count:
+                progress.update((count - prev_count) * block_size)
+                prev_count = count
+
+    filepath = os.path.join(path, filename)
+    filepath, _ = urllib.request.urlretrieve(url, filepath, _progress_hook)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+```
+Write unit test for function _download
+
+
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py:
+```
+def remove_suffix(s: str, suffix: str, fully_match: bool = True) -> str:
+    r"""Remove the specified suffix from a string. If only parts of the suffix match and :attr:`fully_match` is
+    ``False``, then only that part is removed.
+
+    .. code:: python
+
+        >>> remove_suffix("https://github.com/huzecong/flutes", "/flutes")
+        "https://github.com/huzecong"
+
+        >>> remove_suffix("bugfix", "suffix", fully_match=False)
+        "bug"
+
+    :param s: The string whose suffix we want to remove.
+    :param suffix: The suffix to remove.
+    :param fully_match: If ``True``, the suffix is only removed if it fully matches. Defaults to ``False``.
+    """
+    length = min(len(s), len(suffix))
+    suffix_len = next((idx for idx in range(1, length + 1) if s[-idx] != suffix[-idx]), length + 1) - 1
+    if not fully_match or suffix_len == len(suffix):
+        return s[:-suffix_len] if suffix_len > 0 else s
+    return s
+
+```
+
+flutes/network.py (module to test):
+```
+def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    # Credit: https://github.com/saurabhshri/gdrive-downloader
+    import requests
+
+    def _get_confirm_token(resp):
+        for key, value in resp.cookies.items():
+            if key.startswith('download_warning'):
+                return value
+        return None
+
+    file_id = _extract_google_drive_file_id(url)
+
+    gurl = "https://docs.google.com/uc?export=download"
+    sess = requests.Session()
+    response = sess.get(gurl, params={'id': file_id}, stream=True)
+    token = _get_confirm_token(response)
+
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = sess.get(gurl, params=params, stream=True)
+
+    filepath = os.path.join(path, filename)
+    CHUNK_SIZE = 32768
+    progress = bar_fn() if bar_fn is not None else None
+    with open(filepath, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk:
+                if progress is not None:
+                    progress.update(len(chunk))
+                f.write(chunk)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    if bar_fn is None:
+        progress = _progress_hook = None
+    else:
+        progress = None
+        prev_count = 0
+
+        def _progress_hook(count, block_size, total_size):
+            nonlocal progress, prev_count
+            if progress is None:
+                progress = bar_fn()
+            if total_size != -1 and progress.total is None:
+                progress.total = total_size
+                progress.refresh()
+            if count > prev_count:
+                progress.update((count - prev_count) * block_size)
+                prev_count = count
+
+    filepath = os.path.join(path, filename)
+    filepath, _ = urllib.request.urlretrieve(url, filepath, _progress_hook)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+
+def download(url: str, save_dir: Optional[PathType] = None, filename: Optional[str] = None, extract: bool = False,
+             progress: bool = False, bar_fn: Optional[BarFn] = None, **kwargs) -> str:
+    r"""Download a file from the given URL. If the given file already exists in the save directory, download is skipped.
+    Supported URL types include:
+
+    - Any direct URL to files.
+    - Google Drive shared file URLs in the form of ``https://drive.google.com/file/d/<file_id>/view``.
+
+    :param url: The URL from which to download.
+    :param save_dir: The directory to save the file. The directory is created if it doesn't exist. If ``None``, a
+        temporary directory is used, and the user is responsible for removing the file.
+    :param filename: The name of the downloaded file. If ``None``, the default filename from the URL is used.
+    :param extract: Whether to extract compressed files. Defaults to ``False``.
+    :param progress: Whether to show download progress as a progress bar. Defaults to ``False``. Note that files
+        from Google Drive does not contain file size estimates during downloading.
+    :param bar_fn: An optional callable that constructs a progress bar when called. This is useful when you want to
+        override the default progress bar, for instance, to use with :class:`~flutes.ProgressBarManager`:
+
+        .. code:: python
+
+            def process(path: str, bar: flutes.ProgressBarManager.Proxy):
+                with flutes.progress_open(path, bar_fn=bar.new) as f:
+                    ...
+
+    :param kwargs: Additional arguments to pass to `tqdm <https://tqdm.github.io/>`_ initializer.
+    :returns: Path to the downloaded file.
+    """
+    if save_dir is None:
+        save_dir_str = tempfile.gettempdir()
+    else:
+        save_dir_str = str(save_dir)
+        os.makedirs(save_dir_str, exist_ok=True)
+
+    if filename is None:
+        if 'drive.google.com' in url:
+            filename = _extract_google_drive_file_id(url)
+        else:
+            filename = url.split('/')[-1]
+            # If downloading from GitHub, remove suffix ?raw=true from local filename.
+            filename = remove_suffix(filename, "?raw=true")
+
+    if progress:
+        if bar_fn is None:
+            from tqdm import tqdm
+            bar_fn = tqdm
+        bar_fn = functools.partial(bar_fn, **kwargs)
+    else:
+        bar_fn = None
+
+    filepath = os.path.join(save_dir_str, filename)
+    if not os.path.exists(filepath):
+        if 'drive.google.com' in url:
+            filepath = _download_from_google_drive(url, filename, save_dir_str, bar_fn)
+        else:
+            filepath = _download(url, filename, save_dir_str, bar_fn)
+
+        if extract:
+            if tarfile.is_tarfile(filepath):
+                with tarfile.open(filepath, 'r') as tfile:
+                    tfile.extractall(save_dir_str)
+            elif zipfile.is_zipfile(filepath):
+                with zipfile.ZipFile(filepath) as zfile:
+                    zfile.extractall(save_dir_str)
+            else:
+                log("Unknown compression type. Only .tar.gz, .tar.bz2, .tar, and .zip are supported", "warning")
+
+    return filepath
+
+```
+Write unit test for function download
+
+
+# Prompt used at query #2
+#--------------------------
+
+flutes/fs.py:
+```
+def remove_suffix(s: str, suffix: str, fully_match: bool = True) -> str:
+    r"""Remove the specified suffix from a string. If only parts of the suffix match and :attr:`fully_match` is
+    ``False``, then only that part is removed.
+
+    .. code:: python
+
+        >>> remove_suffix("https://github.com/huzecong/flutes", "/flutes")
+        "https://github.com/huzecong"
+
+        >>> remove_suffix("bugfix", "suffix", fully_match=False)
+        "bug"
+
+    :param s: The string whose suffix we want to remove.
+    :param suffix: The suffix to remove.
+    :param fully_match: If ``True``, the suffix is only removed if it fully matches. Defaults to ``False``.
+    """
+    length = min(len(s), len(suffix))
+    suffix_len = next((idx for idx in range(1, length + 1) if s[-idx] != suffix[-idx]), length + 1) - 1
+    if not fully_match or suffix_len == len(suffix):
+        return s[:-suffix_len] if suffix_len > 0 else s
+    return s
+
+```
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/network.py (module to test):
+```
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    if bar_fn is None:
+        progress = _progress_hook = None
+    else:
+        progress = None
+        prev_count = 0
+
+        def _progress_hook(count, block_size, total_size):
+            nonlocal progress, prev_count
+            if progress is None:
+                progress = bar_fn()
+            if total_size != -1 and progress.total is None:
+                progress.total = total_size
+                progress.refresh()
+            if count > prev_count:
+                progress.update((count - prev_count) * block_size)
+                prev_count = count
+
+    filepath = os.path.join(path, filename)
+    filepath, _ = urllib.request.urlretrieve(url, filepath, _progress_hook)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    # Credit: https://github.com/saurabhshri/gdrive-downloader
+    import requests
+
+    def _get_confirm_token(resp):
+        for key, value in resp.cookies.items():
+            if key.startswith('download_warning'):
+                return value
+        return None
+
+    file_id = _extract_google_drive_file_id(url)
+
+    gurl = "https://docs.google.com/uc?export=download"
+    sess = requests.Session()
+    response = sess.get(gurl, params={'id': file_id}, stream=True)
+    token = _get_confirm_token(response)
+
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = sess.get(gurl, params=params, stream=True)
+
+    filepath = os.path.join(path, filename)
+    CHUNK_SIZE = 32768
+    progress = bar_fn() if bar_fn is not None else None
+    with open(filepath, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk:
+                if progress is not None:
+                    progress.update(len(chunk))
+                f.write(chunk)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+
+def download(url: str, save_dir: Optional[PathType] = None, filename: Optional[str] = None, extract: bool = False,
+             progress: bool = False, bar_fn: Optional[BarFn] = None, **kwargs) -> str:
+    r"""Download a file from the given URL. If the given file already exists in the save directory, download is skipped.
+    Supported URL types include:
+
+    - Any direct URL to files.
+    - Google Drive shared file URLs in the form of ``https://drive.google.com/file/d/<file_id>/view``.
+
+    :param url: The URL from which to download.
+    :param save_dir: The directory to save the file. The directory is created if it doesn't exist. If ``None``, a
+        temporary directory is used, and the user is responsible for removing the file.
+    :param filename: The name of the downloaded file. If ``None``, the default filename from the URL is used.
+    :param extract: Whether to extract compressed files. Defaults to ``False``.
+    :param progress: Whether to show download progress as a progress bar. Defaults to ``False``. Note that files
+        from Google Drive does not contain file size estimates during downloading.
+    :param bar_fn: An optional callable that constructs a progress bar when called. This is useful when you want to
+        override the default progress bar, for instance, to use with :class:`~flutes.ProgressBarManager`:
+
+        .. code:: python
+
+            def process(path: str, bar: flutes.ProgressBarManager.Proxy):
+                with flutes.progress_open(path, bar_fn=bar.new) as f:
+                    ...
+
+    :param kwargs: Additional arguments to pass to `tqdm <https://tqdm.github.io/>`_ initializer.
+    :returns: Path to the downloaded file.
+    """
+    if save_dir is None:
+        save_dir_str = tempfile.gettempdir()
+    else:
+        save_dir_str = str(save_dir)
+        os.makedirs(save_dir_str, exist_ok=True)
+
+    if filename is None:
+        if 'drive.google.com' in url:
+            filename = _extract_google_drive_file_id(url)
+        else:
+            filename = url.split('/')[-1]
+            # If downloading from GitHub, remove suffix ?raw=true from local filename.
+            filename = remove_suffix(filename, "?raw=true")
+
+    if progress:
+        if bar_fn is None:
+            from tqdm import tqdm
+            bar_fn = tqdm
+        bar_fn = functools.partial(bar_fn, **kwargs)
+    else:
+        bar_fn = None
+
+    filepath = os.path.join(save_dir_str, filename)
+    if not os.path.exists(filepath):
+        if 'drive.google.com' in url:
+            filepath = _download_from_google_drive(url, filename, save_dir_str, bar_fn)
+        else:
+            filepath = _download(url, filename, save_dir_str, bar_fn)
+
+        if extract:
+            if tarfile.is_tarfile(filepath):
+                with tarfile.open(filepath, 'r') as tfile:
+                    tfile.extractall(save_dir_str)
+            elif zipfile.is_zipfile(filepath):
+                with zipfile.ZipFile(filepath) as zfile:
+                    zfile.extractall(save_dir_str)
+            else:
+                log("Unknown compression type. Only .tar.gz, .tar.bz2, .tar, and .zip are supported", "warning")
+
+    return filepath
+
+```
+Write unit test for function download
+
+
+# Prompt used at query #3
+#--------------------------
+
+flutes/fs.py:
+```
+def remove_suffix(s: str, suffix: str, fully_match: bool = True) -> str:
+    r"""Remove the specified suffix from a string. If only parts of the suffix match and :attr:`fully_match` is
+    ``False``, then only that part is removed.
+
+    .. code:: python
+
+        >>> remove_suffix("https://github.com/huzecong/flutes", "/flutes")
+        "https://github.com/huzecong"
+
+        >>> remove_suffix("bugfix", "suffix", fully_match=False)
+        "bug"
+
+    :param s: The string whose suffix we want to remove.
+    :param suffix: The suffix to remove.
+    :param fully_match: If ``True``, the suffix is only removed if it fully matches. Defaults to ``False``.
+    """
+    length = min(len(s), len(suffix))
+    suffix_len = next((idx for idx in range(1, length + 1) if s[-idx] != suffix[-idx]), length + 1) - 1
+    if not fully_match or suffix_len == len(suffix):
+        return s[:-suffix_len] if suffix_len > 0 else s
+    return s
+
+```
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/network.py (module to test):
+```
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    if bar_fn is None:
+        progress = _progress_hook = None
+    else:
+        progress = None
+        prev_count = 0
+
+        def _progress_hook(count, block_size, total_size):
+            nonlocal progress, prev_count
+            if progress is None:
+                progress = bar_fn()
+            if total_size != -1 and progress.total is None:
+                progress.total = total_size
+                progress.refresh()
+            if count > prev_count:
+                progress.update((count - prev_count) * block_size)
+                prev_count = count
+
+    filepath = os.path.join(path, filename)
+    filepath, _ = urllib.request.urlretrieve(url, filepath, _progress_hook)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    # Credit: https://github.com/saurabhshri/gdrive-downloader
+    import requests
+
+    def _get_confirm_token(resp):
+        for key, value in resp.cookies.items():
+            if key.startswith('download_warning'):
+                return value
+        return None
+
+    file_id = _extract_google_drive_file_id(url)
+
+    gurl = "https://docs.google.com/uc?export=download"
+    sess = requests.Session()
+    response = sess.get(gurl, params={'id': file_id}, stream=True)
+    token = _get_confirm_token(response)
+
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = sess.get(gurl, params=params, stream=True)
+
+    filepath = os.path.join(path, filename)
+    CHUNK_SIZE = 32768
+    progress = bar_fn() if bar_fn is not None else None
+    with open(filepath, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk:
+                if progress is not None:
+                    progress.update(len(chunk))
+                f.write(chunk)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+
+def download(url: str, save_dir: Optional[PathType] = None, filename: Optional[str] = None, extract: bool = False,
+             progress: bool = False, bar_fn: Optional[BarFn] = None, **kwargs) -> str:
+    r"""Download a file from the given URL. If the given file already exists in the save directory, download is skipped.
+    Supported URL types include:
+
+    - Any direct URL to files.
+    - Google Drive shared file URLs in the form of ``https://drive.google.com/file/d/<file_id>/view``.
+
+    :param url: The URL from which to download.
+    :param save_dir: The directory to save the file. The directory is created if it doesn't exist. If ``None``, a
+        temporary directory is used, and the user is responsible for removing the file.
+    :param filename: The name of the downloaded file. If ``None``, the default filename from the URL is used.
+    :param extract: Whether to extract compressed files. Defaults to ``False``.
+    :param progress: Whether to show download progress as a progress bar. Defaults to ``False``. Note that files
+        from Google Drive does not contain file size estimates during downloading.
+    :param bar_fn: An optional callable that constructs a progress bar when called. This is useful when you want to
+        override the default progress bar, for instance, to use with :class:`~flutes.ProgressBarManager`:
+
+        .. code:: python
+
+            def process(path: str, bar: flutes.ProgressBarManager.Proxy):
+                with flutes.progress_open(path, bar_fn=bar.new) as f:
+                    ...
+
+    :param kwargs: Additional arguments to pass to `tqdm <https://tqdm.github.io/>`_ initializer.
+    :returns: Path to the downloaded file.
+    """
+    if save_dir is None:
+        save_dir_str = tempfile.gettempdir()
+    else:
+        save_dir_str = str(save_dir)
+        os.makedirs(save_dir_str, exist_ok=True)
+
+    if filename is None:
+        if 'drive.google.com' in url:
+            filename = _extract_google_drive_file_id(url)
+        else:
+            filename = url.split('/')[-1]
+            # If downloading from GitHub, remove suffix ?raw=true from local filename.
+            filename = remove_suffix(filename, "?raw=true")
+
+    if progress:
+        if bar_fn is None:
+            from tqdm import tqdm
+            bar_fn = tqdm
+        bar_fn = functools.partial(bar_fn, **kwargs)
+    else:
+        bar_fn = None
+
+    filepath = os.path.join(save_dir_str, filename)
+    if not os.path.exists(filepath):
+        if 'drive.google.com' in url:
+            filepath = _download_from_google_drive(url, filename, save_dir_str, bar_fn)
+        else:
+            filepath = _download(url, filename, save_dir_str, bar_fn)
+
+        if extract:
+            if tarfile.is_tarfile(filepath):
+                with tarfile.open(filepath, 'r') as tfile:
+                    tfile.extractall(save_dir_str)
+            elif zipfile.is_zipfile(filepath):
+                with zipfile.ZipFile(filepath) as zfile:
+                    zfile.extractall(save_dir_str)
+            else:
+                log("Unknown compression type. Only .tar.gz, .tar.bz2, .tar, and .zip are supported", "warning")
+
+    return filepath
+
+```
+Write unit test for function download
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    # Credit: https://github.com/saurabhshri/gdrive-downloader
+    import requests
+
+    def _get_confirm_token(resp):
+        for key, value in resp.cookies.items():
+            if key.startswith('download_warning'):
+                return value
+        return None
+
+    file_id = _extract_google_drive_file_id(url)
+
+    gurl = "https://docs.google.com/uc?export=download"
+    sess = requests.Session()
+    response = sess.get(gurl, params={'id': file_id}, stream=True)
+    token = _get_confirm_token(response)
+
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = sess.get(gurl, params=params, stream=True)
+
+    filepath = os.path.join(path, filename)
+    CHUNK_SIZE = 32768
+    progress = bar_fn() if bar_fn is not None else None
+    with open(filepath, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk:
+                if progress is not None:
+                    progress.update(len(chunk))
+                f.write(chunk)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+```
+Write unit test for function _download_from_google_drive
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 31 evaluates to True.
+```
+ 1 | def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+ 2 |     # Credit: https://github.com/saurabhshri/gdrive-downloader
+ 3 |     import requests
+ 4 | 
+ 5 |     def _get_confirm_token(resp):
+ 6 |         for key, value in resp.cookies.items():
+ 7 |             if key.startswith('download_warning'):
+ 8 |                 return value
+ 9 |         return None
+10 | 
+11 |     file_id = _extract_google_drive_file_id(url)
+12 | 
+13 |     gurl = "https://docs.google.com/uc?export=download"
+14 |     sess = requests.Session()
+15 |     response = sess.get(gurl, params={'id': file_id}, stream=True)
+16 |     token = _get_confirm_token(response)
+17 | 
+18 |     if token:
+19 |         params = {'id': file_id, 'confirm': token}
+20 |         response = sess.get(gurl, params=params, stream=True)
+21 | 
+22 |     filepath = os.path.join(path, filename)
+23 |     CHUNK_SIZE = 32768
+24 |     progress = bar_fn() if bar_fn is not None else None
+25 |     with open(filepath, "wb") as f:
+26 |         for chunk in response.iter_content(CHUNK_SIZE):
+27 |             if chunk:
+28 |                 if progress is not None:
+29 |                     progress.update(len(chunk))
+30 |                 f.write(chunk)
+31 |     if progress is not None:
+32 |         progress.close()
+33 |     return filepath
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def _download(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    if bar_fn is None:
+        progress = _progress_hook = None
+    else:
+        progress = None
+        prev_count = 0
+
+        def _progress_hook(count, block_size, total_size):
+            nonlocal progress, prev_count
+            if progress is None:
+                progress = bar_fn()
+            if total_size != -1 and progress.total is None:
+                progress.total = total_size
+                progress.refresh()
+            if count > prev_count:
+                progress.update((count - prev_count) * block_size)
+                prev_count = count
+
+    filepath = os.path.join(path, filename)
+    filepath, _ = urllib.request.urlretrieve(url, filepath, _progress_hook)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+```
+Write unit test for function _download
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to True.
+```
+ 1 | def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+ 2 |     # Credit: https://github.com/saurabhshri/gdrive-downloader
+ 3 |     import requests
+ 4 | 
+ 5 |     def _get_confirm_token(resp):
+ 6 |         for key, value in resp.cookies.items():
+ 7 |             if key.startswith('download_warning'):
+ 8 |                 return value
+ 9 |         return None
+10 | 
+11 |     file_id = _extract_google_drive_file_id(url)
+12 | 
+13 |     gurl = "https://docs.google.com/uc?export=download"
+14 |     sess = requests.Session()
+15 |     response = sess.get(gurl, params={'id': file_id}, stream=True)
+16 |     token = _get_confirm_token(response)
+17 | 
+18 |     if token:
+19 |         params = {'id': file_id, 'confirm': token}
+20 |         response = sess.get(gurl, params=params, stream=True)
+21 | 
+22 |     filepath = os.path.join(path, filename)
+23 |     CHUNK_SIZE = 32768
+24 |     progress = bar_fn() if bar_fn is not None else None
+25 |     with open(filepath, "wb") as f:
+26 |         for chunk in response.iter_content(CHUNK_SIZE):
+27 |             if chunk:
+28 |                 if progress is not None:
+29 |                     progress.update(len(chunk))
+30 |                 f.write(chunk)
+31 |     if progress is not None:
+32 |         progress.close()
+33 |     return filepath
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+ 2 |     # Credit: https://github.com/saurabhshri/gdrive-downloader
+ 3 |     import requests
+ 4 | 
+ 5 |     def _get_confirm_token(resp):
+ 6 |         for key, value in resp.cookies.items():
+ 7 |             if key.startswith('download_warning'):
+ 8 |                 return value
+ 9 |         return None
+10 | 
+11 |     file_id = _extract_google_drive_file_id(url)
+12 | 
+13 |     gurl = "https://docs.google.com/uc?export=download"
+14 |     sess = requests.Session()
+15 |     response = sess.get(gurl, params={'id': file_id}, stream=True)
+16 |     token = _get_confirm_token(response)
+17 | 
+18 |     if token:
+19 |         params = {'id': file_id, 'confirm': token}
+20 |         response = sess.get(gurl, params=params, stream=True)
+21 | 
+22 |     filepath = os.path.join(path, filename)
+23 |     CHUNK_SIZE = 32768
+24 |     progress = bar_fn() if bar_fn is not None else None
+25 |     with open(filepath, "wb") as f:
+26 |         for chunk in response.iter_content(CHUNK_SIZE):
+27 |             if chunk:
+28 |                 if progress is not None:
+29 |                     progress.update(len(chunk))
+30 |                 f.write(chunk)
+31 |     if progress is not None:
+32 |         progress.close()
+33 |     return filepath
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    # Credit: https://github.com/saurabhshri/gdrive-downloader
+    import requests
+
+    def _get_confirm_token(resp):
+        for key, value in resp.cookies.items():
+            if key.startswith('download_warning'):
+                return value
+        return None
+
+    file_id = _extract_google_drive_file_id(url)
+
+    gurl = "https://docs.google.com/uc?export=download"
+    sess = requests.Session()
+    response = sess.get(gurl, params={'id': file_id}, stream=True)
+    token = _get_confirm_token(response)
+
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = sess.get(gurl, params=params, stream=True)
+
+    filepath = os.path.join(path, filename)
+    CHUNK_SIZE = 32768
+    progress = bar_fn() if bar_fn is not None else None
+    with open(filepath, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk:
+                if progress is not None:
+                    progress.update(len(chunk))
+                f.write(chunk)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+```
+Write unit test for function _download_from_google_drive
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+ 1 | def _download(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+ 2 |     if bar_fn is None:
+ 3 |         progress = _progress_hook = None
+ 4 |     else:
+ 5 |         progress = None
+ 6 |         prev_count = 0
+ 7 | 
+ 8 |         def _progress_hook(count, block_size, total_size):
+ 9 |             nonlocal progress, prev_count
+10 |             if progress is None:
+11 |                 progress = bar_fn()
+12 |             if total_size != -1 and progress.total is None:
+13 |                 progress.total = total_size
+14 |                 progress.refresh()
+15 |             if count > prev_count:
+16 |                 progress.update((count - prev_count) * block_size)
+17 |                 prev_count = count
+18 | 
+19 |     filepath = os.path.join(path, filename)
+20 |     filepath, _ = urllib.request.urlretrieve(url, filepath, _progress_hook)
+21 |     if progress is not None:
+22 |         progress.close()
+23 |     return filepath
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 18 evaluates to True.
+```
+ 1 | def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+ 2 |     # Credit: https://github.com/saurabhshri/gdrive-downloader
+ 3 |     import requests
+ 4 | 
+ 5 |     def _get_confirm_token(resp):
+ 6 |         for key, value in resp.cookies.items():
+ 7 |             if key.startswith('download_warning'):
+ 8 |                 return value
+ 9 |         return None
+10 | 
+11 |     file_id = _extract_google_drive_file_id(url)
+12 | 
+13 |     gurl = "https://docs.google.com/uc?export=download"
+14 |     sess = requests.Session()
+15 |     response = sess.get(gurl, params={'id': file_id}, stream=True)
+16 |     token = _get_confirm_token(response)
+17 | 
+18 |     if token:
+19 |         params = {'id': file_id, 'confirm': token}
+20 |         response = sess.get(gurl, params=params, stream=True)
+21 | 
+22 |     filepath = os.path.join(path, filename)
+23 |     CHUNK_SIZE = 32768
+24 |     progress = bar_fn() if bar_fn is not None else None
+25 |     with open(filepath, "wb") as f:
+26 |         for chunk in response.iter_content(CHUNK_SIZE):
+27 |             if chunk:
+28 |                 if progress is not None:
+29 |                     progress.update(len(chunk))
+30 |                 f.write(chunk)
+31 |     if progress is not None:
+32 |         progress.close()
+33 |     return filepath
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to True.
+```
+ 1 | def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+ 2 |     # Credit: https://github.com/saurabhshri/gdrive-downloader
+ 3 |     import requests
+ 4 | 
+ 5 |     def _get_confirm_token(resp):
+ 6 |         for key, value in resp.cookies.items():
+ 7 |             if key.startswith('download_warning'):
+ 8 |                 return value
+ 9 |         return None
+10 | 
+11 |     file_id = _extract_google_drive_file_id(url)
+12 | 
+13 |     gurl = "https://docs.google.com/uc?export=download"
+14 |     sess = requests.Session()
+15 |     response = sess.get(gurl, params={'id': file_id}, stream=True)
+16 |     token = _get_confirm_token(response)
+17 | 
+18 |     if token:
+19 |         params = {'id': file_id, 'confirm': token}
+20 |         response = sess.get(gurl, params=params, stream=True)
+21 | 
+22 |     filepath = os.path.join(path, filename)
+23 |     CHUNK_SIZE = 32768
+24 |     progress = bar_fn() if bar_fn is not None else None
+25 |     with open(filepath, "wb") as f:
+26 |         for chunk in response.iter_content(CHUNK_SIZE):
+27 |             if chunk:
+28 |                 if progress is not None:
+29 |                     progress.update(len(chunk))
+30 |                 f.write(chunk)
+31 |     if progress is not None:
+32 |         progress.close()
+33 |     return filepath
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 27 evaluates to False.
+```
+ 1 | def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+ 2 |     # Credit: https://github.com/saurabhshri/gdrive-downloader
+ 3 |     import requests
+ 4 | 
+ 5 |     def _get_confirm_token(resp):
+ 6 |         for key, value in resp.cookies.items():
+ 7 |             if key.startswith('download_warning'):
+ 8 |                 return value
+ 9 |         return None
+10 | 
+11 |     file_id = _extract_google_drive_file_id(url)
+12 | 
+13 |     gurl = "https://docs.google.com/uc?export=download"
+14 |     sess = requests.Session()
+15 |     response = sess.get(gurl, params={'id': file_id}, stream=True)
+16 |     token = _get_confirm_token(response)
+17 | 
+18 |     if token:
+19 |         params = {'id': file_id, 'confirm': token}
+20 |         response = sess.get(gurl, params=params, stream=True)
+21 | 
+22 |     filepath = os.path.join(path, filename)
+23 |     CHUNK_SIZE = 32768
+24 |     progress = bar_fn() if bar_fn is not None else None
+25 |     with open(filepath, "wb") as f:
+26 |         for chunk in response.iter_content(CHUNK_SIZE):
+27 |             if chunk:
+28 |                 if progress is not None:
+29 |                     progress.update(len(chunk))
+30 |                 f.write(chunk)
+31 |     if progress is not None:
+32 |         progress.close()
+33 |     return filepath
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+flutes/fs.py:
+```
+def remove_suffix(s: str, suffix: str, fully_match: bool = True) -> str:
+    r"""Remove the specified suffix from a string. If only parts of the suffix match and :attr:`fully_match` is
+    ``False``, then only that part is removed.
+
+    .. code:: python
+
+        >>> remove_suffix("https://github.com/huzecong/flutes", "/flutes")
+        "https://github.com/huzecong"
+
+        >>> remove_suffix("bugfix", "suffix", fully_match=False)
+        "bug"
+
+    :param s: The string whose suffix we want to remove.
+    :param suffix: The suffix to remove.
+    :param fully_match: If ``True``, the suffix is only removed if it fully matches. Defaults to ``False``.
+    """
+    length = min(len(s), len(suffix))
+    suffix_len = next((idx for idx in range(1, length + 1) if s[-idx] != suffix[-idx]), length + 1) - 1
+    if not fully_match or suffix_len == len(suffix):
+        return s[:-suffix_len] if suffix_len > 0 else s
+    return s
+
+```
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/network.py (module to test):
+```
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    if bar_fn is None:
+        progress = _progress_hook = None
+    else:
+        progress = None
+        prev_count = 0
+
+        def _progress_hook(count, block_size, total_size):
+            nonlocal progress, prev_count
+            if progress is None:
+                progress = bar_fn()
+            if total_size != -1 and progress.total is None:
+                progress.total = total_size
+                progress.refresh()
+            if count > prev_count:
+                progress.update((count - prev_count) * block_size)
+                prev_count = count
+
+    filepath = os.path.join(path, filename)
+    filepath, _ = urllib.request.urlretrieve(url, filepath, _progress_hook)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+
+def _extract_google_drive_file_id(url: str) -> str:
+    # The ID is the first segment after `/d/`.
+    url_suffix = url[url.find('/d/') + 3:]
+    return url_suffix.split('/')[0]
+
+
+def _download_from_google_drive(url: str, filename: str, path: str, bar_fn: Optional[BarFn] = None) -> str:
+    # Credit: https://github.com/saurabhshri/gdrive-downloader
+    import requests
+
+    def _get_confirm_token(resp):
+        for key, value in resp.cookies.items():
+            if key.startswith('download_warning'):
+                return value
+        return None
+
+    file_id = _extract_google_drive_file_id(url)
+
+    gurl = "https://docs.google.com/uc?export=download"
+    sess = requests.Session()
+    response = sess.get(gurl, params={'id': file_id}, stream=True)
+    token = _get_confirm_token(response)
+
+    if token:
+        params = {'id': file_id, 'confirm': token}
+        response = sess.get(gurl, params=params, stream=True)
+
+    filepath = os.path.join(path, filename)
+    CHUNK_SIZE = 32768
+    progress = bar_fn() if bar_fn is not None else None
+    with open(filepath, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk:
+                if progress is not None:
+                    progress.update(len(chunk))
+                f.write(chunk)
+    if progress is not None:
+        progress.close()
+    return filepath
+
+
+def download(url: str, save_dir: Optional[PathType] = None, filename: Optional[str] = None, extract: bool = False,
+             progress: bool = False, bar_fn: Optional[BarFn] = None, **kwargs) -> str:
+    r"""Download a file from the given URL. If the given file already exists in the save directory, download is skipped.
+    Supported URL types include:
+
+    - Any direct URL to files.
+    - Google Drive shared file URLs in the form of ``https://drive.google.com/file/d/<file_id>/view``.
+
+    :param url: The URL from which to download.
+    :param save_dir: The directory to save the file. The directory is created if it doesn't exist. If ``None``, a
+        temporary directory is used, and the user is responsible for removing the file.
+    :param filename: The name of the downloaded file. If ``None``, the default filename from the URL is used.
+    :param extract: Whether to extract compressed files. Defaults to ``False``.
+    :param progress: Whether to show download progress as a progress bar. Defaults to ``False``. Note that files
+        from Google Drive does not contain file size estimates during downloading.
+    :param bar_fn: An optional callable that constructs a progress bar when called. This is useful when you want to
+        override the default progress bar, for instance, to use with :class:`~flutes.ProgressBarManager`:
+
+        .. code:: python
+
+            def process(path: str, bar: flutes.ProgressBarManager.Proxy):
+                with flutes.progress_open(path, bar_fn=bar.new) as f:
+                    ...
+
+    :param kwargs: Additional arguments to pass to `tqdm <https://tqdm.github.io/>`_ initializer.
+    :returns: Path to the downloaded file.
+    """
+    if save_dir is None:
+        save_dir_str = tempfile.gettempdir()
+    else:
+        save_dir_str = str(save_dir)
+        os.makedirs(save_dir_str, exist_ok=True)
+
+    if filename is None:
+        if 'drive.google.com' in url:
+            filename = _extract_google_drive_file_id(url)
+        else:
+            filename = url.split('/')[-1]
+            # If downloading from GitHub, remove suffix ?raw=true from local filename.
+            filename = remove_suffix(filename, "?raw=true")
+
+    if progress:
+        if bar_fn is None:
+            from tqdm import tqdm
+            bar_fn = tqdm
+        bar_fn = functools.partial(bar_fn, **kwargs)
+    else:
+        bar_fn = None
+
+    filepath = os.path.join(save_dir_str, filename)
+    if not os.path.exists(filepath):
+        if 'drive.google.com' in url:
+            filepath = _download_from_google_drive(url, filename, save_dir_str, bar_fn)
+        else:
+            filepath = _download(url, filename, save_dir_str, bar_fn)
+
+        if extract:
+            if tarfile.is_tarfile(filepath):
+                with tarfile.open(filepath, 'r') as tfile:
+                    tfile.extractall(save_dir_str)
+            elif zipfile.is_zipfile(filepath):
+                with zipfile.ZipFile(filepath) as zfile:
+                    zfile.extractall(save_dir_str)
+            else:
+                log("Unknown compression type. Only .tar.gz, .tar.bz2, .tar, and .zip are supported", "warning")
+
+    return filepath
+
+```
+Write unit test for function download
+
+
+# Prompt used at query #15
+#--------------------------
+
+flutes/log.py:
+```
+def get_worker_id() -> Optional[int]:
+    r"""Return the ID of the pool worker process, or ``None`` if the current process is not a pool worker."""
+    proc_name = mp.current_process().name
+    if "PoolWorker" in proc_name:
+        worker_id = int(proc_name[(proc_name.find('-') + 1):])
+        return worker_id
+    return None
+
+
+def log(msg: str, level: LoggingLevel = "info", force_console: bool = False,
+        timestamp: bool = True, include_proc_id: bool = True) -> None:
+    r"""Write a line of log with the specified logging level.
+
+    :param msg: Message to log.
+    :param level: Logging level. Available options are ``success``, ``warning``, ``error``, and ``info``. Defaults to
+        ``info``.
+    :param force_console: If ``True``, will write to console regardless of logging level setting. Defaults to ``False``.
+    :param timestamp: If ``True``, will add a timestamp to the console logging output. Defaults to ``True``.
+
+        ..note::
+            The logging level colors apply to the timestamp only, so if :attr:`timestamp` is set to ``False``, then
+            it's not possible to differentiate between different logging levels under console.
+
+    :param include_proc_id: If ``True``, will include the process ID for multiprocessing pool workers. Defaults to
+        ``True``.
+    """
+    if level not in LOGGING_MAP:
+        raise ValueError(f"Incorrect logging level '{level}'")
+    msg = str(msg)
+    if include_proc_id:
+        worker_id = get_worker_id()
+        if worker_id is not None:
+            msg = f"(Worker {worker_id:2d}) {msg}"
+    if force_console or LEVEL_MAP[level] >= _CONSOLE_LOGGING_LEVEL.value:
+        if timestamp:
+            time_str = time.strftime("[%Y-%m-%d %H:%M:%S]")
+            _CONSOLE_LOG_FN(colored(time_str, COLOR_MAP[level]) + " " + msg)
+        else:
+            _CONSOLE_LOG_FN(msg)
+    if LOGGER.hasHandlers():
+        LOGGING_MAP[level](msg)
+
+```
+
+flutes/fs.py:
+```
+def remove_suffix(s: str, suffix: str, fully_match: bool = True) -> str:
+    r"""Remove the specified suffix from a string. If only parts of the suffix match and :attr:`fully_match` is
+    ``False``, then only that part is removed.
+
+    .. code:: python
+
+        >>> remove_suffix("https://github.com/huzecong/flutes", "/flutes")
+        "https://github.com/huzecong"
+
+        >>> remove_suffix("bugfix", "suffix", fully_match=False)
+        "bug"
+
+    :param s: The string whose suffix we want to remove.
+    :param suffix: The suffix to remove.
+    :param fully_match: If ``True``, the suffix is only removed if it fully matches. Defaults to ``False``.
+    """
+    length = min(len(s), len(suffix))
+    suffix_len = next((idx for idx in range(1, length + 1) if s[-idx] != suffix[-idx]), length + 1) - 1
+    if not fully_match or suffix_len == len(suffix):
+        return s[:-suffix_len] if suffix_len > 0 else s
+    return s
+
+```
+
+flutes/network.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 57 evaluates to True.
+```
+ 1 | def download(url: str, save_dir: Optional[PathType] = None, filename: Optional[str] = None, extract: bool = False,
+ 2 |              progress: bool = False, bar_fn: Optional[BarFn] = None, **kwargs) -> str:
+ 3 |     r"""Download a file from the given URL. If the given file already exists in the save directory, download is skipped.
+ 4 |     Supported URL types include:
+ 5 | 
+ 6 |     - Any direct URL to files.
+ 7 |     - Google Drive shared file URLs in the form of ``https://drive.google.com/file/d/<file_id>/view``.
+ 8 | 
+ 9 |     :param url: The URL from which to download.
+10 |     :param save_dir: The directory to save the file. The directory is created if it doesn't exist. If ``None``, a
+11 |         temporary directory is used, and the user is responsible for removing the file.
+12 |     :param filename: The name of the downloaded file. If ``None``, the default filename from the URL is used.
+13 |     :param extract: Whether to extract compressed files. Defaults to ``False``.
+14 |     :param progress: Whether to show download progress as a progress bar. Defaults to ``False``. Note that files
+15 |         from Google Drive does not contain file size estimates during downloading.
+16 |     :param bar_fn: An optional callable that constructs a progress bar when called. This is useful when you want to
+17 |         override the default progress bar, for instance, to use with :class:`~flutes.ProgressBarManager`:
+18 | 
+19 |         .. code:: python
+20 | 
+21 |             def process(path: str, bar: flutes.ProgressBarManager.Proxy):
+22 |                 with flutes.progress_open(path, bar_fn=bar.new) as f:
+23 |                     ...
+24 | 
+25 |     :param kwargs: Additional arguments to pass to `tqdm <https://tqdm.github.io/>`_ initializer.
+26 |     :returns: Path to the downloaded file.
+27 |     """
+28 |     if save_dir is None:
+29 |         save_dir_str = tempfile.gettempdir()
+30 |     else:
+31 |         save_dir_str = str(save_dir)
+32 |         os.makedirs(save_dir_str, exist_ok=True)
+33 | 
+34 |     if filename is None:
+35 |         if 'drive.google.com' in url:
+36 |             filename = _extract_google_drive_file_id(url)
+37 |         else:
+38 |             filename = url.split('/')[-1]
+39 |             # If downloading from GitHub, remove suffix ?raw=true from local filename.
+40 |             filename = remove_suffix(filename, "?raw=true")
+41 | 
+42 |     if progress:
+43 |         if bar_fn is None:
+44 |             from tqdm import tqdm
+45 |             bar_fn = tqdm
+46 |         bar_fn = functools.partial(bar_fn, **kwargs)
+47 |     else:
+48 |         bar_fn = None
+49 | 
+50 |     filepath = os.path.join(save_dir_str, filename)
+51 |     if not os.path.exists(filepath):
+52 |         if 'drive.google.com' in url:
+53 |             filepath = _download_from_google_drive(url, filename, save_dir_str, bar_fn)
+54 |         else:
+55 |             filepath = _download(url, filename, save_dir_str, bar_fn)
+56 | 
+57 |         if extract:
+58 |             if tarfile.is_tarfile(filepath):
+59 |                 with tarfile.open(filepath, 'r') as tfile:
+60 |                     tfile.extractall(save_dir_str)
+61 |             elif zipfile.is_zipfile(filepath):
+62 |                 with zipfile.ZipFile(filepath) as zfile:
+63 |                     zfile.extractall(save_dir_str)
+64 |             else:
+65 |                 log("Unknown compression type. Only .tar.gz, .tar.bz2, .tar, and .zip are supported", "warning")
+66 | 
+67 |     return filepath
+```
+
+

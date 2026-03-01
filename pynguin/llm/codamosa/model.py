@@ -8,6 +8,7 @@ import inspect
 from typing import List
 
 from libs.custom_logger import getLogger
+from pynguin.configuration import Algorithm, config
 from pynguin.llm.abstractmodel import AbstractLanguageModel, Messages
 from pynguin.llm.codamosa.outputfixers import rewrite_tests
 from pynguin.utils.generic import (
@@ -106,7 +107,7 @@ class _CodaMOSALanguageModel(AbstractLanguageModel):
 
         return prompt, res
 
-    def target_test_case(self, gao: GenericCallableAccessibleObject, context="") -> str:
+    async def target_test_case(self, gao: GenericCallableAccessibleObject, context=""):
         """Provides a test case targeted to the function/method/constructor
         specified in `gao`
 
@@ -115,8 +116,7 @@ class _CodaMOSALanguageModel(AbstractLanguageModel):
             context: extra context to pass before the function header
 
         Returns:
-            A generated test case as natural language.
-
+            A generated test case as natural language
         """
 
         gao_desc: str
@@ -172,11 +172,15 @@ class _CodaMOSALanguageModel(AbstractLanguageModel):
         )
 
         messages: Messages = [
-            {"role": "developer", "content": self._system_prompt},
+            {"role": "system", "content": self._system_prompt},
             {"role": "user", "content": prompt},
         ]
 
-        response = self.send_llm_request(messages, stop="\n```")
+        # workaround for experimenting with DeepMOSA + codamosaseeding
+        if config.algorithm != Algorithm.DEEPMOSA:
+            response = self.send_llm_request(messages, stop="\n```")
+        else:
+            response = await self.send_llm_request_async(messages, stop="\n```")
 
         self._log_query_data("user_prompts.txt", prompt, "Prompt used")
         self._log_query_data("llm_raw_generated.py", response, "LLM-generated content")

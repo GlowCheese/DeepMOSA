@@ -1,5 +1,5 @@
 # Check out: https://github.com/GlowCheese/deepmosa
-Error while converting AST module to output string: TypeError: sequence item 173: expected str instance, NoneType found
+Error while converting AST module to output string: TypeError: sequence item 215: expected str instance, NoneType found
  Traceback (most recent call last):
   File "/workspace/pynguin/testcase/export.py", line 219, in save_module_to_file
     output = module_to_output_str(module, format_with_black=format_with_black)
@@ -9,7 +9,7 @@ Error while converting AST module to output string: TypeError: sequence item 173
     return unparser.visit(ast_obj)
   File "/usr/local/lib/python3.10/ast.py", line 816, in visit
     return "".join(self._source)
-TypeError: sequence item 173: expected str instance, NoneType found
+TypeError: sequence item 215: expected str instance, NoneType found
 
 
 Formatted AST dump of the module:
@@ -29,7 +29,10 @@ Module(
         alias(name='re', asname='module_2')]),
     Import(
       names=[
-        alias(name='typesystem.tokenize.tokens', asname='module_3')]),
+        alias(name='json.decoder', asname='module_3')]),
+    Import(
+      names=[
+        alias(name='typesystem.tokenize.tokens', asname='module_4')]),
     FunctionDef(
       name='test_case_0',
       args=arguments(
@@ -42,7 +45,7 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value="'5,\r.DA{E\x0b.+0IM")),
+          value=Constant(value='-')),
         With(
           items=[
             withitem(
@@ -80,7 +83,7 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value=b'q1D\xdbCv,U')),
+          value=Constant(value=b'\x13\xde\xbea\xa4\xf5\x12[h')),
         With(
           items=[
             withitem(
@@ -115,41 +118,10 @@ Module(
         kw_defaults=[],
         defaults=[]),
       body=[
-        Expr(
-          value=Call(
-            func=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='_TokenizingDecoder',
-              ctx=Load()),
-            args=[],
-            keywords=[]))],
-      decorator_list=[
-        Call(
-          func=Attribute(
-            value=Attribute(
-              value=Name(id='pytest', ctx=Load()),
-              attr='mark',
-              ctx=Load()),
-            attr='xfail',
-            ctx=Load()),
-          args=[],
-          keywords=[
-            keyword(
-              arg='strict',
-              value=Constant(value=True))])]),
-    FunctionDef(
-      name='test_case_3',
-      args=arguments(
-        posonlyargs=[],
-        args=[],
-        kwonlyargs=[],
-        kw_defaults=[],
-        defaults=[]),
-      body=[
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='[')),
+          value=Constant(value=None)),
         Expr(
           value=Call(
             func=Attribute(
@@ -175,6 +147,17 @@ Module(
               arg='strict',
               value=Constant(value=True))])]),
     FunctionDef(
+      name='test_case_3',
+      args=arguments(
+        posonlyargs=[],
+        args=[],
+        kwonlyargs=[],
+        kw_defaults=[],
+        defaults=[]),
+      body=[
+        Pass()],
+      decorator_list=[]),
+    FunctionDef(
       name='test_case_4',
       args=arguments(
         posonlyargs=[],
@@ -183,147 +166,28 @@ Module(
         kw_defaults=[],
         defaults=[]),
       body=[
-        Assign(
-          targets=[
-            Name(id='var_0', ctx=Store())],
-          value=Constant(value='0')),
-        Assign(
-          targets=[
-            Name(id='var_1', ctx=Store())],
+        Expr(
           value=Call(
             func=Attribute(
               value=Name(id='module_0', ctx=Load()),
-              attr='tokenize_json',
+              attr='_TokenizingDecoder',
               ctx=Load()),
-            args=[
-              Name(id='var_0', ctx=Load())],
-            keywords=[])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Name(id='var_1', ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Name(id='var_1', ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='typesystem.tokenize.tokens.ScalarToken')])),
-        Assert(
-          test=Compare(
-            left=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='FLAGS',
+            args=[],
+            keywords=[]))],
+      decorator_list=[
+        Call(
+          func=Attribute(
+            value=Attribute(
+              value=Name(id='pytest', ctx=Load()),
+              attr='mark',
               ctx=Load()),
-            ops=[
-              Eq()],
-            comparators=[
-              Attribute(
-                value=Attribute(
-                  value=Name(id='module_2', ctx=Load()),
-                  attr='RegexFlag',
-                  ctx=Load()),
-                attr=None,
-                ctx=Load())])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='WHITESPACE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='WHITESPACE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='re.Pattern')])),
-        Assert(
-          test=Compare(
-            left=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='WHITESPACE_STR',
-              ctx=Load()),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value=' \t\n\r')])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='NUMBER_RE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='NUMBER_RE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='re.Pattern')]))],
-      decorator_list=[]),
+            attr='xfail',
+            ctx=Load()),
+          args=[],
+          keywords=[
+            keyword(
+              arg='strict',
+              value=Constant(value=True))])]),
     FunctionDef(
       name='test_case_5',
       args=arguments(
@@ -336,7 +200,7 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='[')),
+          value=Constant(value=b'')),
         With(
           items=[
             withitem(
@@ -374,31 +238,143 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
+          value=Constant(value='42')),
+        Assign(
+          targets=[
+            Name(id='var_1', ctx=Store())],
+          value=Call(
+            func=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='tokenize_json',
+              ctx=Load()),
+            args=[
+              Name(id='var_0', ctx=Load())],
+            keywords=[])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='typesystem.tokenize.tokens.ScalarToken')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='FLAGS',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Attribute(
+                value=Attribute(
+                  value=Name(id='module_2', ctx=Load()),
+                  attr='RegexFlag',
                   ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
+                attr=None,
+                ctx=Load())])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='WHITESPACE_STR',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value=' \t\n\r')])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')]))],
       decorator_list=[]),
     FunctionDef(
       name='test_case_7',
@@ -412,7 +388,7 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='nZyI\t')),
+          value=Constant(value='f')),
         With(
           items=[
             withitem(
@@ -450,32 +426,31 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='f5{pF`UFub}LMeyl')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
-                  ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
-      decorator_list=[]),
+          value=Constant(value='{"key": "value"')),
+        Expr(
+          value=Call(
+            func=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='validate_json',
+              ctx=Load()),
+            args=[
+              Name(id='var_0', ctx=Load()),
+              Name(id='var_0', ctx=Load())],
+            keywords=[]))],
+      decorator_list=[
+        Call(
+          func=Attribute(
+            value=Attribute(
+              value=Name(id='pytest', ctx=Load()),
+              attr='mark',
+              ctx=Load()),
+            attr='xfail',
+            ctx=Load()),
+          args=[],
+          keywords=[
+            keyword(
+              arg='strict',
+              value=Constant(value=True))])]),
     FunctionDef(
       name='test_case_9',
       args=arguments(
@@ -488,32 +463,31 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='t')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
-                  ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
-      decorator_list=[]),
+          value=Constant(value='{"key": null}')),
+        Expr(
+          value=Call(
+            func=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='validate_json',
+              ctx=Load()),
+            args=[
+              Name(id='var_0', ctx=Load()),
+              Name(id='var_0', ctx=Load())],
+            keywords=[]))],
+      decorator_list=[
+        Call(
+          func=Attribute(
+            value=Attribute(
+              value=Name(id='pytest', ctx=Load()),
+              attr='mark',
+              ctx=Load()),
+            attr='xfail',
+            ctx=Load()),
+          args=[],
+          keywords=[
+            keyword(
+              arg='strict',
+              value=Constant(value=True))])]),
     FunctionDef(
       name='test_case_10',
       args=arguments(
@@ -526,32 +500,31 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='"a": 1KI, "b"=2}')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
-                  ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
-      decorator_list=[]),
+          value=Constant(value='{"key":nuA;ll}')),
+        Expr(
+          value=Call(
+            func=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='validate_json',
+              ctx=Load()),
+            args=[
+              Name(id='var_0', ctx=Load()),
+              Name(id='var_0', ctx=Load())],
+            keywords=[]))],
+      decorator_list=[
+        Call(
+          func=Attribute(
+            value=Attribute(
+              value=Name(id='pytest', ctx=Load()),
+              attr='mark',
+              ctx=Load()),
+            attr='xfail',
+            ctx=Load()),
+          args=[],
+          keywords=[
+            keyword(
+              arg='strict',
+              value=Constant(value=True))])]),
     FunctionDef(
       name='test_case_11',
       args=arguments(
@@ -564,31 +537,143 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='{')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
+          value=Constant(value='[]')),
+        Assign(
+          targets=[
+            Name(id='var_1', ctx=Store())],
+          value=Call(
+            func=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='tokenize_json',
+              ctx=Load()),
+            args=[
+              Name(id='var_0', ctx=Load())],
+            keywords=[])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='typesystem.tokenize.tokens.ListToken')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='FLAGS',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Attribute(
+                value=Attribute(
+                  value=Name(id='module_2', ctx=Load()),
+                  attr='RegexFlag',
                   ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
+                attr=None,
+                ctx=Load())])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='WHITESPACE_STR',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value=' \t\n\r')])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')]))],
       decorator_list=[]),
     FunctionDef(
       name='test_case_12',
@@ -602,31 +687,143 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='{vu')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
+          value=Constant(value='{}')),
+        Assign(
+          targets=[
+            Name(id='var_1', ctx=Store())],
+          value=Call(
+            func=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='tokenize_json',
+              ctx=Load()),
+            args=[
+              Name(id='var_0', ctx=Load())],
+            keywords=[])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='typesystem.tokenize.tokens.DictToken')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='FLAGS',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Attribute(
+                value=Attribute(
+                  value=Name(id='module_2', ctx=Load()),
+                  attr='RegexFlag',
                   ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
+                attr=None,
+                ctx=Load())])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='WHITESPACE_STR',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value=' \t\n\r')])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')]))],
       decorator_list=[]),
     FunctionDef(
       name='test_case_13',
@@ -640,7 +837,7 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='{"a": 1, "b" 2}')),
+          value=Constant(value='{"a":}')),
         With(
           items=[
             withitem(
@@ -678,31 +875,143 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='{"ths":42.5')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
+          value=Constant(value='{ "a" : 1 }')),
+        Assign(
+          targets=[
+            Name(id='var_1', ctx=Store())],
+          value=Call(
+            func=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='tokenize_json',
+              ctx=Load()),
+            args=[
+              Name(id='var_0', ctx=Load())],
+            keywords=[])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='typesystem.tokenize.tokens.DictToken')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='FLAGS',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Attribute(
+                value=Attribute(
+                  value=Name(id='module_2', ctx=Load()),
+                  attr='RegexFlag',
                   ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
+                attr=None,
+                ctx=Load())])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='WHITESPACE_STR',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value=' \t\n\r')])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')]))],
       decorator_list=[]),
     FunctionDef(
       name='test_case_15',
@@ -716,143 +1025,97 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='{"tst":42.5}')),
+          value=Constant(value='{"key": "value"')),
         Assign(
           targets=[
             Name(id='var_1', ctx=Store())],
-          value=Call(
-            func=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='tokenize_json',
-              ctx=Load()),
-            args=[
-              Name(id='var_0', ctx=Load())],
-            keywords=[])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Name(id='var_1', ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Name(id='var_1', ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='typesystem.tokenize.tokens.DictToken')])),
-        Assert(
-          test=Compare(
-            left=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='FLAGS',
-              ctx=Load()),
-            ops=[
-              Eq()],
-            comparators=[
-              Attribute(
-                value=Attribute(
-                  value=Name(id='module_2', ctx=Load()),
-                  attr='RegexFlag',
+          value=Constant(value=0)),
+        Assign(
+          targets=[
+            Name(id='var_2', ctx=Store())],
+          value=Tuple(
+            elts=[
+              Name(id='var_0', ctx=Load()),
+              Name(id='var_1', ctx=Load())],
+            ctx=Load())),
+        Assign(
+          targets=[
+            Name(id='var_3', ctx=Store())],
+          value=Constant(value=True)),
+        Assign(
+          targets=[
+            Name(id='var_4', ctx=Store())],
+          value=Constant(value='value')),
+        Assign(
+          targets=[
+            Name(id='var_5', ctx=Store())],
+          value=Constant(value=5)),
+        Assign(
+          targets=[
+            Name(id='var_6', ctx=Store())],
+          value=Constant(value=6)),
+        Assign(
+          targets=[
+            Name(id='var_7', ctx=Store())],
+          value=Lambda(
+            args=arguments(
+              posonlyargs=[],
+              args=[
+                arg(arg='s'),
+                arg(arg='e')],
+              kwonlyargs=[],
+              kw_defaults=[],
+              defaults=[]),
+            body=Tuple(
+              elts=[
+                Call(
+                  func=Name(id='ScalarToken', ctx=Load()),
+                  args=[
+                    Name(id='var_4', ctx=Load()),
+                    Name(id='e', ctx=Load()),
+                    BinOp(
+                      left=Name(id='e', ctx=Load()),
+                      op=Add(),
+                      right=Name(id='var_5', ctx=Load())),
+                    Name(id='s', ctx=Load())],
+                  keywords=[]),
+                BinOp(
+                  left=Name(id='e', ctx=Load()),
+                  op=Add(),
+                  right=Name(id='var_6', ctx=Load()))],
+              ctx=Load()))),
+        Assign(
+          targets=[
+            Name(id='var_8', ctx=Store())],
+          value=Dict(keys=[], values=[])),
+        With(
+          items=[
+            withitem(
+              context_expr=Call(
+                func=Attribute(
+                  value=Name(id='pytest', ctx=Load()),
+                  attr='raises',
                   ctx=Load()),
-                attr=None,
-                ctx=Load())])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='WHITESPACE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='WHITESPACE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='re.Pattern')])),
-        Assert(
-          test=Compare(
-            left=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='WHITESPACE_STR',
-              ctx=Load()),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value=' \t\n\r')])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='NUMBER_RE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='NUMBER_RE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='re.Pattern')]))],
+                args=[
+                  Attribute(
+                    value=Name(id='module_3', ctx=Load()),
+                    attr='JSONDecodeError',
+                    ctx=Load())],
+                keywords=[]))],
+          body=[
+            Expr(
+              value=Call(
+                func=Attribute(
+                  value=Name(id='module_0', ctx=Load()),
+                  attr='_TokenizingJSONObject',
+                  ctx=Load()),
+                args=[
+                  Name(id='var_2', ctx=Load()),
+                  Name(id='var_3', ctx=Load()),
+                  Name(id='var_7', ctx=Load()),
+                  Name(id='var_8', ctx=Load()),
+                  Name(id='var_0', ctx=Load())],
+                keywords=[]))])],
       decorator_list=[]),
     FunctionDef(
       name='test_case_16',
@@ -866,232 +1129,7 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='{ "2hs":42\t5')),
-        Expr(
-          value=Call(
-            func=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='validate_json',
-              ctx=Load()),
-            args=[
-              Name(id='var_0', ctx=Load()),
-              Name(id='var_0', ctx=Load())],
-            keywords=[]))],
-      decorator_list=[
-        Call(
-          func=Attribute(
-            value=Attribute(
-              value=Name(id='pytest', ctx=Load()),
-              attr='mark',
-              ctx=Load()),
-            attr='xfail',
-            ctx=Load()),
-          args=[],
-          keywords=[
-            keyword(
-              arg='strict',
-              value=Constant(value=True))])]),
-    FunctionDef(
-      name='test_case_17',
-      args=arguments(
-        posonlyargs=[],
-        args=[],
-        kwonlyargs=[],
-        kw_defaults=[],
-        defaults=[]),
-      body=[
-        Assign(
-          targets=[
-            Name(id='var_0', ctx=Store())],
-          value=Constant(value='{"a": 1KI, "b"=2}')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
-                  ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
-      decorator_list=[]),
-    FunctionDef(
-      name='test_case_18',
-      args=arguments(
-        posonlyargs=[],
-        args=[],
-        kwonlyargs=[],
-        kw_defaults=[],
-        defaults=[]),
-      body=[
-        Assign(
-          targets=[
-            Name(id='var_0', ctx=Store())],
-          value=Constant(value='{"test": {}}')),
-        Assign(
-          targets=[
-            Name(id='var_1', ctx=Store())],
-          value=Call(
-            func=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='tokenize_json',
-              ctx=Load()),
-            args=[
-              Name(id='var_0', ctx=Load())],
-            keywords=[])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Name(id='var_1', ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Name(id='var_1', ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='typesystem.tokenize.tokens.DictToken')])),
-        Assert(
-          test=Compare(
-            left=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='FLAGS',
-              ctx=Load()),
-            ops=[
-              Eq()],
-            comparators=[
-              Attribute(
-                value=Attribute(
-                  value=Name(id='module_2', ctx=Load()),
-                  attr='RegexFlag',
-                  ctx=Load()),
-                attr=None,
-                ctx=Load())])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='WHITESPACE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='WHITESPACE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='re.Pattern')])),
-        Assert(
-          test=Compare(
-            left=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='WHITESPACE_STR',
-              ctx=Load()),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value=' \t\n\r')])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='NUMBER_RE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='NUMBER_RE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='re.Pattern')]))],
-      decorator_list=[]),
-    FunctionDef(
-      name='test_case_19',
-      args=arguments(
-        posonlyargs=[],
-        args=[],
-        kwonlyargs=[],
-        kw_defaults=[],
-        defaults=[]),
-      body=[
-        Assign(
-          targets=[
-            Name(id='var_0', ctx=Store())],
-          value=Constant(value='{"a" : 1 , "b" : 2}')),
+          value=Constant(value='false')),
         Assign(
           targets=[
             Name(id='var_1', ctx=Store())],
@@ -1121,7 +1159,7 @@ Module(
               arg='strict',
               value=Constant(value=True))])]),
     FunctionDef(
-      name='test_case_20',
+      name='test_case_17',
       args=arguments(
         posonlyargs=[],
         args=[],
@@ -1132,159 +1170,7 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='{"c": 1, }("b" 2}')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
-                  ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
-      decorator_list=[]),
-    FunctionDef(
-      name='test_case_21',
-      args=arguments(
-        posonlyargs=[],
-        args=[],
-        kwonlyargs=[],
-        kw_defaults=[],
-        defaults=[]),
-      body=[
-        Assign(
-          targets=[
-            Name(id='var_0', ctx=Store())],
-          value=Constant(value='{"invalid": json}')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
-                  ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
-      decorator_list=[]),
-    FunctionDef(
-      name='test_case_22',
-      args=arguments(
-        posonlyargs=[],
-        args=[],
-        kwonlyargs=[],
-        kw_defaults=[],
-        defaults=[]),
-      body=[
-        Assign(
-          targets=[
-            Name(id='var_0', ctx=Store())],
-          value=Constant(value='{"a":1, "jf2b" 2}')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
-                  ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
-      decorator_list=[]),
-    FunctionDef(
-      name='test_case_23',
-      args=arguments(
-        posonlyargs=[],
-        args=[],
-        kwonlyargs=[],
-        kw_defaults=[],
-        defaults=[]),
-      body=[
-        Assign(
-          targets=[
-            Name(id='var_0', ctx=Store())],
-          value=Constant(value='{",ey%": "va<lued')),
-        With(
-          items=[
-            withitem(
-              context_expr=Call(
-                func=Attribute(
-                  value=Name(id='pytest', ctx=Load()),
-                  attr='raises',
-                  ctx=Load()),
-                args=[
-                  Attribute(
-                    value=Name(id='module_1', ctx=Load()),
-                    attr='ParseError',
-                    ctx=Load())],
-                keywords=[]))],
-          body=[
-            Expr(
-              value=Call(
-                func=Attribute(
-                  value=Name(id='module_0', ctx=Load()),
-                  attr='tokenize_json',
-                  ctx=Load()),
-                args=[
-                  Name(id='var_0', ctx=Load())],
-                keywords=[]))])],
-      decorator_list=[]),
-    FunctionDef(
-      name='test_case_24',
-      args=arguments(
-        posonlyargs=[],
-        args=[],
-        kwonlyargs=[],
-        kw_defaults=[],
-        defaults=[]),
-      body=[
-        Assign(
-          targets=[
-            Name(id='var_0', ctx=Store())],
-          value=Constant(value='true')),
+          value=Constant(value='{"a": 1, "b": 2}')),
         Assign(
           targets=[
             Name(id='var_1', ctx=Store())],
@@ -1324,198 +1210,7 @@ Module(
             ops=[
               Eq()],
             comparators=[
-              Constant(value='typesystem.tokenize.tokens.ScalarToken')])),
-        Assert(
-          test=Compare(
-            left=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='FLAGS',
-              ctx=Load()),
-            ops=[
-              Eq()],
-            comparators=[
-              Attribute(
-                value=Attribute(
-                  value=Name(id='module_2', ctx=Load()),
-                  attr='RegexFlag',
-                  ctx=Load()),
-                attr=None,
-                ctx=Load())])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='WHITESPACE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='WHITESPACE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='re.Pattern')])),
-        Assert(
-          test=Compare(
-            left=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='WHITESPACE_STR',
-              ctx=Load()),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value=' \t\n\r')])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='NUMBER_RE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Attribute(
-                          value=Name(id='module_0', ctx=Load()),
-                          attr='NUMBER_RE',
-                          ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='re.Pattern')]))],
-      decorator_list=[]),
-    FunctionDef(
-      name='test_case_25',
-      args=arguments(
-        posonlyargs=[],
-        args=[],
-        kwonlyargs=[],
-        kw_defaults=[],
-        defaults=[]),
-      body=[
-        Assign(
-          targets=[
-            Name(id='var_0', ctx=Store())],
-          value=Constant(value='null')),
-        Assign(
-          targets=[
-            Name(id='var_1', ctx=Store())],
-          value=Constant(value=0)),
-        Expr(
-          value=Call(
-            func=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='validate_json',
-              ctx=Load()),
-            args=[
-              Name(id='var_0', ctx=Load()),
-              Name(id='var_1', ctx=Load())],
-            keywords=[]))],
-      decorator_list=[
-        Call(
-          func=Attribute(
-            value=Attribute(
-              value=Name(id='pytest', ctx=Load()),
-              attr='mark',
-              ctx=Load()),
-            attr='xfail',
-            ctx=Load()),
-          args=[],
-          keywords=[
-            keyword(
-              arg='strict',
-              value=Constant(value=True))])]),
-    FunctionDef(
-      name='test_case_26',
-      args=arguments(
-        posonlyargs=[],
-        args=[],
-        kwonlyargs=[],
-        kw_defaults=[],
-        defaults=[]),
-      body=[
-        Assign(
-          targets=[
-            Name(id='var_0', ctx=Store())],
-          value=Constant(value='true')),
-        Assign(
-          targets=[
-            Name(id='var_1', ctx=Store())],
-          value=Call(
-            func=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='tokenize_json',
-              ctx=Load()),
-            args=[
-              Name(id='var_0', ctx=Load())],
-            keywords=[])),
-        Assert(
-          test=Compare(
-            left=JoinedStr(
-              values=[
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Name(id='var_1', ctx=Load())],
-                      keywords=[]),
-                    attr='__module__',
-                    ctx=Load()),
-                  conversion=-1),
-                Constant(value='.'),
-                FormattedValue(
-                  value=Attribute(
-                    value=Call(
-                      func=Name(id='type', ctx=Load()),
-                      args=[
-                        Name(id='var_1', ctx=Load())],
-                      keywords=[]),
-                    attr='__qualname__',
-                    ctx=Load()),
-                  conversion=-1)]),
-            ops=[
-              Eq()],
-            comparators=[
-              Constant(value='typesystem.tokenize.tokens.ScalarToken')])),
+              Constant(value='typesystem.tokenize.tokens.DictToken')])),
         Assert(
           test=Compare(
             left=Attribute(
@@ -1615,31 +1310,37 @@ Module(
         Assign(
           targets=[
             Name(id='var_2', ctx=Store())],
-          value=Attribute(
-            value=Name(id='var_1', ctx=Load()),
-            attr='value',
-            ctx=Load())),
-        Assert(
-          test=Compare(
-            left=Name(id='var_2', ctx=Load()),
-            ops=[
-              Is()],
-            comparators=[
-              Constant(value=True)])),
+          value=Constant(value=3)),
         Assign(
           targets=[
             Name(id='var_3', ctx=Store())],
-          value=Constant(value='false')),
+          value=Call(
+            func=Attribute(
+              value=Name(id='var_1', ctx=Load()),
+              attr='__repr__',
+              ctx=Load()),
+            args=[],
+            keywords=[])),
+        Assert(
+          test=Compare(
+            left=Name(id='var_3', ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='DictToken(\'{"a": 1, "b": 2}\')')])),
         Assign(
           targets=[
             Name(id='var_4', ctx=Store())],
           value=Call(
             func=Attribute(
-              value=Name(id='module_0', ctx=Load()),
-              attr='tokenize_json',
+              value=Name(id='module_4', ctx=Load()),
+              attr='ScalarToken',
               ctx=Load()),
             args=[
-              Name(id='var_3', ctx=Load())],
+              Name(id='var_3', ctx=Load()),
+              Name(id='var_2', ctx=Load()),
+              Name(id='var_2', ctx=Load()),
+              Name(id='var_0', ctx=Load())],
             keywords=[])),
         Assert(
           test=Compare(
@@ -1673,20 +1374,38 @@ Module(
         Assign(
           targets=[
             Name(id='var_5', ctx=Store())],
-          value=Constant(value=4)),
+          value=Call(
+            func=Attribute(
+              value=Name(id='var_4', ctx=Load()),
+              attr='__eq__',
+              ctx=Load()),
+            args=[
+              Name(id='var_3', ctx=Load())],
+            keywords=[])),
+        Assert(
+          test=Compare(
+            left=Name(id='var_5', ctx=Load()),
+            ops=[
+              Is()],
+            comparators=[
+              Constant(value=False)])),
         Assign(
           targets=[
             Name(id='var_6', ctx=Store())],
+          value=Constant(value=11)),
+        Assign(
+          targets=[
+            Name(id='var_7', ctx=Store())],
           value=Call(
             func=Attribute(
-              value=Name(id='module_3', ctx=Load()),
+              value=Name(id='module_4', ctx=Load()),
               attr='ScalarToken',
               ctx=Load()),
             args=[
-              Name(id='var_1', ctx=Load()),
-              Name(id='var_1', ctx=Load()),
-              Name(id='var_5', ctx=Load()),
-              Name(id='var_3', ctx=Load())],
+              Name(id='var_3', ctx=Load()),
+              Name(id='var_6', ctx=Load()),
+              Name(id='var_6', ctx=Load()),
+              Name(id='var_0', ctx=Load())],
             keywords=[])),
         Assert(
           test=Compare(
@@ -1697,7 +1416,7 @@ Module(
                     value=Call(
                       func=Name(id='type', ctx=Load()),
                       args=[
-                        Name(id='var_6', ctx=Load())],
+                        Name(id='var_7', ctx=Load())],
                       keywords=[]),
                     attr='__module__',
                     ctx=Load()),
@@ -1708,7 +1427,7 @@ Module(
                     value=Call(
                       func=Name(id='type', ctx=Load()),
                       args=[
-                        Name(id='var_6', ctx=Load())],
+                        Name(id='var_7', ctx=Load())],
                       keywords=[]),
                     attr='__qualname__',
                     ctx=Load()),
@@ -1716,44 +1435,10 @@ Module(
             ops=[
               Eq()],
             comparators=[
-              Constant(value='typesystem.tokenize.tokens.ScalarToken')])),
-        Assign(
-          targets=[
-            Name(id='var_7', ctx=Store())],
-          value=Call(
-            func=Name(id='bool', ctx=Load()),
-            args=[
-              Compare(
-                left=Name(id='var_4', ctx=Load()),
-                ops=[
-                  Eq()],
-                comparators=[
-                  Name(id='var_6', ctx=Load())])],
-            keywords=[])),
-        Assert(
-          test=Compare(
-            left=Name(id='var_7', ctx=Load()),
-            ops=[
-              Is()],
-            comparators=[
-              Constant(value=True)])),
-        Assign(
-          targets=[
-            Name(id='var_8', ctx=Store())],
-          value=Attribute(
-            value=Name(id='var_4', ctx=Load()),
-            attr='value',
-            ctx=Load())),
-        Assert(
-          test=Compare(
-            left=Name(id='var_8', ctx=Load()),
-            ops=[
-              Is()],
-            comparators=[
-              Constant(value=False)]))],
+              Constant(value='typesystem.tokenize.tokens.ScalarToken')]))],
       decorator_list=[]),
     FunctionDef(
-      name='test_case_27',
+      name='test_case_18',
       args=arguments(
         posonlyargs=[],
         args=[],
@@ -1764,7 +1449,7 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='{"key":  value}')),
+          value=Constant(value='test content')),
         With(
           items=[
             withitem(
@@ -1791,7 +1476,7 @@ Module(
                 keywords=[]))])],
       decorator_list=[]),
     FunctionDef(
-      name='test_case_28',
+      name='test_case_19',
       args=arguments(
         posonlyargs=[],
         args=[],
@@ -1802,7 +1487,7 @@ Module(
         Assign(
           targets=[
             Name(id='var_0', ctx=Store())],
-          value=Constant(value='{ "2hs":42.5')),
+          value=Constant(value='{"+key"nhll}')),
         Expr(
           value=Call(
             func=Attribute(
@@ -1812,6 +1497,423 @@ Module(
             args=[
               Name(id='var_0', ctx=Load()),
               Name(id='var_0', ctx=Load())],
+            keywords=[]))],
+      decorator_list=[
+        Call(
+          func=Attribute(
+            value=Attribute(
+              value=Name(id='pytest', ctx=Load()),
+              attr='mark',
+              ctx=Load()),
+            attr='xfail',
+            ctx=Load()),
+          args=[],
+          keywords=[
+            keyword(
+              arg='strict',
+              value=Constant(value=True))])]),
+    FunctionDef(
+      name='test_case_20',
+      args=arguments(
+        posonlyargs=[],
+        args=[],
+        kwonlyargs=[],
+        kw_defaults=[],
+        defaults=[]),
+      body=[
+        Assign(
+          targets=[
+            Name(id='var_0', ctx=Store())],
+          value=Constant(value='true')),
+        Assign(
+          targets=[
+            Name(id='var_1', ctx=Store())],
+          value=Call(
+            func=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='tokenize_json',
+              ctx=Load()),
+            args=[
+              Name(id='var_0', ctx=Load())],
+            keywords=[])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='typesystem.tokenize.tokens.ScalarToken')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='FLAGS',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Attribute(
+                value=Attribute(
+                  value=Name(id='module_2', ctx=Load()),
+                  attr='RegexFlag',
+                  ctx=Load()),
+                attr=None,
+                ctx=Load())])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='WHITESPACE_STR',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value=' \t\n\r')])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')]))],
+      decorator_list=[]),
+    FunctionDef(
+      name='test_case_21',
+      args=arguments(
+        posonlyargs=[],
+        args=[],
+        kwonlyargs=[],
+        kw_defaults=[],
+        defaults=[]),
+      body=[
+        Assign(
+          targets=[
+            Name(id='var_0', ctx=Store())],
+          value=Constant(value='{"a": 1,V"b": 2/')),
+        With(
+          items=[
+            withitem(
+              context_expr=Call(
+                func=Attribute(
+                  value=Name(id='pytest', ctx=Load()),
+                  attr='raises',
+                  ctx=Load()),
+                args=[
+                  Attribute(
+                    value=Name(id='module_1', ctx=Load()),
+                    attr='ParseError',
+                    ctx=Load())],
+                keywords=[]))],
+          body=[
+            Expr(
+              value=Call(
+                func=Attribute(
+                  value=Name(id='module_0', ctx=Load()),
+                  attr='tokenize_json',
+                  ctx=Load()),
+                args=[
+                  Name(id='var_0', ctx=Load())],
+                keywords=[]))])],
+      decorator_list=[]),
+    FunctionDef(
+      name='test_case_22',
+      args=arguments(
+        posonlyargs=[],
+        args=[],
+        kwonlyargs=[],
+        kw_defaults=[],
+        defaults=[]),
+      body=[
+        Assign(
+          targets=[
+            Name(id='var_0', ctx=Store())],
+          value=Constant(value='123.45')),
+        Assign(
+          targets=[
+            Name(id='var_1', ctx=Store())],
+          value=Call(
+            func=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='tokenize_json',
+              ctx=Load()),
+            args=[
+              Name(id='var_0', ctx=Load())],
+            keywords=[])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Name(id='var_1', ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='typesystem.tokenize.tokens.ScalarToken')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='FLAGS',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Attribute(
+                value=Attribute(
+                  value=Name(id='module_2', ctx=Load()),
+                  attr='RegexFlag',
+                  ctx=Load()),
+                attr=None,
+                ctx=Load())])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='WHITESPACE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')])),
+        Assert(
+          test=Compare(
+            left=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='WHITESPACE_STR',
+              ctx=Load()),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value=' \t\n\r')])),
+        Assert(
+          test=Compare(
+            left=JoinedStr(
+              values=[
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__module__',
+                    ctx=Load()),
+                  conversion=-1),
+                Constant(value='.'),
+                FormattedValue(
+                  value=Attribute(
+                    value=Call(
+                      func=Name(id='type', ctx=Load()),
+                      args=[
+                        Attribute(
+                          value=Name(id='module_0', ctx=Load()),
+                          attr='NUMBER_RE',
+                          ctx=Load())],
+                      keywords=[]),
+                    attr='__qualname__',
+                    ctx=Load()),
+                  conversion=-1)]),
+            ops=[
+              Eq()],
+            comparators=[
+              Constant(value='re.Pattern')]))],
+      decorator_list=[]),
+    FunctionDef(
+      name='test_case_23',
+      args=arguments(
+        posonlyargs=[],
+        args=[],
+        kwonlyargs=[],
+        kw_defaults=[],
+        defaults=[]),
+      body=[
+        Assign(
+          targets=[
+            Name(id='var_0', ctx=Store())],
+          value=Constant(value='{"key":')),
+        With(
+          items=[
+            withitem(
+              context_expr=Call(
+                func=Attribute(
+                  value=Name(id='pytest', ctx=Load()),
+                  attr='raises',
+                  ctx=Load()),
+                args=[
+                  Attribute(
+                    value=Name(id='module_1', ctx=Load()),
+                    attr='ParseError',
+                    ctx=Load())],
+                keywords=[]))],
+          body=[
+            Expr(
+              value=Call(
+                func=Attribute(
+                  value=Name(id='module_0', ctx=Load()),
+                  attr='tokenize_json',
+                  ctx=Load()),
+                args=[
+                  Name(id='var_0', ctx=Load())],
+                keywords=[]))])],
+      decorator_list=[]),
+    FunctionDef(
+      name='test_case_24',
+      args=arguments(
+        posonlyargs=[],
+        args=[],
+        kwonlyargs=[],
+        kw_defaults=[],
+        defaults=[]),
+      body=[
+        Assign(
+          targets=[
+            Name(id='var_0', ctx=Store())],
+          value=Constant(value='{"key":  value}')),
+        Assign(
+          targets=[
+            Name(id='var_1', ctx=Store())],
+          value=Constant(value=None)),
+        Expr(
+          value=Call(
+            func=Attribute(
+              value=Name(id='module_0', ctx=Load()),
+              attr='validate_json',
+              ctx=Load()),
+            args=[
+              Name(id='var_0', ctx=Load()),
+              Name(id='var_1', ctx=Load())],
             keywords=[]))],
       decorator_list=[
         Call(

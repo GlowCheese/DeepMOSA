@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'isort.output'</h1>
+<p>Achieved 3.39% branch coverage:
+4/7 branchless code objects covered.
+9/376 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="fullyCovered" title="1/1 branchless code objects covered">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="notRelevant">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">26</span>
+                  <span class="notRelevant">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notRelevant">29</span>
+                  <span class="notCovered" title="0/2 branches covered">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="notRelevant">33</span>
+                  <span class="notCovered" title="0/2 branches covered">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notCovered" title="0/2 branches covered">37</span>
+                  <span class="notCovered" title="0/2 branches covered">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="notRelevant">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="notRelevant">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notCovered" title="0/2 branches covered">50</span>
+                  <span class="notRelevant">51</span>
+                  <span class="notCovered" title="0/2 branches covered">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="notRelevant">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="notCovered" title="0/2 branches covered">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="notRelevant">66</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="notRelevant">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notCovered" title="0/2 branches covered">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notCovered" title="0/2 branches covered">74</span>
+                  <span class="notCovered" title="0/2 branches covered">75</span>
+                  <span class="notRelevant">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="notRelevant">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="notRelevant">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="notRelevant">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="notRelevant">88</span>
+                  <span class="notCovered" title="0/4 branches covered">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notCovered" title="0/2 branches covered">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="notRelevant">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notCovered" title="0/2 branches covered">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="notCovered" title="0/2 branches covered">100</span>
+                  <span class="notCovered" title="0/2 branches covered">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notCovered" title="0/2 branches covered">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notCovered" title="0/2 branches covered">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="notRelevant">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="notRelevant">118</span>
+                  <span class="notRelevant">119</span>
+                  <span class="notCovered" title="0/2 branches covered">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notCovered" title="0/2 branches covered">122</span>
+                  <span class="notRelevant">123</span>
+                  <span class="notRelevant">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="notCovered" title="0/2 branches covered">129</span>
+                  <span class="notCovered" title="0/2 branches covered">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="notRelevant">132</span>
+                  <span class="notRelevant">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="notCovered" title="0/4 branches covered">135</span>
+                  <span class="notCovered" title="0/2 branches covered">136</span>
+                  <span class="notRelevant">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notCovered" title="0/2 branches covered">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="notRelevant">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="notCovered" title="0/4 branches covered">143</span>
+                  <span class="notCovered" title="0/2 branches covered">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="notRelevant">147</span>
+                  <span class="notCovered" title="0/2 branches covered">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notCovered" title="0/4 branches covered">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notCovered" title="0/2 branches covered">160</span>
+                  <span class="notRelevant">161</span>
+                  <span class="notCovered" title="0/2 branches covered">162</span>
+                  <span class="notRelevant">163</span>
+                  <span class="notRelevant">164</span>
+                  <span class="notCovered" title="0/8 branches covered">165</span>
+                  <span class="notRelevant">166</span>
+                  <span class="notCovered" title="0/8 branches covered">167</span>
+                  <span class="notRelevant">168</span>
+                  <span class="notRelevant">169</span>
+                  <span class="notCovered" title="0/2 branches covered">170</span>
+                  <span class="notRelevant">171</span>
+                  <span class="notRelevant">172</span>
+                  <span class="notRelevant">173</span>
+                  <span class="notRelevant">174</span>
+                  <span class="notRelevant">175</span>
+                  <span class="notCovered" title="0/2 branches covered">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notRelevant">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="notCovered" title="0/2 branches covered">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notCovered" title="0/6 branches covered">182</span>
+                  <span class="notRelevant">183</span>
+                  <span class="notRelevant">184</span>
+                  <span class="notRelevant">185</span>
+                  <span class="notRelevant">186</span>
+                  <span class="notCovered" title="0/2 branches covered">187</span>
+                  <span class="notRelevant">188</span>
+                  <span class="notCovered" title="0/4 branches covered">189</span>
+                  <span class="notRelevant">190</span>
+                  <span class="notCovered" title="0/2 branches covered">191</span>
+                  <span class="notRelevant">192</span>
+                  <span class="notRelevant">193</span>
+                  <span class="notCovered" title="0/2 branches covered">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="notRelevant">196</span>
+                  <span class="notRelevant">197</span>
+                  <span class="notCovered" title="0/2 branches covered">198</span>
+                  <span class="notRelevant">199</span>
+                  <span class="notRelevant">200</span>
+                  <span class="notRelevant">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notCovered" title="0/4 branches covered">206</span>
+                  <span class="notCovered" title="0/2 branches covered">207</span>
+                  <span class="notRelevant">208</span>
+                  <span class="notCovered" title="0/4 branches covered">209</span>
+                  <span class="notRelevant">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="notRelevant">213</span>
+                  <span class="notRelevant">214</span>
+                  <span class="notCovered" title="0/2 branches covered">215</span>
+                  <span class="notRelevant">216</span>
+                  <span class="notRelevant">217</span>
+                  <span class="notRelevant">218</span>
+                  <span class="notCovered" title="0/2 branches covered">219</span>
+                  <span class="notRelevant">220</span>
+                  <span class="notCovered" title="0/4 branches covered">221</span>
+                  <span class="notRelevant">222</span>
+                  <span class="notCovered" title="0/2 branches covered">223</span>
+                  <span class="notCovered" title="0/4 branches covered">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="notRelevant">226</span>
+                  <span class="notRelevant">227</span>
+                  <span class="notRelevant">228</span>
+                  <span class="notCovered" title="0/2 branches covered">229</span>
+                  <span class="notRelevant">230</span>
+                  <span class="notCovered" title="0/2 branches covered">231</span>
+                  <span class="notRelevant">232</span>
+                  <span class="notCovered" title="0/2 branches covered">233</span>
+                  <span class="notRelevant">234</span>
+                  <span class="notRelevant">235</span>
+                  <span class="notCovered" title="0/2 branches covered">236</span>
+                  <span class="notCovered" title="0/2 branches covered">237</span>
+                  <span class="notRelevant">238</span>
+                  <span class="notRelevant">239</span>
+                  <span class="notRelevant">240</span>
+                  <span class="notRelevant">241</span>
+                  <span class="notRelevant">242</span>
+                  <span class="notRelevant">243</span>
+                  <span class="notRelevant">244</span>
+                  <span class="notRelevant">245</span>
+                  <span class="notRelevant">246</span>
+                  <span class="notRelevant">247</span>
+                  <span class="notRelevant">248</span>
+                  <span class="notRelevant">249</span>
+                  <span class="notRelevant">250</span>
+                  <span class="notRelevant">251</span>
+                  <span class="notRelevant">252</span>
+                  <span class="notRelevant">253</span>
+                  <span class="notRelevant">254</span>
+                  <span class="notRelevant">255</span>
+                  <span class="notRelevant">256</span>
+                  <span class="notCovered" title="0/2 branches covered">257</span>
+                  <span class="notCovered" title="0/2 branches covered">258</span>
+                  <span class="notRelevant">259</span>
+                  <span class="notRelevant">260</span>
+                  <span class="notRelevant">261</span>
+                  <span class="notRelevant">262</span>
+                  <span class="notCovered" title="0/4 branches covered">263</span>
+                  <span class="notRelevant">264</span>
+                  <span class="notCovered" title="0/4 branches covered">265</span>
+                  <span class="notRelevant">266</span>
+                  <span class="notRelevant">267</span>
+                  <span class="notRelevant">268</span>
+                  <span class="notRelevant">269</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">270</span>
+                  <span class="notRelevant">271</span>
+                  <span class="notRelevant">272</span>
+                  <span class="notRelevant">273</span>
+                  <span class="notRelevant">274</span>
+                  <span class="notRelevant">275</span>
+                  <span class="notRelevant">276</span>
+                  <span class="notRelevant">277</span>
+                  <span class="notRelevant">278</span>
+                  <span class="notCovered" title="0/2 branches covered">279</span>
+                  <span class="notCovered" title="0/2 branches covered">280</span>
+                  <span class="notCovered" title="0/2 branches covered">281</span>
+                  <span class="notRelevant">282</span>
+                  <span class="notRelevant">283</span>
+                  <span class="notCovered" title="0/2 branches covered">284</span>
+                  <span class="notCovered" title="0/2 branches covered">285</span>
+                  <span class="notCovered" title="0/2 branches covered">286</span>
+                  <span class="notRelevant">287</span>
+                  <span class="notRelevant">288</span>
+                  <span class="notRelevant">289</span>
+                  <span class="notCovered" title="0/2 branches covered">290</span>
+                  <span class="notRelevant">291</span>
+                  <span class="notCovered" title="0/6 branches covered">292</span>
+                  <span class="notCovered" title="0/2 branches covered">293</span>
+                  <span class="notCovered" title="0/2 branches covered">294</span>
+                  <span class="notCovered" title="0/2 branches covered">295</span>
+                  <span class="notRelevant">296</span>
+                  <span class="notCovered" title="0/2 branches covered">297</span>
+                  <span class="notCovered" title="0/2 branches covered">298</span>
+                  <span class="notRelevant">299</span>
+                  <span class="notCovered" title="0/2 branches covered">300</span>
+                  <span class="notRelevant">301</span>
+                  <span class="notRelevant">302</span>
+                  <span class="notRelevant">303</span>
+                  <span class="notRelevant">304</span>
+                  <span class="notRelevant">305</span>
+                  <span class="notRelevant">306</span>
+                  <span class="notRelevant">307</span>
+                  <span class="notCovered" title="0/4 branches covered">308</span>
+                  <span class="notCovered" title="0/2 branches covered">309</span>
+                  <span class="notRelevant">310</span>
+                  <span class="notRelevant">311</span>
+                  <span class="notRelevant">312</span>
+                  <span class="notCovered" title="0/4 branches covered">313</span>
+                  <span class="notRelevant">314</span>
+                  <span class="notRelevant">315</span>
+                  <span class="notCovered" title="0/2 branches covered">316</span>
+                  <span class="notRelevant">317</span>
+                  <span class="notRelevant">318</span>
+                  <span class="notRelevant">319</span>
+                  <span class="notRelevant">320</span>
+                  <span class="notRelevant">321</span>
+                  <span class="notRelevant">322</span>
+                  <span class="notRelevant">323</span>
+                  <span class="notCovered" title="0/2 branches covered">324</span>
+                  <span class="notCovered" title="0/2 branches covered">325</span>
+                  <span class="notRelevant">326</span>
+                  <span class="notRelevant">327</span>
+                  <span class="notCovered" title="0/4 branches covered">328</span>
+                  <span class="notRelevant">329</span>
+                  <span class="notCovered" title="0/4 branches covered">330</span>
+                  <span class="notRelevant">331</span>
+                  <span class="notRelevant">332</span>
+                  <span class="notRelevant">333</span>
+                  <span class="notRelevant">334</span>
+                  <span class="notRelevant">335</span>
+                  <span class="notRelevant">336</span>
+                  <span class="notRelevant">337</span>
+                  <span class="notRelevant">338</span>
+                  <span class="notRelevant">339</span>
+                  <span class="notRelevant">340</span>
+                  <span class="notCovered" title="0/2 branches covered">341</span>
+                  <span class="notRelevant">342</span>
+                  <span class="notCovered" title="0/4 branches covered">343</span>
+                  <span class="notRelevant">344</span>
+                  <span class="notCovered" title="0/2 branches covered">345</span>
+                  <span class="notCovered" title="0/4 branches covered">346</span>
+                  <span class="notRelevant">347</span>
+                  <span class="notRelevant">348</span>
+                  <span class="notRelevant">349</span>
+                  <span class="notRelevant">350</span>
+                  <span class="notRelevant">351</span>
+                  <span class="notRelevant">352</span>
+                  <span class="notRelevant">353</span>
+                  <span class="notRelevant">354</span>
+                  <span class="notRelevant">355</span>
+                  <span class="notRelevant">356</span>
+                  <span class="notCovered" title="0/2 branches covered">357</span>
+                  <span class="notCovered" title="0/2 branches covered">358</span>
+                  <span class="notRelevant">359</span>
+                  <span class="notRelevant">360</span>
+                  <span class="notRelevant">361</span>
+                  <span class="notRelevant">362</span>
+                  <span class="notRelevant">363</span>
+                  <span class="notRelevant">364</span>
+                  <span class="notRelevant">365</span>
+                  <span class="notRelevant">366</span>
+                  <span class="notRelevant">367</span>
+                  <span class="notRelevant">368</span>
+                  <span class="notRelevant">369</span>
+                  <span class="notRelevant">370</span>
+                  <span class="notCovered" title="0/2 branches covered">371</span>
+                  <span class="notRelevant">372</span>
+                  <span class="notRelevant">373</span>
+                  <span class="notRelevant">374</span>
+                  <span class="notRelevant">375</span>
+                  <span class="notRelevant">376</span>
+                  <span class="notRelevant">377</span>
+                  <span class="notRelevant">378</span>
+                  <span class="notRelevant">379</span>
+                  <span class="notRelevant">380</span>
+                  <span class="notRelevant">381</span>
+                  <span class="notRelevant">382</span>
+                  <span class="notRelevant">383</span>
+                  <span class="notRelevant">384</span>
+                  <span class="notRelevant">385</span>
+                  <span class="notCovered" title="0/8 branches covered">386</span>
+                  <span class="notRelevant">387</span>
+                  <span class="notRelevant">388</span>
+                  <span class="notCovered" title="0/2 branches covered">389</span>
+                  <span class="notRelevant">390</span>
+                  <span class="notRelevant">391</span>
+                  <span class="notCovered" title="0/2 branches covered">392</span>
+                  <span class="notRelevant">393</span>
+                  <span class="notCovered" title="0/4 branches covered">394</span>
+                  <span class="notRelevant">395</span>
+                  <span class="notRelevant">396</span>
+                  <span class="notRelevant">397</span>
+                  <span class="notRelevant">398</span>
+                  <span class="notRelevant">399</span>
+                  <span class="notRelevant">400</span>
+                  <span class="notRelevant">401</span>
+                  <span class="notRelevant">402</span>
+                  <span class="notCovered" title="0/2 branches covered">403</span>
+                  <span class="notRelevant">404</span>
+                  <span class="notRelevant">405</span>
+                  <span class="notRelevant">406</span>
+                  <span class="notRelevant">407</span>
+                  <span class="notRelevant">408</span>
+                  <span class="notRelevant">409</span>
+                  <span class="notRelevant">410</span>
+                  <span class="notRelevant">411</span>
+                  <span class="notRelevant">412</span>
+                  <span class="notRelevant">413</span>
+                  <span class="notRelevant">414</span>
+                  <span class="notRelevant">415</span>
+                  <span class="notRelevant">416</span>
+                  <span class="notRelevant">417</span>
+                  <span class="notRelevant">418</span>
+                  <span class="notCovered" title="0/2 branches covered">419</span>
+                  <span class="notRelevant">420</span>
+                  <span class="notRelevant">421</span>
+                  <span class="notRelevant">422</span>
+                  <span class="notRelevant">423</span>
+                  <span class="notRelevant">424</span>
+                  <span class="notCovered" title="0/2 branches covered">425</span>
+                  <span class="notRelevant">426</span>
+                  <span class="notRelevant">427</span>
+                  <span class="notRelevant">428</span>
+                  <span class="notRelevant">429</span>
+                  <span class="notRelevant">430</span>
+                  <span class="notRelevant">431</span>
+                  <span class="notRelevant">432</span>
+                  <span class="notRelevant">433</span>
+                  <span class="notRelevant">434</span>
+                  <span class="notRelevant">435</span>
+                  <span class="notRelevant">436</span>
+                  <span class="notRelevant">437</span>
+                  <span class="notRelevant">438</span>
+                  <span class="notRelevant">439</span>
+                  <span class="notRelevant">440</span>
+                  <span class="notRelevant">441</span>
+                  <span class="notRelevant">442</span>
+                  <span class="notCovered" title="0/2 branches covered">443</span>
+                  <span class="notRelevant">444</span>
+                  <span class="notRelevant">445</span>
+                  <span class="notRelevant">446</span>
+                  <span class="notRelevant">447</span>
+                  <span class="notRelevant">448</span>
+                  <span class="notRelevant">449</span>
+                  <span class="notRelevant">450</span>
+                  <span class="notRelevant">451</span>
+                  <span class="notRelevant">452</span>
+                  <span class="notRelevant">453</span>
+                  <span class="notCovered" title="0/2 branches covered">454</span>
+                  <span class="notRelevant">455</span>
+                  <span class="notRelevant">456</span>
+                  <span class="notRelevant">457</span>
+                  <span class="notCovered" title="0/2 branches covered">458</span>
+                  <span class="notRelevant">459</span>
+                  <span class="notRelevant">460</span>
+                  <span class="notCovered" title="0/2 branches covered">461</span>
+                  <span class="notRelevant">462</span>
+                  <span class="notCovered" title="0/2 branches covered">463</span>
+                  <span class="notRelevant">464</span>
+                  <span class="notCovered" title="0/2 branches covered">465</span>
+                  <span class="notRelevant">466</span>
+                  <span class="notRelevant">467</span>
+                  <span class="notRelevant">468</span>
+                  <span class="notRelevant">469</span>
+                  <span class="notCovered" title="0/2 branches covered">470</span>
+                  <span class="notRelevant">471</span>
+                  <span class="notRelevant">472</span>
+                  <span class="notRelevant">473</span>
+                  <span class="notRelevant">474</span>
+                  <span class="notRelevant">475</span>
+                  <span class="notRelevant">476</span>
+                  <span class="notRelevant">477</span>
+                  <span class="notRelevant">478</span>
+                  <span class="notRelevant">479</span>
+                  <span class="notRelevant">480</span>
+                  <span class="notRelevant">481</span>
+                  <span class="notCovered" title="0/4 branches covered">482</span>
+                  <span class="notRelevant">483</span>
+                  <span class="notRelevant">484</span>
+                  <span class="notRelevant">485</span>
+                  <span class="notRelevant">486</span>
+                  <span class="notCovered" title="0/4 branches covered">487</span>
+                  <span class="notCovered" title="0/12 branches covered">488</span>
+                  <span class="notRelevant">489</span>
+                  <span class="notRelevant">490</span>
+                  <span class="notRelevant">491</span>
+                  <span class="notRelevant">492</span>
+                  <span class="notRelevant">493</span>
+                  <span class="notRelevant">494</span>
+                  <span class="notCovered" title="0/2 branches covered">495</span>
+                  <span class="notCovered" title="0/2 branches covered">496</span>
+                  <span class="notRelevant">497</span>
+                  <span class="notRelevant">498</span>
+                  <span class="notRelevant">499</span>
+                  <span class="notRelevant">500</span>
+                  <span class="notRelevant">501</span>
+                  <span class="notRelevant">502</span>
+                  <span class="notRelevant">503</span>
+                  <span class="notRelevant">504</span>
+                  <span class="notCovered" title="0/2 branches covered">505</span>
+                  <span class="notRelevant">506</span>
+                  <span class="notRelevant">507</span>
+                  <span class="notRelevant">508</span>
+                  <span class="notRelevant">509</span>
+                  <span class="notRelevant">510</span>
+                  <span class="notCovered" title="0/4 branches covered">511</span>
+                  <span class="notRelevant">512</span>
+                  <span class="notRelevant">513</span>
+                  <span class="notCovered" title="0/4 branches covered">514</span>
+                  <span class="notRelevant">515</span>
+                  <span class="notRelevant">516</span>
+                  <span class="notRelevant">517</span>
+                  <span class="notRelevant">518</span>
+                  <span class="notRelevant">519</span>
+                  <span class="notCovered" title="0/2 branches covered">520</span>
+                  <span class="notCovered" title="0/2 branches covered">521</span>
+                  <span class="notCovered" title="0/2 branches covered">522</span>
+                  <span class="notRelevant">523</span>
+                  <span class="notRelevant">524</span>
+                  <span class="notRelevant">525</span>
+                  <span class="notCovered" title="0/4 branches covered">526</span>
+                  <span class="notRelevant">527</span>
+                  <span class="notRelevant">528</span>
+                  <span class="notCovered" title="0/2 branches covered">529</span>
+                  <span class="notRelevant">530</span>
+                  <span class="notRelevant">531</span>
+                  <span class="notRelevant">532</span>
+                  <span class="notRelevant">533</span>
+                  <span class="notRelevant">534</span>
+                  <span class="notRelevant">535</span>
+                  <span class="notRelevant">536</span>
+                  <span class="notRelevant">537</span>
+                  <span class="notRelevant">538</span>
+                  <span class="notRelevant">539</span>
+                  <span class="notCovered" title="0/2 branches covered">540</span>
+                  <span class="notRelevant">541</span>
+                  <span class="notRelevant">542</span>
+                  <span class="notRelevant">543</span>
+                  <span class="notRelevant">544</span>
+                  <span class="notRelevant">545</span>
+                  <span class="notRelevant">546</span>
+                  <span class="notRelevant">547</span>
+                  <span class="notCovered" title="0/2 branches covered">548</span>
+                  <span class="notRelevant">549</span>
+                  <span class="notRelevant">550</span>
+                  <span class="notRelevant">551</span>
+                  <span class="notRelevant">552</span>
+                  <span class="notRelevant">553</span>
+                  <span class="notRelevant">554</span>
+                  <span class="notRelevant">555</span>
+                  <span class="notRelevant">556</span>
+                  <span class="notRelevant">557</span>
+                  <span class="notCovered" title="0/4 branches covered">558</span>
+                  <span class="notRelevant">559</span>
+                  <span class="notRelevant">560</span>
+                  <span class="notRelevant">561</span>
+                  <span class="notRelevant">562</span>
+                  <span class="notRelevant">563</span>
+                  <span class="notRelevant">564</span>
+                  <span class="notCovered" title="0/2 branches covered">565</span>
+                  <span class="notRelevant">566</span>
+                  <span class="notRelevant">567</span>
+                  <span class="notCovered" title="0/2 branches covered">568</span>
+                  <span class="notRelevant">569</span>
+                  <span class="notRelevant">570</span>
+                  <span class="notRelevant">571</span>
+                  <span class="notRelevant">572</span>
+                  <span class="notRelevant">573</span>
+                  <span class="notRelevant">574</span>
+                  <span class="notRelevant">575</span>
+                  <span class="notRelevant">576</span>
+                  <span class="notRelevant">577</span>
+                  <span class="notRelevant">578</span>
+                  <span class="notRelevant">579</span>
+                  <span class="notRelevant">580</span>
+                  <span class="notRelevant">581</span>
+                  <span class="notRelevant">582</span>
+                  <span class="notCovered" title="0/2 branches covered">583</span>
+                  <span class="notRelevant">584</span>
+                  <span class="notRelevant">585</span>
+                  <span class="notCovered" title="0/4 branches covered">586</span>
+                  <span class="notCovered" title="0/2 branches covered">587</span>
+                  <span class="notRelevant">588</span>
+                  <span class="notRelevant">589</span>
+                  <span class="notRelevant">590</span>
+                  <span class="notRelevant">591</span>
+                  <span class="notRelevant">592</span>
+                  <span class="notCovered" title="0/2 branches covered">593</span>
+                  <span class="notCovered" title="0/2 branches covered">594</span>
+                  <span class="notRelevant">595</span>
+                  <span class="notCovered" title="0/2 branches covered">596</span>
+                  <span class="notRelevant">597</span>
+                  <span class="notRelevant">598</span>
+                  <span class="notRelevant">599</span>
+                  <span class="notCovered" title="0/2 branches covered">600</span>
+                  <span class="notRelevant">601</span>
+                  <span class="notRelevant">602</span>
+                  <span class="notRelevant">603</span>
+                  <span class="notRelevant">604</span>
+                  <span class="notRelevant">605</span>
+                  <span class="notRelevant">606</span>
+                  <span class="notCovered" title="0/2 branches covered">607</span>
+                  <span class="notRelevant">608</span>
+                  <span class="notRelevant">609</span>
+                  <span class="notRelevant">610</span>
+                  <span class="notRelevant">611</span>
+                  <span class="notRelevant">612</span>
+                  <span class="notRelevant">613</span>
+                  <span class="notRelevant">614</span>
+                  <span class="notRelevant">615</span>
+                  <span class="notCovered" title="0/2 branches covered">616</span>
+                  <span class="notCovered" title="0/2 branches covered">617</span>
+                  <span class="notRelevant">618</span>
+                  <span class="notRelevant">619</span>
+                  <span class="notRelevant">620</span>
+                  <span class="notCovered" title="0/2 branches covered">621</span>
+                  <span class="notCovered" title="0/2 branches covered">622</span>
+                  <span class="notRelevant">623</span>
+                  <span class="notCovered" title="0/2 branches covered">624</span>
+                  <span class="notRelevant">625</span>
+                  <span class="notRelevant">626</span>
+                  <span class="notRelevant">627</span>
+                  <span class="notRelevant">628</span>
+                  <span class="notRelevant">629</span>
+                  <span class="notRelevant">630</span>
+                  <span class="notRelevant">631</span>
+                  <span class="notCovered" title="0/2 branches covered">632</span>
+                  <span class="notRelevant">633</span>
+                  <span class="notCovered" title="0/2 branches covered">634</span>
+                  <span class="notRelevant">635</span>
+                  <span class="notRelevant">636</span>
+                  <span class="notRelevant">637</span>
+                  <span class="notRelevant">638</span>
+                  <span class="notRelevant">639</span>
+                  <span class="notRelevant">640</span>
+                  <span class="notRelevant">641</span>
+                  <span class="notRelevant">642</span>
+                  <span class="notRelevant">643</span>
+                  <span class="notRelevant">644</span>
+                  <span class="notRelevant">645</span>
+                  <span class="notRelevant">646</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">647</span>
+                  <span class="notRelevant">648</span>
+                  <span class="notRelevant">649</span>
+                  <span class="notRelevant">650</span>
+                  <span class="notRelevant">651</span>
+                  <span class="fullyCovered" title="8/8 branches covered">652</span>
+                  <span class="notRelevant">653</span>
+                  <span class="notRelevant">654</span>
+                  <span class="notRelevant">655</span>
+                  <span class="notRelevant">656</span>
+                  <span class="notRelevant">657</span>
+                  <span class="notRelevant">658</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">659</span>
+                  <span class="notRelevant">660</span>
+                  <span class="notRelevant">661</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">662</span>
+                  <span class="notRelevant">663</span>
+                  <span class="notRelevant">664</span>
+                  <span class="notRelevant">665</span>
+                  <span class="notRelevant">666</span>
+                  <span class="notRelevant">667</span>
+                  <span class="notRelevant">668</span>
+                  <span class="notRelevant">669</span>
+                  <span class="notRelevant">670</span>
+                  <span class="notRelevant">671</span>
+                  <span class="notRelevant">672</span>
+                  <span class="notRelevant">673</span>
+                  <span class="notCovered" title="0/2 branches covered">674</span>
+                  <span class="notRelevant">675</span>
+                  <span class="notCovered" title="0/2 branches covered">676</span>
+                  <span class="notCovered" title="0/6 branches covered">677</span>
+                  <span class="notRelevant">678</span>
+                  <span class="notRelevant">679</span>
+                  <span class="notRelevant">680</span>
+                  <span class="notRelevant">681</span>
+                  <span class="notRelevant">682</span>
+                  <span class="notRelevant">683</span>
+                  <span class="notRelevant">684</span>
+                  <span class="notCovered" title="0/2 branches covered">685</span>
+                  <span class="notRelevant">686</span>
+                  <span class="notRelevant">687</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">isort.format</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_simplified</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span><span class="p">,</span> <span class="n">sorting</span><span class="p">,</span> <span class="n">wrap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.comments</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_to_line</span> <span class="k">as</span> <span class="n">with_comments</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.identify</span><span class="w"> </span><span class="kn">import</span> <span class="n">STATEMENT_DECLARATIONS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEFAULT_CONFIG</span><span class="p">,</span> <span class="n">Config</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">sorted_imports</span><span class="p">(</span>
+    <span class="n">parsed</span><span class="p">:</span> <span class="n">parse</span><span class="o">.</span><span class="n">ParsedContent</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">Config</span> <span class="o">=</span> <span class="n">DEFAULT_CONFIG</span><span class="p">,</span>
+    <span class="n">extension</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;py&quot;</span><span class="p">,</span>
+    <span class="n">import_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;import&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds the imports back to the file.</span>
+
+<span class="sd">    (at the index of the first import) sorted alphabetically and split between groups</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">parsed</span><span class="o">.</span><span class="n">import_index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_output_as_string</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">lines_without_imports</span><span class="p">,</span> <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">)</span>
+
+    <span class="n">formatted_output</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">lines_without_imports</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">remove_imports</span> <span class="o">=</span> <span class="p">[</span><span class="n">format_simplified</span><span class="p">(</span><span class="n">removal</span><span class="p">)</span> <span class="k">for</span> <span class="n">removal</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">remove_imports</span><span class="p">]</span>
+
+    <span class="n">sections</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">sections</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">forced_separate</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">no_sections</span><span class="p">:</span>
+        <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="s2">&quot;no_sections&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;straight&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;from&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+        <span class="n">base_sections</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
+        <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">section</span> <span class="o">==</span> <span class="s2">&quot;FUTURE&quot;</span><span class="p">:</span>
+                <span class="n">base_sections</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;FUTURE&quot;</span><span class="p">,)</span>
+                <span class="k">continue</span>
+            <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="s2">&quot;no_sections&quot;</span><span class="p">][</span><span class="s2">&quot;straight&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="n">section</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;straight&quot;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="p">)</span>
+            <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="s2">&quot;no_sections&quot;</span><span class="p">][</span><span class="s2">&quot;from&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="n">section</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;from&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+        <span class="n">sections</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">base_sections</span><span class="p">,</span> <span class="s2">&quot;no_sections&quot;</span><span class="p">)</span>
+
+    <span class="n">output</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">seen_headings</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">pending_lines_before</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
+        <span class="n">straight_modules</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="s2">&quot;straight&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">only_sections</span><span class="p">:</span>
+            <span class="n">straight_modules</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
+                <span class="n">config</span><span class="p">,</span>
+                <span class="n">straight_modules</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">key</span><span class="p">:</span> <span class="n">sorting</span><span class="o">.</span><span class="n">module_key</span><span class="p">(</span>
+                    <span class="n">key</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">section_name</span><span class="o">=</span><span class="n">section</span><span class="p">,</span> <span class="n">straight_import</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">),</span>
+                <span class="n">reverse</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">reverse_sort</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">from_modules</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="s2">&quot;from&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">only_sections</span><span class="p">:</span>
+            <span class="n">from_modules</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
+                <span class="n">config</span><span class="p">,</span>
+                <span class="n">from_modules</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">key</span><span class="p">:</span> <span class="n">sorting</span><span class="o">.</span><span class="n">module_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">section_name</span><span class="o">=</span><span class="n">section</span><span class="p">),</span>
+                <span class="n">reverse</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">reverse_sort</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">star_first</span><span class="p">:</span>
+                <span class="n">star_modules</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">other_modules</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">from_modules</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;*&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="s2">&quot;from&quot;</span><span class="p">][</span><span class="n">module</span><span class="p">]:</span>
+                        <span class="n">star_modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">other_modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+                <span class="n">from_modules</span> <span class="o">=</span> <span class="n">star_modules</span> <span class="o">+</span> <span class="n">other_modules</span>
+
+        <span class="n">straight_imports</span> <span class="o">=</span> <span class="n">_with_straight_imports</span><span class="p">(</span>
+            <span class="n">parsed</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">straight_modules</span><span class="p">,</span> <span class="n">section</span><span class="p">,</span> <span class="n">remove_imports</span><span class="p">,</span> <span class="n">import_type</span>
+        <span class="p">)</span>
+        <span class="n">from_imports</span> <span class="o">=</span> <span class="n">_with_from_imports</span><span class="p">(</span>
+            <span class="n">parsed</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">from_modules</span><span class="p">,</span> <span class="n">section</span><span class="p">,</span> <span class="n">remove_imports</span><span class="p">,</span> <span class="n">import_type</span>
+        <span class="p">)</span>
+
+        <span class="n">lines_between</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">lines_between_types</span> <span class="k">if</span> <span class="n">from_modules</span> <span class="ow">and</span> <span class="n">straight_modules</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">from_first</span><span class="p">:</span>
+            <span class="n">section_output</span> <span class="o">=</span> <span class="n">from_imports</span> <span class="o">+</span> <span class="n">lines_between</span> <span class="o">+</span> <span class="n">straight_imports</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">section_output</span> <span class="o">=</span> <span class="n">straight_imports</span> <span class="o">+</span> <span class="n">lines_between</span> <span class="o">+</span> <span class="n">from_imports</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">force_sort_within_sections</span><span class="p">:</span>
+            <span class="c1"># collapse comments</span>
+            <span class="n">comments_above</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">new_section_output</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">section_output</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+                    <span class="n">comments_above</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">comments_above</span><span class="p">:</span>
+                    <span class="n">new_section_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_LineWithComments</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">comments_above</span><span class="p">))</span>
+                    <span class="n">comments_above</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">new_section_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="c1"># only_sections options is not imposed if force_sort_within_sections is True</span>
+            <span class="n">new_section_output</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
+                <span class="n">config</span><span class="p">,</span>
+                <span class="n">new_section_output</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">sorting</span><span class="o">.</span><span class="n">section_key</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">),</span>
+                <span class="n">reverse</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">reverse_sort</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># uncollapse comments</span>
+            <span class="n">section_output</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">new_section_output</span><span class="p">:</span>
+                <span class="n">comments</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="s2">&quot;comments&quot;</span><span class="p">,</span> <span class="p">())</span>
+                <span class="k">if</span> <span class="n">comments</span><span class="p">:</span>
+                    <span class="n">section_output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">comments</span><span class="p">)</span>
+                <span class="n">section_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+
+        <span class="n">section_name</span> <span class="o">=</span> <span class="n">section</span>
+        <span class="n">no_lines_before</span> <span class="o">=</span> <span class="n">section_name</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">no_lines_before</span>
+
+        <span class="k">if</span> <span class="n">section_output</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">section_name</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">place_imports</span><span class="p">:</span>
+                <span class="n">parsed</span><span class="o">.</span><span class="n">place_imports</span><span class="p">[</span><span class="n">section_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">section_output</span>
+                <span class="k">continue</span>
+
+            <span class="n">section_title</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">import_headings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">section_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">section_title</span> <span class="ow">and</span> <span class="n">section_title</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen_headings</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dedup_headings</span><span class="p">:</span>
+                    <span class="n">seen_headings</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">section_title</span><span class="p">)</span>
+                <span class="n">section_comment</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;# </span><span class="si">{</span><span class="n">section_title</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="n">section_comment</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">lines_without_imports</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]:</span>  <span class="c1"># pragma: no branch</span>
+                    <span class="n">section_output</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">section_comment</span><span class="p">)</span>
+
+            <span class="n">section_footer</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">import_footers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">section_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">section_footer</span> <span class="ow">and</span> <span class="n">section_footer</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen_headings</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dedup_headings</span><span class="p">:</span>
+                    <span class="n">seen_headings</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">section_footer</span><span class="p">)</span>
+                <span class="n">section_comment_end</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;# </span><span class="si">{</span><span class="n">section_footer</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">section_comment_end</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">lines_without_imports</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="p">):</span>  <span class="c1"># pragma: no branch</span>
+                    <span class="n">section_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>  <span class="c1"># Empty line for black compatibility</span>
+                    <span class="n">section_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section_comment_end</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">pending_lines_before</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">no_lines_before</span><span class="p">:</span>
+                <span class="n">output</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">config</span><span class="o">.</span><span class="n">lines_between_sections</span>
+
+            <span class="n">output</span> <span class="o">+=</span> <span class="n">section_output</span>
+
+            <span class="n">pending_lines_before</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pending_lines_before</span> <span class="o">=</span> <span class="n">pending_lines_before</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">no_lines_before</span>
+
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">ensure_newline_before_comments</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">_ensure_newline_before_comment</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">output</span> <span class="ow">and</span> <span class="n">output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>  <span class="c1"># pragma: no cover</span>
+    <span class="k">while</span> <span class="n">output</span> <span class="ow">and</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">formatting_function</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">formatting_function</span><span class="p">(</span>
+            <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">extension</span><span class="p">,</span> <span class="n">config</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+
+    <span class="n">output_at</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">parsed</span><span class="o">.</span><span class="n">import_index</span> <span class="o">&lt;</span> <span class="n">parsed</span><span class="o">.</span><span class="n">original_line_count</span><span class="p">:</span>
+        <span class="n">output_at</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">import_index</span>
+    <span class="n">formatted_output</span><span class="p">[</span><span class="n">output_at</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span>
+
+    <span class="k">if</span> <span class="n">output</span><span class="p">:</span>
+        <span class="n">imports_tail</span> <span class="o">=</span> <span class="n">output_at</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">while</span> <span class="p">[</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">character</span> <span class="ow">in</span> <span class="n">formatted_output</span><span class="p">[</span><span class="n">imports_tail</span> <span class="p">:</span> <span class="n">imports_tail</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]:</span>
+            <span class="n">formatted_output</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">imports_tail</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">lines_before_imports</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">lines_before_imports</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lines_before_imports</span>
+            <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">profile</span> <span class="o">==</span> <span class="s2">&quot;black&quot;</span> <span class="ow">and</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;pyi&quot;</span><span class="p">:</span>  <span class="c1"># special case for black</span>
+                <span class="n">lines_before_imports</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">formatted_output</span><span class="p">[:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lines_before_imports</span><span class="p">)]</span>
+            <span class="n">imports_tail</span> <span class="o">+=</span> <span class="n">lines_before_imports</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">formatted_output</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">imports_tail</span><span class="p">:</span>
+            <span class="n">next_construct</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="n">formatted_output</span><span class="p">[</span><span class="n">imports_tail</span><span class="p">:]</span>
+
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tail</span><span class="p">):</span>  <span class="c1"># pragma: no branch</span>
+                <span class="n">should_skip</span><span class="p">,</span> <span class="n">in_quote</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="n">skip_line</span><span class="p">(</span>
+                    <span class="n">line</span><span class="p">,</span>
+                    <span class="n">in_quote</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                    <span class="n">index</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">formatted_output</span><span class="p">),</span>
+                    <span class="n">section_comments</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">section_comments</span><span class="p">,</span>
+                    <span class="n">needs_import</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">should_skip</span> <span class="ow">and</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+                        <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">tail</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="ow">and</span> <span class="n">tail</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                    <span class="p">):</span>
+                        <span class="k">continue</span>
+                    <span class="n">next_construct</span> <span class="o">=</span> <span class="n">line</span>
+                    <span class="k">break</span>
+                <span class="k">if</span> <span class="n">in_quote</span><span class="p">:</span>  <span class="c1"># pragma: no branch</span>
+                    <span class="n">next_construct</span> <span class="o">=</span> <span class="n">line</span>
+                    <span class="k">break</span>
+
+            <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">lines_after_imports</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">lines_after_imports</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">lines_after_imports</span>
+                <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">profile</span> <span class="o">==</span> <span class="s2">&quot;black&quot;</span> <span class="ow">and</span> <span class="n">extension</span> <span class="o">==</span> <span class="s2">&quot;pyi&quot;</span><span class="p">:</span>  <span class="c1"># special case for black</span>
+                    <span class="n">lines_after_imports</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">formatted_output</span><span class="p">[</span><span class="n">imports_tail</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lines_after_imports</span><span class="p">)]</span>
+            <span class="k">elif</span> <span class="n">extension</span> <span class="o">!=</span> <span class="s2">&quot;pyi&quot;</span> <span class="ow">and</span> <span class="n">next_construct</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">STATEMENT_DECLARATIONS</span><span class="p">):</span>
+                <span class="n">formatted_output</span><span class="p">[</span><span class="n">imports_tail</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">formatted_output</span><span class="p">[</span><span class="n">imports_tail</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">parsed</span><span class="o">.</span><span class="n">place_imports</span><span class="p">:</span>
+        <span class="n">new_out_lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">formatted_output</span><span class="p">):</span>
+            <span class="n">new_out_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">import_placements</span><span class="p">:</span>
+                <span class="n">new_out_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">place_imports</span><span class="p">[</span><span class="n">parsed</span><span class="o">.</span><span class="n">import_placements</span><span class="p">[</span><span class="n">line</span><span class="p">]])</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">formatted_output</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="n">formatted_output</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span>
+                <span class="p">):</span>
+                    <span class="n">new_out_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">formatted_output</span> <span class="o">=</span> <span class="n">new_out_lines</span>
+
+    <span class="k">return</span> <span class="n">_output_as_string</span><span class="p">(</span><span class="n">formatted_output</span><span class="p">,</span> <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">)</span>
+
+
+<span class="c1"># Ignore DeepSource cyclomatic complexity check for this function. It was</span>
+<span class="c1"># already complex when this check was enabled.</span>
+<span class="c1"># skipcq: PY-R1000</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_with_from_imports</span><span class="p">(</span>
+    <span class="n">parsed</span><span class="p">:</span> <span class="n">parse</span><span class="o">.</span><span class="n">ParsedContent</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">Config</span><span class="p">,</span>
+    <span class="n">from_modules</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">section</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">remove_imports</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">import_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">output</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">from_modules</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">remove_imports</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">import_start</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;from </span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">import_type</span><span class="si">}</span><span class="s2"> &quot;</span>
+        <span class="n">from_imports</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="s2">&quot;from&quot;</span><span class="p">][</span><span class="n">module</span><span class="p">])</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">no_inline_sort</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">force_single_line</span> <span class="ow">and</span> <span class="n">module</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">single_line_exclusions</span><span class="p">)</span>
+        <span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">only_sections</span><span class="p">:</span>
+            <span class="n">from_imports</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
+                <span class="n">config</span><span class="p">,</span>
+                <span class="n">from_imports</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">key</span><span class="p">:</span> <span class="n">sorting</span><span class="o">.</span><span class="n">module_key</span><span class="p">(</span>
+                    <span class="n">key</span><span class="p">,</span>
+                    <span class="n">config</span><span class="p">,</span>
+                    <span class="kc">True</span><span class="p">,</span>
+                    <span class="n">config</span><span class="o">.</span><span class="n">force_alphabetical_sort_within_sections</span><span class="p">,</span>
+                    <span class="n">section_name</span><span class="o">=</span><span class="n">section</span><span class="p">,</span>
+                <span class="p">),</span>
+                <span class="n">reverse</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">reverse_sort</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">remove_imports</span><span class="p">:</span>
+            <span class="n">from_imports</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">from_imports</span> <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">remove_imports</span>
+            <span class="p">]</span>
+
+        <span class="n">sub_modules</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">from_import</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">from_import</span> <span class="ow">in</span> <span class="n">from_imports</span><span class="p">]</span>
+        <span class="n">as_imports</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">from_import</span><span class="p">:</span> <span class="p">[</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">from_import</span><span class="si">}</span><span class="s2"> as </span><span class="si">{</span><span class="n">as_module</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">as_module</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">as_map</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">][</span><span class="n">sub_module</span><span class="p">]</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">from_import</span><span class="p">,</span> <span class="n">sub_module</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">from_imports</span><span class="p">,</span> <span class="n">sub_modules</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sub_module</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">as_map</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">]</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">combine_as_imports</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="s2">&quot;*&quot;</span> <span class="ow">in</span> <span class="n">from_imports</span> <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">combine_star</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">no_inline_sort</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">as_import</span> <span class="ow">in</span> <span class="n">as_imports</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">only_sections</span><span class="p">:</span>
+                        <span class="n">as_imports</span><span class="p">[</span><span class="n">as_import</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">as_imports</span><span class="p">[</span><span class="n">as_import</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">from_import</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">from_imports</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">from_import</span> <span class="ow">in</span> <span class="n">as_imports</span><span class="p">:</span>
+                    <span class="n">idx</span> <span class="o">=</span> <span class="n">from_imports</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">from_import</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="s2">&quot;from&quot;</span><span class="p">][</span><span class="n">module</span><span class="p">][</span><span class="n">from_import</span><span class="p">]:</span>
+                        <span class="n">from_imports</span><span class="p">[(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">:</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">as_imports</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">from_import</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">from_imports</span><span class="p">[</span><span class="n">idx</span> <span class="p">:</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">as_imports</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">from_import</span><span class="p">)</span>
+
+        <span class="n">only_show_as_imports</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">comments</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">())</span>
+        <span class="n">above_comments</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;above&quot;</span><span class="p">][</span><span class="s2">&quot;from&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">from_imports</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">above_comments</span><span class="p">:</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">above_comments</span><span class="p">)</span>
+                <span class="n">above_comments</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="s2">&quot;*&quot;</span> <span class="ow">in</span> <span class="n">from_imports</span> <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">combine_star</span><span class="p">:</span>
+                <span class="n">import_statement</span> <span class="o">=</span> <span class="n">wrap</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+                    <span class="n">with_comments</span><span class="p">(</span>
+                        <span class="n">_with_star_comments</span><span class="p">(</span><span class="n">parsed</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">comments</span> <span class="ow">or</span> <span class="p">())),</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">import_start</span><span class="si">}</span><span class="s2">*&quot;</span><span class="p">,</span>
+                        <span class="n">removed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ignore_comments</span><span class="p">,</span>
+                        <span class="n">comment_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="p">,</span>
+                    <span class="p">),</span>
+                    <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span>
+                    <span class="n">config</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">from_imports</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">from_import</span> <span class="k">for</span> <span class="n">from_import</span> <span class="ow">in</span> <span class="n">from_imports</span> <span class="k">if</span> <span class="n">from_import</span> <span class="ow">in</span> <span class="n">as_imports</span>
+                <span class="p">]</span>
+                <span class="n">only_show_as_imports</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">config</span><span class="o">.</span><span class="n">force_single_line</span> <span class="ow">and</span> <span class="n">module</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">single_line_exclusions</span><span class="p">:</span>
+                <span class="n">import_statement</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="k">while</span> <span class="n">from_imports</span><span class="p">:</span>
+                    <span class="n">from_import</span> <span class="o">=</span> <span class="n">from_imports</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">single_import_line</span> <span class="o">=</span> <span class="n">with_comments</span><span class="p">(</span>
+                        <span class="n">comments</span><span class="p">,</span>
+                        <span class="n">import_start</span> <span class="o">+</span> <span class="n">from_import</span><span class="p">,</span>
+                        <span class="n">removed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ignore_comments</span><span class="p">,</span>
+                        <span class="n">comment_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">comment</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;nested&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">from_import</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">comment</span><span class="p">:</span>
+                        <span class="n">single_import_line</span> <span class="o">+=</span> <span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">comments</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="s1">&#39;;&#39;</span><span class="p">)</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">comment</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">from_import</span> <span class="ow">in</span> <span class="n">as_imports</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                            <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="s2">&quot;from&quot;</span><span class="p">][</span><span class="n">module</span><span class="p">][</span><span class="n">from_import</span><span class="p">]</span>
+                            <span class="ow">and</span> <span class="ow">not</span> <span class="n">only_show_as_imports</span>
+                        <span class="p">):</span>
+                            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                <span class="n">wrap</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">single_import_line</span><span class="p">,</span> <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+                            <span class="p">)</span>
+                        <span class="n">from_comments</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;straight&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">from_import</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">only_sections</span><span class="p">:</span>
+                            <span class="n">output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                                <span class="n">with_comments</span><span class="p">(</span>
+                                    <span class="n">from_comments</span><span class="p">,</span>
+                                    <span class="n">wrap</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+                                        <span class="n">import_start</span> <span class="o">+</span> <span class="n">as_import</span><span class="p">,</span> <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span> <span class="n">config</span>
+                                    <span class="p">),</span>
+                                    <span class="n">removed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ignore_comments</span><span class="p">,</span>
+                                    <span class="n">comment_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="p">,</span>
+                                <span class="p">)</span>
+                                <span class="k">for</span> <span class="n">as_import</span> <span class="ow">in</span> <span class="n">sorting</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">as_imports</span><span class="p">[</span><span class="n">from_import</span><span class="p">])</span>
+                            <span class="p">)</span>
+
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                                <span class="n">with_comments</span><span class="p">(</span>
+                                    <span class="n">from_comments</span><span class="p">,</span>
+                                    <span class="n">wrap</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+                                        <span class="n">import_start</span> <span class="o">+</span> <span class="n">as_import</span><span class="p">,</span> <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span> <span class="n">config</span>
+                                    <span class="p">),</span>
+                                    <span class="n">removed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ignore_comments</span><span class="p">,</span>
+                                    <span class="n">comment_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="p">,</span>
+                                <span class="p">)</span>
+                                <span class="k">for</span> <span class="n">as_import</span> <span class="ow">in</span> <span class="n">as_imports</span><span class="p">[</span><span class="n">from_import</span><span class="p">]</span>
+                            <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wrap</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">single_import_line</span><span class="p">,</span> <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span> <span class="n">config</span><span class="p">))</span>
+                    <span class="n">comments</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">while</span> <span class="n">from_imports</span> <span class="ow">and</span> <span class="n">from_imports</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">as_imports</span><span class="p">:</span>
+                    <span class="n">from_import</span> <span class="o">=</span> <span class="n">from_imports</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">only_sections</span><span class="p">:</span>
+                        <span class="n">as_imports</span><span class="p">[</span><span class="n">from_import</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorting</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">as_imports</span><span class="p">[</span><span class="n">from_import</span><span class="p">])</span>
+                    <span class="n">from_comments</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;straight&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">from_import</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="s2">&quot;from&quot;</span><span class="p">][</span><span class="n">module</span><span class="p">][</span><span class="n">from_import</span><span class="p">]</span>
+                        <span class="ow">and</span> <span class="ow">not</span> <span class="n">only_show_as_imports</span>
+                    <span class="p">):</span>
+                        <span class="n">specific_comment</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;nested&quot;</span><span class="p">]</span>
+                            <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">{})</span>
+                            <span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">from_import</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="k">if</span> <span class="n">specific_comment</span><span class="p">:</span>
+                            <span class="n">from_comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">specific_comment</span><span class="p">)</span>
+                        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="n">wrap</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+                                <span class="n">with_comments</span><span class="p">(</span>
+                                    <span class="n">from_comments</span><span class="p">,</span>
+                                    <span class="n">import_start</span> <span class="o">+</span> <span class="n">from_import</span><span class="p">,</span>
+                                    <span class="n">removed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ignore_comments</span><span class="p">,</span>
+                                    <span class="n">comment_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="p">,</span>
+                                <span class="p">),</span>
+                                <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span>
+                                <span class="n">config</span><span class="p">,</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="n">from_comments</span> <span class="o">=</span> <span class="p">[]</span>
+
+                    <span class="k">for</span> <span class="n">as_import</span> <span class="ow">in</span> <span class="n">as_imports</span><span class="p">[</span><span class="n">from_import</span><span class="p">]:</span>
+                        <span class="n">specific_comment</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;nested&quot;</span><span class="p">]</span>
+                            <span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">{})</span>
+                            <span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">as_import</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="k">if</span> <span class="n">specific_comment</span><span class="p">:</span>
+                            <span class="n">from_comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">specific_comment</span><span class="p">)</span>
+
+                        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="n">wrap</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+                                <span class="n">with_comments</span><span class="p">(</span>
+                                    <span class="n">from_comments</span><span class="p">,</span>
+                                    <span class="n">import_start</span> <span class="o">+</span> <span class="n">as_import</span><span class="p">,</span>
+                                    <span class="n">removed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ignore_comments</span><span class="p">,</span>
+                                    <span class="n">comment_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="p">,</span>
+                                <span class="p">),</span>
+                                <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span>
+                                <span class="n">config</span><span class="p">,</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+
+                        <span class="n">from_comments</span> <span class="o">=</span> <span class="p">[]</span>
+
+                <span class="k">if</span> <span class="s2">&quot;*&quot;</span> <span class="ow">in</span> <span class="n">from_imports</span><span class="p">:</span>
+                    <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="n">with_comments</span><span class="p">(</span>
+                            <span class="n">_with_star_comments</span><span class="p">(</span><span class="n">parsed</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="p">[]),</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">import_start</span><span class="si">}</span><span class="s2">*&quot;</span><span class="p">,</span>
+                            <span class="n">removed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ignore_comments</span><span class="p">,</span>
+                            <span class="n">comment_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">from_imports</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">from_import</span> <span class="ow">in</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">from_imports</span><span class="p">):</span>
+                    <span class="n">comment</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;nested&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">from_import</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">comment</span><span class="p">:</span>
+                        <span class="c1"># If the comment is a noqa and hanging indent wrapping is used,</span>
+                        <span class="c1"># keep the name in the main list and hoist the comment to the statement.</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                            <span class="n">comment</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;noqa&quot;</span><span class="p">)</span>
+                            <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">multi_line_output</span> <span class="o">==</span> <span class="n">wrap</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">HANGING_INDENT</span>  <span class="c1"># type: ignore[attr-defined] # noqa: E501</span>
+                        <span class="p">):</span>
+                            <span class="n">comments</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">comments</span><span class="p">)</span> <span class="k">if</span> <span class="n">comments</span> <span class="k">else</span> <span class="p">[]</span>
+                            <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span>
+                            <span class="k">continue</span>
+
+                        <span class="n">from_imports</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">from_import</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">from_imports</span><span class="p">:</span>
+                            <span class="n">use_comments</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">use_comments</span> <span class="o">=</span> <span class="n">comments</span>
+                            <span class="n">comments</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="n">single_import_line</span> <span class="o">=</span> <span class="n">with_comments</span><span class="p">(</span>
+                            <span class="n">use_comments</span><span class="p">,</span>
+                            <span class="n">import_start</span> <span class="o">+</span> <span class="n">from_import</span><span class="p">,</span>
+                            <span class="n">removed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ignore_comments</span><span class="p">,</span>
+                            <span class="n">comment_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="n">single_import_line</span> <span class="o">+=</span> <span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="p">(</span><span class="n">use_comments</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="s1">&#39;;&#39;</span><span class="p">)</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">comment</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+                        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wrap</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">single_import_line</span><span class="p">,</span> <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span> <span class="n">config</span><span class="p">))</span>
+
+                <span class="n">from_import_section</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">while</span> <span class="n">from_imports</span> <span class="ow">and</span> <span class="p">(</span>
+                    <span class="n">from_imports</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">as_imports</span>
+                    <span class="ow">or</span> <span class="p">(</span>
+                        <span class="n">config</span><span class="o">.</span><span class="n">combine_as_imports</span>
+                        <span class="ow">and</span> <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="s2">&quot;from&quot;</span><span class="p">][</span><span class="n">module</span><span class="p">][</span><span class="n">from_import</span><span class="p">]</span>
+                    <span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="n">from_import_section</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">from_imports</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">combine_as_imports</span><span class="p">:</span>
+                    <span class="n">comments</span> <span class="o">=</span> <span class="p">(</span><span class="n">comments</span> <span class="ow">or</span> <span class="p">[])</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span>
+                        <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;from&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2">.__combined_as__&quot;</span><span class="p">,</span> <span class="p">())</span>
+                    <span class="p">)</span>
+                <span class="n">import_statement</span> <span class="o">=</span> <span class="n">with_comments</span><span class="p">(</span>
+                    <span class="n">comments</span><span class="p">,</span>
+                    <span class="n">import_start</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">from_import_section</span><span class="p">),</span>
+                    <span class="n">removed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ignore_comments</span><span class="p">,</span>
+                    <span class="n">comment_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">from_import_section</span><span class="p">:</span>
+                    <span class="n">import_statement</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+                <span class="n">do_multiline_reformat</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="n">force_grid_wrap</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">force_grid_wrap</span>
+                <span class="k">if</span> <span class="n">force_grid_wrap</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">from_import_section</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">force_grid_wrap</span><span class="p">:</span>
+                    <span class="n">do_multiline_reformat</span> <span class="o">=</span> <span class="kc">True</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">import_statement</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">config</span><span class="o">.</span><span class="n">line_length</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">from_import_section</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">do_multiline_reformat</span> <span class="o">=</span> <span class="kc">True</span>
+
+                <span class="c1"># If line too long AND have imports AND we are</span>
+                <span class="c1"># NOT using GRID or VERTICAL wrap modes</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">import_statement</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">config</span><span class="o">.</span><span class="n">line_length</span>
+                    <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">from_import_section</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                    <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">multi_line_output</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">wrap</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">GRID</span><span class="p">,</span> <span class="n">wrap</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>  <span class="c1"># type: ignore # noqa: E501</span>
+                <span class="p">):</span>
+                    <span class="n">do_multiline_reformat</span> <span class="o">=</span> <span class="kc">True</span>
+
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">import_statement</span>
+                    <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">split_on_trailing_comma</span>
+                    <span class="ow">and</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">trailing_commas</span>
+                <span class="p">):</span>
+                    <span class="n">import_statement</span> <span class="o">=</span> <span class="n">wrap</span><span class="o">.</span><span class="n">import_statement</span><span class="p">(</span>
+                        <span class="n">import_start</span><span class="o">=</span><span class="n">import_start</span><span class="p">,</span>
+                        <span class="n">from_imports</span><span class="o">=</span><span class="n">from_import_section</span><span class="p">,</span>
+                        <span class="n">comments</span><span class="o">=</span><span class="n">comments</span><span class="p">,</span>
+                        <span class="n">line_separator</span><span class="o">=</span><span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span>
+                        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+                        <span class="n">explode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">do_multiline_reformat</span><span class="p">:</span>
+                    <span class="n">import_statement</span> <span class="o">=</span> <span class="n">wrap</span><span class="o">.</span><span class="n">import_statement</span><span class="p">(</span>
+                        <span class="n">import_start</span><span class="o">=</span><span class="n">import_start</span><span class="p">,</span>
+                        <span class="n">from_imports</span><span class="o">=</span><span class="n">from_import_section</span><span class="p">,</span>
+                        <span class="n">comments</span><span class="o">=</span><span class="n">comments</span><span class="p">,</span>
+                        <span class="n">line_separator</span><span class="o">=</span><span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span>
+                        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">multi_line_output</span> <span class="o">==</span> <span class="n">wrap</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">GRID</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+                        <span class="n">other_import_statement</span> <span class="o">=</span> <span class="n">wrap</span><span class="o">.</span><span class="n">import_statement</span><span class="p">(</span>
+                            <span class="n">import_start</span><span class="o">=</span><span class="n">import_start</span><span class="p">,</span>
+                            <span class="n">from_imports</span><span class="o">=</span><span class="n">from_import_section</span><span class="p">,</span>
+                            <span class="n">comments</span><span class="o">=</span><span class="n">comments</span><span class="p">,</span>
+                            <span class="n">line_separator</span><span class="o">=</span><span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span>
+                            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+                            <span class="n">multi_line_output</span><span class="o">=</span><span class="n">wrap</span><span class="o">.</span><span class="n">Modes</span><span class="o">.</span><span class="n">VERTICAL_GRID</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+                        <span class="p">)</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                            <span class="nb">max</span><span class="p">(</span>
+                                <span class="nb">len</span><span class="p">(</span><span class="n">import_line</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="n">import_line</span> <span class="ow">in</span> <span class="n">import_statement</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">)</span>
+                            <span class="p">)</span>
+                            <span class="o">&gt;</span> <span class="n">config</span><span class="o">.</span><span class="n">line_length</span>
+                        <span class="p">):</span>
+                            <span class="n">import_statement</span> <span class="o">=</span> <span class="n">other_import_statement</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">import_statement</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">config</span><span class="o">.</span><span class="n">line_length</span><span class="p">:</span>
+                    <span class="n">import_statement</span> <span class="o">=</span> <span class="n">wrap</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">import_statement</span><span class="p">,</span> <span class="n">parsed</span><span class="o">.</span><span class="n">line_separator</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">import_statement</span><span class="p">:</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">import_statement</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_with_straight_imports</span><span class="p">(</span>
+    <span class="n">parsed</span><span class="p">:</span> <span class="n">parse</span><span class="o">.</span><span class="n">ParsedContent</span><span class="p">,</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">Config</span><span class="p">,</span>
+    <span class="n">straight_modules</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">section</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">remove_imports</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">import_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">output</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">as_imports</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">module</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">as_map</span><span class="p">[</span><span class="s2">&quot;straight&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">straight_modules</span><span class="p">)</span>
+
+    <span class="c1"># combine_straight_imports only works for bare imports, &#39;as&#39; imports not included</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">combine_straight_imports</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">as_imports</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">straight_modules</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="n">above_comments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">inline_comments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">straight_modules</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;above&quot;</span><span class="p">][</span><span class="s2">&quot;straight&quot;</span><span class="p">]:</span>
+                <span class="n">above_comments</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;above&quot;</span><span class="p">][</span><span class="s2">&quot;straight&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">module</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;straight&quot;</span><span class="p">]:</span>
+                <span class="n">inline_comments</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;straight&quot;</span><span class="p">][</span><span class="n">module</span><span class="p">])</span>
+
+        <span class="n">combined_straight_imports</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">straight_modules</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">inline_comments</span><span class="p">:</span>
+            <span class="n">combined_inline_comments</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">inline_comments</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">combined_inline_comments</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="n">output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">above_comments</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">combined_inline_comments</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">import_type</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">combined_straight_imports</span><span class="si">}</span><span class="s2">  # </span><span class="si">{</span><span class="n">combined_inline_comments</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">import_type</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">combined_straight_imports</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">straight_modules</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">remove_imports</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">import_definition</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">as_map</span><span class="p">[</span><span class="s2">&quot;straight&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">parsed</span><span class="o">.</span><span class="n">imports</span><span class="p">[</span><span class="n">section</span><span class="p">][</span><span class="s2">&quot;straight&quot;</span><span class="p">][</span><span class="n">module</span><span class="p">]:</span>
+                <span class="n">import_definition</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">import_type</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">module</span><span class="p">))</span>
+            <span class="n">import_definition</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">import_type</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2"> as </span><span class="si">{</span><span class="n">as_import</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2"> as </span><span class="si">{</span><span class="n">as_import</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">as_import</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">as_map</span><span class="p">[</span><span class="s2">&quot;straight&quot;</span><span class="p">][</span><span class="n">module</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">import_definition</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">import_type</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">module</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">module</span><span class="p">))</span>
+
+        <span class="n">comments_above</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;above&quot;</span><span class="p">][</span><span class="s2">&quot;straight&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">comments_above</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">comments_above</span><span class="p">)</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="n">with_comments</span><span class="p">(</span>
+                <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;straight&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">imodule</span><span class="p">),</span>
+                <span class="n">idef</span><span class="p">,</span>
+                <span class="n">removed</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">ignore_comments</span><span class="p">,</span>
+                <span class="n">comment_prefix</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">comment_prefix</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">idef</span><span class="p">,</span> <span class="n">imodule</span> <span class="ow">in</span> <span class="n">import_definition</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_output_as_string</span><span class="p">(</span><span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">line_separator</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">line_separator</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_normalize_empty_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_normalize_empty_lines</span><span class="p">(</span><span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">while</span> <span class="n">lines</span> <span class="ow">and</span> <span class="n">lines</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lines</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_LineWithComments</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+    <span class="n">comments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="s2">&quot;_LineWithComments&quot;</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">comments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;_LineWithComments&quot;</span><span class="p">:</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">comments</span> <span class="o">=</span> <span class="n">comments</span>
+        <span class="k">return</span> <span class="n">instance</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ensure_newline_before_comment</span><span class="p">(</span><span class="n">output</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">new_output</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_comment</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">line</span> <span class="k">else</span> <span class="kc">False</span>
+
+    <span class="k">for</span> <span class="n">line</span><span class="p">,</span> <span class="n">prev_line</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">output</span><span class="p">],</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">is_comment</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">and</span> <span class="n">prev_line</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_comment</span><span class="p">(</span><span class="n">prev_line</span><span class="p">):</span>
+            <span class="n">new_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">new_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_output</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_with_star_comments</span><span class="p">(</span><span class="n">parsed</span><span class="p">:</span> <span class="n">parse</span><span class="o">.</span><span class="n">ParsedContent</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">comments</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">star_comment</span> <span class="o">=</span> <span class="n">parsed</span><span class="o">.</span><span class="n">categorized_comments</span><span class="p">[</span><span class="s2">&quot;nested&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">star_comment</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="n">comments</span><span class="p">,</span> <span class="n">star_comment</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">comments</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-01-29 20:57:58.230397</p>
+</footer>
+</body>
+</html>

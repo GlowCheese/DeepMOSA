@@ -5668,3 +5668,58 @@ def test_case_0():
 
 
 
+# Parsed testcases at query #58
+#--------------------------
+
+# Partially parsed test_error_wrapper_predicate_false. Retrieved 2/6 statements.
+
+
+def test_case_0():
+    var_0 = 'test error'
+    var_1 = ValueError(var_0)
+
+
+
+# Parsed testcases at query #59
+#--------------------------
+
+
+
+
+import flutes.run as module_0
+
+def test_case_0():
+    var_0 = 'test error'
+    var_1 = ValueError(var_0)
+    var_2 = module_0.error_wrapper(var_1)
+    var_3 = bool(var_2 is var_1)
+    assert var_3 is True
+
+
+
+# Parsed testcases at query #60
+#--------------------------
+
+# Partially parsed test_error_wrapper_predicate_false. Retrieved 2/6 statements.
+
+
+def test_case_0():
+    var_0 = 'test error'
+    var_1 = ValueError(var_0)
+
+
+
+# Parsed testcases at query #61
+#--------------------------
+
+# Partially parsed test_unicode_decode_error_handling. Retrieved 4/9 statements.
+
+
+def test_case_0():
+    var_0 = "echo 'test'"
+    var_1 = True
+    var_2 = b'\x80abc'
+    var_3 = 'utf-8'
+
+
+

@@ -2958,3 +2958,42 @@ def test_run_command_nonzero_returncode():
     assert result.captured_output == b""
 
 
+# LLM-generated content at query #58
+#--------------------------
+
+```python
+def test_error_wrapper_predicate_false():
+    err = ValueError("test error")
+    assert not isinstance(err, (subprocess.CalledProcessError, subprocess.TimeoutExpired))
+
+
+# LLM-generated content at query #59
+#--------------------------
+
+```python
+def test_error_wrapper_returns_non_subprocess_exception_unchanged():
+    err = ValueError("test error")
+    assert error_wrapper(err) is err
+
+
+# LLM-generated content at query #60
+#--------------------------
+
+```python
+def test_error_wrapper_predicate_false():
+    err = ValueError("test error")
+    assert not isinstance(err, (subprocess.CalledProcessError, subprocess.TimeoutExpired))
+
+
+# LLM-generated content at query #61
+#--------------------------
+
+```python
+def test_unicode_decode_error_handling():
+    args = "echo 'test'"
+    ret = subprocess.run(args, check=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    output = b'\x80abc'
+    assert isinstance(output, bytes)
+    assert output.decode('utf-8') == UnicodeDecodeError
+
+

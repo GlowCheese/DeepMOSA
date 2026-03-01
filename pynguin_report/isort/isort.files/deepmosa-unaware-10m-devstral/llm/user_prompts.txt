@@ -1,0 +1,4954 @@
+####################################################################
+#     TEST GENERATION BEGINS (DEEPMOSA + devstral-2512 t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #36
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #37
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #38
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #39
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #40
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #41
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #42
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #43
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #44
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #45
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #46
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #47
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #48
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #49
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #50
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #51
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #52
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #53
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #54
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+####################################################################
+#     TEST GENERATION BEGINS (DEEPMOSA + devstral-2512 t=0.8)      #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #36
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #37
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #38
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #39
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #40
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #41
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #42
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #43
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #44
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #45
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #46
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #47
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #48
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+
+# Prompt used at query #49
+#--------------------------
+
+import os
+from collections.abc import Iterable, Iterator
+from pathlib import Path
+
+from isort.settings import Config
+
+
+def find(
+    paths: Iterable[str], config: Config, skipped: list[str], broken: list[str]
+) -> Iterator[str]:
+    """Finds and provides an iterator for all Python source files defined in paths."""
+    visited_dirs: set[Path] = set()
+
+    for path in paths:
+        if os.path.isdir(path):
+            for dirpath, dirnames, filenames in os.walk(
+                path, topdown=True, followlinks=config.follow_links
+            ):
+                base_path = Path(dirpath)
+                for dirname in list(dirnames):
+                    full_path = base_path / dirname
+                    resolved_path = full_path.resolve()
+                    if config.is_skipped(full_path):
+                        skipped.append(str(full_path))
+                        dirnames.remove(dirname)
+                    else:
+                        if resolved_path in visited_dirs:  # pragma: no cover
+                            dirnames.remove(dirname)
+                    visited_dirs.add(resolved_path)
+
+                for filename in filenames:
+                    filepath = os.path.join(dirpath, filename)
+                    if config.is_supported_filetype(filepath):
+                        if config.is_skipped(Path(os.path.abspath(filepath))):
+                            skipped.append(os.path.abspath(filepath))
+                        else:
+                            yield filepath
+        elif not os.path.exists(path):
+            broken.append(path)
+        else:
+            yield path
+
+Write unit test with pytest for function find with the following signature: `def test_find():`
+
+

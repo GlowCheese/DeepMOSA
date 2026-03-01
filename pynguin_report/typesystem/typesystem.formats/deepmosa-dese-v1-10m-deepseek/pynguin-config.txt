@@ -66,9 +66,8 @@
  'random_test_or_from_archive_probability=0.0, number_of_mutations=10), '
  'exploitation_starts_at_percent=0.5), '
  'random=RandomConfiguration(max_sequence_length=10, '
- 'max_sequences_combined=10), '
- "llm=LLMConfiguration(model='deepseek/deepseek-chat', temperature=0.8, "
- "base_url='https://openrouter.ai/api/v1', max_tokens=2048), "
+ "max_sequences_combined=10), llm=LLMConfiguration(model='deepseek-chat', "
+ "temperature=0.8, base_url='https://api.deepseek.com', max_tokens=2048), "
  'codamosa=CodaMosaConfiguration(max_plateau_len=25, num_seeds_to_inject=5, '
  "test_case_context=<TestCaseContext.NONE: 'NONE'>, "
  'target_low_coverage_functions=True), '

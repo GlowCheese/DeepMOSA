@@ -16,3 +16,5 @@ isort.stdlibs.py314
 isort.sections
 isort.profiles
 isort.logo
+isort.io
+isort.main

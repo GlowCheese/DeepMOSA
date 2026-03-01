@@ -1,2613 +1,3556 @@
-# LLM-generated content at query #5
-#--------------------------
-
-# Unit test for method __new__ of class CheckedPSet
-def test_CheckedPSet___new__(): 
-    # Test with an empty initial set
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    s = MySet()
-    assert isinstance(s, MySet)
-    assert len(s) == 0
-
-    # Test with a non-empty initial set
-    s = MySet([1, 2, 3])
-    assert isinstance(s, MySet)
-    assert len(s) == 3
-    assert 1 in s
-    assert 2 in s
-    assert 3 in s
-
-    # Test with a set that already is a PMap
-    from pyrsistent import pmap
-    m = pmap({1: True, 2: True})
-    s = MySet(m)
-    assert isinstance(s, MySet)
-    assert len(s) == 2
-    assert 1 in s
-    assert 2 in s
-
-    # Test with a set that violates the type constraint
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    try:
-        s = MySet([1, 'a', 3])
-        assert False, "Expected CheckedValueTypeError"
-    except CheckedValueTypeError as e:
-        assert e.expected_types == (int,)
-        assert e.actual_type == str
-
-    # Test with a set that violates the invariant
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-        __invariant__ = lambda x: (x > 0, 'Negative')
-    try:
-        s = MySet([1, -2, 3])
-        assert False, "Expected InvariantException"
-    except InvariantException as e:
-        assert e.invariant_errors == ('Negative',)
-
-    # Test with a set that satisfies both type and invariant constraints
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-        __invariant__ = lambda x: (x > 0, 'Negative')
-    s = MySet([1, 2, 3])
-    assert isinstance(s, MySet)
-    assert len(s) == 3
-    assert 1 in s
-    assert 2 in s
-    assert 3 in s
-
-    # Test with a set that is already of the correct type
-    s1 = MySet([1, 2, 3])
-    s2 = MySet(s1)
-    assert s1 is s2
-
-    # Test with a set that is not of the correct type but can be converted
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    s = MySet([1.0, 2.0, 3.0])
-    assert isinstance(s, MySet)
-    assert len(s) == 3
-    assert 1 in s
-    assert 2 in s
-    assert 3 in s
-
-    # Test with a set that is not of the correct type and cannot be converted
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    try:
-        s = MySet(['a', 'b', 'c'])
-        assert False, "Expected CheckedValueTypeError"
-    except CheckedValueTypeError as e:
-        assert e.expected_types == (int,)
-        assert e.actual_type == str
-
-    # Test with a set that is not of the correct type but can be converted using create
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    s = MySet.create([1.0, 2.0, 3.0])
-    assert isinstance(s, MySet)
-    assert len(s) == 3
-    assert 1 in s
-    assert 2 in s
-    assert 3 in s
-
-    # Test with a set that is not of the correct type and cannot be converted using create
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    try:
-        s = MySet.create(['a', 'b', 'c'])
-        assert False, "Expected CheckedValueTypeError"
-    except CheckedValueTypeError as e:
-        assert e.expected_types == (int,)
-        assert e.actual_type == str
-
-    # Test with a set that is not of the correct type but can be converted using create with ignore_extra
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    s = MySet.create([1.0, 2.0, 3.0], ignore_extra=True)
-    assert isinstance(s, MySet)
-    assert len(s) == 3
-    assert 1 in s
-    assert 2 in s
-    assert 3 in s
-
-    # Test with a set that is not of the correct type and cannot be converted using create with ignore_extra
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    try:
-        s = MySet.create(['a', 'b', 'c'], ignore_extra=True)
-        assert False, "Expected CheckedValueTypeError"
-    except CheckedValueTypeError as e:
-        assert e.expected_types == (int,)
-        assert e.actual_type == str
-
-    # Test with a set that is not of the correct type but can be converted using create with _factory_fields
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    s = MySet.create([1.0, 2.0, 3.0], _factory_fields=set())
-    assert isinstance(s, MySet)
-    assert len(s) == 3
-    assert 1 in s
-    assert 2 in s
-    assert 3 in s
-
-    # Test with a set that is not of the correct type and cannot be converted using create with _factory_fields
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    try:
-        s = MySet.create(['a', 'b', 'c'], _factory_fields=set())
-        assert False, "Expected CheckedValueTypeError"
-    except CheckedValueTypeError as e:
-        assert e.expected_types == (int,)
-        assert e.actual_type == str
-
-    # Test with a set that is not of the correct type but can be converted using create with ignore_extra and _factory_fields
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    s = MySet.create([1.0, 2.0, 3.0], ignore_extra=True, _factory_fields=set())
-    assert isinstance(s, MySet)
-    assert len(s) == 3
-    assert 1 in s
-    assert 2 in s
-    assert 3 in s
-
-    # Test with a set that is not of the correct type and cannot be converted using create with ignore_extra and _factory_fields
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-    try:
-        s = MySet.create(['a', 'b', 'c'], ignore_extra=True, _factory_fields=set())
-        assert False, "Expected CheckedValueTypeError"
-    except CheckedValueTypeError as e:
-        assert e.expected_types == (int,)
-        assert e.actual_type == str
-
-    # Test with a set that is not of the correct type but can be converted using create with ignore_extra and _factory_fields and a custom serializer
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-        __serializer__ = lambda format, value: value
-    s = MySet.create([1.0, 2.0, 3.0], ignore_extra=True, _factory_fields=set())
-    assert isinstance(s, MySet)
-    assert len(s) == 3
-    assert 1 in s
-    assert 2 in s
-    assert 3 in s
-
-    # Test with a set that is not of the correct type and cannot be converted using create with ignore_extra and _factory_fields and a custom serializer
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-        __serializer__ = lambda format, value: value
-    try:
-        s = MySet.create(['a', 'b', 'c'], ignore_extra=True, _factory_fields=set())
-        assert False, "Expected CheckedValueTypeError"
-    except CheckedValueTypeError as e:
-        assert e.expected_types == (int,)
-        assert e.actual_type == str
-
-    # Test with a set that is not of the correct type but can be converted using create with ignore_extra and _factory_fields and a custom serializer that returns a different type
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-        __serializer__ = lambda format, value: str(value)
-    s = MySet.create([1.0, 2.0, 3.0], ignore_extra=True, _factory_fields=set())
-    assert isinstance(s, MySet)
-    assert len(s) == 3
-    assert '1.0' in s
-    assert '2.0' in s
-    assert '3.0' in s
-
-    # Test with a set that is not of the correct type and cannot be converted using create with ignore_extra and _factory_fields and a custom serializer that returns a different type
-    class MySet(CheckedPSet):
-        __type__ = (int,)
-        __serializer__ = lambda format, value: str(value)
-
-
-
-# LLM-generated content at query #6
-#--------------------------
-
-# Unit test for function get_type
-def test_get_type(): 
-    # Test with a built-in type
-    assert get_type(int) == int
-    
-    # Test with a string representation of a built-in type
-    # This requires the type to be accessible via __builtins__ or similar
-    # Since int is a built-in, we can test with 'int' as string
-    # Note: This might not work as expected because get_type expects a fully qualified name
-    # Let's adjust the test to use a type from a known module
-    import collections
-    assert get_type('collections.OrderedDict') == collections.OrderedDict
-    
-    # Test with a custom class in the current module
-    class CustomClass:
-        pass
-    # Assuming CustomClass is defined in the current module, we need its fully qualified name
-    # Since we don't know the module name in advance, we'll skip this test for now
-    # Alternatively, we can use __name__ to get the current module
-    import sys
-    module_name = __name__
-    type_name = f"{module_name}.CustomClass"
-    # This will fail because CustomClass is not in sys.modules under the test module name
-    # So we'll skip this test
-    print("All tests passed!")
-
-test_get_type()
-
-
-
-# LLM-generated content at query #7
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-
-
-# LLM-generated content at query #8
-#--------------------------
-
-# Unit test for method serialize of class CheckedPSet
-def test_CheckedPSet_serialize():
-
-
-# LLM-generated content at query #9
-#--------------------------
-
-# Unit test for method serialize of class CheckedPSet
-def test_CheckedPSet_serialize():
-
-
-# LLM-generated content at query #10
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant(): 
-    # Test case 1: invariant returns a single boolean outcome
-    def invariant_single_bool(value):
-        return value > 0, "Value must be positive"
-    
-    wrapped = wrap_invariant(invariant_single_bool)
-    assert wrapped(5) == (True, "Value must be positive")
-    assert wrapped(-1) == (False, "Value must be positive")
-    
-    # Test case 2: invariant returns multiple outcomes
-    def invariant_multiple_outcomes(value):
-        return [(value > 0, "Positive"), (value % 2 == 0, "Even")]
-    
-    wrapped = wrap_invariant(invariant_multiple_outcomes)
-    assert wrapped(4) == (True, (("Positive",), ("Even",)))
-    assert wrapped(3) == (False, (("Positive",), ()))
-    assert wrapped(-2) == (False, ((), ("Even",)))
-    
-    # Test case 3: invariant returns a tuple with boolean and data
-    def invariant_tuple_outcome(value):
-        return (value > 0, "Positive")
-    
-    wrapped = wrap_invariant(invariant_tuple_outcome)
-    assert wrapped(5) == (True, "Positive")
-    assert wrapped(-1) == (False, "Positive")
-    
-    print("All tests passed!")
-
-# Run the unit test
-test_wrap_invariant()
-
-
-# LLM-generated content at query #11
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant(): 
-    def invariant_single(x): 
-        return x > 0, "must be positive" 
-    wrapped = wrap_invariant(invariant_single) 
-    assert wrapped(5) == (True, "must be positive") 
-    assert wrapped(-1) == (False, "must be positive") 
-    def invariant_multiple(x): 
-        return [(x > 0, "positive"), (x % 2 == 0, "even")] 
-    wrapped = wrap_invariant(invariant_multiple) 
-    assert wrapped(4) == (True, ()) 
-    assert wrapped(3) == (False, ("even",)) 
-    assert wrapped(-2) == (False, ("positive",)) 
-    assert wrapped(-1) == (False, ("positive", "even")) 
-    print("All tests passed.") 
-test_wrap_invariant()
-
-
-# LLM-generated content at query #12
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant(): 
-    def invariant1(x): 
-        return (x > 0, "positive") 
-    def invariant2(x): 
-        return [(x > 0, "positive"), (x < 10, "less than 10")] 
-    wrapped1 = wrap_invariant(invariant1) 
-    wrapped2 = wrap_invariant(invariant2) 
-    assert wrapped1(5) == (True, "positive") 
-    assert wrapped1(-5) == (False, "positive") 
-    assert wrapped2(5) == (True, ("positive", "less than 10")) 
-    assert wrapped2(15) == (False, ("positive", "less than 10")) 
-    print("All tests passed.") 
-test_wrap_invariant()
-
-
-# LLM-generated content at query #13
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant(): 
-    def invariant1(x): 
-        return (x > 0, "positive") 
-    def invariant2(x): 
-        return (x % 2 == 0, "even") 
-    def invariant3(x): 
-        return ((x > 0, "positive"), (x % 2 == 0, "even")) 
-    wrapped1 = wrap_invariant(invariant1) 
-    wrapped2 = wrap_invariant(invariant2) 
-    wrapped3 = wrap_invariant(invariant3) 
-    assert wrapped1(5) == (True, "positive") 
-    assert wrapped1(-5) == (False, "positive") 
-    assert wrapped2(4) == (True, "even") 
-    assert wrapped2(3) == (False, "even") 
-    assert wrapped3(5) == (False, ("positive", "even")) 
-    assert wrapped3(4) == (True, ("positive", "even")) 
-    print("All tests passed") 
-test_wrap_invariant()
-
-
-# LLM-generated content at query #14
-#--------------------------
-
-# Unit test for method __str__ of class InvariantException
-def test_InvariantException___str__():
-
-
-# LLM-generated content at query #15
-#--------------------------
-
-# Unit test for method __str__ of class InvariantException
-def test_InvariantException___str__(): 
-    # Test with no arguments
-    e = InvariantException()
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes
-    e = InvariantException(error_codes=[1, 2, 3])
-    assert str(e) == ", invariant_errors=[1, 2, 3], missing_fields=[]"
-    
-    # Test with missing_fields
-    e = InvariantException(missing_fields=['a', 'b'])
-    assert str(e) == ", invariant_errors=[], missing_fields=[a, b]"
-    
-    # Test with both error_codes and missing_fields
-    e = InvariantException(error_codes=[1, 2, 3], missing_fields=['a', 'b'])
-    assert str(e) == ", invariant_errors=[1, 2, 3], missing_fields=[a, b]"
-    
-    # Test with callable error_codes
-    e = InvariantException(error_codes=[lambda: 1, lambda: 2])
-    assert str(e) == ", invariant_errors=[1, 2], missing_fields=[]"
-    
-    # Test with both callable and non-callable error_codes
-    e = InvariantException(error_codes=[lambda: 1, 2])
-    assert str(e) == ", invariant_errors=[1, 2], missing_fields=[]"
-    
-    # Test with empty error_codes and missing_fields
-    e = InvariantException(error_codes=[], missing_fields=[])
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as tuples
-    e = InvariantException(error_codes=(1, 2, 3), missing_fields=('a', 'b'))
-    assert str(e) == ", invariant_errors=[1, 2, 3], missing_fields=[a, b]"
-    
-    # Test with error_codes and missing_fields as sets
-    e = InvariantException(error_codes={1, 2, 3}, missing_fields={'a', 'b'})
-    assert str(e) == ", invariant_errors=[1, 2, 3], missing_fields=[a, b]"
-    
-    # Test with error_codes and missing_fields as generators
-    e = InvariantException(error_codes=(x for x in [1, 2, 3]), missing_fields=(x for x in ['a', 'b']))
-    assert str(e) == ", invariant_errors=[1, 2, 3], missing_fields=[a, b]"
-    
-    # Test with error_codes and missing_fields as empty generators
-    e = InvariantException(error_codes=(x for x in []), missing_fields=(x for x in []))
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty sets
-    e = InvariantException(error_codes=set(), missing_fields=set())
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty tuples
-    e = InvariantException(error_codes=(), missing_fields=())
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty lists
-    e = InvariantException(error_codes=[], missing_fields=[])
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty dicts
-    e = InvariantException(error_codes={}, missing_fields={})
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty strings
-    e = InvariantException(error_codes='', missing_fields='')
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty bytes
-    e = InvariantException(error_codes=b'', missing_fields=b'')
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty bytearray
-    e = InvariantException(error_codes=bytearray(), missing_fields=bytearray())
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty memoryview
-    e = InvariantException(error_codes=memoryview(b''), missing_fields=memoryview(b''))
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty range
-    e = InvariantException(error_codes=range(0), missing_fields=range(0))
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty zip
-    e = InvariantException(error_codes=zip(), missing_fields=zip())
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty map
-    e = InvariantException(error_codes=map(lambda x: x, []), missing_fields=map(lambda x: x, []))
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty filter
-    e = InvariantException(error_codes=filter(lambda x: x, []), missing_fields=filter(lambda x: x, []))
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty enumerate
-    e = InvariantException(error_codes=enumerate([]), missing_fields=enumerate([]))
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty reversed
-    e = InvariantException(error_codes=reversed([]), missing_fields=reversed([]))
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty slice
-    e = InvariantException(error_codes=slice(0), missing_fields=slice(0))
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty complex
-    e = InvariantException(error_codes=complex(), missing_fields=complex())
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty float
-    e = InvariantException(error_codes=float(), missing_fields=float())
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty int
-    e = InvariantException(error_codes=int(), missing_fields=int())
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty bool
-    e = InvariantException(error_codes=bool(), missing_fields=bool())
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty None
-    e = InvariantException(error_codes=None, missing_fields=None)
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty object
-    e = InvariantException(error_codes=object(), missing_fields=object())
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty type
-    e = InvariantException(error_codes=type, missing_fields=type)
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty function
-    e = InvariantException(error_codes=lambda: None, missing_fields=lambda: None)
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty class
-    e = InvariantException(error_codes=InvariantException, missing_fields=InvariantException)
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty module
-    e = InvariantException(error_codes=__import__('sys'), missing_fields=__import__('sys'))
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty property
-    e = InvariantException(error_codes=property(), missing_fields=property())
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty staticmethod
-    e = InvariantException(error_codes=staticmethod(lambda: None), missing_fields=staticmethod(lambda: None))
-    assert str(e) == ", invariant_errors=[], missing_fields=[]"
-    
-    # Test with error_codes and missing_fields as empty classmethod
-    e = InvariantException(error_codes=classmethod(lambda: None), missing_fields=classmethod(lambda: None))
-    assert str(e) == ", invariant_errors=[
-
-
-# LLM-generated content at query #16
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant(): 
-    def invariant1(x): 
-        return x > 0, "must be positive" 
-    wrapped = wrap_invariant(invariant1) 
-    assert wrapped(5) == (True, "must be positive") 
-    assert wrapped(-1) == (False, "must be positive") 
-    def invariant2(x): 
-        return [(x > 0, "positive"), (x % 2 == 0, "even")] 
-    wrapped2 = wrap_invariant(invariant2) 
-    assert wrapped2(4) == (True, ("positive", "even")) 
-    assert wrapped2(3) == (False, ("positive",)) 
-    assert wrapped2(-2) == (False, ("even",)) 
-    print("All tests passed.") 
-test_wrap_invariant()
-
-
-# LLM-generated content at query #17
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant(): 
-    # Test case 1: invariant returns a single boolean outcome
-    def invariant_single_bool(value):
-        return value > 0, "Value must be positive"
-    
-    wrapped = wrap_invariant(invariant_single_bool)
-    assert wrapped(5) == (True, "Value must be positive")
-    assert wrapped(-1) == (False, "Value must be positive")
-    
-    # Test case 2: invariant returns multiple outcomes
-    def invariant_multiple_outcomes(value):
-        return [(value > 0, "Positive"), (value % 2 == 0, "Even")]
-    
-    wrapped = wrap_invariant(invariant_multiple_outcomes)
-    assert wrapped(4) == (True, ())
-    assert wrapped(3) == (False, ("Even",))
-    assert wrapped(-2) == (False, ("Positive",))
-    assert wrapped(-1) == (False, ("Positive", "Even"))
-    
-    # Test case 3: invariant returns a tuple with boolean and data
-    def invariant_tuple_bool_data(value):
-        return (value > 0, "Positive check failed")
-    
-    wrapped = wrap_invariant(invariant_tuple_bool_data)
-    assert wrapped(5) == (True, "Positive check failed")
-    assert wrapped(-5) == (False, "Positive check failed")
-    
-    print("All tests passed!")
-
-# Run the unit test
-test_wrap_invariant()
-
-
-# LLM-generated content at query #18
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant(): 
-    def invariant1(x): 
-        return x > 0, "x must be positive" 
-    wrapped_invariant1 = wrap_invariant(invariant1) 
-    assert wrapped_invariant1(5) == (True, "x must be positive") 
-    assert wrapped_invariant1(-5) == (False, "x must be positive") 
-    def invariant2(x): 
-        return [(x > 0, "x must be positive"), (x < 10, "x must be less than 10")] 
-    wrapped_invariant2 = wrap_invariant(invariant2) 
-    assert wrapped_invariant2(5) == (True, ()) 
-    assert wrapped_invariant2(-5) == (False, ("x must be positive",)) 
-    assert wrapped_invariant2(15) == (False, ("x must be less than 10",)) 
-    print("All tests passed.") 
-test_wrap_invariant()
-
-
-# LLM-generated content at query #19
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant(): 
-    # Test case 1: Invariant returns a single boolean outcome
-    def invariant_single_bool(value):
-        return value > 0, "Value must be positive"
-    
-    wrapped = wrap_invariant(invariant_single_bool)
-    assert wrapped(5) == (True, "Value must be positive")
-    assert wrapped(-1) == (False, "Value must be positive")
-    
-    # Test case 2: Invariant returns multiple outcomes that need merging
-    def invariant_multiple_outcomes(value):
-        # Simulate multiple checks
-        checks = [(value > 0, "Positive"), (value % 2 == 0, "Even")]
-        return checks
-    
-    wrapped = wrap_invariant(invariant_multiple_outcomes)
-    # Both conditions true
-    assert wrapped(4) == (True, ())
-    # First true, second false
-    result = wrapped(3)
-    assert result[0] == False
-    assert len(result[1]) == 1
-    assert result[1][0] == "Even"
-    # Both false
-    result = wrapped(-2)
-    assert result[0] == False
-    assert len(result[1]) == 2
-    
-    # Test case 3: Nested structure (list of tuples)
-    def invariant_nested(value):
-        return [(value > 0, "Positive"), [(value < 10, "Less than 10"), (value != 5, "Not five")]]
-    
-    wrapped = wrap_invariant(invariant_nested)
-    # This should handle nested structures by flattening during merge
-    result = wrapped(12)
-    assert result[0] == False
-    # Should have collected "Less than 10" failure
-    
-    print("All wrap_invariant tests passed!")
-
-# Run the test
-test_wrap_invariant()
-
-
-# LLM-generated content at query #20
-#--------------------------
-
-# Unit test for function maybe_parse_user_type
-def test_maybe_parse_user_type(): 
-    # Test with a single type
-    assert maybe_parse_user_type(int) == [int]
-    # Test with a string
-    assert maybe_parse_user_type("int") == ["int"]
-    # Test with an Enum subclass
-    class Color(Enum):
-        RED = 1
-        GREEN = 2
-        BLUE = 3
-    assert maybe_parse_user_type(Color) == [Color]
-    # Test with an iterable of types
-    assert maybe_parse_user_type([int, str]) == (int, str)
-    # Test with nested iterables
-    assert maybe_parse_user_type([int, [str, float]]) == (int, str, float)
-    # Test with invalid input (should raise TypeError)
-    try:
-        maybe_parse_user_type(123)
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError for non-type, non-string, non-iterable input"
-    print("All tests passed!")
-
-# Run the unit test
-test_maybe_parse_user_type()
-
-
-# LLM-generated content at query #21
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant(): 
-    def invariant_single(x): 
-        return x > 0, "x must be positive" 
-    def invariant_multiple(x): 
-        return [(x > 0, "x must be positive"), (x < 10, "x must be less than 10")] 
-    wrapped_single = wrap_invariant(invariant_single) 
-    wrapped_multiple = wrap_invariant(invariant_multiple) 
-    assert wrapped_single(5) == (True, "x must be positive") 
-    assert wrapped_single(-5) == (False, "x must be positive") 
-    assert wrapped_multiple(5) == (True, ("x must be positive", "x must be less than 10")) 
-    assert wrapped_multiple(15) == (False, ("x must be positive", "x must be less than 10")) 
-    print("All tests passed!") 
-test_wrap_invariant()
-
-
-# LLM-generated content at query #22
-#--------------------------
-
-# Unit test for function maybe_parse_user_type
-def test_maybe_parse_user_type(): 
-    # Test with a single type
-    assert maybe_parse_user_type(int) == [int]
-    # Test with a string
-    assert maybe_parse_user_type("int") == ["int"]
-    # Test with an Enum subclass (preserved type)
-    class Color(Enum):
-        RED = 1
-        GREEN = 2
-        BLUE = 3
-    assert maybe_parse_user_type(Color) == [Color]
-    # Test with an iterable of types
-    assert maybe_parse_user_type([int, str]) == (int, str)
-    # Test with nested iterables
-    assert maybe_parse_user_type([(int, str), float]) == (int, str, float)
-    # Test with a string in an iterable
-    assert maybe_parse_user_type(["int", "str"]) == ("int", "str")
-    # Test with an invalid type (should raise TypeError)
-    try:
-        maybe_parse_user_type(123)
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError"
-    print("All tests passed!")
-
-test_maybe_parse_user_type()
-
-
-# LLM-generated content at query #23
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant(): 
-    def invariant_single(x): 
-        return x > 0, "must be positive" 
-    wrapped = wrap_invariant(invariant_single) 
-    assert wrapped(5) == (True, "must be positive") 
-    assert wrapped(-1) == (False, "must be positive") 
-    def invariant_multiple(x): 
-        return [(x > 0, "positive"), (x % 2 == 0, "even")] 
-    wrapped = wrap_invariant(invariant_multiple) 
-    assert wrapped(4) == (True, ()) 
-    assert wrapped(3) == (False, ("positive",)) 
-    assert wrapped(-2) == (False, ("positive",)) 
-    print("All tests passed.") 
-test_wrap_invariant()
-
-
-# LLM-generated content at query #24
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-
-
-# LLM-generated content at query #25
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant(): 
-    def invariant1(x): 
-        return x > 0, "x must be positive" 
-    def invariant2(x): 
-        return [(x > 0, "x must be positive"), (x < 10, "x must be less than 10")] 
-    wrapped1 = wrap_invariant(invariant1) 
-    wrapped2 = wrap_invariant(invariant2) 
-    assert wrapped1(5) == (True, "x must be positive") 
-    assert wrapped1(-5) == (False, "x must be positive") 
-    assert wrapped2(5) == (True, ("x must be positive", "x must be less than 10")) 
-    assert wrapped2(15) == (False, ("x must be positive", "x must be less than 10")) 
-    print("All tests passed") 
-test_wrap_invariant()
-
-
 ####################################################################
-# TEST GENERATION BEGINS (CODAMOSA + deepseek/deepseek-chat t=0.8) #
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
 ####################################################################
 
 
 # LLM-generated content at query #1
 #--------------------------
 
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test 1: Invariant returns a tuple with a boolean and some data
-    def invariant_true(x):
-        return True, "data_true"
+```python
+def test_CheckedPSet___new__():
+    # Test 1: Create empty CheckedPSet
+    class SimpleSet(CheckedPSet):
+        __type__ = int
+    
+    result = SimpleSet()
+    assert isinstance(result, SimpleSet)
+    assert len(result) == 0
 
-    def invariant_false(x):
-        return False, "data_false"
+    # Test 2: Create CheckedPSet with initial values
+    result = SimpleSet([1, 2, 3])
+    assert isinstance(result, SimpleSet)
+    assert len(result) == 3
+    assert 1 in result
+    assert 2 in result
+    assert 3 in result
 
-    wrapped_true = wrap_invariant(invariant_true)
-    wrapped_false = wrap_invariant(invariant_false)
+    # Test 3: Create CheckedPSet with duplicate values (should deduplicate)
+    result = SimpleSet([1, 2, 2, 3, 3, 3])
+    assert len(result) == 3
+    assert 1 in result
+    assert 2 in result
+    assert 3 in result
 
-    assert wrapped_true(1) == (True, "data_true")
-    assert wrapped_false(1) == (False, "data_false")
+    # Test 4: Type checking - valid types
+    class MultiTypeSet(CheckedPSet):
+        __type__ = (int, str)
+    
+    result = MultiTypeSet([1, "hello", 2, "world"])
+    assert isinstance(result, MultiTypeSet)
+    assert len(result) == 4
 
-    # Test 2: Invariant returns a list of tuples
-    def invariant_multiple(x):
-        return [(True, "data1"), (False, "data2")]
+    # Test 5: Type checking - invalid types should raise CheckedValueTypeError
+    class IntSet(CheckedPSet):
+        __type__ = int
+    
+    try:
+        IntSet([1, 2, "invalid"])
+        assert False, "Should have raised CheckedValueTypeError"
+    except CheckedValueTypeError as e:
+        assert e.source_class == IntSet
+        assert e.actual_type == str
+        assert e.actual_value == "invalid"
 
-    wrapped_multiple = wrap_invariant(invariant_multiple)
-    assert wrapped_multiple(1) == (False, ("data2",))
+    # Test 6: Invariant checking - valid values
+    class PositiveSet(CheckedPSet):
+        __type__ = int
+        __invariant__ = lambda n: (n > 0, "Not positive")
+    
+    result = PositiveSet([1, 2, 3])
+    assert isinstance(result, PositiveSet)
+    assert len(result) == 3
 
-    # Test 3: Invariant returns a tuple with a boolean and a tuple
-    def invariant_tuple(x):
-        return (True, ("data1", "data2"))
+    # Test 7: Invariant checking - invalid values should raise InvariantException
+    try:
+        PositiveSet([1, -2, 3])
+        assert False, "Should have raised InvariantException"
+    except InvariantException as e:
+        assert len(e.invariant_errors) > 0
+        assert any("Not positive" in str(err) for err in e.invariant_errors)
 
-    wrapped_tuple = wrap_invariant(invariant_tuple)
-    assert wrapped_tuple(1) == (True, ("data1", "data2"))
+    # Test 8: Create from existing PMap (internal structure)
+    from pyrsistent import pmap
+    internal_map = pmap({1: True, 2: True})
+    result = SimpleSet(internal_map)
+    assert isinstance(result, SimpleSet)
+    assert len(result) == 2
+    assert 1 in result
+    assert 2 in result
+
+    # Test 9: Create from existing CheckedPSet of same type
+    original = SimpleSet([1, 2, 3])
+    result = SimpleSet(original)
+    assert result is original  # Should return same instance
+
+    # Test 10: Create from existing CheckedPSet of different type
+    class AnotherSet(CheckedPSet):
+        __type__ = int
+    
+    result = AnotherSet(original)
+    assert isinstance(result, AnotherSet)
+    assert len(result) == 3
+    assert result != original  # Different class instances
+
+    # Test 11: Multiple invariants
+    class ComplexSet(CheckedPSet):
+        __type__ = int
+        __invariant__ = [
+            lambda n: (n > 0, "Not positive"),
+            lambda n: (n < 100, "Too large")
+        ]
+    
+    result = ComplexSet([1, 50, 99])
+    assert isinstance(result, ComplexSet)
+    assert len(result) == 3
+
+    # Test 12: Multiple invariants failure
+    try:
+        ComplexSet([1, 150, 99])
+        assert False, "Should have raised InvariantException"
+    except InvariantException as e:
+        assert len(e.invariant_errors) > 0
+
+    # Test 13: String type specification
+    class StringTypeSet(CheckedPSet):
+        __type__ = "builtins.int"
+    
+    result = StringTypeSet([1, 2, 3])
+    assert isinstance(result, StringTypeSet)
+    assert len(result) == 3
+
+    # Test 14: Optional types
+    class OptionalSet(CheckedPSet):
+        __type__ = optional(int, str)
+    
+    result = OptionalSet([1, "hello", None, 2])
+    assert isinstance(result, OptionalSet)
+    assert len(result) == 4
+    assert None in result
+
+    # Test 15: Empty initial with type checking
+    result = IntSet()
+    assert isinstance(result, IntSet)
+    assert len(result) == 0
+
+    # Test 16: Inheritance of type and invariants
+    class BaseSet(CheckedPSet):
+        __type__ = int
+        __invariant__ = lambda n: (n > 0, "Not positive")
+    
+    class DerivedSet(BaseSet):
+        pass
+    
+    result = DerivedSet([1, 2, 3])
+    assert isinstance(result, DerivedSet)
+    assert len(result) == 3
+    
+    try:
+        DerivedSet([-1])
+        assert False, "Should have raised InvariantException"
+    except InvariantException:
+        pass
+
+    # Test 17: Enum type preservation
+    class Color(Enum):
+        RED = 1
+        GREEN = 2
+        BLUE = 3
+    
+    class EnumSet(CheckedPSet):
+        __type__ = Color
+    
+    result = EnumSet([Color.RED, Color.GREEN])
+    assert isinstance(result, EnumSet)
+    assert len(result) == 2
+    assert Color.RED in result
+    assert Color.GREEN in result
+
+    # Test 18: Iterable type specification
+    class IterableTypeSet(CheckedPSet):
+        __type__ = [int, str]
+    
+    result = IterableTypeSet([1, "test"])
+    assert isinstance(result, IterableTypeSet)
+    assert len(result) == 2
 
 
 # LLM-generated content at query #2
 #--------------------------
 
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    def invariant_true(x):
-        return True, "data_true"
+```python
+def test_CheckedPMap___new__():
+    # Test 1: Create empty CheckedPMap
+    class EmptyMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
     
-    def invariant_false(x):
-        return False, "data_false"
+    empty_map = EmptyMap()
+    assert isinstance(empty_map, EmptyMap)
+    assert len(empty_map) == 0
     
-    def invariant_multiple(x):
-        return [(True, "data1"), (False, "data2")]
+    # Test 2: Create with initial dictionary
+    class IntStrMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
     
-    wrapped_true = wrap_invariant(invariant_true)
-    wrapped_false = wrap_invariant(invariant_false)
-    wrapped_multiple = wrap_invariant(invariant_multiple)
+    initial_map = IntStrMap({1: "a", 2: "b"})
+    assert isinstance(initial_map, IntStrMap)
+    assert len(initial_map) == 2
+    assert initial_map[1] == "a"
+    assert initial_map[2] == "b"
     
-    assert wrapped_true(1) == (True, "data_true")
-    assert wrapped_false(1) == (False, "data_false")
-    assert wrapped_multiple(1) == (False, ("data2",))
+    # Test 3: Create with existing CheckedPMap instance
+    existing_map = IntStrMap({3: "c"})
+    new_map = IntStrMap(existing_map)
+    assert isinstance(new_map, IntStrMap)
+    assert len(new_map) == 1
+    assert new_map[3] == "c"
+    
+    # Test 4: Type checking on creation
+    class StrictMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    # Should work with correct types
+    strict_map = StrictMap({1: "test", 5: "value"})
+    assert len(strict_map) == 2
+    
+    # Test 5: Check that size parameter works (internal use)
+    internal_map = StrictMap(pmap({10: "internal"}), size=1)
+    assert isinstance(internal_map, StrictMap)
+    assert len(internal_map) == 1
+    assert internal_map[10] == "internal"
+    
+    # Test 6: Multiple type specifications
+    class MultiTypeMap(CheckedPMap):
+        __key_type__ = (int, str)
+        __value_type__ = (int, float)
+    
+    multi_map = MultiTypeMap({1: 1.5, "key": 2})
+    assert len(multi_map) == 2
+    assert multi_map[1] == 1.5
+    assert multi_map["key"] == 2
+    
+    # Test 7: Inheritance of type specifications
+    class BaseMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    class DerivedMap(BaseMap):
+        pass
+    
+    derived_map = DerivedMap({1: "inherited"})
+    assert isinstance(derived_map, DerivedMap)
+    assert derived_map[1] == "inherited"
+    
+    # Test 8: Empty initial with size parameter
+    empty_with_size = IntStrMap(pmap(), size=0)
+    assert isinstance(empty_with_size, IntStrMap)
+    assert len(empty_with_size) == 0
 
 
 # LLM-generated content at query #3
 #--------------------------
 
-# Unit test for function maybe_parse_user_type
-def test_maybe_parse_user_type():
-    assert maybe_parse_user_type(str) == [str]
-    assert maybe_parse_user_type("str") == ["str"]
-    assert maybe_parse_user_type((str, int)) == (str, int)
-    assert maybe_parse_user_type([str, int]) == (str, int)
-    assert maybe_parse_user_type((str, (int, "float"))) == (str, int, "float")
-    assert maybe_parse_user_type((str, [int, "float"])) == (str, int, "float")
-    assert maybe_parse_user_type((str, (int, ["float", bool]))) == (str, int, "float", bool)
-    assert maybe_parse_user_type(Enum) == [Enum]
-    assert maybe_parse_user_type((Enum, str)) == (Enum, str)
-    assert maybe_parse_user_type((Enum, (str, int))) == (Enum, str, int)
-    assert maybe_parse_user_type((Enum, [str, int])) == (Enum, str, int)
-    assert maybe_parse_user_type((Enum, (str, [int, "float"]))) == (Enum, str, int, "float")
-    assert maybe_parse_user_type((Enum, [str, (int, "float")])) == (Enum, str, int, "float")
+```python
+def test_get_type():
+    # Test with built-in type
+    assert get_type(int) == int
+    
+    # Test with standard library type
+    import collections
+    assert get_type(collections.OrderedDict) == collections.OrderedDict
+    
+    # Test with string representation of built-in type
+    assert get_type('int') == int
+    
+    # Test with string representation of standard library type
+    assert get_type('collections.OrderedDict') == collections.OrderedDict
+    
+    # Test with string representation of custom class
+    class CustomClass:
+        pass
+    
+    import sys
+    module_name = sys.modules[__name__].__name__
+    type_name = f"{module_name}.CustomClass"
+    assert get_type(type_name) == CustomClass
+    
+    # Test with nested module class
+    import pyrsistent._pvector
+    assert get_type('pyrsistent._pvector.PythonPVector') == pyrsistent._pvector.PythonPVector
 
 
 # LLM-generated content at query #4
 #--------------------------
 
-# Unit test for function get_type
-def test_get_type(): 
-    class MyClass: 
-        pass
-    assert get_type(MyClass) == MyClass
-    assert get_type("unittest.TestCase") == __import__("unittest").TestCase
-
-test_get_type()
+```python
+def test_maybe_parse_user_type():
+    # Test with single type
+    assert maybe_parse_user_type(int) == [int]
+    assert maybe_parse_user_type(str) == [str]
+    
+    # Test with string
+    assert maybe_parse_user_type("int") == ["int"]
+    assert maybe_parse_user_type("custom_type") == ["custom_type"]
+    
+    # Test with Enum subclass (preserved type)
+    class Color(Enum):
+        RED = 1
+        GREEN = 2
+        BLUE = 3
+    
+    assert maybe_parse_user_type(Color) == [Color]
+    
+    # Test with iterable of types
+    assert maybe_parse_user_type([int, str]) == (int, str)
+    assert maybe_parse_user_type((float, bool)) == (float, bool)
+    
+    # Test with nested iterables
+    assert maybe_parse_user_type([int, [str, float]]) == (int, str, float)
+    assert maybe_parse_user_type([[int], [str], [float]]) == (int, str, float)
+    
+    # Test with mixed types and strings
+    assert maybe_parse_user_type([int, "str", float]) == (int, "str", float)
+    
+    # Test with empty iterable
+    assert maybe_parse_user_type([]) == ()
+    
+    # Test that regular iterable types are not preserved
+    class CustomIterable(Iterable):
+        def __iter__(self):
+            return iter([])
+    
+    # This should be treated as iterable, not as preserved type
+    result = maybe_parse_user_type(CustomIterable)
+    assert isinstance(result, tuple)
+    assert len(result) == 1
+    assert result[0] == CustomIterable
+    
+    # Test error cases
+    import pytest
+    
+    # Non-type, non-string, non-iterable should raise TypeError
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(42)
+    
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(None)
+    
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(object())
+    
+    # Test with complex nested structure
+    assert maybe_parse_user_type([int, [str, [float, bool]]]) == (int, str, float, bool)
+    
+    # Test that string type specification is preserved as string
+    assert maybe_parse_user_type("List[int]") == ["List[int]"]
 
 
 # LLM-generated content at query #5
 #--------------------------
 
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    def invariant1(x):
-        return x > 0, "must be positive"
-
-    def invariant2(x):
-        return x < 10, "must be less than 10"
-
-    def combined_invariant(x):
-        return (invariant1(x), invariant2(x))
-
-    wrapped_invariant = wrap_invariant(combined_invariant)
-
-    assert wrapped_invariant(5) == (True, ())
-    assert wrapped_invariant(15) == (False, ("must be less than 10",))
-    assert wrapped_invariant(-5) == (False, ("must be positive",))
-
-    def invariant3(x):
-        return x > 20, "must be greater than 20"
-
-    def combined_invariant2(x):
-        return (invariant1(x), invariant3(x))
-
-    wrapped_invariant2 = wrap_invariant(combined_invariant2)
-
-    assert wrapped_invariant2(25) == (True, ())
-    assert wrapped_invariant2(15) == (False, ("must be greater than 20",))
-    assert wrapped_invariant2(-5) == (False, ("must be positive",))
+```python
+def test_InvariantException___str__():
+    # Test with no errors or missing fields
+    exc = InvariantException()
+    assert str(exc) == ", invariant_errors=[], missing_fields=[]"
+    
+    # Test with only invariant errors
+    exc = InvariantException(error_codes=["error1", "error2"])
+    assert str(exc) == ", invariant_errors=[error1, error2], missing_fields=[]"
+    
+    # Test with only missing fields
+    exc = InvariantException(missing_fields=["field1", "field2"])
+    assert str(exc) == ", invariant_errors=[], missing_fields=[field1, field2]"
+    
+    # Test with both invariant errors and missing fields
+    exc = InvariantException(error_codes=["err1", "err2"], missing_fields=["f1", "f2", "f3"])
+    assert str(exc) == ", invariant_errors=[err1, err2], missing_fields=[f1, f2, f3]"
+    
+    # Test with callable error codes
+    def error_func():
+        return "dynamic_error"
+    
+    exc = InvariantException(error_codes=[error_func, "static_error"])
+    assert str(exc) == ", invariant_errors=[dynamic_error, static_error], missing_fields=[]"
+    
+    # Test with empty lists
+    exc = InvariantException(error_codes=[], missing_fields=[])
+    assert str(exc) == ", invariant_errors=[], missing_fields=[]"
+    
+    # Test with single item
+    exc = InvariantException(error_codes=["single_error"], missing_fields=["single_field"])
+    assert str(exc) == ", invariant_errors=[single_error], missing_fields=[single_field]"
 
 
 # LLM-generated content at query #6
 #--------------------------
 
-# Unit test for method __new__ of class CheckedPMap
-def test_CheckedPMap___new__():
-    class IntToFloatMap(CheckedPMap):
-        __key_type__ = int
-        __value_type__ = float
-        __invariant__ = lambda k, v: (int(v) == k, 'Invalid mapping')
-
-    test_map = IntToFloatMap({1: 1.0, 2: 2.0})
-    assert isinstance(test_map, IntToFloatMap)
-    assert test_map == {1: 1.0, 2: 2.0}
-
-    # Test with invalid key type
+```python
+def test_CheckedPSet___new__():
+    # Test 1: Create empty CheckedPSet
+    class IntSet(CheckedPSet):
+        __type__ = int
+    
+    result = IntSet()
+    assert isinstance(result, IntSet)
+    assert len(result) == 0
+    
+    # Test 2: Create CheckedPSet with initial values
+    result = IntSet([1, 2, 3])
+    assert isinstance(result, IntSet)
+    assert len(result) == 3
+    assert 1 in result
+    assert 2 in result
+    assert 3 in result
+    
+    # Test 3: Type checking works
+    class StringSet(CheckedPSet):
+        __type__ = str
+    
+    result = StringSet(["a", "b", "c"])
+    assert isinstance(result, StringSet)
+    assert "a" in result
+    
+    # Test 4: Type violation raises CheckedValueTypeError
+    class IntOnlySet(CheckedPSet):
+        __type__ = int
+    
     try:
-        IntToFloatMap({'a': 1.0})
-        assert False, "Expected CheckedKeyTypeError"
-    except CheckedKeyTypeError:
+        IntOnlySet([1, "invalid", 3])
+        assert False, "Should have raised CheckedValueTypeError"
+    except CheckedValueTypeError as e:
+        assert e.source_class == IntOnlySet
+        assert e.actual_type == str
+    
+    # Test 5: Invariant checking works
+    class PositiveSet(CheckedPSet):
+        __type__ = int
+        __invariant__ = lambda n: (n > 0, "Not positive")
+    
+    result = PositiveSet([1, 2, 3])
+    assert len(result) == 3
+    
+    # Test 6: Invariant violation raises InvariantException
+    try:
+        PositiveSet([1, -2, 3])
+        assert False, "Should have raised InvariantException"
+    except InvariantException as e:
+        assert len(e.invariant_errors) > 0
+    
+    # Test 7: Multiple types allowed
+    class MultiTypeSet(CheckedPSet):
+        __type__ = (int, str)
+    
+    result = MultiTypeSet([1, "two", 3])
+    assert len(result) == 3
+    assert 1 in result
+    assert "two" in result
+    
+    # Test 8: Create from existing CheckedPSet (same type)
+    original = IntSet([1, 2, 3])
+    result = IntSet(original)
+    assert isinstance(result, IntSet)
+    assert len(result) == 3
+    
+    # Test 9: Create from PMap (internal representation)
+    from pyrsistent import pmap
+    pmap_data = pmap({1: True, 2: True})
+    result = IntSet(pmap_data)
+    assert isinstance(result, IntSet)
+    assert len(result) == 2
+    
+    # Test 10: Duplicate values are handled
+    result = IntSet([1, 2, 2, 3, 1])
+    assert len(result) == 3
+    
+    # Test 11: Optional types work
+    class OptionalSet(CheckedPSet):
+        __type__ = optional(int)
+    
+    result = OptionalSet([1, None, 3])
+    assert len(result) == 3
+    assert None in result
+    
+    # Test 12: String type specifications work
+    class StringTypeSet(CheckedPSet):
+        __type__ = "int"
+    
+    result = StringTypeSet([1, 2, 3])
+    assert isinstance(result, StringTypeSet)
+    
+    # Test 13: Inheritance of type constraints
+    class BaseSet(CheckedPSet):
+        __type__ = int
+    
+    class DerivedSet(BaseSet):
         pass
-
-    # Test with invalid value type
+    
+    result = DerivedSet([1, 2, 3])
+    assert isinstance(result, DerivedSet)
+    
     try:
-        IntToFloatMap({1: 'a'})
-        assert False, "Expected CheckedValueTypeError"
+        DerivedSet(["invalid"])
+        assert False, "Should have raised CheckedValueTypeError"
     except CheckedValueTypeError:
         pass
-
-    # Test with invalid mapping
+    
+    # Test 14: Inheritance of invariants
+    class BaseInvariantSet(CheckedPSet):
+        __type__ = int
+        __invariant__ = lambda n: (n > 0, "Not positive")
+    
+    class DerivedInvariantSet(BaseInvariantSet):
+        pass
+    
+    result = DerivedInvariantSet([1, 2, 3])
+    assert len(result) == 3
+    
     try:
-        IntToFloatMap({1: 1.5})
-        assert False, "Expected InvariantException"
+        DerivedInvariantSet([-1])
+        assert False, "Should have raised InvariantException"
     except InvariantException:
         pass
-
-    # Test with existing CheckedPMap instance
-    existing_map = IntToFloatMap({3: 3.0})
-    new_map = IntToFloatMap(existing_map)
-    assert new_map == existing_map
-
-    # Test with size parameter
-    pmap_instance = pmap({1: 1.0, 2: 2.0})
-    map_with_size = IntToFloatMap(pmap_instance, size=2)
-    assert map_with_size == pmap_instance
 
 
 # LLM-generated content at query #7
 #--------------------------
 
-# Unit test for method __new__ of class CheckedPMap
-def test_CheckedPMap___new__():
-    class IntToFloatMap(CheckedPMap):
-        __key_type__ = int
-        __value_type__ = float
-        __invariant__ = lambda k, v: (int(v) == k, 'Invalid mapping')
-
-    # Test creating with initial dictionary
-    m = IntToFloatMap({1: 1.5, 2: 2.25})
-    assert m == {1: 1.5, 2: 2.25}
-    assert isinstance(m, IntToFloatMap)
-
-    # Test creating with no initial data
-    m = IntToFloatMap()
-    assert m == {}
-    assert isinstance(m, IntToFloatMap)
-
-    # Test creating with another CheckedPMap
-    m2 = IntToFloatMap(m)
-    assert m2 == m
-    assert isinstance(m2, IntToFloatMap)
-
-    # Test creating with invalid key type
-    try:
-        IntToFloatMap({'a': 1.5})
-        assert False, "Expected CheckedKeyTypeError"
-    except CheckedKeyTypeError:
+```python
+def test_get_type():
+    # Test with built-in type
+    assert get_type(int) is int
+    
+    # Test with standard library type
+    import collections
+    assert get_type(collections.OrderedDict) is collections.OrderedDict
+    
+    # Test with string representation of built-in type
+    assert get_type('builtins.int') is int
+    
+    # Test with string representation of standard library type
+    assert get_type('collections.OrderedDict') is collections.OrderedDict
+    
+    # Test with string representation of custom module type
+    import sys
+    from types import ModuleType
+    
+    # Create a dummy module for testing
+    dummy_module = ModuleType('dummy_module')
+    dummy_module.SomeClass = type('SomeClass', (), {})
+    sys.modules['dummy_module'] = dummy_module
+    
+    assert get_type('dummy_module.SomeClass') is dummy_module.SomeClass
+    
+    # Clean up
+    del sys.modules['dummy_module']
+    
+    # Test with nested module
+    import os.path
+    assert get_type('os.path') is os.path
+    
+    # Test that it returns the same object for type input
+    class CustomClass:
         pass
-
-    # Test creating with invalid value type
-    try:
-        IntToFloatMap({1: 'a'})
-        assert False, "Expected CheckedValueTypeError"
-    except CheckedValueTypeError:
-        pass
-
-    # Test creating with invalid mapping (failing invariant)
-    try:
-        IntToFloatMap({1: 2.5})
-        assert False, "Expected InvariantException"
-    except InvariantException:
-        pass
+    
+    assert get_type(CustomClass) is CustomClass
 
 
 # LLM-generated content at query #8
 #--------------------------
 
-# Unit test for method __str__ of class InvariantException
-def test_InvariantException___str__():
-    e = InvariantException(error_codes=[lambda: 'error1', lambda: 'error2'], missing_fields=['field1', 'field2'])
-    assert str(e) == "InvariantException(invariant_errors=['error1', 'error2'], missing_fields=['field1', 'field2'])"
+```python
+def test_CheckedPMap___new__():
+    # Test basic instantiation with empty dict
+    class TestMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    m = TestMap()
+    assert isinstance(m, TestMap)
+    assert len(m) == 0
+    
+    # Test instantiation with initial data
+    m = TestMap({1: "a", 2: "b"})
+    assert m[1] == "a"
+    assert m[2] == "b"
+    assert isinstance(m, TestMap)
+    
+    # Test instantiation with existing PMap (size parameter)
+    from pyrsistent import pmap
+    existing_pmap = pmap({3: "c", 4: "d"})
+    m = TestMap(existing_pmap, size=2)
+    assert m[3] == "c"
+    assert m[4] == "d"
+    assert isinstance(m, TestMap)
+    
+    # Test type checking on keys
+    class IntMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    try:
+        IntMap({"invalid": "value"})
+        assert False, "Should have raised CheckedKeyTypeError"
+    except CheckedKeyTypeError as e:
+        assert e.source_class == IntMap
+        assert e.actual_type == str
+    
+    # Test type checking on values
+    class StrValueMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    try:
+        StrValueMap({1: 123})
+        assert False, "Should have raised CheckedValueTypeError"
+    except CheckedValueTypeError as e:
+        assert e.source_class == StrValueMap
+        assert e.actual_type == int
+    
+    # Test invariant checking
+    class PositiveMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+        __invariant__ = lambda k, v: (v > 0, "Value must be positive")
+    
+    try:
+        PositiveMap({1: -1})
+        assert False, "Should have raised InvariantException"
+    except InvariantException as e:
+        assert "Value must be positive" in str(e.error_codes)
+    
+    # Test multiple invariants
+    class MultiInvariantMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+        __invariant__ = lambda k, v: (v > 0, "Positive")
+        __invariant__ = lambda k, v: (v < 10, "Less than 10")
+    
+    m = MultiInvariantMap({1: 5})
+    assert m[1] == 5
+    
+    try:
+        MultiInvariantMap({1: 15})
+        assert False, "Should have raised InvariantException"
+    except InvariantException:
+        pass
+    
+    # Test inheritance of type constraints
+    class BaseMap(CheckedPMap):
+        __key_type__ = int
+    
+    class DerivedMap(BaseMap):
+        __value_type__ = str
+    
+    m = DerivedMap({1: "test"})
+    assert isinstance(m, DerivedMap)
+    
+    try:
+        DerivedMap({"invalid": "test"})
+        assert False, "Should have raised CheckedKeyTypeError"
+    except CheckedKeyTypeError:
+        pass
+    
+    # Test with optional types
+    class OptionalMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = optional(str, type(None))
+    
+    m1 = OptionalMap({1: "test"})
+    m2 = OptionalMap({1: None})
+    assert m1[1] == "test"
+    assert m2[1] is None
+    
+    # Test evolver integration
+    m = TestMap({1: "a"})
+    evolver = m.evolver()
+    evolver.set(2, "b")
+    m2 = evolver.persistent()
+    assert isinstance(m2, TestMap)
+    assert m2[2] == "b"
+    
+    # Test that same instance is returned if already correct type
+    m = TestMap({1: "a"})
+    m2 = TestMap(m)
+    assert m is m2
+    
+    # Test with string type specifications
+    class StringTypeMap(CheckedPMap):
+        __key_type__ = "int"
+        __value_type__ = "str"
+    
+    m = StringTypeMap({1: "test"})
+    assert isinstance(m, StringTypeMap)
+    assert m[1] == "test"
 
 
 # LLM-generated content at query #9
 #--------------------------
 
-# Unit test for method __str__ of class InvariantException
-def test_InvariantException___str__():
-    invariant_error = {'msg': 'Invariant failed', 'args': (1, 2, 3)}
-    missing_fields = ('a', 'b', 'c')
-    exc = InvariantException(error_codes=[invariant_error], missing_fields=missing_fields)
-    assert str(exc) == ", invariant_errors=[{'msg': 'Invariant failed', 'args': (1, 2, 3)}], missing_fields=[a, b, c]", f"Expected ', invariant_errors=[{'msg': 'Invariant failed', 'args': (1, 2, 3)}], missing_fields=[a, b, c]', got '{str(exc)}'"
-    exc = InvariantException()
-    assert str(exc) == ", invariant_errors=[], missing_fields=[]", f"Expected ', invariant_errors=[], missing_fields=[]', got '{str(exc)}'"
+```python
+def test_wrap_invariant():
+    # Test 1: Invariant returns simple boolean result
+    def simple_invariant(x):
+        return x > 0, "Value must be positive"
+    
+    wrapped = wrap_invariant(simple_invariant)
+    assert wrapped(5) == (True, "Value must be positive")
+    assert wrapped(-1) == (False, "Value must be positive")
+    
+    # Test 2: Invariant returns multiple results that need merging
+    def complex_invariant(x):
+        return [
+            (x > 0, "Value must be positive"),
+            (x < 10, "Value must be less than 10"),
+            (x % 2 == 0, "Value must be even")
+        ]
+    
+    wrapped = wrap_invariant(complex_invariant)
+    
+    # All conditions pass
+    result = wrapped(4)
+    assert result == (True, ())
+    
+    # Some conditions fail
+    result = wrapped(11)
+    assert result[0] == False
+    assert len(result[1]) == 2
+    assert "Value must be less than 10" in result[1]
+    assert "Value must be even" in result[1]
+    
+    # All conditions fail
+    result = wrapped(-1)
+    assert result[0] == False
+    assert len(result[1]) == 3
+    
+    # Test 3: Invariant with multiple arguments
+    def multi_arg_invariant(x, y):
+        return [
+            (x > 0, "x must be positive"),
+            (y > 0, "y must be positive"),
+            (x + y < 20, "sum must be less than 20")
+        ]
+    
+    wrapped = wrap_invariant(multi_arg_invariant)
+    assert wrapped(5, 5) == (True, ())
+    
+    result = wrapped(-1, 25)
+    assert result[0] == False
+    assert len(result[1]) == 2
+    
+    # Test 4: Invariant with keyword arguments
+    def kwarg_invariant(x, threshold=10):
+        return x < threshold, f"Value must be less than {threshold}"
+    
+    wrapped = wrap_invariant(kwarg_invariant)
+    assert wrapped(5, threshold=10) == (True, "Value must be less than 10")
+    assert wrapped(15, threshold=10) == (False, "Value must be less than 10")
+    
+    # Test 5: Empty result list (edge case)
+    def empty_invariant(x):
+        return []
+    
+    wrapped = wrap_invariant(empty_invariant)
+    assert wrapped(5) == (True, ())
+    
+    # Test 6: Single tuple in list
+    def single_tuple_invariant(x):
+        return [(x > 0, "positive")]
+    
+    wrapped = wrap_invariant(single_tuple_invariant)
+    assert wrapped(5) == (True, ())
+    assert wrapped(-5) == (False, ("positive",))
 
 
 # LLM-generated content at query #10
 #--------------------------
 
-# Unit test for function wrap_invariant
+```python
 def test_wrap_invariant():
-    # Test with invariant that returns a single (bool, data) tuple
-    def invariant1(x):
-        return x > 0, "Must be positive"
+    # Test 1: Invariant returns single boolean result
+    def invariant_single_true(x):
+        return True, "ok"
     
-    wrapped1 = wrap_invariant(invariant1)
-    assert wrapped1(5) == (True, "Must be positive")
-    assert wrapped1(-3) == (False, "Must be positive")
+    wrapped = wrap_invariant(invariant_single_true)
+    result = wrapped(5)
+    assert result == (True, "ok")
     
-    # Test with invariant that returns multiple (bool, data) tuples
-    def invariant2(x):
-        return [(x > 0, "Must be positive"), (x < 10, "Must be less than 10")]
+    # Test 2: Invariant returns single boolean false result
+    def invariant_single_false(x):
+        return False, "error"
     
-    wrapped2 = wrap_invariant(invariant2)
-    assert wrapped2(5) == (True, ())
-    assert wrapped2(-3) == (False, ("Must be positive",))
-    assert wrapped2(15) == (False, ("Must be less than 10",))
-    assert wrapped2(-5) == (False, ("Must be positive", "Must be less than 10"))
+    wrapped = wrap_invariant(invariant_single_false)
+    result = wrapped(5)
+    assert result == (False, "error")
+    
+    # Test 3: Invariant returns multiple results that need merging (all true)
+    def invariant_multiple_all_true(x):
+        return [(True, "ok1"), (True, "ok2"), (True, "ok3")]
+    
+    wrapped = wrap_invariant(invariant_multiple_all_true)
+    result = wrapped(5)
+    assert result == (True, ())
+    
+    # Test 4: Invariant returns multiple results with some false
+    def invariant_multiple_some_false(x):
+        return [(True, "ok1"), (False, "error1"), (True, "ok2"), (False, "error2")]
+    
+    wrapped = wrap_invariant(invariant_multiple_some_false)
+    result = wrapped(5)
+    assert result[0] == False
+    assert len(result[1]) == 2
+    assert "error1" in result[1]
+    assert "error2" in result[1]
+    
+    # Test 5: Invariant returns multiple results all false
+    def invariant_multiple_all_false(x):
+        return [(False, "error1"), (False, "error2")]
+    
+    wrapped = wrap_invariant(invariant_multiple_all_false)
+    result = wrapped(5)
+    assert result[0] == False
+    assert len(result[1]) == 2
+    assert "error1" in result[1]
+    assert "error2" in result[1]
+    
+    # Test 6: Invariant with multiple arguments
+    def invariant_multi_args(x, y, z=10):
+        if x + y > z:
+            return False, "sum too large"
+        return True, "ok"
+    
+    wrapped = wrap_invariant(invariant_multi_args)
+    result = wrapped(3, 4, z=10)
+    assert result == (True, "ok")
+    
+    result = wrapped(6, 5, z=10)
+    assert result == (False, "sum too large")
+    
+    # Test 7: Invariant returns empty list
+    def invariant_empty_list(x):
+        return []
+    
+    wrapped = wrap_invariant(invariant_empty_list)
+    result = wrapped(5)
+    assert result == (True, ())
 
 
 # LLM-generated content at query #11
 #--------------------------
 
-# Unit test for function store_invariants
-def test_store_invariants():
-    class BaseClass:
-        @staticmethod
-        def invariant_base(arg):
-            return True, None
-
-    class DerivedClass(BaseClass):
-        @staticmethod
-        def invariant_derived(arg):
-            return False, "Derived invariant failed"
-
-    dct = {}
-    bases = (DerivedClass,)
-    store_invariants(dct, bases, 'invariants', 'invariant_derived')
-    assert len(dct['invariants']) == 1
-
-    store_invariants(dct, bases, 'invariants', 'invariant_base')
-    assert len(dct['invariants']) == 2
-    assert dct['invariants'][0](None) == (False, "Derived invariant failed")
-    assert dct['invariants'][1](None) == (True, None)
-
+```python
+def test_wrap_invariant():
+    # Test 1: Invariant returns single boolean result
+    def invariant_single_true(*args, **kwargs):
+        return True, "success"
+    
+    wrapped = wrap_invariant(invariant_single_true)
+    result = wrapped()
+    assert result == (True, "success")
+    
+    # Test 2: Invariant returns single boolean false result
+    def invariant_single_false(*args, **kwargs):
+        return False, "failure"
+    
+    wrapped = wrap_invariant(invariant_single_false)
+    result = wrapped()
+    assert result == (False, "failure")
+    
+    # Test 3: Invariant returns multiple results that need merging (all true)
+    def invariant_multiple_true(*args, **kwargs):
+        return [(True, "success1"), (True, "success2")]
+    
+    wrapped = wrap_invariant(invariant_multiple_true)
+    result = wrapped()
+    assert result == (True, ())
+    
+    # Test 4: Invariant returns multiple results with some false
+    def invariant_multiple_mixed(*args, **kwargs):
+        return [(True, "success"), (False, "error1"), (True, "success2"), (False, "error2")]
+    
+    wrapped = wrap_invariant(invariant_multiple_mixed)
+    result = wrapped()
+    assert result[0] == False
+    assert len(result[1]) == 2
+    assert "error1" in result[1]
+    assert "error2" in result[1]
+    
+    # Test 5: Invariant returns multiple results all false
+    def invariant_multiple_false(*args, **kwargs):
+        return [(False, "error1"), (False, "error2"), (False, "error3")]
+    
+    wrapped = wrap_invariant(invariant_multiple_false)
+    result = wrapped()
+    assert result[0] == False
+    assert len(result[1]) == 3
+    assert all(e in result[1] for e in ("error1", "error2", "error3"))
+    
+    # Test 6: Invariant with arguments
+    def invariant_with_args(x, y):
+        if x > y:
+            return True, f"{x} > {y}"
+        else:
+            return False, f"{x} <= {y}"
+    
+    wrapped = wrap_invariant(invariant_with_args)
+    result = wrapped(5, 3)
+    assert result == (True, "5 > 3")
+    
+    result = wrapped(2, 4)
+    assert result == (False, "2 <= 4")
+    
+    # Test 7: Invariant with keyword arguments
+    def invariant_with_kwargs(value, threshold=10):
+        if value > threshold:
+            return True, f"value {value} > threshold {threshold}"
+        else:
+            return False, f"value {value} <= threshold {threshold}"
+    
+    wrapped = wrap_invariant(invariant_with_kwargs)
+    result = wrapped(15, threshold=10)
+    assert result == (True, "value 15 > threshold 10")
+    
+    result = wrapped(5, threshold=10)
+    assert result == (False, "value 5 <= threshold 10")
 
 
 # LLM-generated content at query #12
 #--------------------------
 
-# Unit test for function wrap_invariant
+```python
 def test_wrap_invariant():
-    def invariant_true(value):
-        return True, "No error"
+    def invariant_single_bool(value):
+        return value > 0, "Value must be positive"
 
-    def invariant_false(value):
-        return False, "Error"
+    def invariant_multiple_results(value):
+        return [(value > 0, "positive"), (value < 10, "less than 10")]
 
-    def invariant_multiple_errors(value):
-        return [(True, "No error"), (False, "Error 1"), (False, "Error 2")]
+    wrapped_single = wrap_invariant(invariant_single_bool)
+    wrapped_multiple = wrap_invariant(invariant_multiple_results)
 
-    wrapped_invariant_true = wrap_invariant(invariant_true)
-    assert wrapped_invariant_true(5) == (True, "No error")
+    result = wrapped_single(5)
+    assert result == (True, "Value must be positive")
 
-    wrapped_invariant_false = wrap_invariant(invariant_false)
-    assert wrapped_invariant_false(5) == (False, "Error")
+    result = wrapped_single(-1)
+    assert result == (False, "Value must be positive")
 
-    wrapped_invariant_multiple_errors = wrap_invariant(invariant_multiple_errors)
-    assert wrapped_invariant_multiple_errors(5) == (False, ("Error 1", "Error 2"))
+    result = wrapped_multiple(5)
+    assert result == (True, ())
 
-# Run the test
-test_wrap_invariant()
+    result = wrapped_multiple(15)
+    assert result == (False, ("less than 10",))
+
+    result = wrapped_multiple(-5)
+    assert result == (False, ("positive", "less than 10"))
+
+    def invariant_nested_results(value):
+        return [
+            (value > 0, "positive"),
+            [(value % 2 == 0, "even"), (value < 100, "small")]
+        ]
+
+    wrapped_nested = wrap_invariant(invariant_nested_results)
+    result = wrapped_nested(50)
+    assert result == (True, ())
+
+    result = wrapped_nested(150)
+    assert result == (False, ("small",))
+
+    result = wrapped_nested(-3)
+    assert result == (False, ("positive", "even", "small"))
 
 
 # LLM-generated content at query #13
 #--------------------------
 
-# Unit test for function wrap_invariant
+```python
 def test_wrap_invariant():
-    def invariant_true():
-        return True, "Success"
-
-    def invariant_false():
-        return False, "Failure"
-
-    def invariant_multiple():
-        return [(True, "Success1"), (False, "Failure1")]
-
-    wrapped_true = wrap_invariant(invariant_true)
-    wrapped_false = wrap_invariant(invariant_false)
-    wrapped_multiple = wrap_invariant(invariant_multiple)
-
-    assert wrapped_true() == (True, "Success")
-    assert wrapped_false() == (False, "Failure")
-    assert wrapped_multiple() == (False, ("Failure1",))
+    # Test 1: Invariant returns single boolean result
+    def single_bool_invariant(x):
+        return x > 0, "Value must be positive"
+    
+    wrapped = wrap_invariant(single_bool_invariant)
+    result = wrapped(5)
+    assert result == (True, "Value must be positive")
+    
+    result = wrapped(-1)
+    assert result == (False, "Value must be positive")
+    
+    # Test 2: Invariant returns multiple results that need merging
+    def multi_result_invariant(x):
+        return [
+            (x > 0, "positive"),
+            (x < 10, "less than 10"),
+            (x % 2 == 0, "even")
+        ]
+    
+    wrapped = wrap_invariant(multi_result_invariant)
+    
+    # All conditions pass
+    result = wrapped(4)
+    assert result == (True, ())
+    
+    # Some conditions fail
+    result = wrapped(11)
+    assert result[0] == False
+    assert "positive" in result[1]
+    assert "less than 10" not in result[1]  # This one failed
+    assert "even" not in result[1]  # This one failed
+    
+    # Test 3: Invariant with multiple failing conditions
+    result = wrapped(-2)
+    assert result[0] == False
+    assert len(result[1]) == 2  # positive and less than 10 failed
+    assert "positive" in result[1]
+    assert "less than 10" in result[1]
+    
+    # Test 4: Invariant with no arguments
+    def no_arg_invariant():
+        return True, "Always true"
+    
+    wrapped = wrap_invariant(no_arg_invariant)
+    result = wrapped()
+    assert result == (True, "Always true")
+    
+    # Test 5: Invariant with keyword arguments
+    def kwarg_invariant(**kwargs):
+        return kwargs.get('valid', False), "Validity check"
+    
+    wrapped = wrap_invariant(kwarg_invariant)
+    result = wrapped(valid=True)
+    assert result == (True, "Validity check")
+    
+    result = wrapped(valid=False)
+    assert result == (False, "Validity check")
 
 
 # LLM-generated content at query #14
 #--------------------------
 
-# Unit test for function maybe_parse_user_type
-def test_maybe_parse_user_type():
-    # Test with a single type
-    assert maybe_parse_user_type(int) == [int]
-    # Test with a string
-    assert maybe_parse_user_type("int") == ["int"]
-    # Test with an Enum
-    class TestEnum(Enum):
-        A = 1
-    assert maybe_parse_user_type(TestEnum) == [TestEnum]
-    # Test with an iterable of types
-    assert maybe_parse_user_type((int, str)) == (int, str)
-    # Test with an iterable of strings
-    assert maybe_parse_user_type(("int", "str")) == ("int", "str")
-    # Test with an invalid type
+```python
+def test_CheckedPMap___new__():
+    # Test basic instantiation with empty dict
+    class SimpleMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+
+    m1 = SimpleMap()
+    assert isinstance(m1, SimpleMap)
+    assert len(m1) == 0
+
+    # Test instantiation with initial data
+    m2 = SimpleMap({1: "one", 2: "two"})
+    assert len(m2) == 2
+    assert m2[1] == "one"
+    assert m2[2] == "two"
+
+    # Test that type checking works during instantiation
+    class StringIntMap(CheckedPMap):
+        __key_type__ = str
+        __value_type__ = int
+
+    m3 = StringIntMap({"a": 1, "b": 2})
+    assert m3["a"] == 1
+
+    # Test type checking failure for keys
     try:
-        maybe_parse_user_type(123)
-    except TypeError:
+        StringIntMap({1: "one"})
+        assert False, "Should have raised CheckedKeyTypeError"
+    except CheckedKeyTypeError:
         pass
-    else:
-        assert False, "Expected TypeError"
+
+    # Test type checking failure for values
+    try:
+        StringIntMap({"a": "not_an_int"})
+        assert False, "Should have raised CheckedValueTypeError"
+    except CheckedValueTypeError:
+        pass
+
+    # Test with invariants
+    class PositiveMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+        __invariant__ = lambda k, v: (v > 0, "Value must be positive")
+
+    m4 = PositiveMap({1: 5, 2: 10})
+    assert m4[1] == 5
+
+    # Test invariant violation during instantiation
+    try:
+        PositiveMap({1: -5})
+        assert False, "Should have raised InvariantException"
+    except InvariantException:
+        pass
+
+    # Test that existing CheckedPMap instance returns itself
+    m5 = SimpleMap({1: "a"})
+    m6 = SimpleMap(m5)
+    assert m5 is m6
+
+    # Test with multiple invariants
+    class MultiInvariantMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+        __invariant__ = lambda k, v: (v > 0, "Positive")
+        __invariant__ = lambda k, v: (v < 100, "Less than 100")
+
+    m7 = MultiInvariantMap({1: 50})
+    assert m7[1] == 50
+
+    # Test inheritance of type constraints
+    class BaseMap(CheckedPMap):
+        __key_type__ = str
+
+    class DerivedMap(BaseMap):
+        __value_type__ = int
+
+    m8 = DerivedMap({"x": 1})
+    assert m8["x"] == 1
+
+    # Test that key_type is inherited
+    try:
+        DerivedMap({1: 1})
+        assert False, "Should have raised CheckedKeyTypeError"
+    except CheckedKeyTypeError:
+        pass
+
+    # Test with optional types
+    class OptionalMap(CheckedPMap):
+        __key_type__ = str
+        __value_type__ = optional(int, type(None))
+
+    m9 = OptionalMap({"a": 1, "b": None})
+    assert m9["a"] == 1
+    assert m9["b"] is None
+
+    # Test internal size parameter (private API)
+    internal_pmap = pmap({1: "a", 2: "b"})
+    m10 = SimpleMap(internal_pmap, size=2)
+    assert len(m10) == 2
+    assert m10[1] == "a"
 
 
 # LLM-generated content at query #15
 #--------------------------
 
-# Unit test for function get_type
-def test_get_type():
-    assert get_type(int) == int
-    assert get_type('builtins.int') == int
-    assert get_type('os.path') == __import__('os.path', fromlist=[])
-
-test_get_type()
+```python
+def test_wrap_invariant():
+    # Test 1: Invariant returns single boolean result
+    def invariant_single_bool(value):
+        return value > 0, "Value must be positive"
+    
+    wrapped = wrap_invariant(invariant_single_bool)
+    result = wrapped(5)
+    assert result == (True, "Value must be positive")
+    
+    result = wrapped(-1)
+    assert result == (False, "Value must be positive")
+    
+    # Test 2: Invariant returns multiple results that need merging
+    def invariant_multiple_results(value):
+        return [
+            (value > 0, "positive"),
+            (value < 10, "less than 10"),
+            (value % 2 == 0, "even")
+        ]
+    
+    wrapped = wrap_invariant(invariant_multiple_results)
+    
+    # All conditions true
+    result = wrapped(4)
+    assert result == (True, ())
+    
+    # Some conditions false
+    result = wrapped(15)
+    assert result == (False, ("positive", "less than 10"))
+    
+    # All conditions false
+    result = wrapped(-3)
+    assert result == (False, ("positive", "less than 10", "even"))
+    
+    # Test 3: Invariant with no arguments
+    def invariant_no_args():
+        return True, "No args test"
+    
+    wrapped = wrap_invariant(invariant_no_args)
+    result = wrapped()
+    assert result == (True, "No args test")
+    
+    # Test 4: Invariant with keyword arguments
+    def invariant_with_kwargs(value, threshold=5):
+        return value > threshold, f"Value must be greater than {threshold}"
+    
+    wrapped = wrap_invariant(invariant_with_kwargs)
+    result = wrapped(10, threshold=7)
+    assert result == (True, "Value must be greater than 7")
+    
+    result = wrapped(3, threshold=1)
+    assert result == (True, "Value must be greater than 1")
+    
+    # Test 5: Invariant returns empty tuple for data when all true
+    def invariant_all_true(value):
+        return [
+            (True, "always true 1"),
+            (True, "always true 2")
+        ]
+    
+    wrapped = wrap_invariant(invariant_all_true)
+    result = wrapped(42)
+    assert result == (True, ())
+    
+    # Test 6: Invariant returns mixed results
+    def invariant_mixed(value):
+        return [
+            (value > 0, "positive"),
+            (True, "always true"),
+            (value < 100, "less than 100")
+        ]
+    
+    wrapped = wrap_invariant(invariant_mixed)
+    result = wrapped(50)
+    assert result == (True, ())
+    
+    result = wrapped(150)
+    assert result == (False, ("less than 100",))
+    
+    # Test 7: Verify wrap_invariant doesn't modify single boolean result invariants
+    def invariant_simple(value):
+        return False, "Always false"
+    
+    wrapped = wrap_invariant(invariant_simple)
+    result = wrapped(999)
+    assert result == (False, "Always false")
 
 
 # LLM-generated content at query #16
 #--------------------------
 
-# Unit test for function wrap_invariant
+```python
 def test_wrap_invariant():
-    def invariant_true():
-        return True, None
-
-    def invariant_false():
-        return False, "error"
-
-    def invariant_multiple():
-        return [(True, None), (False, "error1"), (False, "error2")]
-
-    # Test single invariant returning True
-    wrapped = wrap_invariant(invariant_true)
-    assert wrapped() == (True, None)
-
-    # Test single invariant returning False
-    wrapped = wrap_invariant(invariant_false)
-    assert wrapped() == (False, "error")
-
-    # Test multiple invariants
-    wrapped = wrap_invariant(invariant_multiple)
-    assert wrapped() == (False, ("error1", "error2"))
+    # Test 1: Invariant returns single boolean result
+    def invariant_single_bool(value):
+        return value > 0, "Value must be positive"
+    
+    wrapped = wrap_invariant(invariant_single_bool)
+    result = wrapped(5)
+    assert result == (True, "Value must be positive")
+    
+    result = wrapped(-1)
+    assert result == (False, "Value must be positive")
+    
+    # Test 2: Invariant returns multiple results that need merging
+    def invariant_multiple_results(value):
+        return [
+            (value > 0, "positive"),
+            (value < 10, "less than 10"),
+            (value % 2 == 0, "even")
+        ]
+    
+    wrapped = wrap_invariant(invariant_multiple_results)
+    
+    # All conditions true
+    result = wrapped(6)
+    assert result == (True, ())
+    
+    # One condition false
+    result = wrapped(11)
+    assert result == (False, ("less than 10",))
+    
+    # Multiple conditions false
+    result = wrapped(-2)
+    assert result == (False, ("positive", "less than 10"))
+    
+    # Test 3: Invariant with no arguments
+    def invariant_no_args():
+        return True, "No args test"
+    
+    wrapped = wrap_invariant(invariant_no_args)
+    result = wrapped()
+    assert result == (True, "No args test")
+    
+    # Test 4: Invariant with keyword arguments
+    def invariant_with_kwargs(value, threshold=5):
+        return value > threshold, f"Value must be greater than {threshold}"
+    
+    wrapped = wrap_invariant(invariant_with_kwargs)
+    result = wrapped(10, threshold=7)
+    assert result == (True, "Value must be greater than 7")
+    
+    result = wrapped(3, threshold=1)
+    assert result == (True, "Value must be greater than 1")
+    
+    # Test 5: Invariant returns tuple with boolean first
+    def invariant_tuple_bool(value):
+        return (value != 0, "Value cannot be zero")
+    
+    wrapped = wrap_invariant(invariant_tuple_bool)
+    result = wrapped(5)
+    assert result == (True, "Value cannot be zero")
+    
+    result = wrapped(0)
+    assert result == (False, "Value cannot be zero")
+    
+    # Test 6: Nested structure that needs merging
+    def invariant_nested(value):
+        return [
+            (value > 0, "positive"),
+            [
+                (value < 100, "less than 100"),
+                (value % 3 == 0, "divisible by 3")
+            ]
+        ]
+    
+    wrapped = wrap_invariant(invariant_nested)
+    result = wrapped(99)
+    assert result == (True, ())
+    
+    result = wrapped(101)
+    assert result == (False, ("less than 100",))
+    
+    # Test 7: Empty result list
+    def invariant_empty_list(value):
+        return []
+    
+    wrapped = wrap_invariant(invariant_empty_list)
+    result = wrapped(5)
+    assert result == (True, ())
 
 
 # LLM-generated content at query #17
 #--------------------------
 
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test with single boolean result
-    def invariant1(x):
-        return True, "OK"
+```python
+def test_maybe_parse_user_type():
+    # Test with single type
+    assert maybe_parse_user_type(int) == [int]
+    assert maybe_parse_user_type(str) == [str]
     
-    wrapped = wrap_invariant(invariant1)
-    assert wrapped(5) == (True, "OK")
+    # Test with string
+    assert maybe_parse_user_type("int") == ["int"]
+    assert maybe_parse_user_type("custom_type") == ["custom_type"]
     
-    # Test with single boolean False result
-    def invariant2(x):
-        return False, "Error"
+    # Test with Enum (preserved type)
+    class Color(Enum):
+        RED = 1
+        GREEN = 2
+        BLUE = 3
     
-    wrapped = wrap_invariant(invariant2)
-    assert wrapped(5) == (False, "Error")
+    assert maybe_parse_user_type(Color) == [Color]
     
-    # Test with multiple results to merge
-    def invariant3(x):
-        return [(True, "OK1"), (False, "Error1"), (False, "Error2")]
+    # Test with iterable of types
+    assert maybe_parse_user_type([int, str]) == (int, str)
+    assert maybe_parse_user_type((float, bool)) == (float, bool)
     
-    wrapped = wrap_invariant(invariant3)
-    assert wrapped(5) == (False, ("Error1", "Error2"))
+    # Test with nested iterables
+    assert maybe_parse_user_type([int, [str, float]]) == (int, str, float)
+    assert maybe_parse_user_type([[int, str], float]) == (int, str, float)
     
-    # Test with empty result list (shouldn't happen but test edge case)
-    def invariant4(x):
-        return []
+    # Test with mixed types and strings
+    assert maybe_parse_user_type([int, "str", float]) == (int, "str", float)
     
-    wrapped = wrap_invariant(invariant4)
-    assert wrapped(5) == (True, ())
+    # Test with empty iterable
+    assert maybe_parse_user_type([]) == ()
+    assert maybe_parse_user_type(()) == ()
+    
+    # Test with complex nested structure
+    assert maybe_parse_user_type([int, [str, [float, bool]]]) == (int, str, float, bool)
+    
+    # Test that non-type, non-string, non-iterable raises TypeError
+    import pytest
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(42)
+    
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(None)
+    
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(object())
+    
+    # Test that iterable types (except preserved ones) are treated as iterables
+    # List is iterable but not in _preserved_iterable_types
+    assert maybe_parse_user_type([int]) == (int,)
+    
+    # Test with multiple Enums
+    class Status(Enum):
+        ACTIVE = 1
+        INACTIVE = 2
+    
+    assert maybe_parse_user_type([Color, Status]) == (Color, Status)
 
 
 # LLM-generated content at query #18
 #--------------------------
 
-# Unit test for function store_invariants
-def test_store_invariants():
-    class Base:
-        def invariant1(self):
-            return True, None
-        def invariant2(self):
-            return True, None
-    class Derived(Base):
-        def invariant3(self):
-            return True, None
-    dct = {}
-    bases = (Base, Derived)
-    store_invariants(dct, bases, 'invariants', 'invariant1')
-    assert len(dct['invariants']) == 1
-    store_invariants(dct, bases, 'invariants', 'invariant2')
-    assert len(dct['invariants']) == 1
-    store_invariants(dct, bases, 'invariants', 'invariant3')
-    assert len(dct['invariants']) == 1
+```python
+def test_wrap_invariant():
+    # Test 1: Invariant returns single boolean result
+    def single_bool_invariant(x):
+        return x > 0, "Value must be positive"
+    
+    wrapped = wrap_invariant(single_bool_invariant)
+    result = wrapped(5)
+    assert result == (True, "Value must be positive")
+    
+    result = wrapped(-5)
+    assert result == (False, "Value must be positive")
+    
+    # Test 2: Invariant returns multiple results that need merging
+    def multi_result_invariant(x):
+        return [(x > 0, "positive"), (x < 10, "less than 10")]
+    
+    wrapped = wrap_invariant(multi_result_invariant)
+    
+    # All conditions satisfied
+    result = wrapped(5)
+    assert result == (True, ())
+    
+    # One condition failed
+    result = wrapped(-5)
+    assert result == (False, ("Value must be positive",))
+    
+    # Multiple conditions failed
+    result = wrapped(15)
+    assert result == (False, ("Value must be less than 10",))
+    
+    # Test 3: Invariant with multiple arguments
+    def multi_arg_invariant(x, y):
+        return [(x > 0, "x positive"), (y > 0, "y positive")]
+    
+    wrapped = wrap_invariant(multi_arg_invariant)
+    
+    result = wrapped(5, 10)
+    assert result == (True, ())
+    
+    result = wrapped(-5, 10)
+    assert result == (False, ("x must be positive",))
+    
+    result = wrapped(-5, -10)
+    assert result == (False, ("x must be positive", "y must be positive"))
+    
+    # Test 4: Invariant with keyword arguments
+    def kwarg_invariant(x, threshold=0):
+        return x > threshold, f"Value must be greater than {threshold}"
+    
+    wrapped = wrap_invariant(kwarg_invariant)
+    
+    result = wrapped(5, threshold=0)
+    assert result == (True, "Value must be greater than 0")
+    
+    result = wrapped(5, threshold=10)
+    assert result == (False, "Value must be greater than 10")
+    
+    # Test 5: Empty result list (edge case)
+    def empty_result_invariant(x):
+        return []
+    
+    wrapped = wrap_invariant(empty_result_invariant)
+    result = wrapped(5)
+    assert result == (True, ())
+    
+    # Test 6: Single tuple result (should not be merged)
+    def single_tuple_invariant(x):
+        return (x > 0, "positive")
+    
+    wrapped = wrap_invariant(single_tuple_invariant)
+    result = wrapped(5)
+    assert result == (True, "positive")
+    
+    # Test 7: Nested structure that shouldn't be merged
+    def complex_result_invariant(x):
+        # Returns a tuple where first element is not a list/tuple
+        return ([(x > 0, "pos"), (x < 10, "small")], "additional info")
+    
+    wrapped = wrap_invariant(complex_result_invariant)
+    result = wrapped(5)
+    # Should return the result as-is since first element is not a bool
+    assert isinstance(result, tuple)
+    assert len(result) == 2
 
 
 # LLM-generated content at query #19
 #--------------------------
 
-# Unit test for function wrap_invariant
+```python
 def test_wrap_invariant():
-    # Test that wrap_invariant correctly merges multiple invariant results
-    def invariant1(*args, **kwargs):
-        return [(True, None), (False, "error1"), (False, "error2")]
-
-    wrapped_invariant1 = wrap_invariant(invariant1)
-    verdict, data = wrapped_invariant1()
-    assert verdict == False
-    assert data == ("error1", "error2")
-
-    # Test that wrap_invariant does not merge single invariant results
-    def invariant2(*args, **kwargs):
-        return (True, None)
-
-    wrapped_invariant2 = wrap_invariant(invariant2)
-    verdict, data = wrapped_invariant2()
-    assert verdict == True
-    assert data is None
-
-    # Test that wrap_invariant handles an empty result correctly
-    def invariant3(*args, **kwargs):
+    # Test 1: Invariant returns single boolean result
+    def invariant_single_true(x):
+        return True, "All good"
+    
+    wrapped = wrap_invariant(invariant_single_true)
+    result = wrapped(5)
+    assert result == (True, "All good")
+    
+    # Test 2: Invariant returns single boolean result (False)
+    def invariant_single_false(x):
+        return False, "Something wrong"
+    
+    wrapped = wrap_invariant(invariant_single_false)
+    result = wrapped(5)
+    assert result == (False, "Something wrong")
+    
+    # Test 3: Invariant returns multiple results that need merging (all True)
+    def invariant_multiple_true(x):
+        return [(True, "Check1 passed"), (True, "Check2 passed")]
+    
+    wrapped = wrap_invariant(invariant_multiple_true)
+    result = wrapped(5)
+    assert result == (True, ())
+    
+    # Test 4: Invariant returns multiple results with one False
+    def invariant_multiple_mixed(x):
+        return [(True, "Check1 passed"), (False, "Check2 failed"), (True, "Check3 passed")]
+    
+    wrapped = wrap_invariant(invariant_multiple_mixed)
+    result = wrapped(5)
+    assert result[0] == False
+    assert len(result[1]) == 1
+    assert result[1][0] == "Check2 failed"
+    
+    # Test 5: Invariant returns multiple results with multiple False
+    def invariant_multiple_false(x):
+        return [(False, "Check1 failed"), (True, "Check2 passed"), (False, "Check3 failed")]
+    
+    wrapped = wrap_invariant(invariant_multiple_false)
+    result = wrapped(5)
+    assert result[0] == False
+    assert len(result[1]) == 2
+    assert "Check1 failed" in result[1]
+    assert "Check3 failed" in result[1]
+    
+    # Test 6: Invariant with no arguments
+    def invariant_no_args():
+        return True, "No args works"
+    
+    wrapped = wrap_invariant(invariant_no_args)
+    result = wrapped()
+    assert result == (True, "No args works")
+    
+    # Test 7: Invariant with keyword arguments
+    def invariant_kwargs(**kwargs):
+        return kwargs.get('check', False), "Keyword check"
+    
+    wrapped = wrap_invariant(invariant_kwargs)
+    result = wrapped(check=True)
+    assert result == (True, "Keyword check")
+    
+    # Test 8: Empty result list (edge case)
+    def invariant_empty_list(x):
         return []
-
-    wrapped_invariant3 = wrap_invariant(invariant3)
-    verdict, data = wrapped_invariant3()
-    assert verdict == True
-    assert data == ()
-
-if __name__ == "__main__":
-    test_wrap_invariant()
+    
+    wrapped = wrap_invariant(invariant_empty_list)
+    result = wrapped(5)
+    assert result == (True, ())
 
 
 # LLM-generated content at query #20
 #--------------------------
 
-# Unit test for function get_type
+```python
+def test_store_invariants():
+    # Test 1: Basic functionality - stores invariants from dict
+    def invariant1(obj):
+        return True, ()
+    
+    def invariant2(obj):
+        return False, ("error",)
+    
+    dct = {'_invariants': invariant1}
+    bases = ()
+    store_invariants(dct, bases, '_checked_invariants', '_invariants')
+    assert '_checked_invariants' in dct
+    assert len(dct['_checked_invariants']) == 1
+    assert callable(dct['_checked_invariants'][0])
+    
+    # Test 2: Multiple invariants in dict
+    dct = {'_invariants': [invariant1, invariant2]}
+    store_invariants(dct, bases, '_checked_invariants', '_invariants')
+    assert len(dct['_checked_invariants']) == 2
+    
+    # Test 3: Inheritance from single base class
+    class Base:
+        _invariants = invariant1
+    
+    dct = {}
+    bases = (Base,)
+    store_invariants(dct, bases, '_checked_invariants', '_invariants')
+    assert len(dct['_checked_invariants']) == 1
+    
+    # Test 4: Inheritance from multiple base classes
+    class Base1:
+        _invariants = invariant1
+    
+    class Base2:
+        _invariants = invariant2
+    
+    dct = {}
+    bases = (Base1, Base2)
+    store_invariants(dct, bases, '_checked_invariants', '_invariants')
+    assert len(dct['_checked_invariants']) == 2
+    
+    # Test 5: Local dict overrides inheritance
+    dct = {'_invariants': invariant2}
+    bases = (Base1,)
+    store_invariants(dct, bases, '_checked_invariants', '_invariants')
+    assert len(dct['_checked_invariants']) == 2  # Both local and inherited
+    
+    # Test 6: Deep inheritance hierarchy
+    class GrandParent:
+        _invariants = invariant1
+    
+    class Parent(GrandParent):
+        _invariants = invariant2
+    
+    class Child(Parent):
+        pass
+    
+    dct = {}
+    bases = (Child,)
+    store_invariants(dct, bases, '_checked_invariants', '_invariants')
+    assert len(dct['_checked_invariants']) == 2  # From both GrandParent and Parent
+    
+    # Test 7: Diamond inheritance (should avoid duplicates)
+    class A:
+        _invariants = invariant1
+    
+    class B(A):
+        pass
+    
+    class C(A):
+        pass
+    
+    class D(B, C):
+        pass
+    
+    dct = {}
+    bases = (D,)
+    store_invariants(dct, bases, '_checked_invariants', '_invariants')
+    assert len(dct['_checked_invariants']) == 1  # Only one copy of invariant1
+    
+    # Test 8: Invariants are wrapped
+    def multi_invariant(obj):
+        return [(True, ()), (False, ("error1",)), (False, ("error2",))]
+    
+    dct = {'_invariants': multi_invariant}
+    store_invariants(dct, bases, '_checked_invariants', '_invariants')
+    wrapped = dct['_checked_invariants'][0]
+    result = wrapped(None)
+    assert isinstance(result, tuple)
+    assert len(result) == 2
+    assert result[0] is False
+    assert len(result[1]) == 2
+    
+    # Test 9: Non-callable invariant raises TypeError
+    dct = {'_invariants': "not a callable"}
+    try:
+        store_invariants(dct, bases, '_checked_invariants', '_invariants')
+        assert False, "Should have raised TypeError"
+    except TypeError:
+        pass
+    
+    # Test 10: Empty invariants
+    dct = {}
+    bases = ()
+    store_invariants(dct, bases, '_checked_invariants', '_invariants')
+    assert dct['_checked_invariants'] == ()
+    
+    # Test 11: Invariant returning simple boolean
+    def simple_invariant(obj):
+        return True
+    
+    dct = {'_invariants': simple_invariant}
+    store_invariants(dct, bases, '_checked_invariants', '_invariants')
+    wrapped = dct['_checked_invariants'][0]
+    result = wrapped(None)
+    assert result == (True, ())
+
+
+####################################################################
+#     TEST GENERATION BEGINS (CODAMOSA + deepseek-chat t=0.8)      #
+####################################################################
+
+
+# LLM-generated content at query #1
+#--------------------------
+
+```python
+def test__CheckedMapTypeMeta___new__():
+    # Test basic class creation with key and value types
+    class TestMap(metaclass=_CheckedMapTypeMeta):
+        __key_type__ = str
+        __value_type__ = int
+    
+    assert TestMap._checked_key_types == (str,)
+    assert TestMap._checked_value_types == (int,)
+    assert TestMap._checked_invariants == ()
+    assert hasattr(TestMap, '__serializer__')
+    
+    # Test inheritance of type specifications
+    class ParentMap(metaclass=_CheckedMapTypeMeta):
+        __key_type__ = str
+        __value_type__ = int
+    
+    class ChildMap(ParentMap):
+        pass
+    
+    assert ChildMap._checked_key_types == (str,)
+    assert ChildMap._checked_value_types == (int,)
+    
+    # Test overriding type specifications
+    class OverrideMap(ParentMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    assert OverrideMap._checked_key_types == (int,)
+    assert OverrideMap._checked_value_types == (str,)
+    
+    # Test multiple types
+    class MultiTypeMap(metaclass=_CheckedMapTypeMeta):
+        __key_type__ = (str, int)
+        __value_type__ = (int, float, type(None))
+    
+    assert set(MultiTypeMap._checked_key_types) == {str, int}
+    assert set(MultiTypeMap._checked_value_types) == {int, float, type(None)}
+    
+    # Test type specifications as strings
+    class StringTypeMap(metaclass=_CheckedMapTypeMeta):
+        __key_type__ = "builtins.str"
+        __value_type__ = "builtins.int"
+    
+    assert StringTypeMap._checked_key_types == ("builtins.str",)
+    assert StringTypeMap._checked_value_types == ("builtins.int",)
+    
+    # Test invariants inheritance
+    def invariant1(x):
+        return True, None
+    
+    def invariant2(x):
+        return False, "error"
+    
+    class ParentWithInvariants(metaclass=_CheckedMapTypeMeta):
+        __key_type__ = str
+        __value_type__ = int
+        __invariant__ = invariant1
+    
+    class ChildWithInvariants(ParentWithInvariants):
+        __invariant__ = invariant2
+    
+    assert len(ChildWithInvariants._checked_invariants) == 2
+    assert ChildWithInvariants._checked_invariants[0].__wrapped__ == invariant1
+    assert ChildWithInvariants._checked_invariants[1].__wrapped__ == invariant2
+    
+    # Test that invariants are wrapped
+    for inv in ChildWithInvariants._checked_invariants:
+        assert hasattr(inv, '__wrapped__')
+    
+    # Test default serializer
+    class DefaultSerializerMap(metaclass=_CheckedMapTypeMeta):
+        __key_type__ = str
+        __value_type__ = int
+    
+    # Check that default serializer is set
+    assert hasattr(DefaultSerializerMap, '__serializer__')
+    
+    # Test slots are set
+    assert DefaultSerializerMap.__slots__ == ()
+    
+    # Test with Enum as key type (should be preserved)
+    class TestEnum(Enum):
+        A = 1
+        B = 2
+    
+    class EnumKeyMap(metaclass=_CheckedMapTypeMeta):
+        __key_type__ = TestEnum
+        __value_type__ = int
+    
+    assert EnumKeyMap._checked_key_types == (TestEnum,)
+    
+    # Test with iterable type specifications
+    class IterableTypesMap(metaclass=_CheckedMapTypeMeta):
+        __key_type__ = [str, "builtins.int"]
+        __value_type__ = (float, [int, "builtins.str"])
+    
+    # All types should be flattened
+    assert len(IterableTypesMap._checked_key_types) == 2
+    assert len(IterableTypesMap._checked_value_types) == 3
+    
+    # Test that non-callable invariants raise TypeError
+    try:
+        class BadInvariantMap(metaclass=_CheckedMapTypeMeta):
+            __key_type__ = str
+            __value_type__ = int
+            __invariant__ = "not callable"
+        assert False, "Should have raised TypeError"
+    except TypeError:
+        pass
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+```python
+def test_wrap_invariant():
+    # Test 1: Invariant returns simple boolean result
+    def simple_invariant(value):
+        return value > 0, "Value must be positive"
+    
+    wrapped = wrap_invariant(simple_invariant)
+    result = wrapped(5)
+    assert result == (True, "Value must be positive")
+    
+    result = wrapped(-1)
+    assert result == (False, "Value must be positive")
+    
+    # Test 2: Invariant returns multiple results that need merging
+    def complex_invariant(value):
+        return [
+            (value > 0, "Value must be positive"),
+            (value < 10, "Value must be less than 10"),
+            (value % 2 == 0, "Value must be even")
+        ]
+    
+    wrapped = wrap_invariant(complex_invariant)
+    
+    # All conditions pass
+    result = wrapped(4)
+    assert result == (True, ())
+    
+    # One condition fails
+    result = wrapped(-2)
+    assert result[0] == False
+    assert len(result[1]) == 1
+    assert "Value must be positive" in result[1][0]
+    
+    # Multiple conditions fail
+    result = wrapped(11)
+    assert result[0] == False
+    assert len(result[1]) == 2
+    error_messages = [str(e) for e in result[1]]
+    assert any("less than 10" in msg for msg in error_messages)
+    assert any("even" in msg for msg in error_messages)
+    
+    # Test 3: Invariant with multiple arguments
+    def multi_arg_invariant(a, b):
+        return [
+            (a > 0, "A must be positive"),
+            (b > 0, "B must be positive"),
+            (a + b < 100, "Sum must be less than 100")
+        ]
+    
+    wrapped = wrap_invariant(multi_arg_invariant)
+    
+    result = wrapped(10, 20)
+    assert result == (True, ())
+    
+    result = wrapped(-10, 200)
+    assert result[0] == False
+    assert len(result[1]) == 2
+    
+    # Test 4: Invariant with keyword arguments
+    def kwarg_invariant(value, threshold=10):
+        return value < threshold, f"Value must be less than {threshold}"
+    
+    wrapped = wrap_invariant(kwarg_invariant)
+    
+    result = wrapped(5, threshold=10)
+    assert result == (True, "Value must be less than 10")
+    
+    result = wrapped(15, threshold=10)
+    assert result == (False, "Value must be less than 10")
+    
+    # Test 5: Empty result list (edge case)
+    def empty_invariant(value):
+        return []
+    
+    wrapped = wrap_invariant(empty_invariant)
+    result = wrapped(5)
+    assert result == (True, ())
+    
+    # Test 6: Single tuple in list (edge case)
+    def single_invariant(value):
+        return [(value > 0, "Positive")]
+    
+    wrapped = wrap_invariant(single_invariant)
+    result = wrapped(5)
+    assert result == (True, ())
+    
+    result = wrapped(-5)
+    assert result == (False, ("Positive",))
+
+
+# LLM-generated content at query #3
+#--------------------------
+
+```python
+def test_maybe_parse_user_type():
+    # Test with single type
+    assert maybe_parse_user_type(int) == [int]
+    assert maybe_parse_user_type(str) == [str]
+    
+    # Test with string
+    assert maybe_parse_user_type("int") == ["int"]
+    assert maybe_parse_user_type("custom_type") == ["custom_type"]
+    
+    # Test with Enum subclass (preserved type)
+    class Color(Enum):
+        RED = 1
+        GREEN = 2
+    
+    assert maybe_parse_user_type(Color) == [Color]
+    
+    # Test with iterable of types
+    assert maybe_parse_user_type([int, str]) == (int, str)
+    assert maybe_parse_user_type((float, bool)) == (float, bool)
+    
+    # Test with nested iterables
+    assert maybe_parse_user_type([int, [str, float]]) == (int, str, float)
+    assert maybe_parse_user_type([[int, str], float]) == (int, str, float)
+    
+    # Test with mixed types and strings
+    assert maybe_parse_user_type([int, "custom", str]) == (int, "custom", str)
+    
+    # Test with empty iterable
+    assert maybe_parse_user_type([]) == ()
+    assert maybe_parse_user_type(()) == ()
+    
+    # Test that non-type, non-string, non-iterable raises TypeError
+    try:
+        maybe_parse_user_type(42)
+        assert False, "Should have raised TypeError"
+    except TypeError:
+        pass
+    
+    try:
+        maybe_parse_user_type(None)
+        assert False, "Should have raised TypeError"
+    except TypeError:
+        pass
+    
+    # Test that iterable types (except preserved ones) are treated as iterables
+    class CustomIterable(Iterable):
+        def __iter__(self):
+            return iter([])
+    
+    # CustomIterable should be treated as an iterable, not a type
+    try:
+        maybe_parse_user_type(CustomIterable)
+        assert False, "Should have raised TypeError for non-preserved iterable type"
+    except TypeError:
+        pass
+    
+    # Test with complex nested structure
+    assert maybe_parse_user_type([int, [str, [float, "custom"]]]) == (int, str, float, "custom")
+    
+    # Test that preserved types in iterables are preserved
+    assert maybe_parse_user_type([Color, int]) == (Color, int)
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+```python
 def test_get_type():
-    # Test with a built-in type
+    # Test with built-in type
+    assert get_type(int) is int
+    
+    # Test with standard library type
+    import collections
+    assert get_type(collections.OrderedDict) is collections.OrderedDict
+    
+    # Test with string type specification
+    assert get_type('collections.OrderedDict') is collections.OrderedDict
+    
+    # Test with nested module
+    import collections.abc
+    assert get_type('collections.abc.Iterable') is collections.abc.Iterable
+    
+    # Test with local module type
+    from enum import Enum
+    assert get_type('enum.Enum') is Enum
+    
+    # Test that same type object is returned
+    type_obj = get_type(int)
+    assert type_obj is int
+    
+    # Test with custom class (simulate)
+    class CustomClass:
+        pass
+    
+    # Note: Can't test string path for CustomClass without proper module path
+    # But we can test that type object passes through
+    assert get_type(CustomClass) is CustomClass
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+```python
+def test_maybe_parse_user_type():
+    # Test with single type
+    assert maybe_parse_user_type(int) == [int]
+    assert maybe_parse_user_type(str) == [str]
+    
+    # Test with string
+    assert maybe_parse_user_type("int") == ["int"]
+    assert maybe_parse_user_type("custom_type") == ["custom_type"]
+    
+    # Test with Enum (preserved type)
+    class Color(Enum):
+        RED = 1
+        GREEN = 2
+        BLUE = 3
+    
+    assert maybe_parse_user_type(Color) == [Color]
+    
+    # Test with iterable of types
+    assert maybe_parse_user_type([int, str]) == (int, str)
+    assert maybe_parse_user_type((float, bool)) == (float, bool)
+    
+    # Test with nested iterables
+    assert maybe_parse_user_type([int, [str, float]]) == (int, str, float)
+    assert maybe_parse_user_type([[int, str], float]) == (int, str, float)
+    
+    # Test with mixed types and strings
+    assert maybe_parse_user_type([int, "custom", str]) == (int, "custom", str)
+    
+    # Test with empty iterable
+    assert maybe_parse_user_type([]) == ()
+    assert maybe_parse_user_type(()) == ()
+    
+    # Test that non-type, non-string, non-iterable raises TypeError
+    import pytest
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(42)
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(None)
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(object())
+    
+    # Test that iterable types that are not preserved are treated as iterables
+    class CustomIterable(Iterable):
+        def __iter__(self):
+            return iter([])
+    
+    # This should be treated as an iterable, not a type
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(CustomIterable)
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+```python
+def test_maybe_parse_user_type():
+    # Test with single type
+    assert maybe_parse_user_type(int) == [int]
+    assert maybe_parse_user_type(str) == [str]
+    
+    # Test with string
+    assert maybe_parse_user_type("int") == ["int"]
+    assert maybe_parse_user_type("custom_type") == ["custom_type"]
+    
+    # Test with Enum (preserved type)
+    class Color(Enum):
+        RED = 1
+        GREEN = 2
+    
+    assert maybe_parse_user_type(Color) == [Color]
+    
+    # Test with iterable of types
+    assert maybe_parse_user_type([int, str]) == (int, str)
+    assert maybe_parse_user_type((float, bool)) == (float, bool)
+    
+    # Test with nested iterables
+    assert maybe_parse_user_type([int, [str, float]]) == (int, str, float)
+    assert maybe_parse_user_type([[int], [str, [float]]]) == (int, str, float)
+    
+    # Test with mixed types and strings
+    assert maybe_parse_user_type([int, "str", float]) == (int, "str", float)
+    
+    # Test with empty iterable
+    assert maybe_parse_user_type([]) == ()
+    assert maybe_parse_user_type(()) == ()
+    
+    # Test that invalid inputs raise TypeError
+    import pytest
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(123)
+    
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(None)
+    
+    with pytest.raises(TypeError):
+        maybe_parse_user_type({"key": "value"})
+    
+    # Test with custom class (non-iterable type)
+    class CustomClass:
+        pass
+    
+    assert maybe_parse_user_type(CustomClass) == [CustomClass]
+    
+    # Test with iterable type that's not preserved
+    class IterableClass(Iterable):
+        def __iter__(self):
+            return iter([])
+    
+    # This should be treated as an iterable, not a type
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(IterableClass)
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+```python
+def test_maybe_parse_user_type():
+    # Test with single type
+    assert maybe_parse_user_type(int) == [int]
+    assert maybe_parse_user_type(str) == [str]
+    
+    # Test with string
+    assert maybe_parse_user_type("int") == ["int"]
+    assert maybe_parse_user_type("custom_type") == ["custom_type"]
+    
+    # Test with Enum (preserved type)
+    class Color(Enum):
+        RED = 1
+        GREEN = 2
+        BLUE = 3
+    
+    assert maybe_parse_user_type(Color) == [Color]
+    
+    # Test with iterable of types
+    assert maybe_parse_user_type([int, str]) == (int, str)
+    assert maybe_parse_user_type((float, bool)) == (float, bool)
+    
+    # Test with nested iterables
+    assert maybe_parse_user_type([int, [str, float]]) == (int, str, float)
+    assert maybe_parse_user_type([[int, str], float]) == (int, str, float)
+    
+    # Test with mixed types and strings
+    result = maybe_parse_user_type([int, "custom", str])
+    assert len(result) == 3
+    assert int in result
+    assert str in result
+    assert "custom" in result
+    
+    # Test with complex nested structure
+    result = maybe_parse_user_type([int, [str, [float, "custom"]], bool])
+    assert len(result) == 5
+    assert int in result
+    assert str in result
+    assert float in result
+    assert bool in result
+    assert "custom" in result
+    
+    # Test that invalid input raises TypeError
+    import pytest
+    with pytest.raises(TypeError):
+        maybe_parse_user_type(123)  # Not a type or string
+    
+    with pytest.raises(TypeError):
+        maybe_parse_user_type({"key": "value"})  # Dict is iterable but not valid
+    
+    # Test with empty iterable
+    assert maybe_parse_user_type([]) == ()
+    assert maybe_parse_user_type(()) == ()
+    
+    # Test with single element iterable
+    assert maybe_parse_user_type([int]) == (int,)
+    
+    # Test that regular iterable types are not preserved
+    class CustomIterable(Iterable):
+        def __iter__(self):
+            return iter([])
+    
+    # CustomIterable is a type but also iterable, so it should be treated as iterable
+    # and its contents should be parsed (empty in this case)
+    assert maybe_parse_user_type(CustomIterable) == ()
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+```python
+def test_CheckedPMap___new__():
+    # Test 1: Create empty CheckedPMap
+    class TestMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    result = TestMap()
+    assert isinstance(result, TestMap)
+    assert len(result) == 0
+    
+    # Test 2: Create with initial dict
+    result = TestMap({1: "a", 2: "b"})
+    assert isinstance(result, TestMap)
+    assert result[1] == "a"
+    assert result[2] == "b"
+    
+    # Test 3: Create with existing CheckedPMap (should return same instance)
+    original = TestMap({1: "a"})
+    result = TestMap(original)
+    assert result is original
+    
+    # Test 4: Type checking on keys
+    class IntMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    # Valid key type
+    result = IntMap({1: "valid"})
+    assert result[1] == "valid"
+    
+    # Invalid key type should raise CheckedKeyTypeError
+    try:
+        IntMap({"invalid": "value"})
+        assert False, "Should have raised CheckedKeyTypeError"
+    except CheckedKeyTypeError:
+        pass
+    
+    # Test 5: Type checking on values
+    class StrValueMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    # Valid value type
+    result = StrValueMap({1: "valid"})
+    assert result[1] == "valid"
+    
+    # Invalid value type should raise CheckedValueTypeError
+    try:
+        StrValueMap({1: 123})
+        assert False, "Should have raised CheckedValueTypeError"
+    except CheckedValueTypeError:
+        pass
+    
+    # Test 6: Invariant checking
+    class PositiveMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+        __invariant__ = lambda k, v: (v > 0, "Value must be positive")
+    
+    # Valid invariant
+    result = PositiveMap({1: 5})
+    assert result[1] == 5
+    
+    # Invalid invariant should raise InvariantException
+    try:
+        PositiveMap({1: -5})
+        assert False, "Should have raised InvariantException"
+    except InvariantException:
+        pass
+    
+    # Test 7: Multiple types allowed
+    class MultiTypeMap(CheckedPMap):
+        __key_type__ = (int, str)
+        __value_type__ = (int, float)
+    
+    result1 = MultiTypeMap({1: 3.14})
+    result2 = MultiTypeMap({"key": 42})
+    assert result1[1] == 3.14
+    assert result2["key"] == 42
+    
+    # Test 8: Inheritance of type constraints
+    class BaseMap(CheckedPMap):
+        __key_type__ = int
+    
+    class DerivedMap(BaseMap):
+        __value_type__ = str
+    
+    result = DerivedMap({1: "test"})
+    assert isinstance(result, DerivedMap)
+    assert result[1] == "test"
+    
+    # Test 9: CheckedPMap with CheckedType values
+    class InnerChecked(CheckedPVector):
+        __type__ = int
+    
+    class OuterMap(CheckedPMap):
+        __key_type__ = str
+        __value_type__ = InnerChecked
+    
+    inner = InnerChecked([1, 2, 3])
+    result = OuterMap({"key": inner})
+    assert result["key"] == inner
+    
+    # Test 10: Direct instantiation with size parameter (internal use)
+    internal_map = pmap({1: "a", 2: "b"})
+    result = TestMap(internal_map, size=2)
+    assert isinstance(result, TestMap)
+    assert len(result) == 2
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+```python
+def test_get_type():
+    # Test with built-in type
     assert get_type(int) == int
     
-    # Test with a string representing a built-in type (should raise since it's not a full path)
-    try:
-        get_type("int")
-        assert False, "Expected ValueError for non-full-path string"
-    except ValueError:
+    # Test with standard library type
+    import collections
+    assert get_type(collections.OrderedDict) == collections.OrderedDict
+    
+    # Test with string representation of built-in type
+    assert get_type('builtins.int') == int
+    
+    # Test with string representation of standard library type
+    assert get_type('collections.OrderedDict') == collections.OrderedDict
+    
+    # Test with string representation of custom class
+    class CustomClass:
         pass
     
-    # Test with a string representing a class in a module
-    import math
-    assert get_type("math.sqrt").__name__ == "sqrt"
+    import sys
+    module_name = sys.modules[__name__].__name__
+    type_name = f'{module_name}.CustomClass'
+    assert get_type(type_name) == CustomClass
     
-    # Test with an invalid type string
-    try:
-        get_type("nonexistent.module.Class")
-        assert False, "Expected ImportError for invalid module"
-    except ImportError:
-        pass
-    
-    print("All get_type tests passed")
+    # Test with nested module
+    import os.path
+    assert get_type('os.path') == os.path
 
-test_get_type()
+
+# LLM-generated content at query #10
+#--------------------------
+
+```python
+def test_CheckedPSet_serialize():
+    # Test basic serialization with default serializer
+    class SimpleSet(CheckedPSet):
+        __type__ = int
+    
+    s = SimpleSet([1, 2, 3])
+    result = s.serialize()
+    assert result == {1, 2, 3}
+    assert isinstance(result, set)
+    
+    # Test serialization with nested CheckedType objects
+    class InnerType(CheckedPSet):
+        __type__ = int
+    
+    class OuterSet(CheckedPSet):
+        __type__ = InnerType
+    
+    inner = InnerType([1, 2])
+    outer = OuterSet([inner])
+    result = outer.serialize()
+    assert len(result) == 1
+    assert isinstance(next(iter(result)), set)
+    assert next(iter(result)) == {1, 2}
+    
+    # Test serialization with custom serializer
+    class CustomSerializerSet(CheckedPSet):
+        __type__ = int
+        
+        def __serializer__(self, format, value):
+            return value * 2
+    
+    s = CustomSerializerSet([1, 2, 3])
+    result = s.serialize()
+    assert result == {2, 4, 6}
+    
+    # Test serialization with format parameter
+    class FormatAwareSet(CheckedPSet):
+        __type__ = int
+        
+        def __serializer__(self, format, value):
+            if format == 'double':
+                return value * 2
+            return value
+    
+    s = FormatAwareSet([1, 2, 3])
+    result = s.serialize(format='double')
+    assert result == {2, 4, 6}
+    
+    # Test serialization with empty set
+    class EmptySet(CheckedPSet):
+        __type__ = int
+    
+    s = EmptySet()
+    result = s.serialize()
+    assert result == set()
+    
+    # Test serialization with mixed types using optional
+    class OptionalSet(CheckedPSet):
+        __type__ = optional(int, str)
+    
+    s = OptionalSet([1, "hello", None])
+    result = s.serialize()
+    assert result == {1, "hello", None}
+    
+    # Test that serializer is called for each element
+    class CountingSerializerSet(CheckedPSet):
+        __type__ = int
+        
+        def __serializer__(self, format, value):
+            return f"value_{value}"
+    
+    s = CountingSerializerSet([1, 2])
+    result = s.serialize()
+    assert result == {"value_1", "value_2"}
+
+
+# LLM-generated content at query #11
+#--------------------------
+
+```python
+def test_CheckedPMap___new__():
+    # Test 1: Create empty CheckedPMap
+    class TestMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+
+    result = TestMap()
+    assert isinstance(result, TestMap)
+    assert len(result) == 0
+
+    # Test 2: Create from dict with correct types
+    result = TestMap({1: "a", 2: "b"})
+    assert isinstance(result, TestMap)
+    assert result[1] == "a"
+    assert result[2] == "b"
+    assert len(result) == 2
+
+    # Test 3: Create from existing CheckedPMap instance
+    original = TestMap({1: "a"})
+    result = TestMap(original)
+    assert isinstance(result, TestMap)
+    assert result[1] == "a"
+    assert result is not original
+
+    # Test 4: Type checking for keys
+    class StringKeyMap(CheckedPMap):
+        __key_type__ = str
+        __value_type__ = int
+
+    result = StringKeyMap({"a": 1, "b": 2})
+    assert result["a"] == 1
+    assert result["b"] == 2
+
+    # Test 5: Type checking for values
+    class IntValueMap(CheckedPMap):
+        __key_type__ = str
+        __value_type__ = int
+
+    result = IntValueMap({"a": 1, "b": 2})
+    assert result["a"] == 1
+    assert result["b"] == 2
+
+    # Test 6: Multiple allowed types
+    class MultiTypeMap(CheckedPMap):
+        __key_type__ = (int, str)
+        __value_type__ = (int, float)
+
+    result = MultiTypeMap({1: 1.5, "a": 2})
+    assert result[1] == 1.5
+    assert result["a"] == 2
+
+    # Test 7: With invariants
+    class PositiveMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+        __invariant__ = lambda k, v: (v > 0, "Value must be positive")
+
+    result = PositiveMap({1: 5, 2: 10})
+    assert result[1] == 5
+    assert result[2] == 10
+
+    # Test 8: Using evolver pattern
+    evolver = TestMap().evolver()
+    evolver.set(1, "test")
+    result = evolver.persistent()
+    assert isinstance(result, TestMap)
+    assert result[1] == "test"
+
+    # Test 9: Check that internal size parameter works
+    class SimpleMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+
+    # This tests the internal path when size is provided
+    internal_map = pmap({1: "a", 2: "b"})
+    result = SimpleMap(internal_map, size=2)
+    assert isinstance(result, SimpleMap)
+    assert result[1] == "a"
+    assert result[2] == "b"
+
+    # Test 10: Empty dict initialization
+    result = TestMap({})
+    assert isinstance(result, TestMap)
+    assert len(result) == 0
+
+
+# LLM-generated content at query #12
+#--------------------------
+
+```python
+def test_store_invariants():
+    # Test 1: Basic invariant storage
+    class BaseClass:
+        def base_invariant(self):
+            return True, ()
+    
+    dct = {}
+    bases = (BaseClass,)
+    store_invariants(dct, bases, '_invariants', '__invariant__')
+    
+    assert '_invariants' in dct
+    assert len(dct['_invariants']) == 1
+    assert dct['_invariants'][0].__name__ == 'f'
+    
+    # Test 2: Multiple invariants from multiple inheritance
+    class Parent1:
+        def parent1_invariant(self):
+            return True, ()
+    
+    class Parent2:
+        def parent2_invariant(self):
+            return False, ("error",)
+    
+    dct = {'__invariant__': lambda self: (True, ())}
+    bases = (Parent1, Parent2)
+    store_invariants(dct, bases, '_invariants', '__invariant__')
+    
+    assert len(dct['_invariants']) == 3
+    
+    # Test 3: Invariants are wrapped properly
+    def test_invariant(self):
+        return [(True, ()), (False, ("error1",)), (True, ())]
+    
+    dct = {'__invariant__': test_invariant}
+    bases = ()
+    store_invariants(dct, bases, '_invariants', '__invariant__')
+    
+    wrapped = dct['_invariants'][0]
+    result = wrapped(None)
+    assert result == (False, ("error1",))
+    
+    # Test 4: Non-callable invariant raises TypeError
+    dct = {'__invariant__': "not a callable"}
+    bases = ()
+    
+    try:
+        store_invariants(dct, bases, '_invariants', '__invariant__')
+        assert False, "Should have raised TypeError"
+    except TypeError:
+        pass
+    
+    # Test 5: Diamond inheritance - ensure no duplicates
+    class GrandParent:
+        def grandparent_invariant(self):
+            return True, ()
+    
+    class ParentA(GrandParent):
+        def parent_a_invariant(self):
+            return True, ()
+    
+    class ParentB(GrandParent):
+        def parent_b_invariant(self):
+            return True, ()
+    
+    class Child(ParentA, ParentB):
+        def child_invariant(self):
+            return True, ()
+    
+    dct = {}
+    bases = (Child,)
+    store_invariants(dct, bases, '_invariants', '__invariant__')
+    
+    # Should have 4 unique invariants (GrandParent, ParentA, ParentB, Child)
+    assert len(dct['_invariants']) == 4
+    
+    # Test 6: Empty invariants
+    dct = {}
+    bases = ()
+    store_invariants(dct, bases, '_invariants', '__invariant__')
+    assert dct['_invariants'] == ()
+    
+    # Test 7: Invariant that returns boolean directly
+    def simple_invariant(self):
+        return True
+    
+    dct = {'__invariant__': simple_invariant}
+    bases = ()
+    store_invariants(dct, bases, '_invariants', '__invariant__')
+    
+    wrapped = dct['_invariants'][0]
+    result = wrapped(None)
+    assert result == True
+    
+    # Test 8: Invariant that returns tuple with boolean
+    def tuple_invariant(self):
+        return (False, ("error",))
+    
+    dct = {'__invariant__': tuple_invariant}
+    bases = ()
+    store_invariants(dct, bases, '_invariants', '__invariant__')
+    
+    wrapped = dct['_invariants'][0]
+    result = wrapped(None)
+    assert result == (False, ("error",))
+
+
+# LLM-generated content at query #13
+#--------------------------
+
+```python
+def test_get_type():
+    # Test with built-in type
+    assert get_type(int) is int
+    
+    # Test with standard library type
+    import collections
+    assert get_type(collections.OrderedDict) is collections.OrderedDict
+    
+    # Test with string representation of built-in type
+    assert get_type('builtins.int') is int
+    
+    # Test with string representation of standard library type
+    assert get_type('collections.OrderedDict') is collections.OrderedDict
+    
+    # Test with string representation of custom type
+    class CustomType:
+        pass
+    
+    import sys
+    current_module = sys.modules[__name__]
+    type_name = f'{current_module.__name__}.CustomType'
+    assert get_type(type_name) is CustomType
+    
+    # Test with nested module type
+    import os.path
+    type_name = 'os.path.join'
+    # This should import os.path and return the join function
+    result = get_type(type_name)
+    assert result is os.path.join
+
+
+# LLM-generated content at query #14
+#--------------------------
+
+```python
+def test_wrap_invariant():
+    # Test 1: Invariant that returns a simple boolean verdict
+    def simple_invariant(value):
+        return value > 0, "Value must be positive"
+    
+    wrapped = wrap_invariant(simple_invariant)
+    result = wrapped(5)
+    assert result == (True, "Value must be positive")
+    
+    result = wrapped(-1)
+    assert result == (False, "Value must be positive")
+    
+    # Test 2: Invariant that returns multiple results to be merged
+    def multi_invariant(value):
+        return [
+            (value > 0, "Value must be positive"),
+            (value < 10, "Value must be less than 10"),
+            (value % 2 == 0, "Value must be even")
+        ]
+    
+    wrapped = wrap_invariant(multi_invariant)
+    
+    # All conditions pass
+    result = wrapped(4)
+    assert result == (True, ())
+    
+    # One condition fails
+    result = wrapped(11)
+    assert result[0] == False
+    assert len(result[1]) == 2
+    assert "Value must be less than 10" in result[1]
+    assert "Value must be even" in result[1]
+    
+    # Multiple conditions fail
+    result = wrapped(-2)
+    assert result[0] == False
+    assert len(result[1]) == 2
+    assert "Value must be positive" in result[1]
+    assert "Value must be even" in result[1]
+    
+    # Test 3: Invariant with multiple arguments
+    def complex_invariant(a, b, c=0):
+        return [
+            (a > b, "a must be greater than b"),
+            (b > c, "b must be greater than c"),
+            (a + b + c == 10, "Sum must be 10")
+        ]
+    
+    wrapped = wrap_invariant(complex_invariant)
+    
+    # All conditions pass
+    result = wrapped(5, 3, 2)
+    assert result == (True, ())
+    
+    # Some conditions fail
+    result = wrapped(3, 5, 2)
+    assert result[0] == False
+    assert len(result[1]) == 2
+    assert "a must be greater than b" in result[1]
+    assert "Sum must be 10" in result[1]
+    
+    # Test 4: Invariant with keyword arguments
+    result = wrapped(8, 2, c=0)
+    assert result[0] == False
+    assert "Sum must be 10" in result[1]
+    
+    # Test 5: Empty result list (edge case)
+    def empty_invariant(value):
+        return []
+    
+    wrapped = wrap_invariant(empty_invariant)
+    result = wrapped(5)
+    assert result == (True, ())
+    
+    # Test 6: Single tuple in list (edge case)
+    def single_invariant(value):
+        return [(value > 0, "Positive")]
+    
+    wrapped = wrap_invariant(single_invariant)
+    result = wrapped(5)
+    assert result == (True, ())
+    result = wrapped(-5)
+    assert result == (False, ("Positive",))
+
+
+# LLM-generated content at query #15
+#--------------------------
+
+```python
+def test_get_type():
+    # Test with built-in type
+    assert get_type(int) is int
+    
+    # Test with standard library type
+    import collections
+    assert get_type(collections.OrderedDict) is collections.OrderedDict
+    
+    # Test with string reference to built-in type
+    assert get_type('builtins.int') is int
+    
+    # Test with string reference to standard library type
+    assert get_type('collections.OrderedDict') is collections.OrderedDict
+    
+    # Test with string reference to local module type
+    from enum import Enum
+    assert get_type('enum.Enum') is Enum
+    
+    # Test with custom class
+    class CustomClass:
+        pass
+    
+    import sys
+    module_name = __name__
+    sys.modules[module_name].CustomClass = CustomClass
+    assert get_type(f'{module_name}.CustomClass') is CustomClass
+
+
+# LLM-generated content at query #16
+#--------------------------
+
+```python
+def test_store_invariants():
+    # Test 1: Basic invariant storage
+    class BaseClass:
+        def base_invariant(self):
+            return True, "base_ok"
+    
+    dct = {}
+    bases = (BaseClass,)
+    store_invariants(dct, bases, '_invariants', '_invariant')
+    
+    assert '_invariants' in dct
+    assert len(dct['_invariants']) == 0
+    
+    # Test 2: Invariant in dct
+    def test_invariant(obj):
+        return True, "test_ok"
+    
+    dct = {'_invariant': test_invariant}
+    bases = ()
+    store_invariants(dct, bases, '_invariants', '_invariant')
+    
+    assert '_invariants' in dct
+    assert len(dct['_invariants']) == 1
+    assert callable(dct['_invariants'][0])
+    
+    # Test 3: Invariant inheritance
+    class BaseWithInvariant:
+        def base_invariant(self):
+            return True, "base"
+    
+    class Derived:
+        def derived_invariant(self):
+            return False, "derived"
+    
+    dct = {'_invariant': Derived.derived_invariant}
+    bases = (BaseWithInvariant,)
+    store_invariants(dct, bases, '_invariants', '_invariant')
+    
+    assert len(dct['_invariants']) == 1
+    assert dct['_invariants'][0].__name__ == 'f'
+    
+    # Test 4: Multiple inheritance
+    class GrandParent:
+        def grandparent_invariant(self):
+            return True, "grandparent"
+    
+    class Parent(GrandParent):
+        def parent_invariant(self):
+            return True, "parent"
+    
+    class Child(Parent):
+        def child_invariant(self):
+            return True, "child"
+    
+    dct = {'_invariant': Child.child_invariant}
+    bases = (Parent,)
+    store_invariants(dct, bases, '_invariants', '_invariant')
+    
+    assert len(dct['_invariants']) == 1
+    
+    # Test 5: Diamond inheritance (should avoid duplicates)
+    class A:
+        def a_invariant(self):
+            return True, "a"
+    
+    class B(A):
+        pass
+    
+    class C(A):
+        pass
+    
+    class D(B, C):
+        def d_invariant(self):
+            return True, "d"
+    
+    dct = {'_invariant': D.d_invariant}
+    bases = (B, C)
+    store_invariants(dct, bases, '_invariants', '_invariant')
+    
+    assert len(dct['_invariants']) == 1
+    
+    # Test 6: Non-callable invariant raises TypeError
+    dct = {'_invariant': "not a callable"}
+    bases = ()
+    
+    try:
+        store_invariants(dct, bases, '_invariants', '_invariant')
+        assert False, "Should have raised TypeError"
+    except TypeError as e:
+        assert "Invariants must be callable" in str(e)
+    
+    # Test 7: Multiple invariants from different sources
+    class Source1:
+        def inv1(self):
+            return True, "inv1"
+    
+    class Source2:
+        def inv2(self):
+            return True, "inv2"
+    
+    dct = {'_invariant': lambda self: (True, "dct_inv")}
+    bases = (Source1, Source2)
+    
+    # Add invariants to base classes
+    Source1._invariant = Source1.inv1
+    Source2._invariant = Source2.inv2
+    
+    store_invariants(dct, bases, '_invariants', '_invariant')
+    
+    assert len(dct['_invariants']) == 3
+    
+    # Test 8: Wrap invariant handles tuple returns
+    def multi_result_invariant(obj):
+        return [(True, "result1"), (False, "result2")]
+    
+    dct = {'_invariant': multi_result_invariant}
+    bases = ()
+    store_invariants(dct, bases, '_invariants', '_invariant')
+    
+    wrapped_invariant = dct['_invariants'][0]
+    result = wrapped_invariant(None)
+    
+    assert isinstance(result, tuple)
+    assert len(result) == 2
+    assert result[0] is False
+    assert isinstance(result[1], tuple)
+    assert "result2" in result[1]
+    
+    # Test 9: Wrap invariant passes through bool results
+    def simple_invariant(obj):
+        return True, "simple"
+    
+    dct = {'_invariant': simple_invariant}
+    bases = ()
+    store_invariants(dct, bases, '_invariants', '_invariant')
+    
+    wrapped_invariant = dct['_invariants'][0]
+    result = wrapped_invariant(None)
+    
+    assert result == (True, "simple")
+    
+    # Test 10: Empty invariants
+    dct = {}
+    bases = ()
+    store_invariants(dct, bases, '_invariants', '_invariant')
+    
+    assert '_invariants' in dct
+    assert dct['_invariants'] == ()
+
+
+# LLM-generated content at query #17
+#--------------------------
+
+```python
+def test_store_invariants():
+    # Test 1: Basic invariant storage
+    class Base:
+        def invariant1(self):
+            return True, ()
+    
+    dct = {}
+    bases = (Base,)
+    store_invariants(dct, bases, '_invariants', 'invariant')
+    
+    assert '_invariants' in dct
+    assert len(dct['_invariants']) == 1
+    assert callable(dct['_invariants'][0])
+    
+    # Test 2: Multiple invariants from multiple sources
+    class Base1:
+        def invariant1(self):
+            return True, ()
+    
+    class Base2:
+        def invariant2(self):
+            return False, ("error",)
+    
+    dct = {'invariant3': lambda self: (True, ())}
+    bases = (Base1, Base2)
+    store_invariants(dct, bases, '_invariants', 'invariant')
+    
+    assert len(dct['_invariants']) == 3
+    assert all(callable(inv) for inv in dct['_invariants'])
+    
+    # Test 3: Inheritance hierarchy
+    class GrandParent:
+        def grandparent_invariant(self):
+            return True, ()
+    
+    class Parent(GrandParent):
+        def parent_invariant(self):
+            return True, ()
+    
+    class Child(Parent):
+        def child_invariant(self):
+            return True, ()
+    
+    dct = {}
+    bases = (Child,)
+    store_invariants(dct, bases, '_invariants', 'invariant')
+    
+    # Should get invariants from all levels
+    invariant_names = [inv.__name__ for inv in dct['_invariants']]
+    assert 'grandparent_invariant' in invariant_names
+    assert 'parent_invariant' in invariant_names
+    assert 'child_invariant' in invariant_names
+    
+    # Test 4: Wrap_invariant functionality with tuple return
+    def complex_invariant(self):
+        return ((True, ()), (False, ("error1",)), (True, ()))
+    
+    dct = {'invariant': complex_invariant}
+    bases = ()
+    store_invariants(dct, bases, '_invariants', 'invariant')
+    
+    # The wrapped invariant should merge results
+    wrapped_inv = dct['_invariants'][0]
+    result = wrapped_inv(None)
+    assert isinstance(result, tuple)
+    assert len(result) == 2
+    assert result[0] is False  # One False makes overall False
+    assert len(result[1]) == 1  # Only one error
+    
+    # Test 5: Wrap_invariant functionality with simple bool return
+    def simple_invariant(self):
+        return True, ()
+    
+    dct = {'invariant': simple_invariant}
+    bases = ()
+    store_invariants(dct, bases, '_invariants', 'invariant')
+    
+    wrapped_inv = dct['_invariants'][0]
+    result = wrapped_inv(None)
+    assert result == (True, ())
+    
+    # Test 6: Non-callable invariant should raise TypeError
+    class BadBase:
+        invariant = "not callable"
+    
+    dct = {}
+    bases = (BadBase,)
+    
+    try:
+        store_invariants(dct, bases, '_invariants', 'invariant')
+        assert False, "Should have raised TypeError"
+    except TypeError:
+        pass
+    
+    # Test 7: Diamond inheritance - avoid duplicates
+    class A:
+        def invariant_a(self):
+            return True, ()
+    
+    class B(A):
+        pass
+    
+    class C(A):
+        pass
+    
+    class D(B, C):
+        def invariant_d(self):
+            return True, ()
+    
+    dct = {}
+    bases = (D,)
+    store_invariants(dct, bases, '_invariants', 'invariant')
+    
+    # Should have invariant_a once and invariant_d once
+    invariant_names = [inv.__name__ for inv in dct['_invariants']]
+    assert invariant_names.count('invariant_a') == 1
+    assert invariant_names.count('invariant_d') == 1
+    
+    # Test 8: Empty case
+    dct = {}
+    bases = ()
+    store_invariants(dct, bases, '_invariants', 'invariant')
+    
+    assert '_invariants' in dct
+    assert dct['_invariants'] == ()
+
+
+# LLM-generated content at query #18
+#--------------------------
+
+```python
+def test_wrap_invariant():
+    # Test 1: Invariant that returns a single boolean result
+    def simple_invariant(value):
+        return value > 0, "Value must be positive"
+    
+    wrapped = wrap_invariant(simple_invariant)
+    result = wrapped(5)
+    assert result == (True, "Value must be positive")
+    
+    result = wrapped(-1)
+    assert result == (False, "Value must be positive")
+    
+    # Test 2: Invariant that returns multiple results (list of tuples)
+    def multi_invariant(value):
+        return [
+            (value > 0, "Value must be positive"),
+            (value < 10, "Value must be less than 10"),
+            (value % 2 == 0, "Value must be even")
+        ]
+    
+    wrapped = wrap_invariant(multi_invariant)
+    
+    # Test with value that passes all checks
+    result = wrapped(6)
+    assert result == (True, ())
+    
+    # Test with value that fails one check
+    result = wrapped(11)
+    assert result[0] == False
+    assert len(result[1]) == 2  # Should have 2 error messages
+    assert "Value must be less than 10" in str(result[1])
+    assert "Value must be even" in str(result[1])
+    
+    # Test with value that fails multiple checks
+    result = wrapped(-2)
+    assert result[0] == False
+    assert len(result[1]) == 2  # Should have 2 error messages
+    assert "Value must be positive" in str(result[1])
+    assert "Value must be even" in str(result[1])
+    
+    # Test 3: Invariant with multiple arguments
+    def complex_invariant(a, b, c=0):
+        return [
+            (a > b, "a must be greater than b"),
+            (b > c, "b must be greater than c"),
+            (a + b + c > 0, "Sum must be positive")
+        ]
+    
+    wrapped = wrap_invariant(complex_invariant)
+    
+    # Test passing case
+    result = wrapped(3, 2, 1)
+    assert result == (True, ())
+    
+    # Test failing case
+    result = wrapped(1, 2, 3)
+    assert result[0] == False
+    assert len(result[1]) == 3  # All three checks should fail
+    
+    # Test 4: Invariant with keyword arguments
+    result = wrapped(2, 1, c=0)
+    assert result == (True, ())
+    
+    # Test 5: Empty result list (edge case)
+    def empty_invariant(value):
+        return []
+    
+    wrapped = wrap_invariant(empty_invariant)
+    result = wrapped(5)
+    assert result == (True, ())
+    
+    # Test 6: Single tuple in list (edge case)
+    def single_tuple_invariant(value):
+        return [(value > 0, "Positive required")]
+    
+    wrapped = wrap_invariant(single_tuple_invariant)
+    result = wrapped(5)
+    assert result == (True, ())
+    
+    result = wrapped(-5)
+    assert result == (False, ("Positive required",))
+
+
+# LLM-generated content at query #19
+#--------------------------
+
+```python
+def test_CheckedPMap___new__():
+    # Test 1: Create empty CheckedPMap
+    class TestMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    m1 = TestMap()
+    assert isinstance(m1, TestMap)
+    assert len(m1) == 0
+    
+    # Test 2: Create with initial dict
+    m2 = TestMap({1: "a", 2: "b"})
+    assert isinstance(m2, TestMap)
+    assert len(m2) == 2
+    assert m2[1] == "a"
+    assert m2[2] == "b"
+    
+    # Test 3: Type checking on creation
+    class IntMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+    
+    # Should work with correct types
+    m3 = IntMap({1: 10, 2: 20})
+    assert m3[1] == 10
+    
+    # Should raise error with wrong key type
+    try:
+        IntMap({"wrong": 10})
+        assert False, "Should have raised CheckedKeyTypeError"
+    except CheckedKeyTypeError as e:
+        assert e.source_class == IntMap
+        assert str in e.expected_types
+    
+    # Should raise error with wrong value type
+    try:
+        IntMap({1: "wrong"})
+        assert False, "Should have raised CheckedValueTypeError"
+    except CheckedValueTypeError as e:
+        assert e.source_class == IntMap
+        assert int in e.expected_types
+    
+    # Test 4: Invariant checking on creation
+    class PositiveMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+        __invariant__ = lambda k, v: (v > 0, "Value must be positive")
+    
+    # Should work with positive values
+    m4 = PositiveMap({1: 10, 2: 20})
+    assert m4[1] == 10
+    
+    # Should raise InvariantException with negative values
+    try:
+        PositiveMap({1: -10})
+        assert False, "Should have raised InvariantException"
+    except InvariantException as e:
+        assert "Value must be positive" in str(e.error_codes)
+    
+    # Test 5: Create from existing CheckedPMap (should return same instance)
+    m5 = TestMap({1: "a"})
+    m5_copy = TestMap(m5)
+    assert m5_copy is m5  # Should be same instance
+    
+    # Test 6: Create with size parameter (internal use)
+    m6 = TestMap(pmap({1: "a", 2: "b"}), size=2)
+    assert isinstance(m6, TestMap)
+    assert len(m6) == 2
+    
+    # Test 7: Multiple key/value types
+    class MultiTypeMap(CheckedPMap):
+        __key_type__ = (int, str)
+        __value_type__ = (int, float, type(None))
+    
+    m7 = MultiTypeMap({1: 10, "a": 3.14, 2: None})
+    assert len(m7) == 3
+    assert m7["a"] == 3.14
+    
+    # Test 8: CheckedType inheritance in values
+    class InnerType(CheckedPVector):
+        __type__ = int
+    
+    class OuterMap(CheckedPMap):
+        __key_type__ = str
+        __value_type__ = InnerType
+    
+    inner = InnerType([1, 2, 3])
+    m8 = OuterMap({"test": inner})
+    assert isinstance(m8["test"], InnerType)
+    assert list(m8["test"]) == [1, 2, 3]
+    
+    # Test 9: Serializer default
+    m9 = TestMap({1: "test"})
+    serialized = m9.serialize()
+    assert serialized == {1: "test"}
+    
+    # Test 10: Evolver integration
+    evolver = m2.evolver()
+    evolver.set(3, "c")
+    m10 = evolver.persistent()
+    assert isinstance(m10, TestMap)
+    assert len(m10) == 3
+    assert m10[3] == "c"
+
+
+# LLM-generated content at query #20
+#--------------------------
+
+```python
+def test_CheckedPMap___new__():
+    # Test 1: Create empty CheckedPMap
+    class TestMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+
+    result = TestMap()
+    assert isinstance(result, TestMap)
+    assert len(result) == 0
+
+    # Test 2: Create with initial dictionary
+    result = TestMap({1: "a", 2: "b"})
+    assert isinstance(result, TestMap)
+    assert result[1] == "a"
+    assert result[2] == "b"
+    assert len(result) == 2
+
+    # Test 3: Create with existing CheckedPMap instance
+    original = TestMap({1: "a"})
+    result = TestMap(original)
+    assert isinstance(result, TestMap)
+    assert result[1] == "a"
+    assert result is not original
+
+    # Test 4: Type checking for keys
+    class IntMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+
+    with pytest.raises(CheckedKeyTypeError):
+        IntMap({"invalid": "value"})
+
+    # Test 5: Type checking for values
+    class StrValueMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+
+    with pytest.raises(CheckedValueTypeError):
+        StrValueMap({1: 123})
+
+    # Test 6: Invariant checking
+    class PositiveMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+        __invariant__ = lambda k, v: (v > 0, "Value must be positive")
+
+    with pytest.raises(InvariantException):
+        PositiveMap({1: -1})
+
+    # Test 7: Multiple invariants
+    class MultiInvariantMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+        __invariant__ = lambda k, v: (v > 0, "Positive")
+        __invariant__ = lambda k, v: (v < 10, "Less than 10")
+
+    with pytest.raises(InvariantException):
+        MultiInvariantMap({1: 15})
+
+    # Test 8: Inheritance of types and invariants
+    class BaseMap(CheckedPMap):
+        __key_type__ = int
+        __invariant__ = lambda k, v: (k > 0, "Key positive")
+
+    class DerivedMap(BaseMap):
+        __value_type__ = str
+
+    result = DerivedMap({1: "a"})
+    assert isinstance(result, DerivedMap)
+    
+    with pytest.raises(InvariantException):
+        DerivedMap({-1: "a"})
+
+    # Test 9: Create with size parameter (internal use)
+    internal_pmap = pmap({1: "a", 2: "b"})
+    result = TestMap(internal_pmap, size=2)
+    assert isinstance(result, TestMap)
+    assert result[1] == "a"
+    assert result[2] == "b"
+
+    # Test 10: Check evolver integration
+    test_map = TestMap({1: "a"})
+    evolver = test_map.evolver()
+    evolver.set(2, "b")
+    result = evolver.persistent()
+    assert isinstance(result, TestMap)
+    assert result[1] == "a"
+    assert result[2] == "b"
 
 
 # LLM-generated content at query #21
 #--------------------------
 
-# Unit test for function get_type
-def test_get_type():
-    class MyClass:
-        pass
-
-    assert get_type(MyClass) == MyClass
-    assert get_type("builtins.int") == int
-    assert get_type("builtins.str") == str
+```python
+def test_CheckedPMap___new__():
+    # Test basic instantiation with empty dict
+    class SimpleMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    m = SimpleMap()
+    assert isinstance(m, SimpleMap)
+    assert len(m) == 0
+    
+    # Test instantiation with initial data
+    m = SimpleMap({1: "one", 2: "two"})
+    assert m[1] == "one"
+    assert m[2] == "two"
+    
+    # Test type checking on keys
+    class StringMap(CheckedPMap):
+        __key_type__ = str
+        __value_type__ = int
+    
+    m = StringMap({"a": 1, "b": 2})
+    assert m["a"] == 1
+    
+    # Test type checking violation on keys
     try:
-        get_type("nonexistent.module.NonExistentClass")
-    except (ImportError, AttributeError):
+        StringMap({1: 1})
+        assert False, "Should have raised CheckedKeyTypeError"
+    except CheckedKeyTypeError as e:
+        assert e.source_class == StringMap
+    
+    # Test type checking violation on values
+    try:
+        StringMap({"a": "not_an_int"})
+        assert False, "Should have raised CheckedValueTypeError"
+    except CheckedValueTypeError:
         pass
-    else:
-        assert False, "Expected ImportError or AttributeError"
+    
+    # Test with multiple allowed types
+    class MultiTypeMap(CheckedPMap):
+        __key_type__ = (int, str)
+        __value_type__ = (int, float)
+    
+    m = MultiTypeMap({1: 1.5, "two": 2})
+    assert m[1] == 1.5
+    assert m["two"] == 2
+    
+    # Test invariant checking
+    class PositiveMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+        __invariant__ = lambda k, v: (v > 0, "Value must be positive")
+    
+    m = PositiveMap({1: 5, 2: 10})
+    assert m[1] == 5
+    
+    try:
+        PositiveMap({1: -5})
+        assert False, "Should have raised InvariantException"
+    except InvariantException:
+        pass
+    
+    # Test that existing CheckedPMap instance is returned unchanged
+    m1 = SimpleMap({1: "one"})
+    m2 = SimpleMap(m1)
+    assert m1 is m2
+    
+    # Test with internal size parameter (private API)
+    internal_map = SimpleMap({1: "one"})._map
+    m = SimpleMap(internal_map, size=1)
+    assert m[1] == "one"
+    
+    # Test with custom serializer
+    class CustomSerializerMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+        __serializer__ = lambda self, _, k, v: (str(k), v.upper())
+    
+    m = CustomSerializerMap({1: "hello"})
+    serialized = m.serialize()
+    assert serialized == {"1": "HELLO"}
+    
+    # Test inheritance of type definitions
+    class BaseMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    class DerivedMap(BaseMap):
+        pass
+    
+    m = DerivedMap({1: "test"})
+    assert isinstance(m, DerivedMap)
+    assert m[1] == "test"
+    
+    # Test that non-dict initializer raises appropriate errors
+    try:
+        SimpleMap([(1, "one")])  # Should work since it's iterable
+    except Exception:
+        pass
+    
+    # Test with None values using optional
+    class OptionalMap(CheckedPMap):
+        __key_type__ = str
+        __value_type__ = optional(int)
+    
+    m = OptionalMap({"a": 1, "b": None})
+    assert m["a"] == 1
+    assert m["b"] is None
 
 
 # LLM-generated content at query #22
 #--------------------------
 
-# Unit test for function get_type
-def test_get_type():
-    import pytest
-    from collections import namedtuple
-
-    TestTuple = namedtuple('TestTuple', 'field1 field2')
-    assert get_type(TestTuple) == TestTuple
-
-    with pytest.raises(AttributeError):
-        get_type('non_existent_module.NonExistentClass')
-
-    with pytest.raises(ValueError):
-        get_type('not_a_valid_type_name')
-
-    assert get_type(str) == str
-
-
-# LLM-generated content at query #23
-#--------------------------
-
-# Unit test for function maybe_parse_user_type
-def test_maybe_parse_user_type():
-    # Test with a single type
-    assert maybe_parse_user_type(int) == [int]
-    # Test with a string
-    assert maybe_parse_user_type("str") == ["str"]
-    # Test with a preserved type
-    class TestEnum(Enum):
-        A = 1
-    assert maybe_parse_user_type(TestEnum) == [TestEnum]
-    # Test with an iterable of types
-    assert maybe_parse_user_type((int, str)) == (int, str)
-    # Test with an iterable containing a preserved type
-    assert maybe_parse_user_type((int, TestEnum)) == (int, TestEnum)
-    # Test with an iterable containing a string
-    assert maybe_parse_user_type((int, "str")) == (int, "str")
-    # Test with an iterable containing an iterable
-    assert maybe_parse_user_type((int, (str, TestEnum))) == (int, str, TestEnum)
-    # Test with an invalid type
-    try:
-        maybe_parse_user_type(123)
-        assert False, "Expected TypeError"
-    except TypeError:
-        pass
-
-
-# LLM-generated content at query #24
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test with a single invariant that returns a boolean
-    def single_invariant(x):
-        return x > 0, "Value must be positive"
-    
-    wrapped = wrap_invariant(single_invariant)
-    assert wrapped(5) == (True, "Value must be positive")
-    assert wrapped(-1) == (False, "Value must be positive")
-
-    # Test with multiple invariants that return a list of tuples
-    def multi_invariant(x):
-        return [(x > 0, "Positive"), (x % 2 == 0, "Even")]
-    
-    wrapped = wrap_invariant(multi_invariant)
-    assert wrapped(4) == (True, ())
-    assert wrapped(3) == (False, ("Even",))
-    assert wrapped(-2) == (False, ("Positive",))
-    assert wrapped(-1) == (False, ("Positive", "Even"))
-
-    # Test with no invariants (shouldn't happen but test for completeness)
-    def no_invariant(x):
-        return []
-    
-    wrapped = wrap_invariant(no_invariant)
-    assert wrapped(5) == (True, ())
-
-
-# LLM-generated content at query #25
-#--------------------------
-
-# Unit test for function store_invariants
-def test_store_invariants():
-    class Base:
-        def invariant(self):
-            return True, "Base"
-
-    class Derived(Base):
-        pass
-
-    dct = {}
-    bases = (Base,)
-
-    store_invariants(dct, bases, "invariants", "invariant")
-
-    assert "invariants" in dct
-    assert callable(dct["invariants"][0])
-    assert dct["invariants"][0]() == (True, ())
-
-    class AnotherBase:
-        def invariant(self):
-            return False, "AnotherBase"
-
-    class Combined(AnotherBase, Derived):
-        pass
-
-    dct = {}
-    bases = (AnotherBase, Derived)
-
-    store_invariants(dct, bases, "invariants", "invariant")
-
-    assert "invariants" in dct
-    assert len(dct["invariants"]) == 2
-    assert dct["invariants"][0]() == (True, ())
-    assert dct["invariants"][1]() == (False, ("AnotherBase",))
-
-
-# LLM-generated content at query #26
-#--------------------------
-
-# Unit test for function maybe_parse_user_type
-def test_maybe_parse_user_type():
-    assert maybe_parse_user_type(int) == [int]
-    assert maybe_parse_user_type(str) == [str]
-    assert maybe_parse_user_type('foo') == ['foo']
-    assert maybe_parse_user_type((int, str)) == [int, str]
-    assert maybe_parse_user_type([int, str]) == [int, str]
-    assert maybe_parse_user_type(Enum) == [Enum]
-
-    try:
-        maybe_parse_user_type(123)
-        assert False, "Should have raised TypeError"
-    except TypeError:
-        pass
-
-    print("All tests passed!")
-
-test_maybe_parse_user_type()
-
-
-# LLM-generated content at query #27
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test case 1: Invariant returns single boolean result
-    def invariant1(x):
-        return x > 10, "Value must be greater than 10"
-    
-    wrapped1 = wrap_invariant(invariant1)
-    assert wrapped1(15) == (True, "Value must be greater than 10")
-    assert wrapped1(5) == (False, "Value must be greater than 10")
-    
-    # Test case 2: Invariant returns multiple results that need merging
-    def invariant2(x):
-        return [(x > 10, "Greater than 10"), (x < 20, "Less than 20")]
-    
-    wrapped2 = wrap_invariant(invariant2)
-    assert wrapped2(15) == (True, ())
-    assert wrapped2(5) == (False, ("Value must be greater than 10", "Value must be less than 20"))
-    assert wrapped2(25) == (False, ("Value must be less than 20",))
-    
-    # Test case 3: Invariant with no message
-    def invariant3(x):
-        return x > 10
-    
-    wrapped3 = wrap_invariant(invariant3)
-    assert wrapped3(15) == (True, None)
-    assert wrapped3(5) == (False, None)
-
-
-# LLM-generated content at query #28
-#--------------------------
-
-# Unit test for method __new__ of class CheckedPMap
+```python
 def test_CheckedPMap___new__():
-    # Test creating a CheckedPMap with initial values
-    class IntToFloatMap(CheckedPMap):
+    # Test basic creation with empty dict
+    class SimpleMap(CheckedPMap):
         __key_type__ = int
-        __value_type__ = float
-
-    pm = IntToFloatMap({1: 1.5, 2: 2.25})
-    assert isinstance(pm, IntToFloatMap)
-    assert pm == {1: 1.5, 2: 2.25}
-
-    # Test creating a CheckedPMap with invalid key type
+        __value_type__ = str
+    
+    m = SimpleMap()
+    assert isinstance(m, SimpleMap)
+    assert len(m) == 0
+    
+    # Test creation with initial data
+    m = SimpleMap({1: "one", 2: "two"})
+    assert m[1] == "one"
+    assert m[2] == "two"
+    assert len(m) == 2
+    
+    # Test creation with existing CheckedPMap instance
+    m2 = SimpleMap(m)
+    assert m2[1] == "one"
+    assert m2[2] == "two"
+    
+    # Test type checking on keys
+    class StringMap(CheckedPMap):
+        __key_type__ = str
+        __value_type__ = int
+    
+    m = StringMap({"a": 1, "b": 2})
+    assert m["a"] == 1
+    
+    # Test type checking raises error for wrong key type
     try:
-        pm = IntToFloatMap({'a': 1.5})
-    except CheckedKeyTypeError as e:
-        assert isinstance(e, CheckedKeyTypeError)
-        assert e.expected_types == (int,)
-        assert e.actual_type == str
-
-    # Test creating a CheckedPMap with invalid value type
-    try:
-        pm = IntToFloatMap({1: 'a'})
-    except CheckedValueTypeError as e:
-        assert isinstance(e, CheckedValueTypeError)
-        assert e.expected_types == (float,)
-        assert e.actual_type == str
-
-    # Test creating a CheckedPMap with a size parameter
-    pm = IntToFloatMap({}, size=0)
-    assert isinstance(pm, IntToFloatMap)
-    assert pm == {}
-
-    # Test creating a CheckedPMap from another CheckedPMap
-    pm2 = IntToFloatMap(pm)
-    assert isinstance(pm2, IntToFloatMap)
-    assert pm2 == pm
-
-
-# LLM-generated content at query #29
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test with a single invariant returning a boolean
-    def invariant1(x):
-        return x > 0
-
-    wrapped = wrap_invariant(invariant1)
-    assert wrapped(5) == True
-    assert wrapped(-1) == False
-
-    # Test with multiple invariants returning tuples
-    def invariant2(x):
-        return [(x > 0, "positive"), (x % 2 == 0, "even")]
-
-    wrapped = wrap_invariant(invariant2)
-    assert wrapped(4) == (True, ())
-    assert wrapped(3) == (False, ("even",))
-    assert wrapped(-2) == (False, ("positive",))
-
-    # Test with empty result
-    def invariant3(x):
-        return []
-
-    wrapped = wrap_invariant(invariant3)
-    assert wrapped(5) == (True, ())
-
-    print("All tests passed!")
-
-test_wrap_invariant()
-
-
-# LLM-generated content at query #30
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test with a single invariant returning a boolean
-    def invariant1(x):
-        return x > 0
-
-    wrapped1 = wrap_invariant(invariant1)
-    assert wrapped1(5) == True
-    assert wrapped1(-1) == False
-
-    # Test with multiple invariants returning tuples
-    def invariant2(x):
-        return [(x > 0, "positive"), (x % 2 == 0, "even")]
-
-    wrapped2 = wrap_invariant(invariant2)
-    assert wrapped2(4) == (True, ())
-    assert wrapped2(-2) == (False, ("positive",))
-    assert wrapped2(3) == (False, ("even",))
-    assert wrapped2(-3) == (False, ("positive", "even"))
-
-    # Test with empty result
-    def invariant3(x):
-        return []
-
-    wrapped3 = wrap_invariant(invariant3)
-    assert wrapped3(5) == (True, ())
-
-    print("All tests passed!")
-
-test_wrap_invariant()
-
-
-# LLM-generated content at query #31
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test case 1: Invariant returns a single boolean outcome
-    def invariant1(x):
-        return x > 0, "x must be positive"
-
-    wrapped_invariant1 = wrap_invariant(invariant1)
-    assert wrapped_invariant1(5) == (True, "x must be positive")
-    assert wrapped_invariant1(-1) == (False, "x must be positive")
-
-    # Test case 2: Invariant returns multiple boolean outcomes
-    def invariant2(x):
-        return [(x > 0, "x must be positive"), (x < 10, "x must be less than 10")]
-
-    wrapped_invariant2 = wrap_invariant(invariant2)
-    assert wrapped_invariant2(5) == (True, ("x must be positive", "x must be less than 10"))
-    assert wrapped_invariant2(15) == (False, ("x must be positive", "x must be less than 10"))
-    assert wrapped_invariant2(-1) == (False, ("x must be positive", "x must be less than 10"))
-
-    # Test case 3: Invariant returns a tuple with a boolean and a list of outcomes
-    def invariant3(x):
-        return (x > 0, ["x must be positive", "x must be greater than 0"])
-
-    wrapped_invariant3 = wrap_invariant(invariant3)
-    assert wrapped_invariant3(5) == (True, ("x must be positive", "x must be greater than 0"))
-    assert wrapped_invariant3(-1) == (False, ("x must be positive", "x must be greater than 0"))
-
-    print("All test cases passed!")
-
-test_wrap_invariant()
-
-
-# LLM-generated content at query #32
-#--------------------------
-
-# Unit test for function maybe_parse_user_type
-def test_maybe_parse_user_type():
-    assert maybe_parse_user_type(str) == [str]
-    assert maybe_parse_user_type("str") == ["str"]
-    assert maybe_parse_user_type((str, int)) == (str, int)
-    assert maybe_parse_user_type([str, int]) == (str, int)
-    assert maybe_parse_user_type([str, [int]]) == (str, int)
-    assert maybe_parse_user_type(Enum) == [Enum]
-    assert maybe_parse_user_type([Enum]) == [Enum]
-
-    try:
-        maybe_parse_user_type(123)
-        assert False, "Expected TypeError"
-    except TypeError:
-        pass
-
-    try:
-        maybe_parse_user_type([123])
-        assert False, "Expected TypeError"
-    except TypeError:
-        pass
-
-
-# LLM-generated content at query #33
-#--------------------------
-
-# Unit test for method __new__ of class CheckedPMap
-def test_CheckedPMap___new__():
-    class IntToFloatMap(CheckedPMap):
-        __key_type__ = int
-        __value_type__ = float
-        __invariant__ = lambda k, v: (int(v) == k, 'Invalid mapping')
-
-    # Test with empty initial map
-    empty_map = IntToFloatMap()
-    assert isinstance(empty_map, IntToFloatMap)
-    assert len(empty_map) == 0
-
-    # Test with initial data
-    initial_data = {1: 1.5, 2: 2.25}
-    map_with_data = IntToFloatMap(initial_data)
-    assert isinstance(map_with_data, IntToFloatMap)
-    assert len(map_with_data) == 2
-    assert map_with_data[1] == 1.5
-    assert map_with_data[2] == 2.25
-
-    # Test with invalid key type
-    try:
-        IntToFloatMap({'a': 1.5})
-        assert False, "Expected CheckedKeyTypeError"
+        StringMap({1: 1})
+        assert False, "Should have raised CheckedKeyTypeError"
     except CheckedKeyTypeError:
         pass
-
-    # Test with invalid value type
+    
+    # Test type checking raises error for wrong value type
     try:
-        IntToFloatMap({1: 'a'})
-        assert False, "Expected CheckedValueTypeError"
+        StringMap({"a": "not_int"})
+        assert False, "Should have raised CheckedValueTypeError"
     except CheckedValueTypeError:
         pass
-
-    # Test with invariant violation
+    
+    # Test with multiple allowed types
+    class MultiTypeMap(CheckedPMap):
+        __key_type__ = (int, str)
+        __value_type__ = (int, float)
+    
+    m = MultiTypeMap({1: 1.5, "two": 2})
+    assert m[1] == 1.5
+    assert m["two"] == 2
+    
+    # Test invariant checking
+    class PositiveMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = int
+        __invariant__ = lambda k, v: (v > 0, "Value must be positive")
+    
+    m = PositiveMap({1: 5, 2: 10})
+    assert m[1] == 5
+    
+    # Test invariant violation raises error
     try:
-        IntToFloatMap({1: 2.5})
-        assert False, "Expected InvariantException"
+        PositiveMap({1: -5})
+        assert False, "Should have raised InvariantException"
     except InvariantException:
         pass
-
+    
     # Test with size parameter (internal use)
-    internal_map = IntToFloatMap(initial_data, size=2)
-    assert isinstance(internal_map, IntToFloatMap)
-    assert len(internal_map) == 2
-
-
-# LLM-generated content at query #34
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test case 1: Invariant returns a single boolean result
-    def invariant1(x):
-        return x > 0, "x should be positive"
-
-    wrapped_invariant1 = wrap_invariant(invariant1)
-    assert wrapped_invariant1(5) == (True, "x should be positive")
-    assert wrapped_invariant1(-5) == (False, "x should be positive")
-
-    # Test case 2: Invariant returns multiple boolean results
-    def invariant2(x):
-        return [(x > 0, "x should be positive"), (x < 10, "x should be less than 10")]
-
-    wrapped_invariant2 = wrap_invariant(invariant2)
-    assert wrapped_invariant2(5) == (True, ())
-    assert wrapped_invariant2(15) == (False, ("x should be less than 10",))
-    assert wrapped_invariant2(-5) == (False, ("x should be positive", "x should be less than 10"))
-
-    # Test case 3: Invariant returns a tuple with a boolean and a list of tuples
-    def invariant3(x):
-        return [(x > 0, "x should be positive"), (x < 10, "x should be less than 10")]
-
-    wrapped_invariant3 = wrap_invariant(invariant3)
-    assert wrapped_invariant3(5) == (True, ())
-    assert wrapped_invariant3(15) == (False, ("x should be less than 10",))
-    assert wrapped_invariant3(-5) == (False, ("x should be positive", "x should be less than 10"))
-
-
-# LLM-generated content at query #35
-#--------------------------
-
-# Unit test for function store_invariants
-def test_store_invariants():
-    class Base:
-        @staticmethod
-        def invariant1(value):
-            return value > 0, "Value must be greater than 0"
-
-    class Derived(Base):
-        @staticmethod
-        def invariant2(value):
-            return value < 10, "Value must be less than 10"
-
-    dct = {}
-    store_invariants(dct, (Base, Derived), 'invariants', 'invariant1')
-    assert len(dct['invariants']) == 1
-    store_invariants(dct, (Base, Derived), 'invariants', 'invariant2')
-    assert len(dct['invariants']) == 2
-
-    # Test with non-callable invariant
+    internal_pmap = pmap({1: "a", 2: "b"})
+    m = SimpleMap(internal_pmap, size=2)
+    assert m[1] == "a"
+    assert m[2] == "b"
+    
+    # Test inheritance of type constraints
+    class BaseMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = str
+    
+    class DerivedMap(BaseMap):
+        pass
+    
+    m = DerivedMap({1: "test"})
+    assert isinstance(m, DerivedMap)
+    assert m[1] == "test"
+    
+    # Test that wrong type in derived class still raises error
     try:
-        dct['invalid_invariant'] = 42
-        store_invariants(dct, (Base, Derived), 'invariants', 'invalid_invariant')
-    except TypeError:
+        DerivedMap({"string_key": "value"})
+        assert False, "Should have raised CheckedKeyTypeError"
+    except CheckedKeyTypeError:
         pass
-    else:
-        assert False, "Expected TypeError for non-callable invariant"
-
-    # Test with multiple invariants
-    class MultiInvariant:
-        @staticmethod
-        def invariant3(value):
-            return value != 5, "Value cannot be 5"
-
-    dct = {}
-    store_invariants(dct, (Base, Derived, MultiInvariant), 'invariants', 'invariant1')
-    assert len(dct['invariants']) == 1
-    store_invariants(dct, (Base, Derived, MultiInvariant), 'invariants', 'invariant2')
-    assert len(dct['invariants']) == 2
-    store_invariants(dct, (Base, Derived, MultiInvariant), 'invariants', 'invariant3')
-    assert len(dct['invariants']) == 3
-
-    # Test with inherited invariants
-    class GrandParent:
-        @staticmethod
-        def invariant4(value):
-            return value % 2 == 0, "Value must be even"
-
-    class Parent(GrandParent):
-        pass
-
-    class Child(Parent):
-        pass
-
-    dct = {}
-    store_invariants(dct, (GrandParent, Parent, Child), 'invariants', 'invariant4')
-    assert len(dct['invariants']) == 1
-
-test_store_invariants()
-
-
-# LLM-generated content at query #36
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    def invariant_true(x):
-        return True, "true"
-
-    def invariant_false(x):
-        return False, "false"
-
-    def invariant_multiple(x):
-        return [(True, "true1"), (False, "false1"), (True, "true2")]
-
-    # Test with invariant that returns a single boolean
-    wrapped_true = wrap_invariant(invariant_true)
-    assert wrapped_true(1) == (True, "true")
-
-    wrapped_false = wrap_invariant(invariant_false)
-    assert wrapped_false(1) == (False, "false")
-
-    # Test with invariant that returns multiple results
-    wrapped_multiple = wrap_invariant(invariant_multiple)
-    assert wrapped_multiple(1) == (False, ("false1",))
-
-
-# LLM-generated content at query #37
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    def invariant_single_true(x):
-        return True, ()
-
-    def invariant_single_false(x):
-        return False, ('error1',)
-
-    def invariant_multiple_true(x):
-        return [(True, ()), (True, ())]
-
-    def invariant_multiple_false(x):
-        return [(False, ('error2',)), (True, ())]
-
-    wrapped_single_true = wrap_invariant(invariant_single_true)
-    wrapped_single_false = wrap_invariant(invariant_single_false)
-    wrapped_multiple_true = wrap_invariant(invariant_multiple_true)
-    wrapped_multiple_false = wrap_invariant(invariant_multiple_false)
-
-    assert wrapped_single_true(1) == (True, ())
-    assert wrapped_single_false(1) == (False, ('error1',))
-    assert wrapped_multiple_true(1) == (True, ())
-    assert wrapped_multiple_false(1) == (False, (('error2',),))
-
-
-# LLM-generated content at query #38
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    def invariant_true(value):
-        return True, "True"
-
-    def invariant_false(value):
-        return False, "False"
-
-    def invariant_multiple(value):
-        return [(True, "True1"), (False, "False1"), (True, "True2")]
-
-    wrapped_true = wrap_invariant(invariant_true)
-    wrapped_false = wrap_invariant(invariant_false)
-    wrapped_multiple = wrap_invariant(invariant_multiple)
-
-    assert wrapped_true(1) == (True, "True")
-    assert wrapped_false(1) == (False, "False")
-    assert wrapped_multiple(1) == (False, ("False1",))
-
-
-# LLM-generated content at query #39
-#--------------------------
-
-# Unit test for function maybe_parse_user_type
-def test_maybe_parse_user_type():
-    # Test case 1: Single type
-    assert maybe_parse_user_type(int) == [int]
-
-    # Test case 2: Preserved type (Enum)
-    class TestEnum(Enum):
-        A = 1
-        B = 2
-    assert maybe_parse_user_type(TestEnum) == [TestEnum]
-
-    # Test case 3: String type
-    assert maybe_parse_user_type("int") == ["int"]
-
-    # Test case 4: Iterable of types
-    assert maybe_parse_user_type((int, str)) == (int, str)
-
-    # Test case 5: Nested iterable of types
-    assert maybe_parse_user_type((int, (str, float))) == (int, str, float)
-
-    # Test case 6: Invalid type (non-type and non-string)
-    try:
-        maybe_parse_user_type(123)
-    except TypeError:
-        pass
-    else:
-        assert False, "Expected TypeError"
-
-    # Test case 7: Empty iterable
-    assert maybe_parse_user_type(()) == ()
-
-    print("All test cases passed!")
-
-test_maybe_parse_user_type()
-
-
-# LLM-generated content at query #40
-#--------------------------
-
-# Unit test for function store_invariants
-def test_store_invariants():
-    class Base:
-        def invariant1(self):
-            return True, None
-
-    class Derived(Base):
-        def invariant2(self):
-            return False, "Error"
-
-    dct = {}
-    store_invariants(dct, (Base, Derived), 'invariants', 'invariant1')
-    assert len(dct['invariants']) == 1
-    store_invariants(dct, (Base, Derived), 'invariants', 'invariant2')
-    assert len(dct['invariants']) == 2
-
-    # Test that invariants are wrapped correctly
-    dct = {}
-    store_invariants(dct, (Base, Derived), 'invariants', 'invariant1')
-    assert dct['invariants'][0](None) == (True, None)
-
-    dct = {}
-    store_invariants(dct, (Base, Derived), 'invariants', 'invariant2')
-    assert dct['invariants'][0](None) == (False, "Error")
-
-    # Test invariant merging
-    dct = {}
-    store_invariants(dct, (Base, Derived), 'invariants', 'invariant1')
-    store_invariants(dct, (Base, Derived), 'invariants', 'invariant2')
-    assert dct['invariants'][0](None) == (True, None)
-    assert dct['invariants'][1](None) == (False, "Error")
-
-    # Test that invariants are inherited
-    class Child(Derived):
-        def invariant3(self):
-            return True, None
-
-    dct = {}
-    store_invariants(dct, (Base, Derived, Child), 'invariants', 'invariant1')
-    store_invariants(dct, (Base, Derived, Child), 'invariants', 'invariant2')
-    store_invariants(dct, (Base, Derived, Child), 'invariants', 'invariant3')
-    assert len(dct['invariants']) == 3
-    assert dct['invariants'][0](None) == (True, None)
-    assert dct['invariants'][1](None) == (False, "Error")
-    assert dct['invariants'][2](None) == (True, None)
-
-    # Test that invariants are wrapped correctly when they return multiple results
-    class MultiInvariant:
-        def invariant(self):
-            return [(True, None), (False, "Error")]
-
-    dct = {}
-    store_invariants(dct, (MultiInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a single result
-    class SingleInvariant:
-        def invariant(self):
-            return True, None
-
-    dct = {}
-    store_invariants(dct, (SingleInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (True, None)
-
-    # Test that invariants are wrapped correctly when they return a tuple
-    class TupleInvariant:
-        def invariant(self):
-            return (True, None), (False, "Error")
-
-    dct = {}
-    store_invariants(dct, (TupleInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a list
-    class ListInvariant:
-        def invariant(self):
-            return [(True, None), (False, "Error")]
-
-    dct = {}
-    store_invariants(dct, (ListInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a generator
-    class GeneratorInvariant:
-        def invariant(self):
-            yield (True, None)
-            yield (False, "Error")
-
-    dct = {}
-    store_invariants(dct, (GeneratorInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a dictionary
-    class DictInvariant:
-        def invariant(self):
-            return {'a': (True, None), 'b': (False, "Error")}
-
-    dct = {}
-    store_invariants(dct, (DictInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a set
-    class SetInvariant:
-        def invariant(self):
-            return {(True, None), (False, "Error")}
-
-    dct = {}
-    store_invariants(dct, (SetInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a frozenset
-    class FrozenSetInvariant:
-        def invariant(self):
-            return frozenset({(True, None), (False, "Error")})
-
-    dct = {}
-    store_invariants(dct, (FrozenSetInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a custom iterable
-    class CustomIterable:
-        def __init__(self):
-            self.items = [(True, None), (False, "Error")]
-
-        def __iter__(self):
-            return iter(self.items)
-
-    class CustomIterableInvariant:
-        def invariant(self):
-            return CustomIterable()
-
-    dct = {}
-    store_invariants(dct, (CustomIterableInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a custom iterator
-    class CustomIterator:
-        def __init__(self):
-            self.items = [(True, None), (False, "Error")]
-
-        def __iter__(self):
-            return self
-
-        def __next__(self):
-            if not self.items:
-                raise StopIteration
-            return self.items.pop(0)
-
-    class CustomIteratorInvariant:
-        def invariant(self):
-            return CustomIterator()
-
-    dct = {}
-    store_invariants(dct, (CustomIteratorInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a custom sequence
-    class CustomSequence:
-        def __init__(self):
-            self.items = [(True, None), (False, "Error")]
-
-        def __getitem__(self, index):
-            return self.items[index]
-
-        def __len__(self):
-            return len(self.items)
-
-    class CustomSequenceInvariant:
-        def invariant(self):
-            return CustomSequence()
-
-    dct = {}
-    store_invariants(dct, (CustomSequenceInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a custom mapping
-    class CustomMapping:
-        def __init__(self):
-            self.items = {'a': (True, None), 'b': (False, "Error")}
-
-        def __getitem__(self, key):
-            return self.items[key]
-
-        def __iter__(self):
-            return iter(self.items)
-
-    class CustomMappingInvariant:
-        def invariant(self):
-            return CustomMapping()
-
-    dct = {}
-    store_invariants(dct, (CustomMappingInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a custom set
-    class CustomSet:
-        def __init__(self):
-            self.items = {(True, None), (False, "Error")}
-
-        def __contains__(self, item):
-            return item in self.items
-
-        def __iter__(self):
-            return iter(self.items)
-
-    class CustomSetInvariant:
-        def invariant(self):
-            return CustomSet()
-
-    dct = {}
-    store_invariants(dct, (CustomSetInvariant,), 'invariants', 'invariant')
-    assert dct['invariants'][0](None) == (False, ("Error",))
-
-    # Test that invariants are wrapped correctly when they return a custom frozenset
-    class CustomFrozenSet:
-        def __init__(self):
-            self.items = frozenset({(True, None), (False, "Error")})
-
-        def __contains__(self, item):
-            return item in self.items
-
-        def __iter__(self):
-            return iter(self.items)
-
-    class CustomFrozenSetInvariant:
-        def invariant(self):
-            return CustomFrozenSet()
-
-    dct = {}
-    store_invariants(dct, (CustomFrozenSetInvariant,), 'invariants', 'inv
-
-
-# LLM-generated content at query #41
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    def invariant_true(x):
-        return True, None
-
-    def invariant_false(x):
-        return False, "Error"
-
-    def invariant_multiple(x):
-        return [(True, None), (False, "Error1"), (False, "Error2")]
-
-    wrapped_true = wrap_invariant(invariant_true)
-    assert wrapped_true(5) == (True, None)
-
-    wrapped_false = wrap_invariant(invariant_false)
-    assert wrapped_false(5) == (False, "Error")
-
-    wrapped_multiple = wrap_invariant(invariant_multiple)
-    assert wrapped_multiple(5) == (False, ("Error1", "Error2"))
-
-
-# LLM-generated content at query #42
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    def invariant_true():
-        return True, "Success"
-
-    def invariant_false():
-        return False, "Failure"
-
-    def invariant_multiple():
-        return [(True, "Success1"), (False, "Failure1"), (True, "Success2")]
-
-    wrapped_true = wrap_invariant(invariant_true)
-    assert wrapped_true() == (True, "Success")
-
-    wrapped_false = wrap_invariant(invariant_false)
-    assert wrapped_false() == (False, "Failure")
-
-    wrapped_multiple = wrap_invariant(invariant_multiple)
-    assert wrapped_multiple() == (False, ("Failure1",))
-
-
-# LLM-generated content at query #43
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test with single invariant that returns a boolean
-    def invariant1(x):
-        return x > 5, "Value must be greater than 5"
     
-    wrapped = wrap_invariant(invariant1)
-    assert wrapped(6) == (True, "Value must be greater than 5")
-    assert wrapped(4) == (False, "Value must be greater than 5")
+    # Test with optional types
+    class OptionalMap(CheckedPMap):
+        __key_type__ = int
+        __value_type__ = optional(str, type(None))
     
-    # Test with invariant that returns multiple results
-    def invariant2(x):
-        return [(x > 5, "Greater than 5"), (x < 10, "Less than 10")]
+    m = OptionalMap({1: "hello", 2: None})
+    assert m[1] == "hello"
+    assert m[2] is None
     
-    wrapped = wrap_invariant(invariant2)
-    assert wrapped(7) == (True, ())
-    assert wrapped(11) == (False, ("Less than 10",))
-    assert wrapped(3) == (False, ("Greater than 5", "Less than 10"))
-
-
-# LLM-generated content at query #44
-#--------------------------
-
-# Unit test for function store_invariants
-def test_store_invariants():
-    # Test case 1: Invariants are inherited correctly
-    class Base1:
-        def invariant1(x): return True, None
-
-    class Base2(Base1):
-        def invariant2(x): return True, None
-
-    class Derived(Base2):
-        pass
-
-    dct = {}
-    store_invariants(dct, (Base1, Base2), '_invariants', 'invariant1')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Base1, Base2), '_invariants', 'invariant2')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived,), '_invariants', 'invariant1')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived,), '_invariants', 'invariant2')
-    assert len(dct['_invariants']) == 1
-
-    # Test case 2: Invariants must be callable
-    class Base3:
-        invariant3 = "not_callable"
-
-    try:
-        dct = {}
-        store_invariants(dct, (Base3,), '_invariants', 'invariant3')
-        assert False, "Should raise TypeError"
-    except TypeError:
-        pass
-
-    # Test case 3: Wrap invariants that return multiple results
-    class Base4:
-        def invariant4(x):
-            return [(True, None), (False, "error")]
-
-    dct = {}
-    store_invariants(dct, (Base4,), '_invariants', 'invariant4')
-    assert len(dct['_invariants']) == 1
-
-    # Test case 4: No invariants
-    dct = {}
-    store_invariants(dct, (), '_invariants', 'invariant')
-    assert '_invariants' not in dct
-
-    # Test case 5: Multiple invariants in different bases
-    class Base5:
-        def invariant5(x): return True, None
-
-    class Base6:
-        def invariant6(x): return True, None
-
-    dct = {}
-    store_invariants(dct, (Base5, Base6), '_invariants', 'invariant5')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Base5, Base6), '_invariants', 'invariant6')
-    assert len(dct['_invariants']) == 1
-
-    # Test case 6: Invariants in derived class
-    class Base7:
-        def invariant7(x): return True, None
-
-    class Derived2(Base7):
-        def invariant8(x): return True, None
-
-    dct = {}
-    store_invariants(dct, (Derived2,), '_invariants', 'invariant7')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived2,), '_invariants', 'invariant8')
-    assert len(dct['_invariants']) == 1
-
-    # Test case 7: Invariants in multiple derived classes
-    class Base8:
-        def invariant9(x): return True, None
-
-    class Derived3(Base8):
-        def invariant10(x): return True, None
-
-    class Derived4(Base8):
-        def invariant11(x): return True, None
-
-    dct = {}
-    store_invariants(dct, (Derived3, Derived4), '_invariants', 'invariant9')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived3, Derived4), '_invariants', 'invariant10')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived3, Derived4), '_invariants', 'invariant11')
-    assert len(dct['_invariants']) == 1
-
-    # Test case 8: Invariants in multiple levels of inheritance
-    class Base9:
-        def invariant12(x): return True, None
-
-    class Derived5(Base9):
-        def invariant13(x): return True, None
-
-    class Derived6(Derived5):
-        def invariant14(x): return True, None
-
-    dct = {}
-    store_invariants(dct, (Derived6,), '_invariants', 'invariant12')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived6,), '_invariants', 'invariant13')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived6,), '_invariants', 'invariant14')
-    assert len(dct['_invariants']) == 1
-
-    # Test case 9: Invariants in multiple inheritance
-    class Base10:
-        def invariant15(x): return True, None
-
-    class Base11:
-        def invariant16(x): return True, None
-
-    class Derived7(Base10, Base11):
-        def invariant17(x): return True, None
-
-    dct = {}
-    store_invariants(dct, (Derived7,), '_invariants', 'invariant15')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived7,), '_invariants', 'invariant16')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived7,), '_invariants', 'invariant17')
-    assert len(dct['_invariants']) == 1
-
-    # Test case 10: Invariants in complex inheritance
-    class Base12:
-        def invariant18(x): return True, None
-
-    class Base13(Base12):
-        def invariant19(x): return True, None
-
-    class Base14(Base12):
-        def invariant20(x): return True, None
-
-    class Derived8(Base13, Base14):
-        def invariant21(x): return True, None
-
-    dct = {}
-    store_invariants(dct, (Derived8,), '_invariants', 'invariant18')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived8,), '_invariants', 'invariant19')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived8,), '_invariants', 'invariant20')
-    assert len(dct['_invariants']) == 1
-
-    dct = {}
-    store_invariants(dct, (Derived8,), '_invariants', 'invariant21')
-    assert len(dct['_invariants']) == 1
-
-
-# LLM-generated content at query #45
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test with a simple invariant that returns a single boolean and data
-    def simple_invariant(x):
-        return x > 0, "Must be positive"
-    
-    wrapped = wrap_invariant(simple_invariant)
-    assert wrapped(5) == (True, "Must be positive")
-    assert wrapped(-1) == (False, "Must be positive")
-    
-    # Test with an invariant that returns multiple results
-    def multi_invariant(x):
-        return [(x > 0, "Must be positive"), (x < 10, "Must be less than 10")]
-    
-    wrapped = wrap_invariant(multi_invariant)
-    assert wrapped(5) == (True, ("Must be positive", "Must be less than 10"))
-    assert wrapped(15) == (False, ("Must be positive", "Must be less than 10"))
-    assert wrapped(-5) == (False, ("Must be positive", "Must be less than 10"))
-
-
-# LLM-generated content at query #46
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test with a simple invariant that returns a single boolean
-    def simple_invariant(x):
-        return x > 0, "Must be positive"
-    
-    wrapped = wrap_invariant(simple_invariant)
-    assert wrapped(5) == (True, "Must be positive")
-    assert wrapped(-1) == (False, "Must be positive")
-    
-    # Test with an invariant that returns multiple results
-    def multi_invariant(x):
-        return [(x > 0, "Must be positive"), (x < 10, "Must be less than 10")]
-    
-    wrapped = wrap_invariant(multi_invariant)
-    assert wrapped(5) == (True, ("Must be positive", "Must be less than 10"))
-    assert wrapped(-1) == (False, ("Must be positive", "Must be less than 10"))
-    assert wrapped(15) == (False, ("Must be positive", "Must be less than 10"))
-    
-    # Test with an invariant that returns a tuple of (bool, str)
-    def tuple_invariant(x):
-        return x > 0, "Must be positive"
-    
-    wrapped = wrap_invariant(tuple_invariant)
-    assert wrapped(5) == (True, "Must be positive")
-    assert wrapped(-1) == (False, "Must be positive")
-
-
-# LLM-generated content at query #47
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Test with a single invariant returning a boolean
-    def single_bool_invariant(x):
-        return x > 10, "x must be > 10"
-    
-    wrapped = wrap_invariant(single_bool_invariant)
-    assert wrapped(15) == (True, "x must be > 10")
-    assert wrapped(5) == (False, "x must be > 10")
-    
-    # Test with multiple invariants returning a list of tuples
-    def multi_invariant(x):
-        return [(x > 10, "x must be > 10"), (x % 2 == 0, "x must be even")]
-    
-    wrapped = wrap_invariant(multi_invariant)
-    assert wrapped(12) == (True, ())
-    assert wrapped(11) == (False, ("x must be even",))
-    assert wrapped(9) == (False, ("x must be > 10", "x must be even"))
-
-
-# LLM-generated content at query #48
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    # Define an invariant that returns a single boolean and data
-    def invariant_single_true(arg):
-        return True, "Single true"
-
-    def invariant_single_false(arg):
-        return False, "Single false"
-
-    # Define an invariant that returns multiple boolean and data pairs
-    def invariant_multiple_true(arg):
-        return [(True, "First true"), (True, "Second true")]
-
-    def invariant_multiple_false(arg):
-        return [(True, "First true"), (False, "Second false")]
-
-    # Wrap the invariants
-    wrapped_single_true = wrap_invariant(invariant_single_true)
-    wrapped_single_false = wrap_invariant(invariant_single_false)
-    wrapped_multiple_true = wrap_invariant(invariant_multiple_true)
-    wrapped_multiple_false = wrap_invariant(invariant_multiple_false)
-
-    # Test the wrapped invariants
-    assert wrapped_single_true("test_arg") == (True, "Single true")
-    assert wrapped_single_false("test_arg") == (False, "Single false")
-    assert wrapped_multiple_true("test_arg") == (True, ())
-    assert wrapped_multiple_false("test_arg") == (False, ("Second false",))
-
-
-# LLM-generated content at query #49
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    def invariant_with_single_result(x):
-        return x < 10, "Value too large"
-    
-    wrapped = wrap_invariant(invariant_with_single_result)
-    assert wrapped(5) == (True, "Value too large")
-    assert wrapped(15) == (False, "Value too large")
-    
-    def invariant_with_multiple_results(x):
-        return [(x < 10, "Value too large"), (x > 0, "Value too small")]
-    
-    wrapped = wrap_invariant(invariant_with_multiple_results)
-    assert wrapped(5) == (True, ("Value too large", "Value too small"))
-    assert wrapped(15) == (False, ("Value too large", "Value too small"))
-    assert wrapped(-5) == (False, ("Value too large", "Value too small"))
-
-
-# LLM-generated content at query #50
-#--------------------------
-
-# Unit test for function wrap_invariant
-def test_wrap_invariant():
-    def invariant_true():
-        return True, "Invariant holds"
-
-    def invariant_false():
-        return False, "Invariant fails"
-
-    def invariant_multiple():
-        return [(True, "First holds"), (False, "Second fails")]
-
-    # Test invariant that returns a single boolean result
-    wrapped_true = wrap_invariant(invariant_true)
-    assert wrapped_true() == (True, "Invariant holds")
-
-    # Test invariant that returns a single boolean result
-    wrapped_false = wrap_invariant(invariant_false)
-    assert wrapped_false() == (False, "Invariant fails")
-
-    # Test invariant that returns multiple results
-    wrapped_multiple = wrap_invariant(invariant_multiple)
-    assert wrapped_multiple() == (False, ("First holds", "Second fails"))
-
-
-# LLM-generated content at query #51
-#--------------------------
-
-# Unit test for function maybe_parse_user_type
-def test_maybe_parse_user_type():
-    # Test with a single type
-    assert maybe_parse_user_type(int) == [int]
-    # Test with a string
-    assert maybe_parse_user_type("str") == ["str"]
-    # Test with a preserved type
-    class TestEnum(Enum):
-        A = 1
-    assert maybe_parse_user_type(TestEnum) == [TestEnum]
-    # Test with an iterable of types
-    assert maybe_parse_user_type([int, str]) == (int, str)
-    # Test with an iterable of strings
-    assert maybe_parse_user_type(["int", "str"]) == ("int", "str")
-    # Test with an iterable of mixed types and strings
-    assert maybe_parse_user_type([int, "str"]) == (int, "str")
-    # Test with an invalid type
-    try:
-        maybe_parse_user_type(123)
-        assert False
-    except TypeError:
-        pass
-
-test_maybe_parse_user_type()
+    # Test evolver integration
+    m = SimpleMap({1: "a"})
+    evolver = m.evolver()
+    evolver.set(2, "b")
+    m2 = evolver.persistent()
+    assert m2[2] == "b"
+    assert isinstance(m2, SimpleMap)
 
 

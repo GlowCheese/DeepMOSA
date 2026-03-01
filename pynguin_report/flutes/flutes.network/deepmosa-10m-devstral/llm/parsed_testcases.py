@@ -977,3 +977,486 @@ def test_case_0():
 
 
 
+####################################################################
+# TEST GENERATION BEGINS (DEEPMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+# Partially parsed test__download_with_progress_bar. Retrieved 4/9 statements.
+# Partially parsed test__download_progress_hook_with_total_size. Retrieved 3/9 statements.
+# Partially parsed test__download_progress_hook_without_total_size. Retrieved 3/8 statements.
+# Partially parsed test__download_progress_hook_updates_progress. Retrieved 3/8 statements.
+
+
+import flutes.network as module_0
+import posixpath as module_1
+
+def test_case_0():
+    var_0 = 'http://example.com/file.txt'
+    var_1 = 'file.txt'
+    var_2 = '/tmp'
+    var_3 = module_0._download(var_0, var_1, var_2)
+    var_4 = [var_1]
+    var_5 = module_1.join(var_2, *var_4)
+    var_6 = bool(var_3 == var_5)
+    assert var_6 is True
+
+import posixpath as module_0
+
+def test_case_0():
+    var_0 = 'http://example.com/file.txt'
+    var_1 = 'file.txt'
+    var_2 = '/tmp'
+    var_3 = [var_1]
+    var_4 = module_0.join(var_2, *var_3)
+
+def test_case_0():
+    var_0 = 'http://example.com/file.txt'
+    var_1 = 'file.txt'
+    var_2 = '/tmp'
+
+def test_case_0():
+    var_0 = 'http://example.com/file.txt'
+    var_1 = 'file.txt'
+    var_2 = '/tmp'
+
+def test_case_0():
+    var_0 = 'http://example.com/file.txt'
+    var_1 = 'file.txt'
+    var_2 = '/tmp'
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+
+
+
+import flutes.network as module_0
+import genericpath as module_1
+
+def test_case_0():
+    var_0 = 'https://drive.google.com/file/d/123456789/view?usp=sharing'
+    var_1 = 'test_file.txt'
+    var_2 = '/tmp'
+    var_3 = None
+    var_4 = module_0._download_from_google_drive(var_0, var_1, var_2, var_3)
+    assert var_4 == '/tmp/test_file.txt'
+    var_5 = module_1.exists(var_4)
+    var_6 = bool(var_5)
+    assert var_6 is True
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+
+
+
+import flutes.network as module_0
+import genericpath as module_1
+
+def test_case_0():
+    var_0 = 'https://drive.google.com/file/d/123456789/view?usp=sharing'
+    var_1 = 'test_file.txt'
+    var_2 = '/tmp'
+    var_3 = None
+    var_4 = lambda : var_3
+    var_5 = module_0._download_from_google_drive(var_0, var_1, var_2, var_4)
+    assert var_5 == '/tmp/test_file.txt'
+    var_6 = '/tmp/test_file.txt'
+    var_7 = module_1.exists(var_6)
+    var_8 = bool(var_7)
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+# Partially parsed test_download_with_none_save_dir. Retrieved 3/5 statements.
+# Partially parsed test_download_with_custom_filename. Retrieved 3/5 statements.
+# Partially parsed test_download_with_extract_false. Retrieved 4/6 statements.
+# Partially parsed test_download_with_progress_false. Retrieved 4/6 statements.
+# Partially parsed test_download_with_google_drive_url. Retrieved 3/5 statements.
+# Partially parsed test_download_with_github_raw_url. Retrieved 3/5 statements.
+# Partially parsed test_download_with_existing_file. Retrieved 7/10 statements.
+# Partially parsed test_download_with_unknown_compression. Retrieved 7/10 statements.
+
+
+import flutes.network as module_0
+
+def test_case_0():
+    var_0 = 'https://example.com/file.txt'
+    var_1 = {}
+    var_2 = module_0.download(var_0, **var_1)
+    var_3 = 'file.txt'
+
+import flutes.network as module_0
+import posixpath as module_1
+
+def test_case_0():
+    var_0 = '/tmp/test'
+    var_1 = 'https://example.com/file.txt'
+    var_2 = {}
+    var_3 = module_0.download(var_1, var_0, **var_2)
+    var_4 = 'file.txt'
+    var_5 = [var_4]
+    var_6 = module_1.join(var_0, *var_5)
+    var_7 = bool(var_3 == var_6)
+    assert var_7 is True
+
+import flutes.network as module_0
+
+def test_case_0():
+    var_0 = 'https://example.com/file.txt'
+    var_1 = 'custom.txt'
+    var_2 = {}
+    var_3 = module_0.download(var_0, filename=var_1, **var_2)
+
+import flutes.network as module_0
+
+def test_case_0():
+    var_0 = 'https://example.com/file.tar.gz'
+    var_1 = False
+    var_2 = {}
+    var_3 = module_0.download(var_0, extract=var_1, **var_2)
+    var_4 = 'file.tar.gz'
+
+import flutes.network as module_0
+
+def test_case_0():
+    var_0 = 'https://example.com/file.txt'
+    var_1 = False
+    var_2 = {}
+    var_3 = module_0.download(var_0, progress=var_1, **var_2)
+    var_4 = 'file.txt'
+
+import flutes.network as module_0
+
+def test_case_0():
+    var_0 = 'https://drive.google.com/file/d/123456789/view'
+    var_1 = {}
+    var_2 = module_0.download(var_0, **var_1)
+    var_3 = '123456789'
+
+import flutes.network as module_0
+
+def test_case_0():
+    var_0 = 'https://github.com/user/repo/raw/main/file.txt?raw=true'
+    var_1 = {}
+    var_2 = module_0.download(var_0, **var_1)
+    var_3 = 'file.txt'
+
+import posixpath as module_0
+import flutes.network as module_1
+
+def test_case_0():
+    var_0 = '/tmp/test'
+    var_1 = 'file.txt'
+    var_2 = [var_1]
+    var_3 = module_0.join(var_0, *var_2)
+    var_4 = True
+    var_5 = 'test'
+    var_6 = 'https://example.com/file.txt'
+    var_7 = {}
+    var_8 = module_1.download(var_6, var_0, **var_7)
+    var_9 = bool(var_8 == var_3)
+    assert var_9 is True
+
+import posixpath as module_0
+import flutes.network as module_1
+
+def test_case_0():
+    var_0 = '/tmp/test'
+    var_1 = 'file.unknown'
+    var_2 = [var_1]
+    var_3 = module_0.join(var_0, *var_2)
+    var_4 = True
+    var_5 = 'test'
+    var_6 = 'https://example.com/file.unknown'
+    var_7 = {}
+    var_8 = module_1.download(var_6, var_0, extract=var_4, **var_7)
+    var_9 = bool(var_8 == var_3)
+    assert var_9 is True
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+# Partially parsed test_extract_tarfile. Retrieved 1/2 statements.
+
+
+def test_case_0():
+    var_0 = 'test.tar.gz'
+
+
+
+# Parsed testcases at query #6
+#--------------------------
+
+
+
+
+import flutes.network as module_0
+import genericpath as module_1
+import posixpath as module_2
+
+def test_case_0():
+    var_0 = 'https://drive.google.com/file/d/1abc123xyz/view?usp=sharing'
+    var_1 = 'test_file.txt'
+    var_2 = '/tmp'
+    var_3 = None
+    var_4 = module_0._download_from_google_drive(var_0, var_1, var_2, var_3)
+    var_5 = module_1.exists(var_4)
+    var_6 = bool(var_5)
+    assert var_6 is True
+    var_7 = [var_1]
+    var_8 = module_2.join(var_2, *var_7)
+    var_9 = bool(var_4 == var_8)
+    assert var_9 is True
+
+
+
+# Parsed testcases at query #7
+#--------------------------
+
+
+
+
+import flutes.network as module_0
+import genericpath as module_1
+import posixpath as module_2
+
+def test_case_0():
+    var_0 = 'https://drive.google.com/file/d/123456789/view'
+    var_1 = 'test_file.txt'
+    var_2 = '/tmp'
+    var_3 = module_0._download_from_google_drive(var_0, var_1, var_2)
+    var_4 = module_1.exists(var_3)
+    var_5 = bool(var_4)
+    assert var_5 is True
+    var_6 = [var_1]
+    var_7 = module_2.join(var_2, *var_6)
+    var_8 = bool(var_3 == var_7)
+    assert var_8 is True
+
+
+
+# Parsed testcases at query #8
+#--------------------------
+
+# Partially parsed test_token_present_when_download_warning_cookie_exists. Retrieved 8/9 statements.
+
+
+import builtins as module_0
+
+def test_case_0():
+    var_0 = 'Response'
+    var_1 = ()
+    var_2 = 'cookies'
+    var_3 = 'download_warning_123'
+    var_4 = 'token_value'
+    var_5 = {var_3: var_4}
+    var_6 = {var_2: var_5}
+    var_7 = [var_0, var_1, var_6]
+    var_8 = {}
+    var_9 = module_0.type(*var_7, **var_8)
+
+
+
+# Parsed testcases at query #9
+#--------------------------
+
+
+
+
+def test_case_0():
+    var_0 = bool(True)
+    assert var_0 is True
+
+
+
+# Parsed testcases at query #10
+#--------------------------
+
+
+
+
+import flutes.network as module_0
+
+def test_case_0():
+    var_0 = 'https://drive.google.com/file/d/123456789/view?usp=sharing'
+    var_1 = 'test_file.txt'
+    var_2 = '/tmp'
+    var_3 = None
+    var_4 = module_0._download_from_google_drive(var_0, var_1, var_2, var_3)
+    assert var_4 == '/tmp/test_file.txt'
+
+
+
+# Parsed testcases at query #11
+#--------------------------
+
+
+
+
+def test_case_0():
+    var_0 = b''
+    var_1 = bool(not var_0)
+    assert var_1 is True
+
+
+
+# Parsed testcases at query #12
+#--------------------------
+
+# Partially parsed test_progress_close_is_called. Retrieved 7/27 statements.
+
+
+def test_case_0():
+    var_0 = 'MockSession'
+    var_1 = ()
+    var_2 = 'get'
+    var_3 = 'test_id'
+    var_4 = f'https://drive.google.com/file/d/{var_3}/view'
+    var_5 = 'test_file.txt'
+    var_6 = '/tmp'
+
+
+
+# Parsed testcases at query #13
+#--------------------------
+
+
+
+
+def test_case_0():
+    var_0 = b''
+    var_1 = bool(not var_0)
+    assert var_1 is True
+
+
+
+# Parsed testcases at query #14
+#--------------------------
+
+
+
+
+def test_case_0():
+    pass
+
+
+
+# Parsed testcases at query #15
+#--------------------------
+
+
+
+
+import builtins as module_0
+
+def test_case_0():
+    var_0 = []
+    var_1 = {}
+    var_2 = module_0.object(*var_0, **var_1)
+    var_3 = bool(var_2 is not None)
+    assert var_3 is True
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+
+
+
+def test_case_0():
+    var_0 = None
+    var_1 = bool(not var_0)
+    assert var_1 is True
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+
+
+
+import builtins as module_0
+import flutes.network as module_1
+
+def test_case_0():
+    var_0 = 'http://example.com/file'
+    var_1 = 'test_file'
+    var_2 = '/tmp'
+    var_3 = 'MockBar'
+    var_4 = ()
+    var_5 = 'total'
+    var_6 = 'refresh'
+    var_7 = 'update'
+    var_8 = 'close'
+    var_9 = None
+    var_10 = lambda : var_9
+    var_11 = lambda x: var_9
+    var_12 = lambda : var_9
+    var_13 = {var_5: var_9, var_6: var_10, var_7: var_11, var_8: var_12}
+    var_14 = [var_3, var_4, var_13]
+    var_15 = {}
+    var_16 = module_0.type(*var_14, **var_15)
+    var_17 = var_16()
+    var_18 = lambda : var_17
+    var_19 = module_1._download(var_0, var_1, var_2, var_18)
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+# Partially parsed test__download_with_progress_bar. Retrieved 6/9 statements.
+
+
+import flutes.network as module_0
+import posixpath as module_1
+import genericpath as module_2
+
+def test_case_0():
+    var_0 = 'http://example.com/file.txt'
+    var_1 = 'file.txt'
+    var_2 = '/tmp'
+    var_3 = module_0._download(var_0, var_1, var_2)
+    var_4 = [var_1]
+    var_5 = module_1.join(var_2, *var_4)
+    var_6 = module_2.exists(var_5)
+    var_7 = bool(var_6)
+    assert var_7 is True
+    var_8 = [var_1]
+    var_9 = module_1.join(var_2, *var_8)
+    var_10 = bool(var_3 == var_9)
+    assert var_10 is True
+
+import posixpath as module_0
+import genericpath as module_1
+
+def test_case_0():
+    var_0 = 'http://example.com/file.txt'
+    var_1 = 'file.txt'
+    var_2 = '/tmp'
+    var_3 = [var_1]
+    var_4 = module_0.join(var_2, *var_3)
+    var_5 = module_1.exists(var_4)
+    var_6 = bool(var_5)
+    assert var_6 is True
+    var_7 = [var_1]
+    var_8 = module_0.join(var_2, *var_7)
+
+
+

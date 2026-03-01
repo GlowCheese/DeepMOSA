@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.9634146341463414" lines-covered="0" lines-valid="0" branches-covered="158" branches-valid="164" complexity="0.0" version="pynguin-0.40.0" timestamp="1769280710">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.9634146341463414" lines-covered="0" lines-valid="0" branches-covered="158" branches-valid="164" complexity="0.0" version="pynguin-0.40.0" timestamp="1769340896">
   <sources>
     <source>pyrsistent._pmap</source>
   </sources>
@@ -24,7 +24,7 @@
             <line number="78" hits="1" branch="true" condition-coverage="100% (1/1)" />
             <line number="90" hits="1" branch="true" condition-coverage="100% (1/1)" />
             <line number="95" hits="1" branch="true" condition-coverage="50% (1/2)" />
-            <line number="96" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="96" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="99" hits="1" branch="true" condition-coverage="100% (1/1)" />
             <line number="102" hits="1" branch="true" condition-coverage="100% (1/1)" />
             <line number="106" hits="1" branch="true" condition-coverage="100% (2/2)" />
@@ -93,7 +93,7 @@
             <line number="462" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="467" hits="1" branch="true" condition-coverage="100% (1/1)" />
             <line number="470" hits="1" branch="true" condition-coverage="100% (1/1)" />
-            <line number="473" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="473" hits="0" branch="true" condition-coverage="0% (0/1)" />
             <line number="479" hits="1" branch="true" condition-coverage="100% (2/2)" />
             <line number="481" hits="1" branch="true" condition-coverage="100% (4/4)" />
             <line number="483" hits="1" branch="true" condition-coverage="100% (2/2)" />

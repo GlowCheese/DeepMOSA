@@ -94,7 +94,7 @@ def run_deepmosa_runner(project_name: str, env_file: str, *argv: str):
         "-v",                f"{pwd}/generated_tests:/workspace/generated_tests",
         "-v",                f"{pwd}/pynguin_report:/workspace/pynguin_report",
         "-v",                f"{pwd}/.cache/project-deps:/workspace/.project-deps",
-        "deepmosa-runner",
+        "deepmosa-runner",   "pynguin",
         "--project-path",    "/workspace/project",
         "--project-name",    project_name,
         *argv,
@@ -155,13 +155,14 @@ for baseline in [
     ("codamosa", "CODAMOSA", []),
     ("deepmosa", "DEEPMOSA", []),
     ("deepmosa-sync", "DEEPMOSA", ["--async-enabled", "False"]),
-    ("deepmosa-dese-v1", "DEEPMOSA", ["--deserializer-version", "1"])
+    ("deepmosa-dese-v1", "DEEPMOSA", ["--deserializer-version", "1"]),
+    ("deepmosa-unaware", "DEEPMOSA", ["--use-codamosa-seeding", "True"])
 ]:
     for llm_config in [
-        ("deepseek", "deepseek/deepseek-chat"),
-        # ("deepseek", "deepseek-chat", "https://api.deepseek.com"),
+        ("deepseek", "deepseek-chat", "https://api.deepseek.com"),
         # ("claude", "claude-haiku-4-5", "https://api.anthropic.com/v1"),
-        ("devstral", "mistralai/devstral-2512:free")
+        # ("devstral", "mistralai/devstral-2512")
+        ("devstral", "devstral-2512", "mistralai")
     ]:
         config_id = f"{baseline[0]}-10m-{llm_config[0]}"
         RUN_CONFIGS.append(
@@ -180,6 +181,7 @@ for baseline in [
                 ]
             )
         )
+# fmt: on
 
 
 def print_table(a: list[list[str]], alg: str | None = None):
@@ -190,4 +192,26 @@ def print_table(a: list[list[str]], alg: str | None = None):
         for i in range(len(r)):
             msg += f"{r[i]:{alg[i]}{mx_len[i]}} "
         _logger.info(msg)
-# fmt: on
+
+
+def find_all_filtered_modules(
+    project_name: str, *, fully_run: bool = False, configs: list[RunConfig] = RUN_CONFIGS
+):
+    """Similar to utils.find_all_modules, except that it doesn't
+    include modules where all baselines achieved 100% coverage."""
+
+    all_modules = find_all_modules(project_name)
+
+    fully_covered_modules: set[str] = set()
+    for module_name in all_modules.copy():
+        should_exclude = True
+        for config in configs:
+            rows = read_module_statistics(project_name, module_name, config.config_id)
+            if rows is not None:
+                should_exclude &= all(r.branch_coverage > 0.99 for r in rows)
+                if fully_run:
+                    should_exclude &= len(rows) != NUM_RUNS_PER_MODULE
+        if should_exclude:
+            fully_covered_modules.add(module_name)
+
+    return all_modules.difference(fully_covered_modules)

@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, Dict, List, Literal
 
+from mistralai import ChatCompletionResponse, Mistral
 from openai import AsyncOpenAI, OpenAI
 from openai.types.chat import ChatCompletion
 
@@ -41,13 +42,18 @@ class AbstractLanguageModel(ABC):
         num_tokens = sum(len(tokenizer.encode(m["content"])) for m in messages)
         _logger.info("Query size: %s characters (~%s tokens)", num_chars, num_tokens)
 
-    def __handle_llm_query(self, query: ChatCompletion, query_at: float, track_query_usage: bool):
+    def __handle_llm_query(
+        self,
+        query: ChatCompletion | ChatCompletionResponse,
+        query_at: float,
+        track_query_usage: bool,
+    ):
         response = query.choices[0]
         if response.finish_reason == "content_filter":
             raise APIContentFilterError()
-        if response.message.refusal is not None:
-            raise APIRefusalError(response.message.refusal)
-
+        refusal = getattr(response.message, "refusal", None)
+        if refusal is not None:
+            raise APIRefusalError(refusal)
         if response.finish_reason == "length":
             _logger.warning("LLM output truncated due to token limit")
         else:
@@ -58,8 +64,8 @@ class AbstractLanguageModel(ABC):
 
             self._num_llm_calls += 1
             self._time_calling_llm += time.time() - query_at
-            self._input_tokens_cnt += query.usage.prompt_tokens
-            self._output_tokens_cnt += query.usage.completion_tokens
+            self._input_tokens_cnt += query.usage.prompt_tokens or 0
+            self._output_tokens_cnt += query.usage.completion_tokens or 0
 
             _logger.info("Output size: %s tokens", query.usage.completion_tokens)
 
@@ -74,33 +80,59 @@ class AbstractLanguageModel(ABC):
     def send_llm_request(
         self, messages: Messages, *, stop: str | List[str], track_query_usage=True
     ):
-        client = OpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
         query_at = time.time()
         self.__log_messages_stats(messages)
-        query = client.chat.completions.create(
-            messages=messages,  # type: ignore
-            model=config.llm.model,
-            temperature=config.llm.temperature,
-            stream=False,
-            stop=stop,
-            max_tokens=config.llm.max_tokens,
-        )
+
+        # Workaround to request to mistral models
+        if config.llm.base_url == "mistralai":
+            client = Mistral(api_key=environ.OPENAI_API_KEY)
+            query = client.chat.complete(
+                messages=messages,  # type: ignore
+                model=config.llm.model,
+                temperature=config.llm.temperature,
+                stream=False,
+                stop=stop,
+                max_tokens=config.llm.max_tokens,
+            )
+        else:
+            client = OpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
+            query = client.chat.completions.create(
+                messages=messages,  # type: ignore
+                model=config.llm.model,
+                temperature=config.llm.temperature,
+                stream=False,
+                stop=stop,
+                max_tokens=config.llm.max_tokens,
+            )
         return self.__handle_llm_query(query, query_at, track_query_usage)
 
     async def send_llm_request_async(
         self, messages: Messages, *, stop: str | List[str], track_query_usage=True
     ):
-        client = AsyncOpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
         query_at = time.time()
         self.__log_messages_stats(messages)
-        query = await client.chat.completions.create(
-            messages=messages,  # type: ignore
-            model=config.llm.model,
-            temperature=config.llm.temperature,
-            stream=False,
-            stop=stop,
-            max_tokens=config.llm.max_tokens,
-        )
+
+        # Workaround to request to mistral models
+        if config.llm.base_url == "mistralai":
+            client = Mistral(api_key=environ.OPENAI_API_KEY)
+            query = await client.chat.complete_async(
+                messages=messages,  # type: ignore
+                model=config.llm.model,
+                temperature=config.llm.temperature,
+                stream=False,
+                stop=stop,
+                max_tokens=config.llm.max_tokens,
+            )
+        else:
+            client = AsyncOpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
+            query = await client.chat.completions.create(
+                messages=messages,  # type: ignore
+                model=config.llm.model,
+                temperature=config.llm.temperature,
+                stream=False,
+                stop=stop,
+                max_tokens=config.llm.max_tokens,
+            )
         return self.__handle_llm_query(query, query_at, track_query_usage)
 
     @abstractmethod

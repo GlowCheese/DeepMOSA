@@ -2403,3 +2403,1392 @@ def test_case_0():
 
 
 
+####################################################################
+# TEST GENERATION BEGINS (CODAMOSA + mistralai/devstral-2512:free t=0.8) #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = module_0.String()
+    var_1 = module_0.Number()
+    var_2 = [var_0, var_1]
+    var_3 = module_0.Union(var_2)
+    var_4 = True
+    var_5 = module_0.String()
+    var_6 = module_0.Number()
+    var_7 = [var_5, var_6]
+    var_8 = module_0.Union(var_7)
+    var_9 = [var_0, var_1]
+    var_10 = module_0.Union(var_9)
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.String()
+    var_2 = None
+    var_3 = var_1.validate(var_2)
+    assert var_3 is None
+    var_4 = module_0.String(allow_blank=var_0)
+    var_5 = ''
+    var_6 = var_4.validate(var_5)
+    assert var_6 == ''
+    var_7 = module_0.String(allow_blank=var_0, coerce_types=var_0)
+    var_8 = var_7.validate(var_2)
+    assert var_8 == ''
+    var_9 = module_0.String()
+    var_10 = 123
+    var_11 = var_9.validate(var_10)
+    var_12 = False
+    var_13 = module_0.String(allow_blank=var_12)
+    var_14 = ''
+    var_15 = var_13.validate(var_14)
+    var_16 = 5
+    var_17 = module_0.String(max_length=var_16)
+    var_18 = 'abc'
+    var_19 = var_17.validate(var_18)
+    assert var_19 == 'abc'
+    var_20 = 'abcdef'
+    var_21 = var_17.validate(var_20)
+    var_22 = 3
+    var_23 = module_0.String(min_length=var_22)
+    var_24 = var_23.validate(var_18)
+    assert var_24 == 'abc'
+    var_25 = 'ab'
+    var_26 = var_23.validate(var_25)
+    var_27 = '^[a-z]+$'
+    var_28 = module_0.String(pattern=var_27)
+    var_29 = var_28.validate(var_18)
+    assert var_29 == 'abc'
+    var_30 = 'abc123'
+    var_31 = var_28.validate(var_30)
+    var_32 = 'email'
+    var_33 = module_0.String(format=var_32)
+    var_34 = 'test@example.com'
+    var_35 = var_33.validate(var_34)
+    assert var_35 == 'test@example.com'
+    var_36 = 'invalid-email'
+    var_37 = var_33.validate(var_36)
+    var_38 = module_0.String(trim_whitespace=var_36)
+    var_39 = '  abc  '
+    var_40 = var_38.validate(var_39)
+    assert var_40 == 'abc'
+    var_41 = module_0.String()
+    var_42 = 'a\x00b'
+    var_43 = var_41.validate(var_42)
+    assert var_43 == 'ab'
+    var_44 = module_0.String(coerce_types=var_36)
+    var_45 = var_44.validate(var_37)
+    assert var_45 is None
+    var_46 = module_0.String(coerce_types=var_36)
+    var_47 = var_46.validate(var_5)
+    assert var_47 is None
+    var_48 = module_0.String(format=var_32)
+    var_49 = var_48.validate(var_34)
+    assert var_49 == 'test@example.com'
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'Option A'
+    var_2 = (var_0, var_1)
+    var_3 = 'b'
+    var_4 = 'Option B'
+    var_5 = (var_3, var_4)
+    var_6 = [var_2, var_5]
+    var_7 = module_0.Choice(choices=var_6)
+    var_8 = var_7.validate(var_0)
+    assert var_8 == 'a'
+    var_9 = var_7.validate(var_3)
+    assert var_9 == 'b'
+    var_10 = 'c'
+    var_11 = var_7.validate(var_10)
+    var_12 = (var_10, var_11)
+    var_13 = [var_12]
+    var_14 = True
+    var_15 = module_0.Choice(choices=var_13)
+    var_16 = None
+    var_17 = var_15.validate(var_16)
+    assert var_17 is None
+    var_18 = None
+    var_19 = var_7.validate(var_18)
+    var_20 = (var_18, var_19)
+    var_21 = [var_20]
+    var_22 = module_0.Choice(choices=var_21, coerce_types=var_14)
+    var_23 = ''
+    var_24 = var_22.validate(var_23)
+    var_25 = (var_23, var_24)
+    var_26 = [var_25]
+    var_27 = module_0.Choice(choices=var_26, coerce_types=var_14)
+    var_28 = ''
+    var_29 = var_27.validate(var_28)
+    assert var_29 is None
+    var_30 = (var_23, var_24)
+    var_31 = (var_3, var_4)
+    var_32 = [var_30, var_31]
+    var_33 = module_0.Choice(choices=var_32)
+    var_34 = var_33.validate(var_23)
+    assert var_34 == 'a'
+    var_35 = var_33.validate(var_3)
+    assert var_35 == 'b'
+    var_36 = 'One'
+    var_37 = (var_14, var_36)
+    var_38 = 2
+    var_39 = 'Two'
+    var_40 = (var_38, var_39)
+    var_41 = [var_37, var_40]
+    var_42 = module_0.Choice(choices=var_41)
+    var_43 = var_42.validate(var_14)
+    assert var_43 == 1
+    var_44 = var_42.validate(var_38)
+    assert var_44 == 2
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'test_value'
+    var_1 = module_0.Field(default=var_0)
+    var_2 = var_1.get_default_value()
+    assert var_2 == 'test_value'
+    var_3 = 'callable_value'
+    var_4 = lambda : var_3
+    var_5 = module_0.Field(default=var_4)
+    var_6 = var_5.get_default_value()
+    assert var_6 == 'callable_value'
+    var_7 = module_0.Field()
+    var_8 = var_7.get_default_value()
+    assert var_8 is None
+    var_9 = None
+    var_10 = module_0.Field(default=var_9)
+    var_11 = var_10.get_default_value()
+    assert var_11 is None
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = module_0.Array()
+    var_1 = module_0.Field()
+    var_2 = module_0.Array(var_1)
+    var_3 = module_0.Field()
+    var_4 = module_0.Field()
+    var_5 = [var_3, var_4]
+    var_6 = module_0.Array(var_5)
+    var_7 = True
+    var_8 = module_0.Array(var_5, var_7)
+    var_9 = 10
+    var_10 = module_0.Array(min_items=var_7, max_items=var_9)
+    var_11 = 5
+    var_12 = module_0.Array(exact_items=var_11)
+    var_13 = module_0.Array(unique_items=var_7)
+    var_14 = module_0.Array(var_5, var_7, var_7, var_9, unique_items=var_7)
+
+
+
+# Parsed testcases at query #6
+#--------------------------
+
+
+import typesystem.fields as module_0
+import re as module_1
+
+def test_case_0():
+    var_0 = 'Test Title'
+    var_1 = 'Test Description'
+    var_2 = 'default_value'
+    var_3 = True
+    var_4 = False
+    var_5 = 100
+    var_6 = 10
+    var_7 = '^[a-zA-Z0-9]+$'
+    var_8 = 'email'
+    var_9 = module_0.String(allow_blank=var_3, trim_whitespace=var_4, max_length=var_5, min_length=var_6, pattern=var_7, format=var_8, coerce_types=var_4)
+    var_10 = var_9.pattern_regex
+    var_11 = module_0.String()
+    var_12 = module_0.String(allow_blank=var_3)
+    var_13 = module_0.String()
+    var_14 = '^[a-z]+$'
+    var_15 = module_1.compile(var_14)
+    var_16 = module_0.String(pattern=var_15)
+    var_17 = 'invalid'
+    var_18 = module_0.String(max_length=var_17)
+    var_19 = 'invalid'
+    var_20 = module_0.String(min_length=var_19)
+    var_21 = 123
+    var_22 = module_0.String(pattern=var_21)
+    var_23 = 123
+    var_24 = module_0.String(format=var_23)
+
+
+
+# Parsed testcases at query #7
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'name'
+    var_1 = 'age'
+    var_2 = module_0.String()
+    var_3 = module_0.Integer()
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = module_0.Object(properties=var_4)
+    var_6 = 'John'
+    var_7 = 30
+    var_8 = {var_0: var_6, var_1: var_7}
+    var_9 = var_5.validate(var_8)
+    var_10 = True
+    var_11 = module_0.Object()
+    var_12 = None
+    var_13 = var_11.validate(var_12)
+    assert var_13 is None
+    var_14 = False
+    var_15 = module_0.Object()
+    var_16 = None
+    var_17 = var_15.validate(var_16)
+    var_18 = 'not an object'
+    var_19 = var_5.validate(var_18)
+    var_20 = 123
+    var_21 = 'value'
+    var_22 = {var_20: var_21}
+    var_23 = var_5.validate(var_22)
+    var_24 = module_0.String()
+    var_25 = {var_20: var_24}
+    var_26 = [var_20]
+    var_27 = module_0.Object(properties=var_25, required=var_26)
+    var_28 = 'other'
+    var_29 = 'value'
+    var_30 = {var_28: var_29}
+    var_31 = var_27.validate(var_30)
+    var_32 = 2
+    var_33 = module_0.Object(min_properties=var_32)
+    var_34 = 'only'
+    var_35 = 'one'
+    var_36 = {var_34: var_35}
+    var_37 = var_33.validate(var_36)
+    var_38 = module_0.Object(max_properties=var_32)
+    var_39 = 'one'
+    var_40 = 'two'
+    var_41 = 'three'
+    var_42 = 1
+    var_43 = 2
+    var_44 = 3
+    var_45 = {var_39: var_42, var_40: var_43, var_41: var_44}
+    var_46 = var_38.validate(var_45)
+    var_47 = 120
+    var_48 = module_0.Integer(minimum=var_14, maximum=var_47)
+    var_49 = {var_40: var_48}
+    var_50 = module_0.Object(properties=var_49)
+    var_51 = 'age'
+    var_52 = 150
+    var_53 = {var_51: var_52}
+    var_54 = var_50.validate(var_53)
+    var_55 = module_0.String()
+    var_56 = {var_51: var_55}
+    var_57 = module_0.Object(properties=var_56, additional_properties=var_10)
+    var_58 = 'extra'
+    var_59 = 'allowed'
+    var_60 = {var_51: var_44, var_58: var_59}
+    var_61 = var_57.validate(var_60)
+    var_62 = module_0.String()
+    var_63 = {var_51: var_62}
+    var_64 = module_0.Object(properties=var_63, additional_properties=var_14)
+    var_65 = 'name'
+    var_66 = 'extra'
+    var_67 = 'John'
+    var_68 = 'not allowed'
+    var_69 = {var_65: var_67, var_66: var_68}
+    var_70 = var_64.validate(var_69)
+    var_71 = module_0.String()
+    var_72 = {var_65: var_71}
+    var_73 = module_0.Integer()
+    var_74 = module_0.Object(properties=var_72, additional_properties=var_73)
+    var_75 = {var_65: var_70, var_66: var_45}
+    var_76 = var_74.validate(var_75)
+    var_77 = '^test_'
+    var_78 = module_0.String()
+    var_79 = {var_77: var_78}
+    var_80 = module_0.Object(pattern_properties=var_79)
+    var_81 = 'test_field'
+    var_82 = 'value'
+    var_83 = {var_81: var_82}
+    var_84 = var_80.validate(var_83)
+    var_85 = '^[a-z]+$'
+    var_86 = module_0.String(pattern=var_85)
+    var_87 = module_0.Object(property_names=var_86)
+    var_88 = 'InvalidName'
+    var_89 = 'value'
+    var_90 = {var_88: var_89}
+    var_91 = var_87.validate(var_90)
+    var_92 = 'default'
+    var_93 = module_0.String()
+    var_94 = {var_88: var_93}
+    var_95 = module_0.Object(properties=var_94)
+    var_96 = {}
+    var_97 = var_95.validate(var_96)
+    var_98 = 'address'
+    var_99 = 'street'
+    var_100 = 'city'
+    var_101 = module_0.String()
+    var_102 = module_0.String()
+    var_103 = {var_99: var_101, var_100: var_102}
+    var_104 = module_0.Object(properties=var_103)
+    var_105 = {var_98: var_104}
+    var_106 = module_0.Object(properties=var_105)
+    var_107 = '123 Main'
+    var_108 = 'Springfield'
+    var_109 = {var_99: var_107, var_100: var_108}
+    var_110 = {var_98: var_109}
+    var_111 = var_106.validate(var_110)
+    var_112 = 'address'
+    var_113 = 'street'
+    var_114 = 'city'
+    var_115 = '123 Main'
+    var_116 = 123
+    var_117 = {var_113: var_115, var_114: var_116}
+    var_118 = {var_112: var_117}
+    var_119 = var_106.validate(var_118)
+
+
+
+# Parsed testcases at query #8
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = module_0.Array()
+    var_1 = 1
+    var_2 = 2
+    var_3 = 3
+    var_4 = [var_1, var_2, var_3]
+    var_5 = var_0.validate(var_4)
+    var_6 = True
+    var_7 = module_0.Array()
+    var_8 = None
+    var_9 = var_7.validate(var_8)
+    assert var_9 is None
+    var_10 = module_0.Array()
+    var_11 = None
+    var_12 = var_10.validate(var_11)
+    var_13 = module_0.Array()
+    var_14 = 'not a list'
+    var_15 = var_13.validate(var_14)
+    var_16 = module_0.Array(min_items=var_15)
+    var_17 = [var_6, var_15]
+    var_18 = var_16.validate(var_17)
+    var_19 = 1
+    var_20 = [var_19]
+    var_21 = var_16.validate(var_20)
+    var_22 = module_0.Array(max_items=var_20)
+    var_23 = [var_6, var_20]
+    var_24 = var_22.validate(var_23)
+    var_25 = 1
+    var_26 = 2
+    var_27 = 3
+    var_28 = [var_25, var_26, var_27]
+    var_29 = var_22.validate(var_28)
+    var_30 = module_0.Array(exact_items=var_26)
+    var_31 = [var_6, var_26]
+    var_32 = var_30.validate(var_31)
+    var_33 = 1
+    var_34 = [var_33]
+    var_35 = var_30.validate(var_34)
+    var_36 = 1
+    var_37 = 2
+    var_38 = 3
+    var_39 = [var_36, var_37, var_38]
+    var_40 = var_30.validate(var_39)
+    var_41 = module_0.Array(min_items=var_6)
+    var_42 = []
+    var_43 = var_41.validate(var_42)
+    var_44 = module_0.Integer()
+    var_45 = module_0.Array(var_44)
+    var_46 = '1'
+    var_47 = '2'
+    var_48 = '3'
+    var_49 = [var_46, var_47, var_48]
+    var_50 = var_45.validate(var_49)
+    var_51 = '1'
+    var_52 = 'two'
+    var_53 = '3'
+    var_54 = [var_51, var_52, var_53]
+    var_55 = var_45.validate(var_54)
+    var_56 = module_0.Integer()
+    var_57 = module_0.Integer()
+    var_58 = [var_56, var_57]
+    var_59 = False
+    var_60 = module_0.Array(var_58, var_59)
+    var_61 = [var_6, var_52]
+    var_62 = var_60.validate(var_61)
+    var_63 = 1
+    var_64 = 2
+    var_65 = 3
+    var_66 = [var_63, var_64, var_65]
+    var_67 = var_60.validate(var_66)
+    var_68 = True
+    var_69 = module_0.Array(unique_items=var_68)
+    var_70 = [var_68, var_64, var_65]
+    var_71 = var_69.validate(var_70)
+    var_72 = 1
+    var_73 = 2
+    var_74 = [var_72, var_73, var_72]
+    var_75 = var_69.validate(var_74)
+    var_76 = module_0.Integer()
+    var_77 = module_0.Array(var_76)
+    var_78 = [var_68, var_73, var_74]
+    var_79 = var_77.serialize(var_78)
+    var_80 = var_77.serialize(var_8)
+    assert var_80 is None
+
+
+
+# Parsed testcases at query #9
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = module_0.Boolean()
+    var_1 = True
+    var_2 = var_0.validate(var_1)
+    assert var_2 is True
+    var_3 = False
+    var_4 = var_0.validate(var_3)
+    assert var_4 is False
+    var_5 = module_0.Boolean(coerce_types=var_1)
+    var_6 = 'true'
+    var_7 = var_5.validate(var_6)
+    assert var_7 is True
+    var_8 = 'false'
+    var_9 = var_5.validate(var_8)
+    assert var_9 is False
+    var_10 = 'on'
+    var_11 = var_5.validate(var_10)
+    assert var_11 is True
+    var_12 = 'off'
+    var_13 = var_5.validate(var_12)
+    assert var_13 is False
+    var_14 = '1'
+    var_15 = var_5.validate(var_14)
+    assert var_15 is True
+    var_16 = '0'
+    var_17 = var_5.validate(var_16)
+    assert var_17 is False
+    var_18 = ''
+    var_19 = var_5.validate(var_18)
+    assert var_19 is False
+    var_20 = var_5.validate(var_1)
+    assert var_20 is True
+    var_21 = var_5.validate(var_3)
+    assert var_21 is False
+    var_22 = module_0.Boolean(coerce_types=var_3)
+    var_23 = 'true'
+    var_24 = var_22.validate(var_23)
+    var_25 = 1
+    var_26 = var_22.validate(var_25)
+    var_27 = module_0.Boolean()
+    var_28 = None
+    var_29 = var_27.validate(var_28)
+    assert var_29 is None
+    var_30 = 'null'
+    var_31 = var_27.validate(var_30)
+    assert var_31 is None
+    var_32 = 'none'
+    var_33 = var_27.validate(var_32)
+    assert var_33 is None
+    var_34 = module_0.Boolean()
+    var_35 = None
+    var_36 = var_34.validate(var_35)
+    var_37 = module_0.Boolean()
+    var_38 = 'invalid'
+    var_39 = var_37.validate(var_38)
+    var_40 = 2
+    var_41 = var_37.validate(var_40)
+
+
+
+# Parsed testcases at query #10
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = module_0.Array()
+    var_1 = None
+    var_2 = var_0.serialize(var_1)
+    assert var_2 is None
+    var_3 = []
+    var_4 = var_0.serialize(var_3)
+    var_5 = 1
+    var_6 = 2
+    var_7 = 3
+    var_8 = [var_5, var_6, var_7]
+    var_9 = var_0.serialize(var_8)
+    var_10 = module_0.Integer()
+    var_11 = module_0.Array(var_10)
+    var_12 = '1'
+    var_13 = '2'
+    var_14 = '3'
+    var_15 = [var_12, var_13, var_14]
+    var_16 = var_11.serialize(var_15)
+    var_17 = module_0.Integer()
+    var_18 = module_0.String()
+    var_19 = module_0.Boolean()
+    var_20 = [var_17, var_18, var_19]
+    var_21 = module_0.Array(var_20)
+    var_22 = 'hello'
+    var_23 = True
+    var_24 = [var_12, var_22, var_23]
+    var_25 = var_21.serialize(var_24)
+    var_26 = module_0.Integer()
+    var_27 = module_0.String()
+    var_28 = [var_26, var_27]
+    var_29 = module_0.Boolean()
+    var_30 = module_0.Array(var_28, var_29)
+    var_31 = True
+    var_32 = False
+    var_33 = [var_12, var_22, var_31, var_32]
+    var_34 = var_30.serialize(var_33)
+    var_35 = module_0.Integer()
+    var_36 = module_0.Array(var_35)
+    var_37 = module_0.Array(var_36)
+    var_38 = [var_12, var_13]
+    var_39 = '4'
+    var_40 = [var_14, var_39]
+    var_41 = [var_38, var_40]
+    var_42 = var_37.serialize(var_41)
+
+
+
+# Parsed testcases at query #11
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = module_0.String()
+    var_1 = module_0.Integer()
+    var_2 = [var_0, var_1]
+    var_3 = module_0.Union(var_2)
+    var_4 = 'hello'
+    var_5 = var_3.validate(var_4)
+    assert var_5 == 'hello'
+    var_6 = 42
+    var_7 = var_3.validate(var_6)
+    assert var_7 == 42
+    var_8 = True
+    var_9 = module_0.Boolean()
+    var_10 = [var_0, var_9]
+    var_11 = module_0.Union(var_10)
+    var_12 = None
+    var_13 = var_11.validate(var_12)
+    assert var_13 is None
+    var_14 = 3.14
+    var_15 = var_3.validate(var_14)
+    var_16 = module_0.Float()
+    var_17 = [var_0, var_16]
+    var_18 = module_0.Union(var_17)
+    var_19 = True
+    var_20 = var_18.validate(var_19)
+    var_21 = module_0.String()
+    var_22 = [var_0, var_21]
+    var_23 = module_0.Union(var_22)
+    var_24 = ''
+    var_25 = var_23.validate(var_24)
+    var_26 = [var_0, var_1]
+    var_27 = module_0.Union(var_26)
+    var_28 = var_27.validate(var_12)
+    assert var_28 is None
+    var_29 = None
+    var_30 = var_3.validate(var_29)
+
+
+
+# Parsed testcases at query #12
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 42
+    var_1 = module_0.Const(var_0)
+    var_2 = None
+    var_3 = module_0.Const(var_2)
+    var_4 = 'test'
+    var_5 = module_0.Const(var_4)
+    var_6 = 42
+    var_7 = True
+    var_8 = module_0.Const(var_6)
+
+
+
+# Parsed testcases at query #13
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'test_value'
+    var_1 = module_0.Const(var_0)
+    var_2 = None
+    var_3 = module_0.Const(var_2)
+    var_4 = 'test_value'
+    var_5 = True
+    var_6 = module_0.Const(var_4)
+    var_7 = var_1.validate(var_4)
+    assert var_7 == 'test_value'
+    var_8 = 'wrong_value'
+    var_9 = var_1.validate(var_8)
+    var_10 = None
+    var_11 = var_1.validate(var_10)
+    var_12 = var_3.validate(var_11)
+    assert var_12 is None
+    var_13 = 'test_value'
+    var_14 = var_3.validate(var_13)
+
+
+
+# Parsed testcases at query #14
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'test_value'
+    var_1 = module_0.Const(var_0)
+    var_2 = None
+    var_3 = module_0.Const(var_2)
+    var_4 = 'test_value'
+    var_5 = True
+    var_6 = module_0.Const(var_4)
+    var_7 = var_1.validate(var_4)
+    assert var_7 == 'test_value'
+    var_8 = 'wrong_value'
+    var_9 = var_1.validate(var_8)
+    var_10 = None
+    var_11 = var_1.validate(var_10)
+    var_12 = module_0.Const(var_11)
+    var_13 = var_12.validate(var_11)
+    assert var_13 is None
+    var_14 = 'test_value'
+    var_15 = var_12.validate(var_14)
+
+
+
+# Parsed testcases at query #15
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'test_value'
+    var_1 = module_0.Const(var_0)
+    var_2 = None
+    var_3 = module_0.Const(var_2)
+    var_4 = 'test_value'
+    var_5 = True
+    var_6 = module_0.Const(var_4)
+    var_7 = var_1.validate(var_4)
+    assert var_7 == 'test_value'
+    var_8 = 'wrong_value'
+    var_9 = var_1.validate(var_8)
+    var_10 = None
+    var_11 = var_1.validate(var_10)
+    var_12 = var_3.validate(var_11)
+    assert var_12 is None
+    var_13 = 'test_value'
+    var_14 = var_3.validate(var_13)
+
+
+
+# Parsed testcases at query #16
+#--------------------------
+
+
+import typesystem.fields as module_0
+import re as module_1
+
+def test_case_0():
+    var_0 = module_0.String()
+    var_1 = 'Test Title'
+    var_2 = 'Test Description'
+    var_3 = 'default_value'
+    var_4 = True
+    var_5 = False
+    var_6 = 100
+    var_7 = 10
+    var_8 = '^[a-z]+$'
+    var_9 = 'email'
+    var_10 = module_0.String(allow_blank=var_4, trim_whitespace=var_5, max_length=var_6, min_length=var_7, pattern=var_8, format=var_9, coerce_types=var_5)
+    var_11 = var_10.pattern_regex
+    var_12 = '^[0-9]+$'
+    var_13 = module_1.compile(var_12)
+    var_14 = module_0.String(pattern=var_13)
+    var_15 = module_0.String(allow_blank=var_4)
+    var_16 = module_0.String()
+    var_17 = 'callable_default'
+    var_18 = lambda : var_17
+    var_19 = module_0.String()
+
+
+
+# Parsed testcases at query #17
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'name'
+    var_1 = 'age'
+    var_2 = module_0.String()
+    var_3 = module_0.Integer()
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = module_0.Object(properties=var_4)
+    var_6 = 'Alice'
+    var_7 = 30
+    var_8 = {var_0: var_6, var_1: var_7}
+    var_9 = var_5.validate(var_8)
+    var_10 = 'Unknown'
+    var_11 = module_0.String()
+    var_12 = module_0.Integer()
+    var_13 = {var_0: var_11, var_1: var_12}
+    var_14 = module_0.Object(properties=var_13)
+    var_15 = 25
+    var_16 = {var_1: var_15}
+    var_17 = var_14.validate(var_16)
+    var_18 = module_0.String()
+    var_19 = module_0.Integer()
+    var_20 = {var_0: var_18, var_1: var_19}
+    var_21 = [var_0]
+    var_22 = module_0.Object(properties=var_20, required=var_21)
+    var_23 = 'age'
+    var_24 = 30
+    var_25 = {var_23: var_24}
+    var_26 = var_22.validate(var_25)
+    var_27 = 'name'
+    var_28 = 'age'
+    var_29 = 'Bob'
+    var_30 = 'not a number'
+    var_31 = {var_27: var_29, var_28: var_30}
+    var_32 = var_5.validate(var_31)
+    var_33 = 123
+    var_34 = 'age'
+    var_35 = 'Alice'
+    var_36 = 30
+    var_37 = {var_33: var_35, var_34: var_36}
+    var_38 = var_5.validate(var_37)
+    var_39 = 1
+    var_40 = module_0.Object(min_properties=var_39)
+    var_41 = {}
+    var_42 = var_40.validate(var_41)
+    var_43 = 2
+    var_44 = module_0.Object(max_properties=var_43)
+    var_45 = 'a'
+    var_46 = 'b'
+    var_47 = 'c'
+    var_48 = 1
+    var_49 = 2
+    var_50 = 3
+    var_51 = {var_45: var_48, var_46: var_49, var_47: var_50}
+    var_52 = var_44.validate(var_51)
+    var_53 = '^S_'
+    var_54 = '^I_'
+    var_55 = module_0.String()
+    var_56 = module_0.Integer()
+    var_57 = {var_53: var_55, var_54: var_56}
+    var_58 = module_0.Object(pattern_properties=var_57)
+    var_59 = 'S_name'
+    var_60 = 'I_age'
+    var_61 = {var_59: var_50, var_60: var_51}
+    var_62 = var_58.validate(var_61)
+    var_63 = module_0.String()
+    var_64 = {var_45: var_63}
+    var_65 = False
+    var_66 = module_0.Object(properties=var_64, additional_properties=var_65)
+    var_67 = 'name'
+    var_68 = 'age'
+    var_69 = 'Alice'
+    var_70 = 30
+    var_71 = {var_67: var_69, var_68: var_70}
+    var_72 = var_66.validate(var_71)
+    var_73 = module_0.String()
+    var_74 = {var_67: var_73}
+    var_75 = module_0.Integer()
+    var_76 = module_0.Object(properties=var_74, additional_properties=var_75)
+    var_77 = {var_67: var_72, var_68: var_51}
+    var_78 = var_76.validate(var_77)
+    var_79 = '^[a-z]+$'
+    var_80 = module_0.String(pattern=var_79)
+    var_81 = module_0.Object(property_names=var_80)
+    var_82 = 'Name'
+    var_83 = 'Alice'
+    var_84 = {var_82: var_83}
+    var_85 = var_81.validate(var_84)
+    var_86 = True
+    var_87 = module_0.Object()
+    var_88 = None
+    var_89 = var_87.validate(var_88)
+    assert var_89 is None
+    var_90 = 'user'
+    var_91 = module_0.String()
+    var_92 = module_0.Integer()
+    var_93 = {var_82: var_91, var_83: var_92}
+    var_94 = module_0.Object(properties=var_93)
+    var_95 = {var_90: var_94}
+    var_96 = module_0.Object(properties=var_95)
+    var_97 = {var_82: var_72, var_83: var_51}
+    var_98 = {var_90: var_97}
+    var_99 = var_96.validate(var_98)
+
+
+
+# Parsed testcases at query #18
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = module_0.Boolean()
+    var_1 = True
+    var_2 = var_0.validate(var_1)
+    assert var_2 is True
+    var_3 = False
+    var_4 = var_0.validate(var_3)
+    assert var_4 is False
+    var_5 = 'true'
+    var_6 = var_0.validate(var_5)
+    assert var_6 is True
+    var_7 = 'false'
+    var_8 = var_0.validate(var_7)
+    assert var_8 is False
+    var_9 = 'on'
+    var_10 = var_0.validate(var_9)
+    assert var_10 is True
+    var_11 = 'off'
+    var_12 = var_0.validate(var_11)
+    assert var_12 is False
+    var_13 = '1'
+    var_14 = var_0.validate(var_13)
+    assert var_14 is True
+    var_15 = '0'
+    var_16 = var_0.validate(var_15)
+    assert var_16 is False
+    var_17 = ''
+    var_18 = var_0.validate(var_17)
+    assert var_18 is False
+    var_19 = var_0.validate(var_1)
+    assert var_19 is True
+    var_20 = var_0.validate(var_3)
+    assert var_20 is False
+    var_21 = module_0.Boolean()
+    var_22 = None
+    var_23 = var_21.validate(var_22)
+    assert var_23 is None
+    var_24 = module_0.Boolean(coerce_types=var_3)
+    var_25 = 'true'
+    var_26 = var_24.validate(var_25)
+    var_27 = 1
+    var_28 = var_24.validate(var_27)
+    var_29 = 'invalid'
+    var_30 = var_24.validate(var_29)
+    var_31 = 'invalid'
+    var_32 = var_0.validate(var_31)
+    var_33 = 2
+    var_34 = var_0.validate(var_33)
+    var_35 = None
+    var_36 = var_0.validate(var_35)
+    var_37 = var_21.validate(var_17)
+    assert var_37 is None
+    var_38 = 'null'
+    var_39 = var_21.validate(var_38)
+    assert var_39 is None
+    var_40 = 'none'
+    var_41 = var_21.validate(var_40)
+    assert var_41 is None
+
+
+
+# Parsed testcases at query #19
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = True
+    var_1 = module_0.Number()
+    var_2 = None
+    var_3 = var_1.validate(var_2)
+    assert var_3 is None
+    var_4 = False
+    var_5 = module_0.Number()
+    var_6 = None
+    var_7 = var_5.validate(var_6)
+    var_8 = module_0.Number(coerce_types=var_6)
+    var_9 = ''
+    var_10 = var_8.validate(var_9)
+    assert var_10 is None
+    var_11 = module_0.Number()
+    var_12 = True
+    var_13 = var_11.validate(var_12)
+    var_14 = 1.5
+    var_15 = var_11.validate(var_14)
+    var_16 = module_0.Number(coerce_types=var_4)
+    var_17 = '123'
+    var_18 = var_16.validate(var_17)
+    var_19 = module_0.Number(coerce_types=var_17)
+    var_20 = '123'
+    var_21 = var_19.validate(var_20)
+    assert var_21 == 123
+    var_22 = module_0.Number()
+    var_23 = 'inf'
+    var_24 = float(var_23)
+    var_25 = var_22.validate(var_24)
+    var_26 = '0.01'
+    var_27 = module_0.Number(precision=var_26)
+    var_28 = '1.234'
+    var_29 = var_27.validate(var_28)
+    var_30 = 5
+    var_31 = module_0.Number(minimum=var_30)
+    var_32 = 4
+    var_33 = var_31.validate(var_32)
+    var_34 = module_0.Number(exclusive_minimum=var_30)
+    var_35 = 5
+    var_36 = var_34.validate(var_35)
+    var_37 = 10
+    var_38 = module_0.Number(maximum=var_37)
+    var_39 = 11
+    var_40 = var_38.validate(var_39)
+    var_41 = module_0.Number(exclusive_maximum=var_37)
+    var_42 = 10
+    var_43 = var_41.validate(var_42)
+    var_44 = 2
+    var_45 = module_0.Number(multiple_of=var_44)
+    var_46 = 3
+    var_47 = var_45.validate(var_46)
+    var_48 = 0.5
+    var_49 = module_0.Number(multiple_of=var_48)
+    var_50 = 1.25
+    var_51 = var_49.validate(var_50)
+    var_52 = module_0.Number()
+    var_53 = 123
+    var_54 = var_52.validate(var_53)
+    assert var_54 == 123
+
+
+
+# Parsed testcases at query #20
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'test_value'
+    var_1 = module_0.Const(var_0)
+    var_2 = None
+    var_3 = module_0.Const(var_2)
+    var_4 = 'test_value'
+    var_5 = True
+    var_6 = module_0.Const(var_4)
+
+
+
+# Parsed testcases at query #21
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'test_value'
+    var_1 = module_0.Const(var_0)
+    var_2 = None
+    var_3 = module_0.Const(var_2)
+    var_4 = 42
+    var_5 = module_0.Const(var_4)
+    var_6 = 3.14
+    var_7 = module_0.Const(var_6)
+    var_8 = True
+    var_9 = module_0.Const(var_8)
+    var_10 = 2
+    var_11 = 3
+    var_12 = [var_8, var_10, var_11]
+    var_13 = module_0.Const(var_12)
+    var_14 = 'key'
+    var_15 = 'value'
+    var_16 = {var_14: var_15}
+    var_17 = module_0.Const(var_16)
+    var_18 = 'test'
+    var_19 = True
+    var_20 = module_0.Const(var_18)
+
+
+
+# Parsed testcases at query #22
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'name'
+    var_1 = 'age'
+    var_2 = module_0.String()
+    var_3 = module_0.Integer()
+    var_4 = {var_0: var_2, var_1: var_3}
+    var_5 = module_0.Object(properties=var_4)
+    var_6 = 'John'
+    var_7 = 30
+    var_8 = {var_0: var_6, var_1: var_7}
+    var_9 = var_5.validate(var_8)
+    var_10 = True
+    var_11 = module_0.Object()
+    var_12 = None
+    var_13 = var_11.validate(var_12)
+    assert var_13 is None
+    var_14 = False
+    var_15 = module_0.Object()
+    var_16 = None
+    var_17 = var_15.validate(var_16)
+    var_18 = module_0.Object()
+    var_19 = 'not an object'
+    var_20 = var_18.validate(var_19)
+    var_21 = module_0.Object()
+    var_22 = 123
+    var_23 = 'value'
+    var_24 = {var_22: var_23}
+    var_25 = var_21.validate(var_24)
+    var_26 = module_0.String()
+    var_27 = {var_22: var_26}
+    var_28 = [var_22]
+    var_29 = module_0.Object(properties=var_27, required=var_28)
+    var_30 = {}
+    var_31 = var_29.validate(var_30)
+    var_32 = 2
+    var_33 = module_0.Object(min_properties=var_32)
+    var_34 = 'a'
+    var_35 = 1
+    var_36 = {var_34: var_35}
+    var_37 = var_33.validate(var_36)
+    var_38 = module_0.Object(max_properties=var_32)
+    var_39 = 'a'
+    var_40 = 'b'
+    var_41 = 'c'
+    var_42 = 1
+    var_43 = 2
+    var_44 = 3
+    var_45 = {var_39: var_42, var_40: var_43, var_41: var_44}
+    var_46 = var_38.validate(var_45)
+    var_47 = module_0.Integer(minimum=var_14)
+    var_48 = {var_40: var_47}
+    var_49 = module_0.Object(properties=var_48)
+    var_50 = 'age'
+    var_51 = -1
+    var_52 = {var_50: var_51}
+    var_53 = var_49.validate(var_52)
+    var_54 = module_0.String()
+    var_55 = {var_50: var_54}
+    var_56 = module_0.Object(properties=var_55, additional_properties=var_14)
+    var_57 = 'name'
+    var_58 = 'age'
+    var_59 = 'John'
+    var_60 = 30
+    var_61 = {var_57: var_59, var_58: var_60}
+    var_62 = var_56.validate(var_61)
+    var_63 = module_0.String()
+    var_64 = {var_57: var_63}
+    var_65 = module_0.Integer()
+    var_66 = module_0.Object(properties=var_64, additional_properties=var_65)
+    var_67 = {var_57: var_62, var_58: var_45}
+    var_68 = var_66.validate(var_67)
+    var_69 = '^age_'
+    var_70 = module_0.Integer()
+    var_71 = {var_69: var_70}
+    var_72 = module_0.Object(pattern_properties=var_71)
+    var_73 = 'age_1'
+    var_74 = 'age_2'
+    var_75 = 25
+    var_76 = {var_73: var_45, var_74: var_75}
+    var_77 = var_72.validate(var_76)
+    var_78 = 3
+    var_79 = module_0.String(min_length=var_78)
+    var_80 = module_0.Object(property_names=var_79)
+    var_81 = 'ab'
+    var_82 = 'value'
+    var_83 = {var_81: var_82}
+    var_84 = var_80.validate(var_83)
+
+
+
+# Parsed testcases at query #23
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'test_value'
+    var_1 = module_0.Const(var_0)
+    var_2 = None
+    var_3 = module_0.Const(var_2)
+    var_4 = 'test_value'
+    var_5 = True
+    var_6 = module_0.Const(var_4)
+
+
+
+# Parsed testcases at query #24
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 'a'
+    var_1 = 'Option A'
+    var_2 = (var_0, var_1)
+    var_3 = 'b'
+    var_4 = 'Option B'
+    var_5 = (var_3, var_4)
+    var_6 = [var_2, var_5]
+    var_7 = module_0.Choice(choices=var_6)
+    var_8 = var_7.validate(var_0)
+    assert var_8 == 'a'
+    var_9 = var_7.validate(var_3)
+    assert var_9 == 'b'
+    var_10 = 'c'
+    var_11 = var_7.validate(var_10)
+    var_12 = (var_10, var_11)
+    var_13 = [var_12]
+    var_14 = True
+    var_15 = module_0.Choice(choices=var_13)
+    var_16 = None
+    var_17 = var_15.validate(var_16)
+    assert var_17 is None
+    var_18 = None
+    var_19 = var_7.validate(var_18)
+    var_20 = (var_18, var_19)
+    var_21 = [var_20]
+    var_22 = module_0.Choice(choices=var_21, coerce_types=var_14)
+    var_23 = ''
+    var_24 = var_22.validate(var_23)
+    assert var_24 is None
+    var_25 = ''
+    var_26 = var_7.validate(var_25)
+    var_27 = (var_25, var_26)
+    var_28 = (var_3, var_4)
+    var_29 = [var_27, var_28]
+    var_30 = module_0.Choice(choices=var_29)
+    var_31 = var_30.validate(var_25)
+    assert var_31 == 'a'
+    var_32 = [var_25, var_26]
+    var_33 = [var_3, var_4]
+    var_34 = [var_32, var_33]
+    var_35 = module_0.Choice(choices=var_34)
+    var_36 = var_35.validate(var_25)
+    assert var_36 == 'a'
+
+
+
+# Parsed testcases at query #25
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = module_0.Boolean()
+    var_1 = True
+    var_2 = var_0.validate(var_1)
+    assert var_2 is True
+    var_3 = False
+    var_4 = var_0.validate(var_3)
+    assert var_4 is False
+    var_5 = 'true'
+    var_6 = var_0.validate(var_5)
+    assert var_6 is True
+    var_7 = 'false'
+    var_8 = var_0.validate(var_7)
+    assert var_8 is False
+    var_9 = 'on'
+    var_10 = var_0.validate(var_9)
+    assert var_10 is True
+    var_11 = 'off'
+    var_12 = var_0.validate(var_11)
+    assert var_12 is False
+    var_13 = '1'
+    var_14 = var_0.validate(var_13)
+    assert var_14 is True
+    var_15 = '0'
+    var_16 = var_0.validate(var_15)
+    assert var_16 is False
+    var_17 = ''
+    var_18 = var_0.validate(var_17)
+    assert var_18 is False
+    var_19 = var_0.validate(var_1)
+    assert var_19 is True
+    var_20 = var_0.validate(var_3)
+    assert var_20 is False
+    var_21 = module_0.Boolean(coerce_types=var_3)
+    var_22 = 'true'
+    var_23 = var_21.validate(var_22)
+    var_24 = 1
+    var_25 = var_21.validate(var_24)
+    var_26 = module_0.Boolean()
+    var_27 = None
+    var_28 = var_26.validate(var_27)
+    assert var_28 is None
+    var_29 = 'null'
+    var_30 = var_26.validate(var_29)
+    assert var_30 is None
+    var_31 = 'none'
+    var_32 = var_26.validate(var_31)
+    assert var_32 is None
+    var_33 = var_26.validate(var_17)
+    assert var_33 is None
+    var_34 = None
+    var_35 = var_0.validate(var_34)
+    var_36 = 'invalid'
+    var_37 = var_0.validate(var_36)
+    var_38 = 2
+    var_39 = var_0.validate(var_38)
+
+
+
+# Parsed testcases at query #26
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = module_0.String()
+    var_1 = 'hello'
+    var_2 = var_0.validate(var_1)
+    assert var_2 == 'hello'
+    var_3 = True
+    var_4 = module_0.String()
+    var_5 = None
+    var_6 = var_4.validate(var_5)
+    assert var_6 is None
+    var_7 = module_0.String(allow_blank=var_3)
+    var_8 = ''
+    var_9 = var_7.validate(var_8)
+    assert var_9 == ''
+    var_10 = module_0.String(trim_whitespace=var_3)
+    var_11 = '  hello  '
+    var_12 = var_10.validate(var_11)
+    assert var_12 == 'hello'
+    var_13 = 5
+    var_14 = module_0.String(max_length=var_13)
+    var_15 = var_14.validate(var_1)
+    assert var_15 == 'hello'
+    var_16 = 'hello world'
+    var_17 = var_14.validate(var_16)
+    var_18 = module_0.String(min_length=var_13)
+    var_19 = 'hello world'
+    var_20 = var_18.validate(var_19)
+    assert var_20 == 'hello world'
+    var_21 = 'hi'
+    var_22 = var_18.validate(var_21)
+    var_23 = '^[a-z]+$'
+    var_24 = module_0.String(pattern=var_23)
+    var_25 = var_24.validate(var_21)
+    assert var_25 == 'hello'
+    var_26 = 'Hello'
+    var_27 = var_24.validate(var_26)
+    var_28 = 'email'
+    var_29 = module_0.String(format=var_28)
+    var_30 = 'test@example.com'
+    var_31 = var_29.validate(var_30)
+    assert var_31 == 'test@example.com'
+    var_32 = 'invalid-email'
+    var_33 = var_29.validate(var_32)
+    var_34 = module_0.String(allow_blank=var_3, coerce_types=var_3)
+    var_35 = var_34.validate(var_5)
+    assert var_35 == ''
+    var_36 = module_0.String()
+    var_37 = 'hello\x00world'
+    var_38 = var_36.validate(var_37)
+    assert var_38 == 'helloworld'
+    var_39 = module_0.String()
+    var_40 = 123
+    var_41 = var_39.validate(var_40)
+    var_42 = False
+    var_43 = module_0.String(allow_blank=var_42)
+    var_44 = ''
+    var_45 = var_43.validate(var_44)
+    var_46 = module_0.String()
+    var_47 = None
+    var_48 = var_46.validate(var_47)
+
+
+
+# Parsed testcases at query #27
+#--------------------------
+
+
+import typesystem.fields as module_0
+
+def test_case_0():
+    var_0 = 42
+    var_1 = module_0.Const(var_0)
+    var_2 = None
+    var_3 = module_0.Const(var_2)
+    var_4 = 42
+    var_5 = True
+    var_6 = module_0.Const(var_4)
+    var_7 = var_1.validate(var_4)
+    assert var_7 == 42
+    var_8 = 43
+    var_9 = var_1.validate(var_8)
+    var_10 = var_3.validate(var_9)
+    assert var_10 is None
+    var_11 = 42
+    var_12 = var_3.validate(var_11)
+
+
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.3333333333333333" lines-covered="0" lines-valid="0" branches-covered="4" branches-valid="12" complexity="0.0" version="pynguin-0.40.0" timestamp="1769352408">
+  <sources>
+    <source>cookiecutter.replay</source>
+  </sources>
+  <packages>
+    <package name="" line-rate="None" branch-rate="0.3333333333333333" complexity="0.0">
+      <classes>
+        <class name="" filename="cookiecutter.replay" line-rate="None" branch-rate="0.3333333333333333" complexity="0.0">
+          <methods />
+          <lines>
+            <line number="15" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="21" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="30" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="36" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="44" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="47" hits="0" branch="true" condition-coverage="0% (0/2)" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

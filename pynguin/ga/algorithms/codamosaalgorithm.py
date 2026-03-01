@@ -125,7 +125,7 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
             RuntimeVariable.LLMStageSavedMutants, self._num_mutant_codamosa_tests_added
         )
 
-    def generate_tests(self) -> tsc.TestSuiteChromosome:
+    async def generate_tests(self) -> tsc.TestSuiteChromosome:
         self.before_search_start()
         self._number_of_goals = len(self._test_case_fitness_functions)
         stat.set_output_variable_for_runtime_variable(RuntimeVariable.Goals, self._number_of_goals)
@@ -158,7 +158,7 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
 
             if its_without_update > self._plateau_len:
                 its_without_update = 0
-                self.evolve_targeted(self.create_test_suite(self._archive.solutions))
+                await self.evolve_targeted(self.create_test_suite(self._archive.solutions))
             else:
                 self.evolve()
 
@@ -176,7 +176,7 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
             else self._get_best_individuals()
         )
 
-    def evolve_targeted(self, test_suite: tsc.TestSuiteChromosome):
+    async def evolve_targeted(self, test_suite: tsc.TestSuiteChromosome):
         """Runs an evolution step that targets uncovered functions.
 
         Args:
@@ -187,9 +187,8 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
 
         try:
             if self._codamosa.target_low_coverage_functions:
-                test_cases = codamosaseeding.target_uncovered_functions(
+                test_cases = await codamosaseeding.target_uncovered_functions(
                     test_suite,
-                    self._codamosa.num_seeds_to_inject,
                     self.resources_left,
                 )
             else:
@@ -197,7 +196,7 @@ class CodaMOSAAlgorithm(AbstractMOSAAlgorithm):
                 for _ in range(self._codamosa.num_seeds_to_inject):
                     if not self.resources_left():
                         break
-                    test_cases.extend(codamosaseeding.get_random_targeted_testcase())
+                    test_cases.extend(await codamosaseeding.get_random_targeted_testcase())
         except EarlyStopTargetting:
             test_cases = []
 

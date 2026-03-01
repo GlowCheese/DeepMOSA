@@ -13,6 +13,7 @@ import pynguin.utils.statistics.stats as stat
 from libs.custom_logger import getLogger
 from pynguin.configuration import config
 from pynguin.ga.operators.ranking import fast_epsilon_dominance_assignment
+from pynguin.llm.codamosa.llmseeding import codamosaseeding
 from pynguin.llm.deepmosa.llmseeding import EarlyStopTargetting, deepmosaseeding
 from pynguin.utils import randomness
 from pynguin.utils.exceptions import ConstructionFailedException
@@ -45,7 +46,8 @@ class DeepMOSAAlgorithm(AbstractMOSAAlgorithm):
         self._llms_testcases: List[tcc.TestCaseChromosome] = []
 
     async def generate_tests(self) -> tsc.TestSuiteChromosome:
-        deepmosaseeding.analyse_project()
+        if not config.deepmosa.use_codamosa_seeding:
+            deepmosaseeding.analyse_project()
 
         self.before_search_start()
         self._goals_manager = _GoalsManager(
@@ -117,10 +119,15 @@ class DeepMOSAAlgorithm(AbstractMOSAAlgorithm):
                 break
 
             try:
-                coro = deepmosaseeding.target_uncovered_functions(
-                    list(self._archive.solutions),
-                    list(self._goals_manager.current_goals),
-                )
+                if config.deepmosa.use_codamosa_seeding:
+                    coro = codamosaseeding.target_uncovered_functions(
+                        self.create_test_suite(self._archive.solutions), self.resources_left
+                    )
+                else:
+                    coro = deepmosaseeding.target_uncovered_functions(
+                        list(self._archive.solutions),
+                        list(self._goals_manager.current_goals),
+                    )
                 if not config.deepmosa.async_enabled:
                     # wait until we receive the test cases
                     test_cases = await coro

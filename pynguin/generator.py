@@ -245,7 +245,7 @@ def prepare_everything():
 
         module_src = config.module_path.open(encoding="UTF-8").read()
 
-        if config.algorithm == Algorithm.CODAMOSA:
+        if config.algorithm == Algorithm.CODAMOSA or config.deepmosa.use_codamosa_seeding:
             from pynguin.llm.codamosa.llmseeding import codamosaseeding
             from pynguin.llm.codamosa.model import codamosalanguagemodel
 

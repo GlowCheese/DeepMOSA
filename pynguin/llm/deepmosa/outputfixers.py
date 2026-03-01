@@ -741,7 +741,7 @@ def fixup_result(result: str):
             return fixup_result("\n".join(lines[:line_to_rm]))
 
 
-def rewrite_tests(source: str) -> Dict[str, str]:
+def rewrite_tests(source: str | ast.Module) -> Dict[str, str]:
     """Rewrite the tests in `source` so that they can be parsed by
     AstToTestCaseTransformer
 
@@ -752,9 +752,13 @@ def rewrite_tests(source: str) -> Dict[str, str]:
         a dictionary mapping test function names to the rewritten source for
         that test function
     """
-    source = fixup_result(source)
 
-    module_node: ast.Module = ast.parse(source)
+    if isinstance(source, ast.Module):
+        module_node = source
+    else:
+        source = fixup_result(source)
+        module_node = ast.parse(source)
+
     assert isinstance(module_node, ast.Module)
     # Rewrite the tests
     return_tests: Dict[str, str] = {}
