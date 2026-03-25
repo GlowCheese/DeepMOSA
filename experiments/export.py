@@ -130,18 +130,30 @@ else:
         num_modules = len(modules)
 
         total_num_modules += num_modules
+        num_locs = 0
         num_focals = 0
+        num_branches = 0
         for module in modules:
             stat = utils.read_module_statistics(
                 project_name, module, utils.RUN_CONFIGS[0].config_id
             )
             assert stat
             num_focals += stat[0].accessible_objects_under_test
+            num_locs += stat[0].line_nos
+            num_branches += stat[0].goals
 
         total_num_focals += num_focals
-        table.append([f"{project_name}:", f"{num_modules} modules", f"{num_focals} callables"])
+        table.append(
+            [
+                f"{project_name}:",
+                f"{num_modules} modules",
+                f"{num_focals} callables",
+                f"{num_locs} LOCs",
+                f"{num_branches} branches",
+            ]
+        )
 
-    table.append(["Total:", f"{total_num_modules} modules", f"{total_num_focals} callables"])
+    # table.append(["Total:", f"{total_num_modules} modules", f"{total_num_focals} callables"])
     utils.print_table(table)
 
     # tracking metrics for each pair [project, config_id]
