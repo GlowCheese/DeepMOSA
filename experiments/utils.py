@@ -81,28 +81,27 @@ def read_module_statistics(project_name: str, module_name: str, config_id: str):
 
 
 def run_deepmosa_runner(project_name: str, env_file: str, *argv: str):
-    pwd = Path.cwd()
-
     # fmt: off
     cmd = [
-        "docker", "run",     "--rm", "-t",
-        "--user",            f"{os.getuid()}:{os.getgid()}",
-        "--env-file",        str(pwd / env_file),
-        "-e",                f"PROJECT_NAME={project_name}",
-        "-e",                "UV_CACHE_DIR=/tmp/uv-cache",
-        "-v",                f"{pwd}/experiments/projects/{project_name}:/workspace/project:ro",
-        "-v",                f"{pwd}/generated_tests:/workspace/generated_tests",
-        "-v",                f"{pwd}/pynguin_report:/workspace/pynguin_report",
-        "-v",                f"{pwd}/.cache/project-deps:/workspace/.project-deps",
-        "deepmosa-runner",   "pynguin",
+        "docker", "compose", "run", "--rm",
+        "runner", "pynguin",
         "--project-path",    "/workspace/project",
         "--project-name",    project_name,
         *argv,
     ]
     # fmt: on
 
+    env = {
+        **os.environ,
+        "HOST_UID": str(os.getuid()),
+        "HOST_GID": str(os.getgid()),
+        "PROJECT_NAME": project_name,
+        "ENV_FILE": env_file,
+    }
+
     proc = subprocess.Popen(
         cmd,
+        env=env,
         stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,

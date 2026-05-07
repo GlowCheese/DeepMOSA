@@ -9,8 +9,8 @@ from typing import Any
 
 from libs.custom_logger import getLogger
 
-from . import utils
-from .wtl import show_wtl
+from .. import utils
+from .win_tie_loss import show_wtl
 
 _logger = getLogger("rtests")
 
@@ -170,23 +170,14 @@ class LLMGeneratedTestAnalysis:
         Path(".coverage-data").mkdir(parents=True, exist_ok=True)
 
         # fmt: off
-        pwd = Path.cwd()
         command = [
-            "docker", "run",     "--rm", "-t",
-            "--user",            f"{os.getuid()}:{os.getgid()}",
-            "--env-file",        str(pwd / ".env"),
-            "-e",                f"PROJECT_NAME={self.project}",
-            "-e",                "UV_CACHE_DIR=/tmp/uv-cache",
+            "docker", "compose", "run", "--rm",
             "-e",                "PYTHONPATH=/workspace/project",
-
             "-e",                "RUN_COVERAGE_JSON=1",
             "-e",                "COVERAGE_FILE=/workspace/.coverage-data/.coverage",
-            "-v",                f"{pwd}/.coverage-data:/workspace/.coverage-data",
-
+            "-v",                f"{Path.cwd()}/.coverage-data:/workspace/.coverage-data",
             "-v",                f"{test_path}:/workspace/{test_path.name}",
-            "-v",                f"{pwd}/experiments/projects/{self.project}:/workspace/project:ro",
-            "-v",                f"{pwd}/.cache/project-deps:/workspace/.project-deps",
-            "deepmosa-runner",
+            "runner",
             "coverage", "run",   "--branch",
             f"--source=/workspace/project/{'/'.join(self.module.split('.')[:-1])}",
             "-m", "pytest",
@@ -196,8 +187,23 @@ class LLMGeneratedTestAnalysis:
         ]
         # fmt: on
 
-        # result = subprocess.run(command)
-        result = subprocess.run(command, stdout=subprocess.DEVNULL)
+        env = {
+            **os.environ,
+            "HOST_UID": str(os.getuid()),
+            "HOST_GID": str(os.getgid()),
+            "PROJECT_NAME": self.project,
+        }
+
+        # result = subprocess.run(command, env=env)
+        result = subprocess.run(command, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+
+        if result.returncode != 0:
+            _logger.warning(
+                "container exit %s on %s/%s",
+                result.returncode,
+                self.project,
+                self.module,
+            )
 
         with coverage_report_path.open("r", encoding="UTF-8") as f:
             report: dict = json.load(f)
@@ -226,7 +232,7 @@ class LLMGeneratedTestAnalysis:
         assert all(c for c in run_content)
 
         if num_runs == 0:
-            _logger.info("quitting...")
+            _logger.debug("quitting...")
             exit(0)
 
         run_content = self._fix_run_content(run_content)

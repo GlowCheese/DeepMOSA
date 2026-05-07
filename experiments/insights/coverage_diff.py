@@ -1,6 +1,6 @@
 from libs.custom_logger import getLogger
 
-from . import utils
+from .. import utils
 
 _logger = getLogger("diff")
 

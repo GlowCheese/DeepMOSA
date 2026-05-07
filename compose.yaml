@@ -1,0 +1,17 @@
+services:
+  runner:
+    image: deepmosa-runner
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    user: "${HOST_UID}:${HOST_GID}"
+    env_file:
+      - ${ENV_FILE:-.env}
+    environment:
+      PROJECT_NAME: ${PROJECT_NAME}
+      UV_CACHE_DIR: /tmp/uv-cache
+    volumes:
+      - ${PROJECT_PATH:-./experiments/projects/${PROJECT_NAME}}:/workspace/project:ro
+      - ./generated_tests:/workspace/generated_tests
+      - ./pynguin_report:/workspace/pynguin_report
+      - ./.cache/project-deps:/workspace/.project-deps

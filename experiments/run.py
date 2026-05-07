@@ -40,7 +40,7 @@ assert all_projects, f"Experiment project {args.project} does not exist!"
 
 if args.build_image:
     subprocess.run(
-        ["docker", "build", "-t", "deepmosa-runner", "-f", "docker/Dockerfile", "."],
+        ["docker", "compose", "build", "runner"],
         cwd=Path.cwd(),
         env={**os.environ, "DOCKER_BUILDKIT": "1"},
         check=True,

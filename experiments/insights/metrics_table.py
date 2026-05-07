@@ -5,7 +5,7 @@ from typing import Any
 
 from libs.custom_logger import getLogger
 
-from . import utils
+from .. import utils
 
 _logger = getLogger("export")
 
@@ -178,7 +178,11 @@ else:
                     metrics["output_toks"][pair] += r.llm_output_tokens
                     metrics["parsed_stmt"][pair] += r.parsed_statements
                     metrics["parsable_stmt"][pair] += r.parsable_statements
-                metrics["sum_sd_cvrg"][pair] += r.goals * (N * r.branch_coverage - sum_cvrg) ** 2
+
+                for r in rows:
+                    metrics["sum_sd_cvrg"][pair] += (
+                        r.goals * (N * r.branch_coverage - sum_cvrg) ** 2
+                    )
 
             if metrics["num_runs"][pair] != len(modules) * N:
                 metrics["sum_sd_cvrg"][pair] = metrics["sd_cvrg"][pair] = -1
