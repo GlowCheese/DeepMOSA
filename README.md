@@ -1,4 +1,4 @@
-# Deepmosa
+# DeepMOSA
 
 DeepMOSA is an automated unit testing method that leverages Large Language Model (LLM) as a search assistant to improve test generation. Built upon CodaMOSA and DynaMOSA, our approach introduces several key enhancements to address many limitations and further boost branch coverage.
 
