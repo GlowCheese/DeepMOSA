@@ -1,5 +1,7 @@
 # DeepMOSA
 
+_Previously known as [trimguin](https://github.com/GlowCheese/trimguin)_
+
 DeepMOSA is an automated unit testing method that leverages Large Language Model (LLM) as a search assistant to improve test generation. Built upon CodaMOSA and DynaMOSA, our approach introduces several key enhancements to address many limitations and further boost branch coverage.
 
 Combining evolutionary search with LLM-augmented guidance, DeepMOSA provides a more adaptive and effective method for automated unit test generation.
