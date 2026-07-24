@@ -5,11 +5,20 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     user: "${HOST_UID}:${HOST_GID}"
+    security_opt:
+      # Turn the chmod syscall family into a silent no-op inside the container:
+      # generated tests execute SUT code (e.g. cookiecutter's force_delete) that
+      # chmods the mounted output dirs and locks the host user out of them.
+      - seccomp:./docker/seccomp-no-chmod.json
     env_file:
       - ${ENV_FILE:-.env}
     environment:
       PROJECT_NAME: ${PROJECT_NAME}
       UV_CACHE_DIR: /tmp/uv-cache
+    extra_hosts:
+      # Let the container reach Ollama (and other services) running on the host.
+      # `host-gateway` resolves to the host from inside the container on Linux.
+      - "host.docker.internal:host-gateway"
     volumes:
       - ${PROJECT_PATH:-./experiments/projects/${PROJECT_NAME}}:/workspace/project:ro
       - ./generated_tests:/workspace/generated_tests

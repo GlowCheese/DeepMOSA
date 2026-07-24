@@ -1,4 +1,5 @@
 import ast
+from pathlib import Path
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -11,6 +12,7 @@ class RunConfig(BaseModel):
 class RunEntry(BaseModel):
     module_name: str
     run_config: RunConfig
+    log_path: Path | None = None
 
 
 class StatisticsRow(BaseModel):

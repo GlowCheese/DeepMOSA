@@ -1,0 +1,12 @@
+llm_provider: ollama
+
+llm:
+  name: Gemma 4
+  model: gemma4:26b
+  # Ollama runs on the host, not inside the container. `host.docker.internal`
+  # resolves to the host (see `extra_hosts` in compose.yaml). Override with the
+  # OLLAMA_BASE_URL env var when running outside Docker (e.g. http://localhost:11434).
+  base_url: ${oc.env:OLLAMA_BASE_URL,http://host.docker.internal:11434}
+  reasoning: false
+  num_gpu: 22
+  num_ctx: 10240

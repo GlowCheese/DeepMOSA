@@ -19,3 +19,24 @@
 [submodule "experiments/projects/pypara"]
 	path = experiments/projects/pypara
 	url = https://github.com/vst/pypara.git
+[submodule "experiments/projects/vulture"]
+	path = experiments/projects/vulture
+	url = https://github.com/jendrikseipp/vulture
+[submodule "experiments/projects/markupsafe"]
+	path = experiments/projects/markupsafe
+	url = https://github.com/pallets/markupsafe
+[submodule "experiments/projects/pyquery"]
+	path = experiments/projects/pyquery
+	url = https://github.com/gawel/pyquery
+[submodule "experiments/projects/mistune"]
+	path = experiments/projects/mistune
+	url = https://github.com/lepture/mistune
+[submodule "experiments/projects/pymatting"]
+	path = experiments/projects/pymatting
+	url = https://github.com/pymatting/pymatting
+[submodule "experiments/projects/attrs"]
+	path = experiments/projects/attrs
+	url = https://github.com/python-attrs/attrs
+[submodule "experiments/projects/itsdangerous"]
+	path = experiments/projects/itsdangerous
+	url = https://github.com/pallets/itsdangerous

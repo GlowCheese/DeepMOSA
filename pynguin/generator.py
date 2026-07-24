@@ -79,8 +79,6 @@ from pynguin.utils.report import (
 )
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 
-from . import environ
-
 if TYPE_CHECKING:
     from pynguin.assertion.mutation_analysis.operators.base import MutationOperator
 
@@ -232,12 +230,6 @@ def prepare_everything():
 
     """ SETUP LANGUAGE MODEL SEEDING """
     if config.algorithm in (Algorithm.CODAMOSA, Algorithm.DEEPMOSA):
-        assert environ.OPENAI_API_KEY is not None, (
-            "Environment variable DEEPSEEK_API_KEY should be "
-            "set in order to generate test cases using "
-            f"{config.algorithm.value} strategy!"
-        )
-
         if config.seeding.large_language_model_mutation:
             logger.error("Mutation currently unsupported --- the OpenAI edit models throttle.")
 

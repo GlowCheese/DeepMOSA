@@ -14,13 +14,14 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import os
 import sys
 from pathlib import Path
 from typing import cast
 
+import dotenv
 import simple_parsing
 
-import pynguin.environ as environ
 from pynguin.__version__ import __version__
 from pynguin.configuration import Configuration, set_configuration
 
@@ -105,7 +106,9 @@ async def async_main():
         success, all non-zero exit codes indicate errors.
     """
 
-    if environ.PYNGUIN_DANGER_AWARE is None:
+    dotenv.load_dotenv()
+
+    if os.getenv("PYNGUIN_DANGER_AWARE") is None:
         print(
             "Environment variable PYNGUIN_DANGER_AWARE not set.",
             "Aborting to avoid harming your system.",

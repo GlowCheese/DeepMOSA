@@ -1,0 +1,2986 @@
+####################################################################
+#        TEST GENERATION BEGINS (CODAMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+
+####################################################################
+#        TEST GENERATION BEGINS (CODAMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+import copy
+import itertools
+from collections.abc import Iterable
+from functools import partial
+from typing import Any
+
+from isort.format import format_simplified
+
+from . import parse, sorting, wrap
+from .comments import add_to_line as with_comments
+from .identify import STATEMENT_DECLARATIONS
+from .settings import DEFAULT_CONFIG, Config
+
+
+def sorted_imports(
+    parsed: parse.ParsedContent,
+    config: Config = DEFAULT_CONFIG,
+    extension: str = "py",
+    import_type: str = "import",
+) -> str:
+    """Adds the imports back to the file.
+
+    (at the index of the first import) sorted alphabetically and split between groups
+
+    """
+    if parsed.import_index == -1:
+        return _output_as_string(parsed.lines_without_imports, parsed.line_separator)
+
+    formatted_output: list[str] = parsed.lines_without_imports.copy()
+    remove_imports = [format_simplified(removal) for removal in config.remove_imports]
+
+    sections: Iterable[str] = itertools.chain(parsed.sections, config.forced_separate)
+
+    if config.no_sections:
+        parsed.imports["no_sections"] = {"straight": {}, "from": {}}
+        base_sections: tuple[str, ...] = ()
+        for section in sections:
+            if section == "FUTURE":
+                base_sections = ("FUTURE",)
+                continue
+            parsed.imports["no_sections"]["straight"].update(
+                parsed.imports[section].get("straight", {})
+            )
+            parsed.imports["no_sections"]["from"].update(parsed.imports[section].get("from", {}))
+        sections = (*base_sections, "no_sections")
+
+    output: list[str] = []
+    seen_headings: set[str] = set()
+    pending_lines_before = False
+    for section in sections:
+        straight_modules = parsed.imports[section]["straight"]
+        if not config.only_sections:
+            straight_modules = sorting.sort(
+                config,
+                straight_modules,
+                key=lambda key: sorting.module_key(
+                    key, config, section_name=section, straight_import=True
+                ),
+                reverse=config.reverse_sort,
+            )
+
+        from_modules = parsed.imports[section]["from"]
+        if not config.only_sections:
+            from_modules = sorting.sort(
+                config,
+                from_modules,
+                key=lambda key: sorting.module_key(key, config, section_name=section),
+                reverse=config.reverse_sort,
+            )
+
+            if config.star_first:
+                star_modules = []
+                other_modules = []
+                for module in from_modules:
+                    if "*" in parsed.imports[section]["from"][module]:
+                        star_modules.append(module)
+                    else:
+                        other_modules.append(module)
+                from_modules = star_modules + other_modules
+
+        straight_imports = _with_straight_imports(
+            parsed, config, straight_modules, section, remove_imports, import_type
+        )
+        from_imports = _with_from_imports(
+            parsed, config, from_modules, section, remove_imports, import_type
+        )
+
+        lines_between = [""] * (
+            config.lines_between_types if from_modules and straight_modules else 0
+        )
+        if config.from_first:
+            section_output = from_imports + lines_between + straight_imports
+        else:
+            section_output = straight_imports + lines_between + from_imports
+
+        if config.force_sort_within_sections:
+            # collapse comments
+            comments_above = []
+            new_section_output: list[str] = []
+            for line in section_output:
+                if not line:
+                    continue
+                if line.startswith("#"):
+                    comments_above.append(line)
+                elif comments_above:
+                    new_section_output.append(_LineWithComments(line, comments_above))
+                    comments_above = []
+                else:
+                    new_section_output.append(line)
+            # only_sections options is not imposed if force_sort_within_sections is True
+            new_section_output = sorting.sort(
+                config,
+                new_section_output,
+                key=partial(sorting.section_key, config=config),
+                reverse=config.reverse_sort,
+            )
+
+            # uncollapse comments
+            section_output = []
+            for line in new_section_output:
+                comments = getattr(line, "comments", ())
+                if comments:
+                    section_output.extend(comments)
+                section_output.append(str(line))
+
+        section_name = section
+        no_lines_before = section_name in config.no_lines_before
+
+        if section_output:
+            if section_name in parsed.place_imports:
+                parsed.place_imports[section_name] = section_output
+                continue
+
+            section_title = config.import_headings.get(section_name.lower(), "")
+            if section_title and section_title not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_title)
+                section_comment = f"# {section_title}"
+                if section_comment not in parsed.lines_without_imports[0:1]:  # pragma: no branch
+                    section_output.insert(0, section_comment)
+
+            section_footer = config.import_footers.get(section_name.lower(), "")
+            if section_footer and section_footer not in seen_headings:
+                if config.dedup_headings:
+                    seen_headings.add(section_footer)
+                section_comment_end = f"# {section_footer}"
+                if (
+                    section_comment_end not in parsed.lines_without_imports[-1:]
+                ):  # pragma: no branch
+                    section_output.append("")  # Empty line for black compatibility
+                    section_output.append(section_comment_end)
+
+            if pending_lines_before or not no_lines_before:
+                output += [""] * config.lines_between_sections
+
+            output += section_output
+
+            pending_lines_before = False
+        else:
+            pending_lines_before = pending_lines_before or not no_lines_before
+
+    if config.ensure_newline_before_comments:
+        output = _ensure_newline_before_comment(output)
+
+    while output and output[-1].strip() == "":
+        output.pop()  # pragma: no cover
+    while output and output[0].strip() == "":
+        output.pop(0)
+
+    if config.formatting_function:
+        output = config.formatting_function(
+            parsed.line_separator.join(output), extension, config
+        ).splitlines()
+
+    output_at = 0
+    if parsed.import_index < parsed.original_line_count:
+        output_at = parsed.import_index
+    formatted_output[output_at:0] = output
+
+    if output:
+        imports_tail = output_at + len(output)
+        while [
+            character.strip() for character in formatted_output[imports_tail : imports_tail + 1]
+        ] == [""]:
+            formatted_output.pop(imports_tail)
+
+        if config.lines_before_imports != -1:
+            lines_before_imports = config.lines_before_imports
+            if config.profile == "black" and extension == "pyi":  # special case for black
+                lines_before_imports = 1
+            formatted_output[:0] = ["" for line in range(lines_before_imports)]
+            imports_tail += lines_before_imports
+
+        if len(formatted_output) > imports_tail:
+            next_construct = ""
+            tail = formatted_output[imports_tail:]
+
+            for index, line in enumerate(tail):  # pragma: no branch
+                should_skip, in_quote, *_ = parse.skip_line(
+                    line,
+                    in_quote="",
+                    index=len(formatted_output),
+                    section_comments=config.section_comments,
+                    needs_import=False,
+                )
+                if not should_skip and line.strip():
+                    if (
+                        line.strip().startswith("#")
+                        and len(tail) > (index + 1)
+                        and tail[index + 1].strip()
+                    ):
+                        continue
+                    next_construct = line
+                    break
+                if in_quote:  # pragma: no branch
+                    next_construct = line
+                    break
+
+            if config.lines_after_imports != -1:
+                lines_after_imports = config.lines_after_imports
+                if config.profile == "black" and extension == "pyi":  # special case for black
+                    lines_after_imports = 1
+                formatted_output[imports_tail:0] = ["" for line in range(lines_after_imports)]
+            elif extension != "pyi" and next_construct.startswith(STATEMENT_DECLARATIONS):
+                formatted_output[imports_tail:0] = ["", ""]
+            else:
+                formatted_output[imports_tail:0] = [""]
+
+    if parsed.place_imports:
+        new_out_lines = []
+        for index, line in enumerate(formatted_output):
+            new_out_lines.append(line)
+            if line in parsed.import_placements:
+                new_out_lines.extend(parsed.place_imports[parsed.import_placements[line]])
+                if (
+                    len(formatted_output) <= (index + 1)
+                    or formatted_output[index + 1].strip() != ""
+                ):
+                    new_out_lines.append("")
+        formatted_output = new_out_lines
+
+    return _output_as_string(formatted_output, parsed.line_separator)
+Write unit test with pytest for function sorted_imports with the following signature: `def test_sorted_imports():`
+
+

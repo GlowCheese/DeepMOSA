@@ -1,7 +1,7 @@
 import statistics
 from collections import defaultdict
 
-from scipy.stats import mannwhitneyu
+from scipy import stats
 
 from libs.custom_logger import getLogger
 
@@ -23,7 +23,7 @@ def a12(x, y):
 
 
 def show_wtl(versuses: list[tuple[str, str]], branch_cov: dict[str, list[float]]):
-    table = [["Comparison", "W/T/L", "U-test", "A12"]]
+    table = [["Comparison", "W/T/L", "p-value", "A12", "r", "Median Δ"]]
 
     for ours, baseline in versuses:
         ours_cov = branch_cov[ours]
@@ -37,13 +37,26 @@ def show_wtl(versuses: list[tuple[str, str]], branch_cov: dict[str, list[float]]
                 ties += 1
             else:
                 loses += 1
-        u, p = mannwhitneyu(ours_cov, baseline_cov, alternative="greater")
+
+        _, p = stats.wilcoxon(ours_cov, baseline_cov, alternative="greater", zero_method="wilcox")
+
+        # matched-pairs rank-biserial correlation
+        diffs = [a - b for a, b in zip(ours_cov, baseline_cov) if a != b]
+        ranks = stats.rankdata([abs(d) for d in diffs])
+        w_pos = sum(r for d, r in zip(diffs, ranks) if d > 0)
+        w_neg = sum(r for d, r in zip(diffs, ranks) if d < 0)
+        r = (w_pos - w_neg) / (w_pos + w_neg)
+
+        median_diff = statistics.median(diffs)
+
         table.append(
             [
                 f"{ours} vs. {baseline}",
                 f"{wins} / {ties} / {loses}",
-                f"{p:.3f}",
+                "<0.001" if p < 0.001 else f"{p:.3f}",
                 f"{a12(ours_cov, baseline_cov):.3f}",
+                f"{r:.3f}",
+                f"{median_diff * 100:+.2f}%",
             ]
         )
 
@@ -53,9 +66,11 @@ def show_wtl(versuses: list[tuple[str, str]], branch_cov: dict[str, list[float]]
 if __name__ == "__main__":
     versuses = [
         ("deepmosa-10m-deepseek", "dynamosa-10m"),
-        ("deepmosa-10m-deepseek", "codamosa-10m-deepseek"),
         ("deepmosa-10m-devstral", "dynamosa-10m"),
+        ("deepmosa-10m-gemma", "dynamosa-10m"),
+        ("deepmosa-10m-deepseek", "codamosa-10m-deepseek"),
         ("deepmosa-10m-devstral", "codamosa-10m-devstral"),
+        ("deepmosa-10m-gemma", "codamosa-10m-gemma"),
     ]
 
     configs = [
@@ -65,9 +80,11 @@ if __name__ == "__main__":
         in [
             "dynamosa-10m",
             "deepmosa-10m-deepseek",
-            "codamosa-10m-deepseek",
             "deepmosa-10m-devstral",
+            "deepmosa-10m-gemma",
+            "codamosa-10m-deepseek",
             "codamosa-10m-devstral",
+            "codamosa-10m-gemma",
         ]
     ]
 

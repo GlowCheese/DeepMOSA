@@ -1,0 +1,98 @@
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Devstral t=0.8)        #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def _parse_error_codes(match):
+    # If no error code is specified, add the line to the "all" category.
+    return [
+        c.strip() for c in (match.groupdict()["codes"] or "all").split(",")
+    ]
+
+
+def parse_noqa(code):
+    noqa_lines = defaultdict(set)
+    for lineno, line in enumerate(code, start=1):
+        match = NOQA_REGEXP.search(line)
+        if match:
+            for error_code in _parse_error_codes(match):
+                error_code = NOQA_CODE_MAP.get(error_code, error_code)
+                noqa_lines[error_code].add(lineno)
+    return noqa_lines
+
+```
+Write unit test for function parse_noqa
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def ignore_line(noqa_lines, lineno, error_code):
+    """Check if the reported line is annotated with "# noqa"."""
+    return lineno in noqa_lines[error_code] or lineno in noqa_lines["all"]
+
+```
+Write unit test for function ignore_line
+
+
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Devstral t=0.8)        #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def _parse_error_codes(match):
+    # If no error code is specified, add the line to the "all" category.
+    return [
+        c.strip() for c in (match.groupdict()["codes"] or "all").split(",")
+    ]
+
+```
+Write unit test for function _parse_error_codes
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def ignore_line(noqa_lines, lineno, error_code):
+    """Check if the reported line is annotated with "# noqa"."""
+    return lineno in noqa_lines[error_code] or lineno in noqa_lines["all"]
+
+```
+Write unit test for function ignore_line
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def _parse_error_codes(match):
+    # If no error code is specified, add the line to the "all" category.
+    return [
+        c.strip() for c in (match.groupdict()["codes"] or "all").split(",")
+    ]
+
+
+def parse_noqa(code):
+    noqa_lines = defaultdict(set)
+    for lineno, line in enumerate(code, start=1):
+        match = NOQA_REGEXP.search(line)
+        if match:
+            for error_code in _parse_error_codes(match):
+                error_code = NOQA_CODE_MAP.get(error_code, error_code)
+                noqa_lines[error_code].add(lineno)
+    return noqa_lines
+
+```
+Write unit test for function parse_noqa
+
+

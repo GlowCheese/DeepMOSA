@@ -26,8 +26,15 @@ fi
 
 export PYTHONPATH="$TARGET_DIR:${PYTHONPATH:-}"
 
+# Run the target under Landlock: removal/rename is only allowed in these
+# scratch paths, so nothing in the mounted result dirs can be deleted.
+RUN_CWD=/workspace/run
+mkdir -p "$RUN_CWD"
+export LANDLOCK_ALLOW_REMOVE="/tmp:/var/tmp:/dev/shm:/workspace/.coverage-data:$RUN_CWD"
+cd "$RUN_CWD"
+
 echo "[entrypoint] Running pynguin..."
-"$@" || TEST_EXIT_CODE=$?
+python /landlock_guard.py "$@" || TEST_EXIT_CODE=$?
 
 if [ "${RUN_COVERAGE_JSON:-0}" = "1" ]; then
     echo "[entrypoint] Exporting coverage json report..."

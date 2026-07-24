@@ -35,12 +35,12 @@ There are two methods to do this.
 ### 1. Using `uv` (runs on host)
 
 This is a simpler method which only requires installing [uv package manager](https://docs.astral.sh/uv). Pynguin executes the SUT during search, so the code runs **directly on your
-machine**. It is faster to set up at the cost of no isolation, so only use this for code you trust.
+machine** with no isolation at all -- fuzzed calls can delete or modify any file your user can touch. Only use this for code you trust; prefer the docker method below otherwise.
 
 ```bash
 # create venv + install pynguin
 uv venv
-uv pip install -e .
+uv pip install -e . --group langchain
 
 # install target project's dependencies
 uv pip install -r sample_project/requirements.txt
@@ -50,8 +50,7 @@ uv run pynguin \
   --project-path ./sample_project \
   --project-name sample_project --module-name src.report \
   --algorithm DEEPMOSA \
-  --model deepseek-chat --base-url https://api.deepseek.com \
-  --maximum-search-time 60 \
+  --llm-config-id deepseek --maximum-search-time 60 \
   --output-path generated_tests/sample_project \
   --report-dir pynguin_report/sample_project/src.report
 ```
@@ -59,6 +58,8 @@ uv run pynguin \
 ### 2. Using docker (sandboxed)
 
 This requires [docker engine](https://docs.docker.com/engine) to be installed in order to run Pynguin inside a container.
+
+Besides isolating the run from your machine, the container also protects the result folders from the code under test (fuzzing filesystem-heavy modules **will** eventually call things like `rmtree` on them): a seccomp profile (`docker/seccomp-no-chmod.json`) makes the `chmod` syscall family a no-op, and a Landlock ruleset (`docker/landlock_guard.py`, applied by the entrypoint) denies deleting or renaming anything in the mounted `generated_tests/` and `pynguin_report/` directories. Runs can only create, write, and append there; scratch paths (`/tmp`, `/dev/shm`, `/workspace/run`, `/workspace/.coverage-data`) stay fully writable.
 
 ```bash
 # build the image (one-time)
@@ -81,8 +82,7 @@ docker compose run --rm runner pynguin \
   --project-path /workspace/project \
   --project-name $PROJECT_NAME --module-name $MODULE_NAME \
   --algorithm DEEPMOSA \
-  --model deepseek-chat --base-url https://api.deepseek.com \
-  --maximum-search-time 60 \
+  --llm-config-id deepseek-chat --maximum-search-time 60 \
   --output-path /workspace/generated_tests/$PROJECT_NAME \
   --report-dir /workspace/pynguin_report/$PROJECT_NAME/$MODULE_NAME
 ```

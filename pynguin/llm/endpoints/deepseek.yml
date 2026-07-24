@@ -1,0 +1,7 @@
+llm_provider: deepseek-ai
+
+llm:
+  name: DeepSeek
+  model: deepseek-chat
+  api_key: ${oc.env:DEEPSEEK_API_KEY}
+  max_retries: 2

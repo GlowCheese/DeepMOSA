@@ -25,7 +25,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("--project", type=str, default=None)
 parser.add_argument("--config-id", type=str, default=None)
-parser.add_argument("--env-file", type=str, required=True)
+parser.add_argument("--env-file", type=str, default=".env")
 parser.add_argument("--build-image", action="store_true")
 
 args = parser.parse_args()
@@ -106,7 +106,11 @@ def run_experiment_on_project(
             )
             # fmt: on
             queue.append(
-                experiments.models.RunEntry(module_name=module_name, run_config=config_copy)
+                experiments.models.RunEntry(
+                    module_name=module_name,
+                    run_config=config_copy,
+                    log_path=report_dir / f"run-{run_id}.log",
+                )
             )
 
     _logger.info("Number of run entries in queue: %d", len(queue))
@@ -132,7 +136,9 @@ def run_experiment_on_project(
         _logger.info("Configuration used: %s", run_entry.run_config.config_id)
 
         try:
-            utils.run_deepmosa_runner(project_name, env_file, *run_entry.run_config.argv)
+            utils.run_deepmosa_runner(
+                project_name, env_file, *run_entry.run_config.argv, log_path=run_entry.log_path
+            )
             num_completed_runs += 1
 
         except Exception as e:

@@ -1,0 +1,2877 @@
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def from_string(value: str) -> "WrapModes":
+    return getattr(WrapModes, str(value), None) or WrapModes(int(value))
+
+```
+Write unit test for function from_string
+
+
+# Prompt used at query #2
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+@_wrap_mode
+def vertical_hanging_indent(**interface: Any) -> str:
+    _line_with_comments = isort.comments.add_to_line(
+        interface["comments"],
+        "",
+        removed=interface["remove_comments"],
+        comment_prefix=interface["comment_prefix"],
+    )
+    _imports = ("," + interface["line_separator"] + interface["indent"]).join(interface["imports"])
+    _comma_maybe = "," if interface["include_trailing_comma"] else ""
+    return (
+        f"{interface['statement']}({_line_with_comments}{interface['line_separator']}"
+        f"{interface['indent']}{_imports}{_comma_maybe}{interface['line_separator']})"
+    )
+
+```
+Write unit test for function vertical_hanging_indent
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def _hanging_indent_end_line(line: str) -> str:
+    if not line.endswith(" "):
+        line += " "
+    return line + "\\"
+
+```
+Write unit test for function _hanging_indent_end_line
+
+
+# Prompt used at query #4
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+@_wrap_mode
+def vertical(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    first_import = (
+        isort.comments.add_to_line(
+            interface["comments"],
+            interface["imports"].pop(0) + ",",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["white_space"]
+    )
+
+    _imports = ("," + interface["line_separator"] + interface["white_space"]).join(
+        interface["imports"]
+    )
+    _comma_maybe = "," if interface["include_trailing_comma"] else ""
+    return f"{interface['statement']}({first_import}{_imports}{_comma_maybe})"
+
+```
+Write unit test for function vertical
+
+
+# Prompt used at query #5
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _hanging_indent_end_line(line: str) -> str:
+    if not line.endswith(" "):
+        line += " "
+    return line + "\\"
+
+
+@_wrap_mode
+def hanging_indent(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    line_length_limit = interface["line_length"] - 3
+
+    next_import = interface["imports"].pop(0)
+    next_statement = interface["statement"] + next_import
+    # Check for first import
+    if len(next_statement) > line_length_limit:
+        next_statement = (
+            _hanging_indent_end_line(interface["statement"])
+            + interface["line_separator"]
+            + interface["indent"]
+            + next_import
+        )
+
+    interface["statement"] = next_statement
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = interface["statement"] + ", " + next_import
+        if len(next_statement.split(interface["line_separator"])[-1]) > line_length_limit:
+            next_statement = (
+                _hanging_indent_end_line(interface["statement"] + ",")
+                + f"{interface['line_separator']}{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+
+    if interface["comments"]:
+        statement_with_comments = isort.comments.add_to_line(
+            interface["comments"],
+            interface["statement"],
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        if len(statement_with_comments.split(interface["line_separator"])[-1]) <= (
+            line_length_limit + 2
+        ):
+            return statement_with_comments
+        return (
+            _hanging_indent_end_line(interface["statement"])
+            + str(interface["line_separator"])
+            + isort.comments.add_to_line(
+                interface["comments"],
+                interface["indent"],
+                removed=interface["remove_comments"],
+                comment_prefix=interface["comment_prefix"].lstrip(),
+            )
+        )
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def backslash_grid(**interface: Any) -> str:
+    interface["indent"] = interface["white_space"][:-1]
+    return hanging_indent(**interface)
+
+```
+Write unit test for function backslash_grid
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+1 | def from_string(value: str) -> "WrapModes":
+2 |     return getattr(WrapModes, str(value), None) or WrapModes(int(value))
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid(**interface: Any) -> str:
+    return _vertical_grid_common(need_trailing_char=True, **interface) + ")"
+
+```
+Write unit test for function vertical_grid
+
+
+# Prompt used at query #8
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _hanging_indent_end_line(line: str) -> str:
+    if not line.endswith(" "):
+        line += " "
+    return line + "\\"
+
+
+@_wrap_mode
+def hanging_indent(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    line_length_limit = interface["line_length"] - 3
+
+    next_import = interface["imports"].pop(0)
+    next_statement = interface["statement"] + next_import
+    # Check for first import
+    if len(next_statement) > line_length_limit:
+        next_statement = (
+            _hanging_indent_end_line(interface["statement"])
+            + interface["line_separator"]
+            + interface["indent"]
+            + next_import
+        )
+
+    interface["statement"] = next_statement
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = interface["statement"] + ", " + next_import
+        if len(next_statement.split(interface["line_separator"])[-1]) > line_length_limit:
+            next_statement = (
+                _hanging_indent_end_line(interface["statement"] + ",")
+                + f"{interface['line_separator']}{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+
+    if interface["comments"]:
+        statement_with_comments = isort.comments.add_to_line(
+            interface["comments"],
+            interface["statement"],
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        if len(statement_with_comments.split(interface["line_separator"])[-1]) <= (
+            line_length_limit + 2
+        ):
+            return statement_with_comments
+        return (
+            _hanging_indent_end_line(interface["statement"])
+            + str(interface["line_separator"])
+            + isort.comments.add_to_line(
+                interface["comments"],
+                interface["indent"],
+                removed=interface["remove_comments"],
+                comment_prefix=interface["comment_prefix"].lstrip(),
+            )
+        )
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def backslash_grid(**interface: Any) -> str:
+    interface["indent"] = interface["white_space"][:-1]
+    return hanging_indent(**interface)
+
+```
+Write unit test for function backslash_grid
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+def _wrap_mode_interface(
+    statement: str,
+    imports: list[str],
+    white_space: str,
+    indent: str,
+    line_length: int,
+    comments: list[str],
+    line_separator: str,
+    comment_prefix: str,
+    include_trailing_comma: bool,
+    remove_comments: bool,
+) -> str:
+    """Defines the common interface used by all wrap mode functions"""
+    return ""
+
+```
+Write unit test for function _wrap_mode_interface
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+@_wrap_mode
+def vertical_grid_grouped_no_comma(**interface: Any) -> str:
+    # This is a deprecated alias for vertical_grid_grouped above. This function
+    # needs to exist for backwards compatibility but should never get called.
+    raise NotImplementedError
+
+```
+Write unit test for function vertical_grid_grouped_no_comma
+
+
+# Prompt used at query #11
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+@_wrap_mode
+def vertical_prefix_from_module_import(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    prefix_statement = interface["statement"]
+    output_statement = prefix_statement + interface["imports"].pop(0)
+    comments = interface["comments"]
+
+    statement = output_statement
+    statement_with_comments = ""
+    for next_import in interface["imports"]:
+        statement = statement + ", " + next_import
+        statement_with_comments = isort.comments.add_to_line(
+            comments,
+            statement,
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        if (
+            len(statement_with_comments.split(interface["line_separator"])[-1]) + 1
+            > interface["line_length"]
+        ):
+            statement = (
+                isort.comments.add_to_line(
+                    comments,
+                    output_statement,
+                    removed=interface["remove_comments"],
+                    comment_prefix=interface["comment_prefix"],
+                )
+                + f"{interface['line_separator']}{prefix_statement}{next_import}"
+            )
+            comments = []
+        output_statement = statement
+
+    if comments and statement_with_comments:
+        output_statement = statement_with_comments
+    return str(output_statement)
+
+```
+Write unit test for function vertical_prefix_from_module_import
+
+
+# Prompt used at query #12
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid_grouped(**interface: Any) -> str:
+    return (
+        _vertical_grid_common(need_trailing_char=False, **interface)
+        + str(interface["line_separator"])
+        + ")"
+    )
+
+```
+Write unit test for function vertical_grid_grouped
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+@_wrap_mode
+def vertical_grid_grouped_no_comma(**interface: Any) -> str:
+    # This is a deprecated alias for vertical_grid_grouped above. This function
+    # needs to exist for backwards compatibility but should never get called.
+    raise NotImplementedError
+
+```
+Write unit test for function vertical_grid_grouped_no_comma
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+@_wrap_mode
+def vertical_grid_grouped_no_comma(**interface: Any) -> str:
+    # This is a deprecated alias for vertical_grid_grouped above. This function
+    # needs to exist for backwards compatibility but should never get called.
+    raise NotImplementedError
+
+```
+Write unit test for function vertical_grid_grouped_no_comma
+
+
+# Prompt used at query #15
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+@_wrap_mode
+def vertical_hanging_indent(**interface: Any) -> str:
+    _line_with_comments = isort.comments.add_to_line(
+        interface["comments"],
+        "",
+        removed=interface["remove_comments"],
+        comment_prefix=interface["comment_prefix"],
+    )
+    _imports = ("," + interface["line_separator"] + interface["indent"]).join(interface["imports"])
+    _comma_maybe = "," if interface["include_trailing_comma"] else ""
+    return (
+        f"{interface['statement']}({_line_with_comments}{interface['line_separator']}"
+        f"{interface['indent']}{_imports}{_comma_maybe}{interface['line_separator']})"
+    )
+
+
+@_wrap_mode
+def vertical_hanging_indent_bracket(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+    statement = vertical_hanging_indent(**interface)
+    return f"{statement[:-1]}{interface['indent']})"
+
+```
+Write unit test for function vertical_hanging_indent_bracket
+
+
+# Prompt used at query #16
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid(**interface: Any) -> str:
+    return _vertical_grid_common(need_trailing_char=True, **interface) + ")"
+
+```
+Write unit test for function vertical_grid
+
+
+# Prompt used at query #17
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid_grouped(**interface: Any) -> str:
+    return (
+        _vertical_grid_common(need_trailing_char=False, **interface)
+        + str(interface["line_separator"])
+        + ")"
+    )
+
+```
+Write unit test for function vertical_grid_grouped
+
+
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def from_string(value: str) -> "WrapModes":
+    return getattr(WrapModes, str(value), None) or WrapModes(int(value))
+
+```
+Write unit test for function from_string
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def _wrap_mode_interface(
+    statement: str,
+    imports: list[str],
+    white_space: str,
+    indent: str,
+    line_length: int,
+    comments: list[str],
+    line_separator: str,
+    comment_prefix: str,
+    include_trailing_comma: bool,
+    remove_comments: bool,
+) -> str:
+    """Defines the common interface used by all wrap mode functions"""
+    return ""
+
+```
+Write unit test for function _wrap_mode_interface
+
+
+# Prompt used at query #3
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid_grouped(**interface: Any) -> str:
+    return (
+        _vertical_grid_common(need_trailing_char=False, **interface)
+        + str(interface["line_separator"])
+        + ")"
+    )
+
+```
+Write unit test for function vertical_grid_grouped
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+@_wrap_mode
+def noqa(**interface: Any) -> str:
+    _imports = ", ".join(interface["imports"])
+    retval = f"{interface['statement']}{_imports}"
+    comment_str = " ".join(interface["comments"])
+    if interface["comments"]:
+        if (
+            len(retval) + len(interface["comment_prefix"]) + 1 + len(comment_str)
+            <= interface["line_length"]
+        ):
+            return f"{retval}{interface['comment_prefix']} {comment_str}"
+        if "NOQA" in interface["comments"]:
+            return f"{retval}{interface['comment_prefix']} {comment_str}"
+        return f"{retval}{interface['comment_prefix']} NOQA {comment_str}"
+
+    if len(retval) <= interface["line_length"]:
+        return retval
+    return f"{retval}{interface['comment_prefix']} NOQA"
+
+```
+Write unit test for function noqa
+
+
+# Prompt used at query #5
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid(**interface: Any) -> str:
+    return _vertical_grid_common(need_trailing_char=True, **interface) + ")"
+
+```
+Write unit test for function vertical_grid
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+@_wrap_mode
+def noqa(**interface: Any) -> str:
+    _imports = ", ".join(interface["imports"])
+    retval = f"{interface['statement']}{_imports}"
+    comment_str = " ".join(interface["comments"])
+    if interface["comments"]:
+        if (
+            len(retval) + len(interface["comment_prefix"]) + 1 + len(comment_str)
+            <= interface["line_length"]
+        ):
+            return f"{retval}{interface['comment_prefix']} {comment_str}"
+        if "NOQA" in interface["comments"]:
+            return f"{retval}{interface['comment_prefix']} {comment_str}"
+        return f"{retval}{interface['comment_prefix']} NOQA {comment_str}"
+
+    if len(retval) <= interface["line_length"]:
+        return retval
+    return f"{retval}{interface['comment_prefix']} NOQA"
+
+```
+Write unit test for function noqa
+
+
+# Prompt used at query #7
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+@_wrap_mode
+def vertical_hanging_indent(**interface: Any) -> str:
+    _line_with_comments = isort.comments.add_to_line(
+        interface["comments"],
+        "",
+        removed=interface["remove_comments"],
+        comment_prefix=interface["comment_prefix"],
+    )
+    _imports = ("," + interface["line_separator"] + interface["indent"]).join(interface["imports"])
+    _comma_maybe = "," if interface["include_trailing_comma"] else ""
+    return (
+        f"{interface['statement']}({_line_with_comments}{interface['line_separator']}"
+        f"{interface['indent']}{_imports}{_comma_maybe}{interface['line_separator']})"
+    )
+
+
+@_wrap_mode
+def vertical_hanging_indent_bracket(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+    statement = vertical_hanging_indent(**interface)
+    return f"{statement[:-1]}{interface['indent']})"
+
+```
+Write unit test for function vertical_hanging_indent_bracket
+
+
+# Prompt used at query #8
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _hanging_indent_end_line(line: str) -> str:
+    if not line.endswith(" "):
+        line += " "
+    return line + "\\"
+
+
+@_wrap_mode
+def hanging_indent(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    line_length_limit = interface["line_length"] - 3
+
+    next_import = interface["imports"].pop(0)
+    next_statement = interface["statement"] + next_import
+    # Check for first import
+    if len(next_statement) > line_length_limit:
+        next_statement = (
+            _hanging_indent_end_line(interface["statement"])
+            + interface["line_separator"]
+            + interface["indent"]
+            + next_import
+        )
+
+    interface["statement"] = next_statement
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = interface["statement"] + ", " + next_import
+        if len(next_statement.split(interface["line_separator"])[-1]) > line_length_limit:
+            next_statement = (
+                _hanging_indent_end_line(interface["statement"] + ",")
+                + f"{interface['line_separator']}{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+
+    if interface["comments"]:
+        statement_with_comments = isort.comments.add_to_line(
+            interface["comments"],
+            interface["statement"],
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        if len(statement_with_comments.split(interface["line_separator"])[-1]) <= (
+            line_length_limit + 2
+        ):
+            return statement_with_comments
+        return (
+            _hanging_indent_end_line(interface["statement"])
+            + str(interface["line_separator"])
+            + isort.comments.add_to_line(
+                interface["comments"],
+                interface["indent"],
+                removed=interface["remove_comments"],
+                comment_prefix=interface["comment_prefix"].lstrip(),
+            )
+        )
+    return str(interface["statement"])
+
+```
+Write unit test for function hanging_indent
+
+
+# Prompt used at query #9
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid(**interface: Any) -> str:
+    return _vertical_grid_common(need_trailing_char=True, **interface) + ")"
+
+```
+Write unit test for function vertical_grid
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+def _hanging_indent_end_line(line: str) -> str:
+    if not line.endswith(" "):
+        line += " "
+    return line + "\\"
+
+```
+Write unit test for function _hanging_indent_end_line
+
+
+# Prompt used at query #11
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+@_wrap_mode
+def vertical_hanging_indent(**interface: Any) -> str:
+    _line_with_comments = isort.comments.add_to_line(
+        interface["comments"],
+        "",
+        removed=interface["remove_comments"],
+        comment_prefix=interface["comment_prefix"],
+    )
+    _imports = ("," + interface["line_separator"] + interface["indent"]).join(interface["imports"])
+    _comma_maybe = "," if interface["include_trailing_comma"] else ""
+    return (
+        f"{interface['statement']}({_line_with_comments}{interface['line_separator']}"
+        f"{interface['indent']}{_imports}{_comma_maybe}{interface['line_separator']})"
+    )
+
+```
+Write unit test for function vertical_hanging_indent
+
+
+# Prompt used at query #12
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid_grouped(**interface: Any) -> str:
+    return (
+        _vertical_grid_common(need_trailing_char=False, **interface)
+        + str(interface["line_separator"])
+        + ")"
+    )
+
+```
+Write unit test for function vertical_grid_grouped
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+def from_string(value: str) -> "WrapModes":
+    return getattr(WrapModes, str(value), None) or WrapModes(int(value))
+
+```
+Write unit test for function from_string
+
+
+# Prompt used at query #14
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _hanging_indent_end_line(line: str) -> str:
+    if not line.endswith(" "):
+        line += " "
+    return line + "\\"
+
+
+@_wrap_mode
+def hanging_indent(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    line_length_limit = interface["line_length"] - 3
+
+    next_import = interface["imports"].pop(0)
+    next_statement = interface["statement"] + next_import
+    # Check for first import
+    if len(next_statement) > line_length_limit:
+        next_statement = (
+            _hanging_indent_end_line(interface["statement"])
+            + interface["line_separator"]
+            + interface["indent"]
+            + next_import
+        )
+
+    interface["statement"] = next_statement
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = interface["statement"] + ", " + next_import
+        if len(next_statement.split(interface["line_separator"])[-1]) > line_length_limit:
+            next_statement = (
+                _hanging_indent_end_line(interface["statement"] + ",")
+                + f"{interface['line_separator']}{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+
+    if interface["comments"]:
+        statement_with_comments = isort.comments.add_to_line(
+            interface["comments"],
+            interface["statement"],
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        if len(statement_with_comments.split(interface["line_separator"])[-1]) <= (
+            line_length_limit + 2
+        ):
+            return statement_with_comments
+        return (
+            _hanging_indent_end_line(interface["statement"])
+            + str(interface["line_separator"])
+            + isort.comments.add_to_line(
+                interface["comments"],
+                interface["indent"],
+                removed=interface["remove_comments"],
+                comment_prefix=interface["comment_prefix"].lstrip(),
+            )
+        )
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def backslash_grid(**interface: Any) -> str:
+    interface["indent"] = interface["white_space"][:-1]
+    return hanging_indent(**interface)
+
+```
+Write unit test for function backslash_grid
+
+
+# Prompt used at query #15
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+@_wrap_mode
+def hanging_indent_with_parentheses(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    line_length_limit = interface["line_length"] - 1
+
+    interface["statement"] += "("
+    next_import = interface["imports"].pop(0)
+    next_statement = interface["statement"] + next_import
+    # Check for first import
+    if len(next_statement) > line_length_limit:
+        next_statement = (
+            isort.comments.add_to_line(
+                interface["comments"],
+                interface["statement"],
+                removed=interface["remove_comments"],
+                comment_prefix=interface["comment_prefix"],
+            )
+            + f"{interface['line_separator']}{interface['indent']}{next_import}"
+        )
+        interface["comments"] = []
+    interface["statement"] = next_statement
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        if (
+            interface["line_separator"] not in interface["statement"]
+            and "#" in interface["statement"]
+        ):  # pragma: no cover # TODO: fix, this is because of test run inconsistency.
+            line, comments = interface["statement"].split("#", 1)
+            next_statement = (
+                f"{line.rstrip()}, {next_import}{interface['comment_prefix']}{comments}"
+            )
+        else:
+            next_statement = isort.comments.add_to_line(
+                interface["comments"],
+                interface["statement"] + ", " + next_import,
+                removed=interface["remove_comments"],
+                comment_prefix=interface["comment_prefix"],
+            )
+        current_line = next_statement.split(interface["line_separator"])[-1]
+        if len(current_line) > line_length_limit:
+            next_statement = (
+                isort.comments.add_to_line(
+                    interface["comments"],
+                    interface["statement"] + ",",
+                    removed=interface["remove_comments"],
+                    comment_prefix=interface["comment_prefix"],
+                )
+                + f"{interface['line_separator']}{interface['indent']}{next_import}"
+            )
+            interface["comments"] = []
+        interface["statement"] = next_statement
+    return f"{interface['statement']}{',' if interface['include_trailing_comma'] else ''})"
+
+```
+Write unit test for function hanging_indent_with_parentheses
+
+
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def from_string(value: str) -> "WrapModes":
+    return getattr(WrapModes, str(value), None) or WrapModes(int(value))
+
+```
+Write unit test for function from_string
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def _hanging_indent_end_line(line: str) -> str:
+    if not line.endswith(" "):
+        line += " "
+    return line + "\\"
+
+```
+Write unit test for function _hanging_indent_end_line
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+1 | def from_string(value: str) -> "WrapModes":
+2 |     return getattr(WrapModes, str(value), None) or WrapModes(int(value))
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def _wrap_mode_interface(
+    statement: str,
+    imports: list[str],
+    white_space: str,
+    indent: str,
+    line_length: int,
+    comments: list[str],
+    line_separator: str,
+    comment_prefix: str,
+    include_trailing_comma: bool,
+    remove_comments: bool,
+) -> str:
+    """Defines the common interface used by all wrap mode functions"""
+    return ""
+
+```
+Write unit test for function _wrap_mode_interface
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+@_wrap_mode
+def vertical_grid_grouped_no_comma(**interface: Any) -> str:
+    # This is a deprecated alias for vertical_grid_grouped above. This function
+    # needs to exist for backwards compatibility but should never get called.
+    raise NotImplementedError
+
+```
+Write unit test for function vertical_grid_grouped_no_comma
+
+
+# Prompt used at query #6
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+@_wrap_mode
+def vertical_hanging_indent(**interface: Any) -> str:
+    _line_with_comments = isort.comments.add_to_line(
+        interface["comments"],
+        "",
+        removed=interface["remove_comments"],
+        comment_prefix=interface["comment_prefix"],
+    )
+    _imports = ("," + interface["line_separator"] + interface["indent"]).join(interface["imports"])
+    _comma_maybe = "," if interface["include_trailing_comma"] else ""
+    return (
+        f"{interface['statement']}({_line_with_comments}{interface['line_separator']}"
+        f"{interface['indent']}{_imports}{_comma_maybe}{interface['line_separator']})"
+    )
+
+```
+Write unit test for function vertical_hanging_indent
+
+
+# Prompt used at query #7
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _hanging_indent_end_line(line: str) -> str:
+    if not line.endswith(" "):
+        line += " "
+    return line + "\\"
+
+
+@_wrap_mode
+def hanging_indent(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    line_length_limit = interface["line_length"] - 3
+
+    next_import = interface["imports"].pop(0)
+    next_statement = interface["statement"] + next_import
+    # Check for first import
+    if len(next_statement) > line_length_limit:
+        next_statement = (
+            _hanging_indent_end_line(interface["statement"])
+            + interface["line_separator"]
+            + interface["indent"]
+            + next_import
+        )
+
+    interface["statement"] = next_statement
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = interface["statement"] + ", " + next_import
+        if len(next_statement.split(interface["line_separator"])[-1]) > line_length_limit:
+            next_statement = (
+                _hanging_indent_end_line(interface["statement"] + ",")
+                + f"{interface['line_separator']}{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+
+    if interface["comments"]:
+        statement_with_comments = isort.comments.add_to_line(
+            interface["comments"],
+            interface["statement"],
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        if len(statement_with_comments.split(interface["line_separator"])[-1]) <= (
+            line_length_limit + 2
+        ):
+            return statement_with_comments
+        return (
+            _hanging_indent_end_line(interface["statement"])
+            + str(interface["line_separator"])
+            + isort.comments.add_to_line(
+                interface["comments"],
+                interface["indent"],
+                removed=interface["remove_comments"],
+                comment_prefix=interface["comment_prefix"].lstrip(),
+            )
+        )
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def backslash_grid(**interface: Any) -> str:
+    interface["indent"] = interface["white_space"][:-1]
+    return hanging_indent(**interface)
+
+```
+Write unit test for function backslash_grid
+
+
+# Prompt used at query #8
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+@_wrap_mode
+def vertical(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    first_import = (
+        isort.comments.add_to_line(
+            interface["comments"],
+            interface["imports"].pop(0) + ",",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["white_space"]
+    )
+
+    _imports = ("," + interface["line_separator"] + interface["white_space"]).join(
+        interface["imports"]
+    )
+    _comma_maybe = "," if interface["include_trailing_comma"] else ""
+    return f"{interface['statement']}({first_import}{_imports}{_comma_maybe})"
+
+```
+Write unit test for function vertical
+
+
+# Prompt used at query #9
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid_grouped(**interface: Any) -> str:
+    return (
+        _vertical_grid_common(need_trailing_char=False, **interface)
+        + str(interface["line_separator"])
+        + ")"
+    )
+
+```
+Write unit test for function vertical_grid_grouped
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+@_wrap_mode
+def vertical_grid_grouped_no_comma(**interface: Any) -> str:
+    # This is a deprecated alias for vertical_grid_grouped above. This function
+    # needs to exist for backwards compatibility but should never get called.
+    raise NotImplementedError
+
+```
+Write unit test for function vertical_grid_grouped_no_comma
+
+
+# Prompt used at query #11
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid(**interface: Any) -> str:
+    return _vertical_grid_common(need_trailing_char=True, **interface) + ")"
+
+```
+Write unit test for function vertical_grid
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+@_wrap_mode
+def noqa(**interface: Any) -> str:
+    _imports = ", ".join(interface["imports"])
+    retval = f"{interface['statement']}{_imports}"
+    comment_str = " ".join(interface["comments"])
+    if interface["comments"]:
+        if (
+            len(retval) + len(interface["comment_prefix"]) + 1 + len(comment_str)
+            <= interface["line_length"]
+        ):
+            return f"{retval}{interface['comment_prefix']} {comment_str}"
+        if "NOQA" in interface["comments"]:
+            return f"{retval}{interface['comment_prefix']} {comment_str}"
+        return f"{retval}{interface['comment_prefix']} NOQA {comment_str}"
+
+    if len(retval) <= interface["line_length"]:
+        return retval
+    return f"{retval}{interface['comment_prefix']} NOQA"
+
+```
+Write unit test for function noqa
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+@_wrap_mode
+def vertical_grid_grouped_no_comma(**interface: Any) -> str:
+    # This is a deprecated alias for vertical_grid_grouped above. This function
+    # needs to exist for backwards compatibility but should never get called.
+    raise NotImplementedError
+
+```
+Write unit test for function vertical_grid_grouped_no_comma
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+@_wrap_mode
+def vertical_grid_grouped_no_comma(**interface: Any) -> str:
+    # This is a deprecated alias for vertical_grid_grouped above. This function
+    # needs to exist for backwards compatibility but should never get called.
+    raise NotImplementedError
+
+```
+Write unit test for function vertical_grid_grouped_no_comma
+
+
+# Prompt used at query #15
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+@_wrap_mode
+def vertical_prefix_from_module_import(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    prefix_statement = interface["statement"]
+    output_statement = prefix_statement + interface["imports"].pop(0)
+    comments = interface["comments"]
+
+    statement = output_statement
+    statement_with_comments = ""
+    for next_import in interface["imports"]:
+        statement = statement + ", " + next_import
+        statement_with_comments = isort.comments.add_to_line(
+            comments,
+            statement,
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        if (
+            len(statement_with_comments.split(interface["line_separator"])[-1]) + 1
+            > interface["line_length"]
+        ):
+            statement = (
+                isort.comments.add_to_line(
+                    comments,
+                    output_statement,
+                    removed=interface["remove_comments"],
+                    comment_prefix=interface["comment_prefix"],
+                )
+                + f"{interface['line_separator']}{prefix_statement}{next_import}"
+            )
+            comments = []
+        output_statement = statement
+
+    if comments and statement_with_comments:
+        output_statement = statement_with_comments
+    return str(output_statement)
+
+```
+Write unit test for function vertical_prefix_from_module_import
+
+
+# Prompt used at query #16
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid(**interface: Any) -> str:
+    return _vertical_grid_common(need_trailing_char=True, **interface) + ")"
+
+```
+Write unit test for function vertical_grid
+
+
+# Prompt used at query #17
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to True.
+```
+ 1 | @_wrap_mode
+ 2 | def vertical_hanging_indent(**interface: Any) -> str:
+ 3 |     _line_with_comments = isort.comments.add_to_line(
+ 4 |         interface["comments"],
+ 5 |         "",
+ 6 |         removed=interface["remove_comments"],
+ 7 |         comment_prefix=interface["comment_prefix"],
+ 8 |     )
+ 9 |     _imports = ("," + interface["line_separator"] + interface["indent"]).join(interface["imports"])
+10 |     _comma_maybe = "," if interface["include_trailing_comma"] else ""
+11 |     return (
+12 |         f"{interface['statement']}({_line_with_comments}{interface['line_separator']}"
+13 |         f"{interface['indent']}{_imports}{_comma_maybe}{interface['line_separator']})"
+14 |     )
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _vertical_grid_common(need_trailing_char: bool, **interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    interface["statement"] += (
+        isort.comments.add_to_line(
+            interface["comments"],
+            "(",
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        + interface["line_separator"]
+        + interface["indent"]
+        + interface["imports"].pop(0)
+    )
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = f"{interface['statement']}, {next_import}"
+        current_line_length = len(next_statement.split(interface["line_separator"])[-1])
+        if interface["imports"] or interface["include_trailing_comma"]:
+            # We need to account for a comma after this import.
+            current_line_length += 1
+        if not interface["imports"] and need_trailing_char:
+            # We need to account for a closing ) we're going to add.
+            current_line_length += 1
+        if current_line_length > interface["line_length"]:
+            next_statement = (
+                f"{interface['statement']},{interface['line_separator']}"
+                f"{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+    if interface["include_trailing_comma"]:
+        interface["statement"] += ","
+    return str(interface["statement"])
+
+
+@_wrap_mode
+def vertical_grid(**interface: Any) -> str:
+    return _vertical_grid_common(need_trailing_char=True, **interface) + ")"
+
+```
+Write unit test for function vertical_grid
+
+
+# Prompt used at query #19
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _hanging_indent_end_line(line: str) -> str:
+    if not line.endswith(" "):
+        line += " "
+    return line + "\\"
+
+
+@_wrap_mode
+def hanging_indent(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    line_length_limit = interface["line_length"] - 3
+
+    next_import = interface["imports"].pop(0)
+    next_statement = interface["statement"] + next_import
+    # Check for first import
+    if len(next_statement) > line_length_limit:
+        next_statement = (
+            _hanging_indent_end_line(interface["statement"])
+            + interface["line_separator"]
+            + interface["indent"]
+            + next_import
+        )
+
+    interface["statement"] = next_statement
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = interface["statement"] + ", " + next_import
+        if len(next_statement.split(interface["line_separator"])[-1]) > line_length_limit:
+            next_statement = (
+                _hanging_indent_end_line(interface["statement"] + ",")
+                + f"{interface['line_separator']}{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+
+    if interface["comments"]:
+        statement_with_comments = isort.comments.add_to_line(
+            interface["comments"],
+            interface["statement"],
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        if len(statement_with_comments.split(interface["line_separator"])[-1]) <= (
+            line_length_limit + 2
+        ):
+            return statement_with_comments
+        return (
+            _hanging_indent_end_line(interface["statement"])
+            + str(interface["line_separator"])
+            + isort.comments.add_to_line(
+                interface["comments"],
+                interface["indent"],
+                removed=interface["remove_comments"],
+                comment_prefix=interface["comment_prefix"].lstrip(),
+            )
+        )
+    return str(interface["statement"])
+
+```
+Write unit test for function hanging_indent
+
+
+# Prompt used at query #20
+#--------------------------
+
+isort/comments.py:
+```
+def parse(line: str) -> tuple[str, str]:
+    """Parses import lines for comments and returns back the
+    import statement and the associated comment.
+    """
+    comment_start = line.find("#")
+    if comment_start != -1:
+        return (line[:comment_start], line[comment_start + 1 :].strip())
+
+    return (line, "")
+
+
+def add_to_line(
+    comments: list[str] | None,
+    original_string: str = "",
+    removed: bool = False,
+    comment_prefix: str = "",
+) -> str:
+    """Returns a string with comments added if removed is not set."""
+    if removed:
+        return parse(original_string)[0]
+
+    if not comments:
+        return original_string
+
+    unique_comments: list[str] = []
+    for comment in comments:
+        if comment not in unique_comments:
+            unique_comments.append(comment)
+    return f"{parse(original_string)[0]}{comment_prefix} {'; '.join(unique_comments)}"
+
+```
+
+isort/wrap_modes.py (module to test):
+```
+def _hanging_indent_end_line(line: str) -> str:
+    if not line.endswith(" "):
+        line += " "
+    return line + "\\"
+
+
+@_wrap_mode
+def hanging_indent(**interface: Any) -> str:
+    if not interface["imports"]:
+        return ""
+
+    line_length_limit = interface["line_length"] - 3
+
+    next_import = interface["imports"].pop(0)
+    next_statement = interface["statement"] + next_import
+    # Check for first import
+    if len(next_statement) > line_length_limit:
+        next_statement = (
+            _hanging_indent_end_line(interface["statement"])
+            + interface["line_separator"]
+            + interface["indent"]
+            + next_import
+        )
+
+    interface["statement"] = next_statement
+    while interface["imports"]:
+        next_import = interface["imports"].pop(0)
+        next_statement = interface["statement"] + ", " + next_import
+        if len(next_statement.split(interface["line_separator"])[-1]) > line_length_limit:
+            next_statement = (
+                _hanging_indent_end_line(interface["statement"] + ",")
+                + f"{interface['line_separator']}{interface['indent']}{next_import}"
+            )
+        interface["statement"] = next_statement
+
+    if interface["comments"]:
+        statement_with_comments = isort.comments.add_to_line(
+            interface["comments"],
+            interface["statement"],
+            removed=interface["remove_comments"],
+            comment_prefix=interface["comment_prefix"],
+        )
+        if len(statement_with_comments.split(interface["line_separator"])[-1]) <= (
+            line_length_limit + 2
+        ):
+            return statement_with_comments
+        return (
+            _hanging_indent_end_line(interface["statement"])
+            + str(interface["line_separator"])
+            + isort.comments.add_to_line(
+                interface["comments"],
+                interface["indent"],
+                removed=interface["remove_comments"],
+                comment_prefix=interface["comment_prefix"].lstrip(),
+            )
+        )
+    return str(interface["statement"])
+
+```
+Write unit test for function hanging_indent
+
+

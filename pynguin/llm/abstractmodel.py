@@ -1,20 +1,22 @@
+from __future__ import annotations
+
 import time
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Dict, List, Literal
+from typing import TYPE_CHECKING, Any, Dict, List, Literal, cast
 
-from mistralai import ChatCompletionResponse, Mistral
-from openai import AsyncOpenAI, OpenAI
-from openai.types.chat import ChatCompletion
+from omegaconf import OmegaConf
 
 import pynguin.utils.statistics.stats as stat
 from libs.custom_logger import getLogger
-from pynguin import environ
 from pynguin.configuration import config
 from pynguin.utils.deepseek import tokenizer
 from pynguin.utils.statistics.runtimevariable import RuntimeVariable
 
-from .api_errors import APIContentFilterError, APIRefusalError
+if TYPE_CHECKING:
+    from langchain_core.messages import UsageMetadata
+    from langchain_core.prompts import ChatPromptTemplate
+
 
 _logger = getLogger(__name__)
 
@@ -36,104 +38,89 @@ class AbstractLanguageModel(ABC):
         self._input_tokens_cnt = 0
         self._output_tokens_cnt = 0
 
-    def __log_messages_stats(self, messages: Messages):
-        _logger.info("Sending query to model: %s", config.llm.model)
-        num_chars = sum(len(m["content"]) for m in messages)
-        num_tokens = sum(len(tokenizer.encode(m["content"])) for m in messages)
-        _logger.info("Query size: %s characters (~%s tokens)", num_chars, num_tokens)
+        # LLM client
+        cfg_path = Path(__file__).parent / "endpoints" / f"{config.llm.llm_config_id}.yml"
+        cfg = OmegaConf.load(cfg_path)
+        OmegaConf.set_struct(cfg, True)
+        llm_cfg = cast(dict[str, Any], OmegaConf.to_container(cfg.llm, resolve=True))
 
-    def __handle_llm_query(
+        match cfg.llm_provider:  # pyright: ignore[reportAttributeAccessIssue]
+            case "ollama":
+                from langchain_ollama import ChatOllama
+
+                self.llm = ChatOllama(
+                    **llm_cfg,
+                    stop=["\n````"],
+                    temperature=config.llm.temperature,
+                )
+            case "nvidia-ai":
+                from langchain_nvidia import ChatNVIDIA
+
+                self.llm = ChatNVIDIA(
+                    **llm_cfg,
+                    stop="\n```",
+                    temperature=config.llm.temperature,
+                    max_completion_tokens=config.llm.max_tokens,
+                )
+            case "mistral-ai":
+                from langchain_mistralai import ChatMistralAI
+
+                self.llm = ChatMistralAI(
+                    **llm_cfg,
+                    stop=["\n```"],
+                    max_tokens=config.llm.max_tokens,
+                    temperature=config.llm.temperature,
+                )
+            case "deepseek-ai":
+                from langchain_deepseek import ChatDeepSeek
+
+                self.llm = ChatDeepSeek(
+                    **llm_cfg,
+                    max_tokens=config.llm.max_tokens,
+                    temperature=config.llm.temperature,
+                )
+            case provider:
+                raise ValueError(f"Model provider {provider} not supported")
+
+        self.prompt_template: ChatPromptTemplate
+
+    def __log_messages_stats(self, query: str):
+        _logger.info("Sending query to model: %s", self.llm.name)
+        num_chars = len(query)
+        # num_tokens = len(tokenizer.encode(query))
+        _logger.info("Query size: %s characters", num_chars)
+        # _logger.info("Query size: %s characters (~%s tokens)", num_chars, num_tokens)
+
+    def __update_llm_usage_statistics(self, query_at: float, usage: UsageMetadata | None):
+        assert usage is not None
+
+        self._num_llm_calls += 1
+        self._time_calling_llm += time.time() - query_at
+        self._input_tokens_cnt += usage["input_tokens"]
+        self._output_tokens_cnt += usage["output_tokens"]
+
+        _logger.info("Output size: %s tokens", usage["output_tokens"])
+
+        stat.track_output_variable(RuntimeVariable.LLMCalls, self._num_llm_calls)
+        stat.track_output_variable(RuntimeVariable.LLMQueryTime, self._time_calling_llm)
+        stat.track_output_variable(RuntimeVariable.LLMInputTokens, self._input_tokens_cnt)
+        stat.track_output_variable(RuntimeVariable.LLMOutputTokens, self._output_tokens_cnt)
+
+    async def send_llm_request(
         self,
-        query: ChatCompletion | ChatCompletionResponse,
-        query_at: float,
-        track_query_usage: bool,
-    ):
-        response = query.choices[0]
-        if response.finish_reason == "content_filter":
-            raise APIContentFilterError()
-        refusal = getattr(response.message, "refusal", None)
-        if refusal is not None:
-            raise APIRefusalError(refusal)
-        if response.finish_reason == "length":
-            _logger.warning("LLM output truncated due to token limit")
-        else:
-            assert response.finish_reason == "stop"
-
-        if track_query_usage:
-            assert query.usage is not None
-
-            self._num_llm_calls += 1
-            self._time_calling_llm += time.time() - query_at
-            self._input_tokens_cnt += query.usage.prompt_tokens or 0
-            self._output_tokens_cnt += query.usage.completion_tokens or 0
-
-            _logger.info("Output size: %s tokens", query.usage.completion_tokens)
-
-            stat.track_output_variable(RuntimeVariable.LLMCalls, self._num_llm_calls)
-            stat.track_output_variable(RuntimeVariable.LLMQueryTime, self._time_calling_llm)
-            stat.track_output_variable(RuntimeVariable.LLMInputTokens, self._input_tokens_cnt)
-            stat.track_output_variable(RuntimeVariable.LLMOutputTokens, self._output_tokens_cnt)
-
-        assert response.message.content is not None
-        return response.message.content
-
-    def send_llm_request(
-        self, messages: Messages, *, stop: str | List[str], track_query_usage=True
+        *,
+        query: str,
     ):
         query_at = time.time()
-        self.__log_messages_stats(messages)
+        self.__log_messages_stats(query)
 
-        # Workaround to request to mistral models
-        if config.llm.base_url == "mistralai":
-            client = Mistral(api_key=environ.OPENAI_API_KEY)
-            query = client.chat.complete(
-                messages=messages,  # type: ignore
-                model=config.llm.model,
-                temperature=config.llm.temperature,
-                stream=False,
-                stop=stop,
-                max_tokens=config.llm.max_tokens,
-            )
-        else:
-            client = OpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
-            query = client.chat.completions.create(
-                messages=messages,  # type: ignore
-                model=config.llm.model,
-                temperature=config.llm.temperature,
-                stream=False,
-                stop=stop,
-                max_tokens=config.llm.max_tokens,
-            )
-        return self.__handle_llm_query(query, query_at, track_query_usage)
+        chain = self.prompt_template | self.llm
+        response = await chain.ainvoke({"query": query})
 
-    async def send_llm_request_async(
-        self, messages: Messages, *, stop: str | List[str], track_query_usage=True
-    ):
-        query_at = time.time()
-        self.__log_messages_stats(messages)
+        self.__update_llm_usage_statistics(query_at, response.usage_metadata)
 
-        # Workaround to request to mistral models
-        if config.llm.base_url == "mistralai":
-            client = Mistral(api_key=environ.OPENAI_API_KEY)
-            query = await client.chat.complete_async(
-                messages=messages,  # type: ignore
-                model=config.llm.model,
-                temperature=config.llm.temperature,
-                stream=False,
-                stop=stop,
-                max_tokens=config.llm.max_tokens,
-            )
-        else:
-            client = AsyncOpenAI(api_key=environ.OPENAI_API_KEY, base_url=config.llm.base_url)
-            query = await client.chat.completions.create(
-                messages=messages,  # type: ignore
-                model=config.llm.model,
-                temperature=config.llm.temperature,
-                stream=False,
-                stop=stop,
-                max_tokens=config.llm.max_tokens,
-            )
-        return self.__handle_llm_query(query, query_at, track_query_usage)
+        assert response.content is not None
+        return response
 
     @abstractmethod
     def target_test_case(self, *args, **kwargs):
@@ -164,7 +151,7 @@ class AbstractLanguageModel(ABC):
             if self._num_llm_calls == 1:
                 file.write(
                     "####################################################################\n"
-                    f"# {f'TEST GENERATION BEGINS ({config.algorithm.name} + {config.llm.model} t={config.llm.temperature})':^64} #\n"
+                    f"# {f'TEST GENERATION BEGINS ({config.algorithm.name} + {self.llm.name} t={config.llm.temperature})':^64} #\n"
                     "####################################################################\n\n\n"
                 )
 

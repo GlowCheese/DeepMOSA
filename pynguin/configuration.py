@@ -416,17 +416,14 @@ class SeedingConfiguration:
 class LLMConfiguration:
     """Configuration for used large language model"""
 
-    model: str = ""
-    """ID of the model used to generate the response"""
+    llm_config_id: str = ""
+    """ID of the LLM config for text generation"""
 
     temperature: float = 0.8
     """The temperature of the model"""
 
-    base_url: str = "https://openrouter.ai/api/v1"
-    """Base URL to query the model"""
-
     max_tokens: int = 2048
-    """Max number of tokens for the completion response."""
+    """Max number of tokens for the completion response"""
 
 
 @dataclasses.dataclass

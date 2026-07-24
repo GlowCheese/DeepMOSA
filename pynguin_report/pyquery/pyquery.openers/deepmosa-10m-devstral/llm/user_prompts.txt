@@ -1,0 +1,2185 @@
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Devstral t=0.8)        #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+
+def _urllib(url, kwargs):
+    method = kwargs.get('method')
+    url, data = _query(url, method, kwargs)
+    return urlopen(url, data, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT))
+
+
+def url_opener(url, kwargs):
+    if HAS_REQUEST:
+        return _requests(url, kwargs)
+    return _urllib(url, kwargs)
+
+```
+Write unit test for function url_opener
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _urllib(url, kwargs):
+    method = kwargs.get('method')
+    url, data = _query(url, method, kwargs)
+    return urlopen(url, data, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT))
+
+```
+Write unit test for function _urllib
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def url_opener(url, kwargs):
+2 |     if HAS_REQUEST:
+3 |         return _requests(url, kwargs)
+4 |     return _urllib(url, kwargs)
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+```
+Write unit test for function _requests
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def url_opener(url, kwargs):
+2 |     if HAS_REQUEST:
+3 |         return _requests(url, kwargs)
+4 |     return _urllib(url, kwargs)
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+```
+Write unit test for function _requests
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 12 evaluates to False.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def url_opener(url, kwargs):
+2 |     if HAS_REQUEST:
+3 |         return _requests(url, kwargs)
+4 |     return _urllib(url, kwargs)
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def _requests(url, kwargs):
+ 2 | 
+ 3 |     encoding = kwargs.get('encoding')
+ 4 |     method = kwargs.get('method', 'get').lower()
+ 5 |     session = kwargs.get('session')
+ 6 |     if session:
+ 7 |         meth = getattr(session, str(method))
+ 8 |     else:
+ 9 |         meth = getattr(requests, str(method))
+10 |     if method == 'get':
+11 |         url, data = _query(url, method, kwargs)
+12 |     kw = {}
+13 |     for k in allowed_args:
+14 |         if k in kwargs:
+15 |             kw[k] = kwargs[k]
+16 |     resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+17 |     if not (200 <= resp.status_code < 300):
+18 |         raise HTTPError(resp.url, resp.status_code,
+19 |                         resp.reason, resp.headers, None)
+20 |     if encoding:
+21 |         resp.encoding = encoding
+22 |     html = resp.text
+23 |     return html
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def _requests(url, kwargs):
+ 2 | 
+ 3 |     encoding = kwargs.get('encoding')
+ 4 |     method = kwargs.get('method', 'get').lower()
+ 5 |     session = kwargs.get('session')
+ 6 |     if session:
+ 7 |         meth = getattr(session, str(method))
+ 8 |     else:
+ 9 |         meth = getattr(requests, str(method))
+10 |     if method == 'get':
+11 |         url, data = _query(url, method, kwargs)
+12 |     kw = {}
+13 |     for k in allowed_args:
+14 |         if k in kwargs:
+15 |             kw[k] = kwargs[k]
+16 |     resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+17 |     if not (200 <= resp.status_code < 300):
+18 |         raise HTTPError(resp.url, resp.status_code,
+19 |                         resp.reason, resp.headers, None)
+20 |     if encoding:
+21 |         resp.encoding = encoding
+22 |     html = resp.text
+23 |     return html
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def url_opener(url, kwargs):
+2 |     if HAS_REQUEST:
+3 |         return _requests(url, kwargs)
+4 |     return _urllib(url, kwargs)
+```
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def _requests(url, kwargs):
+ 2 | 
+ 3 |     encoding = kwargs.get('encoding')
+ 4 |     method = kwargs.get('method', 'get').lower()
+ 5 |     session = kwargs.get('session')
+ 6 |     if session:
+ 7 |         meth = getattr(session, str(method))
+ 8 |     else:
+ 9 |         meth = getattr(requests, str(method))
+10 |     if method == 'get':
+11 |         url, data = _query(url, method, kwargs)
+12 |     kw = {}
+13 |     for k in allowed_args:
+14 |         if k in kwargs:
+15 |             kw[k] = kwargs[k]
+16 |     resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+17 |     if not (200 <= resp.status_code < 300):
+18 |         raise HTTPError(resp.url, resp.status_code,
+19 |                         resp.reason, resp.headers, None)
+20 |     if encoding:
+21 |         resp.encoding = encoding
+22 |     html = resp.text
+23 |     return html
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+```
+Write unit test for function _requests
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 12 evaluates to False.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _urllib(url, kwargs):
+    method = kwargs.get('method')
+    url, data = _query(url, method, kwargs)
+    return urlopen(url, data, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT))
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+
+def url_opener(url, kwargs):
+    if HAS_REQUEST:
+        return _requests(url, kwargs)
+    return _urllib(url, kwargs)
+
+```
+Write unit test for function url_opener
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 12 evaluates to False.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def _requests(url, kwargs):
+ 2 | 
+ 3 |     encoding = kwargs.get('encoding')
+ 4 |     method = kwargs.get('method', 'get').lower()
+ 5 |     session = kwargs.get('session')
+ 6 |     if session:
+ 7 |         meth = getattr(session, str(method))
+ 8 |     else:
+ 9 |         meth = getattr(requests, str(method))
+10 |     if method == 'get':
+11 |         url, data = _query(url, method, kwargs)
+12 |     kw = {}
+13 |     for k in allowed_args:
+14 |         if k in kwargs:
+15 |             kw[k] = kwargs[k]
+16 |     resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+17 |     if not (200 <= resp.status_code < 300):
+18 |         raise HTTPError(resp.url, resp.status_code,
+19 |                         resp.reason, resp.headers, None)
+20 |     if encoding:
+21 |         resp.encoding = encoding
+22 |     html = resp.text
+23 |     return html
+```
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+
+def _urllib(url, kwargs):
+    method = kwargs.get('method')
+    url, data = _query(url, method, kwargs)
+    return urlopen(url, data, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT))
+
+
+def url_opener(url, kwargs):
+    if HAS_REQUEST:
+        return _requests(url, kwargs)
+    return _urllib(url, kwargs)
+
+```
+Write unit test for function url_opener
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def _requests(url, kwargs):
+ 2 | 
+ 3 |     encoding = kwargs.get('encoding')
+ 4 |     method = kwargs.get('method', 'get').lower()
+ 5 |     session = kwargs.get('session')
+ 6 |     if session:
+ 7 |         meth = getattr(session, str(method))
+ 8 |     else:
+ 9 |         meth = getattr(requests, str(method))
+10 |     if method == 'get':
+11 |         url, data = _query(url, method, kwargs)
+12 |     kw = {}
+13 |     for k in allowed_args:
+14 |         if k in kwargs:
+15 |             kw[k] = kwargs[k]
+16 |     resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+17 |     if not (200 <= resp.status_code < 300):
+18 |         raise HTTPError(resp.url, resp.status_code,
+19 |                         resp.reason, resp.headers, None)
+20 |     if encoding:
+21 |         resp.encoding = encoding
+22 |     html = resp.text
+23 |     return html
+```
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+
+def _urllib(url, kwargs):
+    method = kwargs.get('method')
+    url, data = _query(url, method, kwargs)
+    return urlopen(url, data, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT))
+
+
+def url_opener(url, kwargs):
+    if HAS_REQUEST:
+        return _requests(url, kwargs)
+    return _urllib(url, kwargs)
+
+```
+Write unit test for function url_opener
+
+
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Devstral t=0.8)        #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 9 evaluates to False.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to True.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 9 evaluates to True.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _urllib(url, kwargs):
+    method = kwargs.get('method')
+    url, data = _query(url, method, kwargs)
+    return urlopen(url, data, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT))
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+
+def url_opener(url, kwargs):
+    if HAS_REQUEST:
+        return _requests(url, kwargs)
+    return _urllib(url, kwargs)
+
+```
+Write unit test for function url_opener
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def url_opener(url, kwargs):
+2 |     if HAS_REQUEST:
+3 |         return _requests(url, kwargs)
+4 |     return _urllib(url, kwargs)
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def url_opener(url, kwargs):
+2 |     if HAS_REQUEST:
+3 |         return _requests(url, kwargs)
+4 |     return _urllib(url, kwargs)
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+```
+Write unit test for function _requests
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def _requests(url, kwargs):
+ 2 | 
+ 3 |     encoding = kwargs.get('encoding')
+ 4 |     method = kwargs.get('method', 'get').lower()
+ 5 |     session = kwargs.get('session')
+ 6 |     if session:
+ 7 |         meth = getattr(session, str(method))
+ 8 |     else:
+ 9 |         meth = getattr(requests, str(method))
+10 |     if method == 'get':
+11 |         url, data = _query(url, method, kwargs)
+12 |     kw = {}
+13 |     for k in allowed_args:
+14 |         if k in kwargs:
+15 |             kw[k] = kwargs[k]
+16 |     resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+17 |     if not (200 <= resp.status_code < 300):
+18 |         raise HTTPError(resp.url, resp.status_code,
+19 |                         resp.reason, resp.headers, None)
+20 |     if encoding:
+21 |         resp.encoding = encoding
+22 |     html = resp.text
+23 |     return html
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 12 evaluates to False.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to True.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def _requests(url, kwargs):
+ 2 | 
+ 3 |     encoding = kwargs.get('encoding')
+ 4 |     method = kwargs.get('method', 'get').lower()
+ 5 |     session = kwargs.get('session')
+ 6 |     if session:
+ 7 |         meth = getattr(session, str(method))
+ 8 |     else:
+ 9 |         meth = getattr(requests, str(method))
+10 |     if method == 'get':
+11 |         url, data = _query(url, method, kwargs)
+12 |     kw = {}
+13 |     for k in allowed_args:
+14 |         if k in kwargs:
+15 |             kw[k] = kwargs[k]
+16 |     resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+17 |     if not (200 <= resp.status_code < 300):
+18 |         raise HTTPError(resp.url, resp.status_code,
+19 |                         resp.reason, resp.headers, None)
+20 |     if encoding:
+21 |         resp.encoding = encoding
+22 |     html = resp.text
+23 |     return html
+```
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def _requests(url, kwargs):
+ 2 | 
+ 3 |     encoding = kwargs.get('encoding')
+ 4 |     method = kwargs.get('method', 'get').lower()
+ 5 |     session = kwargs.get('session')
+ 6 |     if session:
+ 7 |         meth = getattr(session, str(method))
+ 8 |     else:
+ 9 |         meth = getattr(requests, str(method))
+10 |     if method == 'get':
+11 |         url, data = _query(url, method, kwargs)
+12 |     kw = {}
+13 |     for k in allowed_args:
+14 |         if k in kwargs:
+15 |             kw[k] = kwargs[k]
+16 |     resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+17 |     if not (200 <= resp.status_code < 300):
+18 |         raise HTTPError(resp.url, resp.status_code,
+19 |                         resp.reason, resp.headers, None)
+20 |     if encoding:
+21 |         resp.encoding = encoding
+22 |     html = resp.text
+23 |     return html
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+
+def _urllib(url, kwargs):
+    method = kwargs.get('method')
+    url, data = _query(url, method, kwargs)
+    return urlopen(url, data, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT))
+
+
+def url_opener(url, kwargs):
+    if HAS_REQUEST:
+        return _requests(url, kwargs)
+    return _urllib(url, kwargs)
+
+```
+Write unit test for function url_opener
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 12 evaluates to False.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def _requests(url, kwargs):
+ 2 | 
+ 3 |     encoding = kwargs.get('encoding')
+ 4 |     method = kwargs.get('method', 'get').lower()
+ 5 |     session = kwargs.get('session')
+ 6 |     if session:
+ 7 |         meth = getattr(session, str(method))
+ 8 |     else:
+ 9 |         meth = getattr(requests, str(method))
+10 |     if method == 'get':
+11 |         url, data = _query(url, method, kwargs)
+12 |     kw = {}
+13 |     for k in allowed_args:
+14 |         if k in kwargs:
+15 |             kw[k] = kwargs[k]
+16 |     resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+17 |     if not (200 <= resp.status_code < 300):
+18 |         raise HTTPError(resp.url, resp.status_code,
+19 |                         resp.reason, resp.headers, None)
+20 |     if encoding:
+21 |         resp.encoding = encoding
+22 |     html = resp.text
+23 |     return html
+```
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to True.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def _requests(url, kwargs):
+ 2 | 
+ 3 |     encoding = kwargs.get('encoding')
+ 4 |     method = kwargs.get('method', 'get').lower()
+ 5 |     session = kwargs.get('session')
+ 6 |     if session:
+ 7 |         meth = getattr(session, str(method))
+ 8 |     else:
+ 9 |         meth = getattr(requests, str(method))
+10 |     if method == 'get':
+11 |         url, data = _query(url, method, kwargs)
+12 |     kw = {}
+13 |     for k in allowed_args:
+14 |         if k in kwargs:
+15 |             kw[k] = kwargs[k]
+16 |     resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+17 |     if not (200 <= resp.status_code < 300):
+18 |         raise HTTPError(resp.url, resp.status_code,
+19 |                         resp.reason, resp.headers, None)
+20 |     if encoding:
+21 |         resp.encoding = encoding
+22 |     html = resp.text
+23 |     return html
+```
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def url_opener(url, kwargs):
+2 |     if HAS_REQUEST:
+3 |         return _requests(url, kwargs)
+4 |     return _urllib(url, kwargs)
+```
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 9 evaluates to False.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def url_opener(url, kwargs):
+2 |     if HAS_REQUEST:
+3 |         return _requests(url, kwargs)
+4 |     return _urllib(url, kwargs)
+```
+
+
+# Prompt used at query #31
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+```
+Write unit test for function _requests
+
+
+# Prompt used at query #32
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #33
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 12 evaluates to False.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #34
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+```
+Write unit test for function _query
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def _requests(url, kwargs):
+ 2 | 
+ 3 |     encoding = kwargs.get('encoding')
+ 4 |     method = kwargs.get('method', 'get').lower()
+ 5 |     session = kwargs.get('session')
+ 6 |     if session:
+ 7 |         meth = getattr(session, str(method))
+ 8 |     else:
+ 9 |         meth = getattr(requests, str(method))
+10 |     if method == 'get':
+11 |         url, data = _query(url, method, kwargs)
+12 |     kw = {}
+13 |     for k in allowed_args:
+14 |         if k in kwargs:
+15 |             kw[k] = kwargs[k]
+16 |     resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+17 |     if not (200 <= resp.status_code < 300):
+18 |         raise HTTPError(resp.url, resp.status_code,
+19 |                         resp.reason, resp.headers, None)
+20 |     if encoding:
+21 |         resp.encoding = encoding
+22 |     html = resp.text
+23 |     return html
+```
+
+
+# Prompt used at query #36
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 12 evaluates to False.
+```
+ 1 | def _query(url, method, kwargs):
+ 2 |     data = None
+ 3 |     if 'data' in kwargs:
+ 4 |         data = kwargs.pop('data')
+ 5 |     if type(data) in (dict, list, tuple):
+ 6 |         data = urlencode(data)
+ 7 | 
+ 8 |     if isinstance(method, basestring) and \
+ 9 |        method.lower() == 'get' and data:
+10 |         if '?' not in url:
+11 |             url += '?'
+12 |         elif url[-1] not in ('?', '&'):
+13 |             url += '&'
+14 |         url += data
+15 |         data = None
+16 | 
+17 |     if data:
+18 |         data = data.encode('utf-8')
+19 |     return url, data
+```
+
+
+# Prompt used at query #37
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def url_opener(url, kwargs):
+2 |     if HAS_REQUEST:
+3 |         return _requests(url, kwargs)
+4 |     return _urllib(url, kwargs)
+```
+
+
+# Prompt used at query #38
+#--------------------------
+
+```
+def _query(url, method, kwargs):
+    data = None
+    if 'data' in kwargs:
+        data = kwargs.pop('data')
+    if type(data) in (dict, list, tuple):
+        data = urlencode(data)
+
+    if isinstance(method, basestring) and \
+       method.lower() == 'get' and data:
+        if '?' not in url:
+            url += '?'
+        elif url[-1] not in ('?', '&'):
+            url += '&'
+        url += data
+        data = None
+
+    if data:
+        data = data.encode('utf-8')
+    return url, data
+
+
+def _requests(url, kwargs):
+
+    encoding = kwargs.get('encoding')
+    method = kwargs.get('method', 'get').lower()
+    session = kwargs.get('session')
+    if session:
+        meth = getattr(session, str(method))
+    else:
+        meth = getattr(requests, str(method))
+    if method == 'get':
+        url, data = _query(url, method, kwargs)
+    kw = {}
+    for k in allowed_args:
+        if k in kwargs:
+            kw[k] = kwargs[k]
+    resp = meth(url=url, timeout=kwargs.get('timeout', DEFAULT_TIMEOUT), **kw)
+    if not (200 <= resp.status_code < 300):
+        raise HTTPError(resp.url, resp.status_code,
+                        resp.reason, resp.headers, None)
+    if encoding:
+        resp.encoding = encoding
+    html = resp.text
+    return html
+
+```
+Write unit test for function _requests
+
+

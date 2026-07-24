@@ -1,0 +1,9 @@
+llm_provider: nvidia-ai
+
+llm:
+  name: Diffusion Gemma
+  model: google/diffusiongemma-26b-a4b-it
+  api_key: ${oc.env:NVIDIA_API_KEY}
+  model_kwargs:
+    chat_template_kwargs:
+      enable_thinking: false

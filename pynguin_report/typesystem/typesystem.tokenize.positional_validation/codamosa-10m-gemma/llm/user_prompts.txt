@@ -1,0 +1,870 @@
+####################################################################
+#        TEST GENERATION BEGINS (CODAMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+####################################################################
+#        TEST GENERATION BEGINS (CODAMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+import typing
+
+from typesystem.base import Message, ValidationError
+from typesystem.fields import Field
+from typesystem.schemas import Schema
+from typesystem.tokenize.tokens import Token
+
+
+def validate_with_positions(
+    *, token: Token, validator: typing.Union[Field, Schema]
+) -> typing.Any:
+    try:
+        return validator.validate(token.value)
+    except ValidationError as error:
+        messages = []
+        for message in error.messages():
+            if message.code == "required":
+                field = message.index[-1]
+                token = token.lookup(message.index[:-1])
+                text = f"The field {field!r} is required."
+            else:
+                token = token.lookup(message.index)
+                text = message.text
+
+            positional_message = Message(
+                text=text,
+                code=message.code,
+                index=message.index,
+                start_position=token.start,
+                end_position=token.end,
+            )
+            messages.append(positional_message)
+        messages = sorted(
+            messages, key=lambda m: m.start_position.char_index  # type: ignore
+        )
+        raise ValidationError(messages=messages)
+
+Write unit test with pytest for function validate_with_positions with the following signature: `def test_validate_with_positions():`
+
+

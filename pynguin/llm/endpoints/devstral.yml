@@ -1,0 +1,7 @@
+llm_provider: mistral-ai
+
+llm:
+  name: Devstral
+  model: devstral-2512
+  api_key: ${oc.env:MISTRAL_API_KEY}
+  max_retries: 2

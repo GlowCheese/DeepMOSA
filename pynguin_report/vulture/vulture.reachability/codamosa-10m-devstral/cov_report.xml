@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd"><coverage line-rate="None" branch-rate="0.27631578947368424" lines-covered="0" lines-valid="0" branches-covered="21" branches-valid="76" complexity="0.0" version="pynguin-0.40.0" timestamp="1784040837">
+  <sources>
+    <source>vulture.reachability</source>
+  </sources>
+  <packages>
+    <package name="" line-rate="None" branch-rate="0.27631578947368424" complexity="0.0">
+      <classes>
+        <class name="" filename="vulture.reachability" line-rate="None" branch-rate="0.27631578947368424" complexity="0.0">
+          <methods />
+          <lines>
+            <line number="1" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="6" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="7" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="13" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="16" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="27" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="29" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="31" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="33" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="35" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="38" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="41" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="44" hits="1" branch="true" condition-coverage="100% (1/1)" />
+            <line number="51" hits="1" branch="true" condition-coverage="100% (2/2)" />
+            <line number="52" hits="1" branch="true" condition-coverage="50% (1/2)" />
+            <line number="53" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="67" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="79" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="87" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="110" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="113" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="117" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="122" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="129" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="138" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="146" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="148" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="156" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="168" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="169" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="171" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="183" hits="0" branch="true" condition-coverage="0% (0/8)" />
+            <line number="190" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="201" hits="0" branch="true" condition-coverage="0% (0/4)" />
+            <line number="210" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="216" hits="0" branch="true" condition-coverage="0% (0/2)" />
+            <line number="219" hits="0" branch="true" condition-coverage="0% (0/2)" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>

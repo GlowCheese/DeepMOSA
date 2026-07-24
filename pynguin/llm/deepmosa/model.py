@@ -3,17 +3,17 @@
 #  SPDX-License-Identifier: MIT
 #
 
-from __future__ import annotations
-
 import ast
 import inspect
 import os
 import random
 from collections import defaultdict
-from typing import TYPE_CHECKING, Dict
+from typing import Dict
+
+from langchain_core.prompts import ChatPromptTemplate
 
 from libs.custom_logger import getLogger
-from pynguin.configuration import config
+from pynguin.configuration import Algorithm, config
 from pynguin.llm.abstractmodel import AbstractLanguageModel
 from pynguin.utils import randomness
 from pynguin.utils.deepseek import tokenizer
@@ -27,9 +27,6 @@ from pynguin.utils.orderedset import OrderedSet
 
 from .outputfixers import rewrite_tests
 
-if TYPE_CHECKING:
-    from pynguin.llm.abstractmodel import Messages
-
 logger = getLogger(__name__)
 
 
@@ -37,15 +34,28 @@ class _DeepMOSALanguageModel(AbstractLanguageModel):
     """Language model implementation used by DeepMOSA"""
 
     def __init__(self):
+        if config.algorithm != Algorithm.DEEPMOSA:
+            return
+
         super().__init__()
-        self._system_prompt = """
-Do NOT import pytest and unittest when writting test cases.
-A good unit test should only contains variable assignments, assertions and function/method/constructor calls (i.e. without any custom class or function definition or control structure like `if`, `for`, `while`, `match`, `with`, ... statements).
-All test cases should starts with: `def test_[test case's name]():`.
-Your response should only contain the test case itself without any additional text or information.
-"""
-        self._conversations: dict[GenericCallableAccessibleObject, Messages] = {}
-        self._max_query_len = self._max_query_len - len(tokenizer.encode(self._system_prompt))
+        system_prompt = (
+            "Do NOT import pytest and unittest when writting test cases.\n"
+            "A good unit test should only contains variable assignments, assertions and"
+            " function/method/constructor calls (i.e. without any custom class or function definition"
+            " or control structure like `if`, `for`, `while`, `match`, `with`, ... statements).\n"
+            "All test cases should starts with: `def test_[test case's name]():`.\n"
+            "Your response should only contain the test case itself without any additional text or information."
+        )
+
+        self.prompt_template = ChatPromptTemplate.from_messages(
+            [
+                ("system", system_prompt),
+                ("placeholder", "{chat_history}"),
+                ("human", "{query}"),
+            ]
+        )
+        self.last_initial_query: dict[GenericCallableAccessibleObject, str] = {}
+        self._max_query_len = self._max_query_len - len(tokenizer.encode(system_prompt))
 
     def _get_gao_str(self, gao: GenericCallableAccessibleObject):
         if not isinstance(gao, GenericCallableAccessibleObject):
@@ -271,16 +281,16 @@ Your response should only contain the test case itself without any additional te
             A generated test case as natural language.
         """
 
-        messages: Messages | None = self._conversations.get(gao)
+        query: str | None = self.last_initial_query.get(gao)
         gao_str = self._get_annotated_gao_str(gao)
 
         if (
-            messages is None
+            query is None
             or gao_str is None
             or pred_lineno is None
             or randomness.chance(config.deepmosa.reseed_probability)
         ):
-            if messages is None or randomness.chance(
+            if query is None or randomness.chance(
                 config.deepmosa.recreate_conversation_probability
             ):
                 if isinstance(gao, GenericMethod):
@@ -322,13 +332,10 @@ Your response should only contain the test case itself without any additional te
                         start_line, end_line = -1, -1
 
                 context = self._get_maximal_source_context(gao, gao_owner_str, dependers, True)
-                messages = [
-                    {"role": "system", "content": self._system_prompt},
-                    {"role": "user", "content": f"{context}\n{instruction}"},
-                ]
-                self._conversations[gao] = messages
+                query = f"{context}\n{instruction}"
+                self.last_initial_query[gao] = query
 
-            response = await self.send_llm_request_async(messages, stop="\n```")
+            response = await self.send_llm_request(query=query)
 
         else:
             if len(tokenizer.encode(gao_str)) >= self._max_query_len:
@@ -347,22 +354,22 @@ Your response should only contain the test case itself without any additional te
                     False,
                     lim=self._max_query_len - len(tokenizer.encode(gao_str)),
                 )
+
             instruction = (
                 f"Write unit test to ensure that the predicate at "
                 f"line {pred_lineno} evaluates to {pred_value}.\n"
                 f"```\n{gao_str}\n```"
             )
-            messages = [
-                {"role": "system", "content": self._system_prompt},
-                {"role": "user", "content": f"{context}\n{instruction}"},
-            ]
-            response = await self.send_llm_request_async(messages, stop="\n```")
+            query = f"{context}\n{instruction}"
+            response = await self.send_llm_request(query=query)
 
-        self._log_query_data("user_prompts.txt", messages[1]["content"], "Prompt used")
-        self._log_query_data("llm_raw_generated.py", response, "LLM-generated content")
+        assert isinstance(response.content, str)
+
+        self._log_query_data("user_prompts.txt", query, "Prompt used")
+        self._log_query_data("llm_raw_generated.py", response.content, "LLM-generated content")
 
         # Remove any trailing statements that don't parse
-        generated_test = "\n".join(rewrite_tests(response).values())
+        generated_test = "\n".join(rewrite_tests(response.content).values())
         return generated_test
 
 

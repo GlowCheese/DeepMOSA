@@ -3,13 +3,16 @@
 #  SPDX-FileCopyrightText: Microsoft
 #
 #  SPDX-License-Identifier: MIT
-#
+
 import inspect
-from typing import List
+from typing import List, cast
+
+from langchain_core.messages import AIMessage
+from langchain_core.prompts import ChatPromptTemplate
 
 from libs.custom_logger import getLogger
 from pynguin.configuration import Algorithm, config
-from pynguin.llm.abstractmodel import AbstractLanguageModel, Messages
+from pynguin.llm.abstractmodel import AbstractLanguageModel
 from pynguin.llm.codamosa.outputfixers import rewrite_tests
 from pynguin.utils.generic import (
     GenericCallableAccessibleObject,
@@ -24,11 +27,23 @@ logger = getLogger(__name__)
 class _CodaMOSALanguageModel(AbstractLanguageModel):
     """Original language model implementation used by CodaMOSA"""
 
-    @property
-    def _system_prompt(self):
-        return (
-            "Write unit test for the given code object without any additional text or information.\n"
-            "DO NOT include any import statement (assuming everything is correctly imported)."
+    def __init__(self):
+        if config.algorithm != Algorithm.CODAMOSA:
+            return
+
+        super().__init__()
+        self.prompt_template = ChatPromptTemplate.from_messages(
+            [
+                (
+                    "system",
+                    (
+                        "Write unit test for the given code object without any additional text or information.\n"
+                        "DO NOT include any import statement (assuming everything is correctly imported)."
+                    ),
+                ),
+                ("placeholder", "{chat_history}"),
+                ("human", "{query}"),
+            ]
         )
 
     def _get_maximal_source_context(
@@ -81,31 +96,6 @@ class _CodaMOSALanguageModel(AbstractLanguageModel):
                 break
 
         return "\n".join(split_src[context_start_line:end_line])
-
-    def _call_completion(self, function_header: str, context_start: int, context_end: int):
-        """Asks the model to provide a completion of the given function header,
-        with the additional context of the target function definition.
-
-        Args:
-            function_header: a string containing a def statement to be completed
-            context_start: the start line of context that must be included
-            context_end: the end line of context that must be included
-
-        Returns:
-            the result of calling the model to complete the function header.
-        """
-        context = self._get_maximal_source_context(context_start, context_end)
-
-        prompt = context + "\n" + function_header
-        res = self.send_llm_request(
-            [
-                {"role": "system", "content": self._system_prompt},
-                {"role": "assistant", "content": prompt},
-            ],
-            stop=["\n# Unit test for", "\ndef ", "\nclass "],
-        )
-
-        return prompt, res
 
     async def target_test_case(self, gao: GenericCallableAccessibleObject, context=""):
         """Provides a test case targeted to the function/method/constructor
@@ -165,28 +155,19 @@ class _CodaMOSALanguageModel(AbstractLanguageModel):
             raise TypeError(f"Unsupported gao of type: {type(gao)}")
 
         context = self._get_maximal_source_context(start_line, end_line) + context
-
-        prompt = (
-            context
-            + f"\nWrite unit test with pytest for {gao_desc} with the following signature: `{test_signature}`"
+        query = (
+            f"{context}\nWrite unit test with pytest for "
+            f"{gao_desc} with the following signature: `{test_signature}`"
         )
 
-        messages: Messages = [
-            {"role": "system", "content": self._system_prompt},
-            {"role": "user", "content": prompt},
-        ]
+        response = cast(AIMessage, await self.send_llm_request(query=query))
+        assert isinstance(response.content, str)
 
-        # workaround for experimenting with DeepMOSA + codamosaseeding
-        if config.algorithm != Algorithm.DEEPMOSA:
-            response = self.send_llm_request(messages, stop="\n```")
-        else:
-            response = await self.send_llm_request_async(messages, stop="\n```")
-
-        self._log_query_data("user_prompts.txt", prompt, "Prompt used")
-        self._log_query_data("llm_raw_generated.py", response, "LLM-generated content")
+        self._log_query_data("user_prompts.txt", query, "Prompt used")
+        self._log_query_data("llm_raw_generated.py", response.content, "LLM-generated content")
 
         # Remove any trailing statements that don't parse
-        generated_test = "\n".join(rewrite_tests(response).values())
+        generated_test = "\n".join(rewrite_tests(response.content).values())
         return generated_test
 
 

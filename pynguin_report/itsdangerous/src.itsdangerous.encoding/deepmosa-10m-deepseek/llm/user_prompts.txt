@@ -1,0 +1,397 @@
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + DeepSeek t=0.8)        #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+Write unit test for function base64_decode
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def base64_decode(string: str | bytes) -> bytes:
+ 2 |     """Base64 decode a URL-safe string of bytes or text. The result is
+ 3 |     bytes.
+ 4 |     """
+ 5 |     string = want_bytes(string, encoding="ascii", errors="ignore")
+ 6 |     string += b"=" * (-len(string) % 4)
+ 7 | 
+ 8 |     try:
+ 9 |         return base64.urlsafe_b64decode(string)
+10 |     except (TypeError, ValueError) as e:
+11 |         raise BadData("Invalid base64-encoded data") from e
+```
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def base64_decode(string: str | bytes) -> bytes:
+ 2 |     """Base64 decode a URL-safe string of bytes or text. The result is
+ 3 |     bytes.
+ 4 |     """
+ 5 |     string = want_bytes(string, encoding="ascii", errors="ignore")
+ 6 |     string += b"=" * (-len(string) % 4)
+ 7 | 
+ 8 |     try:
+ 9 |         return base64.urlsafe_b64decode(string)
+10 |     except (TypeError, ValueError) as e:
+11 |         raise BadData("Invalid base64-encoded data") from e
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def base64_decode(string: str | bytes) -> bytes:
+ 2 |     """Base64 decode a URL-safe string of bytes or text. The result is
+ 3 |     bytes.
+ 4 |     """
+ 5 |     string = want_bytes(string, encoding="ascii", errors="ignore")
+ 6 |     string += b"=" * (-len(string) % 4)
+ 7 | 
+ 8 |     try:
+ 9 |         return base64.urlsafe_b64decode(string)
+10 |     except (TypeError, ValueError) as e:
+11 |         raise BadData("Invalid base64-encoded data") from e
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def base64_decode(string: str | bytes) -> bytes:
+ 2 |     """Base64 decode a URL-safe string of bytes or text. The result is
+ 3 |     bytes.
+ 4 |     """
+ 5 |     string = want_bytes(string, encoding="ascii", errors="ignore")
+ 6 |     string += b"=" * (-len(string) % 4)
+ 7 | 
+ 8 |     try:
+ 9 |         return base64.urlsafe_b64decode(string)
+10 |     except (TypeError, ValueError) as e:
+11 |         raise BadData("Invalid base64-encoded data") from e
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def base64_decode(string: str | bytes) -> bytes:
+ 2 |     """Base64 decode a URL-safe string of bytes or text. The result is
+ 3 |     bytes.
+ 4 |     """
+ 5 |     string = want_bytes(string, encoding="ascii", errors="ignore")
+ 6 |     string += b"=" * (-len(string) % 4)
+ 7 | 
+ 8 |     try:
+ 9 |         return base64.urlsafe_b64decode(string)
+10 |     except (TypeError, ValueError) as e:
+11 |         raise BadData("Invalid base64-encoded data") from e
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+Write unit test for function base64_decode
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+Write unit test for function base64_decode
+
+
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + DeepSeek t=0.8)        #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+Write unit test for function base64_decode
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+Write unit test for function base64_decode
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def base64_decode(string: str | bytes) -> bytes:
+ 2 |     """Base64 decode a URL-safe string of bytes or text. The result is
+ 3 |     bytes.
+ 4 |     """
+ 5 |     string = want_bytes(string, encoding="ascii", errors="ignore")
+ 6 |     string += b"=" * (-len(string) % 4)
+ 7 | 
+ 8 |     try:
+ 9 |         return base64.urlsafe_b64decode(string)
+10 |     except (TypeError, ValueError) as e:
+11 |         raise BadData("Invalid base64-encoded data") from e
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def base64_decode(string: str | bytes) -> bytes:
+ 2 |     """Base64 decode a URL-safe string of bytes or text. The result is
+ 3 |     bytes.
+ 4 |     """
+ 5 |     string = want_bytes(string, encoding="ascii", errors="ignore")
+ 6 |     string += b"=" * (-len(string) % 4)
+ 7 | 
+ 8 |     try:
+ 9 |         return base64.urlsafe_b64decode(string)
+10 |     except (TypeError, ValueError) as e:
+11 |         raise BadData("Invalid base64-encoded data") from e
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def base64_decode(string: str | bytes) -> bytes:
+ 2 |     """Base64 decode a URL-safe string of bytes or text. The result is
+ 3 |     bytes.
+ 4 |     """
+ 5 |     string = want_bytes(string, encoding="ascii", errors="ignore")
+ 6 |     string += b"=" * (-len(string) % 4)
+ 7 | 
+ 8 |     try:
+ 9 |         return base64.urlsafe_b64decode(string)
+10 |     except (TypeError, ValueError) as e:
+11 |         raise BadData("Invalid base64-encoded data") from e
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def base64_decode(string: str | bytes) -> bytes:
+ 2 |     """Base64 decode a URL-safe string of bytes or text. The result is
+ 3 |     bytes.
+ 4 |     """
+ 5 |     string = want_bytes(string, encoding="ascii", errors="ignore")
+ 6 |     string += b"=" * (-len(string) % 4)
+ 7 | 
+ 8 |     try:
+ 9 |         return base64.urlsafe_b64decode(string)
+10 |     except (TypeError, ValueError) as e:
+11 |         raise BadData("Invalid base64-encoded data") from e
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def base64_decode(string: str | bytes) -> bytes:
+ 2 |     """Base64 decode a URL-safe string of bytes or text. The result is
+ 3 |     bytes.
+ 4 |     """
+ 5 |     string = want_bytes(string, encoding="ascii", errors="ignore")
+ 6 |     string += b"=" * (-len(string) % 4)
+ 7 | 
+ 8 |     try:
+ 9 |         return base64.urlsafe_b64decode(string)
+10 |     except (TypeError, ValueError) as e:
+11 |         raise BadData("Invalid base64-encoded data") from e
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 10 evaluates to False.
+```
+ 1 | def base64_decode(string: str | bytes) -> bytes:
+ 2 |     """Base64 decode a URL-safe string of bytes or text. The result is
+ 3 |     bytes.
+ 4 |     """
+ 5 |     string = want_bytes(string, encoding="ascii", errors="ignore")
+ 6 |     string += b"=" * (-len(string) % 4)
+ 7 | 
+ 8 |     try:
+ 9 |         return base64.urlsafe_b64decode(string)
+10 |     except (TypeError, ValueError) as e:
+11 |         raise BadData("Invalid base64-encoded data") from e
+```
+
+

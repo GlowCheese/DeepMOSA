@@ -1,0 +1,2010 @@
+####################################################################
+#        TEST GENERATION BEGINS (CODAMOSA + Devstral t=0.8)        #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #36
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #37
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #38
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #39
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #40
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+####################################################################
+#        TEST GENERATION BEGINS (CODAMOSA + Devstral t=0.8)        #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #36
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #37
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #38
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #39
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+
+# Prompt used at query #40
+#--------------------------
+
+def get_last_line_number(node):
+    return node.end_lineno
+
+
+def get_first_line_number(node):
+    """
+    From Python 3.8 onwards, lineno for decorated objects is the line at which
+    the object definition starts, which is different from what Python < 3.8
+    reported -- the lineno of the first decorator. To preserve this behaviour
+    of Vulture for newer Python versions, which is also more accurate for
+    counting the size of the unused code chunk (if the property is unused, we
+    also don't need it's decorators), we return the lineno of the first
+    decorator, if there are any.
+    """
+    decorators = getattr(node, "decorator_list", [])
+    if decorators:
+        return decorators[0].lineno
+    return node.lineno
+
+Write unit test with pytest for function get_first_line_number with the following signature: `def test_get_first_line_number():`
+
+

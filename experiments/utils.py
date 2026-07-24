@@ -1,7 +1,6 @@
 import os
 import pkgutil
 import subprocess
-import sys
 from pathlib import Path
 from typing import Any
 
@@ -80,7 +79,7 @@ def read_module_statistics(project_name: str, module_name: str, config_id: str):
     return result
 
 
-def run_deepmosa_runner(project_name: str, env_file: str, *argv: str):
+def run_deepmosa_runner(project_name: str, env_file: str, *argv: str, log_path: Path | None = None):
     # fmt: off
     cmd = [
         "docker", "compose", "run", "--rm",
@@ -99,44 +98,47 @@ def run_deepmosa_runner(project_name: str, env_file: str, *argv: str):
         "ENV_FILE": env_file,
     }
 
+    log_file = None
+    if log_path is not None:
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        log_file = log_path.open("w", encoding="UTF-8", buffering=1)  # line-buffered
+
+    # stderr is merged into stdout so a single reader drains both:
+    # reading them sequentially deadlocks once the unread pipe fills up.
     proc = subprocess.Popen(
         cmd,
         env=env,
         stdin=subprocess.DEVNULL,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
         text=True,
         bufsize=1,  # line-buffered
     )
 
     err_msg: str | None = None
-    stderr_lines = []
 
     try:
-        # stream stdout
-        if proc.stdout:
-            for line in proc.stdout:
-                print(line, end="")
-                if line.startswith("Exception:"):
-                    err_msg = line[11:].strip()
-
-        # stream + collect stderr
-        if proc.stderr:
-            for line in proc.stderr:
-                print(line, end="", file=sys.stderr)
-                stderr_lines.append(line)
+        assert proc.stdout
+        for line in proc.stdout:
+            print(line, end="", flush=True)
+            if log_file:
+                log_file.write(line)
+            if line.startswith("Exception:"):
+                err_msg = line[11:].strip()
 
         ret = proc.wait()
         if ret != 0:
-            stderr = "".join(stderr_lines)
             if err_msg:
                 raise RuntimeError(err_msg)
             else:
-                raise subprocess.CalledProcessError(ret, cmd, stderr=stderr)
+                raise subprocess.CalledProcessError(ret, cmd)
 
     except KeyboardInterrupt:
         proc.kill()
         raise
+    finally:
+        if log_file:
+            log_file.close()
 
 
 # fmt: off
@@ -153,17 +155,12 @@ RUN_CONFIGS = [
 for baseline in [
     ("codamosa", "CODAMOSA", []),
     ("deepmosa", "DEEPMOSA", []),
-    ("deepmosa-sync", "DEEPMOSA", ["--async-enabled", "False"]),
-    ("deepmosa-dese-v1", "DEEPMOSA", ["--deserializer-version", "1"]),
-    ("deepmosa-unaware", "DEEPMOSA", ["--use-codamosa-seeding", "True"])
+    # ("deepmosa-sync", "DEEPMOSA", ["--async-enabled", "False"]),
+    # ("deepmosa-dese-v1", "DEEPMOSA", ["--deserializer-version", "1"]),
+    # ("deepmosa-unaware", "DEEPMOSA", ["--use-codamosa-seeding", "True"])
 ]:
-    for llm_config in [
-        ("deepseek", "deepseek-chat", "https://api.deepseek.com"),
-        # ("claude", "claude-haiku-4-5", "https://api.anthropic.com/v1"),
-        # ("devstral", "mistralai/devstral-2512")
-        ("devstral", "devstral-2512", "mistralai")
-    ]:
-        config_id = f"{baseline[0]}-10m-{llm_config[0]}"
+    for llm_config in ["deepseek", "devstral", "gemma"]:
+        config_id = f"{baseline[0]}-10m-{llm_config}"
         RUN_CONFIGS.append(
             RunConfig(
                 config_id=config_id,
@@ -171,11 +168,7 @@ for baseline in [
                     "--configuration-id", config_id,
                     "--algorithm", baseline[1],
                     "--maximum-search-time", "600",
-                    "--model", llm_config[1],
-                    *(
-                        ["--base-url", llm_config[2]]
-                        if len(llm_config) == 3 else []
-                    ),
+                    "--llm-config-id", llm_config,
                     *baseline[2]
                 ]
             )
@@ -189,8 +182,8 @@ def print_table(a: list[list[str]], alg: str | None = None):
     for r in a:
         msg = ""
         for i in range(len(r)):
-            msg += f"{r[i]:{alg[i]}{mx_len[i]}} "
-        _logger.info(msg)
+            msg += f"{r[i]:{alg[i]}{mx_len[i]}}  "
+        print(msg)
 
 
 def find_all_filtered_modules(
