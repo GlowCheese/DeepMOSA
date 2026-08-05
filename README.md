@@ -18,13 +18,12 @@ Then, create a `.env` file with the following content:
 
 ```
 PYNGUIN_DANGER_AWARE=1
-OPENAI_API_KEY=sk-...
+DEEPSEEK_API_KEY=sk-...
 ```
 
 `PYNGUIN_DANGER_AWARE=1` is required -- pynguin refuses to run without it. This flag is your way of acknowledging that you understand the risks of executing code with random inputs.
 
-`OPENAI_API_KEY` is the API key for an OpenAI-compatible endpoint, which is used by LLM-assisted algorithms (e.g. CodaMOSA and
-DeepMOSA) during test generation.
+The other variable is the credential for whichever LLM endpoint you pick with `--llm-config-id`. The example above uses the `deepseek` endpoint, which reads `DEEPSEEK_API_KEY`; other endpoints read `MISTRAL_API_KEY`, `NVIDIA_API_KEY`, or `OLLAMA_BASE_URL` (see the table under [What this does](#what-this-does)). LLM-assisted algorithms (e.g. CodaMOSA and DeepMOSA) use this during test generation.
 
 ## Usage
 
@@ -82,24 +81,25 @@ docker compose run --rm runner pynguin \
   --project-path /workspace/project \
   --project-name $PROJECT_NAME --module-name $MODULE_NAME \
   --algorithm DEEPMOSA \
-  --llm-config-id deepseek-chat --maximum-search-time 60 \
+  --llm-config-id deepseek --maximum-search-time 60 \
   --output-path /workspace/generated_tests/$PROJECT_NAME \
   --report-dir /workspace/pynguin_report/$PROJECT_NAME/$MODULE_NAME
 ```
 
 ## What this does
 
-Both methods run the test generation with the **DeepMOSA** algorithm (`--algorithm DEEPMOSA`) using the **deepseek-chat** model. The generation runs for at most 60 seconds (`--maximum-search-time 60`), or stops as soon as 100% branch coverage is achieved.
+Both methods run the test generation with the **DeepMOSA** algorithm (`--algorithm DEEPMOSA`) using the **deepseek** LLM endpoint. The generation runs for at most 60 seconds (`--maximum-search-time 60`), or stops as soon as 100% branch coverage is achieved.
 
-To use a different LLM, change `--model` and `--base-url` arguments. For non-LLM algorithms like DynaMOSA, you can drop those flags entirely. Make sure `OPENAI_API_KEY` in `.env` matches the provider at the chosen base URL. Examples:
+To use a different LLM, change `--llm-config-id` to the name of an endpoint config in `pynguin/llm/endpoints/`. Each `<id>.yml` there picks a provider and model and declares the credential it reads from the environment -- so make sure the matching variable is set in `.env`. For non-LLM algorithms like DynaMOSA, drop `--llm-config-id` entirely. The endpoints shipped in this repo:
 
-| Provider  | `--base-url`                   | Example `--model`     |
-|-----------|------------------------------- |-----------------------|
-| DeepSeek  | `https://api.deepseek.com`     | `deepseek-chat`       |
-| Anthropic | `https://api.anthropic.com/v1` | `claude-haiku-4-5`    |
-| Mistral   | `mistralai` *                  | `devstral-2512`       |
+| `--llm-config-id` | Provider    | Model                              | Required env var    |
+|-------------------|-------------|------------------------------------|---------------------|
+| `deepseek`        | deepseek-ai | `deepseek-chat`                    | `DEEPSEEK_API_KEY`  |
+| `devstral`        | mistral-ai  | `devstral-2512`                    | `MISTRAL_API_KEY`   |
+| `diffgemma`       | nvidia-ai   | `google/diffusiongemma-26b-a4b-it` | `NVIDIA_API_KEY`    |
+| `gemma`           | ollama      | `gemma4:26b`                       | `OLLAMA_BASE_URL` * |
 
-* mistralai uses the [mistralai SDK](https://pypi.org/project/mistralai) directly instead of an HTTP URL.
+* `gemma` runs against a local [Ollama](https://ollama.com) server. Inside Docker its `base_url` defaults to `host.docker.internal:11434` (the host); set `OLLAMA_BASE_URL` to override, e.g. `http://localhost:11434` when running on the host. To add your own endpoint, drop a new `<id>.yml` in `pynguin/llm/endpoints/` and pass its filename to `--llm-config-id`.
 
 ## Output
 
