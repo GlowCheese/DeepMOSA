@@ -1738,3 +1738,492 @@ def test_case_0():
 
 
 
+####################################################################
+#        TEST GENERATION BEGINS (CODAMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Parsed testcases at query #1
+#--------------------------
+
+
+def test_case_0():
+    var_0 = False
+    var_1 = 'file.txt'
+
+def test_case_0():
+    var_0 = 'empty.zip'
+    var_1 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = 'https://example.com/repo.zip'
+    var_1 = b'fake_zip_content_part1'
+    var_2 = b'fake_zip_content_part2'
+    var_3 = 'test_project/'
+    var_4 = True
+
+def test_case_0():
+    var_0 = 'test_project/'
+    var_1 = 'Password required'
+    var_2 = None
+    var_3 = False
+    var_4 = 'secret_password'
+    var_5 = b'secret_password'
+
+def test_case_0():
+    var_0 = 'test_project/'
+    var_1 = 'Wrong password'
+    var_2 = False
+    var_3 = 'wrong'
+
+def test_case_0():
+    var_0 = 'bad.zip'
+    var_1 = 'not a zip'
+    var_2 = False
+
+
+
+# Parsed testcases at query #2
+#--------------------------
+
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = b'fake_zip_content'
+    var_1 = 'https://example.com/repo.zip'
+    var_2 = 'project/'
+    var_3 = 'project/file.txt'
+    var_4 = True
+    var_5 = 100
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'project/file.txt'
+    var_2 = 'password required'
+    var_3 = None
+    var_4 = False
+    var_5 = 'secret_password'
+
+import cookiecutter.zipfile as module_0
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'project/file.txt'
+    var_2 = 'Wrong password'
+    var_3 = False
+    var_4 = 'wrong_password'
+    var_5 = module_0.unzip(var_0, var_3, password=var_4)
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'project/file.txt'
+    var_2 = 'password required'
+    var_3 = None
+    var_4 = False
+
+
+
+# Parsed testcases at query #3
+#--------------------------
+
+
+def test_case_0():
+    var_0 = False
+    var_1 = 'file.txt'
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = b'dummy content'
+    var_1 = 'https://example.com/download/project.zip'
+    var_2 = 'project/'
+    var_3 = True
+    var_4 = 100
+
+def test_case_0():
+    var_0 = 'protected/'
+    var_1 = 'Password required'
+    var_2 = None
+    var_3 = False
+
+def test_case_0():
+    var_0 = 'protected/'
+    var_1 = 'Password required'
+    var_2 = False
+    var_3 = True
+
+
+
+# Parsed testcases at query #4
+#--------------------------
+
+
+def test_case_0():
+    var_0 = False
+    var_1 = 'file.txt'
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = 'https://example.com/repo.zip'
+    var_1 = b'fake_zip_content'
+    var_2 = b''
+    var_3 = 'repo.zip'
+    var_4 = var_1 / var_3
+    var_5 = 'project/'
+    var_6 = ''
+    var_7 = 'repo.zip'
+    var_8 = True
+
+def test_case_0():
+    var_0 = 'Password required'
+    var_1 = None
+    var_2 = False
+    var_3 = 'correct_password'
+
+import cookiecutter.zipfile as module_0
+
+def test_case_0():
+    var_0 = 'Password required'
+    var_1 = False
+    var_2 = True
+    var_3 = module_0.unzip(var_0, var_1, no_input=var_2)
+
+def test_case_0():
+    var_0 = 'Password required'
+    var_1 = None
+    var_2 = False
+
+def test_case_0():
+    var_0 = 'https://example.com/corrupt.zip'
+    var_1 = 'corrupt.zip'
+    var_2 = True
+    var_3 = b'not a zip'
+    var_4 = True
+
+
+
+# Parsed testcases at query #5
+#--------------------------
+
+
+def test_case_0():
+    var_0 = False
+    var_1 = 'file.txt'
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = 'https://example.com/test_repo.zip'
+    var_1 = b'dummy_data'
+    var_2 = True
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'Password required'
+    var_2 = None
+    var_3 = False
+    var_4 = 'wrong'
+    var_5 = b'correct_password'
+
+import cookiecutter.zipfile as module_0
+
+def test_case_0():
+    var_0 = 'not_a_zip.txt'
+    var_1 = 'not zip content'
+    var_2 = False
+    var_3 = module_0.unzip(var_0, var_2)
+
+import cookiecutter.zipfile as module_0
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'Password required'
+    var_2 = False
+    var_3 = module_0.unzip(var_0, var_2)
+
+
+
+# Parsed testcases at query #6
+#--------------------------
+
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = 'https://example.com/archive.zip'
+    var_1 = 'archive.zip'
+    var_2 = 'project/file.txt'
+    var_3 = 'content'
+    var_4 = b'data'
+    var_5 = b''
+    var_6 = [var_5]
+    var_7 = 'project/'
+    var_8 = True
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+import cookiecutter.zipfile as module_0
+
+def test_case_0():
+    var_0 = 'protected.zip'
+    var_1 = 'project/secret.txt'
+    var_2 = 'secret'
+    var_3 = 'project/'
+    var_4 = 'Password required'
+    var_5 = None
+    var_6 = False
+    var_7 = None
+    var_8 = module_0.unzip(var_3, var_6, password=var_7)
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'Wrong password'
+    var_2 = False
+    var_3 = 'wrong_password'
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'Password required'
+    var_2 = False
+    var_3 = True
+
+def test_case_0():
+    var_0 = 'https://example.com/archive.zip'
+    var_1 = 'archive.zip'
+    var_2 = 'dummy content'
+    var_3 = 'project/'
+    var_4 = True
+
+
+
+# Parsed testcases at query #7
+#--------------------------
+
+
+def test_case_0():
+    var_0 = 'Test unzipping a local valid zip file.'
+    assert var_0 == 'content'
+    var_1 = False
+
+def test_case_0():
+    var_0 = 'Test that an empty zip raises InvalidZipRepository.'
+    var_1 = False
+
+def test_case_0():
+    var_0 = 'Test that a zip without top-level directory raises InvalidZipRepository.'
+    var_1 = False
+
+import email._encoded_words as module_0
+
+def test_case_0():
+    var_0 = 'Test unzipping a password protected zip with provided password.'
+    var_1 = 'protected.zip'
+    var_2 = 'secret_password'
+    var_3 = 'project/file.txt'
+    var_4 = 'content'
+    var_5 = 'Password required'
+    var_6 = None
+    var_7 = False
+    var_8 = 'utf-8'
+    var_9 = module_0.encode(var_8)
+
+def test_case_0():
+    var_0 = 'Test that providing wrong password raises InvalidZipRepository.'
+    var_1 = False
+    var_2 = 'wrong'
+
+def test_case_0():
+    var_0 = 'Test that a corrupted zip file raises InvalidZipRepository.'
+    var_1 = 'corrupt.zip'
+    var_2 = 'not a zip'
+    var_3 = False
+
+
+
+# Parsed testcases at query #8
+#--------------------------
+
+
+def test_case_0():
+    var_0 = False
+    var_1 = 'file.txt'
+
+def test_case_0():
+    var_0 = 'https://example.com/repo.zip'
+    var_1 = b'fake_zip_content'
+    var_2 = 'repo/'
+    var_3 = True
+    var_4 = 100
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = False
+    var_2 = 'secret_password'
+
+import cookiecutter.zipfile as module_0
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'Password required'
+    var_2 = False
+    var_3 = True
+    var_4 = module_0.unzip(var_0, var_2, no_input=var_3)
+
+import cookiecutter.zipfile as module_0
+
+def test_case_0():
+    var_0 = 'Not a zip'
+    var_1 = False
+    var_2 = module_0.unzip(var_0, var_1)
+
+
+
+# Parsed testcases at query #9
+#--------------------------
+
+
+def test_case_0():
+    var_0 = False
+    assert var_0 == 'content'
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = 'http://example.com/repo.zip'
+    var_1 = 'cache'
+    var_2 = b'fake_zip_content'
+    var_3 = 'repo/'
+    var_4 = True
+    var_5 = 100
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'Bad password'
+    var_2 = None
+    var_3 = False
+    var_4 = 'correct_password'
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'Bad password'
+    var_2 = None
+    var_3 = False
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'Bad password'
+    var_2 = False
+    var_3 = True
+
+def test_case_0():
+    var_0 = 'project/'
+    var_1 = 'Bad password'
+    var_2 = False
+
+
+
+# Parsed testcases at query #10
+#--------------------------
+
+
+def test_case_0():
+    var_0 = False
+    var_1 = 'file.txt'
+
+def test_case_0():
+    var_0 = 'https://example.com/repo.zip'
+    var_1 = 'cache'
+    var_2 = 'repo.zip'
+    var_3 = 'repo_dir/data.txt'
+    var_4 = 'data'
+    var_5 = b'dummy content'
+    var_6 = True
+    var_7 = 'data.txt'
+
+def test_case_0():
+    var_0 = False
+
+def test_case_0():
+    var_0 = False
+
+import cookiecutter.zipfile as module_0
+
+def test_case_0():
+    var_0 = 'corrupt.zip'
+    var_1 = 'not a zip'
+    var_2 = False
+    var_3 = module_0.unzip(var_0, var_2)
+
+def test_case_0():
+    var_0 = False
+    var_1 = 'secret_password'
+
+def test_case_0():
+    var_0 = False
+    var_1 = 'wrong_password'
+
+def test_case_0():
+    var_0 = False
+    var_1 = True
+
+def test_case_0():
+    var_0 = 'Password required'
+    var_1 = None
+    var_2 = False
+
+def test_case_0():
+    var_0 = False
+
+
+

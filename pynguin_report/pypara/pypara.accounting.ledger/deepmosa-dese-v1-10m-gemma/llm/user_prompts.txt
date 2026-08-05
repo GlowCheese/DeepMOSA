@@ -1,0 +1,6499 @@
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+class GeneralLedgerProgram(Protocol[_T]):
+    """
+    Type definition of the program which builds general ledger.
+    """
+
+    def __call__(self, period: DateRange) -> GeneralLedger[_T]:
+        ...
+
+```
+Write unit test for method __call__ of class GeneralLedgerProgram
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+class GeneralLedgerProgram(Protocol[_T]):
+    """
+    Type definition of the program which builds general ledger.
+    """
+
+    def __call__(self, period: DateRange) -> GeneralLedger[_T]:
+        ...
+
+```
+Write unit test for method __call__ of class GeneralLedgerProgram
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+```
+Write unit test for the constructor of class Ledger
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+```
+Write unit test for the constructor of class Ledger
+
+
+# Prompt used at query #13
+#--------------------------
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+
+def build_general_ledger(
+    period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+) -> GeneralLedger[_T]:
+    """
+    Builds a general ledger.
+
+    :param period: Accounting period.
+    :param journal: All available journal entries.
+    :param initial: Opening balances for terminal accounts, if any.
+    :return: A :py:class:`GeneralLedger` instance.
+    """
+    ## Initialize ledgers buffer as per available initial balances:
+    ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+
+    ## Iterate over journal postings and populate ledgers:
+    for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+        ## Check if we have the ledger yet, and create if not:
+        if posting.account not in ledgers:
+            ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+
+        ## Add the posting to the ledger:
+        ledgers[posting.account].add(posting)
+
+    ## Done, return general ledger.
+    return GeneralLedger(period, ledgers)
+
+```
+Write unit test for function build_general_ledger
+
+
+# Prompt used at query #14
+#--------------------------
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to True.
+```
+ 1 | def build_general_ledger(
+ 2 |     period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+ 3 | ) -> GeneralLedger[_T]:
+ 4 |     """
+ 5 |     Builds a general ledger.
+ 6 | 
+ 7 |     :param period: Accounting period.
+ 8 |     :param journal: All available journal entries.
+ 9 |     :param initial: Opening balances for terminal accounts, if any.
+10 |     :return: A :py:class:`GeneralLedger` instance.
+11 |     """
+12 |     ## Initialize ledgers buffer as per available initial balances:
+13 |     ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+14 | 
+15 |     ## Iterate over journal postings and populate ledgers:
+16 |     for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+17 |         ## Check if we have the ledger yet, and create if not:
+18 |         if posting.account not in ledgers:
+19 |             ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+20 | 
+21 |         ## Add the posting to the ledger:
+22 |         ledgers[posting.account].add(posting)
+23 | 
+24 |     ## Done, return general ledger.
+25 |     return GeneralLedger(period, ledgers)
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+```
+Write unit test for the constructor of class Ledger
+
+
+# Prompt used at query #17
+#--------------------------
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+
+def build_general_ledger(
+    period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+) -> GeneralLedger[_T]:
+    """
+    Builds a general ledger.
+
+    :param period: Accounting period.
+    :param journal: All available journal entries.
+    :param initial: Opening balances for terminal accounts, if any.
+    :return: A :py:class:`GeneralLedger` instance.
+    """
+    ## Initialize ledgers buffer as per available initial balances:
+    ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+
+    ## Iterate over journal postings and populate ledgers:
+    for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+        ## Check if we have the ledger yet, and create if not:
+        if posting.account not in ledgers:
+            ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+
+        ## Add the posting to the ledger:
+        ledgers[posting.account].add(posting)
+
+    ## Done, return general ledger.
+    return GeneralLedger(period, ledgers)
+
+```
+Write unit test for function build_general_ledger
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #19
+#--------------------------
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def build_general_ledger(
+ 2 |     period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+ 3 | ) -> GeneralLedger[_T]:
+ 4 |     """
+ 5 |     Builds a general ledger.
+ 6 | 
+ 7 |     :param period: Accounting period.
+ 8 |     :param journal: All available journal entries.
+ 9 |     :param initial: Opening balances for terminal accounts, if any.
+10 |     :return: A :py:class:`GeneralLedger` instance.
+11 |     """
+12 |     ## Initialize ledgers buffer as per available initial balances:
+13 |     ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+14 | 
+15 |     ## Iterate over journal postings and populate ledgers:
+16 |     for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+17 |         ## Check if we have the ledger yet, and create if not:
+18 |         if posting.account not in ledgers:
+19 |             ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+20 | 
+21 |         ## Add the posting to the ledger:
+22 |         ledgers[posting.account].add(posting)
+23 | 
+24 |     ## Done, return general ledger.
+25 |     return GeneralLedger(period, ledgers)
+```
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+class GeneralLedgerProgram(Protocol[_T]):
+    """
+    Type definition of the program which builds general ledger.
+    """
+
+    def __call__(self, period: DateRange) -> GeneralLedger[_T]:
+        ...
+
+```
+Write unit test for method __call__ of class GeneralLedgerProgram
+
+
+# Prompt used at query #22
+#--------------------------
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def build_general_ledger(
+ 2 |     period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+ 3 | ) -> GeneralLedger[_T]:
+ 4 |     """
+ 5 |     Builds a general ledger.
+ 6 | 
+ 7 |     :param period: Accounting period.
+ 8 |     :param journal: All available journal entries.
+ 9 |     :param initial: Opening balances for terminal accounts, if any.
+10 |     :return: A :py:class:`GeneralLedger` instance.
+11 |     """
+12 |     ## Initialize ledgers buffer as per available initial balances:
+13 |     ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+14 | 
+15 |     ## Iterate over journal postings and populate ledgers:
+16 |     for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+17 |         ## Check if we have the ledger yet, and create if not:
+18 |         if posting.account not in ledgers:
+19 |             ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+20 | 
+21 |         ## Add the posting to the ledger:
+22 |         ledgers[posting.account].add(posting)
+23 | 
+24 |     ## Done, return general ledger.
+25 |     return GeneralLedger(period, ledgers)
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+class ReadInitialBalances(Protocol):
+    """
+    Type of functions which reads and returns initial balances.
+    """
+
+    def __call__(self, period: DateRange) -> InitialBalances:
+        ...
+
+```
+Write unit test for method __call__ of class ReadInitialBalances
+
+
+# Prompt used at query #24
+#--------------------------
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+
+def build_general_ledger(
+    period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+) -> GeneralLedger[_T]:
+    """
+    Builds a general ledger.
+
+    :param period: Accounting period.
+    :param journal: All available journal entries.
+    :param initial: Opening balances for terminal accounts, if any.
+    :return: A :py:class:`GeneralLedger` instance.
+    """
+    ## Initialize ledgers buffer as per available initial balances:
+    ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+
+    ## Iterate over journal postings and populate ledgers:
+    for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+        ## Check if we have the ledger yet, and create if not:
+        if posting.account not in ledgers:
+            ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+
+        ## Add the posting to the ledger:
+        ledgers[posting.account].add(posting)
+
+    ## Done, return general ledger.
+    return GeneralLedger(period, ledgers)
+
+```
+Write unit test for function build_general_ledger
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #27
+#--------------------------
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def build_general_ledger(
+ 2 |     period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+ 3 | ) -> GeneralLedger[_T]:
+ 4 |     """
+ 5 |     Builds a general ledger.
+ 6 | 
+ 7 |     :param period: Accounting period.
+ 8 |     :param journal: All available journal entries.
+ 9 |     :param initial: Opening balances for terminal accounts, if any.
+10 |     :return: A :py:class:`GeneralLedger` instance.
+11 |     """
+12 |     ## Initialize ledgers buffer as per available initial balances:
+13 |     ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+14 | 
+15 |     ## Iterate over journal postings and populate ledgers:
+16 |     for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+17 |         ## Check if we have the ledger yet, and create if not:
+18 |         if posting.account not in ledgers:
+19 |             ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+20 | 
+21 |         ## Add the posting to the ledger:
+22 |         ledgers[posting.account].add(posting)
+23 | 
+24 |     ## Done, return general ledger.
+25 |     return GeneralLedger(period, ledgers)
+```
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+class GeneralLedgerProgram(Protocol[_T]):
+    """
+    Type definition of the program which builds general ledger.
+    """
+
+    def __call__(self, period: DateRange) -> GeneralLedger[_T]:
+        ...
+
+```
+Write unit test for method __call__ of class GeneralLedgerProgram
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #31
+#--------------------------
+
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+```
+Write unit test for the constructor of class Ledger
+
+
+# Prompt used at query #32
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #33
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #34
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+class ReadInitialBalances(Protocol):
+    """
+    Type of functions which reads and returns initial balances.
+    """
+
+    def __call__(self, period: DateRange) -> InitialBalances:
+        ...
+
+```
+Write unit test for method __call__ of class ReadInitialBalances
+
+
+# Prompt used at query #36
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #37
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #38
+#--------------------------
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def build_general_ledger(
+ 2 |     period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+ 3 | ) -> GeneralLedger[_T]:
+ 4 |     """
+ 5 |     Builds a general ledger.
+ 6 | 
+ 7 |     :param period: Accounting period.
+ 8 |     :param journal: All available journal entries.
+ 9 |     :param initial: Opening balances for terminal accounts, if any.
+10 |     :return: A :py:class:`GeneralLedger` instance.
+11 |     """
+12 |     ## Initialize ledgers buffer as per available initial balances:
+13 |     ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+14 | 
+15 |     ## Iterate over journal postings and populate ledgers:
+16 |     for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+17 |         ## Check if we have the ledger yet, and create if not:
+18 |         if posting.account not in ledgers:
+19 |             ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+20 | 
+21 |         ## Add the posting to the ledger:
+22 |         ledgers[posting.account].add(posting)
+23 | 
+24 |     ## Done, return general ledger.
+25 |     return GeneralLedger(period, ledgers)
+```
+
+
+# Prompt used at query #39
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #40
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #41
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #42
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #43
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #44
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #45
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #8
+#--------------------------
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+
+def build_general_ledger(
+    period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+) -> GeneralLedger[_T]:
+    """
+    Builds a general ledger.
+
+    :param period: Accounting period.
+    :param journal: All available journal entries.
+    :param initial: Opening balances for terminal accounts, if any.
+    :return: A :py:class:`GeneralLedger` instance.
+    """
+    ## Initialize ledgers buffer as per available initial balances:
+    ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+
+    ## Iterate over journal postings and populate ledgers:
+    for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+        ## Check if we have the ledger yet, and create if not:
+        if posting.account not in ledgers:
+            ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+
+        ## Add the posting to the ledger:
+        ledgers[posting.account].add(posting)
+
+    ## Done, return general ledger.
+    return GeneralLedger(period, ledgers)
+
+```
+Write unit test for function build_general_ledger
+
+
+# Prompt used at query #9
+#--------------------------
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to True.
+```
+ 1 | def build_general_ledger(
+ 2 |     period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+ 3 | ) -> GeneralLedger[_T]:
+ 4 |     """
+ 5 |     Builds a general ledger.
+ 6 | 
+ 7 |     :param period: Accounting period.
+ 8 |     :param journal: All available journal entries.
+ 9 |     :param initial: Opening balances for terminal accounts, if any.
+10 |     :return: A :py:class:`GeneralLedger` instance.
+11 |     """
+12 |     ## Initialize ledgers buffer as per available initial balances:
+13 |     ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+14 | 
+15 |     ## Iterate over journal postings and populate ledgers:
+16 |     for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+17 |         ## Check if we have the ledger yet, and create if not:
+18 |         if posting.account not in ledgers:
+19 |             ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+20 | 
+21 |         ## Add the posting to the ledger:
+22 |         ledgers[posting.account].add(posting)
+23 | 
+24 |     ## Done, return general ledger.
+25 |     return GeneralLedger(period, ledgers)
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+class ReadInitialBalances(Protocol):
+    """
+    Type of functions which reads and returns initial balances.
+    """
+
+    def __call__(self, period: DateRange) -> InitialBalances:
+        ...
+
+```
+Write unit test for method __call__ of class ReadInitialBalances
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #15
+#--------------------------
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to True.
+```
+ 1 | def build_general_ledger(
+ 2 |     period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+ 3 | ) -> GeneralLedger[_T]:
+ 4 |     """
+ 5 |     Builds a general ledger.
+ 6 | 
+ 7 |     :param period: Accounting period.
+ 8 |     :param journal: All available journal entries.
+ 9 |     :param initial: Opening balances for terminal accounts, if any.
+10 |     :return: A :py:class:`GeneralLedger` instance.
+11 |     """
+12 |     ## Initialize ledgers buffer as per available initial balances:
+13 |     ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+14 | 
+15 |     ## Iterate over journal postings and populate ledgers:
+16 |     for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+17 |         ## Check if we have the ledger yet, and create if not:
+18 |         if posting.account not in ledgers:
+19 |             ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+20 | 
+21 |         ## Add the posting to the ledger:
+22 |         ledgers[posting.account].add(posting)
+23 | 
+24 |     ## Done, return general ledger.
+25 |     return GeneralLedger(period, ledgers)
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+class GeneralLedgerProgram(Protocol[_T]):
+    """
+    Type definition of the program which builds general ledger.
+    """
+
+    def __call__(self, period: DateRange) -> GeneralLedger[_T]:
+        ...
+
+```
+Write unit test for method __call__ of class GeneralLedgerProgram
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+class GeneralLedgerProgram(Protocol[_T]):
+    """
+    Type definition of the program which builds general ledger.
+    """
+
+    def __call__(self, period: DateRange) -> GeneralLedger[_T]:
+        ...
+
+```
+Write unit test for method __call__ of class GeneralLedgerProgram
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+class ReadInitialBalances(Protocol):
+    """
+    Type of functions which reads and returns initial balances.
+    """
+
+    def __call__(self, period: DateRange) -> InitialBalances:
+        ...
+
+```
+Write unit test for method __call__ of class ReadInitialBalances
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+```
+Write unit test for the constructor of class Ledger
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+```
+Write unit test for the constructor of class Ledger
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #26
+#--------------------------
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def build_general_ledger(
+ 2 |     period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+ 3 | ) -> GeneralLedger[_T]:
+ 4 |     """
+ 5 |     Builds a general ledger.
+ 6 | 
+ 7 |     :param period: Accounting period.
+ 8 |     :param journal: All available journal entries.
+ 9 |     :param initial: Opening balances for terminal accounts, if any.
+10 |     :return: A :py:class:`GeneralLedger` instance.
+11 |     """
+12 |     ## Initialize ledgers buffer as per available initial balances:
+13 |     ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+14 | 
+15 |     ## Iterate over journal postings and populate ledgers:
+16 |     for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+17 |         ## Check if we have the ledger yet, and create if not:
+18 |         if posting.account not in ledgers:
+19 |             ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+20 | 
+21 |         ## Add the posting to the ledger:
+22 |         ledgers[posting.account].add(posting)
+23 | 
+24 |     ## Done, return general ledger.
+25 |     return GeneralLedger(period, ledgers)
+```
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+```
+Write unit test for the constructor of class Ledger
+
+
+# Prompt used at query #29
+#--------------------------
+
+pypara/accounting/journaling.py:
+```
+@dataclass(frozen=True)
+class JournalEntry(Generic[_T]):
+    """
+    Provides a journal entry model.
+    """
+
+    #: Date of the entry.
+    date: datetime.date
+
+    #: Description of the entry.
+    description: str
+
+    #: Business object as the source of the journal entry.
+    source: _T
+
+    #: Postings of the journal entry.
+    postings: List[Posting[_T]] = field(default_factory=list, init=False)
+
+    #: Globally unique, ephemeral identifier.
+    guid: Guid = field(default_factory=makeguid, init=False)
+
+    @property
+    def increments(self) -> Iterable[Posting[_T]]:
+        """
+        Increment event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.INC)
+
+    @property
+    def decrements(self) -> Iterable[Posting[_T]]:
+        """
+        Decrement event postings of the journal entry.
+        """
+        return (p for p in self.postings if p.direction == Direction.DEC)
+
+    @property
+    def debits(self) -> Iterable[Posting[_T]]:
+        """
+        Debit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_debit)
+
+    @property
+    def credits(self) -> Iterable[Posting[_T]]:
+        """
+        Credit postings of the journal entry.
+        """
+        return (p for p in self.postings if p.is_credit)
+
+    def post(self, date: datetime.date, account: Account, quantity: Quantity) -> "JournalEntry[_T]":
+        """
+        Posts an increment/decrement event (depending on the sign of ``quantity``) to the given account.
+
+        If the quantity is ``0``, nothing is posted.
+
+        :param date: Date of posting.
+        :param account: Account to post the amount to.
+        :param quantity: Signed-value to post to the account.
+        :return: This journal entry (to be chained conveniently).
+        """
+        if not quantity.is_zero():
+            self.postings.append(Posting(self, date, account, Direction.of(quantity), Amount(abs(quantity))))
+        return self
+
+    def validate(self) -> None:
+        """
+        Performs validations on the instance.
+
+        :raises AssertionError: If the journal entry is inconsistent.
+        """
+        ## Get total debit and credit amounts:
+        total_debit = isum(i.amount for i in self.debits)
+        total_credit = isum(i.amount for i in self.credits)
+
+        ## Check:
+        assert total_debit == total_credit, f"Total Debits and Credits are not equal: {total_debit} != {total_credit}"
+
+```
+
+pypara/accounting/generic.py:
+```
+@dataclass(frozen=True)
+class Balance:
+    """
+    Provides a value object model for encoding dated balances.
+    """
+
+    #: Date of the balance.
+    date: datetime.date
+
+    #: Value of the balance.
+    value: Quantity
+
+```
+
+pypara/accounting/ledger.py (module to test):
+```
+@dataclass
+class Ledger(Generic[_T]):
+    """
+    Provides an account ledger model.
+    """
+
+    #: Account of the ledger.
+    account: Account
+
+    #: Initial balance of the ledger.
+    initial: Balance
+
+    #: Ledger entries.
+    entries: List[LedgerEntry[_T]] = field(default_factory=list, init=False)
+
+    @property
+    def _last_balance(self) -> Quantity:
+        """
+        Returns the last balance.
+        """
+        try:
+            return self.entries[-1].balance
+        except IndexError:
+            return self.initial.value
+
+    def add(self, posting: Posting[_T]) -> LedgerEntry[_T]:
+        """
+        Adds a new ledger entry.
+
+        :param posting: Posting the ledger entry is based on.
+        :return: The new ledger entry.
+        """
+        ## Create the ledger entry.
+        entry = LedgerEntry(self, posting, Quantity(self._last_balance + posting.amount * posting.direction.value))
+
+        ## Add to the buffer:
+        self.entries.append(entry)
+
+        ## Done, return:
+        return entry
+
+
+@dataclass
+class GeneralLedger(Generic[_T]):
+    """
+    Provides a general ledger model.
+    """
+
+    #: Accounting period.
+    period: DateRange
+
+    #: Individual account ledgers of the general ledger.
+    ledgers: Dict[Account, Ledger[_T]]
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to True.
+```
+ 1 | def build_general_ledger(
+ 2 |     period: DateRange, journal: Iterable[JournalEntry[_T]], initial: InitialBalances
+ 3 | ) -> GeneralLedger[_T]:
+ 4 |     """
+ 5 |     Builds a general ledger.
+ 6 | 
+ 7 |     :param period: Accounting period.
+ 8 |     :param journal: All available journal entries.
+ 9 |     :param initial: Opening balances for terminal accounts, if any.
+10 |     :return: A :py:class:`GeneralLedger` instance.
+11 |     """
+12 |     ## Initialize ledgers buffer as per available initial balances:
+13 |     ledgers: Dict[Account, Ledger[_T]] = {a: Ledger(a, b) for a, b in initial.items()}
+14 | 
+15 |     ## Iterate over journal postings and populate ledgers:
+16 |     for posting in (p for j in journal for p in j.postings if period.since <= j.date <= period.until):
+17 |         ## Check if we have the ledger yet, and create if not:
+18 |         if posting.account not in ledgers:
+19 |             ledgers[posting.account] = Ledger(posting.account, Balance(period.since, Quantity(Decimal(0))))
+20 | 
+21 |         ## Add the posting to the ledger:
+22 |         ledgers[posting.account].add(posting)
+23 | 
+24 |     ## Done, return general ledger.
+25 |     return GeneralLedger(period, ledgers)
+```
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+@dataclass
+class LedgerEntry(Generic[_T]):
+    """
+    Provides a ledger entry model.
+    """
+
+    #: Ledger the entry belongs to.
+    ledger: "Ledger[_T]"
+
+    #: Posting of the ledger entry.
+    posting: Posting[_T]
+
+    #: Balance of the ledger entry.
+    balance: Quantity
+
+    @property
+    def date(self) -> datetime.date:
+        """
+        Date of the ledger entry.
+        """
+        return self.posting.date
+
+    @property
+    def description(self) -> str:
+        """
+        Description of the ledger entry.
+        """
+        return self.posting.journal.description
+
+    @property
+    def amount(self) -> Amount:
+        """
+        Amount of the ledger entry.
+        """
+        return self.posting.amount
+
+    @property
+    def cntraccts(self) -> List[Account]:
+        """
+        Counter accounts for the ledger entry.
+        """
+        return [p.account for p in self.posting.journal.postings if p.direction != self.posting.direction]
+
+    @property
+    def is_debit(self) -> bool:
+        """
+        Indicates if the ledger entry is a debit.
+        """
+        return self.posting.is_debit
+
+    @property
+    def is_credit(self) -> bool:
+        """
+        Indicates if the ledger entry is a credit.
+        """
+        return self.posting.is_credit
+
+    @property
+    def debit(self) -> Optional[Amount]:
+        """
+        Returns the debit amount, if any.
+        """
+        return self.amount if self.is_debit else None
+
+    @property
+    def credit(self) -> Optional[Amount]:
+        """
+        Returns the credit amount, if any.
+        """
+        return self.amount if self.is_credit else None
+
+```
+Write unit test for the constructor of class LedgerEntry
+
+

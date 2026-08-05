@@ -1,0 +1,254 @@
+# Check out: https://github.com/GlowCheese/deepmosa
+import pytest
+import pyrsistent._pset as module_0
+import pyrsistent._pmap as module_1
+
+def test_case_0():
+    var_0 = module_0.s()
+    assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_0) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_1 = var_0.__str__()
+    assert var_1 == 'pset()'
+
+def test_case_1():
+    var_0 = None
+    var_1 = [var_0, var_0, var_0]
+    var_2 = module_0.s(*var_1)
+    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_2) == 1
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+
+@pytest.mark.xfail(strict=True)
+def test_case_2():
+    var_0 = []
+    var_1 = module_0.s(*var_0)
+    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_1) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_2 = var_1.__reduce__()
+    var_1.update(var_2)
+
+@pytest.mark.xfail(strict=True)
+def test_case_3():
+    var_0 = None
+    var_1 = None
+    var_2 = None
+    var_3 = module_0.s()
+    assert f'{type(var_3).__module__}.{type(var_3).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_3) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_4 = var_3.copy()
+    assert f'{type(var_4).__module__}.{type(var_4).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_4) == 0
+    var_5 = var_4.add(var_2)
+    assert f'{type(var_5).__module__}.{type(var_5).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_5) == 1
+    var_6 = var_5.copy()
+    assert f'{type(var_6).__module__}.{type(var_6).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_6) == 1
+    var_7 = var_6.add(var_1)
+    assert f'{type(var_7).__module__}.{type(var_7).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_7) == 1
+    var_7.update(var_0)
+
+def test_case_4():
+    var_0 = module_0.pset()
+    assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_0) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+
+@pytest.mark.xfail(strict=True)
+def test_case_5():
+    var_0 = []
+    var_1 = None
+    var_2 = module_0.s(*var_0)
+    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_2) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_3 = var_2.__contains__(var_1)
+    assert var_3 is False
+    module_0.PSet()
+
+def test_case_6():
+    var_0 = module_0.s()
+    assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_0) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_1 = var_0.discard(var_0)
+    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_1) == 0
+    var_2 = var_0.__repr__()
+    assert var_2 == 'pset()'
+    var_3 = None
+    var_4 = var_2.__iter__()
+    var_5 = module_0.pset(pre_size=var_3)
+    assert f'{type(var_5).__module__}.{type(var_5).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_5) == 0
+    var_6 = module_0.pset()
+    assert f'{type(var_6).__module__}.{type(var_6).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_6) == 0
+
+@pytest.mark.xfail(strict=True)
+def test_case_7():
+    var_0 = module_0.s()
+    assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_0) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_1 = var_0.__reduce__()
+    var_2 = var_0.discard(var_0)
+    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_2) == 0
+    var_3 = var_0.__repr__()
+    assert var_3 == 'pset()'
+    var_4 = var_3.__iter__()
+    var_5 = module_0.pset(pre_size=var_4)
+    assert f'{type(var_5).__module__}.{type(var_5).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_5) == 0
+    var_4.__new__(var_2, var_4)
+
+@pytest.mark.xfail(strict=True)
+def test_case_8():
+    var_0 = None
+    var_1 = None
+    var_2 = module_0.pset(var_1)
+    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_2) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_3 = var_2.evolver()
+    assert f'{type(var_3).__module__}.{type(var_3).__qualname__}' == 'pyrsistent._pset.PSet._Evolver'
+    assert len(var_3) == 0
+    var_3.__new__(var_0, var_0)
+
+def test_case_9():
+    var_0 = None
+    var_1 = None
+    var_2 = module_0.s()
+    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_2) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_3 = var_2.copy()
+    assert f'{type(var_3).__module__}.{type(var_3).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_3) == 0
+    var_4 = var_3.add(var_1)
+    assert f'{type(var_4).__module__}.{type(var_4).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_4) == 1
+    var_5 = var_4.copy()
+    assert f'{type(var_5).__module__}.{type(var_5).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_5) == 1
+    var_6 = var_2.__hash__()
+    assert var_6 == 133146708735736
+    var_7 = module_1.pmap()
+    assert f'{type(var_7).__module__}.{type(var_7).__qualname__}' == 'pyrsistent._pmap.PMap'
+    assert len(var_7) == 0
+    assert f'{type(module_1.KT).__module__}.{type(module_1.KT).__qualname__}' == 'typing.TypeVar'
+    assert f'{type(module_1.VT_co).__module__}.{type(module_1.VT_co).__qualname__}' == 'typing.TypeVar'
+    var_8 = var_3.__iter__()
+    var_9 = var_5.remove(var_0)
+    assert f'{type(var_9).__module__}.{type(var_9).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_9) == 0
+
+def test_case_10():
+    var_0 = module_0.s()
+    assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_0) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_1 = var_0.discard(var_0)
+    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_1) == 0
+    with pytest.raises(KeyError):
+        var_0.remove(var_1)
+
+@pytest.mark.xfail(strict=True)
+def test_case_11():
+    var_0 = None
+    var_1 = None
+    var_2 = module_0.s()
+    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_2) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_3 = var_2.copy()
+    assert f'{type(var_3).__module__}.{type(var_3).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_3) == 0
+    var_4 = var_3.add(var_1)
+    assert f'{type(var_4).__module__}.{type(var_4).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_4) == 1
+    var_5 = var_4.__hash__()
+    assert var_5 == 561394644696229719
+    var_6 = var_4.__str__()
+    assert var_6 == 'pset([None])'
+    var_6.__contains__(var_0)
+
+@pytest.mark.xfail(strict=True)
+def test_case_12():
+    var_0 = []
+    var_1 = module_0.s(*var_0)
+    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_1) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_2 = var_1.__reduce__()
+    var_3 = var_1.__str__()
+    assert var_3 == 'pset()'
+    var_4 = var_3.__iter__()
+    var_5 = var_4.__iter__()
+    var_6 = module_0.pset()
+    assert f'{type(var_6).__module__}.{type(var_6).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_6) == 0
+    var_7 = var_6.update(var_6)
+    assert f'{type(var_7).__module__}.{type(var_7).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_7) == 0
+    var_8 = var_2.__contains__(var_2)
+    assert var_8 is False
+    var_3.evolver()
+
+@pytest.mark.xfail(strict=True)
+def test_case_13():
+    var_0 = None
+    var_1 = None
+    var_2 = None
+    var_3 = module_0.s()
+    assert f'{type(var_3).__module__}.{type(var_3).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_3) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_4 = var_3.copy()
+    assert f'{type(var_4).__module__}.{type(var_4).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_4) == 0
+    var_5 = var_4.add(var_2)
+    assert f'{type(var_5).__module__}.{type(var_5).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_5) == 1
+    var_6 = var_5.copy()
+    assert f'{type(var_6).__module__}.{type(var_6).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_6) == 1
+    var_7 = var_6.add(var_1)
+    assert f'{type(var_7).__module__}.{type(var_7).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_7) == 1
+    var_8 = var_3.add(var_2)
+    assert f'{type(var_8).__module__}.{type(var_8).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_8) == 1
+    var_9 = var_8.discard(var_1)
+    assert f'{type(var_9).__module__}.{type(var_9).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_9) == 0
+    var_10 = var_9.__reduce__()
+    var_11 = var_7.remove(var_0)
+    assert f'{type(var_11).__module__}.{type(var_11).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_11) == 0
+    var_12 = var_11.__contains__(var_7)
+    assert var_12 is False
+    var_10.evolver()
+
+@pytest.mark.xfail(strict=True)
+def test_case_14():
+    var_0 = module_0.s()
+    assert f'{type(var_0).__module__}.{type(var_0).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_0) == 0
+    assert f'{type(module_0.T_co).__module__}.{type(module_0.T_co).__qualname__}' == 'typing.TypeVar'
+    var_1 = var_0.discard(var_0)
+    assert f'{type(var_1).__module__}.{type(var_1).__qualname__}' == 'pyrsistent._pset.PSet'
+    assert len(var_1) == 0
+    var_2 = var_0.evolver()
+    assert f'{type(var_2).__module__}.{type(var_2).__qualname__}' == 'pyrsistent._pset.PSet._Evolver'
+    assert len(var_2) == 0
+    var_3 = var_2.__len__()
+    assert var_3 == 0
+    var_4 = var_1.__reduce__()
+    var_4.add(var_2)

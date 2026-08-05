@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'src.itsdangerous.serializer'</h1>
+<p>Achieved 75.00% branch coverage:
+8/16 branchless code objects covered.
+40/48 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="notRelevant">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="notRelevant">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="notRelevant">20</span>
+                  <span class="notRelevant">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">24</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="notRelevant">27</span>
+                  <span class="notRelevant">28</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">33</span>
+                  <span class="notRelevant">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="notRelevant">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">40</span>
+                  <span class="notRelevant">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="notRelevant">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notRelevant">50</span>
+                  <span class="notRelevant">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notRelevant">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="notRelevant">58</span>
+                  <span class="notRelevant">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="notRelevant">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="notRelevant">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="notRelevant">66</span>
+                  <span class="notRelevant">67</span>
+                  <span class="notRelevant">68</span>
+                  <span class="notRelevant">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="notRelevant">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="notRelevant">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="notRelevant">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="notRelevant">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="notRelevant">84</span>
+                  <span class="notRelevant">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="notRelevant">88</span>
+                  <span class="notRelevant">89</span>
+                  <span class="notRelevant">90</span>
+                  <span class="notRelevant">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="notRelevant">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="notRelevant">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="notRelevant">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="notRelevant">118</span>
+                  <span class="notRelevant">119</span>
+                  <span class="notRelevant">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notRelevant">122</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">123</span>
+                  <span class="notRelevant">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="notRelevant">129</span>
+                  <span class="notRelevant">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="notRelevant">132</span>
+                  <span class="notRelevant">133</span>
+                  <span class="notRelevant">134</span>
+                  <span class="notRelevant">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="notRelevant">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="notRelevant">141</span>
+                  <span class="notRelevant">142</span>
+                  <span class="notRelevant">143</span>
+                  <span class="notRelevant">144</span>
+                  <span class="notRelevant">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="notRelevant">147</span>
+                  <span class="notRelevant">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="notRelevant">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  <span class="notRelevant">161</span>
+                  <span class="notRelevant">162</span>
+                  <span class="notRelevant">163</span>
+                  <span class="notRelevant">164</span>
+                  <span class="notRelevant">165</span>
+                  <span class="notRelevant">166</span>
+                  <span class="notRelevant">167</span>
+                  <span class="notRelevant">168</span>
+                  <span class="notRelevant">169</span>
+                  <span class="notRelevant">170</span>
+                  <span class="notRelevant">171</span>
+                  <span class="notRelevant">172</span>
+                  <span class="notRelevant">173</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">174</span>
+                  <span class="notRelevant">175</span>
+                  <span class="notRelevant">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notRelevant">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="notRelevant">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notRelevant">182</span>
+                  <span class="notRelevant">183</span>
+                  <span class="notRelevant">184</span>
+                  <span class="notRelevant">185</span>
+                  <span class="notRelevant">186</span>
+                  <span class="notRelevant">187</span>
+                  <span class="notRelevant">188</span>
+                  <span class="notRelevant">189</span>
+                  <span class="notRelevant">190</span>
+                  <span class="notRelevant">191</span>
+                  <span class="notRelevant">192</span>
+                  <span class="notRelevant">193</span>
+                  <span class="notRelevant">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="notRelevant">196</span>
+                  <span class="notRelevant">197</span>
+                  <span class="notRelevant">198</span>
+                  <span class="notRelevant">199</span>
+                  <span class="notRelevant">200</span>
+                  <span class="notRelevant">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notRelevant">206</span>
+                  <span class="notRelevant">207</span>
+                  <span class="notRelevant">208</span>
+                  <span class="notRelevant">209</span>
+                  <span class="fullyCovered" title="2/2 branches covered">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="notRelevant">213</span>
+                  <span class="notRelevant">214</span>
+                  <span class="notRelevant">215</span>
+                  <span class="fullyCovered" title="2/2 branches covered">216</span>
+                  <span class="notRelevant">217</span>
+                  <span class="notRelevant">218</span>
+                  <span class="notRelevant">219</span>
+                  <span class="notRelevant">220</span>
+                  <span class="notRelevant">221</span>
+                  <span class="fullyCovered" title="2/2 branches covered">222</span>
+                  <span class="notRelevant">223</span>
+                  <span class="notRelevant">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="fullyCovered" title="2/2 branches covered">226</span>
+                  <span class="notRelevant">227</span>
+                  <span class="fullyCovered" title="2/2 branches covered">228</span>
+                  <span class="notRelevant">229</span>
+                  <span class="notRelevant">230</span>
+                  <span class="notRelevant">231</span>
+                  <span class="notRelevant">232</span>
+                  <span class="notRelevant">233</span>
+                  <span class="fullyCovered" title="2/2 branches covered">234</span>
+                  <span class="notRelevant">235</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">236</span>
+                  <span class="notRelevant">237</span>
+                  <span class="notRelevant">238</span>
+                  <span class="notRelevant">239</span>
+                  <span class="notRelevant">240</span>
+                  <span class="notRelevant">241</span>
+                  <span class="notRelevant">242</span>
+                  <span class="notRelevant">243</span>
+                  <span class="notRelevant">244</span>
+                  <span class="notRelevant">245</span>
+                  <span class="notRelevant">246</span>
+                  <span class="notRelevant">247</span>
+                  <span class="notRelevant">248</span>
+                  <span class="notRelevant">249</span>
+                  <span class="notRelevant">250</span>
+                  <span class="notRelevant">251</span>
+                  <span class="fullyCovered" title="2/2 branches covered">252</span>
+                  <span class="notRelevant">253</span>
+                  <span class="notRelevant">254</span>
+                  <span class="notRelevant">255</span>
+                  <span class="notRelevant">256</span>
+                  <span class="notRelevant">257</span>
+                  <span class="notRelevant">258</span>
+                  <span class="notRelevant">259</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">260</span>
+                  <span class="notRelevant">261</span>
+                  <span class="notRelevant">262</span>
+                  <span class="notRelevant">263</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">264</span>
+                  <span class="notRelevant">265</span>
+                  <span class="notRelevant">266</span>
+                  <span class="notRelevant">267</span>
+                  <span class="notRelevant">268</span>
+                  <span class="notRelevant">269</span>
+                  <span class="notRelevant">270</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">271</span>
+                  <span class="notRelevant">272</span>
+                  <span class="notRelevant">273</span>
+                  <span class="notRelevant">274</span>
+                  <span class="notRelevant">275</span>
+                  <span class="notRelevant">276</span>
+                  <span class="notRelevant">277</span>
+                  <span class="notRelevant">278</span>
+                  <span class="notRelevant">279</span>
+                  <span class="notRelevant">280</span>
+                  <span class="notRelevant">281</span>
+                  <span class="fullyCovered" title="2/2 branches covered">282</span>
+                  <span class="notRelevant">283</span>
+                  <span class="notRelevant">284</span>
+                  <span class="notRelevant">285</span>
+                  <span class="notRelevant">286</span>
+                  <span class="notRelevant">287</span>
+                  <span class="notRelevant">288</span>
+                  <span class="notRelevant">289</span>
+                  <span class="notRelevant">290</span>
+                  <span class="notRelevant">291</span>
+                  <span class="fullyCovered" title="2/2 branches covered">292</span>
+                  <span class="notRelevant">293</span>
+                  <span class="notRelevant">294</span>
+                  <span class="notRelevant">295</span>
+                  <span class="notRelevant">296</span>
+                  <span class="fullyCovered" title="2/2 branches covered">297</span>
+                  <span class="fullyCovered" title="2/2 branches covered">298</span>
+                  <span class="notRelevant">299</span>
+                  <span class="notRelevant">300</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">301</span>
+                  <span class="notRelevant">302</span>
+                  <span class="notRelevant">303</span>
+                  <span class="notRelevant">304</span>
+                  <span class="notRelevant">305</span>
+                  <span class="fullyCovered" title="2/2 branches covered">306</span>
+                  <span class="notRelevant">307</span>
+                  <span class="notRelevant">308</span>
+                  <span class="notRelevant">309</span>
+                  <span class="notRelevant">310</span>
+                  <span class="notRelevant">311</span>
+                  <span class="notRelevant">312</span>
+                  <span class="notRelevant">313</span>
+                  <span class="notRelevant">314</span>
+                  <span class="notRelevant">315</span>
+                  <span class="notRelevant">316</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">317</span>
+                  <span class="notRelevant">318</span>
+                  <span class="notRelevant">319</span>
+                  <span class="notRelevant">320</span>
+                  <span class="notRelevant">321</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">322</span>
+                  <span class="notRelevant">323</span>
+                  <span class="notRelevant">324</span>
+                  <span class="notRelevant">325</span>
+                  <span class="notRelevant">326</span>
+                  <span class="notRelevant">327</span>
+                  <span class="notRelevant">328</span>
+                  <span class="notRelevant">329</span>
+                  <span class="notRelevant">330</span>
+                  <span class="notRelevant">331</span>
+                  <span class="notRelevant">332</span>
+                  <span class="notRelevant">333</span>
+                  <span class="notRelevant">334</span>
+                  <span class="notRelevant">335</span>
+                  <span class="notRelevant">336</span>
+                  <span class="fullyCovered" title="2/2 branches covered">337</span>
+                  <span class="notRelevant">338</span>
+                  <span class="notRelevant">339</span>
+                  <span class="fullyCovered" title="2/2 branches covered">340</span>
+                  <span class="notRelevant">341</span>
+                  <span class="notRelevant">342</span>
+                  <span class="notRelevant">343</span>
+                  <span class="notRelevant">344</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">345</span>
+                  <span class="notRelevant">346</span>
+                  <span class="notRelevant">347</span>
+                  <span class="notRelevant">348</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">349</span>
+                  <span class="notRelevant">350</span>
+                  <span class="notRelevant">351</span>
+                  <span class="notRelevant">352</span>
+                  <span class="notRelevant">353</span>
+                  <span class="notRelevant">354</span>
+                  <span class="notRelevant">355</span>
+                  <span class="notRelevant">356</span>
+                  <span class="notRelevant">357</span>
+                  <span class="notRelevant">358</span>
+                  <span class="notRelevant">359</span>
+                  <span class="notRelevant">360</span>
+                  <span class="notRelevant">361</span>
+                  <span class="notRelevant">362</span>
+                  <span class="notRelevant">363</span>
+                  <span class="notRelevant">364</span>
+                  <span class="notRelevant">365</span>
+                  <span class="notRelevant">366</span>
+                  <span class="notRelevant">367</span>
+                  <span class="notRelevant">368</span>
+                  <span class="notRelevant">369</span>
+                  <span class="notRelevant">370</span>
+                  <span class="notRelevant">371</span>
+                  <span class="notRelevant">372</span>
+                  <span class="notRelevant">373</span>
+                  <span class="notRelevant">374</span>
+                  <span class="notRelevant">375</span>
+                  <span class="notRelevant">376</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">377</span>
+                  <span class="notRelevant">378</span>
+                  <span class="notRelevant">379</span>
+                  <span class="notRelevant">380</span>
+                  <span class="notRelevant">381</span>
+                  <span class="fullyCovered" title="2/2 branches covered">382</span>
+                  <span class="fullyCovered" title="2/2 branches covered">383</span>
+                  <span class="notRelevant">384</span>
+                  <span class="notRelevant">385</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">386</span>
+                  <span class="notRelevant">387</span>
+                  <span class="notRelevant">388</span>
+                  <span class="notRelevant">389</span>
+                  <span class="notRelevant">390</span>
+                  <span class="notRelevant">391</span>
+                  <span class="notRelevant">392</span>
+                  <span class="notRelevant">393</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">394</span>
+                  <span class="notRelevant">395</span>
+                  <span class="notRelevant">396</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">397</span>
+                  <span class="notRelevant">398</span>
+                  <span class="notRelevant">399</span>
+                  <span class="notRelevant">400</span>
+                  <span class="notRelevant">401</span>
+                  <span class="notRelevant">402</span>
+                  <span class="notRelevant">403</span>
+                  <span class="notRelevant">404</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cabc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">t</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.encoding</span><span class="w"> </span><span class="kn">import</span> <span class="n">want_bytes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.exc</span><span class="w"> </span><span class="kn">import</span> <span class="n">BadPayload</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.exc</span><span class="w"> </span><span class="kn">import</span> <span class="n">BadSignature</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.signer</span><span class="w"> </span><span class="kn">import</span> <span class="n">_make_keys_list</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.signer</span><span class="w"> </span><span class="kn">import</span> <span class="n">Signer</span>
+
+<span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">te</span>
+
+    <span class="c1"># This should be either be str or bytes. To avoid having to specify the</span>
+    <span class="c1"># bound type, it falls back to a union if structural matching fails.</span>
+    <span class="n">_TSerialized</span> <span class="o">=</span> <span class="n">te</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_TSerialized&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># Still available at runtime on Python &lt; 3.13, but without the default.</span>
+    <span class="n">_TSerialized</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_TSerialized&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_PDataSerializer</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">Protocol</span><span class="p">[</span><span class="n">_TSerialized</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loads</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="n">_TSerialized</span><span class="p">,</span> <span class="o">/</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span> <span class="o">...</span>
+    <span class="c1"># A signature with additional arguments is not handled correctly by type</span>
+    <span class="c1"># checkers right now, so an overload is used below for serializers that</span>
+    <span class="c1"># don&#39;t match this strict protocol.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="o">/</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_TSerialized</span><span class="p">:</span> <span class="o">...</span>
+
+
+<span class="c1"># Use TypeIs once it&#39;s available in typing_extensions or 3.13.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_text_serializer</span><span class="p">(</span>
+    <span class="n">serializer</span><span class="p">:</span> <span class="n">_PDataSerializer</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">te</span><span class="o">.</span><span class="n">TypeGuard</span><span class="p">[</span><span class="n">_PDataSerializer</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks whether a serializer generates text or binary.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">serializer</span><span class="o">.</span><span class="n">dumps</span><span class="p">({}),</span> <span class="nb">str</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Serializer</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">Generic</span><span class="p">[</span><span class="n">_TSerialized</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A serializer wraps a :class:`~itsdangerous.signer.Signer` to</span>
+<span class="sd">    enable serializing and securely signing data other than bytes. It</span>
+<span class="sd">    can unsign to verify that the data hasn&#39;t been changed.</span>
+
+<span class="sd">    The serializer provides :meth:`dumps` and :meth:`loads`, similar to</span>
+<span class="sd">    :mod:`json`, and by default uses :mod:`json` internally to serialize</span>
+<span class="sd">    the data to bytes.</span>
+
+<span class="sd">    The secret key should be a random string of ``bytes`` and should not</span>
+<span class="sd">    be saved to code or version control. Different salts should be used</span>
+<span class="sd">    to distinguish signing in different contexts. See :doc:`/concepts`</span>
+<span class="sd">    for information about the security of the secret key and salt.</span>
+
+<span class="sd">    :param secret_key: The secret key to sign and verify with. Can be a</span>
+<span class="sd">        list of keys, oldest to newest, to support key rotation.</span>
+<span class="sd">    :param salt: Extra key to combine with ``secret_key`` to distinguish</span>
+<span class="sd">        signatures in different contexts.</span>
+<span class="sd">    :param serializer: An object that provides ``dumps`` and ``loads``</span>
+<span class="sd">        methods for serializing data to a string. Defaults to</span>
+<span class="sd">        :attr:`default_serializer`, which defaults to :mod:`json`.</span>
+<span class="sd">    :param serializer_kwargs: Keyword arguments to pass when calling</span>
+<span class="sd">        ``serializer.dumps``.</span>
+<span class="sd">    :param signer: A ``Signer`` class to instantiate when signing data.</span>
+<span class="sd">        Defaults to :attr:`default_signer`, which defaults to</span>
+<span class="sd">        :class:`~itsdangerous.signer.Signer`.</span>
+<span class="sd">    :param signer_kwargs: Keyword arguments to pass when instantiating</span>
+<span class="sd">        the ``Signer`` class.</span>
+<span class="sd">    :param fallback_signers: List of signer parameters to try when</span>
+<span class="sd">        unsigning with the default signer fails. Each item can be a dict</span>
+<span class="sd">        of ``signer_kwargs``, a ``Signer`` class, or a tuple of</span>
+<span class="sd">        ``(signer, signer_kwargs)``. Defaults to</span>
+<span class="sd">        :attr:`default_fallback_signers`.</span>
+
+<span class="sd">    .. versionchanged:: 2.0</span>
+<span class="sd">        Added support for key rotation by passing a list to</span>
+<span class="sd">        ``secret_key``.</span>
+
+<span class="sd">    .. versionchanged:: 2.0</span>
+<span class="sd">        Removed the default SHA-512 fallback signer from</span>
+<span class="sd">        ``default_fallback_signers``.</span>
+
+<span class="sd">    .. versionchanged:: 1.1</span>
+<span class="sd">        Added support for ``fallback_signers`` and configured a default</span>
+<span class="sd">        SHA-512 fallback. This fallback is for users who used the yanked</span>
+<span class="sd">        1.0.0 release which defaulted to SHA-512.</span>
+
+<span class="sd">    .. versionchanged:: 0.14</span>
+<span class="sd">        The ``signer`` and ``signer_kwargs`` parameters were added to</span>
+<span class="sd">        the constructor.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1">#: The default serialization module to use to serialize data to a</span>
+    <span class="c1">#: string internally. The default is :mod:`json`, but can be changed</span>
+    <span class="c1">#: to any object that provides ``dumps`` and ``loads`` methods.</span>
+    <span class="n">default_serializer</span><span class="p">:</span> <span class="n">_PDataSerializer</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">json</span>
+
+    <span class="c1">#: The default ``Signer`` class to instantiate when signing data.</span>
+    <span class="c1">#: The default is :class:`itsdangerous.signer.Signer`.</span>
+    <span class="n">default_signer</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span> <span class="o">=</span> <span class="n">Signer</span>
+
+    <span class="c1">#: The default fallback signers to try when unsigning fails.</span>
+    <span class="n">default_fallback_signers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
+        <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Serializer[str] if no data serializer is provided, or if it returns str.</span>
+    <span class="nd">@t</span><span class="o">.</span><span class="n">overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">Serializer</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">secret_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;itsdangerous&quot;</span><span class="p">,</span>
+        <span class="n">serializer</span><span class="p">:</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">_PDataSerializer</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">serializer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fallback_signers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
+            <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span> <span class="o">...</span>
+
+    <span class="c1"># Serializer[bytes] with a bytes data serializer positional argument.</span>
+    <span class="nd">@t</span><span class="o">.</span><span class="n">overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">Serializer</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">secret_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">serializer</span><span class="p">:</span> <span class="n">_PDataSerializer</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">serializer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fallback_signers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
+            <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span> <span class="o">...</span>
+
+    <span class="c1"># Serializer[bytes] with a bytes data serializer keyword argument.</span>
+    <span class="nd">@t</span><span class="o">.</span><span class="n">overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">Serializer</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">secret_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;itsdangerous&quot;</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">serializer</span><span class="p">:</span> <span class="n">_PDataSerializer</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">serializer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fallback_signers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
+            <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span> <span class="o">...</span>
+
+    <span class="c1"># Fall back with a positional argument. If the strict signature of</span>
+    <span class="c1"># _PDataSerializer doesn&#39;t match, fall back to a union, requiring the user</span>
+    <span class="c1"># to specify the type.</span>
+    <span class="nd">@t</span><span class="o">.</span><span class="n">overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">secret_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">serializer</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+        <span class="n">serializer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fallback_signers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
+            <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span> <span class="o">...</span>
+
+    <span class="c1"># Fall back with a keyword argument.</span>
+    <span class="nd">@t</span><span class="o">.</span><span class="n">overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">secret_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;itsdangerous&quot;</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">serializer</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span>
+        <span class="n">serializer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fallback_signers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
+            <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span> <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">secret_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;itsdangerous&quot;</span><span class="p">,</span>
+        <span class="n">serializer</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">serializer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">signer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fallback_signers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
+            <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1">#: The list of secret keys to try for verifying signatures, from</span>
+        <span class="c1">#: oldest to newest. The newest (last) key is used for signing.</span>
+        <span class="c1">#:</span>
+        <span class="c1">#: This allows a key rotation system to keep a list of allowed</span>
+        <span class="c1">#: keys and remove expired ones.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">secret_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">_make_keys_list</span><span class="p">(</span><span class="n">secret_key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">salt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">salt</span> <span class="o">=</span> <span class="n">want_bytes</span><span class="p">(</span><span class="n">salt</span><span class="p">)</span>
+            <span class="c1"># if salt is None then the signer&#39;s default is used</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">salt</span> <span class="o">=</span> <span class="n">salt</span>
+
+        <span class="k">if</span> <span class="n">serializer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">serializer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_serializer</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">serializer</span><span class="p">:</span> <span class="n">_PDataSerializer</span><span class="p">[</span><span class="n">_TSerialized</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_text_serializer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">is_text_serializer</span><span class="p">(</span><span class="n">serializer</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">signer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">signer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_signer</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">signer</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span> <span class="o">=</span> <span class="n">signer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">signer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">signer_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">fallback_signers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fallback_signers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default_fallback_signers</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fallback_signers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span>
+            <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">Signer</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="n">fallback_signers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serializer_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">serializer_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">secret_key</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The newest (last) entry in the :attr:`secret_keys` list. This</span>
+<span class="sd">        is for compatibility from before key rotation support was added.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_keys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_payload</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">serializer</span><span class="p">:</span> <span class="n">_PDataSerializer</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads the encoded object. This function raises</span>
+<span class="sd">        :class:`.BadPayload` if the payload is not valid. The</span>
+<span class="sd">        ``serializer`` parameter can be used to override the serializer</span>
+<span class="sd">        stored on the class. The encoded ``payload`` should always be</span>
+<span class="sd">        bytes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">serializer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">use_serializer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serializer</span>
+            <span class="n">is_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_text_serializer</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">use_serializer</span> <span class="o">=</span> <span class="n">serializer</span>
+            <span class="n">is_text</span> <span class="o">=</span> <span class="n">is_text_serializer</span><span class="p">(</span><span class="n">serializer</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_text</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">use_serializer</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">payload</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>  <span class="c1"># type: ignore[arg-type]</span>
+
+            <span class="k">return</span> <span class="n">use_serializer</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">BadPayload</span><span class="p">(</span>
+                <span class="s2">&quot;Could not load the payload because an exception&quot;</span>
+                <span class="s2">&quot; occurred on unserializing the data.&quot;</span><span class="p">,</span>
+                <span class="n">original_error</span><span class="o">=</span><span class="n">e</span><span class="p">,</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">dump_payload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dumps the encoded object. The return value is always bytes.</span>
+<span class="sd">        If the internal serializer returns text, the value will be</span>
+<span class="sd">        encoded as UTF-8.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">want_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">serializer</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">serializer_kwargs</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_signer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Signer</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a new instance of the signer to be used. The default</span>
+<span class="sd">        implementation uses the :class:`.Signer` base class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">salt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">salt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">salt</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">signer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">secret_keys</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">signer_kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">iter_unsigners</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">cabc</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="n">Signer</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterates over all signers to be tried for unsigning. Starts</span>
+<span class="sd">        with the configured signer, then constructs each signer</span>
+<span class="sd">        specified in ``fallback_signers``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">salt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">salt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">salt</span>
+
+        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_signer</span><span class="p">(</span><span class="n">salt</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">fallback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fallback_signers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fallback</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">kwargs</span> <span class="o">=</span> <span class="n">fallback</span>
+                <span class="n">fallback</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signer</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fallback</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="n">fallback</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">fallback</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signer_kwargs</span>
+
+            <span class="k">for</span> <span class="n">secret_key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">secret_keys</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">fallback</span><span class="p">(</span><span class="n">secret_key</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_TSerialized</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a signed string serialized with the internal</span>
+<span class="sd">        serializer. The return value can be either a byte or unicode</span>
+<span class="sd">        string depending on the format of the internal serializer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">want_bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dump_payload</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_signer</span><span class="p">(</span><span class="n">salt</span><span class="p">)</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_text_serializer</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">rv</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore[return-value]</span>
+
+        <span class="k">return</span> <span class="n">rv</span>  <span class="c1"># type: ignore[return-value]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span> <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Like :meth:`dumps` but dumps into a file. The file handle has</span>
+<span class="sd">        to be compatible with what the internal serializer expects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">salt</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">loads</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reverse of :meth:`dumps`. Raises :exc:`.BadSignature` if the</span>
+<span class="sd">        signature validation fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">want_bytes</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">last_exception</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">signer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_unsigners</span><span class="p">(</span><span class="n">salt</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_payload</span><span class="p">(</span><span class="n">signer</span><span class="o">.</span><span class="n">unsign</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+            <span class="k">except</span> <span class="n">BadSignature</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="n">last_exception</span> <span class="o">=</span> <span class="n">err</span>
+
+        <span class="k">raise</span> <span class="n">t</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">BadSignature</span><span class="p">,</span> <span class="n">last_exception</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span> <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Like :meth:`loads` but loads from a file.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">salt</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">loads_unsafe</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Like :meth:`loads` but without verifying the signature. This</span>
+<span class="sd">        is potentially very dangerous to use depending on how your</span>
+<span class="sd">        serializer works. The return value is ``(signature_valid,</span>
+<span class="sd">        payload)`` instead of just the payload. The first item will be a</span>
+<span class="sd">        boolean that indicates if the signature is valid. This function</span>
+<span class="sd">        never fails.</span>
+
+<span class="sd">        Use it for debugging only and if you know that your serializer</span>
+<span class="sd">        module is not exploitable (for example, do not use it with a</span>
+<span class="sd">        pickle serializer).</span>
+
+<span class="sd">        .. versionadded:: 0.15</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_loads_unsafe_impl</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">salt</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_loads_unsafe_impl</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">s</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">,</span>
+        <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">load_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">load_payload_kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Low level helper function to implement :meth:`loads_unsafe`</span>
+<span class="sd">        in serializer subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">load_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">load_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span> <span class="o">**</span><span class="n">load_kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">BadSignature</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">payload</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">load_payload_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">load_payload_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span>
+                    <span class="kc">False</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">load_payload</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">payload</span><span class="p">,</span> <span class="o">**</span><span class="n">load_payload_kwargs</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="n">BadPayload</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_unsafe</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">IO</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">],</span> <span class="n">salt</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Like :meth:`loads_unsafe` but loads from a file.</span>
+
+<span class="sd">        .. versionadded:: 0.15</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">loads_unsafe</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">)</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-07-30 17:59:58.995541</p>
+</footer>
+</body>
+</html>

@@ -5593,3 +5593,1347 @@ def test_unzip_skip_download_if_exists(temp_dir):
 ```
 
 
+####################################################################
+#        TEST GENERATION BEGINS (CODAMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# LLM-generated content at query #1
+#--------------------------
+
+```python
+import os
+import tempfile
+import shutil
+from pathlib import Path
+from zipfile import ZipFile
+import pytest
+from unittest.mock import MagicMock, patch
+
+@pytest.fixture
+def temp_dir():
+    path = tempfile.mkdtemp()
+    yield Path(path)
+    shutil.rmtree(path)
+
+@pytest.fixture
+def valid_zip_file(temp_dir):
+    zip_path = temp_dir / "test_repo.zip"
+    # Create a zip with a top-level directory structure
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("test_project/file.txt", "content")
+    return zip_path
+
+@pytest.fixture
+def empty_zip_file(temp_dir):
+    zip_path = temp_dir / "empty.zip"
+    with ZipFile(temp_path, 'w') as zf:
+        pass # No files added
+    return zip_path
+
+@pytest.fixture
+def invalid_structure_zip_file(temp_dir):
+    zip_path = temp_dir / "no_top_dir.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("file.txt", "content") # No folder prefix
+    return zip_path
+
+def test_unzip_local_success(temp_dir, valid_zip_file):
+    result_path = unzip(str(valid_zip_file), is_url=False, clone_to_dir=temp_dir)
+    
+    assert os.path.exists(result_path)
+    assert os.path.exists(os.path.join(result_path, "file.txt"))
+    with open(os.path.join(result_path, "file.txt"), 'r') as f:
+        assert f.read() == "content"
+
+def test_unzip_local_empty_error(temp_dir, temp_dir):
+    # Create an actual empty zip file manually for the test
+    empty_zip = temp_dir / "empty.zip"
+    with ZipFile(empty_zip, 'w') as zf:
+        pass
+    
+    with pytest.raises(InvalidZipRepository, match="is empty"):
+        unzip(str(empty_zip), is_url=False, clone_to_dir=temp_dir)
+
+def test_unzip_local_no_top_level_dir_error(temp_dir, invalid_structure_zip_file):
+    with pytest.raises(InvalidZipRepository, match="does not include a top-level directory"):
+        unzip(str(invalid_structure_zip_file), is_url=False, clone_to_dir=temp_dir)
+
+@patch("requests.get")
+@patch("cookiecutter.utils.make_sure_path_exists")
+@patch("cookiecutter.prompt.prompt_and_delete")
+def test_unzip_url_success(mock_prompt, mock_make_path, mock_get, temp_dir, valid_zip_file):
+    # Setup mock for URL download
+    url = "https://example.com/repo.zip"
+    mock_prompt.return_value = True
+    
+    # Mock the response stream
+    mock_response = MagicMock()
+    mock_response.iter_content.return_value = [b"fake_zip_content_part1", b"fake_zip_content_part2"]
+    mock_get.return_value = mock_response
+    
+    # We need to actually provide a valid zip for the ZipFile(zip_path) call later in the function
+    # Since we are mocking requests, we'll point the URL to our local valid zip instead 
+    # or just intercept the file writing. For simplicity in this unit test, 
+    # we will patch ZipFile to not care about the downloaded content and return our valid_zip_file contents.
+    
+    with patch("zipfile.ZipFile") as mock_zip:
+        mock_instance = mock_zip.return_value.__enter__.return_value
+        mock_instance.namelist.return_value = ["test_project/"]
+        mock_instance.extractall.return_value = None
+        
+        result = unzip(url, is_url=True, clone_to_dir=temp_dir)
+        
+        assert "test_project" in result
+        mock_get.assert_called_once()
+
+@patch("zipfile.ZipFile")
+def test_unzip_password_success(mock_zip, temp_dir, valid_zip_file):
+    mock_instance = mock_zip.return_value.__enter__.return_value
+    mock_instance.namelist.return_value = ["test_project/"]
+    
+    # Simulate RuntimeError for first attempt (no password), then success with password
+    mock_instance.extractall.side_effect = [RuntimeError("Password required"), None]
+    
+    result = unzip(str(valid_zip_file), is_url=False, clone_to_dir=temp_dir, password="secret_password")
+    
+    assert "test_project" in result
+    # Verify extractall was called with encoded password
+    mock_instance.extractall.assert_called_with(path=pytest.any, pwd=b"secret_password")
+
+@patch("zipfile.ZipFile")
+def test_unzip_password_failure(mock_zip, temp_dir, valid_zip_file):
+    mock_instance = mock_zip.return_value.__enter__.return_value
+    mock_instance.namelist.return_value = ["test_project/"]
+    mock_instance.extractall.side_effect = RuntimeError("Wrong password")
+    
+    with pytest.raises(InvalidZipRepository, match="Invalid password provided"):
+        unzip(str(valid_zip_file), is_url=False, clone_to_dir=temp_dir, password="wrong")
+
+@patch("requests.get")
+def test_unzip_bad_zip_file(mock_get, temp_dir):
+    from zipfile import BadZipFile
+    # Create a file that is not a zip
+    bad_file = temp_dir / "bad.zip"
+    bad_file.write_text("not a zip")
+    
+    with patch("zipfile.ZipFile", side_effect=BadZipFile("Not a zip")):
+        with pytest.raises(InvalidZipRepository, match="is not a valid zip archive"):
+            unzip(str(bad_file), is_url=False, clone_to_dir=temp_dir)
+```
+
+
+# LLM-generated content at query #2
+#--------------------------
+
+```python
+import os
+import pytest
+import tempfile
+from pathlib import Path
+from zipfile import ZipFile
+from unittest.mock import MagicMock, patch
+
+@pytest.fixture
+def temp_dir():
+    with tempfile.TemporaryDirectory() as tmp:
+        yield Path(tmp)
+
+@pytest.fixture
+def valid_zip_path(temp_dir):
+    zip_path = temp_dir / "project.zip"
+    # Create a zip with a top-level directory entry
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("project/file.txt", "content")
+    return zip_path
+
+@pytest.fixture
+def empty_zip_path(temp_dir):
+    zip_path = temp_dir / "empty.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        pass
+    return zip_path
+
+@pytest.fixture
+def bad_structure_zip_path(temp_dir):
+    zip_path = temp_dir / "bad_struct.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("file_no_dir.txt", "content")
+    return zip_path
+
+@pytest.fixture
+def corrupted_zip_path(temp_dir):
+    zip_path = temp_dir / "corrupt.zip"
+    zip_path.write_text("not a zip")
+    return zip_path
+
+def test_unzip_local_file_success(valid_zip_path, temp_dir):
+    result_path = unzip(str(valid_zip_path), is_url=False, clone_to_dir=temp_dir)
+    assert os.path.exists(result_path)
+    assert os.path.basename(result_path) == "project"
+    with open(os.path.join(result_path, "file.txt"), 'r') as f:
+        assert f.read() == "content"
+
+def test_unzip_empty_zip_raises_error(empty_zip_path):
+    with pytest.raises(InvalidZipRepository, match="is empty"):
+        unzip(str(empty_zip_path), is_url=False)
+
+def test_unzip_no_top_level_dir_raises_error(bad_structure_zip_path):
+    with pytest.raises(InvalidZipRepository, match="does not include a top-level directory"):
+        unzip(str(bad_structure_zip_path), is_url=False)
+
+def test_unzip_bad_zip_file_raises_error(corrupted_zip_path):
+    with pytest.raises(InvalidZipRepository, match="is not a valid zip archive"):
+        unzip(str(corrupted_zip_path), is_url=False)
+
+@patch("requests.get")
+@patch("cookiecutter.utils.make_sure_path_exists")
+@patch("cookiecutter.prompt.prompt_and_delete")
+def test_unzip_url_success(mock_prompt, mock_make_path, mock_get, valid_zip_path, temp_dir):
+    # Setup mock response for requests
+    mock_response = MagicMock()
+    mock_response.iter_content.return_value = [b"fake_zip_content"]
+    mock_get.return_value = mock_response
+    
+    url = "https://example.com/repo.zip"
+    mock_prompt.return_value = False # Don't delete existing
+
+    # We need to intercept the ZipFile creation because we can't actually 
+    # download a real zip via mock and expect ZipFile to read it.
+    # Instead, we mock the ZipFile behavior for the URL path.
+    with patch("zipfile.ZipFile") as mock_zip:
+        mock_instance = mock_zip.return_value.__enter__.return_value
+        mock_instance.namelist.return_value = ["project/", "project/file.txt"]
+        mock_instance.extractall.return_value = None
+        
+        result = unzip(url, is_url=True, clone_to_dir=temp_dir)
+        
+        assert "project" in result
+        mock_get.assert_called_once_with(url, stream=True, timeout=100)
+
+@patch("zipfile.ZipFile")
+def test_unzip_password_correct(mock_zip, valid_zip_path):
+    mock_instance = mock_zip.return_value.__enter__.return_value
+    mock_instance.namelist.return_value = ["project/", "project/file.txt"]
+    # Simulate RuntimeError on first attempt, success on second with password
+    mock_instance.extractall.side_effect = [RuntimeError("password required"), None]
+
+    result = unzip(str(valid_zip_path), is_url=False, password="secret_password")
+    
+    # Verify extractall was called with the encoded password
+    args, kwargs = mock_instance.extractall.call_args
+    assert kwargs['pwd'] == b"secret_password"
+
+@patch("zipfile.ZipFile")
+def test_unzip_password_incorrect_raises_error(mock_zip, valid_zip_path):
+    mock_instance = mock_zip.return_value.__enter__.return_value
+    mock_instance.namelist.return_value = ["project/", "project/file.txt"]
+    # Always raise error even with password provided
+    mock_instance.extractall.side_effect = RuntimeError("Wrong password")
+
+    with pytest.raises(InvalidZipRepository, match="Invalid password provided"):
+        unzip(str(valid_zip_path), is_url=False, password="wrong_password")
+
+@patch("zipfile.ZipFile")
+@patch("cookiecutter.prompt.read_repo_password")
+def test_unzip_password_interactive_success(mock_read_pw, mock_zip, valid_zip_path):
+    mock_instance = mock_zip.return_value.__enter__.return_value
+    mock_instance.namelist.return_value = ["project/", "project/file.txt"]
+    mock_read_pw.return_value = "user_typed_password"
+    # First call fails, second succeeds
+    mock_instance.extractall.side_effect = [RuntimeError("password required"), None]
+
+    result = unzip(str(valid_zip_path), is_url=False)
+    
+    assert "project" in result
+    mock_read_pw.assert_called_once()
+```
+
+
+# LLM-generated content at query #3
+#--------------------------
+
+```python
+import os
+import shutil
+import tempfile
+from pathlib import Path
+from zipfile import ZipFile
+import pytest
+import requests
+from unittest.mock import MagicMock, patch
+
+@pytest.fixture
+def temp_dir():
+    path = tempfile.mkdtemp()
+    yield Path(path)
+    shutil.rmtree(path)
+
+@pytest.fixture
+def valid_zip_file(temp_dir):
+    zip_path = temp_dir / "project.zip"
+    # Create a zip with a top-level directory as required by the logic
+    with ZipFile(zip_path, 'w') as z:
+        z.writestr("project/file.txt", "content")
+    return zip_path
+
+@pytest.fixture
+def empty_zip_file(temp_dir):
+    zip_path = temp_dir / "empty.zip"
+    with ZipFile(zip_path, 'w') as z:
+        pass
+    return zip_path
+
+@pytest.fixture
+def malformed_zip_file(temp_dir):
+    zip_path = temp_dir / "bad.zip"
+    with open(zip_path, 'wb') as f:
+        f.write(b"not a zip file")
+    return zip_path
+
+@pytest.fixture
+def no_top_level_zip_file(temp_dir):
+    zip_path = temp_dir / "no_top.zip"
+    with ZipFile(zip_path, 'w') as z:
+        z.writestr("file.txt", "content")
+    return zip_path
+
+def test_unzip_local_success(temp_dir, valid_zip_file):
+    result_path = unzip(str(valid_zip_file), is_url=False, clone_to_dir=temp_dir)
+    assert os.path.exists(result_path)
+    assert os.path.exists(os.path.join(result_path, "file.txt"))
+
+def test_unzip_local_empty_error(temp_dir, empty_zip_file):
+    with pytest.raises(InvalidZipRepository, match="is empty"):
+        unzip(str(empty_zip_file), is_url=False, clone_to_dir=temp_dir)
+
+def test_unzip_local_no_top_level_error(temp_dir, no_top_level_zip_file):
+    with pytest.raises(InvalidZipRepository, match="does not include a top-level directory"):
+        unzip(str(no_top_level_zip_file), is_url=False, clone_to_dir=temp_dir)
+
+def test_unzip_local_bad_zip_error(temp_dir, malformed_zip_file):
+    with pytest.raises(InvalidZipRepository, match="is not a valid zip archive"):
+        unzip(str(malformed_zip_file), is_url=False, clone_to_dir=temp_dir)
+
+@patch("requests.get")
+@patch("cookiecutter.utils.make_sure_path_exists")
+@patch("cookiecutter.prompt.prompt_and_delete")
+def test_unzip_url_success(mock_prompt, mock_make_path, mock_get, temp_dir, valid_zip_file):
+    # Setup mock response for requests
+    mock_response = MagicMock()
+    mock_response.iter_content.return_value = [b"dummy content"]
+    mock_get.return_migrated = mock_response # Not real, just a placeholder logic
+    mock_get.return_value = mock_response
+    
+    # Create a fake URL that would resolve to an identifier
+    zip_url = "https://example.com/download/project.zip"
+    mock_prompt.return_value = True
+
+    # We need the downloaded file to be a valid zip for the second part of unzip() to work
+    # So we patch ZipFile to not actually look at the downloaded dummy content
+    with patch("zipfile.ZipFile") as mock_zip:
+        mock_zip_instance = mock_zip.return_value.__enter__.return_value
+        mock_zip_instance.namelist.return_value = ["project/"]
+        mock_zip_instance.extractall.return_value = None
+
+        result = unzip(zip_url, is_url=True, clone_to_dir=temp_dir)
+        
+        assert "project" in result
+        mock_get.assert_called_once_with(zip_url, stream=True, timeout=100)
+
+@patch("cookiecutter.prompt.read_repo_password")
+def test_unzip_password_success(mock_read_password, temp_dir, valid_zip_file):
+    # To test password, we need a zip that actually triggers RuntimeError on extractall
+    with patch("zipfile.ZipFile") as mock_zip:
+        mock_zip_instance = mock_zip.return_value.__enter__.return_value
+        mock_zip_instance.namelist.return_value = ["protected/"]
+        # Simulate password error on first attempt, success on second
+        mock_zip_instance.extractall.side_effect = [RuntimeError("Password required"), None]
+        mock_read_password.return_value = "secret"
+
+        result = unzip(str(valid_zip_file), is_url=False, clone_to_dir=temp_dir)
+        assert "protected" in result
+        mock_read_password.assert_called_once()
+
+def test_unzip_password_failure_no_input(temp_dir, valid_zip_file):
+    with patch("zipfile.ZipFile") as mock_zip:
+        mock_zip_instance = mock_zip.return_value.__enter__.return_value
+        mock_zip_instance.namelist.return_value = ["protected/"]
+        mock_zip_instance.extractall.side_effect = RuntimeError("Password required")
+
+        with pytest.raises(InvalidZipRepository, match="Unable to unlock password protected repository"):
+            unzip(str(valid_zip_file), is_url=False, clone_to_dir=temp_dir, no_input=True)
+```
+
+
+# LLM-generated content at query #4
+#--------------------------
+
+```python
+import os
+import tempfile
+import shutil
+import pytest
+from pathlib import Path
+from zipfile import ZipFile
+from unittest.mock import MagicMock, patch
+
+@pytest.fixture
+def temp_dir():
+    path = tempfile.mkdtemp()
+    yield Path(path)
+    shutil.rmtree(path)
+
+@pytest.fixture
+def valid_zip(temp_dir):
+    zip_path = temp_dir / "project.zip"
+    content_dir = "project_dir/"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr(f"{content_dir}file.txt", "hello world")
+    return zip_path
+
+@pytest.fixture
+def empty_zip(temp_dir):
+    zip_path = temp_dir / "empty.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        pass
+    return zip_path
+
+@pytest.fixture
+def bad_structure_zip(temp_dir):
+    zip_path = temp_dir / "bad_struct.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("not_a_directory.txt", "data")
+    return zip_path
+
+@pytest.fixture
+def encrypted_zip(temp_dir):
+    # Note: Standard zipfile module has limited support for creating encrypted zips
+    # but we can mock the behavior of RuntimeError during extraction
+    zip_path = temp_dir / "secret.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("secret_dir/", "")
+    return zip_path
+
+def test_unzip_local_file_success(temp_dir, valid_zip):
+    result_path = unzip(str(valid_zip), is_url=False, clone_to_dir=temp_dir)
+    assert os.path.exists(result_path)
+    assert os.path.exists(os.path.join(result_path, "file.txt"))
+
+def test_unzip_empty_zip_raises_error(empty_zip):
+    with pytest.raises(InvalidZipRepository, match="is empty"):
+        unzip(str(empty_markup := empty_zip), is_url=False)
+
+def test_unzip_no_top_level_dir_raises_error(bad_structure_zip):
+    with pytest.raises(InvalidZipRepository, match="does not include a top-level directory"):
+        unzip(str(bad_structure_zip), is_url=False)
+
+@patch("requests.get")
+@patch("cookiecutter.utils.make_sure_path_exists")
+@patch("cookiecutter.prompt.prompt_and_delete")
+def test_unzip_url_download_success(mock_prompt, mock_make_path, mock_get, temp_dir):
+    zip_uri = "https://example.com/repo.zip"
+    mock_prompt.return_value = True
+    
+    # Mock response stream
+    mock_response = MagicMock()
+    mock_response.iter_content.return_value = [b"fake_zip_content"]
+    mock_get.return_value = mock_response
+
+    # We need a real zip file for the ZipFile(zip_path) call to not fail with BadZipFile
+    # So we intercept the download and write actual valid zip bytes instead of 'fake_zip_content'
+    valid_zip_bytes = b""
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_zip = Path(tmp) / "repo.zip"
+        with ZipFile(tmp_zip, 'w') as zf:
+            zf.writestr("project/", "")
+        valid_zip_bytes = tmp_zip.read_bytes()
+
+    mock_response.iter_content.return_value = [valid_zip_bytes]
+
+    # Create the file on disk manually to simulate download success
+    target_zip = temp_dir / "repo.zip"
+    target_zip.parent.mkdir(parents=True, exist_ok=True)
+    
+    result = unzip(zip_uri, is_url=True, clone_to_dir=temp_dir)
+    assert os.path.exists(result)
+    assert "project" in result
+
+@patch("zipfile.ZipFile.extractall")
+def test_unzip_password_provided(mock_extractall, valid_zip):
+    # Simulate RuntimeError for first attempt (as if encrypted), then success with password
+    mock_extractall.side_effect = [RuntimeError("Password required"), None]
+    
+    result = unzip(str(valid_zip), is_url=False, password="correct_password")
+    
+    # Verify extractall was called with the encoded password
+    args, kwargs = mock_extractall.call_args
+    assert kwargs['pwd'] == b"correct_password"
+    assert os.path.exists(result)
+
+@patch("zipfile.ZipFile.extractall")
+def test_unzip_password_error_no_input(mock_extractall, valid_zip):
+    mock_extractall.side_effect = RuntimeError("Password required")
+    
+    with pytest.raises(InvalidZipRepository, match="Unable to unlock password protected repository"):
+        unzip(str(valid_zip), is_url=False, no_input=True)
+
+@patch("zipfile.ZipFile.extractall")
+@patch("cookiecutter.prompt.read_repo_password")
+def test_unzip_password_interaction(mock_read_password, mock_extractall, valid_zip):
+    # First attempt fails, second attempt (with mocked password) succeeds
+    mock_extractall.side_effect = [RuntimeError("Password required"), None]
+    mock_read_password.return_value = "user_entered_password"
+    
+    result = unzip(str(valid_zip), is_url=False)
+    
+    assert mock_read_password.called
+    assert os.path.exists(result)
+
+@patch("requests.get")
+def test_unzip_bad_zip_file_error(mock_get, temp_dir):
+    # Simulate a corrupted file download
+    zip_uri = "https://example.com/corrupt.zip"
+    target_zip = temp_dir / "corrupt.zip"
+    target_zip.parent.mkdir(parents=True, exist_ok=True)
+    target_zip.write_bytes(b"not a zip")
+
+    mock_response = MagicMock()
+    mock_response.iter_content.return_value = [b"not a zip"]
+    mock_get.return_value = mock_response
+
+    with pytest.raises(InvalidZipRepository, match="is not a valid zip archive"):
+        unzip(zip_uri, is_url=True, clone_to_dir=temp_dir)
+```
+
+
+# LLM-generated content at query #5
+#--------------------------
+
+```python
+import os
+import tempfile
+import shutil
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+import pytest
+from zipfile import ZipFile
+
+@pytest.fixture
+def temp_dir():
+    path = tempfile.mkdtemp()
+    yield Path(path)
+    shutil.rmtree(path)
+
+@pytest.fixture
+def valid_zip(temp_dir):
+    zip_path = temp_dir / "test_repo.zip"
+    project_name = "my_project"
+    with ZipFile(zip_path, 'w') as z:
+        z.writestr(f"{project_name}/file.txt", "content")
+    return zip_path
+
+@pytest.fixture
+def empty_zip(temp_dir):
+    zip_path = temp_dir / "empty.zip"
+    with ZipFile(zip_path, 'w') as z:
+        pass
+    return zip_path
+
+@pytest.fixture
+def invalid_structure_zip(temp_dir):
+    zip_path = temp_dir / "bad_struct.zip"
+    with ZipFile(zip_path, 'w') as z:
+        z.writestr("file_without_dir.txt", "content")
+    return zip_path
+
+@pytest.fixture
+def password_zip(temp_dir):
+    zip_path = temp_dir / "protected.zip"
+    project_name = "secret_project"
+    # Creating a password protected zip is tricky with standard ZipFile, 
+    # so we will mock the behavior in tests instead of physical creation.
+    return zip_path
+
+def test_unzip_local_file(temp_dir, valid_zip):
+    result_path = unzip(str(valid_zip), is_url=False, clone_to_dir=temp_dir)
+    assert os.path.exists(result_path)
+    assert os.path.exists(os.path.join(result_path, "file.txt"))
+
+def test_unzip_empty_zip(empty_zip):
+    with pytest.raises(InvalidZipRepository, match="is empty"):
+        unzip(str(empty_zip), is_url=False)
+
+def test_unzip_no_top_level_dir(invalid_structure_zip):
+    with pytest.raises(InvalidZipRepository, match="does not include a top-level directory"):
+        unzip(str(invalid_structure_zip), is_url=False)
+
+@patch("requests.get")
+@patch("cookiecutter.utils.make_sure_path_exists")
+@patch("cookiecutter.prompt.prompt_and_delete")
+def test_unzip_url_success(mock_prompt, mock_make_path, mock_get, temp_dir, valid_zip):
+    # Create a dummy URL pointing to our valid zip
+    zip_url = "https://example.com/test_repo.zip"
+    
+    # Mock requests response
+    mock_response = MagicMock()
+    mock_response.iter_content.return_value = [b"dummy_data"] # This will cause BadZipFile actually, so we use real content
+    
+    # We'll simulate the download by making the URL-based path point to our local valid zip
+    # To avoid complex stream mocking, we intercept the 'is_url' logic 
+    # or just make the downloaded file a valid zip.
+    
+    with patch("builtins.open", MagicMock()): # prevent writing to disk if we don't want
+        pass
+
+    # Real approach: Mock requests to write the actual valid_zip content to the destination
+    def side_effect_get(url, stream=False, timeout=None):
+        mock_r = MagicMock()
+        with open(valid_zip, 'rb') as f:
+            mock_r.iter_content.return_value = [chunk for chunk in iter(lambda: f.read(1024), b'')]
+        return mock_r
+
+    mock_get.side_effect = side_effect_get
+    mock_prompt.return_value = True
+    
+    result_path = unzip(zip_url, is_url=True, clone_to_dir=temp_dir)
+    assert os.path.exists(result_path)
+
+@patch("cookiecutter.prompt.read_repo_password")
+def test_unzip_password_success(mock_password, temp_dir, valid_zip):
+    # We use a real ZipFile but we need to trigger the RuntimeError in extractall
+    # Since we can't easily create an encrypted zip in a unit test without external deps,
+    # we mock the ZipFile object.
+    
+    with patch("zipfile.ZipFile") as MockZip:
+        instance = MockZip.return_value.__enter__.return_value
+        instance.namelist.return_value = ["project/"]
+        instance.extractall.side_effect = [RuntimeError("Password required"), None]
+        mock_password.return_value = "correct_password"
+        
+        result_path = unzip(str(valid_zip), is_url=False, password="wrong")
+        
+        assert instance.extractall.call_count == 2
+        # Verify it tried with the encoded password
+        instance.extractall.assert_any_call(path=pytest.any, pwd=b"correct_password")
+
+def test_unzip_bad_zip_file(temp_dir):
+    bad_file = temp_dir / "not_a_zip.txt"
+    bad_file.write_text("not zip content")
+    with pytest.raises(InvalidZipRepository, match="is not a valid zip archive"):
+        unzip(str(bad_file), is_url=False)
+
+@patch("cookiecutter.prompt.read_repo_password")
+def test_unzip_password_failure_after_retries(mock_password, temp_dir, valid_zip):
+    mock_password.return_value = "wrong"
+    # Force RuntimeError on every attempt
+    with patch("zipfile.ZipFile") as MockZip:
+        instance = MockZip.return_value.__enter__.return_value
+        instance.namelist.return_value = ["project/"]
+        instance.extractall.side_effect = RuntimeError("Password required")
+        
+        with pytest.raises(InvalidZipRepository, match="Invalid password provided"):
+            unzip(str(valid_zip), is_url=False)
+        
+        assert mock_password.call_count == 3
+```
+
+
+# LLM-generated content at query #6
+#--------------------------
+
+```python
+import os
+import pytest
+from pathlib import Path
+from zipfile import ZipFile
+import requests
+from unittest.mock import MagicMock, patch
+
+@pytest.fixture
+def temp_dir(tmp_path):
+    return tmp_path
+
+@pytest.fixture
+def valid_zip_file(temp_dir):
+    zip_path = temp_dir / "project.zip"
+    # We create a zip with a top-level directory to satisfy the logic
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("project/file.txt", "content")
+    return str(zip_path)
+
+@pytest.fixture
+def empty_zip_file(temp_dir):
+    zip_path = temp_dir / "empty.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        pass
+    return str(zip_path)
+
+@pytest.fixture
+def invalid_zip_file(temp_dir):
+    zip_path = temp_dir / "bad.zip"
+    zip_path.write_text("not a zip")
+    return str(zip_path)
+
+@pytest.fixture
+def no_top_level_zip_file(temp_dir):
+    zip_path = temp_dir / "no_top.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("file.txt", "content")
+    return str(zip_path)
+
+def test_unzip_local_success(valid_zip_file, temp_dir):
+    result_path = unzip(valid_zip_file, is_url=False, clone_to_dir=temp_dir)
+    assert os.path.exists(result_path)
+    # Check if the extracted directory exists inside the temp path
+    # The function uses mkdtemp(), so we check if the project name is in the result path
+    assert "project" in result_path
+
+def test_unzip_url_success(temp_dir):
+    zip_uri = "https://example.com/archive.zip"
+    zip_dest = temp_dir / "archive.zip"
+    
+    # Create a real zip file locally to mimic the download
+    with ZipFile(zip_dest, 'w') as zf:
+        zf.writestr("project/file.txt", "content")
+
+    with patch('requests.get') as mock_get:
+        mock_response = MagicMock()
+        mock_response.iter_content.return_value = [b"data"]
+        mock_get.return_value = mock_response
+        
+        # We need to ensure the downloaded file actually contains a valid zip
+        # So we patch the download logic to use our pre-created local zip content
+        with patch('builtins.open', pytest.monkeypatch.importorskip('builtins').open):
+             # For simplicity in this test, we let it write the mock data 
+             # but since we need a valid zip structure for the ZipFile(zip_path) call,
+             # we will just point the download to our existing valid_zip_file content.
+             with patch('os.path.exists', return_value=False):
+                 # Redirecting the logic: if it's a URL, use our local valid zip as source
+                 with patch('requests.get') as mock_get:
+                     mock_get.return_value.iter_content = lambda chunk_size: [b""] # dummy
+                     # To make this testable without complex stream mocking, 
+                     # we'll just simulate the local file existence after "download"
+                     with patch('zipfile.ZipFile') as mock_zip:
+                         mock_zip.return_value.__enter__.return_value.namelist.return_value = ["project/"]
+                         mock_zip.return_value.__enter__.return_value.extractall.return_value = None
+                         
+                         result = unzip(zip_uri, is_url=True, clone_to_dir=temp_dir)
+                         assert "project" in result
+
+def test_unzip_empty_error(empty_zip_file):
+    with pytest.raises(InvalidZipRepository, match="is empty"):
+        unzip(empty_zip_file, is_url=False)
+
+def test_unzip_no_top_level_error(no_top_level_zip_file):
+    with pytest.raises(InvalidZipRepository, match="does not include a top-level directory"):
+        unzip(no_top_level_zip_file, is_url=False)
+
+def test_unzip_bad_zip_error(invalid_zip_file):
+    with pytest.raises(InvalidZipRepository, match="is not a valid zip archive"):
+        unzip(invalid_zip_file, is_url=False)
+
+def test_unzip_password_success(valid_zip_file, temp_dir):
+    # Create a password protected zip
+    protected_zip = temp_dir / "protected.zip"
+    with ZipFile(protected_zip, 'w') as zf:
+        zf.writestr("project/secret.txt", "secret")
+    
+    # Note: Standard zipfile module in Python has limited support for creating 
+    # AES encrypted zips, but we can simulate the RuntimeError for testing.
+    with patch('zipfile.ZipFile') as mock_zip:
+        instance = mock_zip.return_value.__enter__.return_value
+        instance.namelist.return_value = ["project/"]
+        # Simulate password error then success
+        instance.extractall.side_effect = [RuntimeError("Password required"), None]
+        
+        with patch('cookiecutter.prompt.read_repo_password', return_value="password123"):
+            result = unzip(str(protected_zip), is_url=False, password=None)
+            assert "project" in result
+            assert instance.extractall.call_count == 2
+
+def test_unzip_password_invalid_error(valid_zip_file):
+    with patch('zipfile.ZipFile') as mock_zip:
+        instance = mock_zip.return_value.__enter__.return_value
+        instance.namelist.return_value = ["project/"]
+        instance.extractall.side_effect = RuntimeError("Wrong password")
+        
+        with pytest.raises(InvalidZipRepository, match="Invalid password provided"):
+            unzip(valid_zip_file, is_url=False, password="wrong_password")
+
+def test_unzip_no_input_fails_on_protected(valid_zip_file):
+    with patch('zipfile.ZipFile') as mock_zip:
+        instance = mock_zip.return_value.__enter__.return_value
+        instance.namelist.return_value = ["project/"]
+        instance.extractall.side_effect = RuntimeError("Password required")
+        
+        with pytest.raises(InvalidZipRepository, match="Unable to unlock password protected repository"):
+            unzip(valid_zip_file, is_url=False, no_input=True)
+
+def test_unzip_deletes_existing_cache(temp_dir):
+    zip_uri = "https://example.com/archive.zip"
+    zip_path = temp_dir / "archive.zip"
+    zip_path.write_text("dummy content")
+    
+    with patch('os.path.exists', return_value=True):
+        with patch('cookiecutter.prompt.prompt_and_delete', return_value=False) as mock_prompt:
+            with patch('requests.get') as mock_get:
+                mock_get.return_value.iter_content.return_value = []
+                # Mock the extraction part so it doesn't fail on the dummy content
+                with patch('zipfile.ZipFile') as mock_zip:
+                    instance = mock_zip.return_value.__enter__.return_value
+                    instance.namelist.return_value = ["project/"]
+                    
+                    unzip(zip_uri, is_url=True, clone_to_dir=temp_dir)
+                    mock_prompt.assert_called_once()
+```
+
+
+# LLM-generated content at query #7
+#--------------------------
+
+```python
+import os
+import shutil
+import tempfile
+from pathlib import Path
+from zipfile import ZipFile
+import pytest
+import requests
+from unittest.mock import MagicMock, patch
+
+@pytest.fixture
+def temp_workspace(tmp_path):
+    """Creates a temporary workspace for testing."""
+    cache_dir = tmp_path / "cache"
+    cache_dir.mkdir()
+    return tmp_path, cache_dir
+
+@pytest.fixture
+def valid_zip_file(tmp_path):
+    """Creates a valid zip file with a top-level directory."""
+    zip_path = tmp_path / "project.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("project/file.txt", "content")
+    return str(zip_path)
+
+@pytest.fixture
+def empty_zip_file(tmp_path):
+    """Creates an empty zip file."""
+    zip_path = tmp_path / "empty.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        pass
+    return str(zip_path)
+
+@pytest.fixture
+def malformed_zip_file(tmp_path):
+    """Creates a zip file without a top-level directory."""
+    zip_path = tmp_path / "no_dir.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("file.txt", "content")
+    return str(zip_path)
+
+def test_unzip_local_success(valid_zip_file, temp_workspace):
+    """Test unzipping a local valid zip file."""
+    _, cache_dir = temp_workspace
+    unzipped_path = unzip(valid_zip_file, is_url=False, clone_to_dir=cache_dir)
+    
+    assert os.path.exists(unzipped_path)
+    with open(os.path.join(unzipped_path, "file.txt"), 'r') as f:
+        assert f.read() == "content"
+
+def test_unzip_url_success(valid_zip_file, temp_workspace):
+    """Test unzipping from a URL."""
+    _, cache_dir = temp_workspace
+    url = f"https://example.com/{os.path.basename(valid_zip_file)}"
+    
+    # Mock requests.get to return content of the local valid zip
+    mock_response = MagicMock()
+    mock_response.iter_content.return_value = []
+    # We need to simulate streaming bytes from the actual file
+    with open(valid_zip_file, 'rb') as f:
+        content = f.read()
+    
+    with patch('requests.get') as mock_get:
+        mock_get.return_value.iter_content.return_value = [content[i:i+1024] for i in range(0, len(content), 1024)]
+        unzipped_path = unzip(url, is_url=True, clone_to_dir=cache_dir)
+
+    assert os.path.exists(unzipped_path)
+    cached_zip = cache_dir / os.path.basename(valid_zip_file)
+    assert cached_zip.exists()
+
+def test_unzip_empty_zip_raises_error(empty_zip_file, temp_workspace):
+    """Test that an empty zip raises InvalidZipRepository."""
+    _, cache_dir = temp_workspace
+    with pytest.raises(InvalidZipRepository, match="is empty"):
+        unzip(empty_zip_file, is_url=False, clone_to_dir=cache_dir)
+
+def test_unzip_no_top_level_dir_raises_error(malformed_zip_file, temp_workspace):
+    """Test that a zip without top-level directory raises InvalidZipRepository."""
+    _, cache_iter = temp_workspace
+    with pytest.raises(InvalidZipRepository, match="does not include a top-level directory"):
+        unzip(malformed_zip_file, is_url=False, clone_to_dir=cache_iter)
+
+def test_unzip_password_success(tmp_path, temp_workspace):
+    """Test unzipping a password protected zip with provided password."""
+    zip_path = tmp_path / "protected.zip"
+    password = "secret_password"
+    # Note: standard ZipFile in python has limited support for creating encrypted zips 
+    # via writestr, but we can mock the runtime error behavior.
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("project/file.txt", "content")
+    
+    _, cache_dir = temp_workspace
+    
+    # Since Python's zipfile module requires a specific way to create encrypted zips 
+    # (which is complex), we mock the RuntimeError during extraction to test the logic flow.
+    with patch('zipfile.ZipFile.extractall') as mock_extract:
+        mock_extract.side_effect = [RuntimeError("Password required"), None]
+        with patch('zipfile.ZipFile.namelist', return_value=["project/"]):
+            unzipped_path = unzip(str(zip_path), is_url=False, clone_to_dir=cache_dir, password=password)
+            assert mock_extract.call_count == 2
+            # Verify second call used the password
+            args, kwargs = mock_extract.call_args
+            assert kwargs['pwd'] == password.encode('utf-8')
+
+def test_unzip_password_failure(malformed_zip_file, temp_workspace):
+    """Test that providing wrong password raises InvalidZipRepository."""
+    _, cache_dir = temp_workspace
+    with patch('zipfile.ZipFile.extractall', side_effect=RuntimeError("Wrong password")):
+        with pytest.raises(InvalidZipRepository, match="Invalid password provided"):
+            unzip(malformed_zip_file, is_url=False, clone_to_dir=cache_dir, password="wrong")
+
+def test_unzip_bad_zip_file(tmp_path, temp_workspace):
+    """Test that a corrupted zip file raises InvalidZipRepository."""
+    bad_zip = tmp_path / "corrupt.zip"
+    bad_zip.write_text("not a zip")
+    _, cache_dir = temp_workspace
+    
+    with pytest.raises(InvalidZipRepository, match="is not a valid zip archive"):
+        unzip(str(bad_zip), is_url=False, clone_to_dir=cache_dir)
+
+@patch('cookiecutter.utils.prompt_and_delete')
+def test_unzip_prompts_deletion_if_exists(mock_prompt, valid_zip_file, temp_workspace):
+    """Test that prompt_and_delete is called if the zip already exists in cache."""
+    _, cache_dir = temp_mock_workspace = temp_workspace
+    url = f"https://example.com/{os.path.basename(valid_zip_file)}"
+    
+    # Pre-create the file in cache to trigger 'exists' logic
+    zip_in_cache = cache_dir / os.path.basename(valid_zip_file)
+    import shutil
+    shutil.copy(valid_zip_file, zip_in_cache)
+    
+    mock_prompt.return_value = False # Simulate user saying 'No' to deleting
+    
+    with patch('requests.get') as mock_get:
+        # If prompt returns False, download should not happen
+        unzip(url, is_url=True, clone_to_dir=cache_dir, no_input=True)
+        mock_get.assert_not_called()
+    
+    mock_prompt.assert_called_once()
+```
+
+
+# LLM-generated content at query #8
+#--------------------------
+
+```python
+import os
+import tempfile
+import shutil
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+from zipfile import ZipFile
+
+import pytest
+import requests
+from cookiecutter.exceptions import InvalidZipRepository
+
+@pytest.fixture
+def temp_dir():
+    path = tempfile.mkdtemp()
+    yield Path(path)
+    shutil.rmtree(path)
+
+@pytest.fixture
+def valid_zip(temp_dir):
+    zip_path = temp_dir / "test_repo.zip"
+    extract_dir = "test_project"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr(f"{extract_dir}/file.txt", "content")
+    return zip_path, extract_dir
+
+@pytest.fixture
+def empty_zip(temp_dir):
+    zip_path = temp_dir / "empty.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        pass
+    return zip_path
+
+@pytest.fixture
+def invalid_zip_structure(temp_dir):
+    zip_path = temp_dir / "bad_struct.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("file.txt", "no top level dir")
+    return zip_path
+
+@patch("cookiecutter.utils.make_sure_path_exists")
+def test_unzip_local_success(mock_make_exists, temp_dir, valid_zip):
+    zip_path, project_name = valid_zip
+    result_path = unzip(str(zip_path), is_url=False, clone_to_dir=temp_dir)
+    
+    assert os.path.basename(result_path) == project_name
+    assert os.path.exists(os.path.join(result_path, "file.txt"))
+
+@patch("requests.get")
+@patch("cookiecutter.prompt.prompt_and_delete")
+@patch("cookiecutter.utils.make_sure_path_exists")
+def test_unzip_url_success(mock_make_exists, mock_prompt_delete, mock_get, temp_dir):
+    zip_uri = "https://example.com/repo.zip"
+    mock_prompt_delete.return_value = True
+    
+    # Mocking requests stream
+    mock_response = MagicMock()
+    mock_response.iter_content.return_value = [b"fake_zip_content"]
+    mock_get.return_value = mock_response
+
+    # We must create a real zip file at the destination for ZipFile to open it
+    # So we patch ZipFile to not actually look for the downloaded bytes, 
+    # or more simply, let's mock the creation of the file content.
+    with patch("zipfile.ZipFile") as mock_zip:
+        mock_zip_instance = mock_zip.return_value.__enter__.return_value
+        mock_zip_instance.namelist.return_value = ["repo/"]
+        
+        result = unzip(zip_uri, is_url=True, clone_to_dir=temp_dir)
+        
+        assert "repo" in result
+        mock_get.assert_called_once_with(zip_uri, stream=True, timeout=100)
+
+def test_unzip_empty_zip_raises(empty_zip):
+    with pytest.raises(InvalidZipRepository, match="is empty"):
+        unzip(str(empty_zip), is_url=False)
+
+def test_unzip_no_top_level_dir_raises(invalid_zip_structure):
+    with pytest.raises(InvalidZipRepository, match="does not include a top-level directory"):
+        unzip(str(invalid_zip_structure), is_url=False)
+
+@patch("zipfile.ZipFile")
+def test_unzip_password_provided_success(mock_zip_class, temp_dir, valid_zip):
+    zip_path, _ = valid_zip
+    mock_zip_instance = mock_zip_class.return_value.__enter__.return_value
+    mock_zip_instance.namelist.return_value = ["project/"]
+    
+    # Simulate RuntimeError for first attempt (no password), then success with password
+    def side_effect(path, pwd=None):
+        if pwd is None:
+            raise RuntimeError("Password required")
+        return MagicMock()
+
+    mock_zip_instance.extractall.side_effect = side_effect
+
+    result = unzip(str(zip_path), is_url=False, password="secret_password")
+    assert "project" in result
+    # Verify extractall was called with encoded password
+    args, kwargs = mock_zip_instance.extractall.call_args
+    assert kwargs['pwd'] == b'secret_password'
+
+@patch("zipfile.ZipFile")
+def test_unzip_password_failure_no_input(mock_zip_class, temp_dir, valid_zip):
+    zip_path, _ = valid_zip
+    mock_zip_instance = mock_zip_class.return_value.__enter__.return_value
+    mock_zip_instance.namelist.return_value = ["project/"]
+    mock_zip_instance.extractall.side_effect = RuntimeError("Password required")
+
+    with pytest.raises(InvalidZipRepository, match="Unable to unlock password protected repository"):
+        unzip(str(zip_path), is_url=False, no_input=True)
+
+@patch("zipfile.ZipFile")
+def test_unzip_bad_zip_file(mock_zip_class, temp_dir, valid_zip):
+    from zipfile import BadZipFile
+    zip_path, _ = valid_zip
+    mock_zip_class.side_effect = BadZipFile("Not a zip")
+
+    with pytest.raises(InvalidZipRepository, match="is not a valid zip archive"):
+        unzip(str(zip_path), is_url=False)
+```
+
+
+# LLM-generated content at query #9
+#--------------------------
+
+```python
+import os
+import tempfile
+import pytest
+from pathlib import Path
+from zipfile import ZipFile
+from unittest.mock import MagicMock, patch
+
+@pytest.fixture
+def temp_dir(tmp_path):
+    return tmp_path
+
+@pytest.fixture
+def valid_zip(temp_dir):
+    zip_path = temp_dir / "test_repo.zip"
+    # Create a zip with a top-level directory
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("test_repo/file.txt", "content")
+    return str(zip_path)
+
+@pytest.fixture
+def empty_zip(temp_dir):
+    zip_path = temp_dir / "empty.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        pass
+    return str(zip_path)
+
+@pytest.fixture
+def bad_zip(temp_dir):
+    zip_path = temp_dir / "bad.zip"
+    zip_path.write_text("not a zip")
+    return str(zip_path)
+
+@pytest.fixture
+def no_top_level_zip(temp_dir):
+    zip_path = temp_dir / "no_top.zip"
+    with ZipFile(path=zip_path, mode='w') as zf:
+        zf.writestr("file.txt", "content")
+    return str(zip_path)
+
+@pytest.fixture
+def password_zip(temp_dir):
+    # Note: zipfile module's support for creating encrypted zips is limited, 
+    # but we can mock the behavior of extractall raising RuntimeError.
+    zip_path = temp_dir / "protected.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("project/file.txt", "content")
+    return str(zip_path)
+
+def test_unzip_local_success(valid_zip, temp_dir):
+    result_path = unzip(valid_zip, is_url=False, clone_to_dir=temp_dir)
+    assert os.path.exists(result_path)
+    assert os.path.basename(result_path) == "test_repo"
+    with open(os.path.join(result_path, "file.txt"), 'r') as f:
+        assert f.read() == "content"
+
+def test_unzip_empty_zip_raises(empty_zip):
+    with pytest.raises(InvalidZipRepository, match="is empty"):
+        unzip(empty_zip, is_url=False)
+
+def test_unzip_no_top_level_raises(no_top_level_zip):
+    with pytest.raises(InvalidZipRepository, match="does not include a top-level directory"):
+        unzip(no_top_level_zip, is_url=False)
+
+def test_unzip_bad_zip_raises(bad_zip):
+    with pytest.raises(InvalidZipRepository, match="is not a valid zip archive"):
+        unzip(bad_zip, is_url=False)
+
+@patch("requests.get")
+@patch("cookiecutter.utils.make_sure_path_exists")
+@patch("cookiecutter.prompt.prompt_and_delete")
+def test_unzip_url_success(mock_prompt, mock_make_sure, mock_get, temp_dir):
+    zip_uri = "http://example.com/repo.zip"
+    clone_dir = temp_dir / "cache"
+    
+    # Mocking the response for requests.get
+    mock_response = MagicMock()
+    mock_response.iter_content.return_value = [b"fake_zip_content"]
+    mock_get.return_value = mock_response
+    
+    # Create a dummy file that looks like a valid zip to satisfy ZipFile constructor
+    # Since we can't easily download and unzip a fake stream in a unit test 
+    # without real zip structure, we patch the ZipFile context manager directly.
+    with patch("zipfile.ZipFile") as mock_zip:
+        mock_zip_instance = mock_zip.return_value.__enter__.return_value
+        mock_zip_instance.namelist.return_value = ["repo/"]
+        mock_zip_instance.extractall.return_value = None
+        
+        result = unzip(zip_uri, is_url=True, clone_to_dir=clone_dir)
+        
+        assert "repo" in result
+        mock_get.assert_called_once_with(zip_uri, stream=True, timeout=100)
+
+@patch("zipfile.ZipFile")
+def test_unzip_password_provided(mock_zip, password_zip):
+    mock_zip_instance = mock_zip.return_value.__enter__.return_value
+    mock_zip_instance.namelist.return_value = ["project/"]
+    # Simulate RuntimeError for wrong password first, then success with correct one
+    mock_zip_instance.extractall.side_effect = [RuntimeError("Bad password"), None]
+
+    result = unzip(password_zip, is_url=False, password="correct_password")
+    
+    assert "project" in result
+    # Verify extractall was called with encoded password
+    args, kwargs = mock_zip_instance.extractall.call_args
+    assert kwargs['pwd'] == b"correct_password"
+
+@patch("zipfile.ZipFile")
+@patch("cookiecutter.prompt.read_repo_password")
+def test_unzip_password_prompt(mock_prompt_pass, mock_zip, password_zip):
+    mock_zip_instance = mock_zip.return_value.__enter__.return_value
+    mock_zip_instance.namelist.return_value = ["project/"]
+    mock_prompt_pass.return_value = "user_entered_password"
+    # Simulate RuntimeError for first attempt, then success
+    mock_zip_instance.extractall.side_effect = [RuntimeError("Bad password"), None]
+
+    result = unzip(password_zip, is_url=False, no_input=False)
+    
+    assert "project" in result
+    mock_prompt_pass.assert_called_once()
+    assert mock_zip_instance.extractall.call_count == 2
+
+@patch("zipfile.ZipFile")
+def test_unzip_password_failure_no_input(mock_zip, password_zip):
+    mock_zip_instance = mock_zip.return_value.__enter__.return_value
+    mock_zip_instance.namelist.return_value = ["project/"]
+    mock_zip_instance.extractall.side_effect = RuntimeError("Bad password")
+
+    with pytest.raises(InvalidZipRepository, match="Unable to unlock password protected repository"):
+        unzip(password_zip, is_url=False, no_input=True)
+
+@patch("zipfile.ZipFile")
+@patch("cookiecutter.prompt.read_repo_password")
+def test_unzip_password_too_many_retries(mock_prompt_pass, mock_zip, password_zip):
+    mock_zip_instance = mock_zip.return_value.__enter__.return_value
+    mock_zip_instance.namelist.return_value = ["project/"]
+    mock_prompt_pass.return_value = "wrong"
+    # Always raise error
+    mock_zip_instance.extractall.side_effect = RuntimeError("Bad password")
+
+    with pytest.raises(InvalidZipRepository, match="Invalid password provided for protected repository"):
+        unzip(password_zip, is_url=False, no_input=False)
+    
+    assert mock_prompt_pass.call_count == 3
+```
+
+
+# LLM-generated content at query #10
+#--------------------------
+
+```python
+import os
+import tempfile
+import shutil
+from pathlib import Path
+from unittest.mock import MagicMock, patch
+import pytest
+from zipfile import ZipFile
+
+@pytest.fixture
+def temp_dir():
+    path = tempfile.mkdtemp()
+    yield Path(path)
+    shutil.rmtree(path)
+
+@pytest.fixture
+def valid_zip(temp_dir):
+    zip_path = temp_dir / "test_repo.zip"
+    project_name = "my_project"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr(f"{project_name}/file.txt", "content")
+    return zip_path
+
+@pytest.fixture
+def empty_zip(temp_dir):
+    zip_path = temp_dir / "empty.zip"
+    with ZipFile(push_path := zip_path, 'w') as zf:
+        pass
+    return zip_path
+
+@pytest.fixture
+def bad_structure_zip(temp_dir):
+    zip_path = temp_dir / "bad_struct.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("file.txt", "no directory root")
+    return zip_path
+
+@pytest.fixture
+def password_zip(temp_dir):
+    # Note: zipfile module has limited support for creating encrypted zips in some versions
+    # but we can mock the behavior of ZipFile during extraction
+    zip_path = temp_dir / "protected.zip"
+    with ZipFile(zip_path, 'w') as zf:
+        zf.writestr("protected_dir/", "content")
+    return zip_path
+
+def test_unzip_local_file_success(temp_dir, valid_zip):
+    result_path = unzip(str(valid_zip), is_url=False, clone_to_dir=temp_dir)
+    assert os.path.exists(result_path)
+    assert os.path.exists(os.path.join(result_path, "file.txt"))
+
+def test_unzip_url_download_success(temp_dir):
+    zip_uri = "https://example.com/repo.zip"
+    clone_dir = temp_dir / "cache"
+    make_sure_path_exists(clone_dir)
+    
+    # Create a dummy zip to act as the downloaded file
+    dummy_zip = clone_dir / "repo.zip"
+    with ZipFile(dummy_zip, 'w') as zf:
+        zf.writestr("repo_dir/data.txt", "data")
+
+    with patch('requests.get') as mock_get:
+        mock_response = MagicMock()
+        mock_response.iter_content.return_value = [b"dummy content"]
+        mock_get.return_value = mock_response
+        # We mock prompt_and_delete to return False so it doesn't delete our dummy
+        with patch('cookiecutter.utils.prompt_and_delete', return_value=False):
+            result_path = unzip(zip_uri, is_url=True, clone_to_dir=clone_dir)
+    
+    assert os.path.exists(result_path)
+    assert os.path.exists(os.path.join(result_path, "data.txt"))
+
+def test_unzip_empty_zip_raises_error(empty_zip):
+    with pytest.raises(InvalidZipRepository, match="is empty"):
+        unzip(str(empty_zip), is_url=False)
+
+def test_unzip_no_top_level_dir_raises_error(bad_structure_zip):
+    with pytest.raises(InvalidZipRepository, match="does not include a top-level directory"):
+        unzip(str(bad_structure_zip), is_url=False)
+
+def test_unzip_bad_zip_file_raises_error(temp_dir):
+    bad_file = temp_dir / "corrupt.zip"
+    bad_file.write_text("not a zip")
+    with pytest.raises(InvalidZipRepository, match="is not a valid zip archive"):
+        unzip(str(bad_file), is_url=False)
+
+def test_unzip_password_provided_success(password_zip):
+    with patch('zipfile.ZipFile.extractall') as mock_extract:
+        # Simulate success on second attempt with password
+        def side_effect(path, pwd=None):
+            if pwd:
+                return None
+            raise RuntimeError("Password required")
+        
+        mock_extract.side_effect = side_effect
+        result = unzip(str(password_zip), is_url=False, password="secret_password")
+        assert mock_extract.called
+        assert result is not None
+
+def test_unzip_password_wrong_raises_error(password_zip):
+    with patch('zipfile.ZipFile.extractall', side_effect=RuntimeError("Bad password")):
+        with pytest.raises(InvalidZipRepository, match="Invalid password provided"):
+            unzip(str(password_zip), is_url=False, password="wrong_password")
+
+def test_unzip_no_input_and_no_password_raises_error(password_zip):
+    with patch('zipfile.ZipFile.extractall', side_effect=RuntimeError("Password required")):
+        with pytest.raises(InvalidZipRepository, match="Unable to unlock password protected repository"):
+            unzip(str(password_zip), is_url=False, no_input=True)
+
+def test_unzip_prompt_for_password_success(password_zip):
+    with patch('cookiecutter.prompt.read_repo_password', return_value='correct_pass'):
+        with patch('zipfile.ZipFile.extractall') as mock_extract:
+            # First call fails (no password), second call succeeds (with password)
+            mock_extract.side_effect = [RuntimeError("Password required"), None]
+            result = unzip(str(password_zip), is_url=False)
+            assert result is not None
+            assert mock_extract.call_count == 2
+
+def test_unzip_password_retry_limit_exceeded(password_zip):
+    with patch('cookiecutter.prompt.read_repo_password', return_value='wrong'):
+        with patch('zipfile.ZipFile.extractall', side_effect=RuntimeError("Password required")):
+            with pytest.raises(InvalidZipRepository, match="Invalid password provided"):
+                unzip(str(password_zip), is_url=False)
+```
+
+

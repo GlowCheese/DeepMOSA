@@ -1,0 +1,3533 @@
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+```
+Write unit test for function _merge_original_parts
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+```
+Write unit test for function extract_text_array
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+```
+Write unit test for function _strip_artifical_nl
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+```
+Write unit test for function _squash_artifical_nl
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #31
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #32
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #33
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #34
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #36
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+```
+Write unit test for function _merge_original_parts
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+```
+Write unit test for function _strip_artifical_nl
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+```
+Write unit test for function extract_text_array
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+```
+Write unit test for function _squash_artifical_nl
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 11 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 3 evaluates to True.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #31
+#--------------------------
+
+```
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+```
+Write unit test for function extract_text_array
+
+
+# Prompt used at query #32
+#--------------------------
+
+```
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+```
+Write unit test for function extract_text_array
+
+
+# Prompt used at query #33
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+ 2 |     a = extract_text_array(dom, squash_artifical_nl=squash_space)
+ 3 |     if squash_space:
+ 4 |         a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+ 5 |     result = ''.join(
+ 6 |         block_symbol if x is None else (
+ 7 |             sep_symbol if x is True else x
+ 8 |         )
+ 9 |         for x in a
+10 |     )
+11 |     if squash_space:
+12 |         result = result.strip()
+13 |     return result
+```
+
+
+# Prompt used at query #34
+#--------------------------
+
+```
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def squash_html_whitespace(text):
+    # use raw extract_text for preformatted content (like <pre> content or set
+    # by CSS rules)
+    # apply this function on top of
+    return WHITESPACE_RE.sub(' ', text)
+
+
+def _merge_original_parts(parts):
+    output, orp_buf = [], []
+
+    def flush():
+        if orp_buf:
+            item = squash_html_whitespace(''.join(orp_buf)).strip()
+            if item:
+                output.append(item)
+            orp_buf[:] = []
+
+    for x in parts:
+        if not isinstance(x, str):
+            flush()
+            output.append(x)
+        else:
+            orp_buf.append(x)
+    flush()
+    return output
+
+
+def _strip_artifical_nl(parts):
+    if not parts:
+        return parts
+    for start_idx, pt in enumerate(parts):
+        if isinstance(pt, str):
+            # 0, 1, 2, index of first string [start_idx:...
+            break
+    iterator = enumerate(parts[:start_idx - 1 if start_idx > 0 else None:-1])
+    for end_idx, pt in iterator:
+        if isinstance(pt, str):  # 0=None, 1=-1, 2=-2, index of last string
+            break
+    return parts[start_idx:-end_idx if end_idx > 0 else None]
+
+
+def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+    if callable(dom.tag):
+        return ''
+    r = []
+    if dom.tag in SEPARATORS:
+        r.append(True)  # equivalent of '\n' used to designate separators
+    elif dom.tag not in INLINE_TAGS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if dom.text is not None:
+        r.append(dom.text)
+    for child in dom.getchildren():
+        r.extend(extract_text_array(child, squash_artifical_nl=False,
+                                    strip_artifical_nl=False))
+        if child.tail is not None:
+            r.append(child.tail)
+    if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+        # equivalent of '\n' used to designate artificially inserted newlines
+        r.append(None)
+    if squash_artifical_nl:
+        r = _squash_artifical_nl(r)
+    if strip_artifical_nl:
+        r = _strip_artifical_nl(r)
+    return r
+
+
+def _squash_artifical_nl(parts):
+    output, last_nl = [], False
+    for x in parts:
+        if x is not None:
+            output.append(x)
+            last_nl = False
+        elif not last_nl:
+            output.append(None)
+            last_nl = True
+    return output
+
+
+def extract_text(dom, block_symbol='\n', sep_symbol='\n', squash_space=True):
+    a = extract_text_array(dom, squash_artifical_nl=squash_space)
+    if squash_space:
+        a = _strip_artifical_nl(_squash_artifical_nl(_merge_original_parts(a)))
+    result = ''.join(
+        block_symbol if x is None else (
+            sep_symbol if x is True else x
+        )
+        for x in a
+    )
+    if squash_space:
+        result = result.strip()
+    return result
+
+```
+Write unit test for function extract_text
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+
+# Prompt used at query #36
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to True.
+```
+ 1 | def extract_text_array(dom, squash_artifical_nl=True, strip_artifical_nl=True):
+ 2 |     if callable(dom.tag):
+ 3 |         return ''
+ 4 |     r = []
+ 5 |     if dom.tag in SEPARATORS:
+ 6 |         r.append(True)  # equivalent of '\n' used to designate separators
+ 7 |     elif dom.tag not in INLINE_TAGS:
+ 8 |         # equivalent of '\n' used to designate artificially inserted newlines
+ 9 |         r.append(None)
+10 |     if dom.text is not None:
+11 |         r.append(dom.text)
+12 |     for child in dom.getchildren():
+13 |         r.extend(extract_text_array(child, squash_artifical_nl=False,
+14 |                                     strip_artifical_nl=False))
+15 |         if child.tail is not None:
+16 |             r.append(child.tail)
+17 |     if dom.tag not in INLINE_TAGS and dom.tag not in SEPARATORS:
+18 |         # equivalent of '\n' used to designate artificially inserted newlines
+19 |         r.append(None)
+20 |     if squash_artifical_nl:
+21 |         r = _squash_artifical_nl(r)
+22 |     if strip_artifical_nl:
+23 |         r = _strip_artifical_nl(r)
+24 |     return r
+```
+
+

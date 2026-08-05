@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pynguin coverage report</title>
+  <style>
+
+pre { line-height: 125%; }
+td.linenos .normal { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #586e75; background-color: #073642; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #073642 }
+.highlight { background: #002b36; color: #839496 }
+.highlight .c { color: #586E75; font-style: italic } /* Comment */
+.highlight .err { color: #839496; background-color: #DC322F } /* Error */
+.highlight .esc { color: #839496 } /* Escape */
+.highlight .g { color: #839496 } /* Generic */
+.highlight .k { color: #859900 } /* Keyword */
+.highlight .l { color: #839496 } /* Literal */
+.highlight .n { color: #839496 } /* Name */
+.highlight .o { color: #586E75 } /* Operator */
+.highlight .x { color: #839496 } /* Other */
+.highlight .p { color: #839496 } /* Punctuation */
+.highlight .ch { color: #586E75; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #586E75; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #D33682 } /* Comment.Preproc */
+.highlight .cpf { color: #586E75 } /* Comment.PreprocFile */
+.highlight .c1 { color: #586E75; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #586E75; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #DC322F } /* Generic.Deleted */
+.highlight .ge { color: #839496; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #839496; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #DC322F } /* Generic.Error */
+.highlight .gh { color: #839496; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #859900 } /* Generic.Inserted */
+.highlight .go { color: #839496 } /* Generic.Output */
+.highlight .gp { color: #268BD2; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #839496; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #839496; text-decoration: underline } /* Generic.Subheading */
+.highlight .gt { color: #268BD2 } /* Generic.Traceback */
+.highlight .kc { color: #2AA198 } /* Keyword.Constant */
+.highlight .kd { color: #2AA198 } /* Keyword.Declaration */
+.highlight .kn { color: #CB4B16 } /* Keyword.Namespace */
+.highlight .kp { color: #859900 } /* Keyword.Pseudo */
+.highlight .kr { color: #859900 } /* Keyword.Reserved */
+.highlight .kt { color: #B58900 } /* Keyword.Type */
+.highlight .ld { color: #839496 } /* Literal.Date */
+.highlight .m { color: #2AA198 } /* Literal.Number */
+.highlight .s { color: #2AA198 } /* Literal.String */
+.highlight .na { color: #839496 } /* Name.Attribute */
+.highlight .nb { color: #268BD2 } /* Name.Builtin */
+.highlight .nc { color: #268BD2 } /* Name.Class */
+.highlight .no { color: #268BD2 } /* Name.Constant */
+.highlight .nd { color: #268BD2 } /* Name.Decorator */
+.highlight .ni { color: #268BD2 } /* Name.Entity */
+.highlight .ne { color: #268BD2 } /* Name.Exception */
+.highlight .nf { color: #268BD2 } /* Name.Function */
+.highlight .nl { color: #268BD2 } /* Name.Label */
+.highlight .nn { color: #268BD2 } /* Name.Namespace */
+.highlight .nx { color: #839496 } /* Name.Other */
+.highlight .py { color: #839496 } /* Name.Property */
+.highlight .nt { color: #268BD2 } /* Name.Tag */
+.highlight .nv { color: #268BD2 } /* Name.Variable */
+.highlight .ow { color: #859900 } /* Operator.Word */
+.highlight .pm { color: #839496 } /* Punctuation.Marker */
+.highlight .w { color: #839496 } /* Text.Whitespace */
+.highlight .mb { color: #2AA198 } /* Literal.Number.Bin */
+.highlight .mf { color: #2AA198 } /* Literal.Number.Float */
+.highlight .mh { color: #2AA198 } /* Literal.Number.Hex */
+.highlight .mi { color: #2AA198 } /* Literal.Number.Integer */
+.highlight .mo { color: #2AA198 } /* Literal.Number.Oct */
+.highlight .sa { color: #2AA198 } /* Literal.String.Affix */
+.highlight .sb { color: #2AA198 } /* Literal.String.Backtick */
+.highlight .sc { color: #2AA198 } /* Literal.String.Char */
+.highlight .dl { color: #2AA198 } /* Literal.String.Delimiter */
+.highlight .sd { color: #586E75 } /* Literal.String.Doc */
+.highlight .s2 { color: #2AA198 } /* Literal.String.Double */
+.highlight .se { color: #2AA198 } /* Literal.String.Escape */
+.highlight .sh { color: #2AA198 } /* Literal.String.Heredoc */
+.highlight .si { color: #2AA198 } /* Literal.String.Interpol */
+.highlight .sx { color: #2AA198 } /* Literal.String.Other */
+.highlight .sr { color: #CB4B16 } /* Literal.String.Regex */
+.highlight .s1 { color: #2AA198 } /* Literal.String.Single */
+.highlight .ss { color: #2AA198 } /* Literal.String.Symbol */
+.highlight .bp { color: #268BD2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #268BD2 } /* Name.Function.Magic */
+.highlight .vc { color: #268BD2 } /* Name.Variable.Class */
+.highlight .vg { color: #268BD2 } /* Name.Variable.Global */
+.highlight .vi { color: #268BD2 } /* Name.Variable.Instance */
+.highlight .vm { color: #268BD2 } /* Name.Variable.Magic */
+.highlight .il { color: #2AA198 } /* Literal.Number.Integer.Long */
+
+body{
+    color: #c9d1d9;
+    background: #0d1117;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+td.lines span{
+    display: block;
+    padding-right: 8px;
+    line-height: 125%;
+}
+
+.notCovered{
+    border-right: 5px solid darkred;
+}
+.partiallyCovered{
+    border-right: 5px solid orangered;
+}
+.fullyCovered{
+    border-right: 5px solid darkgreen;
+}
+.notRelevant{
+    border-right: 5px solid transparent;
+}
+
+</style>
+</head>
+<body>
+<h1>Pynguin coverage report for module 'pyrsistent._field_common'</h1>
+<p>Achieved 81.37% branch coverage:
+10/18 branchless code objects covered.
+73/84 branches covered.</p>
+<table>
+    <tbody>
+        <tr>
+            <td style="width: 40px; text-align: right;" class="lines">
+                <span class="fullyCovered" title="1/1 branchless code objects covered">1</span>
+                  <span class="notRelevant">2</span>
+                  <span class="notRelevant">3</span>
+                  <span class="notRelevant">4</span>
+                  <span class="notRelevant">5</span>
+                  <span class="notRelevant">6</span>
+                  <span class="notRelevant">7</span>
+                  <span class="notRelevant">8</span>
+                  <span class="notRelevant">9</span>
+                  <span class="notRelevant">10</span>
+                  <span class="notRelevant">11</span>
+                  <span class="notRelevant">12</span>
+                  <span class="notRelevant">13</span>
+                  <span class="notRelevant">14</span>
+                  <span class="notRelevant">15</span>
+                  <span class="notRelevant">16</span>
+                  <span class="notRelevant">17</span>
+                  <span class="fullyCovered" title="2/2 branches covered">18</span>
+                  <span class="notRelevant">19</span>
+                  <span class="fullyCovered" title="2/2 branches covered">20</span>
+                  <span class="fullyCovered" title="2/2 branches covered">21</span>
+                  <span class="notRelevant">22</span>
+                  <span class="notRelevant">23</span>
+                  <span class="notRelevant">24</span>
+                  <span class="notRelevant">25</span>
+                  <span class="notRelevant">26</span>
+                  <span class="partiallyCovered" title="1/4 branches covered">27</span>
+                  <span class="fullyCovered" title="2/2 branches covered">28</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">29</span>
+                  <span class="notRelevant">30</span>
+                  <span class="notRelevant">31</span>
+                  <span class="notRelevant">32</span>
+                  <span class="notRelevant">33</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">34</span>
+                  <span class="notRelevant">35</span>
+                  <span class="notRelevant">36</span>
+                  <span class="notRelevant">37</span>
+                  <span class="notRelevant">38</span>
+                  <span class="notRelevant">39</span>
+                  <span class="notRelevant">40</span>
+                  <span class="fullyCovered" title="6/6 branches covered">41</span>
+                  <span class="notRelevant">42</span>
+                  <span class="notRelevant">43</span>
+                  <span class="notRelevant">44</span>
+                  <span class="notRelevant">45</span>
+                  <span class="notRelevant">46</span>
+                  <span class="notRelevant">47</span>
+                  <span class="fullyCovered" title="2/2 branches covered">48</span>
+                  <span class="notRelevant">49</span>
+                  <span class="notRelevant">50</span>
+                  <span class="fullyCovered" title="2/2 branches covered">51</span>
+                  <span class="notRelevant">52</span>
+                  <span class="notRelevant">53</span>
+                  <span class="notRelevant">54</span>
+                  <span class="notRelevant">55</span>
+                  <span class="notRelevant">56</span>
+                  <span class="notRelevant">57</span>
+                  <span class="fullyCovered" title="2/2 branches covered">58</span>
+                  <span class="notRelevant">59</span>
+                  <span class="notRelevant">60</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">61</span>
+                  <span class="notRelevant">62</span>
+                  <span class="notRelevant">63</span>
+                  <span class="notRelevant">64</span>
+                  <span class="notRelevant">65</span>
+                  <span class="notRelevant">66</span>
+                  <span class="notRelevant">67</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">68</span>
+                  <span class="notRelevant">69</span>
+                  <span class="notRelevant">70</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">71</span>
+                  <span class="notRelevant">72</span>
+                  <span class="notRelevant">73</span>
+                  <span class="notRelevant">74</span>
+                  <span class="notRelevant">75</span>
+                  <span class="notRelevant">76</span>
+                  <span class="notRelevant">77</span>
+                  <span class="notRelevant">78</span>
+                  <span class="notRelevant">79</span>
+                  <span class="notRelevant">80</span>
+                  <span class="notRelevant">81</span>
+                  <span class="fullyCovered" title="4/4 branches covered">82</span>
+                  <span class="notRelevant">83</span>
+                  <span class="partiallyCovered" title="1/2 branches covered">84</span>
+                  <span class="notRelevant">85</span>
+                  <span class="notRelevant">86</span>
+                  <span class="notRelevant">87</span>
+                  <span class="notRelevant">88</span>
+                  <span class="notRelevant">89</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">90</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">91</span>
+                  <span class="notRelevant">92</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">93</span>
+                  <span class="notRelevant">94</span>
+                  <span class="notRelevant">95</span>
+                  <span class="notRelevant">96</span>
+                  <span class="notRelevant">97</span>
+                  <span class="notRelevant">98</span>
+                  <span class="notRelevant">99</span>
+                  <span class="notRelevant">100</span>
+                  <span class="notRelevant">101</span>
+                  <span class="notRelevant">102</span>
+                  <span class="notRelevant">103</span>
+                  <span class="notRelevant">104</span>
+                  <span class="notRelevant">105</span>
+                  <span class="notRelevant">106</span>
+                  <span class="notRelevant">107</span>
+                  <span class="notRelevant">108</span>
+                  <span class="notRelevant">109</span>
+                  <span class="notRelevant">110</span>
+                  <span class="notRelevant">111</span>
+                  <span class="notRelevant">112</span>
+                  <span class="notRelevant">113</span>
+                  <span class="notRelevant">114</span>
+                  <span class="notRelevant">115</span>
+                  <span class="notRelevant">116</span>
+                  <span class="notRelevant">117</span>
+                  <span class="fullyCovered" title="2/2 branches covered">118</span>
+                  <span class="notRelevant">119</span>
+                  <span class="notRelevant">120</span>
+                  <span class="notRelevant">121</span>
+                  <span class="notRelevant">122</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">123</span>
+                  <span class="notRelevant">124</span>
+                  <span class="notRelevant">125</span>
+                  <span class="notRelevant">126</span>
+                  <span class="notRelevant">127</span>
+                  <span class="notRelevant">128</span>
+                  <span class="notRelevant">129</span>
+                  <span class="notRelevant">130</span>
+                  <span class="notRelevant">131</span>
+                  <span class="notRelevant">132</span>
+                  <span class="fullyCovered" title="2/2 branches covered">133</span>
+                  <span class="partiallyCovered" title="3/4 branches covered">134</span>
+                  <span class="notRelevant">135</span>
+                  <span class="notRelevant">136</span>
+                  <span class="fullyCovered" title="8/8 branches covered">137</span>
+                  <span class="notRelevant">138</span>
+                  <span class="fullyCovered" title="2/2 branches covered">139</span>
+                  <span class="notRelevant">140</span>
+                  <span class="notRelevant">141</span>
+                  <span class="fullyCovered" title="2/2 branches covered">142</span>
+                  <span class="notRelevant">143</span>
+                  <span class="notRelevant">144</span>
+                  <span class="fullyCovered" title="2/2 branches covered">145</span>
+                  <span class="notRelevant">146</span>
+                  <span class="notRelevant">147</span>
+                  <span class="fullyCovered" title="2/2 branches covered">148</span>
+                  <span class="notRelevant">149</span>
+                  <span class="notRelevant">150</span>
+                  <span class="notRelevant">151</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">152</span>
+                  <span class="notRelevant">153</span>
+                  <span class="notRelevant">154</span>
+                  <span class="notRelevant">155</span>
+                  <span class="notRelevant">156</span>
+                  <span class="notRelevant">157</span>
+                  <span class="notRelevant">158</span>
+                  <span class="notRelevant">159</span>
+                  <span class="notRelevant">160</span>
+                  <span class="notRelevant">161</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">162</span>
+                  <span class="notRelevant">163</span>
+                  <span class="notRelevant">164</span>
+                  <span class="notRelevant">165</span>
+                  <span class="notRelevant">166</span>
+                  <span class="notRelevant">167</span>
+                  <span class="notRelevant">168</span>
+                  <span class="notRelevant">169</span>
+                  <span class="notRelevant">170</span>
+                  <span class="notRelevant">171</span>
+                  <span class="notRelevant">172</span>
+                  <span class="notRelevant">173</span>
+                  <span class="notRelevant">174</span>
+                  <span class="notRelevant">175</span>
+                  <span class="notRelevant">176</span>
+                  <span class="notRelevant">177</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">178</span>
+                  <span class="notRelevant">179</span>
+                  <span class="notRelevant">180</span>
+                  <span class="notRelevant">181</span>
+                  <span class="notRelevant">182</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">183</span>
+                  <span class="notRelevant">184</span>
+                  <span class="fullyCovered" title="2/2 branches covered">185</span>
+                  <span class="notRelevant">186</span>
+                  <span class="notRelevant">187</span>
+                  <span class="notRelevant">188</span>
+                  <span class="notRelevant">189</span>
+                  <span class="fullyCovered" title="2/2 branches covered">190</span>
+                  <span class="notRelevant">191</span>
+                  <span class="notRelevant">192</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">193</span>
+                  <span class="notRelevant">194</span>
+                  <span class="notRelevant">195</span>
+                  <span class="notRelevant">196</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">197</span>
+                  <span class="notRelevant">198</span>
+                  <span class="notRelevant">199</span>
+                  <span class="notRelevant">200</span>
+                  <span class="notRelevant">201</span>
+                  <span class="notRelevant">202</span>
+                  <span class="notRelevant">203</span>
+                  <span class="notRelevant">204</span>
+                  <span class="notRelevant">205</span>
+                  <span class="notRelevant">206</span>
+                  <span class="notRelevant">207</span>
+                  <span class="notRelevant">208</span>
+                  <span class="notRelevant">209</span>
+                  <span class="notRelevant">210</span>
+                  <span class="notRelevant">211</span>
+                  <span class="notRelevant">212</span>
+                  <span class="notRelevant">213</span>
+                  <span class="notRelevant">214</span>
+                  <span class="notRelevant">215</span>
+                  <span class="notRelevant">216</span>
+                  <span class="notRelevant">217</span>
+                  <span class="notRelevant">218</span>
+                  <span class="notRelevant">219</span>
+                  <span class="notRelevant">220</span>
+                  <span class="notRelevant">221</span>
+                  <span class="fullyCovered" title="2/2 branches covered">222</span>
+                  <span class="notRelevant">223</span>
+                  <span class="fullyCovered" title="2/2 branches covered">224</span>
+                  <span class="notRelevant">225</span>
+                  <span class="notRelevant">226</span>
+                  <span class="notRelevant">227</span>
+                  <span class="notRelevant">228</span>
+                  <span class="notRelevant">229</span>
+                  <span class="notRelevant">230</span>
+                  <span class="fullyCovered" title="2/2 branches covered">231</span>
+                  <span class="notRelevant">232</span>
+                  <span class="notRelevant">233</span>
+                  <span class="notRelevant">234</span>
+                  <span class="notRelevant">235</span>
+                  <span class="notRelevant">236</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">237</span>
+                  <span class="notRelevant">238</span>
+                  <span class="notRelevant">239</span>
+                  <span class="notRelevant">240</span>
+                  <span class="notRelevant">241</span>
+                  <span class="notRelevant">242</span>
+                  <span class="notRelevant">243</span>
+                  <span class="notRelevant">244</span>
+                  <span class="notRelevant">245</span>
+                  <span class="notRelevant">246</span>
+                  <span class="notRelevant">247</span>
+                  <span class="notRelevant">248</span>
+                  <span class="notRelevant">249</span>
+                  <span class="notRelevant">250</span>
+                  <span class="notRelevant">251</span>
+                  <span class="notRelevant">252</span>
+                  <span class="notRelevant">253</span>
+                  <span class="notRelevant">254</span>
+                  <span class="notRelevant">255</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">256</span>
+                  <span class="notRelevant">257</span>
+                  <span class="notRelevant">258</span>
+                  <span class="notRelevant">259</span>
+                  <span class="notRelevant">260</span>
+                  <span class="notRelevant">261</span>
+                  <span class="notRelevant">262</span>
+                  <span class="notRelevant">263</span>
+                  <span class="notRelevant">264</span>
+                  <span class="notRelevant">265</span>
+                  <span class="notRelevant">266</span>
+                  <span class="notRelevant">267</span>
+                  <span class="notRelevant">268</span>
+                  <span class="notRelevant">269</span>
+                  <span class="notRelevant">270</span>
+                  <span class="notRelevant">271</span>
+                  <span class="notRelevant">272</span>
+                  <span class="notRelevant">273</span>
+                  <span class="notRelevant">274</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">275</span>
+                  <span class="notRelevant">276</span>
+                  <span class="notRelevant">277</span>
+                  <span class="notRelevant">278</span>
+                  <span class="notRelevant">279</span>
+                  <span class="notRelevant">280</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">281</span>
+                  <span class="notRelevant">282</span>
+                  <span class="notRelevant">283</span>
+                  <span class="notRelevant">284</span>
+                  <span class="notRelevant">285</span>
+                  <span class="notRelevant">286</span>
+                  <span class="notRelevant">287</span>
+                  <span class="notRelevant">288</span>
+                  <span class="fullyCovered" title="2/2 branches covered">289</span>
+                  <span class="notRelevant">290</span>
+                  <span class="notRelevant">291</span>
+                  <span class="fullyCovered" title="1/1 branchless code objects covered">292</span>
+                  <span class="notRelevant">293</span>
+                  <span class="notRelevant">294</span>
+                  <span class="notRelevant">295</span>
+                  <span class="notCovered" title="0/1 branchless code objects covered">296</span>
+                  <span class="notRelevant">297</span>
+                  <span class="notRelevant">298</span>
+                  <span class="notRelevant">299</span>
+                  <span class="notRelevant">300</span>
+                  <span class="notRelevant">301</span>
+                  <span class="notRelevant">302</span>
+                  <span class="notRelevant">303</span>
+                  <span class="notRelevant">304</span>
+                  <span class="notRelevant">305</span>
+                  <span class="notRelevant">306</span>
+                  <span class="notRelevant">307</span>
+                  <span class="notRelevant">308</span>
+                  <span class="notRelevant">309</span>
+                  <span class="notRelevant">310</span>
+                  <span class="notRelevant">311</span>
+                  <span class="notRelevant">312</span>
+                  <span class="notRelevant">313</span>
+                  <span class="notRelevant">314</span>
+                  <span class="notRelevant">315</span>
+                  <span class="notRelevant">316</span>
+                  <span class="notRelevant">317</span>
+                  <span class="notRelevant">318</span>
+                  <span class="notRelevant">319</span>
+                  <span class="notRelevant">320</span>
+                  <span class="fullyCovered" title="2/2 branches covered">321</span>
+                  <span class="notRelevant">322</span>
+                  <span class="notCovered" title="0/2 branches covered">323</span>
+                  <span class="notRelevant">324</span>
+                  <span class="notRelevant">325</span>
+                  <span class="notRelevant">326</span>
+                  <span class="notRelevant">327</span>
+                  <span class="notRelevant">328</span>
+                  <span class="notRelevant">329</span>
+                  <span class="notRelevant">330</span>
+                  <span class="fullyCovered" title="2/2 branches covered">331</span>
+                  <span class="notRelevant">332</span>
+                  </td>
+            <td style="width: 100%;"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pyrsistent._checked_types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CheckedPMap</span><span class="p">,</span>
+    <span class="n">CheckedPSet</span><span class="p">,</span>
+    <span class="n">CheckedPVector</span><span class="p">,</span>
+    <span class="n">CheckedType</span><span class="p">,</span>
+    <span class="n">InvariantException</span><span class="p">,</span>
+    <span class="n">_restore_pickle</span><span class="p">,</span>
+    <span class="n">get_type</span><span class="p">,</span>
+    <span class="n">maybe_parse_user_type</span><span class="p">,</span>
+    <span class="n">maybe_parse_many_user_types</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyrsistent._checked_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">optional</span> <span class="k">as</span> <span class="n">optional_type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyrsistent._checked_types</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap_invariant</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">set_fields</span><span class="p">(</span><span class="n">dct</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">dct</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">],</span> <span class="p">[]))</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dct</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">_PField</span><span class="p">):</span>
+            <span class="n">dct</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">del</span> <span class="n">dct</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_global_invariants</span><span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">invariants</span><span class="p">):</span>
+    <span class="n">error_codes</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">error_code</span> <span class="k">for</span> <span class="n">is_ok</span><span class="p">,</span> <span class="n">error_code</span> <span class="ow">in</span>
+                        <span class="p">(</span><span class="n">invariant</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span> <span class="k">for</span> <span class="n">invariant</span> <span class="ow">in</span> <span class="n">invariants</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">is_ok</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">error_codes</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InvariantException</span><span class="p">(</span><span class="n">error_codes</span><span class="p">,</span> <span class="p">(),</span> <span class="s1">&#39;Global invariant failed&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">serialize</span><span class="p">(</span><span class="n">serializer</span><span class="p">,</span> <span class="nb">format</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">CheckedType</span><span class="p">)</span> <span class="ow">and</span> <span class="n">serializer</span> <span class="ow">is</span> <span class="n">PFIELD_NO_SERIALIZER</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="nb">format</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">serializer</span><span class="p">(</span><span class="nb">format</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">check_type</span><span class="p">(</span><span class="n">destination_cls</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">get_type</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span><span class="p">):</span>
+        <span class="n">actual_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Invalid type for field </span><span class="si">{0}</span><span class="s2">.</span><span class="si">{1}</span><span class="s2">, was </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">destination_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">actual_type</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">PTypeError</span><span class="p">(</span><span class="n">destination_cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">actual_type</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_type_cls</span><span class="p">(</span><span class="n">type_cls</span><span class="p">,</span> <span class="n">field_type</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">field_type</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">set</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">field_type</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">types</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">get_type</span><span class="p">(</span><span class="n">types</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">type_cls</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_field_ignore_extra_complaint</span><span class="p">(</span><span class="n">type_cls</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="p">):</span>
+    <span class="c1"># ignore_extra param has default False value, for speed purpose no need to propagate False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ignore_extra</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_type_cls</span><span class="p">(</span><span class="n">type_cls</span><span class="p">,</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="s1">&#39;ignore_extra&#39;</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">factory</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
+
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_PField</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;invariant&#39;</span><span class="p">,</span> <span class="s1">&#39;initial&#39;</span><span class="p">,</span> <span class="s1">&#39;mandatory&#39;</span><span class="p">,</span> <span class="s1">&#39;_factory&#39;</span><span class="p">,</span> <span class="s1">&#39;serializer&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">invariant</span><span class="p">,</span> <span class="n">initial</span><span class="p">,</span> <span class="n">mandatory</span><span class="p">,</span> <span class="n">factory</span><span class="p">,</span> <span class="n">serializer</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">invariant</span> <span class="o">=</span> <span class="n">invariant</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial</span> <span class="o">=</span> <span class="n">initial</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mandatory</span> <span class="o">=</span> <span class="n">mandatory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="o">=</span> <span class="n">factory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serializer</span> <span class="o">=</span> <span class="n">serializer</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">factory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># If no factory is specified and the type is another CheckedType use the factory method of that CheckedType</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span> <span class="ow">is</span> <span class="n">PFIELD_NO_FACTORY</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">typ</span> <span class="o">=</span> <span class="n">get_type</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">CheckedType</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">typ</span><span class="o">.</span><span class="n">create</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factory</span>
+
+<span class="n">PFIELD_NO_TYPE</span> <span class="o">=</span> <span class="p">()</span>
+<span class="n">PFIELD_NO_INVARIANT</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">PFIELD_NO_FACTORY</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+<span class="n">PFIELD_NO_INITIAL</span> <span class="o">=</span> <span class="nb">object</span><span class="p">()</span>
+<span class="n">PFIELD_NO_SERIALIZER</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">PFIELD_NO_TYPE</span><span class="p">,</span> <span class="n">invariant</span><span class="o">=</span><span class="n">PFIELD_NO_INVARIANT</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="n">PFIELD_NO_INITIAL</span><span class="p">,</span>
+          <span class="n">mandatory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">PFIELD_NO_FACTORY</span><span class="p">,</span> <span class="n">serializer</span><span class="o">=</span><span class="n">PFIELD_NO_SERIALIZER</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Field specification factory for :py:class:`PRecord`.</span>
+
+<span class="sd">    :param type: a type or iterable with types that are allowed for this field</span>
+<span class="sd">    :param invariant: a function specifying an invariant that must hold for the field</span>
+<span class="sd">    :param initial: value of field if not specified when instantiating the record</span>
+<span class="sd">    :param mandatory: boolean specifying if the field is mandatory or not</span>
+<span class="sd">    :param factory: function called when field is set.</span>
+<span class="sd">    :param serializer: function that returns a serialized version of the field</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># NB: We have to check this predicate separately from the predicates in</span>
+    <span class="c1"># `maybe_parse_user_type` et al. because this one is related to supporting</span>
+    <span class="c1"># the argspec for `field`, while those are related to supporting the valid</span>
+    <span class="c1"># ways to specify types.</span>
+
+    <span class="c1"># Multiple types must be passed in one of the following containers. Note</span>
+    <span class="c1"># that a type that is a subclass of one of these containers, like a</span>
+    <span class="c1"># `collections.namedtuple`, will work as expected, since we check</span>
+    <span class="c1"># `isinstance` and not `issubclass`.</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">set</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="n">types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">maybe_parse_many_user_types</span><span class="p">(</span><span class="nb">type</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">maybe_parse_user_type</span><span class="p">(</span><span class="nb">type</span><span class="p">))</span>
+
+    <span class="n">invariant_function</span> <span class="o">=</span> <span class="n">wrap_invariant</span><span class="p">(</span><span class="n">invariant</span><span class="p">)</span> <span class="k">if</span> <span class="n">invariant</span> <span class="o">!=</span> <span class="n">PFIELD_NO_INVARIANT</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="n">invariant</span><span class="p">)</span> <span class="k">else</span> <span class="n">invariant</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="n">_PField</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">types</span><span class="p">,</span> <span class="n">invariant</span><span class="o">=</span><span class="n">invariant_function</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="n">initial</span><span class="p">,</span>
+                    <span class="n">mandatory</span><span class="o">=</span><span class="n">mandatory</span><span class="p">,</span> <span class="n">factory</span><span class="o">=</span><span class="n">factory</span><span class="p">,</span> <span class="n">serializer</span><span class="o">=</span><span class="n">serializer</span><span class="p">)</span>
+
+    <span class="n">_check_field_parameters</span><span class="p">(</span><span class="n">field</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">field</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_field_parameters</span><span class="p">(</span><span class="n">field</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Type parameter expected, not </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
+
+    <span class="k">if</span> <span class="n">field</span><span class="o">.</span><span class="n">initial</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">PFIELD_NO_INITIAL</span> <span class="ow">and</span> \
+            <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">initial</span><span class="p">)</span> <span class="ow">and</span> \
+            <span class="n">field</span><span class="o">.</span><span class="n">type</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">initial</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">field</span><span class="o">.</span><span class="n">type</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Initial has invalid type </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">initial</span><span class="p">)))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">invariant</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Invariant must be callable&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">factory</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Factory must be callable&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">serializer</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Serializer must be callable&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PTypeError</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when trying to assign a value with a type that doesn&#39;t match the declared type.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    source_class -- The class of the record</span>
+<span class="sd">    field -- Field name</span>
+<span class="sd">    expected_types  -- Types allowed for the field</span>
+<span class="sd">    actual_type -- The non matching type</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_class</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">expected_types</span><span class="p">,</span> <span class="n">actual_type</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PTypeError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_class</span> <span class="o">=</span> <span class="n">source_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">field</span> <span class="o">=</span> <span class="n">field</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expected_types</span> <span class="o">=</span> <span class="n">expected_types</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actual_type</span> <span class="o">=</span> <span class="n">actual_type</span>
+
+
+<span class="n">SEQ_FIELD_TYPE_SUFFIXES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">CheckedPVector</span><span class="p">:</span> <span class="s2">&quot;PVector&quot;</span><span class="p">,</span>
+    <span class="n">CheckedPSet</span><span class="p">:</span> <span class="s2">&quot;PSet&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># Global dictionary to hold auto-generated field types: used for unpickling</span>
+<span class="n">_seq_field_types</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_restore_seq_field_pickle</span><span class="p">(</span><span class="n">checked_class</span><span class="p">,</span> <span class="n">item_type</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unpickling function for auto-generated PVec/PSet field types.&quot;&quot;&quot;</span>
+    <span class="n">type_</span> <span class="o">=</span> <span class="n">_seq_field_types</span><span class="p">[</span><span class="n">checked_class</span><span class="p">,</span> <span class="n">item_type</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">_restore_pickle</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_types_to_names</span><span class="p">(</span><span class="n">types</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a tuple of types to a human-readable string.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_type</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">typ</span> <span class="ow">in</span> <span class="n">types</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_seq_field_type</span><span class="p">(</span><span class="n">checked_class</span><span class="p">,</span> <span class="n">item_type</span><span class="p">,</span> <span class="n">item_invariant</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a subclass of the given checked class with the given item type.&quot;&quot;&quot;</span>
+    <span class="n">type_</span> <span class="o">=</span> <span class="n">_seq_field_types</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">checked_class</span><span class="p">,</span> <span class="n">item_type</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">type_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">type_</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">TheType</span><span class="p">(</span><span class="n">checked_class</span><span class="p">):</span>
+        <span class="n">__type__</span> <span class="o">=</span> <span class="n">item_type</span>
+        <span class="n">__invariant__</span> <span class="o">=</span> <span class="n">item_invariant</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">_restore_seq_field_pickle</span><span class="p">,</span>
+                    <span class="p">(</span><span class="n">checked_class</span><span class="p">,</span> <span class="n">item_type</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+
+    <span class="n">suffix</span> <span class="o">=</span> <span class="n">SEQ_FIELD_TYPE_SUFFIXES</span><span class="p">[</span><span class="n">checked_class</span><span class="p">]</span>
+    <span class="n">TheType</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">_types_to_names</span><span class="p">(</span><span class="n">TheType</span><span class="o">.</span><span class="n">_checked_types</span><span class="p">)</span> <span class="o">+</span> <span class="n">suffix</span>
+    <span class="n">_seq_field_types</span><span class="p">[</span><span class="n">checked_class</span><span class="p">,</span> <span class="n">item_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">TheType</span>
+    <span class="k">return</span> <span class="n">TheType</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_sequence_field</span><span class="p">(</span><span class="n">checked_class</span><span class="p">,</span> <span class="n">item_type</span><span class="p">,</span> <span class="n">optional</span><span class="p">,</span> <span class="n">initial</span><span class="p">,</span>
+                    <span class="n">invariant</span><span class="o">=</span><span class="n">PFIELD_NO_INVARIANT</span><span class="p">,</span>
+                    <span class="n">item_invariant</span><span class="o">=</span><span class="n">PFIELD_NO_INVARIANT</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create checked field for either ``PSet`` or ``PVector``.</span>
+
+<span class="sd">    :param checked_class: ``CheckedPSet`` or ``CheckedPVector``.</span>
+<span class="sd">    :param item_type: The required type for the items in the set.</span>
+<span class="sd">    :param optional: If true, ``None`` can be used as a value for</span>
+<span class="sd">        this field.</span>
+<span class="sd">    :param initial: Initial value to pass to factory.</span>
+
+<span class="sd">    :return: A ``field`` containing a checked class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TheType</span> <span class="o">=</span> <span class="n">_make_seq_field_type</span><span class="p">(</span><span class="n">checked_class</span><span class="p">,</span> <span class="n">item_type</span><span class="p">,</span> <span class="n">item_invariant</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">optional</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">factory</span><span class="p">(</span><span class="n">argument</span><span class="p">,</span> <span class="n">_factory_fields</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">argument</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">TheType</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">argument</span><span class="p">,</span> <span class="n">_factory_fields</span><span class="o">=</span><span class="n">_factory_fields</span><span class="p">,</span> <span class="n">ignore_extra</span><span class="o">=</span><span class="n">ignore_extra</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">factory</span> <span class="o">=</span> <span class="n">TheType</span><span class="o">.</span><span class="n">create</span>
+
+    <span class="k">return</span> <span class="n">field</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">optional_type</span><span class="p">(</span><span class="n">TheType</span><span class="p">)</span> <span class="k">if</span> <span class="n">optional</span> <span class="k">else</span> <span class="n">TheType</span><span class="p">,</span>
+                 <span class="n">factory</span><span class="o">=</span><span class="n">factory</span><span class="p">,</span> <span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">invariant</span><span class="o">=</span><span class="n">invariant</span><span class="p">,</span>
+                 <span class="n">initial</span><span class="o">=</span><span class="n">factory</span><span class="p">(</span><span class="n">initial</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pset_field</span><span class="p">(</span><span class="n">item_type</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="p">(),</span>
+               <span class="n">invariant</span><span class="o">=</span><span class="n">PFIELD_NO_INVARIANT</span><span class="p">,</span>
+               <span class="n">item_invariant</span><span class="o">=</span><span class="n">PFIELD_NO_INVARIANT</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create checked ``PSet`` field.</span>
+
+<span class="sd">    :param item_type: The required type for the items in the set.</span>
+<span class="sd">    :param optional: If true, ``None`` can be used as a value for</span>
+<span class="sd">        this field.</span>
+<span class="sd">    :param initial: Initial value to pass to factory if no value is given</span>
+<span class="sd">        for the field.</span>
+
+<span class="sd">    :return: A ``field`` containing a ``CheckedPSet`` of the given type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_sequence_field</span><span class="p">(</span><span class="n">CheckedPSet</span><span class="p">,</span> <span class="n">item_type</span><span class="p">,</span> <span class="n">optional</span><span class="p">,</span> <span class="n">initial</span><span class="p">,</span>
+                           <span class="n">invariant</span><span class="o">=</span><span class="n">invariant</span><span class="p">,</span>
+                           <span class="n">item_invariant</span><span class="o">=</span><span class="n">item_invariant</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pvector_field</span><span class="p">(</span><span class="n">item_type</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="p">(),</span>
+                  <span class="n">invariant</span><span class="o">=</span><span class="n">PFIELD_NO_INVARIANT</span><span class="p">,</span>
+                  <span class="n">item_invariant</span><span class="o">=</span><span class="n">PFIELD_NO_INVARIANT</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create checked ``PVector`` field.</span>
+
+<span class="sd">    :param item_type: The required type for the items in the vector.</span>
+<span class="sd">    :param optional: If true, ``None`` can be used as a value for</span>
+<span class="sd">        this field.</span>
+<span class="sd">    :param initial: Initial value to pass to factory if no value is given</span>
+<span class="sd">        for the field.</span>
+
+<span class="sd">    :return: A ``field`` containing a ``CheckedPVector`` of the given type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_sequence_field</span><span class="p">(</span><span class="n">CheckedPVector</span><span class="p">,</span> <span class="n">item_type</span><span class="p">,</span> <span class="n">optional</span><span class="p">,</span> <span class="n">initial</span><span class="p">,</span>
+                           <span class="n">invariant</span><span class="o">=</span><span class="n">invariant</span><span class="p">,</span>
+                           <span class="n">item_invariant</span><span class="o">=</span><span class="n">item_invariant</span><span class="p">)</span>
+
+
+<span class="n">_valid</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Global dictionary to hold auto-generated field types: used for unpickling</span>
+<span class="n">_pmap_field_types</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_restore_pmap_field_pickle</span><span class="p">(</span><span class="n">key_type</span><span class="p">,</span> <span class="n">value_type</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unpickling function for auto-generated PMap field types.&quot;&quot;&quot;</span>
+    <span class="n">type_</span> <span class="o">=</span> <span class="n">_pmap_field_types</span><span class="p">[</span><span class="n">key_type</span><span class="p">,</span> <span class="n">value_type</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">_restore_pickle</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_pmap_field_type</span><span class="p">(</span><span class="n">key_type</span><span class="p">,</span> <span class="n">value_type</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a subclass of CheckedPMap with the given key and value types.&quot;&quot;&quot;</span>
+    <span class="n">type_</span> <span class="o">=</span> <span class="n">_pmap_field_types</span><span class="o">.</span><span class="n">get</span><span class="p">((</span><span class="n">key_type</span><span class="p">,</span> <span class="n">value_type</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">type_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">type_</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">TheMap</span><span class="p">(</span><span class="n">CheckedPMap</span><span class="p">):</span>
+        <span class="n">__key_type__</span> <span class="o">=</span> <span class="n">key_type</span>
+        <span class="n">__value_type__</span> <span class="o">=</span> <span class="n">value_type</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">_restore_pmap_field_pickle</span><span class="p">,</span>
+                    <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__key_type__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__value_type__</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+
+    <span class="n">TheMap</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">To</span><span class="si">{1}</span><span class="s2">PMap&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">_types_to_names</span><span class="p">(</span><span class="n">TheMap</span><span class="o">.</span><span class="n">_checked_key_types</span><span class="p">),</span>
+        <span class="n">_types_to_names</span><span class="p">(</span><span class="n">TheMap</span><span class="o">.</span><span class="n">_checked_value_types</span><span class="p">))</span>
+    <span class="n">_pmap_field_types</span><span class="p">[</span><span class="n">key_type</span><span class="p">,</span> <span class="n">value_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">TheMap</span>
+    <span class="k">return</span> <span class="n">TheMap</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pmap_field</span><span class="p">(</span><span class="n">key_type</span><span class="p">,</span> <span class="n">value_type</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">invariant</span><span class="o">=</span><span class="n">PFIELD_NO_INVARIANT</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a checked ``PMap`` field.</span>
+
+<span class="sd">    :param key: The required type for the keys of the map.</span>
+<span class="sd">    :param value: The required type for the values of the map.</span>
+<span class="sd">    :param optional: If true, ``None`` can be used as a value for</span>
+<span class="sd">        this field.</span>
+<span class="sd">    :param invariant: Pass-through to ``field``.</span>
+
+<span class="sd">    :return: A ``field`` containing a ``CheckedPMap``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TheMap</span> <span class="o">=</span> <span class="n">_make_pmap_field_type</span><span class="p">(</span><span class="n">key_type</span><span class="p">,</span> <span class="n">value_type</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">optional</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">factory</span><span class="p">(</span><span class="n">argument</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">argument</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">TheMap</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">factory</span> <span class="o">=</span> <span class="n">TheMap</span><span class="o">.</span><span class="n">create</span>
+
+    <span class="k">return</span> <span class="n">field</span><span class="p">(</span><span class="n">mandatory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">initial</span><span class="o">=</span><span class="n">TheMap</span><span class="p">(),</span>
+                 <span class="nb">type</span><span class="o">=</span><span class="n">optional_type</span><span class="p">(</span><span class="n">TheMap</span><span class="p">)</span> <span class="k">if</span> <span class="n">optional</span> <span class="k">else</span> <span class="n">TheMap</span><span class="p">,</span>
+                 <span class="n">factory</span><span class="o">=</span><span class="n">factory</span><span class="p">,</span> <span class="n">invariant</span><span class="o">=</span><span class="n">invariant</span><span class="p">)</span>
+</pre></div>
+</td>
+        </tr>
+    </tbody>
+</table>
+<footer>
+  <p>Created at 2026-07-28 19:00:39.460345</p>
+</footer>
+</body>
+</html>

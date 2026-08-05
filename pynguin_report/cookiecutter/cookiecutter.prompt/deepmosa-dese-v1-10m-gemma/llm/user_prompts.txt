@@ -1,0 +1,3314 @@
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def process_json(user_value: str):
+    """Load user-supplied value as a JSON dict.
+
+    :param user_value: User-supplied value to load as a JSON dict
+    """
+    try:
+        user_dict = json.loads(user_value, object_pairs_hook=OrderedDict)
+    except Exception as error:
+        # Leave it up to click to ask the user again
+        msg = 'Unable to decode to JSON.'
+        raise InvalidResponse(msg) from error
+
+    if not isinstance(user_dict, dict):
+        # Leave it up to click to ask the user again
+        msg = 'Requires JSON dict.'
+        raise InvalidResponse(msg)
+
+    return user_dict
+
+```
+Write unit test for function process_json
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+def process_json(user_value: str):
+    """Load user-supplied value as a JSON dict.
+
+    :param user_value: User-supplied value to load as a JSON dict
+    """
+    try:
+        user_dict = json.loads(user_value, object_pairs_hook=OrderedDict)
+    except Exception as error:
+        # Leave it up to click to ask the user again
+        msg = 'Unable to decode to JSON.'
+        raise InvalidResponse(msg) from error
+
+    if not isinstance(user_dict, dict):
+        # Leave it up to click to ask the user again
+        msg = 'Requires JSON dict.'
+        raise InvalidResponse(msg)
+
+    return user_dict
+
+```
+Write unit test for function process_json
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def read_user_dict(var_name: str, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to provide a dictionary of data.
+
+    :param var_name: Variable as specified in the context
+    :param default_value: Value that will be returned if no input is provided
+    :return: A Python dictionary to use in the context.
+    """
+    if not isinstance(default_value, dict):
+        raise TypeError
+
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return JsonPrompt.ask(
+        f"{prefix}{question} [cyan bold]({DEFAULT_DISPLAY})[/]",
+        default=default_value,
+        show_default=False,
+    )
+
+```
+Write unit test for function read_user_dict
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def read_user_choice(var_name: str, options: list, prompts=None, prefix: str = ""):
+    """Prompt the user to choose from several options for the given variable.
+
+    The first item will be returned if no input happens.
+
+    :param var_name: Variable as specified in the context
+    :param list options: Sequence of options that are available to select from
+    :return: Exactly one item of ``options`` that has been chosen by the user
+    """
+    if not options:
+        raise ValueError
+
+    choice_map = OrderedDict((f'{i}', value) for i, value in enumerate(options, 1))
+    choices = choice_map.keys()
+
+    question = f"Select {var_name}"
+
+    choice_lines: Iterator[str] = starmap(
+        "    [bold magenta]{}[/] - [bold]{}[/]".format, choice_map.items()
+    )
+
+    # Handle if human-readable prompt is provided
+    if prompts and var_name in prompts:
+        if isinstance(prompts[var_name], str):
+            question = prompts[var_name]
+        else:
+            if "__prompt__" in prompts[var_name]:
+                question = prompts[var_name]["__prompt__"]
+            choice_lines = (
+                f"    [bold magenta]{i}[/] - [bold]{prompts[var_name][p]}[/]"
+                if p in prompts[var_name]
+                else f"    [bold magenta]{i}[/] - [bold]{p}[/]"
+                for i, p in choice_map.items()
+            )
+
+    prompt = '\n'.join(
+        (
+            f"{prefix}{question}",
+            "\n".join(choice_lines),
+            "    Choose from",
+        )
+    )
+
+    user_choice = Prompt.ask(prompt, choices=list(choices), default=next(iter(choices)))
+    return choice_map[user_choice]
+
+
+def render_variable(
+    env: Environment,
+    raw: _Raw,
+    cookiecutter_dict: dict[str, Any],
+) -> str:
+    """Render the next variable to be displayed in the user prompt.
+
+    Inside the prompting taken from the cookiecutter.json file, this renders
+    the next variable. For example, if a project_name is "Peanut Butter
+    Cookie", the repo_name could be be rendered with:
+
+        `{{ cookiecutter.project_name.replace(" ", "_") }}`.
+
+    This is then presented to the user as the default.
+
+    :param Environment env: A Jinja2 Environment object.
+    :param raw: The next value to be prompted for by the user.
+    :param dict cookiecutter_dict: The current context as it's gradually
+        being populated with variables.
+    :return: The rendered value for the default variable.
+    """
+    if raw is None or isinstance(raw, bool):
+        return raw
+    if isinstance(raw, dict):
+        return {
+            render_variable(env, k, cookiecutter_dict): render_variable(
+                env, v, cookiecutter_dict
+            )
+            for k, v in raw.items()
+        }
+    if isinstance(raw, list):
+        return [render_variable(env, v, cookiecutter_dict) for v in raw]
+    if not isinstance(raw, str):
+        raw = str(raw)
+
+    template = env.from_string(raw)
+
+    return template.render(cookiecutter=cookiecutter_dict)
+
+
+def prompt_choice_for_config(
+    cookiecutter_dict: dict[str, Any],
+    env: Environment,
+    key: str,
+    options,
+    no_input: bool,
+    prompts=None,
+    prefix: str = "",
+) -> OrderedDict[str, Any] | str:
+    """Prompt user with a set of options to choose from.
+
+    :param no_input: Do not prompt for user input and return the first available option.
+    """
+    rendered_options = [render_variable(env, raw, cookiecutter_dict) for raw in options]
+    if no_input:
+        if not rendered_options:
+            msg = "The list of choices is empty"
+            raise ValueError(msg)
+        return rendered_options[0]
+    return read_user_choice(key, rendered_options, prompts, prefix)
+
+```
+Write unit test for function prompt_choice_for_config
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+def read_user_variable(var_name: str, default_value, prompts=None, prefix: str = ""):
+    """Prompt user for variable and return the entered value or given default.
+
+    :param str var_name: Variable of the context to query the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+
+    while True:
+        variable = Prompt.ask(f"{prefix}{question}", default=default_value)
+        if variable is not None:
+            break
+
+    return variable
+
+```
+Write unit test for function read_user_variable
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def read_user_variable(var_name: str, default_value, prompts=None, prefix: str = ""):
+    """Prompt user for variable and return the entered value or given default.
+
+    :param str var_name: Variable of the context to query the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+
+    while True:
+        variable = Prompt.ask(f"{prefix}{question}", default=default_value)
+        if variable is not None:
+            break
+
+    return variable
+
+```
+Write unit test for function read_user_variable
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+def read_user_yes_no(var_name, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to reply with 'yes' or 'no' (or equivalent values).
+
+    - These input values will be converted to ``True``:
+      "1", "true", "t", "yes", "y", "on"
+    - These input values will be converted to ``False``:
+      "0", "false", "f", "no", "n", "off"
+
+    Actual parsing done by :func:`prompt`; Check this function codebase change in
+    case of unexpected behaviour.
+
+    :param str question: Question to the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return YesNoPrompt.ask(f"{prefix}{question}", default=default_value)
+
+```
+Write unit test for function read_user_yes_no
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+class YesNoPrompt(Confirm):
+    """A prompt that returns a boolean for yes/no questions."""
+
+    yes_choices = ["1", "true", "t", "yes", "y", "on"]
+    no_choices = ["0", "false", "f", "no", "n", "off"]
+
+    def process_response(self, value: str) -> bool:
+        """Convert choices to a bool."""
+        value = value.strip().lower()
+        if value in self.yes_choices:
+            return True
+        if value in self.no_choices:
+            return False
+        raise InvalidResponse(self.validate_error_message)
+
+```
+Write unit test for method process_response of class YesNoPrompt
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 17 evaluates to False.
+```
+ 1 | def read_user_yes_no(var_name, default_value, prompts=None, prefix: str = ""):
+ 2 |     """Prompt the user to reply with 'yes' or 'no' (or equivalent values).
+ 3 | 
+ 4 |     - These input values will be converted to ``True``:
+ 5 |       "1", "true", "t", "yes", "y", "on"
+ 6 |     - These input values will be converted to ``False``:
+ 7 |       "0", "false", "f", "no", "n", "off"
+ 8 | 
+ 9 |     Actual parsing done by :func:`prompt`; Check this function codebase change in
+10 |     case of unexpected behaviour.
+11 | 
+12 |     :param str question: Question to the user
+13 |     :param default_value: Value that will be returned if no input happens
+14 |     """
+15 |     question = (
+16 |         prompts[var_name]
+17 |         if prompts and var_name in prompts and prompts[var_name]
+18 |         else var_name
+19 |     )
+20 |     return YesNoPrompt.ask(f"{prefix}{question}", default=default_value)
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def create_env_with_context(context: dict[str, Any]) -> StrictEnvironment:
+    """Create a jinja environment using the provided context."""
+    envvars = context.get('cookiecutter', {}).get('_jinja2_env_vars', {})
+
+    return StrictEnvironment(context=context, keep_trailing_newline=True, **envvars)
+
+```
+
+cookiecutter/environment.py:
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+
+class StrictEnvironment(ExtensionLoaderMixin, Environment):
+    """Create strict Jinja2 environment.
+
+    Jinja2 environment will raise error on undefined variable in template-
+    rendering context.
+    """
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Set the standard Cookiecutter StrictEnvironment.
+
+        Also loading extensions defined in cookiecutter.json's _extensions key.
+        """
+        super().__init__(undefined=StrictUndefined, **kwargs)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+def read_user_choice(var_name: str, options: list, prompts=None, prefix: str = ""):
+    """Prompt the user to choose from several options for the given variable.
+
+    The first item will be returned if no input happens.
+
+    :param var_name: Variable as specified in the context
+    :param list options: Sequence of options that are available to select from
+    :return: Exactly one item of ``options`` that has been chosen by the user
+    """
+    if not options:
+        raise ValueError
+
+    choice_map = OrderedDict((f'{i}', value) for i, value in enumerate(options, 1))
+    choices = choice_map.keys()
+
+    question = f"Select {var_name}"
+
+    choice_lines: Iterator[str] = starmap(
+        "    [bold magenta]{}[/] - [bold]{}[/]".format, choice_map.items()
+    )
+
+    # Handle if human-readable prompt is provided
+    if prompts and var_name in prompts:
+        if isinstance(prompts[var_name], str):
+            question = prompts[var_name]
+        else:
+            if "__prompt__" in prompts[var_name]:
+                question = prompts[var_name]["__prompt__"]
+            choice_lines = (
+                f"    [bold magenta]{i}[/] - [bold]{prompts[var_name][p]}[/]"
+                if p in prompts[var_name]
+                else f"    [bold magenta]{i}[/] - [bold]{p}[/]"
+                for i, p in choice_map.items()
+            )
+
+    prompt = '\n'.join(
+        (
+            f"{prefix}{question}",
+            "\n".join(choice_lines),
+            "    Choose from",
+        )
+    )
+
+    user_choice = Prompt.ask(prompt, choices=list(choices), default=next(iter(choices)))
+    return choice_map[user_choice]
+
+
+def render_variable(
+    env: Environment,
+    raw: _Raw,
+    cookiecutter_dict: dict[str, Any],
+) -> str:
+    """Render the next variable to be displayed in the user prompt.
+
+    Inside the prompting taken from the cookiecutter.json file, this renders
+    the next variable. For example, if a project_name is "Peanut Butter
+    Cookie", the repo_name could be be rendered with:
+
+        `{{ cookiecutter.project_name.replace(" ", "_") }}`.
+
+    This is then presented to the user as the default.
+
+    :param Environment env: A Jinja2 Environment object.
+    :param raw: The next value to be prompted for by the user.
+    :param dict cookiecutter_dict: The current context as it's gradually
+        being populated with variables.
+    :return: The rendered value for the default variable.
+    """
+    if raw is None or isinstance(raw, bool):
+        return raw
+    if isinstance(raw, dict):
+        return {
+            render_variable(env, k, cookiecutter_dict): render_variable(
+                env, v, cookiecutter_dict
+            )
+            for k, v in raw.items()
+        }
+    if isinstance(raw, list):
+        return [render_variable(env, v, cookiecutter_dict) for v in raw]
+    if not isinstance(raw, str):
+        raw = str(raw)
+
+    template = env.from_string(raw)
+
+    return template.render(cookiecutter=cookiecutter_dict)
+
+
+def read_user_dict(var_name: str, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to provide a dictionary of data.
+
+    :param var_name: Variable as specified in the context
+    :param default_value: Value that will be returned if no input is provided
+    :return: A Python dictionary to use in the context.
+    """
+    if not isinstance(default_value, dict):
+        raise TypeError
+
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return JsonPrompt.ask(
+        f"{prefix}{question} [cyan bold]({DEFAULT_DISPLAY})[/]",
+        default=default_value,
+        show_default=False,
+    )
+
+
+def render_variable(
+    env: Environment,
+    raw: _Raw,
+    cookiecutter_dict: dict[str, Any],
+) -> str:
+    """Render the next variable to be displayed in the user prompt.
+
+    Inside the prompting taken from the cookiecutter.json file, this renders
+    the next variable. For example, if a project_name is "Peanut Butter
+    Cookie", the repo_name could be be rendered with:
+
+        `{{ cookiecutter.project_name.replace(" ", "_") }}`.
+
+    This is then presented to the user as the default.
+
+    :param Environment env: A Jinja2 Environment object.
+    :param raw: The next value to be prompted for by the user.
+    :param dict cookiecutter_dict: The current context as it's gradually
+        being populated with variables.
+    :return: The rendered value for the default variable.
+    """
+    if raw is None or isinstance(raw, bool):
+        return raw
+    if isinstance(raw, dict):
+        return {
+            render_variable(env, k, cookiecutter_dict): render_variable(
+                env, v, cookiecutter_dict
+            )
+            for k, v in raw.items()
+        }
+    if isinstance(raw, list):
+        return [render_variable(env, v, cookiecutter_dict) for v in raw]
+    if not isinstance(raw, str):
+        raw = str(raw)
+
+    template = env.from_string(raw)
+
+    return template.render(cookiecutter=cookiecutter_dict)
+
+
+def read_user_variable(var_name: str, default_value, prompts=None, prefix: str = ""):
+    """Prompt user for variable and return the entered value or given default.
+
+    :param str var_name: Variable of the context to query the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+
+    while True:
+        variable = Prompt.ask(f"{prefix}{question}", default=default_value)
+        if variable is not None:
+            break
+
+    return variable
+
+
+def prompt_choice_for_config(
+    cookiecutter_dict: dict[str, Any],
+    env: Environment,
+    key: str,
+    options,
+    no_input: bool,
+    prompts=None,
+    prefix: str = "",
+) -> OrderedDict[str, Any] | str:
+    """Prompt user with a set of options to choose from.
+
+    :param no_input: Do not prompt for user input and return the first available option.
+    """
+    rendered_options = [render_variable(env, raw, cookiecutter_dict) for raw in options]
+    if no_input:
+        if not rendered_options:
+            msg = "The list of choices is empty"
+            raise ValueError(msg)
+        return rendered_options[0]
+    return read_user_choice(key, rendered_options, prompts, prefix)
+
+
+def read_user_yes_no(var_name, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to reply with 'yes' or 'no' (or equivalent values).
+
+    - These input values will be converted to ``True``:
+      "1", "true", "t", "yes", "y", "on"
+    - These input values will be converted to ``False``:
+      "0", "false", "f", "no", "n", "off"
+
+    Actual parsing done by :func:`prompt`; Check this function codebase change in
+    case of unexpected behaviour.
+
+    :param str question: Question to the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return YesNoPrompt.ask(f"{prefix}{question}", default=default_value)
+
+
+def prompt_for_config(
+    context: dict[str, Any], no_input: bool = False
+) -> OrderedDict[str, Any]:
+    """Prompt user to enter a new config.
+
+    :param dict context: Source for field names and sample values.
+    :param no_input: Do not prompt for user input and use only values from context.
+    """
+    cookiecutter_dict = OrderedDict([])
+    env = create_env_with_context(context)
+    prompts = context['cookiecutter'].pop('__prompts__', {})
+
+    # First pass: Handle simple and raw variables, plus choices.
+    # These must be done first because the dictionaries keys and
+    # values might refer to them.
+    count = 0
+    all_prompts = context['cookiecutter'].items()
+    visible_prompts = [k for k, _ in all_prompts if not k.startswith("_")]
+    size = len(visible_prompts)
+    for key, raw in all_prompts:
+        if key.startswith('_') and not key.startswith('__'):
+            cookiecutter_dict[key] = raw
+            continue
+        if key.startswith('__'):
+            cookiecutter_dict[key] = render_variable(env, raw, cookiecutter_dict)
+            continue
+
+        if not isinstance(raw, dict):
+            count += 1
+            prefix = f"  [dim][{count}/{size}][/] "
+
+        try:
+            if isinstance(raw, list):
+                # We are dealing with a choice variable
+                val = prompt_choice_for_config(
+                    cookiecutter_dict, env, key, raw, no_input, prompts, prefix
+                )
+                cookiecutter_dict[key] = val
+            elif isinstance(raw, bool):
+                # We are dealing with a boolean variable
+                if no_input:
+                    cookiecutter_dict[key] = render_variable(
+                        env, raw, cookiecutter_dict
+                    )
+                else:
+                    cookiecutter_dict[key] = read_user_yes_no(key, raw, prompts, prefix)
+            elif not isinstance(raw, dict):
+                # We are dealing with a regular variable
+                val = render_variable(env, raw, cookiecutter_dict)
+
+                if not no_input:
+                    val = read_user_variable(key, val, prompts, prefix)
+
+                cookiecutter_dict[key] = val
+        except UndefinedError as err:
+            msg = f"Unable to render variable '{key}'"
+            raise UndefinedVariableInTemplate(msg, err, context) from err
+
+    # Second pass; handle the dictionaries.
+    for key, raw in context['cookiecutter'].items():
+        # Skip private type dicts not to be rendered.
+        if key.startswith('_') and not key.startswith('__'):
+            continue
+
+        try:
+            if isinstance(raw, dict):
+                # We are dealing with a dict variable
+                count += 1
+                prefix = f"  [dim][{count}/{size}][/] "
+                val = render_variable(env, raw, cookiecutter_dict)
+
+                if not no_input and not key.startswith('__'):
+                    val = read_user_dict(key, val, prompts, prefix)
+
+                cookiecutter_dict[key] = val
+        except UndefinedError as err:
+            msg = f"Unable to render variable '{key}'"
+            raise UndefinedVariableInTemplate(msg, err, context) from err
+
+    return cookiecutter_dict
+
+```
+Write unit test for function prompt_for_config
+
+
+# Prompt used at query #11
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def rmtree(path: Path | str) -> None:
+    """Remove a directory and all its contents. Like rm -rf on Unix.
+
+    :param path: A directory path.
+    """
+    shutil.rmtree(path, onerror=force_delete)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+def read_user_yes_no(var_name, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to reply with 'yes' or 'no' (or equivalent values).
+
+    - These input values will be converted to ``True``:
+      "1", "true", "t", "yes", "y", "on"
+    - These input values will be converted to ``False``:
+      "0", "false", "f", "no", "n", "off"
+
+    Actual parsing done by :func:`prompt`; Check this function codebase change in
+    case of unexpected behaviour.
+
+    :param str question: Question to the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return YesNoPrompt.ask(f"{prefix}{question}", default=default_value)
+
+
+def prompt_and_delete(path: Path | str, no_input: bool = False) -> bool:
+    """
+    Ask user if it's okay to delete the previously-downloaded file/directory.
+
+    If yes, delete it. If no, checks to see if the old version should be
+    reused. If yes, it's reused; otherwise, Cookiecutter exits.
+
+    :param path: Previously downloaded zipfile.
+    :param no_input: Suppress prompt to delete repo and just delete it.
+    :return: True if the content was deleted
+    """
+    # Suppress prompt if called via API
+    if no_input:
+        ok_to_delete = True
+    else:
+        question = (
+            f"You've downloaded {path} before. Is it okay to delete and re-download it?"
+        )
+
+        ok_to_delete = read_user_yes_no(question, 'yes')
+
+    if ok_to_delete:
+        if os.path.isdir(path):
+            rmtree(path)
+        else:
+            os.remove(path)
+        return True
+    ok_to_reuse = read_user_yes_no("Do you want to re-use the existing version?", 'yes')
+
+    if ok_to_reuse:
+        return False
+
+    sys.exit()
+
+```
+Write unit test for function prompt_and_delete
+
+
+# Prompt used at query #12
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def create_env_with_context(context: dict[str, Any]) -> StrictEnvironment:
+    """Create a jinja environment using the provided context."""
+    envvars = context.get('cookiecutter', {}).get('_jinja2_env_vars', {})
+
+    return StrictEnvironment(context=context, keep_trailing_newline=True, **envvars)
+
+```
+
+cookiecutter/environment.py:
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+
+class StrictEnvironment(ExtensionLoaderMixin, Environment):
+    """Create strict Jinja2 environment.
+
+    Jinja2 environment will raise error on undefined variable in template-
+    rendering context.
+    """
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Set the standard Cookiecutter StrictEnvironment.
+
+        Also loading extensions defined in cookiecutter.json's _extensions key.
+        """
+        super().__init__(undefined=StrictUndefined, **kwargs)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+def read_user_choice(var_name: str, options: list, prompts=None, prefix: str = ""):
+    """Prompt the user to choose from several options for the given variable.
+
+    The first item will be returned if no input happens.
+
+    :param var_name: Variable as specified in the context
+    :param list options: Sequence of options that are available to select from
+    :return: Exactly one item of ``options`` that has been chosen by the user
+    """
+    if not options:
+        raise ValueError
+
+    choice_map = OrderedDict((f'{i}', value) for i, value in enumerate(options, 1))
+    choices = choice_map.keys()
+
+    question = f"Select {var_name}"
+
+    choice_lines: Iterator[str] = starmap(
+        "    [bold magenta]{}[/] - [bold]{}[/]".format, choice_map.items()
+    )
+
+    # Handle if human-readable prompt is provided
+    if prompts and var_name in prompts:
+        if isinstance(prompts[var_name], str):
+            question = prompts[var_name]
+        else:
+            if "__prompt__" in prompts[var_name]:
+                question = prompts[var_name]["__prompt__"]
+            choice_lines = (
+                f"    [bold magenta]{i}[/] - [bold]{prompts[var_name][p]}[/]"
+                if p in prompts[var_name]
+                else f"    [bold magenta]{i}[/] - [bold]{p}[/]"
+                for i, p in choice_map.items()
+            )
+
+    prompt = '\n'.join(
+        (
+            f"{prefix}{question}",
+            "\n".join(choice_lines),
+            "    Choose from",
+        )
+    )
+
+    user_choice = Prompt.ask(prompt, choices=list(choices), default=next(iter(choices)))
+    return choice_map[user_choice]
+
+
+def read_user_variable(var_name: str, default_value, prompts=None, prefix: str = ""):
+    """Prompt user for variable and return the entered value or given default.
+
+    :param str var_name: Variable of the context to query the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+
+    while True:
+        variable = Prompt.ask(f"{prefix}{question}", default=default_value)
+        if variable is not None:
+            break
+
+    return variable
+
+
+def prompt_choice_for_config(
+    cookiecutter_dict: dict[str, Any],
+    env: Environment,
+    key: str,
+    options,
+    no_input: bool,
+    prompts=None,
+    prefix: str = "",
+) -> OrderedDict[str, Any] | str:
+    """Prompt user with a set of options to choose from.
+
+    :param no_input: Do not prompt for user input and return the first available option.
+    """
+    rendered_options = [render_variable(env, raw, cookiecutter_dict) for raw in options]
+    if no_input:
+        if not rendered_options:
+            msg = "The list of choices is empty"
+            raise ValueError(msg)
+        return rendered_options[0]
+    return read_user_choice(key, rendered_options, prompts, prefix)
+
+
+def read_user_dict(var_name: str, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to provide a dictionary of data.
+
+    :param var_name: Variable as specified in the context
+    :param default_value: Value that will be returned if no input is provided
+    :return: A Python dictionary to use in the context.
+    """
+    if not isinstance(default_value, dict):
+        raise TypeError
+
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return JsonPrompt.ask(
+        f"{prefix}{question} [cyan bold]({DEFAULT_DISPLAY})[/]",
+        default=default_value,
+        show_default=False,
+    )
+
+
+def read_user_yes_no(var_name, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to reply with 'yes' or 'no' (or equivalent values).
+
+    - These input values will be converted to ``True``:
+      "1", "true", "t", "yes", "y", "on"
+    - These input values will be converted to ``False``:
+      "0", "false", "f", "no", "n", "off"
+
+    Actual parsing done by :func:`prompt`; Check this function codebase change in
+    case of unexpected behaviour.
+
+    :param str question: Question to the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return YesNoPrompt.ask(f"{prefix}{question}", default=default_value)
+
+
+def render_variable(
+    env: Environment,
+    raw: _Raw,
+    cookiecutter_dict: dict[str, Any],
+) -> str:
+    """Render the next variable to be displayed in the user prompt.
+
+    Inside the prompting taken from the cookiecutter.json file, this renders
+    the next variable. For example, if a project_name is "Peanut Butter
+    Cookie", the repo_name could be be rendered with:
+
+        `{{ cookiecutter.project_name.replace(" ", "_") }}`.
+
+    This is then presented to the user as the default.
+
+    :param Environment env: A Jinja2 Environment object.
+    :param raw: The next value to be prompted for by the user.
+    :param dict cookiecutter_dict: The current context as it's gradually
+        being populated with variables.
+    :return: The rendered value for the default variable.
+    """
+    if raw is None or isinstance(raw, bool):
+        return raw
+    if isinstance(raw, dict):
+        return {
+            render_variable(env, k, cookiecutter_dict): render_variable(
+                env, v, cookiecutter_dict
+            )
+            for k, v in raw.items()
+        }
+    if isinstance(raw, list):
+        return [render_variable(env, v, cookiecutter_dict) for v in raw]
+    if not isinstance(raw, str):
+        raw = str(raw)
+
+    template = env.from_string(raw)
+
+    return template.render(cookiecutter=cookiecutter_dict)
+
+
+def prompt_for_config(
+    context: dict[str, Any], no_input: bool = False
+) -> OrderedDict[str, Any]:
+    """Prompt user to enter a new config.
+
+    :param dict context: Source for field names and sample values.
+    :param no_input: Do not prompt for user input and use only values from context.
+    """
+    cookiecutter_dict = OrderedDict([])
+    env = create_env_with_context(context)
+    prompts = context['cookiecutter'].pop('__prompts__', {})
+
+    # First pass: Handle simple and raw variables, plus choices.
+    # These must be done first because the dictionaries keys and
+    # values might refer to them.
+    count = 0
+    all_prompts = context['cookiecutter'].items()
+    visible_prompts = [k for k, _ in all_prompts if not k.startswith("_")]
+    size = len(visible_prompts)
+    for key, raw in all_prompts:
+        if key.startswith('_') and not key.startswith('__'):
+            cookiecutter_dict[key] = raw
+            continue
+        if key.startswith('__'):
+            cookiecutter_dict[key] = render_variable(env, raw, cookiecutter_dict)
+            continue
+
+        if not isinstance(raw, dict):
+            count += 1
+            prefix = f"  [dim][{count}/{size}][/] "
+
+        try:
+            if isinstance(raw, list):
+                # We are dealing with a choice variable
+                val = prompt_choice_for_config(
+                    cookiecutter_dict, env, key, raw, no_input, prompts, prefix
+                )
+                cookiecutter_dict[key] = val
+            elif isinstance(raw, bool):
+                # We are dealing with a boolean variable
+                if no_input:
+                    cookiecutter_dict[key] = render_variable(
+                        env, raw, cookiecutter_dict
+                    )
+                else:
+                    cookiecutter_dict[key] = read_user_yes_no(key, raw, prompts, prefix)
+            elif not isinstance(raw, dict):
+                # We are dealing with a regular variable
+                val = render_variable(env, raw, cookiecutter_dict)
+
+                if not no_input:
+                    val = read_user_variable(key, val, prompts, prefix)
+
+                cookiecutter_dict[key] = val
+        except UndefinedError as err:
+            msg = f"Unable to render variable '{key}'"
+            raise UndefinedVariableInTemplate(msg, err, context) from err
+
+    # Second pass; handle the dictionaries.
+    for key, raw in context['cookiecutter'].items():
+        # Skip private type dicts not to be rendered.
+        if key.startswith('_') and not key.startswith('__'):
+            continue
+
+        try:
+            if isinstance(raw, dict):
+                # We are dealing with a dict variable
+                count += 1
+                prefix = f"  [dim][{count}/{size}][/] "
+                val = render_variable(env, raw, cookiecutter_dict)
+
+                if not no_input and not key.startswith('__'):
+                    val = read_user_dict(key, val, prompts, prefix)
+
+                cookiecutter_dict[key] = val
+        except UndefinedError as err:
+            msg = f"Unable to render variable '{key}'"
+            raise UndefinedVariableInTemplate(msg, err, context) from err
+
+    return cookiecutter_dict
+
+```
+Write unit test for function prompt_for_config
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+def read_user_choice(var_name: str, options: list, prompts=None, prefix: str = ""):
+    """Prompt the user to choose from several options for the given variable.
+
+    The first item will be returned if no input happens.
+
+    :param var_name: Variable as specified in the context
+    :param list options: Sequence of options that are available to select from
+    :return: Exactly one item of ``options`` that has been chosen by the user
+    """
+    if not options:
+        raise ValueError
+
+    choice_map = OrderedDict((f'{i}', value) for i, value in enumerate(options, 1))
+    choices = choice_map.keys()
+
+    question = f"Select {var_name}"
+
+    choice_lines: Iterator[str] = starmap(
+        "    [bold magenta]{}[/] - [bold]{}[/]".format, choice_map.items()
+    )
+
+    # Handle if human-readable prompt is provided
+    if prompts and var_name in prompts:
+        if isinstance(prompts[var_name], str):
+            question = prompts[var_name]
+        else:
+            if "__prompt__" in prompts[var_name]:
+                question = prompts[var_name]["__prompt__"]
+            choice_lines = (
+                f"    [bold magenta]{i}[/] - [bold]{prompts[var_name][p]}[/]"
+                if p in prompts[var_name]
+                else f"    [bold magenta]{i}[/] - [bold]{p}[/]"
+                for i, p in choice_map.items()
+            )
+
+    prompt = '\n'.join(
+        (
+            f"{prefix}{question}",
+            "\n".join(choice_lines),
+            "    Choose from",
+        )
+    )
+
+    user_choice = Prompt.ask(prompt, choices=list(choices), default=next(iter(choices)))
+    return choice_map[user_choice]
+
+```
+Write unit test for function read_user_choice
+
+
+# Prompt used at query #14
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def rmtree(path: Path | str) -> None:
+    """Remove a directory and all its contents. Like rm -rf on Unix.
+
+    :param path: A directory path.
+    """
+    shutil.rmtree(path, onerror=force_delete)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 22 evaluates to False.
+```
+ 1 | def prompt_and_delete(path: Path | str, no_input: bool = False) -> bool:
+ 2 |     """
+ 3 |     Ask user if it's okay to delete the previously-downloaded file/directory.
+ 4 | 
+ 5 |     If yes, delete it. If no, checks to see if the old version should be
+ 6 |     reused. If yes, it's reused; otherwise, Cookiecutter exits.
+ 7 | 
+ 8 |     :param path: Previously downloaded zipfile.
+ 9 |     :param no_input: Suppress prompt to delete repo and just delete it.
+10 |     :return: True if the content was deleted
+11 |     """
+12 |     # Suppress prompt if called via API
+13 |     if no_input:
+14 |         ok_to_delete = True
+15 |     else:
+16 |         question = (
+17 |             f"You've downloaded {path} before. Is it okay to delete and re-download it?"
+18 |         )
+19 | 
+20 |         ok_to_delete = read_user_yes_no(question, 'yes')
+21 | 
+22 |     if ok_to_delete:
+23 |         if os.path.isdir(path):
+24 |             rmtree(path)
+25 |         else:
+26 |             os.remove(path)
+27 |         return True
+28 |     ok_to_reuse = read_user_yes_no("Do you want to re-use the existing version?", 'yes')
+29 | 
+30 |     if ok_to_reuse:
+31 |         return False
+32 | 
+33 |     sys.exit()
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def create_env_with_context(context: dict[str, Any]) -> StrictEnvironment:
+    """Create a jinja environment using the provided context."""
+    envvars = context.get('cookiecutter', {}).get('_jinja2_env_vars', {})
+
+    return StrictEnvironment(context=context, keep_trailing_newline=True, **envvars)
+
+```
+
+cookiecutter/environment.py:
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+
+class StrictEnvironment(ExtensionLoaderMixin, Environment):
+    """Create strict Jinja2 environment.
+
+    Jinja2 environment will raise error on undefined variable in template-
+    rendering context.
+    """
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Set the standard Cookiecutter StrictEnvironment.
+
+        Also loading extensions defined in cookiecutter.json's _extensions key.
+        """
+        super().__init__(undefined=StrictUndefined, **kwargs)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+def render_variable(
+    env: Environment,
+    raw: _Raw,
+    cookiecutter_dict: dict[str, Any],
+) -> str:
+    """Render the next variable to be displayed in the user prompt.
+
+    Inside the prompting taken from the cookiecutter.json file, this renders
+    the next variable. For example, if a project_name is "Peanut Butter
+    Cookie", the repo_name could be be rendered with:
+
+        `{{ cookiecutter.project_name.replace(" ", "_") }}`.
+
+    This is then presented to the user as the default.
+
+    :param Environment env: A Jinja2 Environment object.
+    :param raw: The next value to be prompted for by the user.
+    :param dict cookiecutter_dict: The current context as it's gradually
+        being populated with variables.
+    :return: The rendered value for the default variable.
+    """
+    if raw is None or isinstance(raw, bool):
+        return raw
+    if isinstance(raw, dict):
+        return {
+            render_variable(env, k, cookiecutter_dict): render_variable(
+                env, v, cookiecutter_dict
+            )
+            for k, v in raw.items()
+        }
+    if isinstance(raw, list):
+        return [render_variable(env, v, cookiecutter_dict) for v in raw]
+    if not isinstance(raw, str):
+        raw = str(raw)
+
+    template = env.from_string(raw)
+
+    return template.render(cookiecutter=cookiecutter_dict)
+
+
+def read_user_choice(var_name: str, options: list, prompts=None, prefix: str = ""):
+    """Prompt the user to choose from several options for the given variable.
+
+    The first item will be returned if no input happens.
+
+    :param var_name: Variable as specified in the context
+    :param list options: Sequence of options that are available to select from
+    :return: Exactly one item of ``options`` that has been chosen by the user
+    """
+    if not options:
+        raise ValueError
+
+    choice_map = OrderedDict((f'{i}', value) for i, value in enumerate(options, 1))
+    choices = choice_map.keys()
+
+    question = f"Select {var_name}"
+
+    choice_lines: Iterator[str] = starmap(
+        "    [bold magenta]{}[/] - [bold]{}[/]".format, choice_map.items()
+    )
+
+    # Handle if human-readable prompt is provided
+    if prompts and var_name in prompts:
+        if isinstance(prompts[var_name], str):
+            question = prompts[var_name]
+        else:
+            if "__prompt__" in prompts[var_name]:
+                question = prompts[var_name]["__prompt__"]
+            choice_lines = (
+                f"    [bold magenta]{i}[/] - [bold]{prompts[var_name][p]}[/]"
+                if p in prompts[var_name]
+                else f"    [bold magenta]{i}[/] - [bold]{p}[/]"
+                for i, p in choice_map.items()
+            )
+
+    prompt = '\n'.join(
+        (
+            f"{prefix}{question}",
+            "\n".join(choice_lines),
+            "    Choose from",
+        )
+    )
+
+    user_choice = Prompt.ask(prompt, choices=list(choices), default=next(iter(choices)))
+    return choice_map[user_choice]
+
+
+def _prompts_from_options(options: dict) -> dict:
+    """Process template options and return friendly prompt information."""
+    prompts = {"__prompt__": "Select a template"}
+    for option_key, option_value in options.items():
+        title = str(option_value.get("title", option_key))
+        description = option_value.get("description", option_key)
+        label = title if title == description else f"{title} ({description})"
+        prompts[option_key] = label
+    return prompts
+
+
+def prompt_choice_for_template(
+    key: str, options: dict, no_input: bool
+) -> OrderedDict[str, Any]:
+    """Prompt user with a set of options to choose from.
+
+    :param no_input: Do not prompt for user input and return the first available option.
+    """
+    opts = list(options.keys())
+    prompts = {"templates": _prompts_from_options(options)}
+    return opts[0] if no_input else read_user_choice(key, opts, prompts, "")
+
+
+def prompt_choice_for_config(
+    cookiecutter_dict: dict[str, Any],
+    env: Environment,
+    key: str,
+    options,
+    no_input: bool,
+    prompts=None,
+    prefix: str = "",
+) -> OrderedDict[str, Any] | str:
+    """Prompt user with a set of options to choose from.
+
+    :param no_input: Do not prompt for user input and return the first available option.
+    """
+    rendered_options = [render_variable(env, raw, cookiecutter_dict) for raw in options]
+    if no_input:
+        if not rendered_options:
+            msg = "The list of choices is empty"
+            raise ValueError(msg)
+        return rendered_options[0]
+    return read_user_choice(key, rendered_options, prompts, prefix)
+
+
+def choose_nested_template(
+    context: dict[str, Any], repo_dir: Path | str, no_input: bool = False
+) -> str:
+    """Prompt user to select the nested template to use.
+
+    :param context: Source for field names and sample values.
+    :param repo_dir: Repository directory.
+    :param no_input: Do not prompt for user input and use only values from context.
+    :returns: Path to the selected template.
+    """
+    cookiecutter_dict: OrderedDict[str, Any] = OrderedDict([])
+    env = create_env_with_context(context)
+    prefix = ""
+    prompts = context['cookiecutter'].pop('__prompts__', {})
+    key = "templates"
+    config = context['cookiecutter'].get(key, {})
+    if config:
+        # Pass
+        val = prompt_choice_for_template(key, config, no_input)
+        template = config[val]["path"]
+    else:
+        # Old style
+        key = "template"
+        config = context['cookiecutter'].get(key, [])
+        val = prompt_choice_for_config(
+            cookiecutter_dict, env, key, config, no_input, prompts, prefix
+        )
+        template = re.search(r'\((.+)\)', val).group(1)
+
+    template = Path(template) if template else None
+    if not (template and not template.is_absolute()):
+        msg = "Illegal template path"
+        raise ValueError(msg)
+
+    repo_dir = Path(repo_dir).resolve()
+    template_path = (repo_dir / template).resolve()
+    # Return path as string
+    return f"{template_path}"
+
+```
+Write unit test for function choose_nested_template
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+def process_json(user_value: str):
+    """Load user-supplied value as a JSON dict.
+
+    :param user_value: User-supplied value to load as a JSON dict
+    """
+    try:
+        user_dict = json.loads(user_value, object_pairs_hook=OrderedDict)
+    except Exception as error:
+        # Leave it up to click to ask the user again
+        msg = 'Unable to decode to JSON.'
+        raise InvalidResponse(msg) from error
+
+    if not isinstance(user_dict, dict):
+        # Leave it up to click to ask the user again
+        msg = 'Requires JSON dict.'
+        raise InvalidResponse(msg)
+
+    return user_dict
+
+```
+Write unit test for function process_json
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 8 evaluates to False.
+```
+ 1 | def process_json(user_value: str):
+ 2 |     """Load user-supplied value as a JSON dict.
+ 3 | 
+ 4 |     :param user_value: User-supplied value to load as a JSON dict
+ 5 |     """
+ 6 |     try:
+ 7 |         user_dict = json.loads(user_value, object_pairs_hook=OrderedDict)
+ 8 |     except Exception as error:
+ 9 |         # Leave it up to click to ask the user again
+10 |         msg = 'Unable to decode to JSON.'
+11 |         raise InvalidResponse(msg) from error
+12 | 
+13 |     if not isinstance(user_dict, dict):
+14 |         # Leave it up to click to ask the user again
+15 |         msg = 'Requires JSON dict.'
+16 |         raise InvalidResponse(msg)
+17 | 
+18 |     return user_dict
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def rmtree(path: Path | str) -> None:
+    """Remove a directory and all its contents. Like rm -rf on Unix.
+
+    :param path: A directory path.
+    """
+    shutil.rmtree(path, onerror=force_delete)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 23 evaluates to True.
+```
+ 1 | def prompt_and_delete(path: Path | str, no_input: bool = False) -> bool:
+ 2 |     """
+ 3 |     Ask user if it's okay to delete the previously-downloaded file/directory.
+ 4 | 
+ 5 |     If yes, delete it. If no, checks to see if the old version should be
+ 6 |     reused. If yes, it's reused; otherwise, Cookiecutter exits.
+ 7 | 
+ 8 |     :param path: Previously downloaded zipfile.
+ 9 |     :param no_input: Suppress prompt to delete repo and just delete it.
+10 |     :return: True if the content was deleted
+11 |     """
+12 |     # Suppress prompt if called via API
+13 |     if no_input:
+14 |         ok_to_delete = True
+15 |     else:
+16 |         question = (
+17 |             f"You've downloaded {path} before. Is it okay to delete and re-download it?"
+18 |         )
+19 | 
+20 |         ok_to_delete = read_user_yes_no(question, 'yes')
+21 | 
+22 |     if ok_to_delete:
+23 |         if os.path.isdir(path):
+24 |             rmtree(path)
+25 |         else:
+26 |             os.remove(path)
+27 |         return True
+28 |     ok_to_reuse = read_user_yes_no("Do you want to re-use the existing version?", 'yes')
+29 | 
+30 |     if ok_to_reuse:
+31 |         return False
+32 | 
+33 |     sys.exit()
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def rmtree(path: Path | str) -> None:
+    """Remove a directory and all its contents. Like rm -rf on Unix.
+
+    :param path: A directory path.
+    """
+    shutil.rmtree(path, onerror=force_delete)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+def read_user_yes_no(var_name, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to reply with 'yes' or 'no' (or equivalent values).
+
+    - These input values will be converted to ``True``:
+      "1", "true", "t", "yes", "y", "on"
+    - These input values will be converted to ``False``:
+      "0", "false", "f", "no", "n", "off"
+
+    Actual parsing done by :func:`prompt`; Check this function codebase change in
+    case of unexpected behaviour.
+
+    :param str question: Question to the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return YesNoPrompt.ask(f"{prefix}{question}", default=default_value)
+
+
+def prompt_and_delete(path: Path | str, no_input: bool = False) -> bool:
+    """
+    Ask user if it's okay to delete the previously-downloaded file/directory.
+
+    If yes, delete it. If no, checks to see if the old version should be
+    reused. If yes, it's reused; otherwise, Cookiecutter exits.
+
+    :param path: Previously downloaded zipfile.
+    :param no_input: Suppress prompt to delete repo and just delete it.
+    :return: True if the content was deleted
+    """
+    # Suppress prompt if called via API
+    if no_input:
+        ok_to_delete = True
+    else:
+        question = (
+            f"You've downloaded {path} before. Is it okay to delete and re-download it?"
+        )
+
+        ok_to_delete = read_user_yes_no(question, 'yes')
+
+    if ok_to_delete:
+        if os.path.isdir(path):
+            rmtree(path)
+        else:
+            os.remove(path)
+        return True
+    ok_to_reuse = read_user_yes_no("Do you want to re-use the existing version?", 'yes')
+
+    if ok_to_reuse:
+        return False
+
+    sys.exit()
+
+```
+Write unit test for function prompt_and_delete
+
+
+# Prompt used at query #20
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def create_env_with_context(context: dict[str, Any]) -> StrictEnvironment:
+    """Create a jinja environment using the provided context."""
+    envvars = context.get('cookiecutter', {}).get('_jinja2_env_vars', {})
+
+    return StrictEnvironment(context=context, keep_trailing_newline=True, **envvars)
+
+```
+
+cookiecutter/environment.py:
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+
+class StrictEnvironment(ExtensionLoaderMixin, Environment):
+    """Create strict Jinja2 environment.
+
+    Jinja2 environment will raise error on undefined variable in template-
+    rendering context.
+    """
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Set the standard Cookiecutter StrictEnvironment.
+
+        Also loading extensions defined in cookiecutter.json's _extensions key.
+        """
+        super().__init__(undefined=StrictUndefined, **kwargs)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+def read_user_choice(var_name: str, options: list, prompts=None, prefix: str = ""):
+    """Prompt the user to choose from several options for the given variable.
+
+    The first item will be returned if no input happens.
+
+    :param var_name: Variable as specified in the context
+    :param list options: Sequence of options that are available to select from
+    :return: Exactly one item of ``options`` that has been chosen by the user
+    """
+    if not options:
+        raise ValueError
+
+    choice_map = OrderedDict((f'{i}', value) for i, value in enumerate(options, 1))
+    choices = choice_map.keys()
+
+    question = f"Select {var_name}"
+
+    choice_lines: Iterator[str] = starmap(
+        "    [bold magenta]{}[/] - [bold]{}[/]".format, choice_map.items()
+    )
+
+    # Handle if human-readable prompt is provided
+    if prompts and var_name in prompts:
+        if isinstance(prompts[var_name], str):
+            question = prompts[var_name]
+        else:
+            if "__prompt__" in prompts[var_name]:
+                question = prompts[var_name]["__prompt__"]
+            choice_lines = (
+                f"    [bold magenta]{i}[/] - [bold]{prompts[var_name][p]}[/]"
+                if p in prompts[var_name]
+                else f"    [bold magenta]{i}[/] - [bold]{p}[/]"
+                for i, p in choice_map.items()
+            )
+
+    prompt = '\n'.join(
+        (
+            f"{prefix}{question}",
+            "\n".join(choice_lines),
+            "    Choose from",
+        )
+    )
+
+    user_choice = Prompt.ask(prompt, choices=list(choices), default=next(iter(choices)))
+    return choice_map[user_choice]
+
+
+def read_user_dict(var_name: str, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to provide a dictionary of data.
+
+    :param var_name: Variable as specified in the context
+    :param default_value: Value that will be returned if no input is provided
+    :return: A Python dictionary to use in the context.
+    """
+    if not isinstance(default_value, dict):
+        raise TypeError
+
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return JsonPrompt.ask(
+        f"{prefix}{question} [cyan bold]({DEFAULT_DISPLAY})[/]",
+        default=default_value,
+        show_default=False,
+    )
+
+
+def read_user_yes_no(var_name, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to reply with 'yes' or 'no' (or equivalent values).
+
+    - These input values will be converted to ``True``:
+      "1", "true", "t", "yes", "y", "on"
+    - These input values will be converted to ``False``:
+      "0", "false", "f", "no", "n", "off"
+
+    Actual parsing done by :func:`prompt`; Check this function codebase change in
+    case of unexpected behaviour.
+
+    :param str question: Question to the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return YesNoPrompt.ask(f"{prefix}{question}", default=default_value)
+
+
+def prompt_choice_for_config(
+    cookiecutter_dict: dict[str, Any],
+    env: Environment,
+    key: str,
+    options,
+    no_input: bool,
+    prompts=None,
+    prefix: str = "",
+) -> OrderedDict[str, Any] | str:
+    """Prompt user with a set of options to choose from.
+
+    :param no_input: Do not prompt for user input and return the first available option.
+    """
+    rendered_options = [render_variable(env, raw, cookiecutter_dict) for raw in options]
+    if no_input:
+        if not rendered_options:
+            msg = "The list of choices is empty"
+            raise ValueError(msg)
+        return rendered_options[0]
+    return read_user_choice(key, rendered_options, prompts, prefix)
+
+
+def render_variable(
+    env: Environment,
+    raw: _Raw,
+    cookiecutter_dict: dict[str, Any],
+) -> str:
+    """Render the next variable to be displayed in the user prompt.
+
+    Inside the prompting taken from the cookiecutter.json file, this renders
+    the next variable. For example, if a project_name is "Peanut Butter
+    Cookie", the repo_name could be be rendered with:
+
+        `{{ cookiecutter.project_name.replace(" ", "_") }}`.
+
+    This is then presented to the user as the default.
+
+    :param Environment env: A Jinja2 Environment object.
+    :param raw: The next value to be prompted for by the user.
+    :param dict cookiecutter_dict: The current context as it's gradually
+        being populated with variables.
+    :return: The rendered value for the default variable.
+    """
+    if raw is None or isinstance(raw, bool):
+        return raw
+    if isinstance(raw, dict):
+        return {
+            render_variable(env, k, cookiecutter_dict): render_variable(
+                env, v, cookiecutter_dict
+            )
+            for k, v in raw.items()
+        }
+    if isinstance(raw, list):
+        return [render_variable(env, v, cookiecutter_dict) for v in raw]
+    if not isinstance(raw, str):
+        raw = str(raw)
+
+    template = env.from_string(raw)
+
+    return template.render(cookiecutter=cookiecutter_dict)
+
+
+def read_user_variable(var_name: str, default_value, prompts=None, prefix: str = ""):
+    """Prompt user for variable and return the entered value or given default.
+
+    :param str var_name: Variable of the context to query the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+
+    while True:
+        variable = Prompt.ask(f"{prefix}{question}", default=default_value)
+        if variable is not None:
+            break
+
+    return variable
+
+
+def prompt_for_config(
+    context: dict[str, Any], no_input: bool = False
+) -> OrderedDict[str, Any]:
+    """Prompt user to enter a new config.
+
+    :param dict context: Source for field names and sample values.
+    :param no_input: Do not prompt for user input and use only values from context.
+    """
+    cookiecutter_dict = OrderedDict([])
+    env = create_env_with_context(context)
+    prompts = context['cookiecutter'].pop('__prompts__', {})
+
+    # First pass: Handle simple and raw variables, plus choices.
+    # These must be done first because the dictionaries keys and
+    # values might refer to them.
+    count = 0
+    all_prompts = context['cookiecutter'].items()
+    visible_prompts = [k for k, _ in all_prompts if not k.startswith("_")]
+    size = len(visible_prompts)
+    for key, raw in all_prompts:
+        if key.startswith('_') and not key.startswith('__'):
+            cookiecutter_dict[key] = raw
+            continue
+        if key.startswith('__'):
+            cookiecutter_dict[key] = render_variable(env, raw, cookiecutter_dict)
+            continue
+
+        if not isinstance(raw, dict):
+            count += 1
+            prefix = f"  [dim][{count}/{size}][/] "
+
+        try:
+            if isinstance(raw, list):
+                # We are dealing with a choice variable
+                val = prompt_choice_for_config(
+                    cookiecutter_dict, env, key, raw, no_input, prompts, prefix
+                )
+                cookiecutter_dict[key] = val
+            elif isinstance(raw, bool):
+                # We are dealing with a boolean variable
+                if no_input:
+                    cookiecutter_dict[key] = render_variable(
+                        env, raw, cookiecutter_dict
+                    )
+                else:
+                    cookiecutter_dict[key] = read_user_yes_no(key, raw, prompts, prefix)
+            elif not isinstance(raw, dict):
+                # We are dealing with a regular variable
+                val = render_variable(env, raw, cookiecutter_dict)
+
+                if not no_input:
+                    val = read_user_variable(key, val, prompts, prefix)
+
+                cookiecutter_dict[key] = val
+        except UndefinedError as err:
+            msg = f"Unable to render variable '{key}'"
+            raise UndefinedVariableInTemplate(msg, err, context) from err
+
+    # Second pass; handle the dictionaries.
+    for key, raw in context['cookiecutter'].items():
+        # Skip private type dicts not to be rendered.
+        if key.startswith('_') and not key.startswith('__'):
+            continue
+
+        try:
+            if isinstance(raw, dict):
+                # We are dealing with a dict variable
+                count += 1
+                prefix = f"  [dim][{count}/{size}][/] "
+                val = render_variable(env, raw, cookiecutter_dict)
+
+                if not no_input and not key.startswith('__'):
+                    val = read_user_dict(key, val, prompts, prefix)
+
+                cookiecutter_dict[key] = val
+        except UndefinedError as err:
+            msg = f"Unable to render variable '{key}'"
+            raise UndefinedVariableInTemplate(msg, err, context) from err
+
+    return cookiecutter_dict
+
+```
+Write unit test for function prompt_for_config
+
+
+# Prompt used at query #21
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def rmtree(path: Path | str) -> None:
+    """Remove a directory and all its contents. Like rm -rf on Unix.
+
+    :param path: A directory path.
+    """
+    shutil.rmtree(path, onerror=force_delete)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 23 evaluates to True.
+```
+ 1 | def prompt_and_delete(path: Path | str, no_input: bool = False) -> bool:
+ 2 |     """
+ 3 |     Ask user if it's okay to delete the previously-downloaded file/directory.
+ 4 | 
+ 5 |     If yes, delete it. If no, checks to see if the old version should be
+ 6 |     reused. If yes, it's reused; otherwise, Cookiecutter exits.
+ 7 | 
+ 8 |     :param path: Previously downloaded zipfile.
+ 9 |     :param no_input: Suppress prompt to delete repo and just delete it.
+10 |     :return: True if the content was deleted
+11 |     """
+12 |     # Suppress prompt if called via API
+13 |     if no_input:
+14 |         ok_to_delete = True
+15 |     else:
+16 |         question = (
+17 |             f"You've downloaded {path} before. Is it okay to delete and re-download it?"
+18 |         )
+19 | 
+20 |         ok_to_delete = read_user_yes_no(question, 'yes')
+21 | 
+22 |     if ok_to_delete:
+23 |         if os.path.isdir(path):
+24 |             rmtree(path)
+25 |         else:
+26 |             os.remove(path)
+27 |         return True
+28 |     ok_to_reuse = read_user_yes_no("Do you want to re-use the existing version?", 'yes')
+29 | 
+30 |     if ok_to_reuse:
+31 |         return False
+32 | 
+33 |     sys.exit()
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+def process_json(user_value: str):
+    """Load user-supplied value as a JSON dict.
+
+    :param user_value: User-supplied value to load as a JSON dict
+    """
+    try:
+        user_dict = json.loads(user_value, object_pairs_hook=OrderedDict)
+    except Exception as error:
+        # Leave it up to click to ask the user again
+        msg = 'Unable to decode to JSON.'
+        raise InvalidResponse(msg) from error
+
+    if not isinstance(user_dict, dict):
+        # Leave it up to click to ask the user again
+        msg = 'Requires JSON dict.'
+        raise InvalidResponse(msg)
+
+    return user_dict
+
+```
+Write unit test for function process_json
+
+
+# Prompt used at query #23
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def rmtree(path: Path | str) -> None:
+    """Remove a directory and all its contents. Like rm -rf on Unix.
+
+    :param path: A directory path.
+    """
+    shutil.rmtree(path, onerror=force_delete)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 23 evaluates to True.
+```
+ 1 | def prompt_and_delete(path: Path | str, no_input: bool = False) -> bool:
+ 2 |     """
+ 3 |     Ask user if it's okay to delete the previously-downloaded file/directory.
+ 4 | 
+ 5 |     If yes, delete it. If no, checks to see if the old version should be
+ 6 |     reused. If yes, it's reused; otherwise, Cookiecutter exits.
+ 7 | 
+ 8 |     :param path: Previously downloaded zipfile.
+ 9 |     :param no_input: Suppress prompt to delete repo and just delete it.
+10 |     :return: True if the content was deleted
+11 |     """
+12 |     # Suppress prompt if called via API
+13 |     if no_input:
+14 |         ok_to_delete = True
+15 |     else:
+16 |         question = (
+17 |             f"You've downloaded {path} before. Is it okay to delete and re-download it?"
+18 |         )
+19 | 
+20 |         ok_to_delete = read_user_yes_no(question, 'yes')
+21 | 
+22 |     if ok_to_delete:
+23 |         if os.path.isdir(path):
+24 |             rmtree(path)
+25 |         else:
+26 |             os.remove(path)
+27 |         return True
+28 |     ok_to_reuse = read_user_yes_no("Do you want to re-use the existing version?", 'yes')
+29 | 
+30 |     if ok_to_reuse:
+31 |         return False
+32 | 
+33 |     sys.exit()
+```
+
+
+# Prompt used at query #24
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def create_env_with_context(context: dict[str, Any]) -> StrictEnvironment:
+    """Create a jinja environment using the provided context."""
+    envvars = context.get('cookiecutter', {}).get('_jinja2_env_vars', {})
+
+    return StrictEnvironment(context=context, keep_trailing_newline=True, **envvars)
+
+```
+
+cookiecutter/environment.py:
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+
+class StrictEnvironment(ExtensionLoaderMixin, Environment):
+    """Create strict Jinja2 environment.
+
+    Jinja2 environment will raise error on undefined variable in template-
+    rendering context.
+    """
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Set the standard Cookiecutter StrictEnvironment.
+
+        Also loading extensions defined in cookiecutter.json's _extensions key.
+        """
+        super().__init__(undefined=StrictUndefined, **kwargs)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 72 evaluates to True.
+```
+ 1 | def prompt_for_config(
+ 2 |     context: dict[str, Any], no_input: bool = False
+ 3 | ) -> OrderedDict[str, Any]:
+ 4 |     """Prompt user to enter a new config.
+ 5 | 
+ 6 |     :param dict context: Source for field names and sample values.
+ 7 |     :param no_input: Do not prompt for user input and use only values from context.
+ 8 |     """
+ 9 |     cookiecutter_dict = OrderedDict([])
+10 |     env = create_env_with_context(context)
+11 |     prompts = context['cookiecutter'].pop('__prompts__', {})
+12 | 
+13 |     # First pass: Handle simple and raw variables, plus choices.
+14 |     # These must be done first because the dictionaries keys and
+15 |     # values might refer to them.
+16 |     count = 0
+17 |     all_prompts = context['cookiecutter'].items()
+18 |     visible_prompts = [k for k, _ in all_prompts if not k.startswith("_")]
+19 |     size = len(visible_prompts)
+20 |     for key, raw in all_prompts:
+21 |         if key.startswith('_') and not key.startswith('__'):
+22 |             cookiecutter_dict[key] = raw
+23 |             continue
+24 |         if key.startswith('__'):
+25 |             cookiecutter_dict[key] = render_variable(env, raw, cookiecutter_dict)
+26 |             continue
+27 | 
+28 |         if not isinstance(raw, dict):
+29 |             count += 1
+30 |             prefix = f"  [dim][{count}/{size}][/] "
+31 | 
+32 |         try:
+33 |             if isinstance(raw, list):
+34 |                 # We are dealing with a choice variable
+35 |                 val = prompt_choice_for_config(
+36 |                     cookiecutter_dict, env, key, raw, no_input, prompts, prefix
+37 |                 )
+38 |                 cookiecutter_dict[key] = val
+39 |             elif isinstance(raw, bool):
+40 |                 # We are dealing with a boolean variable
+41 |                 if no_input:
+42 |                     cookiecutter_dict[key] = render_variable(
+43 |                         env, raw, cookiecutter_dict
+44 |                     )
+45 |                 else:
+46 |                     cookiecutter_dict[key] = read_user_yes_no(key, raw, prompts, prefix)
+47 |             elif not isinstance(raw, dict):
+48 |                 # We are dealing with a regular variable
+49 |                 val = render_variable(env, raw, cookiecutter_dict)
+50 | 
+51 |                 if not no_input:
+52 |                     val = read_user_variable(key, val, prompts, prefix)
+53 | 
+54 |                 cookiecutter_dict[key] = val
+55 |         except UndefinedError as err:
+56 |             msg = f"Unable to render variable '{key}'"
+57 |             raise UndefinedVariableInTemplate(msg, err, context) from err
+58 | 
+59 |     # Second pass; handle the dictionaries.
+60 |     for key, raw in context['cookiecutter'].items():
+61 |         # Skip private type dicts not to be rendered.
+62 |         if key.startswith('_') and not key.startswith('__'):
+63 |             continue
+64 | 
+65 |         try:
+66 |             if isinstance(raw, dict):
+67 |                 # We are dealing with a dict variable
+68 |                 count += 1
+69 |                 prefix = f"  [dim][{count}/{size}][/] "
+70 |                 val = render_variable(env, raw, cookiecutter_dict)
+71 | 
+72 |                 if not no_input and not key.startswith('__'):
+73 |                     val = read_user_dict(key, val, prompts, prefix)
+74 | 
+75 |                 cookiecutter_dict[key] = val
+76 |         except UndefinedError as err:
+77 |             msg = f"Unable to render variable '{key}'"
+78 |             raise UndefinedVariableInTemplate(msg, err, context) from err
+79 | 
+80 |     return cookiecutter_dict
+```
+
+
+# Prompt used at query #25
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def create_env_with_context(context: dict[str, Any]) -> StrictEnvironment:
+    """Create a jinja environment using the provided context."""
+    envvars = context.get('cookiecutter', {}).get('_jinja2_env_vars', {})
+
+    return StrictEnvironment(context=context, keep_trailing_newline=True, **envvars)
+
+```
+
+cookiecutter/environment.py:
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+
+class StrictEnvironment(ExtensionLoaderMixin, Environment):
+    """Create strict Jinja2 environment.
+
+    Jinja2 environment will raise error on undefined variable in template-
+    rendering context.
+    """
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Set the standard Cookiecutter StrictEnvironment.
+
+        Also loading extensions defined in cookiecutter.json's _extensions key.
+        """
+        super().__init__(undefined=StrictUndefined, **kwargs)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+def read_user_choice(var_name: str, options: list, prompts=None, prefix: str = ""):
+    """Prompt the user to choose from several options for the given variable.
+
+    The first item will be returned if no input happens.
+
+    :param var_name: Variable as specified in the context
+    :param list options: Sequence of options that are available to select from
+    :return: Exactly one item of ``options`` that has been chosen by the user
+    """
+    if not options:
+        raise ValueError
+
+    choice_map = OrderedDict((f'{i}', value) for i, value in enumerate(options, 1))
+    choices = choice_map.keys()
+
+    question = f"Select {var_name}"
+
+    choice_lines: Iterator[str] = starmap(
+        "    [bold magenta]{}[/] - [bold]{}[/]".format, choice_map.items()
+    )
+
+    # Handle if human-readable prompt is provided
+    if prompts and var_name in prompts:
+        if isinstance(prompts[var_name], str):
+            question = prompts[var_name]
+        else:
+            if "__prompt__" in prompts[var_name]:
+                question = prompts[var_name]["__prompt__"]
+            choice_lines = (
+                f"    [bold magenta]{i}[/] - [bold]{prompts[var_name][p]}[/]"
+                if p in prompts[var_name]
+                else f"    [bold magenta]{i}[/] - [bold]{p}[/]"
+                for i, p in choice_map.items()
+            )
+
+    prompt = '\n'.join(
+        (
+            f"{prefix}{question}",
+            "\n".join(choice_lines),
+            "    Choose from",
+        )
+    )
+
+    user_choice = Prompt.ask(prompt, choices=list(choices), default=next(iter(choices)))
+    return choice_map[user_choice]
+
+
+def read_user_dict(var_name: str, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to provide a dictionary of data.
+
+    :param var_name: Variable as specified in the context
+    :param default_value: Value that will be returned if no input is provided
+    :return: A Python dictionary to use in the context.
+    """
+    if not isinstance(default_value, dict):
+        raise TypeError
+
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return JsonPrompt.ask(
+        f"{prefix}{question} [cyan bold]({DEFAULT_DISPLAY})[/]",
+        default=default_value,
+        show_default=False,
+    )
+
+
+def read_user_yes_no(var_name, default_value, prompts=None, prefix: str = ""):
+    """Prompt the user to reply with 'yes' or 'no' (or equivalent values).
+
+    - These input values will be converted to ``True``:
+      "1", "true", "t", "yes", "y", "on"
+    - These input values will be converted to ``False``:
+      "0", "false", "f", "no", "n", "off"
+
+    Actual parsing done by :func:`prompt`; Check this function codebase change in
+    case of unexpected behaviour.
+
+    :param str question: Question to the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+    return YesNoPrompt.ask(f"{prefix}{question}", default=default_value)
+
+
+def prompt_choice_for_config(
+    cookiecutter_dict: dict[str, Any],
+    env: Environment,
+    key: str,
+    options,
+    no_input: bool,
+    prompts=None,
+    prefix: str = "",
+) -> OrderedDict[str, Any] | str:
+    """Prompt user with a set of options to choose from.
+
+    :param no_input: Do not prompt for user input and return the first available option.
+    """
+    rendered_options = [render_variable(env, raw, cookiecutter_dict) for raw in options]
+    if no_input:
+        if not rendered_options:
+            msg = "The list of choices is empty"
+            raise ValueError(msg)
+        return rendered_options[0]
+    return read_user_choice(key, rendered_options, prompts, prefix)
+
+
+def render_variable(
+    env: Environment,
+    raw: _Raw,
+    cookiecutter_dict: dict[str, Any],
+) -> str:
+    """Render the next variable to be displayed in the user prompt.
+
+    Inside the prompting taken from the cookiecutter.json file, this renders
+    the next variable. For example, if a project_name is "Peanut Butter
+    Cookie", the repo_name could be be rendered with:
+
+        `{{ cookiecutter.project_name.replace(" ", "_") }}`.
+
+    This is then presented to the user as the default.
+
+    :param Environment env: A Jinja2 Environment object.
+    :param raw: The next value to be prompted for by the user.
+    :param dict cookiecutter_dict: The current context as it's gradually
+        being populated with variables.
+    :return: The rendered value for the default variable.
+    """
+    if raw is None or isinstance(raw, bool):
+        return raw
+    if isinstance(raw, dict):
+        return {
+            render_variable(env, k, cookiecutter_dict): render_variable(
+                env, v, cookiecutter_dict
+            )
+            for k, v in raw.items()
+        }
+    if isinstance(raw, list):
+        return [render_variable(env, v, cookiecutter_dict) for v in raw]
+    if not isinstance(raw, str):
+        raw = str(raw)
+
+    template = env.from_string(raw)
+
+    return template.render(cookiecutter=cookiecutter_dict)
+
+
+def read_user_variable(var_name: str, default_value, prompts=None, prefix: str = ""):
+    """Prompt user for variable and return the entered value or given default.
+
+    :param str var_name: Variable of the context to query the user
+    :param default_value: Value that will be returned if no input happens
+    """
+    question = (
+        prompts[var_name]
+        if prompts and var_name in prompts and prompts[var_name]
+        else var_name
+    )
+
+    while True:
+        variable = Prompt.ask(f"{prefix}{question}", default=default_value)
+        if variable is not None:
+            break
+
+    return variable
+
+
+def prompt_for_config(
+    context: dict[str, Any], no_input: bool = False
+) -> OrderedDict[str, Any]:
+    """Prompt user to enter a new config.
+
+    :param dict context: Source for field names and sample values.
+    :param no_input: Do not prompt for user input and use only values from context.
+    """
+    cookiecutter_dict = OrderedDict([])
+    env = create_env_with_context(context)
+    prompts = context['cookiecutter'].pop('__prompts__', {})
+
+    # First pass: Handle simple and raw variables, plus choices.
+    # These must be done first because the dictionaries keys and
+    # values might refer to them.
+    count = 0
+    all_prompts = context['cookiecutter'].items()
+    visible_prompts = [k for k, _ in all_prompts if not k.startswith("_")]
+    size = len(visible_prompts)
+    for key, raw in all_prompts:
+        if key.startswith('_') and not key.startswith('__'):
+            cookiecutter_dict[key] = raw
+            continue
+        if key.startswith('__'):
+            cookiecutter_dict[key] = render_variable(env, raw, cookiecutter_dict)
+            continue
+
+        if not isinstance(raw, dict):
+            count += 1
+            prefix = f"  [dim][{count}/{size}][/] "
+
+        try:
+            if isinstance(raw, list):
+                # We are dealing with a choice variable
+                val = prompt_choice_for_config(
+                    cookiecutter_dict, env, key, raw, no_input, prompts, prefix
+                )
+                cookiecutter_dict[key] = val
+            elif isinstance(raw, bool):
+                # We are dealing with a boolean variable
+                if no_input:
+                    cookiecutter_dict[key] = render_variable(
+                        env, raw, cookiecutter_dict
+                    )
+                else:
+                    cookiecutter_dict[key] = read_user_yes_no(key, raw, prompts, prefix)
+            elif not isinstance(raw, dict):
+                # We are dealing with a regular variable
+                val = render_variable(env, raw, cookiecutter_dict)
+
+                if not no_input:
+                    val = read_user_variable(key, val, prompts, prefix)
+
+                cookiecutter_dict[key] = val
+        except UndefinedError as err:
+            msg = f"Unable to render variable '{key}'"
+            raise UndefinedVariableInTemplate(msg, err, context) from err
+
+    # Second pass; handle the dictionaries.
+    for key, raw in context['cookiecutter'].items():
+        # Skip private type dicts not to be rendered.
+        if key.startswith('_') and not key.startswith('__'):
+            continue
+
+        try:
+            if isinstance(raw, dict):
+                # We are dealing with a dict variable
+                count += 1
+                prefix = f"  [dim][{count}/{size}][/] "
+                val = render_variable(env, raw, cookiecutter_dict)
+
+                if not no_input and not key.startswith('__'):
+                    val = read_user_dict(key, val, prompts, prefix)
+
+                cookiecutter_dict[key] = val
+        except UndefinedError as err:
+            msg = f"Unable to render variable '{key}'"
+            raise UndefinedVariableInTemplate(msg, err, context) from err
+
+    return cookiecutter_dict
+
+```
+Write unit test for function prompt_for_config
+
+
+# Prompt used at query #26
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def rmtree(path: Path | str) -> None:
+    """Remove a directory and all its contents. Like rm -rf on Unix.
+
+    :param path: A directory path.
+    """
+    shutil.rmtree(path, onerror=force_delete)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 22 evaluates to False.
+```
+ 1 | def prompt_and_delete(path: Path | str, no_input: bool = False) -> bool:
+ 2 |     """
+ 3 |     Ask user if it's okay to delete the previously-downloaded file/directory.
+ 4 | 
+ 5 |     If yes, delete it. If no, checks to see if the old version should be
+ 6 |     reused. If yes, it's reused; otherwise, Cookiecutter exits.
+ 7 | 
+ 8 |     :param path: Previously downloaded zipfile.
+ 9 |     :param no_input: Suppress prompt to delete repo and just delete it.
+10 |     :return: True if the content was deleted
+11 |     """
+12 |     # Suppress prompt if called via API
+13 |     if no_input:
+14 |         ok_to_delete = True
+15 |     else:
+16 |         question = (
+17 |             f"You've downloaded {path} before. Is it okay to delete and re-download it?"
+18 |         )
+19 | 
+20 |         ok_to_delete = read_user_yes_no(question, 'yes')
+21 | 
+22 |     if ok_to_delete:
+23 |         if os.path.isdir(path):
+24 |             rmtree(path)
+25 |         else:
+26 |             os.remove(path)
+27 |         return True
+28 |     ok_to_reuse = read_user_yes_no("Do you want to re-use the existing version?", 'yes')
+29 | 
+30 |     if ok_to_reuse:
+31 |         return False
+32 | 
+33 |     sys.exit()
+```
+
+
+# Prompt used at query #27
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def rmtree(path: Path | str) -> None:
+    """Remove a directory and all its contents. Like rm -rf on Unix.
+
+    :param path: A directory path.
+    """
+    shutil.rmtree(path, onerror=force_delete)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 22 evaluates to False.
+```
+ 1 | def prompt_and_delete(path: Path | str, no_input: bool = False) -> bool:
+ 2 |     """
+ 3 |     Ask user if it's okay to delete the previously-downloaded file/directory.
+ 4 | 
+ 5 |     If yes, delete it. If no, checks to see if the old version should be
+ 6 |     reused. If yes, it's reused; otherwise, Cookiecutter exits.
+ 7 | 
+ 8 |     :param path: Previously downloaded zipfile.
+ 9 |     :param no_input: Suppress prompt to delete repo and just delete it.
+10 |     :return: True if the content was deleted
+11 |     """
+12 |     # Suppress prompt if called via API
+13 |     if no_input:
+14 |         ok_to_delete = True
+15 |     else:
+16 |         question = (
+17 |             f"You've downloaded {path} before. Is it okay to delete and re-download it?"
+18 |         )
+19 | 
+20 |         ok_to_delete = read_user_yes_no(question, 'yes')
+21 | 
+22 |     if ok_to_delete:
+23 |         if os.path.isdir(path):
+24 |             rmtree(path)
+25 |         else:
+26 |             os.remove(path)
+27 |         return True
+28 |     ok_to_reuse = read_user_yes_no("Do you want to re-use the existing version?", 'yes')
+29 | 
+30 |     if ok_to_reuse:
+31 |         return False
+32 | 
+33 |     sys.exit()
+```
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 15 evaluates to False.
+```
+ 1 | def read_user_variable(var_name: str, default_value, prompts=None, prefix: str = ""):
+ 2 |     """Prompt user for variable and return the entered value or given default.
+ 3 | 
+ 4 |     :param str var_name: Variable of the context to query the user
+ 5 |     :param default_value: Value that will be returned if no input happens
+ 6 |     """
+ 7 |     question = (
+ 8 |         prompts[var_name]
+ 9 |         if prompts and var_name in prompts and prompts[var_name]
+10 |         else var_name
+11 |     )
+12 | 
+13 |     while True:
+14 |         variable = Prompt.ask(f"{prefix}{question}", default=default_value)
+15 |         if variable is not None:
+16 |             break
+17 | 
+18 |     return variable
+```
+
+
+# Prompt used at query #29
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def create_env_with_context(context: dict[str, Any]) -> StrictEnvironment:
+    """Create a jinja environment using the provided context."""
+    envvars = context.get('cookiecutter', {}).get('_jinja2_env_vars', {})
+
+    return StrictEnvironment(context=context, keep_trailing_newline=True, **envvars)
+
+```
+
+cookiecutter/environment.py:
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+
+class StrictEnvironment(ExtensionLoaderMixin, Environment):
+    """Create strict Jinja2 environment.
+
+    Jinja2 environment will raise error on undefined variable in template-
+    rendering context.
+    """
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Set the standard Cookiecutter StrictEnvironment.
+
+        Also loading extensions defined in cookiecutter.json's _extensions key.
+        """
+        super().__init__(undefined=StrictUndefined, **kwargs)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+def read_user_choice(var_name: str, options: list, prompts=None, prefix: str = ""):
+    """Prompt the user to choose from several options for the given variable.
+
+    The first item will be returned if no input happens.
+
+    :param var_name: Variable as specified in the context
+    :param list options: Sequence of options that are available to select from
+    :return: Exactly one item of ``options`` that has been chosen by the user
+    """
+    if not options:
+        raise ValueError
+
+    choice_map = OrderedDict((f'{i}', value) for i, value in enumerate(options, 1))
+    choices = choice_map.keys()
+
+    question = f"Select {var_name}"
+
+    choice_lines: Iterator[str] = starmap(
+        "    [bold magenta]{}[/] - [bold]{}[/]".format, choice_map.items()
+    )
+
+    # Handle if human-readable prompt is provided
+    if prompts and var_name in prompts:
+        if isinstance(prompts[var_name], str):
+            question = prompts[var_name]
+        else:
+            if "__prompt__" in prompts[var_name]:
+                question = prompts[var_name]["__prompt__"]
+            choice_lines = (
+                f"    [bold magenta]{i}[/] - [bold]{prompts[var_name][p]}[/]"
+                if p in prompts[var_name]
+                else f"    [bold magenta]{i}[/] - [bold]{p}[/]"
+                for i, p in choice_map.items()
+            )
+
+    prompt = '\n'.join(
+        (
+            f"{prefix}{question}",
+            "\n".join(choice_lines),
+            "    Choose from",
+        )
+    )
+
+    user_choice = Prompt.ask(prompt, choices=list(choices), default=next(iter(choices)))
+    return choice_map[user_choice]
+
+
+def render_variable(
+    env: Environment,
+    raw: _Raw,
+    cookiecutter_dict: dict[str, Any],
+) -> str:
+    """Render the next variable to be displayed in the user prompt.
+
+    Inside the prompting taken from the cookiecutter.json file, this renders
+    the next variable. For example, if a project_name is "Peanut Butter
+    Cookie", the repo_name could be be rendered with:
+
+        `{{ cookiecutter.project_name.replace(" ", "_") }}`.
+
+    This is then presented to the user as the default.
+
+    :param Environment env: A Jinja2 Environment object.
+    :param raw: The next value to be prompted for by the user.
+    :param dict cookiecutter_dict: The current context as it's gradually
+        being populated with variables.
+    :return: The rendered value for the default variable.
+    """
+    if raw is None or isinstance(raw, bool):
+        return raw
+    if isinstance(raw, dict):
+        return {
+            render_variable(env, k, cookiecutter_dict): render_variable(
+                env, v, cookiecutter_dict
+            )
+            for k, v in raw.items()
+        }
+    if isinstance(raw, list):
+        return [render_variable(env, v, cookiecutter_dict) for v in raw]
+    if not isinstance(raw, str):
+        raw = str(raw)
+
+    template = env.from_string(raw)
+
+    return template.render(cookiecutter=cookiecutter_dict)
+
+
+def _prompts_from_options(options: dict) -> dict:
+    """Process template options and return friendly prompt information."""
+    prompts = {"__prompt__": "Select a template"}
+    for option_key, option_value in options.items():
+        title = str(option_value.get("title", option_key))
+        description = option_value.get("description", option_key)
+        label = title if title == description else f"{title} ({description})"
+        prompts[option_key] = label
+    return prompts
+
+
+def prompt_choice_for_config(
+    cookiecutter_dict: dict[str, Any],
+    env: Environment,
+    key: str,
+    options,
+    no_input: bool,
+    prompts=None,
+    prefix: str = "",
+) -> OrderedDict[str, Any] | str:
+    """Prompt user with a set of options to choose from.
+
+    :param no_input: Do not prompt for user input and return the first available option.
+    """
+    rendered_options = [render_variable(env, raw, cookiecutter_dict) for raw in options]
+    if no_input:
+        if not rendered_options:
+            msg = "The list of choices is empty"
+            raise ValueError(msg)
+        return rendered_options[0]
+    return read_user_choice(key, rendered_options, prompts, prefix)
+
+
+def prompt_choice_for_template(
+    key: str, options: dict, no_input: bool
+) -> OrderedDict[str, Any]:
+    """Prompt user with a set of options to choose from.
+
+    :param no_input: Do not prompt for user input and return the first available option.
+    """
+    opts = list(options.keys())
+    prompts = {"templates": _prompts_from_options(options)}
+    return opts[0] if no_input else read_user_choice(key, opts, prompts, "")
+
+
+def choose_nested_template(
+    context: dict[str, Any], repo_dir: Path | str, no_input: bool = False
+) -> str:
+    """Prompt user to select the nested template to use.
+
+    :param context: Source for field names and sample values.
+    :param repo_dir: Repository directory.
+    :param no_input: Do not prompt for user input and use only values from context.
+    :returns: Path to the selected template.
+    """
+    cookiecutter_dict: OrderedDict[str, Any] = OrderedDict([])
+    env = create_env_with_context(context)
+    prefix = ""
+    prompts = context['cookiecutter'].pop('__prompts__', {})
+    key = "templates"
+    config = context['cookiecutter'].get(key, {})
+    if config:
+        # Pass
+        val = prompt_choice_for_template(key, config, no_input)
+        template = config[val]["path"]
+    else:
+        # Old style
+        key = "template"
+        config = context['cookiecutter'].get(key, [])
+        val = prompt_choice_for_config(
+            cookiecutter_dict, env, key, config, no_input, prompts, prefix
+        )
+        template = re.search(r'\((.+)\)', val).group(1)
+
+    template = Path(template) if template else None
+    if not (template and not template.is_absolute()):
+        msg = "Illegal template path"
+        raise ValueError(msg)
+
+    repo_dir = Path(repo_dir).resolve()
+    template_path = (repo_dir / template).resolve()
+    # Return path as string
+    return f"{template_path}"
+
+```
+Write unit test for function choose_nested_template
+
+
+# Prompt used at query #30
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def create_env_with_context(context: dict[str, Any]) -> StrictEnvironment:
+    """Create a jinja environment using the provided context."""
+    envvars = context.get('cookiecutter', {}).get('_jinja2_env_vars', {})
+
+    return StrictEnvironment(context=context, keep_trailing_newline=True, **envvars)
+
+```
+
+cookiecutter/environment.py:
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+
+class StrictEnvironment(ExtensionLoaderMixin, Environment):
+    """Create strict Jinja2 environment.
+
+    Jinja2 environment will raise error on undefined variable in template-
+    rendering context.
+    """
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Set the standard Cookiecutter StrictEnvironment.
+
+        Also loading extensions defined in cookiecutter.json's _extensions key.
+        """
+        super().__init__(undefined=StrictUndefined, **kwargs)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 31 evaluates to True.
+```
+ 1 | def choose_nested_template(
+ 2 |     context: dict[str, Any], repo_dir: Path | str, no_input: bool = False
+ 3 | ) -> str:
+ 4 |     """Prompt user to select the nested template to use.
+ 5 | 
+ 6 |     :param context: Source for field names and sample values.
+ 7 |     :param repo_dir: Repository directory.
+ 8 |     :param no_input: Do not prompt for user input and use only values from context.
+ 9 |     :returns: Path to the selected template.
+10 |     """
+11 |     cookiecutter_dict: OrderedDict[str, Any] = OrderedDict([])
+12 |     env = create_env_with_context(context)
+13 |     prefix = ""
+14 |     prompts = context['cookiecutter'].pop('__prompts__', {})
+15 |     key = "templates"
+16 |     config = context['cookiecutter'].get(key, {})
+17 |     if config:
+18 |         # Pass
+19 |         val = prompt_choice_for_template(key, config, no_input)
+20 |         template = config[val]["path"]
+21 |     else:
+22 |         # Old style
+23 |         key = "template"
+24 |         config = context['cookiecutter'].get(key, [])
+25 |         val = prompt_choice_for_config(
+26 |             cookiecutter_dict, env, key, config, no_input, prompts, prefix
+27 |         )
+28 |         template = re.search(r'\((.+)\)', val).group(1)
+29 | 
+30 |     template = Path(template) if template else None
+31 |     if not (template and not template.is_absolute()):
+32 |         msg = "Illegal template path"
+33 |         raise ValueError(msg)
+34 | 
+35 |     repo_dir = Path(repo_dir).resolve()
+36 |     template_path = (repo_dir / template).resolve()
+37 |     # Return path as string
+38 |     return f"{template_path}"
+```
+
+
+# Prompt used at query #31
+#--------------------------
+
+cookiecutter/utils.py:
+```
+def create_env_with_context(context: dict[str, Any]) -> StrictEnvironment:
+    """Create a jinja environment using the provided context."""
+    envvars = context.get('cookiecutter', {}).get('_jinja2_env_vars', {})
+
+    return StrictEnvironment(context=context, keep_trailing_newline=True, **envvars)
+
+```
+
+cookiecutter/environment.py:
+```
+class ExtensionLoaderMixin:
+    """Mixin providing sane loading of extensions specified in a given context.
+
+    The context is being extracted from the keyword arguments before calling
+    the next parent class in line of the child.
+    """
+
+    def __init__(self, *, context: dict[str, Any] | None = None, **kwargs: Any) -> None:
+        """Initialize the Jinja2 Environment object while loading extensions.
+
+        Does the following:
+
+        1. Establishes default_extensions (currently just a Time feature)
+        2. Reads extensions set in the cookiecutter.json _extensions key.
+        3. Attempts to load the extensions. Provides useful error if fails.
+        """
+        context = context or {}
+
+        default_extensions = [
+            'cookiecutter.extensions.JsonifyExtension',
+            'cookiecutter.extensions.RandomStringExtension',
+            'cookiecutter.extensions.SlugifyExtension',
+            'cookiecutter.extensions.TimeExtension',
+            'cookiecutter.extensions.UUIDExtension',
+        ]
+        extensions = default_extensions + self._read_extensions(context)
+
+        try:
+            super().__init__(extensions=extensions, **kwargs)  # type: ignore[call-arg]
+        except ImportError as err:
+            msg = f'Unable to load extension: {err}'
+            raise UnknownExtension(msg) from err
+
+    def _read_extensions(self, context: dict[str, Any]) -> list[str]:
+        """Return list of extensions as str to be passed on to the Jinja2 env.
+
+        If context does not contain the relevant info, return an empty
+        list instead.
+        """
+        try:
+            extensions = context['cookiecutter']['_extensions']
+        except KeyError:
+            return []
+        else:
+            return [str(ext) for ext in extensions]
+
+
+class StrictEnvironment(ExtensionLoaderMixin, Environment):
+    """Create strict Jinja2 environment.
+
+    Jinja2 environment will raise error on undefined variable in template-
+    rendering context.
+    """
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Set the standard Cookiecutter StrictEnvironment.
+
+        Also loading extensions defined in cookiecutter.json's _extensions key.
+        """
+        super().__init__(undefined=StrictUndefined, **kwargs)
+
+```
+
+cookiecutter/prompt.py (module to test):
+```
+
+```
+Write unit test to ensure that the predicate at line 31 evaluates to True.
+```
+ 1 | def choose_nested_template(
+ 2 |     context: dict[str, Any], repo_dir: Path | str, no_input: bool = False
+ 3 | ) -> str:
+ 4 |     """Prompt user to select the nested template to use.
+ 5 | 
+ 6 |     :param context: Source for field names and sample values.
+ 7 |     :param repo_dir: Repository directory.
+ 8 |     :param no_input: Do not prompt for user input and use only values from context.
+ 9 |     :returns: Path to the selected template.
+10 |     """
+11 |     cookiecutter_dict: OrderedDict[str, Any] = OrderedDict([])
+12 |     env = create_env_with_context(context)
+13 |     prefix = ""
+14 |     prompts = context['cookiecutter'].pop('__prompts__', {})
+15 |     key = "templates"
+16 |     config = context['cookiecutter'].get(key, {})
+17 |     if config:
+18 |         # Pass
+19 |         val = prompt_choice_for_template(key, config, no_input)
+20 |         template = config[val]["path"]
+21 |     else:
+22 |         # Old style
+23 |         key = "template"
+24 |         config = context['cookiecutter'].get(key, [])
+25 |         val = prompt_choice_for_config(
+26 |             cookiecutter_dict, env, key, config, no_input, prompts, prefix
+27 |         )
+28 |         template = re.search(r'\((.+)\)', val).group(1)
+29 | 
+30 |     template = Path(template) if template else None
+31 |     if not (template and not template.is_absolute()):
+32 |         msg = "Illegal template path"
+33 |         raise ValueError(msg)
+34 | 
+35 |     repo_dir = Path(repo_dir).resolve()
+36 |     template_path = (repo_dir / template).resolve()
+37 |     # Return path as string
+38 |     return f"{template_path}"
+```
+
+

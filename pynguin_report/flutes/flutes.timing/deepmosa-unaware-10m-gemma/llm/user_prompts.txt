@@ -1,0 +1,4028 @@
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #36
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #37
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #38
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #39
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #40
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #41
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #42
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #43
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #44
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #45
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #46
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #47
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #48
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #49
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #50
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #2
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #3
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #4
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #5
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #6
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #7
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #8
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #9
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #10
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #11
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #12
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #13
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #14
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #15
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #16
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #17
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #18
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #19
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #20
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #21
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #22
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #23
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #24
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #25
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #26
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #27
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #28
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #29
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #30
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #31
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #32
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #33
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #34
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #35
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #36
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #37
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #38
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #39
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #40
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #41
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #42
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #43
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #44
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #45
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #46
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #47
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+
+# Prompt used at query #48
+#--------------------------
+
+import contextlib
+import time
+
+__all__ = [
+    "work_in_progress",
+]
+
+
+@contextlib.contextmanager
+def work_in_progress(desc: str = "Work in progress"):
+    r"""Time the execution time of a code block or function.
+
+    .. code:: python
+
+        >>> @work_in_progress("Loading file")
+        ... def load_file(path):
+        ...     with open(path, "rb") as f:
+        ...         return pickle.load(f)
+        ...
+        ... obj = load_file("/path/to/some/file")
+        Loading file... done. (3.52s)
+
+        >>> with work_in_progress("Saving file"):
+        ...     with open(path, "wb") as f:
+        ...         pickle.dump(obj, f)
+        Saving file... done. (3.78s)
+
+    :param desc: Description of the task performed.
+    """
+    print(desc + "... ", end='', flush=True)
+    begin_time = time.time()
+    yield
+    time_consumed = time.time() - begin_time
+    print(f"done. ({time_consumed:.2f}s)")
+
+Write unit test with pytest for function work_in_progress with the following signature: `def test_work_in_progress():`
+
+

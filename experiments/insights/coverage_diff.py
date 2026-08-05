@@ -12,8 +12,8 @@ for project in projects:
     modules = utils.find_all_modules(project)
 
     for module in modules:
-        stat1 = utils.read_module_statistics(project, module, "deepmosa-10m-deepseek")
-        stat2 = utils.read_module_statistics(project, module, "codamosa-10m-deepseek")
+        stat1 = utils.read_module_statistics(project, module, "deepmosa-10m-gemma")
+        stat2 = utils.read_module_statistics(project, module, "codamosa-10m-gemma")
 
         if not stat1 or len(stat1) != utils.NUM_RUNS_PER_MODULE:
             continue

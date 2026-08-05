@@ -46,6 +46,7 @@ def find_all_projects():
     all_projects: set[str] = set()
     for base_report_path in BASE_PROJECT_PATH.iterdir():
         project_name = base_report_path.name
+        # if project_name not in ("itsdangerous", "pyquery", "vulture"):
         all_projects.add(project_name)
     return all_projects
 
@@ -155,11 +156,15 @@ RUN_CONFIGS = [
 for baseline in [
     ("codamosa", "CODAMOSA", []),
     ("deepmosa", "DEEPMOSA", []),
-    # ("deepmosa-sync", "DEEPMOSA", ["--async-enabled", "False"]),
-    # ("deepmosa-dese-v1", "DEEPMOSA", ["--deserializer-version", "1"]),
-    # ("deepmosa-unaware", "DEEPMOSA", ["--use-codamosa-seeding", "True"])
+    ("deepmosa-sync", "DEEPMOSA", ["--async-enabled", "False"]),
+    ("deepmosa-dese-v1", "DEEPMOSA", ["--deserializer-version", "1"]),
+    ("deepmosa-unaware", "DEEPMOSA", ["--use-codamosa-seeding", "True"])
 ]:
-    for llm_config in ["deepseek", "devstral", "gemma"]:
+    for llm_config in [
+        "deepseek",
+        "devstral",
+        "gemma"
+    ]:
         config_id = f"{baseline[0]}-10m-{llm_config}"
         RUN_CONFIGS.append(
             RunConfig(

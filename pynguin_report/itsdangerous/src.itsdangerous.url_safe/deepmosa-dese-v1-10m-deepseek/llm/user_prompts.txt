@@ -1,0 +1,4939 @@
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + DeepSeek t=0.8)        #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_encode(string: str | bytes) -> bytes:
+    """Base64 encode a string of bytes or text. The resulting bytes are
+    safe to use in URLs.
+    """
+    string = want_bytes(string)
+    return base64.urlsafe_b64encode(string).rstrip(b"=")
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method dump_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #2
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #3
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_encode(string: str | bytes) -> bytes:
+    """Base64 encode a string of bytes or text. The resulting bytes are
+    safe to use in URLs.
+    """
+    string = want_bytes(string)
+    return base64.urlsafe_b64encode(string).rstrip(b"=")
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to True.
+```
+ 1 |     def dump_payload(self, obj: t.Any) -> bytes:
+ 2 |         json = super().dump_payload(obj)
+ 3 |         is_compressed = False
+ 4 |         compressed = zlib.compress(json)
+ 5 | 
+ 6 |         if len(compressed) < (len(json) - 1):
+ 7 |             json = compressed
+ 8 |             is_compressed = True
+ 9 | 
+10 |         base64d = base64_encode(json)
+11 | 
+12 |         if is_compressed:
+13 |             base64d = b"." + base64d
+14 | 
+15 |         return base64d
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #5
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #7
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_encode(string: str | bytes) -> bytes:
+    """Base64 encode a string of bytes or text. The resulting bytes are
+    safe to use in URLs.
+    """
+    string = want_bytes(string)
+    return base64.urlsafe_b64encode(string).rstrip(b"=")
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method dump_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #8
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #9
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_encode(string: str | bytes) -> bytes:
+    """Base64 encode a string of bytes or text. The resulting bytes are
+    safe to use in URLs.
+    """
+    string = want_bytes(string)
+    return base64.urlsafe_b64encode(string).rstrip(b"=")
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 12 evaluates to True.
+```
+ 1 |     def dump_payload(self, obj: t.Any) -> bytes:
+ 2 |         json = super().dump_payload(obj)
+ 3 |         is_compressed = False
+ 4 |         compressed = zlib.compress(json)
+ 5 | 
+ 6 |         if len(compressed) < (len(json) - 1):
+ 7 |             json = compressed
+ 8 |             is_compressed = True
+ 9 | 
+10 |         base64d = base64_encode(json)
+11 | 
+12 |         if is_compressed:
+13 |             base64d = b"." + base64d
+14 | 
+15 |         return base64d
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_encode(string: str | bytes) -> bytes:
+    """Base64 encode a string of bytes or text. The resulting bytes are
+    safe to use in URLs.
+    """
+    string = want_bytes(string)
+    return base64.urlsafe_b64encode(string).rstrip(b"=")
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 12 evaluates to True.
+```
+ 1 |     def dump_payload(self, obj: t.Any) -> bytes:
+ 2 |         json = super().dump_payload(obj)
+ 3 |         is_compressed = False
+ 4 |         compressed = zlib.compress(json)
+ 5 | 
+ 6 |         if len(compressed) < (len(json) - 1):
+ 7 |             json = compressed
+ 8 |             is_compressed = True
+ 9 | 
+10 |         base64d = base64_encode(json)
+11 | 
+12 |         if is_compressed:
+13 |             base64d = b"." + base64d
+14 | 
+15 |         return base64d
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #17
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #20
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #21
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + DeepSeek t=0.8)        #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #2
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_encode(string: str | bytes) -> bytes:
+    """Base64 encode a string of bytes or text. The resulting bytes are
+    safe to use in URLs.
+    """
+    string = want_bytes(string)
+    return base64.urlsafe_b64encode(string).rstrip(b"=")
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method dump_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #3
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #4
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #5
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #6
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #7
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 22 evaluates to True.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #8
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #9
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to True.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #13
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #14
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to True.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #15
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #16
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to True.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #17
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #19
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #20
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #21
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 25 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test for method load_payload of class URLSafeSerializerMixin
+
+
+# Prompt used at query #24
+#--------------------------
+
+src/itsdangerous/encoding.py:
+```
+def want_bytes(
+    s: str | bytes, encoding: str = "utf-8", errors: str = "strict"
+) -> bytes:
+    if isinstance(s, str):
+        s = s.encode(encoding, errors)
+
+    return s
+
+
+def base64_decode(string: str | bytes) -> bytes:
+    """Base64 decode a URL-safe string of bytes or text. The result is
+    bytes.
+    """
+    string = want_bytes(string, encoding="ascii", errors="ignore")
+    string += b"=" * (-len(string) % 4)
+
+    try:
+        return base64.urlsafe_b64decode(string)
+    except (TypeError, ValueError) as e:
+        raise BadData("Invalid base64-encoded data") from e
+
+```
+
+src/itsdangerous/url_safe.py (module to test):
+```
+class URLSafeSerializerMixin(Serializer[str]):
+    """Mixed in with a regular serializer it will attempt to zlib
+    compress the string to make it shorter if necessary. It will also
+    base64 encode the string so that it can safely be placed in a URL.
+    """
+
+    default_serializer: _PDataSerializer[str] = _CompactJSON
+
+    def load_payload(
+        self,
+        payload: bytes,
+        *args: t.Any,
+        serializer: t.Any | None = None,
+        **kwargs: t.Any,
+    ) -> t.Any:
+        decompress = False
+
+        if payload.startswith(b"."):
+            payload = payload[1:]
+            decompress = True
+
+        try:
+            json = base64_decode(payload)
+        except Exception as e:
+            raise BadPayload(
+                "Could not base64 decode the payload because of an exception",
+                original_error=e,
+            ) from e
+
+        if decompress:
+            try:
+                json = zlib.decompress(json)
+            except Exception as e:
+                raise BadPayload(
+                    "Could not zlib decompress the payload before decoding the payload",
+                    original_error=e,
+                ) from e
+
+        return super().load_payload(json, *args, **kwargs)
+
+    def dump_payload(self, obj: t.Any) -> bytes:
+        json = super().dump_payload(obj)
+        is_compressed = False
+        compressed = zlib.compress(json)
+
+        if len(compressed) < (len(json) - 1):
+            json = compressed
+            is_compressed = True
+
+        base64d = base64_encode(json)
+
+        if is_compressed:
+            base64d = b"." + base64d
+
+        return base64d
+
+```
+Write unit test to ensure that the predicate at line 16 evaluates to False.
+```
+ 1 |     def load_payload(
+ 2 |         self,
+ 3 |         payload: bytes,
+ 4 |         *args: t.Any,
+ 5 |         serializer: t.Any | None = None,
+ 6 |         **kwargs: t.Any,
+ 7 |     ) -> t.Any:
+ 8 |         decompress = False
+ 9 | 
+10 |         if payload.startswith(b"."):
+11 |             payload = payload[1:]
+12 |             decompress = True
+13 | 
+14 |         try:
+15 |             json = base64_decode(payload)
+16 |         except Exception as e:
+17 |             raise BadPayload(
+18 |                 "Could not base64 decode the payload because of an exception",
+19 |                 original_error=e,
+20 |             ) from e
+21 | 
+22 |         if decompress:
+23 |             try:
+24 |                 json = zlib.decompress(json)
+25 |             except Exception as e:
+26 |                 raise BadPayload(
+27 |                     "Could not zlib decompress the payload before decoding the payload",
+28 |                     original_error=e,
+29 |                 ) from e
+30 | 
+31 |         return super().load_payload(json, *args, **kwargs)
+```
+
+

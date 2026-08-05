@@ -1,0 +1,3610 @@
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+```
+Write unit test for function _get_arity
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+```
+Write unit test for function _get_arity
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+```
+Write unit test for function _get
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def discard(evolver, key):
+    """ Discard the element and returns a structure without the discarded elements """
+    try:
+        del evolver[key]
+    except KeyError:
+        pass
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def _update_structure(structure, kvs, path, command):
+    from pyrsistent._pmap import pmap
+    e = structure.evolver()
+    if not path and command is discard:
+        # Do this in reverse to avoid index problems with vectors. See #92.
+        for k, v in reversed(kvs):
+            discard(e, k)
+    else:
+        for k, v in kvs:
+            is_empty = False
+            if v is _EMPTY_SENTINEL:
+                if command is discard:
+                    # If nothing there when discarding just move on, do not introduce new nodes
+                    continue
+
+                # Allow expansion of structure but make sure to cover the case
+                # when an empty pmap is added as leaf node. See #154.
+                is_empty = True
+                v = pmap()
+
+            result = _do_to_path(v, path, command)
+            if result is not v or is_empty:
+                e[k] = result
+
+    return e.persistent()
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+
+def _do_to_path(structure, path, command):
+    if not path:
+        return command(structure) if callable(command) else command
+
+    kvs = _get_keys_and_values(structure, path[0])
+    return _update_structure(structure, kvs, path[1:], command)
+
+```
+Write unit test for function _do_to_path
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+
+def discard(evolver, key):
+    """ Discard the element and returns a structure without the discarded elements """
+    try:
+        del evolver[key]
+    except KeyError:
+        pass
+
+
+def _do_to_path(structure, path, command):
+    if not path:
+        return command(structure) if callable(command) else command
+
+    kvs = _get_keys_and_values(structure, path[0])
+    return _update_structure(structure, kvs, path[1:], command)
+
+
+def _update_structure(structure, kvs, path, command):
+    from pyrsistent._pmap import pmap
+    e = structure.evolver()
+    if not path and command is discard:
+        # Do this in reverse to avoid index problems with vectors. See #92.
+        for k, v in reversed(kvs):
+            discard(e, k)
+    else:
+        for k, v in kvs:
+            is_empty = False
+            if v is _EMPTY_SENTINEL:
+                if command is discard:
+                    # If nothing there when discarding just move on, do not introduce new nodes
+                    continue
+
+                # Allow expansion of structure but make sure to cover the case
+                # when an empty pmap is added as leaf node. See #154.
+                is_empty = True
+                v = pmap()
+
+            result = _do_to_path(v, path, command)
+            if result is not v or is_empty:
+                e[k] = result
+
+    return e.persistent()
+
+```
+Write unit test for function _update_structure
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+```
+Write unit test for function _items
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+```
+Write unit test for function _get_arity
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+1 | def _items(structure):
+2 |     try:
+3 |         return structure.items()
+4 |     except AttributeError:
+5 |         # Support wider range of structures by adding a transform_items() or similar?
+6 |         return list(enumerate(structure))
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+def rex(expr):
+    """ Regular expression matcher to use together with transform functions """
+    r = re.compile(expr)
+    return lambda key: isinstance(key, str) and r.match(key)
+
+```
+Write unit test for function rex
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def discard(evolver, key):
+    """ Discard the element and returns a structure without the discarded elements """
+    try:
+        del evolver[key]
+    except KeyError:
+        pass
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def _update_structure(structure, kvs, path, command):
+    from pyrsistent._pmap import pmap
+    e = structure.evolver()
+    if not path and command is discard:
+        # Do this in reverse to avoid index problems with vectors. See #92.
+        for k, v in reversed(kvs):
+            discard(e, k)
+    else:
+        for k, v in kvs:
+            is_empty = False
+            if v is _EMPTY_SENTINEL:
+                if command is discard:
+                    # If nothing there when discarding just move on, do not introduce new nodes
+                    continue
+
+                # Allow expansion of structure but make sure to cover the case
+                # when an empty pmap is added as leaf node. See #154.
+                is_empty = True
+                v = pmap()
+
+            result = _do_to_path(v, path, command)
+            if result is not v or is_empty:
+                e[k] = result
+
+    return e.persistent()
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+
+def _do_to_path(structure, path, command):
+    if not path:
+        return command(structure) if callable(command) else command
+
+    kvs = _get_keys_and_values(structure, path[0])
+    return _update_structure(structure, kvs, path[1:], command)
+
+```
+Write unit test for function _do_to_path
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+1 | def _items(structure):
+2 |     try:
+3 |         return structure.items()
+4 |     except AttributeError:
+5 |         # Support wider range of structures by adding a transform_items() or similar?
+6 |         return list(enumerate(structure))
+```
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+```
+Write unit test for function _get_arity
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+1 | def _items(structure):
+2 |     try:
+3 |         return structure.items()
+4 |     except AttributeError:
+5 |         # Support wider range of structures by adding a transform_items() or similar?
+6 |         return list(enumerate(structure))
+```
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def discard(evolver, key):
+    """ Discard the element and returns a structure without the discarded elements """
+    try:
+        del evolver[key]
+    except KeyError:
+        pass
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _update_structure(structure, kvs, path, command):
+    from pyrsistent._pmap import pmap
+    e = structure.evolver()
+    if not path and command is discard:
+        # Do this in reverse to avoid index problems with vectors. See #92.
+        for k, v in reversed(kvs):
+            discard(e, k)
+    else:
+        for k, v in kvs:
+            is_empty = False
+            if v is _EMPTY_SENTINEL:
+                if command is discard:
+                    # If nothing there when discarding just move on, do not introduce new nodes
+                    continue
+
+                # Allow expansion of structure but make sure to cover the case
+                # when an empty pmap is added as leaf node. See #154.
+                is_empty = True
+                v = pmap()
+
+            result = _do_to_path(v, path, command)
+            if result is not v or is_empty:
+                e[k] = result
+
+    return e.persistent()
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+
+def _do_to_path(structure, path, command):
+    if not path:
+        return command(structure) if callable(command) else command
+
+    kvs = _get_keys_and_values(structure, path[0])
+    return _update_structure(structure, kvs, path[1:], command)
+
+```
+Write unit test for function _do_to_path
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def _do_to_path(structure, path, command):
+2 |     if not path:
+3 |         return command(structure) if callable(command) else command
+4 | 
+5 |     kvs = _get_keys_and_values(structure, path[0])
+6 |     return _update_structure(structure, kvs, path[1:], command)
+```
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #31
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #32
+#--------------------------
+
+```
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #33
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #34
+#--------------------------
+
+```
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+
+def discard(evolver, key):
+    """ Discard the element and returns a structure without the discarded elements """
+    try:
+        del evolver[key]
+    except KeyError:
+        pass
+
+
+def _do_to_path(structure, path, command):
+    if not path:
+        return command(structure) if callable(command) else command
+
+    kvs = _get_keys_and_values(structure, path[0])
+    return _update_structure(structure, kvs, path[1:], command)
+
+
+def _update_structure(structure, kvs, path, command):
+    from pyrsistent._pmap import pmap
+    e = structure.evolver()
+    if not path and command is discard:
+        # Do this in reverse to avoid index problems with vectors. See #92.
+        for k, v in reversed(kvs):
+            discard(e, k)
+    else:
+        for k, v in kvs:
+            is_empty = False
+            if v is _EMPTY_SENTINEL:
+                if command is discard:
+                    # If nothing there when discarding just move on, do not introduce new nodes
+                    continue
+
+                # Allow expansion of structure but make sure to cover the case
+                # when an empty pmap is added as leaf node. See #154.
+                is_empty = True
+                v = pmap()
+
+            result = _do_to_path(v, path, command)
+            if result is not v or is_empty:
+                e[k] = result
+
+    return e.persistent()
+
+```
+Write unit test for function _update_structure
+
+
+# Prompt used at query #36
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #37
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+
+def discard(evolver, key):
+    """ Discard the element and returns a structure without the discarded elements """
+    try:
+        del evolver[key]
+    except KeyError:
+        pass
+
+
+def _do_to_path(structure, path, command):
+    if not path:
+        return command(structure) if callable(command) else command
+
+    kvs = _get_keys_and_values(structure, path[0])
+    return _update_structure(structure, kvs, path[1:], command)
+
+
+def _update_structure(structure, kvs, path, command):
+    from pyrsistent._pmap import pmap
+    e = structure.evolver()
+    if not path and command is discard:
+        # Do this in reverse to avoid index problems with vectors. See #92.
+        for k, v in reversed(kvs):
+            discard(e, k)
+    else:
+        for k, v in kvs:
+            is_empty = False
+            if v is _EMPTY_SENTINEL:
+                if command is discard:
+                    # If nothing there when discarding just move on, do not introduce new nodes
+                    continue
+
+                # Allow expansion of structure but make sure to cover the case
+                # when an empty pmap is added as leaf node. See #154.
+                is_empty = True
+                v = pmap()
+
+            result = _do_to_path(v, path, command)
+            if result is not v or is_empty:
+                e[k] = result
+
+    return e.persistent()
+
+```
+Write unit test for function _update_structure
+
+
+# Prompt used at query #38
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #39
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #40
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #41
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #42
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def discard(evolver, key):
+    """ Discard the element and returns a structure without the discarded elements """
+    try:
+        del evolver[key]
+    except KeyError:
+        pass
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _update_structure(structure, kvs, path, command):
+    from pyrsistent._pmap import pmap
+    e = structure.evolver()
+    if not path and command is discard:
+        # Do this in reverse to avoid index problems with vectors. See #92.
+        for k, v in reversed(kvs):
+            discard(e, k)
+    else:
+        for k, v in kvs:
+            is_empty = False
+            if v is _EMPTY_SENTINEL:
+                if command is discard:
+                    # If nothing there when discarding just move on, do not introduce new nodes
+                    continue
+
+                # Allow expansion of structure but make sure to cover the case
+                # when an empty pmap is added as leaf node. See #154.
+                is_empty = True
+                v = pmap()
+
+            result = _do_to_path(v, path, command)
+            if result is not v or is_empty:
+                e[k] = result
+
+    return e.persistent()
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+
+def _do_to_path(structure, path, command):
+    if not path:
+        return command(structure) if callable(command) else command
+
+    kvs = _get_keys_and_values(structure, path[0])
+    return _update_structure(structure, kvs, path[1:], command)
+
+```
+Write unit test for function _do_to_path
+
+
+####################################################################
+#        TEST GENERATION BEGINS (DEEPMOSA + Gemma 4 t=0.8)         #
+####################################################################
+
+
+# Prompt used at query #1
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def discard(evolver, key):
+    """ Discard the element and returns a structure without the discarded elements """
+    try:
+        del evolver[key]
+    except KeyError:
+        pass
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+
+def _update_structure(structure, kvs, path, command):
+    from pyrsistent._pmap import pmap
+    e = structure.evolver()
+    if not path and command is discard:
+        # Do this in reverse to avoid index problems with vectors. See #92.
+        for k, v in reversed(kvs):
+            discard(e, k)
+    else:
+        for k, v in kvs:
+            is_empty = False
+            if v is _EMPTY_SENTINEL:
+                if command is discard:
+                    # If nothing there when discarding just move on, do not introduce new nodes
+                    continue
+
+                # Allow expansion of structure but make sure to cover the case
+                # when an empty pmap is added as leaf node. See #154.
+                is_empty = True
+                v = pmap()
+
+            result = _do_to_path(v, path, command)
+            if result is not v or is_empty:
+                e[k] = result
+
+    return e.persistent()
+
+
+def _do_to_path(structure, path, command):
+    if not path:
+        return command(structure) if callable(command) else command
+
+    kvs = _get_keys_and_values(structure, path[0])
+    return _update_structure(structure, kvs, path[1:], command)
+
+```
+Write unit test for function _do_to_path
+
+
+# Prompt used at query #2
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def _do_to_path(structure, path, command):
+2 |     if not path:
+3 |         return command(structure) if callable(command) else command
+4 | 
+5 |     kvs = _get_keys_and_values(structure, path[0])
+6 |     return _update_structure(structure, kvs, path[1:], command)
+```
+
+
+# Prompt used at query #3
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def _do_to_path(structure, path, command):
+2 |     if not path:
+3 |         return command(structure) if callable(command) else command
+4 | 
+5 |     kvs = _get_keys_and_values(structure, path[0])
+6 |     return _update_structure(structure, kvs, path[1:], command)
+```
+
+
+# Prompt used at query #4
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+```
+Write unit test for function _get_arity
+
+
+# Prompt used at query #5
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #6
+#--------------------------
+
+```
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #7
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+```
+Write unit test for function _get_arity
+
+
+# Prompt used at query #8
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #9
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #10
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 2 evaluates to False.
+```
+1 | def _do_to_path(structure, path, command):
+2 |     if not path:
+3 |         return command(structure) if callable(command) else command
+4 | 
+5 |     kvs = _get_keys_and_values(structure, path[0])
+6 |     return _update_structure(structure, kvs, path[1:], command)
+```
+
+
+# Prompt used at query #11
+#--------------------------
+
+```
+def rex(expr):
+    """ Regular expression matcher to use together with transform functions """
+    r = re.compile(expr)
+    return lambda key: isinstance(key, str) and r.match(key)
+
+```
+Write unit test for function rex
+
+
+# Prompt used at query #12
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+```
+Write unit test for function _items
+
+
+# Prompt used at query #13
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #14
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+```
+Write unit test for function _items
+
+
+# Prompt used at query #15
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #16
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+```
+Write unit test for function _get_arity
+
+
+# Prompt used at query #17
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #18
+#--------------------------
+
+```
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #19
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #20
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #21
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #22
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #23
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #24
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #25
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+```
+Write unit test for function _get_arity
+
+
+# Prompt used at query #26
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+
+def _do_to_path(structure, path, command):
+    if not path:
+        return command(structure) if callable(command) else command
+
+    kvs = _get_keys_and_values(structure, path[0])
+    return _update_structure(structure, kvs, path[1:], command)
+
+
+def discard(evolver, key):
+    """ Discard the element and returns a structure without the discarded elements """
+    try:
+        del evolver[key]
+    except KeyError:
+        pass
+
+
+def _update_structure(structure, kvs, path, command):
+    from pyrsistent._pmap import pmap
+    e = structure.evolver()
+    if not path and command is discard:
+        # Do this in reverse to avoid index problems with vectors. See #92.
+        for k, v in reversed(kvs):
+            discard(e, k)
+    else:
+        for k, v in kvs:
+            is_empty = False
+            if v is _EMPTY_SENTINEL:
+                if command is discard:
+                    # If nothing there when discarding just move on, do not introduce new nodes
+                    continue
+
+                # Allow expansion of structure but make sure to cover the case
+                # when an empty pmap is added as leaf node. See #154.
+                is_empty = True
+                v = pmap()
+
+            result = _do_to_path(v, path, command)
+            if result is not v or is_empty:
+                e[k] = result
+
+    return e.persistent()
+
+```
+Write unit test for function _update_structure
+
+
+# Prompt used at query #27
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #28
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #29
+#--------------------------
+
+```
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #30
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+```
+Write unit test for function _items
+
+
+# Prompt used at query #31
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+1 | def _items(structure):
+2 |     try:
+3 |         return structure.items()
+4 |     except AttributeError:
+5 |         # Support wider range of structures by adding a transform_items() or similar?
+6 |         return list(enumerate(structure))
+```
+
+
+# Prompt used at query #32
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #33
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #34
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #35
+#--------------------------
+
+```
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #36
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #37
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #38
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #39
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #40
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #41
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to True.
+```
+ 1 | def _update_structure(structure, kvs, path, command):
+ 2 |     from pyrsistent._pmap import pmap
+ 3 |     e = structure.evolver()
+ 4 |     if not path and command is discard:
+ 5 |         # Do this in reverse to avoid index problems with vectors. See #92.
+ 6 |         for k, v in reversed(kvs):
+ 7 |             discard(e, k)
+ 8 |     else:
+ 9 |         for k, v in kvs:
+10 |             is_empty = False
+11 |             if v is _EMPTY_SENTINEL:
+12 |                 if command is discard:
+13 |                     # If nothing there when discarding just move on, do not introduce new nodes
+14 |                     continue
+15 | 
+16 |                 # Allow expansion of structure but make sure to cover the case
+17 |                 # when an empty pmap is added as leaf node. See #154.
+18 |                 is_empty = True
+19 |                 v = pmap()
+20 | 
+21 |             result = _do_to_path(v, path, command)
+22 |             if result is not v or is_empty:
+23 |                 e[k] = result
+24 | 
+25 |     return e.persistent()
+```
+
+
+# Prompt used at query #42
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+```
+Write unit test for function _items
+
+
+# Prompt used at query #43
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #44
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to True.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #45
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+```
+Write unit test for function _get_arity
+
+
+# Prompt used at query #46
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 1 evaluates to False.
+```
+ 1 | def _get_keys_and_values(structure, key_spec):
+ 2 |     if callable(key_spec):
+ 3 |         # Support predicates as callable objects in the path
+ 4 |         arity = _get_arity(key_spec)
+ 5 |         if arity == 1:
+ 6 |             # Unary predicates are called with the "key" of the path
+ 7 |             # - eg a key in a mapping, an index in a sequence.
+ 8 |             return [(k, v) for k, v in _items(structure) if key_spec(k)]
+ 9 |         elif arity == 2:
+10 |             # Binary predicates are called with the key and the corresponding
+11 |             # value.
+12 |             return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+13 |         else:
+14 |             # Other arities are an error.
+15 |             raise ValueError(
+16 |                 "callable in transform path must take 1 or 2 arguments"
+17 |             )
+18 | 
+19 |     # Non-callables are used as-is as a key.
+20 |     return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+```
+
+
+# Prompt used at query #47
+#--------------------------
+
+```
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+
+def _do_to_path(structure, path, command):
+    if not path:
+        return command(structure) if callable(command) else command
+
+    kvs = _get_keys_and_values(structure, path[0])
+    return _update_structure(structure, kvs, path[1:], command)
+
+
+def discard(evolver, key):
+    """ Discard the element and returns a structure without the discarded elements """
+    try:
+        del evolver[key]
+    except KeyError:
+        pass
+
+
+def _update_structure(structure, kvs, path, command):
+    from pyrsistent._pmap import pmap
+    e = structure.evolver()
+    if not path and command is discard:
+        # Do this in reverse to avoid index problems with vectors. See #92.
+        for k, v in reversed(kvs):
+            discard(e, k)
+    else:
+        for k, v in kvs:
+            is_empty = False
+            if v is _EMPTY_SENTINEL:
+                if command is discard:
+                    # If nothing there when discarding just move on, do not introduce new nodes
+                    continue
+
+                # Allow expansion of structure but make sure to cover the case
+                # when an empty pmap is added as leaf node. See #154.
+                is_empty = True
+                v = pmap()
+
+            result = _do_to_path(v, path, command)
+            if result is not v or is_empty:
+                e[k] = result
+
+    return e.persistent()
+
+```
+Write unit test for function _update_structure
+
+
+# Prompt used at query #48
+#--------------------------
+
+```
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+
+def discard(evolver, key):
+    """ Discard the element and returns a structure without the discarded elements """
+    try:
+        del evolver[key]
+    except KeyError:
+        pass
+
+
+def _do_to_path(structure, path, command):
+    if not path:
+        return command(structure) if callable(command) else command
+
+    kvs = _get_keys_and_values(structure, path[0])
+    return _update_structure(structure, kvs, path[1:], command)
+
+
+def _update_structure(structure, kvs, path, command):
+    from pyrsistent._pmap import pmap
+    e = structure.evolver()
+    if not path and command is discard:
+        # Do this in reverse to avoid index problems with vectors. See #92.
+        for k, v in reversed(kvs):
+            discard(e, k)
+    else:
+        for k, v in kvs:
+            is_empty = False
+            if v is _EMPTY_SENTINEL:
+                if command is discard:
+                    # If nothing there when discarding just move on, do not introduce new nodes
+                    continue
+
+                # Allow expansion of structure but make sure to cover the case
+                # when an empty pmap is added as leaf node. See #154.
+                is_empty = True
+                v = pmap()
+
+            result = _do_to_path(v, path, command)
+            if result is not v or is_empty:
+                e[k] = result
+
+    return e.persistent()
+
+```
+Write unit test for function _update_structure
+
+
+# Prompt used at query #49
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 6 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+
+# Prompt used at query #50
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 4 evaluates to False.
+```
+1 | def _items(structure):
+2 |     try:
+3 |         return structure.items()
+4 |     except AttributeError:
+5 |         # Support wider range of structures by adding a transform_items() or similar?
+6 |         return list(enumerate(structure))
+```
+
+
+# Prompt used at query #51
+#--------------------------
+
+```
+def _get(structure, key, default):
+    try:
+        if hasattr(structure, '__getitem__'):
+            return structure[key]
+
+        return getattr(structure, key)
+
+    except (IndexError, KeyError):
+        return default
+
+
+    def _get_arity(f):
+        return sum(
+            1
+            for p
+            in signature(f).parameters.values()
+            if p.default is Parameter.empty
+            and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+        )
+
+
+def _items(structure):
+    try:
+        return structure.items()
+    except AttributeError:
+        # Support wider range of structures by adding a transform_items() or similar?
+        return list(enumerate(structure))
+
+
+def _get_keys_and_values(structure, key_spec):
+    if callable(key_spec):
+        # Support predicates as callable objects in the path
+        arity = _get_arity(key_spec)
+        if arity == 1:
+            # Unary predicates are called with the "key" of the path
+            # - eg a key in a mapping, an index in a sequence.
+            return [(k, v) for k, v in _items(structure) if key_spec(k)]
+        elif arity == 2:
+            # Binary predicates are called with the key and the corresponding
+            # value.
+            return [(k, v) for k, v in _items(structure) if key_spec(k, v)]
+        else:
+            # Other arities are an error.
+            raise ValueError(
+                "callable in transform path must take 1 or 2 arguments"
+            )
+
+    # Non-callables are used as-is as a key.
+    return [(key_spec, _get(structure, key_spec, _EMPTY_SENTINEL))]
+
+```
+Write unit test for function _get_keys_and_values
+
+
+# Prompt used at query #52
+#--------------------------
+
+```
+
+```
+Write unit test to ensure that the predicate at line 5 evaluates to False.
+```
+1 |     def _get_arity(f):
+2 |         return sum(
+3 |             1
+4 |             for p
+5 |             in signature(f).parameters.values()
+6 |             if p.default is Parameter.empty
+7 |             and p.kind in (Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD)
+8 |         )
+```
+
+

@@ -28,7 +28,7 @@ class _CodaMOSALanguageModel(AbstractLanguageModel):
     """Original language model implementation used by CodaMOSA"""
 
     def __init__(self):
-        if config.algorithm != Algorithm.CODAMOSA:
+        if config.algorithm != Algorithm.CODAMOSA and not config.deepmosa.use_codamosa_seeding:
             return
 
         super().__init__()

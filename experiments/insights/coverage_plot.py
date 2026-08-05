@@ -16,14 +16,15 @@ SECS = 600
 
 class PltStyle(BaseModel):
     label: str
-    linestyle: str
+    linestyle: str | tuple[float, tuple[float, ...]]
     marker: str | None
+    markersize: float = 7
 
 
 config_styles: dict[str, PltStyle] = {
-    "dynamosa-10m": PltStyle(label="DynaMOSA", marker=None, linestyle="dotted"),
-    "codamosa-10m-deepseek": PltStyle(label="CodaMOSA", marker="X", linestyle="solid"),
-    "deepmosa-10m-deepseek": PltStyle(label="DeepMOSA (ours)", marker=None, linestyle="solid"),
+    "dynamosa-10m": PltStyle(label="DynaMOSA", marker=None, linestyle=(0, (5, 8))),
+    "codamosa-10m-gemma": PltStyle(label="CodaMOSA", marker="X", markersize=14, linestyle="solid"),
+    "deepmosa-10m-gemma": PltStyle(label="DeepMOSA (ours)", marker=None, linestyle="solid"),
 }
 
 
@@ -70,7 +71,7 @@ for config in configs:
         marker=config_styles[config_id].marker,
         linestyle=config_styles[config_id].linestyle,
         markevery=70,
-        markersize=7,
+        markersize=config_styles[config_id].markersize,
         linewidth=2,
     )
 
